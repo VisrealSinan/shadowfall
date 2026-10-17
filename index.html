@@ -126,7 +126,11 @@ h3{margin:14px 0 6px;font-size:13px;letter-spacing:.2em;text-transform:uppercase
 .ccard canvas{flex:0 0 62px;width:62px;height:62px;border-radius:14px;background:radial-gradient(circle at 50% 38%,#4a2272,#120818);border:1px solid rgba(220,180,255,.25)}
 .ccard.sel{border-color:#ff5c86;box-shadow:0 0 0 2px rgba(255,80,130,.45),0 0 22px rgba(255,60,120,.28);background:linear-gradient(180deg,rgba(70,26,90,.95),rgba(30,10,44,.97))}
 .ccard.sel canvas{flex-basis:84px;width:84px;height:84px}
-.ccard.locked{opacity:.7}
+.ccard.locked{opacity:.7}.ccard.locked.prem{opacity:.92;border-color:rgba(255,211,106,.55);background:linear-gradient(135deg,rgba(60,40,110,.55),rgba(30,18,50,.55) 60%,rgba(90,70,30,.45))}
+.ccard .buyrow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:6px}
+.ccard .buyc{display:inline-flex;align-items:center;min-height:44px;box-sizing:border-box;padding:0 14px;border-radius:12px;font-weight:900;font-size:14px;color:#fff;background:linear-gradient(180deg,#5a4a7a,#2e2448);border:1px solid rgba(200,180,255,.45)}
+.ccard .buyc.ok{color:#2a1a04;background:linear-gradient(180deg,#ffe08a,#e0a83a);border-color:#fff1c4;box-shadow:0 0 12px rgba(255,211,106,.45)}
+.ccard .need{font-size:12px;color:#c9b8e8}
 .ccard .tx{flex:1;min-width:0}
 .ccard .nm{font-weight:800;font-size:17px;color:#fff;font-family:"Palatino Linotype",Palatino,Georgia,serif;letter-spacing:.03em;padding-right:44px}
 .ccard .role{display:inline-block;font-family:-apple-system,system-ui,sans-serif;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#ffb3c6;background:rgba(255,60,110,.18);border:1px solid rgba(255,110,150,.35);padding:2px 6px;border-radius:7px;margin-left:6px;vertical-align:2px}
@@ -487,6 +491,14 @@ body:not(.desktopapp) .apponly{display:none!important}
 #choices .card.evo .art{background:radial-gradient(circle at 35% 28%,#fff 0 6%,#ff7af0 32%,#3a0a5a 100%)}
 #choices .card.evo .lv{background:linear-gradient(180deg,#ffd6fa,#ff5ad0);color:#fff;text-shadow:0 1px 0 #600040}
 @keyframes evoflow{0%{background-position:0% 50%}100%{background-position:300% 50%}}
+#jumpBtn{position:absolute;display:none;right:calc(env(safe-area-inset-right,0px) + 22px);bottom:calc(env(safe-area-inset-bottom,0px) + 128px);z-index:6;width:58px;height:58px;border-radius:50%;padding:0;
+ border:2px solid rgba(255,226,140,.55);background:radial-gradient(circle at 50% 35%,rgba(70,50,110,.82),rgba(20,12,34,.82));color:#ffe9a8;font-family:inherit;flex-direction:column;align-items:center;justify-content:center;
+ box-shadow:0 3px 10px rgba(0,0,0,.5);touch-action:none;-webkit-tap-highlight-color:transparent;opacity:.82}
+#jumpBtn.on{display:flex}#jumpBtn span{font-size:22px;line-height:1}#jumpBtn small{font-size:9px;letter-spacing:.08em;font-weight:800}#jumpBtn.pressed,#jumpBtn:active{transform:scale(.92);opacity:1}
+#jumpHint{position:absolute;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 64px);transform:translateX(-50%);z-index:5;pointer-events:none;opacity:0;transition:opacity .5s;
+ font-size:13px;color:#f3e6c8;background:rgba(14,8,22,.6);border:1px solid rgba(255,226,140,.3);border-radius:10px;padding:4px 10px;white-space:nowrap}
+#jumpHint.on{opacity:.9}#jumpHint kbd{font-family:inherit;font-size:11px;background:#2a1d3a;border:1px solid #6a5a8a;border-bottom-width:2px;border-radius:5px;padding:1px 7px;margin-right:4px}
+#jumpHint .gpg{display:none}.gpad #jumpHint .gpg{display:inline-flex}.gpad #jumpHint kbd{display:none}
 #dmgBtn{position:absolute;right:calc(env(safe-area-inset-right,0px) + 10px);top:calc(env(safe-area-inset-top,0px) + 94px);z-index:6;min-width:96px;height:44px;padding:0 10px;border-radius:12px;box-sizing:border-box;
  background:rgba(12,5,22,.74);border:1.5px solid rgba(255,122,150,.55);color:#f4ecff;font:800 12.5px -apple-system,system-ui,sans-serif;display:flex;align-items:center;gap:5px;touch-action:manipulation;-webkit-appearance:none;appearance:none;box-shadow:0 3px 10px rgba(0,0,0,.35);cursor:pointer}
 #dmgBtn.hidden,#dmgList.hidden{display:none}
@@ -660,6 +672,7 @@ canvas.hop{animation:hopk .55s ease-in-out;transform-origin:50% 90%}canvas.hopbi
 <div id="qBan" aria-live="polite"></div>
 <button id="pauseBtn" class="iconbtn hidden" aria-label="Pause">❚❚</button>
 <button id="qTrack" class="hidden" aria-label="Quests"></button>
+<button id="jumpBtn" aria-label="Jump"><span>⤒</span><small>JUMP</small></button><div id="jumpHint" aria-hidden="true"><kbd>Space</kbd><span class="gpg">A</span>Jump</div>
 <button id="dmgBtn" class="hidden" aria-label="Damage meter (tap to expand)" aria-expanded="false"><span class="di">⚔︎</span><span class="dt">DPS</span><span class="dv">0</span><kbd class="kh" style="margin:0 0 0 2px">M</kbd><span class="gpg gpk">⧉</span></button>
 <div id="dmgList" class="hidden" aria-live="off"></div>
 
@@ -822,6 +835,8 @@ canvas.hop{animation:hopk .55s ease-in-out;transform-origin:50% 90%}canvas.hopbi
    <input type="range" min="0" max="100" step="1" id="vol_sfx" aria-label="Sound effects volume"></div>
   <button class="btn small" id="btnAudTest" style="width:100%;margin-top:4px">▶ Test sounds</button>
   <div class="audrow" id="row_rumble"><div class="audhd"><span class="audic">🎮︎</span><b>Controller rumble</b><span class="audval" id="val_pad">No controller</span><button class="audtog" id="tog_rumble">On</button></div></div>
+  <div class="audrow" id="row_jsfx"><div class="audhd"><span class="audic">⤒</span><b>Jump sound</b><span class="audval">soft hop when you jump</span><button class="audtog" id="tog_jsfx">On</button></div></div>
+  <div class="audrow" id="row_jbtn"><div class="audhd"><span class="audic">⬆︎</span><b>Phone jump button</b><span class="audval">touch screens</span><button class="audtog" id="tog_jbtn">Off</button></div></div>
   <div class="audnote">All music &amp; sounds are generated live on your device. On iPhone, sound follows the silent switch and starts after your first tap.</div>
   <div class="audnote webonly"><b>Playing on PC?</b> Open the same address in Chrome or Edge: keyboard (WASD / arrows, Esc to pause, 1–3 for cards), mouse and gamepad all work, and the address-bar <b>Install</b> button adds Shadowfall as a desktop app. Progress is saved per browser/device.</div>
   <div class="dlwin pconly webonly" id="dlWinA"><a class="btn small dlbtn" id="btnDlA" href="https://github.com/VisrealSinan/shadowfall/releases/download/v2.0.0/Shadowfall-Setup-2.0.0.exe" download="Shadowfall-Setup-2.0.0.exe" rel="noopener">⬇ Download for Windows</a><a class="dlsub" id="lnkRelA" href="https://github.com/VisrealSinan/shadowfall/releases/latest" target="_blank" rel="noopener noreferrer">All downloads &amp; versions ↗</a><div class="dlnote">Windows may warn because the app isn't signed yet: click <b>More info</b>, then <b>Run anyway</b>.</div></div>
@@ -838,10 +853,11 @@ canvas.hop{animation:hopk .55s ease-in-out;transform-origin:50% 90%}canvas.hopbi
  <h2>How to Play</h2>
  <div class="how">
   <p><b>Move:</b> touch anywhere and drag — a joystick appears under your thumb.</p>
-  <p><b>On PC:</b> move with <b>WASD</b> / arrow keys (or hold the left mouse button), <b>Esc</b> pauses, <b>1–3</b> pick level-up cards. Gamepads work too. <span class="webonly">Install it from Chrome/Edge's address bar for a desktop window, or get the Windows app from the title screen.</span> <span class="pconly" style="color:#ffe08a">Full list: Controls.</span></p>
+  <p><b>On PC:</b> move with <b>WASD</b> / arrow keys (or hold the left mouse button), <b>Space</b> jumps (just for fun), <b>Esc</b> pauses, <b>1–3</b> pick level-up cards. Gamepads work too. <span class="webonly">Install it from Chrome/Edge's address bar for a desktop window, or get the Windows app from the title screen.</span> <span class="pconly" style="color:#ffe08a">Full list: Controls.</span></p>
+  <p><b>Jump:</b> press <b>Space</b> (gamepad <b>A</b>) to hop whenever you like — hold it to bunny-hop. Phones can turn on a ⤒ jump button in Audio &amp; Settings. Jumping is just for fun: it never dodges or changes your hitbox.</p>
   <p><b>Attack:</b> automatic! Your hero strikes the nearest foes on their own.</p>
   <p><b>Grow:</b> every foe you slay feeds you its soul (XP) instantly. Level up, then pick 1 of 3 cards — new skills or stronger stats. Don't like the cards? <b>Reroll</b> them (1 per run, +1 every 5 levels). Maxed passives keep upgrading endlessly with diminishing returns. Your skills and passives show in the top-left corner.</p>
-  <p><b>Classes:</b> eight classes, each with its own costume, skills and three <b>Talent trees</b> (T). Playing a class earns class XP → 1 talent point per class level (up to 51). Every 5 points in a tree unlocks its next tier; the 7th tier holds a build-defining capstone. Respec any time with Reset.</p>
+  <p><b>Classes:</b> nine classes (the hybrid <b>Eclipse Paragon</b> is unlocked with Shards), each with its own costume, skills and three <b>Talent trees</b> (T). Playing a class earns class XP → 1 talent point per class level (up to 51). Every 5 points in a tree unlocks its next tier; the 7th tier holds a build-defining capstone. Respec any time with Reset.</p>
   <p><b>Gear:</b> elites and bosses drop treasure for 12 slots. Small upgrades equip themselves; Epic and Legendary finds open a compare card. At game over you may keep 1 item as a <b>keepsake</b>.</p>
   <p><b>Survive:</b> the danger meter climbs every few minutes — new foes, elite affixes, hordes, and a boss every 3 minutes.</p>
   <p><b>Pause:</b> tap the round ❚❚ button at the top right.</p>
@@ -856,10 +872,12 @@ canvas.hop{animation:hopk .55s ease-in-out;transform-origin:50% 90%}canvas.hopbi
  <table class="keytab">
   <tr><td>Move</td><td><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> or <kbd>↑</kbd><kbd>←</kbd><kbd>↓</kbd><kbd>→</kbd> · or hold the <b>left mouse button</b> to walk toward the cursor · gamepad left stick / D-pad</td></tr>
   <tr><td>Attack &amp; skills</td><td>Automatic. Every weapon and ability fires on its own (Druid forms and Mage Shimmerstep included), so no ability keys are needed</td></tr>
+  <tr><td>Jump</td><td><kbd>Space</kbd> hop any time in a run (hold to bunny-hop) · gamepad <kbd>A</kbd>/<kbd>✕</kbd> · phones: optional ⤒ button (Audio &amp; Settings). Just for fun: jumping never changes your position, hitbox or damage taken</td></tr>
   <tr><td>Damage meter</td><td><kbd>M</kbd> show / hide the damage breakdown · or tap the ⚔ DPS button</td></tr>
   <tr><td>Pause / resume</td><td><kbd>Esc</kbd> or <kbd>P</kbd> · gamepad <kbd>Start</kbd> · the game also pauses itself when the window loses focus</td></tr>
   <tr><td>Level-up cards</td><td><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> pick (press again to take it) · <kbd>←</kbd><kbd>→</kbd> cycle · <kbd>Enter</kbd> / <kbd>Space</kbd> choose · <kbd>R</kbd> reroll · gamepad D-pad + <kbd>A</kbd>, <kbd>Y</kbd> reroll</td></tr>
   <tr><td>Treasure</td><td><kbd>Enter</kbd> / <kbd>E</kbd> equip · <kbd>X</kbd> salvage · gamepad <kbd>A</kbd> equip</td></tr>
+  <tr><td>Class select</td><td><kbd>↑</kbd><kbd>↓</kbd> choose a class · <kbd>Enter</kbd> on a locked class (e.g. Eclipse Paragon) buys it with Shards, otherwise starts the hunt · gamepad D-pad + <kbd>A</kbd></td></tr>
   <tr><td>Menus</td><td>Mouse click, scroll wheel on lists · <kbd>Enter</kbd> confirm / start · <kbd>Esc</kbd> back · gamepad <kbd>A</kbd> / <kbd>B</kbd></td></tr>
   <tr><td>Controller</td><td>Xbox / PlayStation pads work on every screen: left stick or D-pad moves (and moves the yellow menu focus), <kbd>A</kbd>/<kbd>✕</kbd> select, <kbd>B</kbd>/<kbd>○</kbd> back, <kbd>LB</kbd>/<kbd>RB</kbd> switch tabs, <kbd>Start</kbd> pause, <kbd>View</kbd>/<kbd>Select</kbd> damage meter. Rumble can be turned off in Audio</td></tr>
   <tr><td>Exit a run</td><td>Pause, then <b>⏏ Exit Run</b> and confirm: you get the run summary and keep everything earned</td></tr>
@@ -1009,6 +1027,8 @@ const SFX = { // [duration, variants, recipe]
   hurt: [0.3, 2, (c, o) => { _tone(c, o, 0, 240, 0.22, 'sawtooth', 0.07, 80); _nz(c, o, 0, 0.12, 0.1, 400, 1); }],
   evade: [0.18, 2, (c, o) => { _tone(c, o, 0, 900, 0.12, 'sine', 0.06, 1900); _nz(c, o, 0, 0.1, 0.04, 3000, 1, 'bandpass', 6000); }],
   levelup: [0.9, 1, (c, o) => { [0, 4, 7, 12, 16].forEach((s, i) => { _tone(c, o, i * 0.07, mtof(72 + s), 0.5, 'triangle', 0.08); _tone(c, o, i * 0.07, mtof(84 + s), 0.3, 'sine', 0.03); }); }],
+  hop: [0.2, 3, (c, o) => { const b = R_(0.94, 1.07); _tone(c, o, 0, 330 * b, 0.13, 'sine', 0.05, 720 * b); _nz(c, o, 0, 0.05, 0.012, 2600, 1.2); }], /* v21: soft manual-jump hop */
+  land: [0.16, 3, (c, o) => { _tone(c, o, 0, 150 * R_(0.94, 1.06), 0.09, 'sine', 0.045, 70); _nz(c, o, 0, 0.06, 0.02, 700, 0.8, 'lowpass'); }],
   pick: [0.2, 3, (c, o) => { const b = R_(0.97, 1.04); _tone(c, o, 0, 880 * b, 0.07, 'triangle', 0.07); _tone(c, o, 0.05, 1320 * b, 0.12, 'triangle', 0.06); }],
   chest: [0.9, 1, (c, o) => { _nz(c, o, 0, 0.15, 0.08, 600, 1); [67, 72, 76, 79, 84].forEach((m, i) => _tone(c, o, 0.08 + i * 0.06, mtof(m), 0.45, 'sine', 0.08)); _tone(c, o, 0.4, mtof(96), 0.4, 'sine', 0.03); }],
   heal: [0.6, 1, (c, o) => { [72, 76, 79].forEach((m, i) => _tone(c, o, i * 0.05, mtof(m), 0.4, 'sine', 0.06, mtof(m + 12))); _nz(c, o, 0, 0.4, 0.02, 6000, 2); }],
@@ -1138,6 +1158,7 @@ function wavB64(b) { const ch = b.numberOfChannels, len = b.length, sr = b.sampl
   let bin = ''; const u = new Uint8Array(buf); for (let i = 0; i < u.length; i += 0x8000) bin += String.fromCharCode.apply(null, u.subarray(i, i + 0x8000)); return btoa(bin); }
 
 /* ---------------- Data ---------------- */
+const PARAGON_COST = 3000; // v21: the most expensive class unlock (Shards)
 const CLASSES = {
   rogue: { name: 'Rogue', role: 'Melee · Crit', flavor: '“Strike first. Never be struck.”', desc: 'Fast twin-dagger slashes. High crit and evasion.', weapon: 'fangs', wname: 'Dual Daggers', art: 'daggers', tint: '#120408', cost: 0,
     passive: 'Shadowstep', pdesc: 'Evading a hit grants +50% crit for 2s', stats: { maxHp: 90, crit: 0.15, dodge: 0.08, speed: 1.08 }, chips: ['♥ 90', '» Fast', '◈ 15% crit'] },
@@ -1155,8 +1176,10 @@ const CLASSES = {
     passive: 'Wild Heart', pdesc: '+0.4 HP regen/s. Taking a form (Cat or Tree) changes your look, speed and basic attack for the run', stats: { maxHp: 105, area: 1.05, regen: 0.4 }, chips: ['♥ 105', '✿ Shapeshifter', '❦ Regrowth'] },
   mage: { name: 'Mage', role: 'Elementalist · Spellcaster', flavor: '“Fire, frost or the stars themselves — choose your verse.”', desc: 'Prism Bolt follows your strongest school: ignite crowds with Fire, freeze & shatter with Frost, or charge up Arcane for huge single-target bursts.', weapon: 'mbolt', wname: 'Prism Staff', art: 'mstaff', tint: '#2f4fb0', cost: 0,
     passive: 'Spellweaver', pdesc: '+5% area. Spells of your strongest school deal +8% damage, and Prism Bolt takes on that school (ignite, chill or arcane charge)', stats: { maxHp: 90, area: 1.05 }, chips: ['♥ 90', '✺ 3 Schools', '❄ Freeze & Shatter'] },
+  paragon: { name: 'Eclipse Paragon', role: 'Hybrid · Every Path', flavor: '“Master of every path.”', desc: 'Hurls the Eclipse Glaive and channels echoes of all eight classes — shadow daggers, hexes, familiars, volleys, scythes, rifts, nature and spellfire.', weapon: 'eclipse', wname: 'Eclipse Glaive', art: 'glaive', tint: '#2a1e58', cost: PARAGON_COST,
+    passive: 'Eclipse Resonance', pdesc: 'Each class echo you wield grants +3% damage and +1% crit chance', stats: { maxHp: 95, crit: 0.07, area: 1.03, speed: 1.02 }, chips: ['♥ 95', '◑ 8 class echoes', '✦ Resonance'] },
 };
-const CLS_COL = { rogue: '#a3203d', warlock: '#6b34b8', summoner: '#1c7d70', ranger: '#3d7a2c', reaper: '#5e5868', rift: '#2f4fc0', druid: '#3d7a2c', mage: '#3a5cd8' };
+const CLS_COL = { rogue: '#a3203d', warlock: '#6b34b8', summoner: '#1c7d70', ranger: '#3d7a2c', reaper: '#5e5868', rift: '#2f4fc0', druid: '#3d7a2c', mage: '#3a5cd8', paragon: '#6a4ad8' };
 const clsOf = id => CLASSES[migClass(id)] ? migClass(id) : 'rogue';
 const OUTFITS = {
   crimson: { name: 'Signature Colours', cost: 0, cloak: '#8a1428', cloak2: '#2a050c', trim: '#e2b45c', eye: '#b56bff', bonus: 'Each class wears its own design', b: {} },
@@ -1427,6 +1450,31 @@ const TALENTS = {
       ['m_bolt', 'Prism Mastery', '✦', { sd_mbolt: 0.06 }], ['m_cometA', 'Astral Core', '✹', {}, { f: 'cometArc', d: 'Prismatic Comet grants 2 Arcane Charges and arcs to 3 more foes' }],
       ['m_astral', 'Astral Power', '✧', { arcane: 0.03 }], ['m_ca2', 'Starseeker', '✹', { sd_mcomet: 0.1 }],
       ['m_converge', 'Astral Convergence', '✷', {}, { f: 'convergence', d: 'CAPSTONE: every 12s, a lance of starlight strikes the strongest foe on screen for massive damage and arcs to 4 more' }]])],
+  paragon: [ // v21 Eclipse Paragon: Umbra (shadow paths) · Wilds (living paths) · Aether (arcane paths)
+    TTREE('Umbra', '☾', '#b38cff', [
+      ['p_dusk', 'Duskblade', '◈', { crit: 0.01 }], ['p_gloom', 'Gloomcraft', '✦', { dmg: 0.01 }],
+      ['p_dag', 'Dagger Echo', '➶', { sd_px_dagger: 0.06 }], ['p_veil', 'Twilight Veil', '≋', { dodge: 0.01 }], ['p_hexm', 'Hex Echo', '♒', { sd_px_hex: 0.06 }],
+      ['p_keen', 'Keen Shadow', '◈', { critMul: 0.03 }], ['p_mark', 'Umbral Mark', '☾', {}, { f: 'umbraMark', d: 'Crits brand foes with the black sun for 3s: branded foes take +10% damage from everything you do' }], ['p_scym', 'Scythe Echo', '☾', { sd_px_scythe: 0.1 }],
+      ['p_night', 'Nightfall', '✦', { dmg: 0.012, crit: 0.006 }], ['p_corona', 'Corona Edge', '◑', { sd_eclipse: 0.03 }], ['p_evo', 'Perfected Echoes', '⇪', {}, { f: 'evoMight', d: 'Evolved skills deal +{5}% damage' }],
+      ['p_hunger', 'Shadow Hunger', '❦', { lifesteal: 0.004 }], ['p_twin', 'Twin Eclipse', '◑', {}, { f: 'glaiveTwin', d: 'Every Eclipse Glaive throw also hurls a mirrored glaive behind you' }],
+      ['p_dstar', 'Dark Star', '◈', { crit: 0.01, critMul: 0.03 }], ['p_penumbra', 'Penumbra', '◑', { sd_eclipse: 0.06 }],
+      ['p_totality', 'Totality', '◐', {}, { f: 'totality', d: 'CAPSTONE: every 15s the sun goes black — darkness strikes every foe on screen and for 4s your crits deal +50% damage' }]]),
+    TTREE('Wilds', '❦', '#7dff9a', [
+      ['p_bark', 'Barkbound', '♥', { maxHp: 5 }], ['p_wind', 'Windstep', '»', { speed: 0.01 }],
+      ['p_thr', 'Familiar Echo', '☗', { minion: 0.04 }], ['p_root', 'Deep Rooted', '✚', { regen: 0.1 }], ['p_vol', 'Volley Echo', '⋙', { sd_px_volley: 0.06 }],
+      ['p_heart', 'Living Heart', '♥', { maxHp: 5, regen: 0.05 }], ['p_pack', 'Pack Echo', '☗', { extraShade: 1 }], ['p_galem', 'Gale Echo', '❦', { sd_px_gale: 0.1 }],
+      ['p_hide', 'Thick Hide', '⬢', { dr: 0.01 }], ['p_hunter', "Hunter's Echo", '➵', { arrowDmg: 0.02, minion: 0.01 }], ['p_cover', 'Grove Shelter', '▲', {}, { f: 'cover', d: 'While next to rocks, trees or ruins: take {6}% less damage' }],
+      ['p_regrow', 'Regrowth', '✚', { regen: 0.15 }], ['p_chorus', 'Wild Chorus', '✷', {}, { f: 'convMore', d: 'Convergence of Eight looses 4 extra echo bolts' }],
+      ['p_alpha', 'Alpha Echo', '✦', { minion: 0.03, dmg: 0.01 }], ['p_conv2', 'Echo Chorus', '✷', { sd_px_conv: 0.06 }],
+      ['p_apex', 'Verdant Apotheosis', '❀', {}, { f: 'verdantApo', d: 'CAPSTONE: every 12s, 16 spectral arrows burst out from you in every direction and you heal 8% of your max HP' }]]),
+    TTREE('Aether', '✧', '#ffd36a', [
+      ['p_ley', 'Ley Echo', '↯', { cd: 0.012 }], ['p_mind', 'Starlit Mind', '✧', { area: 0.012 }],
+      ['p_riftm', 'Rift Echo', '◇', { sd_px_rift: 0.06 }], ['p_focus', 'Clear Focus', '◈', { crit: 0.008 }], ['p_sunm', 'Sunfire Echo', '☀', { sd_px_spell: 0.06 }],
+      ['p_flux', 'Flux', '↯', { cd: 0.01 }], ['p_reso', 'Resonance', '✷', {}, { f: 'resonance', d: 'Eclipse Resonance grants +3% more damage per class echo you wield' }], ['p_convm', 'Convergence Mastery', '✷', { sd_px_conv: 0.1 }],
+      ['p_astral', 'Astral Reach', '◍', { area: 0.02 }], ['p_aether', 'Raw Aether', '✦', { dmg: 0.012 }], ['p_stone', 'Shattered Light', '◆', {}, { f: 'stoneSplit', d: 'Glaives, daggers and arrows that strike rocks or trees shatter into foes nearby for {30}% of their damage' }],
+      ['p_time', 'Timeless', '↯', { cd: 0.01 }], ['p_grift', 'Rift Glaive', '◇', {}, { f: 'glaiveRift', d: 'Each Eclipse Glaive leaves a rift mine where it turns back' }],
+      ['p_prism', 'Prism Soul', '◈', { critMul: 0.04, crit: 0.006 }], ['p_nine', 'Ninefold', '✷', { sc_px_conv: 0.05 }],
+      ['p_ascend', 'Paragon Ascendant', '✪', {}, { f: 'ascendant', d: 'CAPSTONE: every 14s all eight echoes converge — a lance of every class strikes up to 8 of the strongest foes on screen for massive damage' }]])],
 };
 const TAL_BY_ID = {}; for (const c in TALENTS) TALENTS[c].forEach((tr, bi) => tr.nodes.forEach(n => { TAL_BY_ID[c + ':' + n.id] = n; n.bi = bi; }));
 const cxpNeed = l => l <= 20 ? 120 + 90 * (l - 1) : 1830 + 45 * (l - 20);            // class XP for level l -> l+1 (v19: same curve, cap raised 42 -> 51)
@@ -1458,6 +1506,9 @@ const ARMOR_SETS = {
   mage: [AS('m_ember', 'Emberweave Robes', '#b8361c', '#3a0c06', '#ffcf6a', 'runes', '#5a1a10'), AS('m_rime', 'Rimecrown Vestments', '#cfe6f8', '#4a6a8a', '#7fd6ff', 'stars', '#8fb4d0'),
     AS('m_astral', 'Astral Scholar', '#3a2a8a', '#120a30', '#e8d8ff', 'stars', '#24184a'), AS('m_tempest', 'Tempest Magister', '#2a6a7a', '#0a2028', '#9fffe0', 'runes', '#163a44'),
     AS('m_eternal', 'Eternal Arcanum', '#140c2a', '#05020c', '#ffd86a', 'runes', '#2a1450', '#c9a6ff')],
+  paragon: [AS('x_dawn', 'Dawnbreaker Vestments', '#f0e2c0', '#7a5a2a', '#ffcf4a', 'filigree', '#c9a46a'), AS('x_dusk', 'Duskwoven Mantle', '#3a1f5a', '#100620', '#ff9ac0', 'stars', '#24123a'),
+    AS('x_aurora', 'Aurora Ascendant', '#1f6a7a', '#06202a', '#9fffe0', 'runes', '#123a44'), AS('x_ember', 'Corona Ember Robes', '#a8361c', '#2a0a04', '#ffd86a', 'filigree', '#4a1a0c'),
+    AS('x_eclipse', 'Crown of the Black Sun', '#0c0818', '#000000', '#ffd36a', 'stars', '#1a1030', '#ffb03c')],
 };
 const ARMOR_BY_ID = {}; for (const c in ARMOR_SETS) for (const s of ARMOR_SETS[c]) { s.cls = c; ARMOR_BY_ID[s.id] = s; }
 const RC = (id, name, slot, v) => ({ id, name, slot, v });
@@ -1544,6 +1595,7 @@ const ACH_NAMES = {
   rift: ['First Spin', 'Ricochet Storm', 'Starbreaker', 'Void Virtuoso', 'Endless Orbit'],
   druid: ['First Sprout', 'Wild Hunt', 'Grove Guardian', 'Archdruid', 'Eternal Grove'],
   mage: ['First Spark', 'Spell Slinger', 'Archon of Storms', 'Archmage', 'Eternal Arcanum'],
+  paragon: ['First Light', 'Eight Paths, One Will', 'Sunbreaker', 'Paragon Ascendant', 'Endless Eclipse'],
 };
 const RACE_ACH = {
   cat: { k: 'r_cat_dodge', goal: 250, name: 'Can\'t Touch This', desc: 'Evade 250 hits as a Cat Girl', ic: '≋' },
@@ -1569,7 +1621,7 @@ const ACH = [];
     ACH.push({ id: r + '_x', cat: 'race', key: r, name: X.name, ic: X.ic, desc: X.desc, goal: X.goal, k: X.k, rw: S[2].id });
     ACH.push({ id: r + '_t15', cat: 'race', key: r, name: `${n}: Dawn Seeker`, ic: '★', desc: `Survive 15:00 in one run as ${n}`, goal: 900, k: `r_${r}_t`, time: 1, rw: S[3].id }); }
   ACH.push({ id: 'g_races', cat: 'gen', name: 'World Wanderer', ic: '✪', desc: 'Start a hunt as every race (all 8)', goal: 8, f: () => Object.keys(save.ach.played.race).length, rw: 'eye_ember' });
-  ACH.push({ id: 'g_classes', cat: 'gen', name: 'Jack of All Shadows', ic: '⚔', desc: 'Start a hunt as every class (all 8)', goal: 8, f: () => Object.keys(save.ach.played.cls).length, rw: 'eye_frost' });
+  ACH.push({ id: 'g_classes', cat: 'gen', name: 'Jack of All Shadows', ic: '⚔', desc: 'Start a hunt as 8 different classes', goal: 8, f: () => Object.keys(save.ach.played.cls).length, rw: 'eye_frost' });
   ACH.push({ id: 'g_kills', cat: 'gen', name: 'Lightbringer', ic: '☀', desc: 'Banish 10,000 foes in total', goal: 10000, k: 'g_kills', rw: 'aura_violet' });
   ACH.push({ id: 'g_boss', cat: 'gen', name: 'Bossbreaker', ic: '♛', desc: 'Slay 10 bosses in total', goal: 10, k: 'g_boss', rw: 'eye_verdant' });
   ACH.push({ id: 'q_1', cat: 'gen', name: 'First Errand', ic: '✉', desc: 'Complete an in-run quest', goal: 1, k: 'g_quests', rw: 'eye_starlit' });
@@ -1784,8 +1836,35 @@ const EVO = {
   boulder: E('barkskin', 'Mountainfall', '#d8a050', 1.4, 0.85, 1.15, 'nova', '+40% damage, faster; every throw sends a shockwave'),
   mcomet: E('spellweave', 'Trinity Starfall', '#ffffff', 0.9, 1, 1.15, 'echo', 'Every comet falls twice, wider'),
 };
+/* ================= v21 ECLIPSE PARAGON =================
+   A hybrid of all eight classes. Its own pool: the Eclipse Glaive (start), Convergence of Eight (signature) and eight CLASS ECHOES —
+   paragon versions of one iconic skill per class. Echoes reuse the original skill's engine (PX_BASE) but are their own skills: own
+   names, levels, evolutions, damage-meter lines and talent mastery. While playing the Paragon, wlv/evOf/damage map base ids to the echo. */
+const PX_BASE = { px_dagger: 'knives', px_hex: 'creep', px_thrall: 'familiars', px_volley: 'volley', px_scythe: 'reap', px_rift: 'blink', px_gale: 'tempest', px_spell: 'mcinder' };
+const PX_OF = {}; for (const k in PX_BASE) PX_OF[PX_BASE[k]] = k;
+const pxId = id => (G && G.cls === 'paragon' && PX_OF[id]) || id;
+const PX_COLS = ['#ff6a8a', '#b98aff', '#5ff0d0', '#9dff6a', '#e8e0f4', '#6fc8ff', '#7dff6a', '#ffb03c']; // one per class echo (rogue … mage)
+WDEF.eclipse = { name: 'Eclipse Glaive', ic: '◑', cls: 'paragon', max: 6, desc: ['Hurl a crescent glaive of light and shadow that cuts through foes and returns to your hand', '+20% damage', '+1 glaive', 'Glaives fly farther, +15% damage', 'Faster throws', 'MASTERY: +1 glaive; each glaive flares in a burst of eclipse light as it turns back'] };
+for (const [id, cl, n, ic, d0] of [['px_dagger', 'rogue', 'Umbral Daggers', '➶', 'ROGUE ECHO: hurl shadow daggers at the nearest foe'], ['px_hex', 'warlock', 'Dread Hex', '♒', 'WARLOCK ECHO: lay a lingering Dread hex on foes — its damage grows the longer it lasts (up to 4×)'],
+  ['px_thrall', 'summoner', 'Echo Familiars', '☗', 'SUMMONER ECHO: 2 spectral familiars hunt and bite foes (they respawn if slain)'], ['px_volley', 'ranger', 'Starfall Volley', '⋙', 'RANGER ECHO: loose a fan of starlit arrows toward the nearest foe'],
+  ['px_scythe', 'reaper', 'Penumbra Sweep', '☾', 'REAPER ECHO: a spinning scythe sweep that heals you per foe hit'], ['px_rift', 'rift', 'Riftstep Mines', '◇', 'RIFT ECHO: every step tears unstable rift mines in your wake that detonate'],
+  ['px_gale', 'druid', 'Verdant Halo', '❦', 'DRUID ECHO: a halo of razor leaves circles you, shredding foes'], ['px_spell', 'mage', 'Solar Cinder', '☀', 'MAGE ECHO: lob a sun-hot cinder orb that explodes and ignites foes']]) {
+  const b = WDEF[PX_BASE[id]]; WDEF[id] = { name: n, ic, cls: 'paragon', echo: cl, max: 6, desc: [d0].concat(b.desc.slice(1)) }; if (b.minion) WDEF[id].minion = true; }
+WDEF.px_conv = { name: 'Convergence of Eight', ic: '✷', cls: 'paragon', max: 6, desc: ['SIGNATURE: eight echo bolts — one in every class colour — spiral out, hunt foes and burst on impact', '+20% damage', 'Faster casts', 'Bigger bursts', '+20% damage', 'MASTERY: much faster casts'] };
+Object.assign(EVO, {
+  eclipse: E('twilight', 'Totality Glaive', '#ffd36a', 1.3, 0.85, 1.15, 'crit', '+30% damage, faster, bigger; +20% crit chance'),
+  px_dagger: E('swift', 'Nightfall Daggers', '#b06bff', 1.25, 0.8, 1, 'chain', '+25% damage, faster; daggers arc lightning to nearby foes'),
+  px_hex: E('echoes', 'Hex of the Black Sun', '#c56bff', 1.4, 0.85, 1, 'slow', '+40% Dread damage, faster; hexed foes are slowed'),
+  px_thrall: E('aegis', 'Echo Host', '#7dffe0', 1.3, 1, 1, 'horde', '+30% familiar damage and +2 familiars'),
+  px_volley: E('precision', 'Meteoric Barrage', '#ffe58a', 0.9, 1, 1, 'echo', 'Every volley fires twice'),
+  px_scythe: E('hunger', 'Penumbral Harvest', '#ff3d6e', 1.3, 0.9, 1.15, 'leech', '+30% damage, faster, wider; sweeps siphon life'),
+  px_rift: E('haste', 'Rift Constellation', '#6fc8ff', 1.35, 0.8, 1.15, 'slow', '+35% damage, faster, wider; mines slow foes'),
+  px_gale: E('expanse', 'Aurora Gale', '#9dff9a', 1.4, 1, 1, 'orbit', '+40% damage and +3 leaves'),
+  px_spell: E('might', 'Corona Orb', '#ffb03c', 0.9, 1, 1.15, 'echo', 'Every orb is lobbed twice, wider'),
+  px_conv: E('vigor', 'Ninefold Convergence', '#fff0c0', 1.3, 0.85, 1.15, 'burst', '+30% damage, faster, bigger bursts; kills detonate'),
+});
 const EVO_BY_P = {}; for (const id in EVO) (EVO_BY_P[EVO[id].p] = EVO_BY_P[EVO[id].p] || []).push(id);
-const evOf = id => (G && G.evo && G.evo[id]) ? EVO[id] : null;
+const evOf = id => { id = pxId(id); return (G && G.evo && G.evo[id]) ? EVO[id] : null; };
 function evoSeen() { if (!save.evoSeen || typeof save.evoSeen !== 'object') save.evoSeen = {}; return save.evoSeen; }
 function evoCount() { const S = (typeof save !== 'undefined' && save && save.evoSeen) || {}; let n = 0; for (const k in S) if (EVO[k]) n++; return n; }
 function evoClassDone() { const S = (save && save.evoSeen) || {}; for (const c in CLASSES) { const ids = Object.keys(EVO).filter(id => WDEF[id] && WDEF[id].cls === c); if (ids.length && ids.every(id => S[id])) return c; } return null; }
@@ -1800,11 +1879,11 @@ const PDEF = {
   swift: { name: 'Shadow Stride', ic: '»', desc: '+8% move speed', max: 5 },
   reach: { name: 'Soul Magnet', ic: '◎', desc: '+30% pickup radius & +5% XP', max: 5 },
   expanse: { name: 'Widening Dark', ic: '◍', desc: '+12% attack area', max: 5 },
-  precision: { name: "Assassin's Eye", ic: '◈', desc: '+6% crit chance, +15% crit damage', max: 5, cls: ['rogue', 'rift', 'ranger'] },
+  precision: { name: "Assassin's Eye", ic: '◈', desc: '+6% crit chance, +15% crit damage', max: 5, cls: ['rogue', 'rift', 'ranger', 'paragon'] },
   phantom: { name: 'Phantom Veil', ic: '≋', desc: '+5% chance to evade hits', max: 5, cls: ['rogue', 'ranger'] },
   ward: { name: 'Bone Ward', ic: '⬢', desc: '+1 armor', max: 5, cls: ['reaper'] },
   renewal: { name: 'Crimson Renewal', ic: '✚', desc: '+0.4 HP per second', max: 5 },
-  hunger: { name: 'Soul Hunger', ic: '❦', desc: '+2% life drain from all damage (afflictions too)', max: 5, cls: ['warlock', 'reaper'] },
+  hunger: { name: 'Soul Hunger', ic: '❦', desc: '+2% life drain from all damage (afflictions too)', max: 5, cls: ['warlock', 'reaper', 'paragon'] },
   malice: { name: 'Lingering Malice', ic: '⌛', desc: '+20% affliction & slow duration', max: 5, cls: ['warlock'] },
   virulence: { name: 'Virulence', ic: '☣', desc: '+12% affliction (DoT) damage', max: 5, cls: ['warlock'] },
   fever: { name: 'Fevered Pulse', ic: '♒', desc: 'Afflictions tick 10% faster', max: 5, cls: ['warlock'] },
@@ -1835,6 +1914,10 @@ const PDEF = {
   focus: { name: 'Arcane Focus', ic: '✧', desc: '+12% arcane damage', max: 5, cls: ['mage'], need: 'arcane' },
   reservoir: { name: 'Mana Reservoir', ic: '◉', desc: '+1 max Arcane Charge, -4% cooldowns', max: 3, cls: ['mage'], need: 'arcane' },
   spellweave: { name: 'Spellweaving', ic: '✺', desc: '+6% area, -4% cooldowns', max: 3, cls: ['mage'] },
+  // v21 Eclipse Paragon
+  twilight: { name: 'Twilight Balance', ic: '◑', desc: '+4% damage, +1.5% crit chance', max: 5, cls: ['paragon'] },
+  echoes: { name: 'Echoing Soul', ic: '✷', desc: '-5% cooldowns, +6% area', max: 5, cls: ['paragon'] },
+  aegis: { name: "Paragon's Aegis", ic: '⬡', desc: '+12 max HP, +0.25 HP regen/s', max: 5, cls: ['paragon'] },
 };
 /* v20: endless passives. Past its normal max a passive keeps levelling with diminishing returns.
    g = gentle, unbounded (HP/damage-type: each extra level is worth a little less than the one before)
@@ -1850,6 +1933,7 @@ const ENDL = {
   splitshot: ['g', { arrowDmg: 0.1 }], piercing: ['g', { arrowDmg: 0.1 }], longshot: ['c', { range: 0.12 }], violettips: ['g', { arrowDmg: 0.08 }],
   kindling: ['g', { fire: 0.12, burn: 0.1 }], smolder: ['g', { burn: 0.12 }], permafrost: ['g', { frost: 0.12 }], bitter: ['c', { frzDur: 0.3, shatter: 0.1 }],
   focus: ['g', { arcane: 0.12 }], reservoir: ['c', { cd: 0.04, arcane: 0.04 }], spellweave: ['c', { area: 0.06, cd: 0.04 }],
+  twilight: ['g', { dmg: 0.04 }], echoes: ['c', { cd: 0.05, area: 0.06 }], aegis: ['g', { maxHp: 12, regen: 0.25 }],
 };
 const ESTAT = { maxHp: ['max HP', 0], dmg: ['damage', 1], cd: ['cooldowns', 2], speed: ['move speed', 1], pickup: ['pickup radius', 1], xp: ['XP', 1], area: ['area', 1], crit: ['crit chance', 1], critMul: ['crit damage', 1],
   dodge: ['evade', 1], armor: ['armor', 0], regen: ['HP/s', 0], lifesteal: ['life drain', 1], dur: ['affliction duration', 1], dot: ['affliction damage', 1], tick: ['affliction tick rate', 1], feral: ['feral damage', 1],
@@ -1922,7 +2006,7 @@ const GSTAT = { // v = value per power point · p = percent · i = integer · d1
   feral: { l: 'Feral Damage', v: 0.024, p: 1 }, nature: { l: 'Nature Damage', v: 0.024, p: 1 }, bleed: { l: 'Bleed Damage', v: 0.027, p: 1 }, dr: { l: 'Damage Reduction', v: 0.0048, p: 1 }, form: { l: 'Form Mastery', v: 0.027, p: 1 },
   eliteDmg: { l: 'Damage vs Elites', v: 0.027, p: 1 }, fire: { l: 'Fire Damage', v: 0.024, p: 1 }, frost: { l: 'Frost Damage', v: 0.024, p: 1 }, arcane: { l: 'Arcane Damage', v: 0.024, p: 1 } };
 const GCLS = { rogue: ['crit', 'critMul', 'speed', 'dodge'], warlock: ['dot', 'dur', 'tick', 'lifesteal'], summoner: ['minion', 'minionHp', 'dur', 'cd'], ranger: ['arrowDmg', 'range', 'crit', 'cd'],
-  reaper: ['lifesteal', 'maxHp', 'area', 'critMul'], rift: ['speed', 'area', 'cd', 'crit'], druid: ['feral', 'nature', 'bleed', 'form', 'dmg'], mage: ['fire', 'frost', 'arcane', 'cd', 'dmg'] };
+  reaper: ['lifesteal', 'maxHp', 'area', 'critMul'], rift: ['speed', 'area', 'cd', 'crit'], druid: ['feral', 'nature', 'bleed', 'form', 'dmg'], mage: ['fire', 'frost', 'arcane', 'cd', 'dmg'], paragon: ['dmg', 'cd', 'crit', 'area', 'minion'] };
 const GGEN = ['dmg', 'cd', 'maxHp', 'armor', 'regen', 'pickup', 'xp', 'area', 'eliteDmg', 'speed', 'crit'];
 const GRAR = [{ n: 'Common', c: '#c4bdd2' }, { n: 'Uncommon', c: '#5be05a' }, { n: 'Rare', c: '#5aa9ff' }, { n: 'Epic', c: '#c56bff' }, { n: 'Legendary', c: '#ffae3c' }];
 const RAR = GRAR;
@@ -1938,13 +2022,13 @@ const GFX = {
 const GFX_PRE = { ember: 'Cinderheart', soul: 'Soulfeast', thorns: 'Briarthorn', frost: 'Rimebound', storm: "Stormcaller's", aegis: 'Dawnwarden', rush: 'Bloodrush', greed: 'Gilded' };
 const GNOUN = { head: ['Hood', 'Cowl', 'Helm', 'Circlet'], shoulders: ['Mantle', 'Pauldrons', 'Spaulders'], chest: ['Jerkin', 'Robe', 'Cuirass', 'Vest'], hands: ['Gloves', 'Grips', 'Gauntlets'],
   waist: ['Belt', 'Sash', 'Girdle'], legs: ['Leggings', 'Breeches', 'Greaves'], feet: ['Boots', 'Treads', 'Striders'], neck: ['Amulet', 'Pendant', 'Choker'], ring: ['Ring', 'Band', 'Signet'], trinket: ['Charm', 'Idol', 'Totem', 'Lantern'] };
-const GCLSN = { rogue: 'Nightfang', warlock: 'Witherbloom', summoner: 'Gravebell', ranger: 'Duskwind', reaper: 'Ashen', rift: 'Starfall', druid: 'Wildroot', mage: 'Spellwoven' };
+const GCLSN = { rogue: 'Nightfang', warlock: 'Witherbloom', summoner: 'Gravebell', ranger: 'Duskwind', reaper: 'Ashen', rift: 'Starfall', druid: 'Wildroot', mage: 'Spellwoven', paragon: 'Eclipsed' };
 const GPRE = [['Worn', 'Frayed', 'Plain', 'Patched'], ['Sturdy', 'Dusk', 'Keen', 'Trusty'], ['Moonlit', 'Runed', 'Gloomforged']];
 const GSUF = { crit: 'of Precision', critMul: 'of Ruin', dmg: 'of Might', maxHp: 'of the Bear', armor: 'of the Bulwark', speed: 'of the Fox', regen: 'of Renewal', dot: 'of Blight', dur: 'of Lingering', tick: 'of Fever',
   minion: 'of the Legion', minionHp: 'of Bones', arrowDmg: 'of the Hawk', range: 'of Far Sight', lifesteal: 'of Thirst', area: 'of Reach', cd: 'of Haste', dodge: 'of Shadows', feral: 'of the Wild Hunt', nature: 'of the Grove',
   bleed: 'of Rending', dr: 'of Oak', form: 'of the Shifter', pickup: 'of Gathering', xp: 'of Wisdom', eliteDmg: 'of the Slayer', fire: 'of Embers', frost: 'of Rime', arcane: 'of the Stars' };
 const GPAL = { rogue: ['#5a4060', '#4a3a52', '#6a2a3c'], warlock: ['#5a2f78', '#46265e', '#6a3a80'], summoner: ['#5a6470', '#4a4458', '#6a6a74'], ranger: ['#5a6a36', '#6a4e30', '#46563a'],
-  reaper: ['#4a4a58', '#5a5262', '#3a3444'], rift: ['#2f5078', '#363c6e', '#3a5a86'], druid: ['#6a5430', '#566a32', '#7a5236'], mage: ['#2f4a8a', '#4a3a8a', '#2a5a7a'] };
+  reaper: ['#4a4a58', '#5a5262', '#3a3444'], rift: ['#2f5078', '#363c6e', '#3a5a86'], druid: ['#6a5430', '#566a32', '#7a5236'], mage: ['#2f4a8a', '#4a3a8a', '#2a5a7a'], paragon: ['#3a2a6a', '#5a4a2a', '#2a2050'] };
 /* ================= ART (procedural) ================= */
 function mkCanvas(w, h) { const c = document.createElement('canvas'); c.width = Math.max(1, Math.ceil(w)); c.height = Math.max(1, Math.ceil(h)); return c; }
 function glowDot(g, x, y, r, col, a = 0.6) {
@@ -1975,6 +2059,7 @@ const CLASS_PAL = { // v10 signature costumes: every class has its own palette (
   rift: { cloak: '#e0479e', cloak2: '#0b0824', trim: '#ffd76a', acc: '#221a5c', acc2: '#0d0a2a', eye: '#ffa6f2', name: 'Starweave Silks' },
   druid: { cloak: '#4f7f2c', cloak2: '#2b4a18', trim: '#e8d27a', acc: '#6a4a28', acc2: '#33210f', eye: '#9dff6a', name: 'Wildgrove Garb' },
   mage: { cloak: '#2c4aa8', cloak2: '#121a4a', trim: '#f2c94c', acc: '#5a2a8a', acc2: '#24103a', eye: '#8fd8ff', name: 'Arcanist Robes' },
+  paragon: { cloak: '#241a52', cloak2: '#0a0620', trim: '#ffd36a', acc: '#d6c49a', acc2: '#3a2c1a', eye: '#ffe9a0', name: 'Eclipse Regalia' },
 };
 const CLASS_LOOK = {
   rogue: { acc: '#7a4a2c', acc2: '#3a2216', body: 'tunic', hood: 'round' },
@@ -1985,6 +2070,7 @@ const CLASS_LOOK = {
   rift: { acc: '#1a2356', acc2: '#0a0e2a', body: 'silk', hood: 'sleek' },
   druid: { acc: '#4a2e1a', acc2: '#24160c', body: 'robe', hood: 'round', moss: '#5f9a3a' },
   mage: { acc: '#5a2a8a', acc2: '#24103a', body: 'robe', hood: 'round' },
+  paragon: { acc: '#e9dcc0', acc2: '#3a2c1a', body: 'robe', hood: 'round' },
 };
 function classOutfit(outfit, cls, armor, eye) { const k = outfit + '|' + cls + '|' + (armor || '') + '|' + (eye || ''); if (_ofCache[k]) return _ofCache[k]; const of = OUTFITS[outfit] || OUTFITS.crimson, L = CLASS_LOOK[cls] || CLASS_LOOK.rogue;
   const set = armor && ARMOR_BY_ID[armor] && ARMOR_BY_ID[armor].cls === cls ? ARMOR_BY_ID[armor] : null, ec = eye && GEN_BY_ID[eye] ? GEN_BY_ID[eye].v : of.eye;
@@ -2097,7 +2183,7 @@ function drawHero(g, o) {
     g.fillStyle = R.hair; for (const [x, y] of [[-8, 7.6], [-13, 9], [-18, 11]]) { g.beginPath(); g.moveTo(x - 1.6, y + 0.6); g.lineTo(x, y - 2.6); g.lineTo(x + 1.6, y + 0.3); g.closePath(); g.fill(); g.strokeStyle = OL; g.lineWidth = 0.6; g.stroke(); } }
   g.restore();
   g.save(); TOR(); classBack(g, cls, t, of, sway, L); g.restore();
-  if (art === 'staff' || art === 'scythe' || art === 'bow' || art === 'branch' || art === 'mstaff') { g.save(); UNI(); drawHeroWeapon(g, art, t, atk, true); g.restore(); }
+  if (art === 'staff' || art === 'scythe' || art === 'bow' || art === 'branch' || art === 'mstaff' || art === 'glaive') { g.save(); UNI(); drawHeroWeapon(g, art, t, atk, true); g.restore(); }
   arm(-6.2, -10.6, -10.4, -1); // far arm (behind the coat)
   // legs: thigh + shin with a walk cycle, boots (gear feet tint them)
   if (race === 'shade') { g.save(); g.translate(0, 16); g.scale(1.2, 1.9); g.translate(0, -16); // trailing mist instead of legs; feet gear shows as glowing wisp anklets
@@ -2131,7 +2217,7 @@ function drawHero(g, o) {
   g.save(); TOR(); classFront(g, cls, t, of, sway, L); if (GV && GV.neck) drawGearNeck(g, GV); g.restore();
   arm(6.4, 11.8, -10.6, 1); // near arm
   g.save(); UNI();
-  if (art !== 'staff' && art !== 'scythe' && art !== 'bow' && art !== 'branch' && art !== 'mstaff') drawHeroWeapon(g, art, t, atk, false);
+  if (art !== 'staff' && art !== 'scythe' && art !== 'bow' && art !== 'branch' && art !== 'mstaff' && art !== 'glaive') drawHeroWeapon(g, art, t, atk, false);
   const gl = GV && GV.hands ? GV.hands.c : race === 'shade' || cls === 'reaper' ? '#24141f' : R.skin;
   for (const [hx, hy] of [[10.5, 4], [-9.5, 4.5]]) { g.beginPath(); g.arc(hx, hy, race === 'ogre' ? 3.2 : 2.6, 0, TAU); ink(g, gl, 1);
     if (GV && GV.hands) { g.fillStyle = GV.hands.a; g.fillRect(hx - 3.2, hy - 4.8, 6.4, 1.8); } else if (gl === '#24141f') { g.fillStyle = shade(of.cloak, 0.1); g.fillRect(hx - 3, hy - 4.6, 6, 1.6); }
@@ -2254,7 +2340,22 @@ function riftRing(g, t, front, cy, rx, ry, rot) { // tilted orbiting ring: back 
 function mageMotes(g, t, front) { for (let i = 0; i < 3; i++) { const a = t * 1.8 + i * TAU / 3, sn = Math.sin(a); if (front ? sn < 0 : sn >= 0) continue; const x = Math.cos(a) * 16, y = -6 + sn * 4 + Math.sin(t * 3 + i) * 1.5, c = ['#ff8a3c', '#8fe0ff', '#c58bff'][i];
   glowDot(g, x, y, 6, c, 0.55); g.fillStyle = i === 1 ? '#effbff' : i === 0 ? '#ffe6a0' : '#f0dcff'; g.beginPath(); if (i === 1) { g.moveTo(x, y - 2.2); g.lineTo(x + 1.3, y); g.lineTo(x, y + 2.2); g.lineTo(x - 1.3, y); } else g.arc(x, y, 1.5, 0, TAU); g.fill(); } }
 let _HGEAR = false;
+function paraMotes(g, t, front) { /* v21: eight echo motes (one per class colour) orbit the Paragon */
+  for (let i = 0; i < 8; i++) { const a = t * 1.3 + i * TAU / 8, sn = Math.sin(a); if (front ? sn < 0 : sn >= 0) continue; const x = Math.cos(a) * 17, y = -4 + sn * 4.5 + Math.sin(t * 2.6 + i) * 1.2, c = PX_COLS[i];
+    glowDot(g, x, y, 4.6, c, 0.55); g.fillStyle = '#fffaf0'; g.beginPath(); g.arc(x, y, 1.05, 0, TAU); g.fill(); } }
+function eclipseDisc(g, x, y, r, t) { /* black sun with a golden corona */
+  glowDot(g, x, y, r * 2.4, '#ffcf4a', 0.35 + 0.08 * Math.sin(t * 3)); g.strokeStyle = 'rgba(255,214,110,.9)'; g.lineWidth = r * 0.28; g.beginPath(); g.arc(x, y, r * 1.08, 0, TAU); g.stroke();
+  for (let i = 0; i < 12; i++) { const a = i / 12 * TAU + t * 0.4, l = r * (1.35 + 0.25 * Math.sin(t * 4 + i * 1.7)); g.strokeStyle = 'rgba(255,226,140,.7)'; g.lineWidth = r * 0.12; g.beginPath(); g.moveTo(x + Math.cos(a) * r * 1.2, y + Math.sin(a) * r * 1.2); g.lineTo(x + Math.cos(a) * l, y + Math.sin(a) * l); g.stroke(); }
+  g.fillStyle = '#0c0718'; g.beginPath(); g.arc(x, y, r, 0, TAU); g.fill(); g.fillStyle = 'rgba(160,120,255,.35)'; g.beginPath(); g.arc(x - r * 0.3, y - r * 0.3, r * 0.45, 0, TAU); g.fill(); }
 function classBack(g, cls, t, of, sway, L) {
+  if (cls === 'paragon') { // split mantle (dawn-gold outside, night-violet lining), eclipse halo and the back half of the echo motes
+    g.beginPath(); g.moveTo(-7, -4); g.quadraticCurveTo(-18 - sway * 1.5, 5, -18 - sway * 2, 17.5); g.quadraticCurveTo(-9, 16.5, 0, 18.5); g.quadraticCurveTo(9, 16.5, 18 - sway * 2, 17.5); g.quadraticCurveTo(18 - sway * 1.5, 5, 7, -4); g.closePath(); ink(g, of.cloak2);
+    g.save(); g.clip(); g.fillStyle = hexA(of.trim, 0.85); for (const [x, y] of [[-12, 6], [-14.5, 12], [-9, 13], [-10.5, 2], [11, 8], [13, 14]]) { g.beginPath(); g.arc(x - sway * (y / 14), y, 0.6, 0, TAU); g.fill(); } g.restore();
+    g.beginPath(); g.moveTo(-7, -4); g.quadraticCurveTo(-18 - sway * 1.5, 5, -18 - sway * 2, 17.5); g.quadraticCurveTo(-13, 17, -9, 18); g.quadraticCurveTo(-6, 8, -2, -3); g.closePath(); ink(g, of.acc, 1);
+    g.strokeStyle = of.trim; g.lineWidth = 0.9; g.beginPath(); g.moveTo(-18 - sway * 2, 17.5); g.quadraticCurveTo(-13, 17, -9, 18); g.stroke();
+    g.save(); g.scale(1, 1 / 1.5); glowDot(g, 0, -19, 22, '#ffcf4a', 0.22 + 0.06 * Math.sin(t * 3)); g.strokeStyle = 'rgba(255,214,110,.85)'; g.lineWidth = 1.3; g.beginPath(); g.arc(0, -19, 14.5, 0, TAU); g.stroke();
+    for (let i = 0; i < 16; i++) { const a = i / 16 * TAU + t * 0.3, l = 17 + 2.2 * Math.sin(t * 4 + i * 1.7); g.strokeStyle = 'rgba(255,226,140,.55)'; g.lineWidth = 0.8; g.beginPath(); g.moveTo(Math.cos(a) * 15.5, -19 + Math.sin(a) * 15.5); g.lineTo(Math.cos(a) * l, -19 + Math.sin(a) * l); g.stroke(); }
+    g.restore(); paraMotes(g, t, false); return; }
   if (cls === 'mage') { // long star-lined cape and orbiting motes of fire, frost and arcane light
     g.beginPath(); g.moveTo(-6, -4); g.quadraticCurveTo(-17 - sway * 1.5, 4, -17.5 - sway * 2, 17.5); g.quadraticCurveTo(-12, 16, -7, 18); g.quadraticCurveTo(-3, 9, 2, -2); g.closePath(); ink(g, of.cloak2);
     g.save(); g.clip(); g.fillStyle = hexA(of.trim, 0.8); for (const [x, y] of [[-12, 6], [-14.5, 12], [-9, 13], [-10.5, 2]]) { g.beginPath(); g.arc(x - sway * (y / 14), y, 0.6, 0, TAU); g.fill(); } g.restore();
@@ -2317,6 +2418,11 @@ function classBody(g, cls, t, of, sway, L) {
     for (const y of [3, 8.5, 13.5]) { glowDot(g, 0.5, y, 3.5, of.trim, 0.6); g.strokeStyle = '#e6c8ff'; g.lineWidth = 0.6; g.beginPath(); g.moveTo(0.5, y - 1.6); g.lineTo(1.9, y + 1); g.lineTo(-0.9, y + 1); g.closePath(); g.stroke(); }
     g.strokeStyle = of.trim; g.lineWidth = 1.1; g.beginPath(); g.moveTo(-11.6, 15.6); g.quadraticCurveTo(0, 18, 11.6, 15.6); g.stroke();
     g.beginPath(); g.roundRect(-8.4, 4.2, 16.8, 2.6, 1.2); ink(g, of.cloak, 0.8); return body; }
+  if (cls === 'paragon') { // half-dawn / half-night robe panel, gold belt with an eclipse medallion
+    g.save(); g.clip(body); g.fillStyle = of.acc; g.fillRect(-14, -4, 14, 24); g.fillStyle = hexA(of.trim, 0.9); g.fillRect(-0.6, -4, 1.2, 24); g.restore();
+    g.strokeStyle = of.trim; g.lineWidth = 1; g.stroke(body); g.beginPath(); g.roundRect(-9, 4.4, 18, 3, 1.4); ink(g, '#2a1c3a', 0.8);
+    g.fillStyle = of.trim; g.fillRect(-9, 4.9, 18, 0.7); eclipseDisc(g, 0, 5.9, 2.4, t);
+    for (const s of [-1, 1]) { g.beginPath(); g.moveTo(s * 5.5, -3); g.lineTo(s * 2, 4.4); g.strokeStyle = of.trim; g.lineWidth = 0.9; g.stroke(); } }
   if (cls === 'mage') { // layered arcanist robe: rune-stitched front panel, gold hems, sash with a prism gem and a chained spellbook
     g.beginPath(); g.moveTo(-2.4, -2.5); g.lineTo(2.8, -2.5); g.lineTo(5, 17.6); g.lineTo(-4.2, 17.6); g.closePath(); ink(g, of.acc, 0.9);
     g.strokeStyle = of.trim; g.lineWidth = 0.7; g.beginPath(); g.moveTo(-2.4, -2.5); g.lineTo(-4.2, 17.6); g.moveTo(2.8, -2.5); g.lineTo(5, 17.6); g.stroke();
@@ -2378,6 +2484,7 @@ function classBody(g, cls, t, of, sway, L) {
   return body;
 }
 function classFront(g, cls, t, of, sway, L) {
+  if (cls === 'paragon') paraMotes(g, t, true);
   if (cls === 'summoner') { const wisp = a => { const x = Math.cos(a) * 15, y = -10 + Math.sin(a) * 5; glowDot(g, x, y, 6, '#6ff3d0', 0.45); g.fillStyle = '#d8fff4'; g.beginPath(); g.arc(x, y, 1.8, 0, TAU); g.fill();
       g.fillStyle = '#1a0a24'; g.fillRect(x - 0.9, y - 0.5, 0.6, 0.6); g.fillRect(x + 0.3, y - 0.5, 0.6, 0.6); };
     for (let i = 0; i < 2; i++) { const a = t * 2.2 + i * Math.PI; if (Math.sin(a) >= 0) wisp(a); } }
@@ -2510,6 +2617,10 @@ function drawHead(g, cls, race, R, of, t, sway, L, C) {
     g.beginPath(); g.ellipse(0, -len / 2, 1.8, len / 2, 0, 0, TAU); ink(g, c, 0.8); g.strokeStyle = 'rgba(0,0,0,.35)'; g.lineWidth = 0.4; g.beginPath(); g.moveTo(0, 0); g.lineTo(0, -len); g.stroke(); g.restore(); }
   if (cls === 'rift') { glowDot(g, 3, -20.4, 5, '#8fa0ff', 0.7); g.fillStyle = '#e6e8ff'; g.beginPath(); g.arc(3, -20.4, 2.1, 0, TAU); g.fill(); g.fillStyle = hc; g.beginPath(); g.arc(4, -21, 1.8, 0, TAU); g.fill();
     g.save(); g.translate(-1, -29.5 + Math.sin(t * 2) * 0.8); g.rotate(-0.2); glowDot(g, 0, 0, 10, '#5a6bff', 0.22); g.strokeStyle = OL; g.lineWidth = 3; g.beginPath(); g.ellipse(0, 0, 10, 3, 0, 0, TAU); g.stroke(); g.strokeStyle = of.trim; g.lineWidth = 1.6; g.stroke(); g.strokeStyle = 'rgba(255,255,255,.7)'; g.lineWidth = 0.5; g.stroke(); g.restore(); }
+  if (cls === 'paragon') { // golden circlet with crescent horns and a floating eclipse jewel
+    g.strokeStyle = OL; g.lineWidth = 3.2; g.beginPath(); g.arc(0, -11, 13.5, Math.PI * 1.12, Math.PI * 1.88); g.stroke(); g.strokeStyle = of.trim; g.lineWidth = 1.8; g.stroke();
+    for (const s of [-1, 1]) { const p = new Path2D(`M${s * 8},-21 Q${s * 15},-27 ${s * 12},-35 Q${s * 11},-28 ${s * 5.5},-24 Z`); inkPath(g, p, s < 0 ? '#fff1c4' : '#8a5ad8', 1); }
+    eclipseDisc(g, 0, -29 + Math.sin(t * 2.2) * 1, 2.8, t); }
   if (cls === 'druid') { // small antlers sprouting through the hood, leaf sprigs and a violet bud
     for (const s of [-1, 1]) { const bx = s < 0 ? -6.5 : 7.5; g.lineCap = 'round';
       const ant = () => { g.beginPath(); g.moveTo(bx, -22); g.quadraticCurveTo(bx + s * 4, -30, bx + s * 3, -37); g.moveTo(bx + s * 1.8, -26.5); g.quadraticCurveTo(bx + s * 7, -28, bx + s * 10, -32); g.moveTo(bx + s * 3.4, -31); g.lineTo(bx + s * 0.2, -35.5); g.moveTo(bx + s * 7.5, -29.6); g.lineTo(bx + s * 9, -35); };
@@ -2578,6 +2689,13 @@ function drawHeroWeapon(g, cls, t, atk, behind) {
       const pulse = 1 + Math.sin(t * 4) * 0.15 + atk * 0.4; glowDot(g, x + 0.3, -25, 10 * pulse, '#9dff6a', 0.4); glowDot(g, x + 0.3, -25, 6 * pulse, '#b56bff', 0.6);
       g.beginPath(); g.arc(x + 0.3, -25, 2.4, 0, TAU); ink(g, '#e6ccff', 0.7);
       for (const [lx, ly, r] of [[x - 4.5, -28.5, -0.6], [x + 4.8, -29.5, 0.5], [x + 5.2, -15.5, 0.9], [x - 1.5, -20, -1.2]]) { g.save(); g.translate(lx, ly); g.rotate(r + Math.sin(t * 2 + lx) * 0.1); g.beginPath(); g.ellipse(0, -1.8, 1.4, 2.6, 0, 0, TAU); ink(g, '#5fb04a', 0.6); g.restore(); }
+      return; }
+    if (cls === 'glaive') { // v21 Eclipse Glaive: gold-bound haft, twin crescent blades (dawn & night) cradling a black sun
+      g.strokeStyle = '#ffd36a'; g.lineWidth = 0.8; g.beginPath(); for (const y of [-12, -2, 8]) { g.moveTo(x - 1.4, y); g.lineTo(x + 1.8, y - 1); } g.stroke();
+      const sw = atk * 0.5; g.save(); g.translate(x + 1, -24); g.rotate(sw * 0.3 + Math.sin(t * 1.5) * 0.04);
+      for (const [s, c] of [[-1, '#fff1c4'], [1, '#9a6bff']]) { const p = new Path2D(`M0,${-1} Q${s * 11},-4 ${s * 9},-14 Q${s * 7},-7 0,-4.5 Z`), q = new Path2D(`M0,1 Q${s * 10},3 ${s * 8.5},11 Q${s * 5},5 0,3.5 Z`); inkPath(g, p, c, 0.9); inkPath(g, q, c, 0.8); }
+      eclipseDisc(g, 0, 0, 3.4 + atk * 0.8, t); g.restore();
+      g.beginPath(); g.moveTo(x - 1.6, 14); g.lineTo(x + 0.2, 20); g.lineTo(x + 1.6, 14); g.closePath(); ink(g, '#e8dcc0', 0.7);
       return; }
     if (cls === 'mstaff') { // pale-wood spellstaff: silver crescent cradling a floating prism that cycles fire / frost / arcane
       g.strokeStyle = '#c9b48a'; g.lineWidth = 0.7; g.beginPath(); for (const y of [-6, 2, 9]) { g.moveTo(x - 1.4, y); g.lineTo(x + 1.6, y - 1); } g.stroke();
@@ -3441,8 +3559,32 @@ let minions = [], enemies = [], gems = [], picks = [], projs = [], eprojs = [], 
 let eid = 0;
 const xpNeed = l => Math.floor((5 + (l - 1) * 6 + Math.pow(l - 1, 1.65)) * 1.1); // +10%: XP is now instant (no gems left behind)
 
+function pxInit() { if (WFIRE.eclipse) return; /* v21: Paragon echoes run the original skill engines under their own ids */
+  for (const id in PX_BASE) { const b = PX_BASE[id]; if (WTICK[b]) WTICK[id] = (w, dt) => WTICK[b](w, dt); else WFIRE[id] = w => WFIRE[b](w); if (WSND[b]) WSND[id] = WSND[b]; }
+  WSND.eclipse = 'swish'; WSND.px_conv = 'arcane';
+  WFIRE.eclipse = w => { const L = w.lvl, n = 1 + (L >= 3) + (L >= 6), tg = nearestN(P.x, P.y, n, 330); if (!tg.length) return -1;
+    const dmg = (9 + 3.2 * L) * (L >= 2 ? 1.2 : 1) * (L >= 4 ? 1.15 : 1), out = L >= 4 ? 0.62 : 0.48;
+    const hurl = a => projs.push({ k: 'scy', gl: 1, x: P.x, y: P.y - 6, vx: Math.cos(a) * 400, vy: Math.sin(a) * 400, r: 12 * Math.sqrt(P.area), dmg, out, life: 3, hit: new Set(), spin: 0, ret: false, flare: L >= 6 ? 1 : 0 });
+    for (let i = 0; i < n; i++) { const t = tg[i] || tg[0], a = Math.atan2(t.y - P.y, t.x - P.x) + (tg[i] ? 0 : (i - n / 2) * 0.5); hurl(a); if (G.tf.glaiveTwin) hurl(a + Math.PI); }
+    P.atk = 1; Snd.play('swish'); return L >= 5 ? 1.15 : 1.4; };
+  WFIRE.px_conv = w => { const L = w.lvl, vis = nearestN(P.x, P.y, 12, 380); if (!vis.length) return -1;
+    const n = 8 + (G.tf.convMore ? 4 : 0), dmg = (9 + 3.4 * L) * (L >= 2 ? 1.2 : 1) * (L >= 5 ? 1.2 : 1), o = rand(TAU);
+    for (let i = 0; i < n; i++) { const a = o + i / n * TAU; projs.push({ k: 'wraith', x: P.x, y: P.y - 12, vx: Math.cos(a) * 220, vy: Math.sin(a) * 220, r: 9, dmg, tgt: vis[i % vis.length], life: 3, hit: new Set(), arm: 0.18 + i * 0.025, seed: Math.random() * 9, R: L >= 4 ? 40 : 32, col: PX_COLS[i % 8] }); }
+    P.atk = 1; Snd.play('arcane'); return L >= 6 ? 3.4 : L >= 3 ? 4 : 4.6; }; }
+function paragonTick(dt) { const tf = G.tf; if (G.totT > 0) G.totT -= dt; /* v21 Paragon capstones (damage meter: Ultimate) */
+  const vw = W / ZOOM / 2, vh = H / ZOOM / 2, vis = () => enemies.filter(e => !e.dead && !e.under && Math.abs(e.x - P.x) < vw && Math.abs(e.y - P.y) < vh);
+  if (tf.totality && (G.ptT = (G.ptT === undefined ? 15 : G.ptT) - dt) <= 0) { G.ptT = 15; const v = vis(); if (v.length) { toast('Totality!', '#ffd36a', 1.6); Snd.play('hexnova'); G.totT = 4; G.shake = Math.max(G.shake, 0.2);
+      for (const e of v) damage(e, 30 + 3 * G.level, { kb: 60, kx: Math.sign(e.x - P.x) || 1, ky: 0 });
+      effects.push({ k: 'nova', x: P.x, y: P.y, r: 0, maxR: Math.hypot(vw, vh), life: 0.6, max: 0.6, dmg: 0, hit: new Set(), col: '#ffd36a', vis: 1 }); } }
+  if (tf.verdantApo && (G.pvT = (G.pvT === undefined ? 12 : G.pvT) - dt) <= 0) { G.pvT = 12; toast('Verdant Apotheosis!', '#9dff9a', 1.4); Snd.play('heal'); heal(P.maxHp * 0.08);
+    for (let i = 0; i < 16; i++) fireArrow(P.x, P.y - 4, i / 16 * TAU, 520, 16 + 1.6 * G.level, 2, false).life = 0.8;
+    burst(P.x, P.y, '#9dff9a', 16, 160, 3, 0.5, true); }
+  if (tf.ascendant && (G.paT = (G.paT === undefined ? 14 : G.paT) - dt) <= 0) { G.paT = 14; const v = vis(); if (v.length) { v.sort((a, b) => b.hp - a.hp); toast('Paragon Ascendant!', '#fff0c0', 1.6); Snd.play('arcane');
+      v.slice(0, 8).forEach((e, i) => { const c = PX_COLS[i % 8]; effects.push({ k: 'bolt', x: e.x, y: e.y, x0: P.x, y0: P.y - 20, life: 0.35, max: 0.35, seed: Math.random() * 99, col: c });
+        effects.push({ k: 'boom', x: e.x, y: e.y, r: 40 * P.area, life: 0.3, max: 0.3, col: c }); damage(e, 70 + 7 * G.level); }); } }
+}
 function newRun(cls) {
-  cls = clsOf(cls);
+  cls = clsOf(cls); pxInit();
   corpses = []; minions = []; enemies = []; gems = []; picks = []; projs = []; eprojs = []; effects = []; parts = []; nums = []; toasts = [];
   G = { cls, t: 0, kills: 0, level: 1, xp: 0, xpNext: xpNeed(1), weapons: [], passives: {}, gear: emptyGear(), rerolls: 1,
     pending: 0, shardsPicked: 0, salvage: 0, bossKills: 0, elites: 0, nextElite: 50, nextBoss: 180, bossIdx: 0, nextSurge: 70, spawnAcc: 0,
@@ -3477,6 +3619,8 @@ function recalc() {
   s.armor += n('barkskin'); s.maxHp += 15 * n('barkskin'); s.regen += 0.5 * n('deeproots'); s.dr += 0.05 * n('deeproots'); s.regen += 0.3 * n('wildheart'); s.xp += 0.05 * n('wildheart'); s.xp += 0.1 * n('insight');
   s.minionHp += 0.1 * n('legion'); s.minion += 0.15 * n('darkpact'); s.pierce += n('piercing'); s.arrowDmg += 0.1 * n('piercing'); s.range += 0.12 * n('longshot');
   if (G.cls === 'ranger') s.pierce += 1;
+  s.dmg += 0.04 * n('twilight'); s.crit += 0.015 * n('twilight'); s.cd -= 0.05 * n('echoes'); s.area += 0.06 * n('echoes'); s.maxHp += 12 * n('aegis'); s.regen += 0.25 * n('aegis');
+  if (G.cls === 'paragon') { const ec = G.weapons.filter(w => PX_BASE[w.id]).length; s.dmg += (0.03 + (G.tf && G.tf.resonance ? 0.03 : 0)) * ec; s.crit += 0.01 * ec; } // v21 Eclipse Resonance
   s.minionAs = 0; s.eliteDmg = 0; s.extraShade = 0; s.extraArrow = 0; s.bondMul = 1; s.form = 0;
   for (const id in pv) { const x = passX(id); if (!(x > 0)) continue; const E = ENDL[id][1]; for (const k in E) { if (k === 'cd') s.cd -= E[k] * x; else if (k in s) s[k] += E[k] * x; } } /* v20 endless passives */
   const tl = G.tal || {}; for (const k in tl) { if (k === 'f') continue; if (k === 'cd') s.cd -= tl[k]; else if (k in s) s[k] += tl[k]; }
@@ -3820,7 +3964,7 @@ function updateEnemies(dt, dying) {
 }
 function damage(e, base, o = {}) {
   if (e.dead) return 0;
-  const sk = o.src || (o.msrc ? MSRC[o.msrc] : null) || G.srcW || (o.minion ? 'familiars' : '@other'), ev = G.evo && G.evo[sk] ? EVO[sk] : null; // v18: damage source (meter) & evolution
+  const sk = pxId(o.src || (o.msrc ? MSRC[o.msrc] : null) || G.srcW || (o.minion ? 'familiars' : '@other')), ev = G.evo && G.evo[sk] ? EVO[sk] : null; // v18: damage source (meter) & evolution
   let d = base * P.dmg * (ev ? ev.dmg : 1) * (1 + ((P.skd && P.skd[sk]) || 0)), crit = false;
   const cl = G.cls;
   if (P.eliteDmg && (e.elite || e.boss)) d *= 1 + P.eliteDmg;
@@ -3840,7 +3984,9 @@ function damage(e, base, o = {}) {
   else if (cl === 'rift' && P.moving) d *= 1.15;                               // Momentum
   if (o.arrow) { d *= P.arrowDmg; if (cl === 'ranger' && (e.x - P.x) ** 2 + (e.y - P.y) ** 2 > 150 * 150) d *= 1.25; } // Hunter's Focus
   const cc = P.crit + (cl === 'rogue' && G.critBuffT > 0 ? 0.5 : 0) + (ev && ev.perk === 'crit' ? 0.2 : 0) + (tf.ambush && G.nearOb ? 0.04 * tf.ambush : 0) + ((sk === 'clone' && tf.cloneCrit) || (sk === 'spiral' && tf.spiralCrit) ? 0.12 : 0); // Shadowstep · v19 talents
-  if (!o.dot && Math.random() < cc) { d *= P.critMul; crit = true; if (tf.venom && !o.venom) applyBleed(e, d * 0.1 * tf.venom / 3, 3);
+  if (e.umbU > gtime) d *= 1.1; // v21 Umbral Mark
+  if (PX_BASE[sk]) d *= 0.75; // v21 echoes strike at 75% of the original skill's power (balance)
+  if (!o.dot && Math.random() < cc) { d *= P.critMul * (G.totT > 0 ? 1.5 : 1); crit = true; if (tf.umbraMark) e.umbU = gtime + 3; if (tf.venom && !o.venom) applyBleed(e, d * 0.1 * tf.venom / 3, 3);
     if (tf.thousandCuts && Math.random() < 0.25 && projs.length < 260) { const t = nearestN(e.x, e.y, 3, 260).find(q => q !== e); if (t) { const a = Math.atan2(t.y - e.y, t.x - e.x); projs.push({ k: 'knife', x: e.x, y: e.y, vx: Math.cos(a) * 460, vy: Math.sin(a) * 460, a, r: 6, dmg: 8 + G.level * 0.6, pierce: 0, life: 0.6, hit: new Set([e]), src: '@talent' }); } }
     if (tf.starburst && (e.elite || e.boss) && Math.random() < 0.3) { const x = e.x, y = e.y; G.later.push({ t: 0.05, src: '@talent', f: () => { areaHit(x, y, 60 * P.area, 14 + G.level, 60, new Set([e])); effects.push({ k: 'boom', x, y, r: 60 * P.area, life: 0.22, max: 0.22, col: '#4fd4ff' }); } }); } if (G.tf.deathMark && !e.elite && !e.boss && e.hp - d < e.maxHp * 0.25) d = Math.max(d, e.hp); }
   if (ev && ev.perk === 'execute' && !o.dot && !e.boss && !e.elite && !e.mini && e.hp - d < e.maxHp * 0.12) d = Math.max(d, e.hp);
@@ -4371,9 +4517,9 @@ const MDEF = {
   brute: { r: 15, size: 60, hp: 230, spd: 100, dmg: 18, cd: 1.3, respawn: 6 },
 };
 const MINION_CAP = 12; const minionCap = () => MINION_CAP + (G.tf && G.tf.army ? 4 : 0) + (evOf('familiars') ? 2 : 0); // hard cap on live+respawning minions for phone performance
-const wlv = id => { for (const w of G.weapons) if (w.id === id) return w.lvl; return 0; };
+const wlv = id => { id = pxId(id); for (const w of G.weapons) if (w.id === id) return w.lvl; return 0; };
 const hasMinions = () => G.weapons.some(w => WDEF[w.id].minion);
-const hasArrows = () => G.weapons.some(w => w.id === 'bow' || w.id === 'arrowrain' || w.id === 'volley' || w.id === 'ballista');
+const hasArrows = () => G.weapons.some(w => w.id === 'bow' || w.id === 'arrowrain' || w.id === 'volley' || w.id === 'ballista' || w.id === 'px_volley');
 const BOW_BASE = 300; // was 460: Ranger now starts at medium range and grows it with upgrades
 const bowRange = L => Math.min(560, BOW_BASE * (1 + 0.07 * ((L || 1) - 1)) * (P.range || 1));
 function minionPlan() {
@@ -4459,6 +4605,7 @@ function updateMinions(dt) {
       if (d2 < rr * rr && d2 > 0.01) { const d = Math.sqrt(d2), p = (rr - d) * 0.5 / d; A.x -= dx * p; A.y -= dy * p; B.x += dx * p; B.y += dy * p; } } }
 }
 function updateWeapons(dt) {
+  if (!WFIRE.eclipse) pxInit(); // v21 (continued runs skip newRun)
   if ((G.nobT = (G.nobT || 0) - dt) <= 0) { G.nobT = 0.15; G.nearOb = !!(G.tf && (G.tf.cover || G.tf.ambush) && obHit(P.x, P.y, P.r + 26)); } // v19: next to a rock / tree / ruin
   for (const w of G.weapons) { const np = projs.length, nf = effects.length, nl = G.later.length; G.srcW = w.id; // v14: tag what each weapon spawns (Signature Strike quests)
     const ev = evOf(w.id), a0 = P.area; if (ev && ev.area !== 1) P.area = a0 * ev.area; // v18 evolutions
@@ -4502,7 +4649,9 @@ function updateProjs(dt) {
     if (p.k === 'morb') { p.spin += dt * 4; p.x += p.vx * dt; p.y += p.vy * dt; if (p.life <= 0) continue;
       query(p.x, p.y, p.r + 36, e => { if ((e.x - p.x) ** 2 + (e.y - p.y) ** 2 < (p.r + e.r) ** 2 && gtime - (e.moT || 0) > 0.35) { e.moT = gtime; damage(e, p.dmg, { kb: 20, kx: p.vx / 200, ky: p.vy / 200 }); } });
       if (Math.random() < 0.6 && parts.length < 340) parts.push({ x: p.x + rand(-p.r, p.r), y: p.y + rand(-p.r, p.r), vx: 0, vy: -20, life: 0.4, max: 0.4, s: 2.2, c: '#e0b0ff', glow: true }); continue; }
-    if (p.k === 'scy') { p.spin += dt * 16; p.out -= dt; if (p.out <= 0 && !p.ret) { p.ret = true; p.hit = new Set(); }
+    if (p.k === 'scy') { p.spin += dt * 16; p.out -= dt; if (p.out <= 0 && !p.ret) { p.ret = true; p.hit = new Set();
+        if (p.gl) { if (p.flare) { const r = 46 * P.area; areaHit(p.x, p.y, r, p.dmg * 0.6, 60); effects.push({ k: 'boom', x: p.x, y: p.y, r, life: 0.25, max: 0.25, col: '#ffd36a' }); }
+          if (G.tf.glaiveRift) effects.push({ k: 'star', x: p.x, y: p.y, life: 0.9, max: 0.9, r: 44 * P.area, dmg: p.dmg * 0.8, col: '#ffd36a', mine: 1 }); } }
       if (p.ret) { const dx = P.x - p.x, dy = P.y - p.y, d = Math.hypot(dx, dy) || 1; p.vx = dx / d * 440; p.vy = dy / d * 440; if (d < 18) p.life = 0; } }
     if (p.k === 'swarm') { p.bt -= dt; // v19 Locust Swarm: steer to the prey, bite, hop on
       if (!p.tgt || p.tgt.dead) { p.tgt = nearestN(p.x, p.y, 6, 260).find(o => !p.hit.has(o)) || null; if (!p.tgt) { p.hit.clear(); p.tgt = nearestN(p.x, p.y, 1, 260)[0] || null; } if (!p.tgt) p.life = Math.min(p.life, 0.5); }
@@ -4513,9 +4662,9 @@ function updateProjs(dt) {
     if (p.k === 'wraith') { p.arm -= dt; // v19 Soul Wraiths: drift out, home in, burst (ghosts ignore cover)
       if (!p.tgt || p.tgt.dead) p.tgt = nearestN(p.x, p.y, 3, 320)[Math.floor(Math.random() * 3)] || nearestN(p.x, p.y, 1, 320)[0] || null;
       if (p.tgt && p.arm <= 0) { const a = Math.atan2(p.tgt.y - p.y, p.tgt.x - p.x), sp = Math.min(390, Math.hypot(p.vx, p.vy) + 420 * dt), cur = Math.atan2(p.vy, p.vx), na = cur + clamp(angDiff(a, cur), -7.5 * dt, 7.5 * dt); p.vx = Math.cos(na) * sp; p.vy = Math.sin(na) * sp; }
-      p.x += p.vx * dt; p.y += p.vy * dt; if (Math.random() < 0.5 && parts.length < 360) parts.push({ x: p.x, y: p.y, vx: -p.vx * 0.1, vy: -p.vy * 0.1 - 10, life: 0.35, max: 0.35, s: 2.4, c: '#6ff3d0', glow: true });
+      p.x += p.vx * dt; p.y += p.vy * dt; if (Math.random() < 0.5 && parts.length < 360) parts.push({ x: p.x, y: p.y, vx: -p.vx * 0.1, vy: -p.vy * 0.1 - 10, life: 0.35, max: 0.35, s: 2.4, c: p.col || '#6ff3d0', glow: true });
       let hit = p.life <= 0.02; if (!hit) query(p.x, p.y, p.r + 36, e => { if (!hit && (e.x - p.x) ** 2 + (e.y - p.y) ** 2 < (p.r + e.r) ** 2) hit = true; });
-      if (hit) { p.life = 0; const r = p.R * P.area; areaHit(p.x, p.y, r, p.dmg, 70); effects.push({ k: 'boom', x: p.x, y: p.y, r, life: 0.25, max: 0.25, col: '#6ff3d0' }); if (parts.length < 360) burst(p.x, p.y, '#bfefff', 8, 120, 2.4, 0.35, true); if (G.tf.wraithHeal) heal(1.5); Snd.play('puff'); }
+      if (hit) { p.life = 0; const r = p.R * P.area; areaHit(p.x, p.y, r, p.dmg, 70); effects.push({ k: 'boom', x: p.x, y: p.y, r, life: 0.25, max: 0.25, col: p.col || '#6ff3d0' }); if (parts.length < 360) burst(p.x, p.y, p.col || '#bfefff', 8, 120, 2.4, 0.35, true); if (G.tf.wraithHeal) heal(1.5); Snd.play('puff'); }
       continue; }
     if (p.k === 'vstar' || p.k === 'rockp') p.spin += dt * (p.k === 'vstar' ? 9 : 7);
     if (p.k === 'stag') { p.gal += dt * 14; if (Math.random() < 0.6 && parts.length < 360) parts.push({ x: p.x - p.vx * 0.04 + rand(-8, 8), y: p.y + 10, vx: rand(-20, 20), vy: -rand(10, 40), life: 0.4, max: 0.4, s: 2.6, c: Math.random() < 0.5 ? '#9dff6a' : '#e8ffd0', glow: true }); }
@@ -4620,7 +4769,7 @@ function updatePickups(dt) {
 }
 function update(dt, dying) {
   for (let i = corpses.length - 1; i >= 0; i--) if ((corpses[i].t += dt) >= corpses[i].d) corpses.splice(i, 1);
-  if (!dying) G.t += dt;
+  if (!dying) { G.t += dt; jumpTick(); }
   if (!dying) { const want = G.boss && !G.boss.dead ? 'boss' : G.isNight ? 'night' : 'battle'; if (!Snd.cur || Snd.cur.name !== want) Snd.music(want); }
   if (!dying && (G.achT -= dt) <= 0) { G.achT = 0.5; const t = Math.floor(G.t); achMax('c_' + G.cls + '_t', t); achMax('r_' + G.race + '_t', t);
     if (G.race === 'elf' && G.t < 360) achMax('r_elf_fast', G.level); achCheck(false); }
@@ -4647,7 +4796,7 @@ function update(dt, dying) {
     if (tf.toll && (G.tollT = (G.tollT === undefined ? 12 : G.tollT) - dt) <= 0) { G.tollT = 12; effects.push({ k: 'reap', r: Math.hypot(W, H) / ZOOM / 2, life: 0.45, max: 0.45, dir: 1, follow: true }); Snd.play('reap'); G.shake = 0.25;
       const vw = W / ZOOM / 2 + 20, vh = H / ZOOM / 2 + 20; for (const e of enemies) if (!e.dead && Math.abs(e.x - P.x) < vw && Math.abs(e.y - P.y) < vh) damage(e, 40 + 3 * G.level, { src: '@ult' }); }
     G.srcW = '@ult'; if (G.cls === 'druid') druidTick(dt);
-    if (G.cls === 'mage') mageTick(dt); G.srcW = null;
+    if (G.cls === 'mage') mageTick(dt); if (G.cls === 'paragon') paragonTick(dt); G.srcW = null;
     if (tf.riftwalker && P.moving && (G.rwT = (G.rwT || 0) - dt) <= 0) { G.rwT = 1.5; effects.push({ k: 'star', x: P.x, y: P.y, life: 1.1, max: 1.1, r: 46 * P.area, dmg: 24 + 2 * G.level, col: '#4fd4ff', mine: 1, src: '@talent' }); }
     if (tf.singular && (G.sgT = (G.sgT === undefined ? 12 : G.sgT) - dt) <= 0) { const tg = nearestN(P.x, P.y, 6, 300); if (tg.length) { G.sgT = 12; const e = tg[tg.length - 1]; effects.push({ k: 'zone', x: e.x, y: e.y, r: 72 * P.area, life: 2.6, max: 2.6, dps: 12 + G.level, pull: 100, col: '#4fd4ff', tick: 0, src: '@ult' }); } else G.sgT = 1; }
     if (G.catPool > 0) { const c = Math.min(G.catPool, (P.maxHp * 0.03 + 4) * dt); G.catPool -= c; heal(c); } // v18 Sanguine Maw: lifesteal pool
@@ -5040,12 +5189,26 @@ function drawMinion(m) {
   }
 /* v20: cosmetic jump (no gameplay effect: position, hitbox and collisions never change) */
 const JUMP_D = 0.52, JUMP_A = 0.08, JUMP_L = 0.42;
-function triggerJump(big) { if (!P || !G || state === 'dying' || G.ended) return false; const now = G.t; if (P.jAt != null && now - P.jAt < 1 && now >= P.jAt) return false; P.jAt = now; P.jBig = big ? 1 : 0; P.jDust = 0; return true; }
+function triggerJump(big, manual) { if (!P || !G || state === 'dying' || G.ended) return false; const now = G.t, e = P.jAt == null ? 1e9 : now - P.jAt;
+  if (manual) { /* v21: manual jump (Space / A / phone button) — purely cosmetic; no throttle: chain as soon as you touch down, a press mid-air is buffered */
+    if (e >= 0 && e < JUMP_L) { P.jQ = 1; return false; }
+    P.jAt = now; P.jBig = 0; P.jDust = 0; P.jM = 1; P.jQ = 0; P.jN = (P.jN || 0) + 1; G.jumps = (G.jumps || 0) + 1; if (save.jumpSfx !== false) Snd.play('hop'); return true; }
+  if (e < 1 && e >= 0) return false; P.jAt = now; P.jBig = big ? 1 : 0; P.jDust = 0; P.jM = 0; return true; }
+const jumpHeld = () => !!((keys.has('Space') && JB.kb) || GP.aHeld || JB.held); // only presses that started in the run chain (not a held menu confirm)
+function jumpTick() { /* v21: buffered / held manual jumps fire the moment you land (bunny-hop chain) */
+  if (!P || P.jAt == null || state !== 'play') return; const e = G.t - P.jAt;
+  if (e >= JUMP_L && P.jM && !P.jLand) { P.jLand = 1; if (save.jumpSfx !== false) Snd.play('land'); }
+  if (e < JUMP_L) P.jLand = 0;
+  if (e >= JUMP_L && (P.jQ || (P.jM && jumpHeld()))) { P.jQ = 0; jumpPose(); triggerJump(false, true); } }
+const JB = { held: 0 };
+function jumpBtnUI() { const b = $('jumpBtn'); if (!b) return; const on = !!(G && !G.ended && save.jumpBtn && !PC && (state === 'play' || state === 'countdown') && topScreen() === null);
+  if (b.classList.contains('on') !== on) b.classList.toggle('on', on); if (!on) JB.held = 0;
+  const h = $('jumpHint'); if (h) { const hv = !!(G && !G.ended && PC && state === 'play' && topScreen() === null && (G.t < 14 || (P && P.jN && G.t - P.jAt < 2.5))); if (h.classList.contains('on') !== hv) h.classList.toggle('on', hv); } }
 function jumpPose() { /* {h, sx, sy, k}: anticipation squash → rise → apex → fall → landing squash */
   if (!P || P.jAt == null || !G) return null; const e = G.t - P.jAt; if (e < 0 || e > JUMP_D) return null; const Hm = P.jBig ? 22 : 16;
   if (e < JUMP_A) { const u = e / JUMP_A; return { h: 0, sx: 1 + 0.12 * u, sy: 1 - 0.16 * u, k: 0 }; }
   if (e < JUMP_L) { const u = (e - JUMP_A) / (JUMP_L - JUMP_A), h = Hm * 4 * u * (1 - u), st = u < 0.5 ? 0.1 * (1 - 2 * u) : 0.06 * (2 * u - 1); return { h, sx: 1 - st * 0.6, sy: 1 + st, k: h / Hm }; }
-  if (!P.jDust) { P.jDust = 1; burst(P.x, P.y + 16, '#efe4c8', 12, 60, 3.4, 0.4); burst(P.x, P.y + 16, '#a8957a', 7, 38, 4.2, 0.5); } /* landing dust puff */
+  if (!P.jDust) { P.jDust = 1; if (P.jM) burst(P.x, P.y + 16, '#fff6dc', 6, 46, 2.6, 0.3); burst(P.x, P.y + 16, '#efe4c8', 12, 60, 3.4, 0.4); burst(P.x, P.y + 16, '#a8957a', 7, 38, 4.2, 0.5); } /* landing dust puff */
   const u = (e - JUMP_L) / (JUMP_D - JUMP_L), q = Math.sin(u * Math.PI); return { h: 0, sx: 1 + 0.12 * q, sy: 1 - 0.15 * q, k: 0 }; }
 function drawPlayerBlock() {
   if (state !== 'dying' || G.dyingT > 1.1) {
@@ -5171,9 +5334,9 @@ function render(dt) {
   // orbs, tethers
   ctx.globalCompositeOperation = 'lighter';
   for (const w of G.weapons) {
-    { const ev = G.evo[w.id] && EVO[w.id]; if (ev && w.pos && w.pos.length) { const st = w.id === 'tempest' ? 3 : 2; for (let i = 0; i < w.pos.length; i += st) glowAt(ev.col, w.pos[i], w.pos[i + 1], 50, 0.6); } } // v18 evolved orbiters
+    { const ev = G.evo[w.id] && EVO[w.id]; if (ev && w.pos && w.pos.length) { const st = (PX_BASE[w.id] || w.id) === 'tempest' ? 3 : 2; for (let i = 0; i < w.pos.length; i += st) glowAt(ev.col, w.pos[i], w.pos[i + 1], 50, 0.6); } } // v18 evolved orbiters
     if (w.id === 'skulls') for (let i = 0; i < w.pos.length; i += 2) { glowAt('#ff3d6e', w.pos[i], w.pos[i + 1], 40, 0.8); glowAt('#ffffff', w.pos[i], w.pos[i + 1], 14, 0.9); }
-    if (w.id === 'tempest') for (let i = 0; i < w.pos.length; i += 3) { const x = w.pos[i], y = w.pos[i + 1], a = w.pos[i + 2] + Math.PI / 2; glowAt('#7dff6a', x, y, 22, 0.5); ctx.save(); ctx.translate(x, y); ctx.rotate(a + gtime * 6); ctx.fillStyle = i % 2 ? '#8fe05a' : '#c8f06a'; ctx.beginPath(); ctx.moveTo(-7, 0); ctx.quadraticCurveTo(0, -4.4, 7, 0); ctx.quadraticCurveTo(0, 4.4, -7, 0); ctx.fill(); ctx.strokeStyle = '#2a5a1a'; ctx.lineWidth = 0.8; ctx.beginPath(); ctx.moveTo(-6, 0); ctx.lineTo(6, 0); ctx.stroke(); ctx.restore(); }
+    if ((PX_BASE[w.id] || w.id) === 'tempest') for (let i = 0; i < w.pos.length; i += 3) { const x = w.pos[i], y = w.pos[i + 1], a = w.pos[i + 2] + Math.PI / 2; glowAt('#7dff6a', x, y, 22, 0.5); ctx.save(); ctx.translate(x, y); ctx.rotate(a + gtime * 6); ctx.fillStyle = i % 2 ? '#8fe05a' : '#c8f06a'; ctx.beginPath(); ctx.moveTo(-7, 0); ctx.quadraticCurveTo(0, -4.4, 7, 0); ctx.quadraticCurveTo(0, 4.4, -7, 0); ctx.fill(); ctx.strokeStyle = '#2a5a1a'; ctx.lineWidth = 0.8; ctx.beginPath(); ctx.moveTo(-6, 0); ctx.lineTo(6, 0); ctx.stroke(); ctx.restore(); }
     if (w.id === 'mbeam' && w.tg && !w.tg.dead) { const r = w.ramp || 0; for (const [t, k] of [[w.tg, 1], [w.tg2, 0.6]]) { if (!t || t.dead) continue; const sx = k === 1 ? P.x + 10 * P.facing : w.tg.x, sy = k === 1 ? P.y - 22 : w.tg.y, dx = t.x - sx, dy = t.y - sy, d = Math.hypot(dx, dy) || 1, nx = -dy / d, ny = dx / d;
         for (const [lw, col] of [[(5 + 7 * r) * k, 'rgba(140,70,255,.28)'], [(2 + 2.5 * r) * k, 'rgba(210,150,255,.6)'], [1.2, 'rgba(255,240,255,.95)']]) { ctx.strokeStyle = col; ctx.lineWidth = lw; ctx.beginPath();
           for (let s = 0; s <= 8; s++) { const q = s / 8, o = Math.sin(q * 11 - gtime * 22) * (1.5 + 2.5 * r) * Math.sin(q * Math.PI); s ? ctx.lineTo(sx + dx * q + nx * o, sy + dy * q + ny * o) : ctx.moveTo(sx, sy); } ctx.stroke(); }
@@ -5210,6 +5373,8 @@ function render(dt) {
     else if (p.k === 'swarm') { ctx.globalCompositeOperation = 'lighter'; glowAt('#9dff3b', p.x, p.y, 36, 0.45); ctx.globalCompositeOperation = 'source-over'; // v19 locusts
       for (let i = 0; i < 14; i++) { const an = gtime * (5 + (i % 4)) + i * 2.3 + p.seed, rr = 3 + (i * 7 % 10), lx = p.x + Math.cos(an) * rr, ly = p.y + Math.sin(an * 1.3) * rr * 0.7; ctx.fillStyle = i % 3 ? '#1a240c' : '#3a4a14'; ctx.beginPath(); ctx.ellipse(lx, ly, 2.4, 1.3, an, 0, TAU); ctx.fill();
         if (i % 2) { ctx.fillStyle = 'rgba(220,255,180,.55)'; ctx.fillRect(lx - 2, ly - 2.2, 1.6, 1.2); ctx.fillRect(lx + 0.6, ly - 2.2, 1.6, 1.2); } } }
+    else if (p.k === 'wraith' && p.col) { ctx.save(); ctx.translate(p.x, p.y); ctx.globalCompositeOperation = 'lighter'; glowAt(p.col, 0, 0, 30, 0.75); glowAt('#ffffff', 0, 0, 10, 0.7); // v21 echo bolt
+      ctx.rotate(gtime * 6 + p.seed); ctx.fillStyle = '#fffaf0'; ctx.beginPath(); for (let i = 0; i < 8; i++) { const an = i / 8 * TAU, rr = i % 2 ? 2 : 6; ctx.lineTo(Math.cos(an) * rr, Math.sin(an) * rr); } ctx.closePath(); ctx.fill(); ctx.globalCompositeOperation = 'source-over'; ctx.restore(); }
     else if (p.k === 'wraith') { const a = Math.atan2(p.vy, p.vx); ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(a); ctx.globalCompositeOperation = 'lighter'; glowAt('#6ff3d0', 0, 0, 34, 0.7); glowAt('#bfefff', 0, 0, 14, 0.8); ctx.globalCompositeOperation = 'source-over'; // v19 wraith
       ctx.fillStyle = 'rgba(210,255,245,.82)'; ctx.beginPath(); ctx.arc(4, 0, 6, -Math.PI / 2, Math.PI / 2); for (let i = 0; i <= 4; i++) ctx.lineTo(-4 - i * 3.4, (i % 2 ? -1 : 1) * (3.5 - i * 0.6) + Math.sin(gtime * 14 + i + p.seed) * 1.6); ctx.closePath(); ctx.fill();
       ctx.fillStyle = '#0a2a28'; ctx.beginPath(); ctx.arc(6, -2, 1.3, 0, TAU); ctx.arc(6, 2, 1.3, 0, TAU); ctx.fill(); ctx.restore(); }
@@ -5229,6 +5394,9 @@ function render(dt) {
 
     else if (p.k === 'lance') { ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.a); ctx.globalCompositeOperation = 'lighter'; ctx.strokeStyle = 'rgba(79,212,255,.35)'; ctx.lineWidth = 7; ctx.beginPath(); ctx.moveTo(-34, 0); ctx.lineTo(10, 0); ctx.stroke();
       ctx.strokeStyle = '#e6fbff'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(-26, 0); ctx.lineTo(12, 0); ctx.stroke(); ctx.globalCompositeOperation = 'source-over'; ctx.restore(); }
+    else if (p.k === 'scy' && p.gl) { ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.spin); ctx.globalCompositeOperation = 'lighter'; glowAt('#ffd36a', 0, 0, 30, 0.55); glowAt('#9a6bff', 0, 0, 18, 0.5); ctx.globalCompositeOperation = 'source-over'; // v21 Eclipse Glaive
+      for (const [c, s0] of [['#fff1c4', 0], ['#8a5ad8', Math.PI]]) { ctx.save(); ctx.rotate(s0); ctx.fillStyle = c; ctx.beginPath(); ctx.arc(0, 0, 13, -0.2, Math.PI * 0.8); ctx.arc(2.6, -2, 10, Math.PI * 0.8, -0.2, true); ctx.closePath(); ctx.fill(); ctx.strokeStyle = 'rgba(40,20,50,.8)'; ctx.lineWidth = 1; ctx.stroke(); ctx.restore(); }
+      ctx.fillStyle = '#120a24'; ctx.beginPath(); ctx.arc(0, 0, 4.2, 0, TAU); ctx.fill(); ctx.strokeStyle = '#ffd36a'; ctx.lineWidth = 1.4; ctx.stroke(); ctx.restore(); }
     else if (p.k === 'scy') { ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.spin); ctx.globalCompositeOperation = 'lighter'; glowAt('#ff3d6e', 0, 0, 34, 0.5); ctx.globalCompositeOperation = 'source-over';
       ctx.fillStyle = '#e9e4f2'; ctx.beginPath(); ctx.arc(0, 0, 12, -0.3, Math.PI * 0.9); ctx.arc(3, -2, 9, Math.PI * 0.9, -0.3, true); ctx.closePath(); ctx.fill(); ctx.strokeStyle = '#3a2a30'; ctx.lineWidth = 2.4; ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(-8, 8); ctx.stroke(); ctx.restore(); }
   }
@@ -5516,6 +5684,11 @@ function keyNav(code) { // returns true when handled
     if (dg && +dg[2] <= n) { C[+dg[2] - 1].click(); return true; }
     if ((code === 'ArrowLeft' || code === 'ArrowRight' || code === 'KeyA' || code === 'KeyD') && n) { let i = [...C].findIndex(c => c.classList.contains('pickd')); i = i < 0 ? (code === 'ArrowLeft' || code === 'KeyA' ? n - 1 : 0) : (i + (code === 'ArrowLeft' || code === 'KeyA' ? n - 1 : 1)) % n; if (!C[i].classList.contains('pickd')) C[i].click(); return true; } }
   if (sc === 'talents' && talKey(code)) return true;
+  if (sc === 'select') { /* v21: ↑/↓ walk the class cards (owned ones are selected), Enter/Space on a locked card = buy it */
+    const C = [...$('classList').children], fi = C.indexOf(document.activeElement), up = code === 'ArrowUp' || code === 'KeyW';
+    if (up || code === 'ArrowDown' || code === 'KeyS') { let i = fi < 0 ? C.findIndex(c => c.classList.contains('sel')) : fi; i = (i + (up ? -1 : 1) + C.length) % C.length;
+      if (!C[i].classList.contains('locked')) C[i].click(); const el = $('classList').children[i]; if (el) { el.focus({ preventScroll: true }); el.scrollIntoView({ block: 'nearest' }); } return true; }
+    if ((code === 'Enter' || code === 'NumpadEnter' || code === 'Space') && fi >= 0 && (C[fi].classList.contains('locked') || !C[fi].classList.contains('sel'))) { C[fi].click(); const el = $('classList').children[fi]; if (el) el.focus({ preventScroll: true }); return true; } }
   const m = sc && KNAV[sc]; let id = m && m[code]; if (typeof id === 'function') id = id();
   if (id && visBtn(id)) { $(id).click(); return true; }
   return false; }
@@ -5527,9 +5700,10 @@ addEventListener('keydown', e => {
   if (cfmOpen()) { if (e.code === 'Escape' || e.code === 'KeyN') cfmClose(false); else if (e.code === 'Enter' || e.code === 'NumpadEnter' || e.code === 'KeyY') { const f = document.activeElement; if (f && f.id === 'cfmNo') cfmClose(false); else cfmClose(true); } e.preventDefault(); return; }
   if (state !== 'play' && keyNav(e.code)) return;
   if (e.code === 'KeyM' && (state === 'play' || state === 'countdown') && topScreen() === null) { dmToggle(); return; } // v18 damage meter
+  if (e.code === 'Space' && state === 'play' && topScreen() === null && !cfmOpen()) { JB.kb = 1; triggerJump(false, true); return; } // v21 manual jump (menus keep Space = confirm)
   if ((e.code === 'Escape' || e.code === 'KeyP') && (state === 'play' || state === 'paused') && (topScreen() === null || topScreen() === 'pause')) state === 'play' ? pauseGame() : resumeGame();
 });
-addEventListener('keyup', e => keys.delete(e.code));
+addEventListener('keyup', e => { keys.delete(e.code); if (e.code === 'Space') JB.kb = 0; });
 addEventListener('blur', () => { keys.clear(); MM.on = false; if (PC && (state === 'play' || state === 'countdown')) pauseGame(); }); // v16: desktop auto-pause when the window loses focus
 // v18: confirm dialog (replaces native confirm(): works with touch, keyboard and controller)
 let cfmFn = null;
@@ -5595,14 +5769,14 @@ function padUI(p) { // connection state, glyphs, prompt bar, focus badge
   const root = gfRoot(), bar = $('gpBar'), inRun = !root && (state === 'play' || state === 'countdown');
   const sig = (root ? root.id : state) + (root && [...root.querySelectorAll('.tabs, #cdxTabs')].some(t => t.offsetParent !== null) ? 't' : '');
   if (bar._sig !== sig) { bar._sig = sig; const g = (k, c) => `<span class="gpg ${c || k}">${padGlyph(k)}</span>`;
-    bar.innerHTML = inRun ? `<span><span class="gpg">☰</span>Pause</span><span><span class="gpg">⧉</span>Damage meter</span>`
+    bar.innerHTML = inRun ? `<span>${g('a')}Jump</span><span><span class="gpg">☰</span>Pause</span><span><span class="gpg">⧉</span>Damage meter</span>`
       : root ? `<span><span class="gpg">✥</span>Move</span><span>${g('a')}Select</span><span>${g('b')}${root.id === 'pause' ? 'Resume' : root.id === 'cfm' ? 'Cancel' : 'Back'}</span>` + (root.id === 'levelup' ? `<span>${g('y')}Reroll</span>` : '') + (root.id === 'talents' ? `<span>${g('x')}Remove</span><span><span class="gpg">LB</span><span class="gpg">RB</span>Tree</span><span><span class="gpg">LT</span><span class="gpg">RT</span>Class</span>` : sig.endsWith('t') ? `<span><span class="gpg">LB</span><span class="gpg">RB</span>Tabs</span>` : '') : '';
     bar.classList.toggle('on', !!bar.innerHTML && state !== 'dying'); }
   const A = $('gpA'), e = GF.el; if (root && e && e.isConnected && gfVis(e)) { const r = e.getBoundingClientRect(); A.style.left = r.right + 'px'; A.style.top = r.top + 'px'; A.classList.toggle('on', r.bottom > 0 && r.top < innerHeight); } else A.classList.remove('on'); }
 function pollPad() {
   const ps = navigator.getGamepads ? navigator.getGamepads() : []; let p = null; for (const q of ps || []) if (q && q.connected && q.mapping !== 'xr-standard') { p = q; break; }
   padUI(p);
-  if (!p) { GP.mx = GP.my = 0; GP.prev = []; return; }
+  if (!p) { GP.mx = GP.my = 0; GP.prev = []; GP.aHeld = 0; return; }
   GP.idx = p.index;
   const b = i => !!(p.buttons[i] && (p.buttons[i].pressed || p.buttons[i].value > 0.5)); let x = p.axes[0] || 0, y = p.axes[1] || 0;
   if (b(14)) x = -1; if (b(15)) x = 1; if (b(12)) y = -1; if (b(13)) y = 1;
@@ -5614,7 +5788,8 @@ function pollPad() {
     GP.mx = state === 'play' || state === 'countdown' ? x : 0; GP.my = state === 'play' || state === 'countdown' ? y : 0;
     if (edge(9) && (state === 'play' || state === 'countdown')) pauseGame();
     if (edge(8) && (state === 'play' || state === 'countdown')) dmToggle();
-  } else {
+    if (edge(0) && state === 'play') { GP.aRun = 1; triggerJump(false, true); } if (!b(0)) GP.aRun = 0; GP.aHeld = state === 'play' && b(0) && GP.aRun; /* v21: A = jump in a run */
+  } else { GP.aHeld = 0; GP.aRun = 0;
     GP.mx = GP.my = 0;
     if (root !== GF.root) { if (GF.root && GF.key) GF.mem[GF.root.id] = GF.key; GF.root = root; gfClear(); const it = gfItems(root), mk = root.id !== 'cfm' && root.id !== 'levelup' && GF.mem[root.id]; if (it.length) gfSet((mk && it.find(e => gfKey(e) === mk)) || gfDefault(root, it)); } // returning to a menu restores its last focus
     else if (GF.el && !GF.el.isConnected) { const it = gfItems(root); gfSet(it.find(e => GF.key && gfKey(e) === GF.key) || it[Math.min(Math.max(GF.i, 0), it.length - 1)] || null, true); } // re-rendered lists keep their place
@@ -5652,7 +5827,7 @@ addEventListener('freeze', () => saveRun());
 let dmExp = false, dmSig = '', dmUiT = 0, dmHist = [], dmHistG = null;
 const DM_LBL = { '@fox': ['✺', 'Fox-fire', '#ff9a3c'], '@g_ember': ['✹', 'Ember (gear)', '#ff8a3c'], '@g_storm': ['↯', 'Storm (gear)', '#9fdcff'], '@g_thorns': ['✸', 'Thorns (gear)', '#9de07a'],
   '@bark': ['♣', 'Bark reflect', '#9de07a'], '@ult': ['✷', 'Ultimates', '#ffe23a'], '@talent': ['✦', 'Talent procs', '#e0b0ff'], '@grave': ['✹', 'Grave Burst', '#b56bff'], '@other': ['•', 'Other', '#a593c4'] };
-const DM_CC = { rogue: '#ff6a8a', warlock: '#b98aff', summoner: '#5ff0d0', ranger: '#9dff6a', reaper: '#d8d0e8', rift: '#6fc8ff', druid: '#9dff6a', mage: '#8fb4ff' };
+const DM_CC = { rogue: '#ff6a8a', warlock: '#b98aff', summoner: '#5ff0d0', ranger: '#9dff6a', reaper: '#d8d0e8', rift: '#6fc8ff', druid: '#9dff6a', mage: '#8fb4ff', paragon: '#ffd36a' };
 function dmLabel(k) { const d = WDEF[k]; if (d) { const ev = G && G.evo && G.evo[k] && EVO[k]; return [d.ic, ev ? ev.n : d.name, ev ? ev.col : d.dir === 'feral' || d.form === 'cat' ? '#ff7a96' : (DM_CC[d.cls] || '#b56bff'), !!ev]; } return DM_LBL[k] || ['•', k, '#a593c4', false]; }
 function fmtK(n) { n = +n || 0; return n >= 1e6 ? (n / 1e6).toFixed(n >= 1e7 ? 0 : 1) + 'M' : n >= 1e4 ? Math.round(n / 1e3) + 'k' : n >= 1e3 ? (n / 1e3).toFixed(1) + 'k' : String(Math.round(n)); }
 function dmSorted() { const D = (G && G.dm) || {}; return Object.keys(D).filter(k => D[k][0] >= 1).sort((a, b) => D[b][0] - D[a][0]); }
@@ -5748,8 +5923,10 @@ function renderSelect() {
     b.innerHTML = `<canvas></canvas><div class="tx"><div class="nm">${c.name}<span class="role">${c.role}</span></div>` +
       (sel ? `<div class="fl">${c.flavor}</div>` : '') + `<div class="ds">${c.desc}</div>` +
       (sel ? `<div class="pa"><b>${c.passive}:</b> ${c.pdesc}</div><div class="chips"><i>${WDEF[c.weapon].ic}\uFE0E ${WDEF[c.weapon].name}</i>${c.chips.map(x => `<i>${x}</i>`).join('')}</div>` : '') + `</div>` +
-      (owned ? (TALENTS[id] ? `<span class="lvb">Lv ${lvl}</span>` : '') : `<span class="lockb">🔒 ${c.cost}◆</span>`);
-    b.onclick = () => { Snd.init(); if (owned) { selClass = id; Snd.play('click'); MENU_HOP = 1; renderSelect(); } else if (save.shards >= c.cost) { askConfirm(`Unlock ${c.name}?`, `Spend ${c.cost} ◆ Shards to unlock the ${c.name}.`, 'Unlock', () => { save.shards -= c.cost; save.classes[id] = 1; selClass = id; persist(); Snd.play('buy'); renderSelect(); }); } else { Snd.play('hurt'); b.animate([{ transform: 'translateX(-6px)' }, { transform: 'translateX(6px)' }, { transform: 'none' }], 200); } };
+      (owned ? (TALENTS[id] ? `<span class="lvb">Lv ${lvl}</span>` : '') : `<span class="lockb">🔒 Locked</span>`);
+    if (!owned) { const af = save.shards >= c.cost; b.querySelector('.tx').insertAdjacentHTML('beforeend', `<div class="buyrow"><span class="buyc${af ? ' ok' : ''}">${af ? 'Unlock' : '🔒 Unlock'} · ◆ ${c.cost}</span>${af ? '' : `<span class="need">Need ${c.cost - save.shards} more ◆</span>`}</div>`);
+      b.setAttribute('aria-label', `${c.name}, locked. Unlock for ${c.cost} Shards` + (af ? '' : `, need ${c.cost - save.shards} more`)); if (id === 'paragon') b.classList.add('prem'); }
+    b.onclick = () => { Snd.init(); if (owned) { selClass = id; Snd.play('click'); MENU_HOP = 1; renderSelect(); } else if (save.shards >= c.cost) { askConfirm(`Unlock ${c.name}?`, `Spend ${c.cost} ◆ Shards (you have ${save.shards}) to unlock the ${c.name} for good.`, `◆ ${c.cost} Unlock`, () => { save.shards -= c.cost; save.classes[id] = 1; selClass = id; persist(); Snd.play('buy'); renderSelect(); }); } else { Snd.play('hurt'); b.animate([{ transform: 'translateX(-6px)' }, { transform: 'translateX(6px)' }, { transform: 'none' }], 200); } };
     L.appendChild(b); heroPortrait(b.querySelector('canvas'), id, save.outfit, 1.42); if (sel && MENU_HOP) { MENU_HOP = 0; menuHop(b.querySelector('canvas')); }
   }
   const tp = TALENTS[selClass] ? talentPoints(selClass).free : 0;
@@ -6157,6 +6334,13 @@ for (const b of $('shopTabs').children) b.addEventListener('click', () => { shop
 } bind('btnResume', resumeGame); bind('btnQuit', exitRunAsk); $('cfmYes').addEventListener('click', () => { Snd.init(); cfmClose(true); }); $('cfmNo').addEventListener('click', () => { Snd.init(); Snd.play('click'); cfmClose(false, true); });
 $('cfm').addEventListener('click', e => { if (e.target.id === 'cfm') cfmClose(false); }); bind('btnQuitApp', quitApp);
 bind('tog_rumble', () => { save.rumble = save.rumble === false; persist(); rumbleLbl(); if (save.rumble) padRumble(0.4, 0.6, 160); });
+bind('tog_jsfx', () => { save.jumpSfx = save.jumpSfx === false; persist(); jumpLbl(); if (save.jumpSfx) Snd.play('hop'); });
+bind('tog_jbtn', () => { save.jumpBtn = !save.jumpBtn; persist(); jumpLbl(); });
+function jumpLbl() { for (const [id, on] of [['tog_jsfx', save.jumpSfx !== false], ['tog_jbtn', !!save.jumpBtn]]) { const t = $(id); if (!t) continue; t.textContent = on ? 'On' : 'Off'; t.classList.toggle('off', !on); } } jumpLbl();
+{ const jb = $('jumpBtn'); /* v21 phone jump button: never starts the joystick, works while the other thumb steers */
+  jb.addEventListener('pointerdown', e => { e.stopPropagation(); e.preventDefault(); JB.held = 1; if (state === 'play') triggerJump(false, true); });
+  for (const ev of ['pointerup', 'pointercancel', 'pointerleave']) jb.addEventListener(ev, () => { JB.held = 0; });
+  jb.addEventListener('click', e => { e.stopPropagation(); if (e.detail === 0 && state === 'play') triggerJump(false, true); }); }
 function rumbleLbl() { const t = $('tog_rumble'); if (!t) return; const on = save.rumble !== false; t.textContent = on ? 'On' : 'Off'; t.classList.toggle('off', !on); } rumbleLbl();
 { // v14 quest tracker: deliberate taps toggle details; a steering drag never lands here (the canvas holds pointer capture)
   const tb = $('qTrack'); let pd = null; const tog = () => { qExp = !qExp; qExpT = 6; qSig = ''; if (qExp && dmExp) { dmExp = false; dmSig = ''; } Snd.init(); Snd.play('click'); };
@@ -6218,7 +6402,7 @@ function frame(now) {
     if (state === 'play') update(dt, false);
     else if (state === 'countdown') { G.cdT -= dt; if (G.cdT <= 0) state = 'play'; }
     else if (state === 'dying') { G.dyingT -= dt; update(dt * 0.3, true); if (G.dyingT <= 0) showGameOver(false); }
-    render(dt); questUI(dt); dmgUI(dt); if (state === 'ward') wardTick();
+    render(dt); questUI(dt); dmgUI(dt); jumpBtnUI(); if (state === 'ward') wardTick();
     { const ms = $('audio').classList.contains('on') ? 'n' : state === 'paused' ? 'p' : (state === 'levelup' || state === 'gear') ? 'd' : 'n';
       if (ms !== Snd.ms && Snd.ac) { Snd.ms = ms; if (ms === 'p') Snd.pauseMusic(true); else { Snd.pauseMusic(false); Snd.duck(ms === 'd' ? 0.45 : 1, 0.4); } } }
     if (RUN_STATES[state] && now - lastRunSave > 6000) saveRun();   // periodic autosave
@@ -6358,8 +6542,9 @@ const TI = (() => {
   const SK = { mark: 'crosshair', clone: 'mask', fangs: 'fang', knives: 'dagger', bladefan: 'fan', smoke: 'cloud', blightbolt: 'flask', creep: 'vine', volatile: 'burst', locust: 'spores', plaguereap: 'scythe', drain: 'drop', familiars: 'ghost',
     archers: 'bow', wraiths: 'ghost', corpse: 'tomb', brute: 'fist', grasp: 'hand', bow: 'bow', ballista: 'arrow', traps: 'trap', hawk: 'feather', volley: 'arrows', arrowrain: 'arrowdown', reap: 'scythe', scythethrow: 'scythe', chains: 'chain',
     skulls: 'skull', wail: 'bell', nova: 'burst', chakram: 'trap', orbs: 'orb', spiral: 'vortex', lance: 'beam', blink: 'gem', singularity: 'vortex', talons: 'claw', pounce: 'paw', shred: 'moon', seedbolt: 'leaf', starseed: 'star', stampede: 'antler',
-    briars: 'thorn', tempest: 'cloud', quake: 'mountain', boulder: 'rock', mcinder: 'flame', mwake: 'flame', mcomet: 'comet', mmeteor: 'comet', mshards: 'crystal', mnova: 'snow', mward: 'shield', morbs: 'orb', mbeam: 'beam', mblink: 'gem', mbolt: 'star' };
-  const EMB = ['skull', 'sword', 'mask', 'flask', 'spores', 'drop', 'bone', 'link', 'crown', 'eye', 'wing', 'arrows', 'scythe', 'tomb', 'bell', 'vortex', 'pulse', 'crosshair', 'claw', 'leaf', 'tree', 'flame', 'snow', 'star'];
+    briars: 'thorn', tempest: 'cloud', quake: 'mountain', boulder: 'rock', mcinder: 'flame', mwake: 'flame', mcomet: 'comet', mmeteor: 'comet', mshards: 'crystal', mnova: 'snow', mward: 'shield', morbs: 'orb', mbeam: 'beam', mblink: 'gem', mbolt: 'star',
+    eclipse: 'moon', px_dagger: 'dagger', px_hex: 'vine', px_thrall: 'ghost', px_volley: 'arrows', px_scythe: 'scythe', px_rift: 'gem', px_gale: 'cloud', px_spell: 'flame', px_conv: 'star8' };
+  const EMB = ['skull', 'sword', 'mask', 'flask', 'spores', 'drop', 'bone', 'link', 'crown', 'eye', 'wing', 'arrows', 'scythe', 'tomb', 'bell', 'vortex', 'pulse', 'crosshair', 'claw', 'leaf', 'tree', 'flame', 'snow', 'star', 'moon', 'rose', 'sun'];
   function cands(n) { const nm = n.n.toLowerCase(), out = []; const add = m => { if (m && M[m] && !out.includes(m)) out.push(m); };
     for (const [re, m] of KW) if (re.test(nm)) add(m);
     for (const k in (n.e || {})) { if (k.startsWith('sd_') || k.startsWith('sc_')) add(SK[k.slice(3)]); else (EK[k] || []).forEach(add); }
