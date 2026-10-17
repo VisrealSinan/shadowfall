@@ -1,0 +1,51 @@
+{
+ "version": "18",
+ "date": "2026-10-17",
+ "minLauncher": "2.0.0",
+ "notes": [
+  "Skill evolutions: max out a skill with its partner passive to evolve it into a stronger form (see the new Codex)",
+  "Cat Form is now pure melee: Shadowcat sheds ranged nature spells and refunds the levels as free picks",
+  "New Sanguine Maw talent: Cat Form claws heal you (lifesteal)",
+  "Damage meter: see which skill does the most damage, live and in the end-of-run summary",
+  "Exit Run from the pause menu, and a Quit Game button in the desktop app",
+  "Full controller play: every menu, card and dialog works with a gamepad",
+  "Solid obstacles: stumps, gravestones and ruined walls now block movement"
+ ],
+ "files": [
+  {
+   "name": "apple-touch-icon.png",
+   "sha256": "df9a72f901f877f9634570b079702799b346bce78b858524123a56211a5677c4",
+   "size": 48219
+  },
+  {
+   "name": "icon-192.png",
+   "sha256": "94363ad7aab8c5b384ac02f20193119bc86d24bd8847faa531db70c772f2afac",
+   "size": 53997
+  },
+  {
+   "name": "icon-512.png",
+   "sha256": "c290804e1f3265d9ee8aa47f4acc272d0e9e1fff910cc45364bfda0fb4481aa9",
+   "size": 321118
+  },
+  {
+   "name": "icon-maskable-512.png",
+   "sha256": "42f4ad604f4e11a62a594760a62a0c2091516560faab8a6672f267c2d154a7d3",
+   "size": 132466
+  },
+  {
+   "name": "index.html",
+   "sha256": "f583614843c423cccd17e2c3c2da5eaf6415351e5b35f341ce703d2a33c574d0",
+   "size": 720625
+  },
+  {
+   "name": "manifest.webmanifest",
+   "sha256": "d2b3df22d037ebfbd8d964751e95166b193e806271d9ce771f389b2952e42d9d",
+   "size": 964
+  },
+  {
+   "name": "sw.js",
+   "sha256": "f94803f77683280625a8e5fb22c8d13890cd3d4e087c388614b9ae6bc332b02f",
+   "size": 1466
+  }
+ ]
+}
