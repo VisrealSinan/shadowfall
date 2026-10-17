@@ -1,16 +1,14 @@
 {
- "version": "19",
+ "version": "20",
  "date": "2026-10-17",
  "minLauncher": "2.0.0",
  "notes": [
-  "Talent trees: every class now has three WoW-style spec trees (7 tiers, multi-rank talents, prerequisites and a capstone)",
-  "All your old talent points come back unspent, and the class level cap rises to 51 (1 talent point per level)",
-  "Respec any time: Reset, then Apply; leaving with unapplied points asks Apply or Discard",
-  "Talents work with touch (swipe or pinch between trees), mouse and keyboard, and controller (LB/RB switch trees, X removes)",
-  "New skill for every class: Umbral Double, Locust Swarm, Soul Wraiths, Hunter's Snare, Soul Chains, Nebula Spiral, Wild Stampede and Prismatic Comet",
-  "New form skills: Moonclaw Whirl (Cat Form, melee) and Uprooted Boulder (Tree Form)",
-  "Every new skill has its own evolution (see the Codex), shows in the damage meter and follows the obstacle rules",
-  "Download for Windows now gets the v2.0.0 installer"
+  "Loadout HUD: all your skills and passives now show in the top-left corner (Vampire Survivors style) with their levels; evolved skills get a gold frame",
+  "The full loadout is also shown on the pause screen (tap, hover or controller focus for details) and on the level-up screen",
+  "Rerolls: start every run with 1 reroll and earn +1 every 5 levels; reroll the level-up cards with the button, R on keyboard or Y on controller",
+  "Endless passives: maxed passives keep upgrading past their max (shown as e.g. Umbral Might +) with diminishing returns, so level-ups never run dry",
+  "Talent trees: every one of the 384 talents now has its own painted icon, tinted per tree, with ornate frames on capstones and clearer locked / available / ranked / maxed states",
+  "Jump animation: your hero hops on dodges, Blink, level-ups, chests and evolutions, and when you pick a class or race (cosmetic only)"
  ],
  "files": [
   {
@@ -35,8 +33,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "5c7132358a6b1a089192e5a5d2947b5470cfe03bebfa009d5408d6e1c3617782",
-   "size": 799501
+   "sha256": "79924726421a77f5435b9d1d3e262c4830b6c42a3ce375bb2c2bd231b0d3f66c",
+   "size": 850469
   },
   {
    "name": "manifest.webmanifest",
@@ -45,7 +43,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "03eaf2c382266e65a8a944e71b95021d81c05d7445b11aeecdfcac0bea81f649",
+   "sha256": "f70a6f857ccb18506e1ba35ad3734ce4f35b3c49fbd88a9f511635b8e028b377",
    "size": 1466
   }
  ]
