@@ -491,6 +491,34 @@ body:not(.desktopapp) .apponly{display:none!important}
 #choices .card.evo .art{background:radial-gradient(circle at 35% 28%,#fff 0 6%,#ff7af0 32%,#3a0a5a 100%)}
 #choices .card.evo .lv{background:linear-gradient(180deg,#ffd6fa,#ff5ad0);color:#fff;text-shadow:0 1px 0 #600040}
 @keyframes evoflow{0%{background-position:0% 50%}100%{background-position:300% 50%}}
+/* v22 trader shop + trade prompt */
+#npcTalk{position:absolute;display:none;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 168px);z-index:6;min-height:50px;min-width:160px;padding:6px 16px;border-radius:25px;align-items:center;justify-content:center;gap:8px;
+ border:2px solid var(--nc,#ffd24a);background:linear-gradient(180deg,rgba(60,36,10,.92),rgba(24,12,4,.92));color:#fff3c8;font:800 15px/1.1 "Trebuchet MS",-apple-system,system-ui,sans-serif;box-shadow:0 0 18px rgba(255,200,80,.35),0 4px 12px rgba(0,0,0,.5);touch-action:manipulation;cursor:pointer;animation:npcpulse 1.4s ease-in-out infinite}
+#npcTalk.on{display:flex}#npcTalk .ti{color:#ffd24a;font-size:18px}#npcTalk kbd.kh{margin-left:2px}#npcTalk .gpg{display:none;margin:0}.gpad #npcTalk .gpg{display:inline-flex}.gpad #npcTalk kbd.kh{display:none}
+.pc #npcTalk{bottom:calc(env(safe-area-inset-bottom,0px) + 104px)}
+@keyframes npcpulse{0%,100%{box-shadow:0 0 12px rgba(255,200,80,.3),0 4px 12px rgba(0,0,0,.5)}50%{box-shadow:0 0 26px rgba(255,210,90,.7),0 4px 12px rgba(0,0,0,.5)}}
+.npcbox{width:min(94vw,460px);border-radius:20px;padding:12px;background:linear-gradient(180deg,rgba(46,30,12,.95),rgba(20,12,6,.97));border:2px solid var(--nc,#f2c94c);box-shadow:0 0 0 1px #2a1a00 inset,0 0 26px rgba(0,0,0,.6)}
+.npchead{display:flex;gap:12px;align-items:center}
+#npcArt{width:84px;height:84px;flex:0 0 84px;border-radius:16px;border:2px solid var(--nc,#f2c94c);background:radial-gradient(circle at 50% 40%,#6a4a8a,#2a1640 70%,#120820)}
+.npcid{min-width:0}.npcname{font:900 24px/1.1 "Trebuchet MS",-apple-system,system-ui,sans-serif;color:var(--nc,#ffd24a);text-shadow:0 2px 0 #000}
+.npcrole{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#e8d8b0;margin-top:2px}
+.npcsay{font-style:italic;font-size:14px;color:#fff3dc;margin-top:6px;line-height:1.3}
+.npcgold{display:flex;align-items:center;gap:6px;margin:10px 2px 6px;font-size:14px;color:#e8d8b0}.npcgold b{font-size:20px;color:#ffd24a}.npcgold small{margin-left:auto;font-size:11.5px;color:#b8a888;text-align:right}
+.npcgold .coin,.npco .np::before{content:"";display:inline-block;width:14px;height:14px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff3b0 0 18%,#ffd24a 20% 62%,#a8771e 66%);border:1px solid #5a3a08}
+.npco .np::before{display:none}
+#npcOffers{display:flex;flex-direction:column;gap:8px}
+.npco{appearance:none;display:flex;align-items:center;gap:10px;width:100%;min-height:62px;padding:8px 10px;text-align:left;border-radius:14px;cursor:pointer;font-family:inherit;color:#fff;position:relative;
+ border:2px solid rgba(242,201,76,.7);background:linear-gradient(180deg,rgba(46,78,170,.92),rgba(16,30,88,.95));box-shadow:0 0 0 1px #2a1a00 inset,0 4px 10px rgba(0,0,20,.4);touch-action:manipulation}
+.npco:active{transform:scale(.98)}.npco:focus-visible{outline:3px solid #fff3b0;outline-offset:2px}
+.npco .ni{flex:0 0 42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:21px;background:radial-gradient(circle at 40% 30%,#9fd4ff,#2f62d0 60%,#163a8a);border:2px solid #f2c94c;text-shadow:0 0 6px #fff}
+.npco .nt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}.npco .nt b{font-size:16px}.npco .nt small{font-size:12.5px;color:#dfe8ff;line-height:1.25}
+.npco .np{flex:0 0 auto;font:900 16px/1 "Trebuchet MS",system-ui,sans-serif;color:#2a1600;background:linear-gradient(180deg,#fff3b0,#f2c94c);border:1.5px solid #5a3a08;border-radius:12px;padding:7px 9px;white-space:nowrap}
+.npco .np i{font-style:normal;font-size:11px;margin-left:4px;opacity:.75}
+.npco.poor .np{background:linear-gradient(180deg,#6a6a7a,#3a3a4a);color:#e0e0ea;border-color:#222}.npco.poor{border-color:rgba(160,150,190,.5)}
+.npco.sold{opacity:.5;filter:grayscale(.7)}.npco.sold .np{background:#3a3a4a;color:#ccc}
+.npco kbd.kh{position:absolute;top:4px;right:6px;margin:0;font-size:10px;padding:0 5px}.pc .npco .np{margin-right:22px}
+.npcmsg{min-height:22px;margin-top:8px;font-size:14px;text-align:center;color:#e8d8b0}.npcmsg.good{color:#9dff8a}.npcmsg.bad{color:#ffb0a0}
+#btnNpcLeave{margin-top:12px}.npchint{font-size:12.5px;color:#ffe08a;margin-top:2px}
 #jumpBtn{position:absolute;display:none;right:calc(env(safe-area-inset-right,0px) + 22px);bottom:calc(env(safe-area-inset-bottom,0px) + 128px);z-index:6;width:58px;height:58px;border-radius:50%;padding:0;
  border:2px solid rgba(255,226,140,.55);background:radial-gradient(circle at 50% 35%,rgba(70,50,110,.82),rgba(20,12,34,.82));color:#ffe9a8;font-family:inherit;flex-direction:column;align-items:center;justify-content:center;
  box-shadow:0 3px 10px rgba(0,0,0,.5);touch-action:none;-webkit-tap-highlight-color:transparent;opacity:.82}
@@ -672,7 +700,7 @@ canvas.hop{animation:hopk .55s ease-in-out;transform-origin:50% 90%}canvas.hopbi
 <div id="qBan" aria-live="polite"></div>
 <button id="pauseBtn" class="iconbtn hidden" aria-label="Pause">❚❚</button>
 <button id="qTrack" class="hidden" aria-label="Quests"></button>
-<button id="jumpBtn" aria-label="Jump"><span>⤒</span><small>JUMP</small></button><div id="jumpHint" aria-hidden="true"><kbd>Space</kbd><span class="gpg">A</span>Jump</div>
+<button id="npcTalk" aria-label="Trade"><span class="ti">●</span><span class="tn">Trade</span><kbd class="kh">E</kbd><span class="gpg x gpX1">X</span></button><button id="jumpBtn" aria-label="Jump"><span>⤒</span><small>JUMP</small></button><div id="jumpHint" aria-hidden="true"><kbd>Space</kbd><span class="gpg">A</span>Jump</div>
 <button id="dmgBtn" class="hidden" aria-label="Damage meter (tap to expand)" aria-expanded="false"><span class="di">⚔︎</span><span class="dt">DPS</span><span class="dv">0</span><kbd class="kh" style="margin:0 0 0 2px">M</kbd><span class="gpg gpk">⧉</span></button>
 <div id="dmgList" class="hidden" aria-live="off"></div>
 
@@ -769,6 +797,18 @@ canvas.hop{animation:hopk .55s ease-in-out;transform-origin:50% 90%}canvas.hopbi
  <div class="spacer"></div>
 </div>
 
+<div id="npc" class="screen dim" role="dialog" aria-label="Trader">
+ <div class="spacer" style="max-height:5vh"></div>
+ <div class="npcbox">
+  <div class="npchead"><canvas id="npcArt" aria-hidden="true"></canvas><div class="npcid"><div class="npcname" id="npcName"></div><div class="npcrole" id="npcRole"></div><div class="npcsay" id="npcSay"></div></div></div>
+  <div class="npcgold"><span class="coin"></span><span>Your gold</span><b id="npcGold">0</b><small id="npcTime"></small></div>
+  <div id="npcOffers"></div>
+  <div class="npcmsg" id="npcMsg" role="status" aria-live="polite"></div>
+ </div>
+ <button class="btn" id="btnNpcLeave" data-kh="Esc">Leave</button>
+ <div class="pconly npchint"><kbd class="kh">1</kbd>–<kbd class="kh">4</kbd> buy · <kbd class="kh">↑</kbd><kbd class="kh">↓</kbd> + <kbd class="kh">Enter</kbd> · <kbd class="kh">Esc</kbd> leave</div>
+ <div class="spacer"></div>
+</div>
 <div id="pause" class="screen dim">
  <div class="spacer" style="max-height:8vh"></div>
  <h2 id="pauseTitle">Paused</h2>
@@ -858,6 +898,7 @@ canvas.hop{animation:hopk .55s ease-in-out;transform-origin:50% 90%}canvas.hopbi
   <p><b>Attack:</b> automatic! Your hero strikes the nearest foes on their own.</p>
   <p><b>Grow:</b> every foe you slay feeds you its soul (XP) instantly. Level up, then pick 1 of 3 cards — new skills or stronger stats. Don't like the cards? <b>Reroll</b> them (1 per run, +1 every 5 levels). Maxed passives keep upgrading endlessly with diminishing returns. Your skills and passives show in the top-left corner.</p>
   <p><b>Classes:</b> nine classes (the hybrid <b>Eclipse Paragon</b> is unlocked with Shards), each with its own costume, skills and three <b>Talent trees</b> (T). Playing a class earns class XP → 1 talent point per class level (up to 51). Every 5 points in a tree unlocks its next tier; the 7th tier holds a build-defining capstone. Respec any time with Reset.</p>
+  <p><b>Gold &amp; traders:</b> foes sometimes drop gold coins <span style="color:#ffd24a">●</span> (elites, bosses, chests and quests give more). Gold only lasts for the current run. Every few minutes a wandering trader appears for about a minute: follow the arrow and walk into them (or press <b>E</b> / gamepad <b>X</b> / the Trade button). The game pauses while you shop: the Merchant sells tonics and lessons, the Gambler rolls the bones, the Runesmith sharpens your skills, and a rare Mysterious Stranger offers pricey pacts.</p>
   <p><b>Gear:</b> elites and bosses drop treasure for 12 slots. Small upgrades equip themselves; Epic and Legendary finds open a compare card. At game over you may keep 1 item as a <b>keepsake</b>.</p>
   <p><b>Survive:</b> the danger meter climbs every few minutes — new foes, elite affixes, hordes, and a boss every 3 minutes.</p>
   <p><b>Pause:</b> tap the round ❚❚ button at the top right.</p>
@@ -876,6 +917,7 @@ canvas.hop{animation:hopk .55s ease-in-out;transform-origin:50% 90%}canvas.hopbi
   <tr><td>Damage meter</td><td><kbd>M</kbd> show / hide the damage breakdown · or tap the ⚔ DPS button</td></tr>
   <tr><td>Pause / resume</td><td><kbd>Esc</kbd> or <kbd>P</kbd> · gamepad <kbd>Start</kbd> · the game also pauses itself when the window loses focus</td></tr>
   <tr><td>Level-up cards</td><td><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> pick (press again to take it) · <kbd>←</kbd><kbd>→</kbd> cycle · <kbd>Enter</kbd> / <kbd>Space</kbd> choose · <kbd>R</kbd> reroll · gamepad D-pad + <kbd>A</kbd>, <kbd>Y</kbd> reroll</td></tr>
+  <tr><td>Traders</td><td>Walk into a wandering trader, or press <kbd>E</kbd> / <kbd>Enter</kbd> near one · gamepad <kbd>X</kbd>/<kbd>□</kbd> · phones: the Trade button. In the shop: <kbd>1</kbd>–<kbd>4</kbd> buy · <kbd>↑</kbd><kbd>↓</kbd> + <kbd>Enter</kbd> · <kbd>Esc</kbd> / <kbd>E</kbd> leave · gamepad <kbd>A</kbd> buy, <kbd>B</kbd> leave</td></tr>
   <tr><td>Treasure</td><td><kbd>Enter</kbd> / <kbd>E</kbd> equip · <kbd>X</kbd> salvage · gamepad <kbd>A</kbd> equip</td></tr>
   <tr><td>Class select</td><td><kbd>↑</kbd><kbd>↓</kbd> choose a class · <kbd>Enter</kbd> on a locked class (e.g. Eclipse Paragon) buys it with Shards, otherwise starts the hunt · gamepad D-pad + <kbd>A</kbd></td></tr>
   <tr><td>Menus</td><td>Mouse click, scroll wheel on lists · <kbd>Enter</kbd> confirm / start · <kbd>Esc</kbd> back · gamepad <kbd>A</kbd> / <kbd>B</kbd></td></tr>
@@ -1029,6 +1071,10 @@ const SFX = { // [duration, variants, recipe]
   levelup: [0.9, 1, (c, o) => { [0, 4, 7, 12, 16].forEach((s, i) => { _tone(c, o, i * 0.07, mtof(72 + s), 0.5, 'triangle', 0.08); _tone(c, o, i * 0.07, mtof(84 + s), 0.3, 'sine', 0.03); }); }],
   hop: [0.2, 3, (c, o) => { const b = R_(0.94, 1.07); _tone(c, o, 0, 330 * b, 0.13, 'sine', 0.05, 720 * b); _nz(c, o, 0, 0.05, 0.012, 2600, 1.2); }], /* v21: soft manual-jump hop */
   land: [0.16, 3, (c, o) => { _tone(c, o, 0, 150 * R_(0.94, 1.06), 0.09, 'sine', 0.045, 70); _nz(c, o, 0, 0.06, 0.02, 700, 0.8, 'lowpass'); }],
+  coin: [0.12, 4, (c, o) => { const b = R_(0.96, 1.05); _tone(c, o, 0, 1975 * b, 0.06, 'square', 0.018); _tone(c, o, 0.035, 2637 * b, 0.11, 'triangle', 0.035); }], /* v22 gold coin */
+  greet: [0.5, 1, (c, o) => { [76, 81, 88].forEach((m, i) => _tone(c, o, i * 0.07, mtof(m), 0.32, 'sine', 0.05)); _tone(c, o, 0.2, mtof(93), 0.3, 'triangle', 0.02); }],
+  dice: [0.45, 2, (c, o) => { for (let i = 0; i < 5; i++) _nz(c, o, i * 0.05 + R_(0, 0.02), 0.03, 0.05, R_(1800, 3200), 2, 'bandpass', 4000); _tone(c, o, 0.28, 880, 0.15, 'triangle', 0.05, 1320); }],
+  deny: [0.25, 2, (c, o) => { _tone(c, o, 0, 220, 0.12, 'square', 0.03, 180); _tone(c, o, 0.1, 165, 0.16, 'square', 0.03, 140); }],
   pick: [0.2, 3, (c, o) => { const b = R_(0.97, 1.04); _tone(c, o, 0, 880 * b, 0.07, 'triangle', 0.07); _tone(c, o, 0.05, 1320 * b, 0.12, 'triangle', 0.06); }],
   chest: [0.9, 1, (c, o) => { _nz(c, o, 0, 0.15, 0.08, 600, 1); [67, 72, 76, 79, 84].forEach((m, i) => _tone(c, o, 0.08 + i * 0.06, mtof(m), 0.45, 'sine', 0.08)); _tone(c, o, 0.4, mtof(96), 0.4, 'sine', 0.03); }],
   heal: [0.6, 1, (c, o) => { [72, 76, 79].forEach((m, i) => _tone(c, o, i * 0.05, mtof(m), 0.4, 'sine', 0.06, mtof(m + 12))); _nz(c, o, 0, 0.4, 0.02, 6000, 2); }],
@@ -3364,7 +3410,89 @@ function drawGem(g, col, s) {
   g.fillStyle = 'rgba(255,255,255,.75)'; g.beginPath(); g.moveTo(0, -s * 1.3); g.lineTo(s * 0.35, -s * 0.1); g.lineTo(-s * 0.5, 0); g.closePath(); g.fill();
   g.strokeStyle = 'rgba(0,0,0,.35)'; g.lineWidth = 0.6; g.beginPath(); g.moveTo(0, -s * 1.3); g.lineTo(s, 0); g.lineTo(0, s * 1.3); g.lineTo(-s, 0); g.closePath(); g.stroke();
 }
+/* v22 wandering traders: painted in the same style as the heroes (baked, then painterly shading + ink outline). Feet at y=+24, facing right. */
+function nrr(g, x, y, w, h, r) { g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r); g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath(); }
+function nPath(g, pts, col) { g.fillStyle = col; g.beginPath(); g.moveTo(pts[0], pts[1]); for (let i = 2; i < pts.length; i += 2) g.lineTo(pts[i], pts[i + 1]); g.closePath(); g.fill(); }
+function nCirc(g, x, y, r, col) { g.fillStyle = col; g.beginPath(); g.arc(x, y, r, 0, TAU); g.fill(); }
+const NPCDRAW = {
+  merchant(g, f) { const s = f ? 1.6 : -1.6;
+    // backpack + bedroll + hanging pot (behind)
+    g.fillStyle = '#5a3a1e'; nrr(g, -18, -17, 14, 25, 4); g.fill(); g.fillStyle = '#7a5230'; nrr(g, -16, -14, 10, 10, 3); g.fill();
+    g.fillStyle = '#b8323e'; nrr(g, -21, -24, 19, 7, 3.5); g.fill(); g.fillStyle = '#f2d39a'; g.fillRect(-15, -24, 2, 7); g.fillRect(-9, -24, 2, 7);
+    nCirc(g, -19, 5, 3.6, '#3a3a44'); nCirc(g, -20, 4, 1.2, '#8a8a99');
+    // boots
+    g.fillStyle = '#3a2414'; nrr(g, -6 + s, 16, 6, 8, 2); g.fill(); nrr(g, 2 - s, 16, 6, 8, 2); g.fill();
+    // coat
+    nPath(g, [-9, -6, 10, -6, 13, 19, -11, 19], '#8a6236'); nPath(g, [-2, -6, 3, -6, 4, 19, -3, 19], '#6e4c28');
+    g.fillStyle = '#3a2414'; g.fillRect(-10, 5, 22, 3.2); nCirc(g, 7, 10, 3.8, '#f2c94c'); nCirc(g, 7, 10, 1.4, '#a8771e'); g.fillStyle = '#5a3a1e'; g.fillRect(6, 5.5, 2, 2.5);
+    // arm holding the lantern staff
+    g.fillStyle = '#6e4c28'; nrr(g, 8, -5, 6, 12, 3); g.fill(); nCirc(g, 12, 6, 2.6, '#f0c8a0');
+    g.strokeStyle = '#5a3a1e'; g.lineWidth = 2.2; g.beginPath(); g.moveTo(12, -26); g.lineTo(12, 22); g.stroke(); g.beginPath(); g.moveTo(12, -26); g.quadraticCurveTo(16, -28, 15, -24); g.stroke();
+    g.fillStyle = '#2a2014'; nrr(g, 11.5, -24, 7, 9, 1.5); g.fill(); g.fillStyle = '#ffe9a0'; nrr(g, 13, -22.5, 4, 6, 1); g.fill(); glowDot(g, 15, -19.5, 8, '#ffd36a', 0.55);
+    // hood + face + big beard
+    nCirc(g, 0, -13, 9.5, '#3f7a3a'); nPath(g, [-8, -16, 0, -27, 7, -15], '#3f7a3a'); nCirc(g, 1, -12, 6.2, '#f0c8a0');
+    g.fillStyle = '#f4f0e8'; g.beginPath(); g.moveTo(-5, -10); g.quadraticCurveTo(-6, 0, 1, 2); g.quadraticCurveTo(8, 0, 7, -10); g.quadraticCurveTo(1, -6, -5, -10); g.fill();
+    g.fillStyle = '#f4f0e8'; g.beginPath(); g.ellipse(1, -9.5, 5, 1.8, 0, 0, TAU); g.fill();
+    nCirc(g, 3, -12, 1.9, '#d8796a'); nCirc(g, -0.6, -14, 0.95, '#2a1a10'); nCirc(g, 4.4, -14, 0.95, '#2a1a10');
+    g.fillStyle = '#e8e2d4'; g.fillRect(-2.2, -16.8, 3, 1); g.fillRect(3.3, -16.8, 3, 1);
+    g.strokeStyle = '#2c5a2a'; g.lineWidth = 1.2; g.beginPath(); g.arc(0, -13, 9.5, Math.PI * 0.75, Math.PI * 0.25 + Math.PI * 2, false); g.stroke(); },
+  gambler(g, f) { const s = f ? 1.4 : -1.4;
+    // feathered hat brim behind
+    nPath(g, [-4, 22, -2, 17, 1, 17, 0, 22], '#2a0a18'); g.fillStyle = '#2a0a18'; nrr(g, -6 + s, 20, 5, 4, 1.5); g.fill(); nrr(g, 2 - s, 20, 5, 4, 1.5); g.fill();
+    // bell skirt with gold hem
+    g.fillStyle = '#b0203a'; g.beginPath(); g.moveTo(-6, 0); g.quadraticCurveTo(-13, 12, -14, 21); g.quadraticCurveTo(0, 24, 14, 21); g.quadraticCurveTo(13, 12, 6, 0); g.closePath(); g.fill();
+    g.fillStyle = '#8a1430'; g.beginPath(); g.moveTo(-1, 0); g.quadraticCurveTo(-3, 12, -5, 22); g.lineTo(2, 22.6); g.quadraticCurveTo(2, 12, 1, 0); g.fill();
+    g.strokeStyle = '#f2c94c'; g.lineWidth = 1.8; g.beginPath(); g.moveTo(-14, 21); g.quadraticCurveTo(0, 24, 14, 21); g.stroke();
+    // bodice + sash
+    g.fillStyle = '#7a1028'; nrr(g, -6, -8, 12, 10, 3); g.fill(); g.fillStyle = '#f2c94c'; g.fillRect(-6.5, -0.5, 13, 2.2); nCirc(g, 3, 0.6, 1.6, '#ff4fd8');
+    // arm with a fan of cards
+    g.fillStyle = '#f6d2b8'; nrr(g, 5, -7, 4, 10, 2); g.fill();
+    for (const [a, c] of [[-0.5, '#fff8ec'], [0, '#fff8ec'], [0.5, '#fff8ec']]) { g.save(); g.translate(10, -4); g.rotate(a); g.fillStyle = c; nrr(g, -2.5, -9, 5, 8, 1); g.fill(); g.strokeStyle = '#6a3a00'; g.lineWidth = 0.6; g.stroke(); nCirc(g, 0, -5, 1.2, a === 0 ? '#1a0a14' : '#c8203a'); g.restore(); }
+    // face + bob hair
+    nCirc(g, 0, -15, 7.4, '#2a1020'); g.fillRect(-7.4, -15, 14.8, 6); nCirc(g, 0.5, -14, 5.5, '#f6d2b8'); g.fillStyle = '#2a1020'; g.beginPath(); g.ellipse(-1.5, -18.4, 6, 2.6, -0.3, 0, TAU); g.fill();
+    nCirc(g, 2.4, -14.5, 0.95, '#1a0a14'); nCirc(g, -1.4, -14.5, 0.95, '#1a0a14'); g.fillStyle = '#1a0a14'; g.fillRect(1.4, -16.2, 2.2, 0.6); g.fillRect(-2.4, -16.2, 2.2, 0.6);
+    nCirc(g, 1, -11.3, 1.2, '#d02040'); nCirc(g, 4, -12.6, 0.5, '#4a1a20');
+    // wide-brim hat + gold band + purple feather
+    g.fillStyle = '#2a0a18'; g.beginPath(); g.ellipse(0, -20, 13, 3.4, -0.08, 0, TAU); g.fill(); nrr(g, -6, -29, 12, 9.5, 3); g.fill(); g.fillStyle = '#f2c94c'; g.fillRect(-6, -22.5, 12, 2);
+    g.strokeStyle = '#b56bff'; g.lineWidth = 3; g.lineCap = 'round'; g.beginPath(); g.moveTo(-4, -26); g.quadraticCurveTo(-14, -34, -18, -24); g.stroke(); g.strokeStyle = '#e0b0ff'; g.lineWidth = 1; g.stroke(); g.lineCap = 'butt'; },
+  smith(g, f) { const s = f ? 1.6 : -1.6;
+    // stout boots
+    g.fillStyle = '#2a1a10'; nrr(g, -8 + s, 17, 7, 7, 2); g.fill(); nrr(g, 2 - s, 17, 7, 7, 2); g.fill();
+    // barrel body (chain shirt) + leather apron
+    g.fillStyle = '#5a5f6a'; g.beginPath(); g.ellipse(0, 6, 13, 13, 0, 0, TAU); g.fill(); g.fillStyle = '#6f7480'; for (let y = -2; y < 16; y += 3) for (let x = -10; x < 11; x += 3) if (x * x + (y - 6) ** 2 < 140) g.fillRect(x + (y % 2 ? 1.5 : 0), y, 1.2, 1.2);
+    nPath(g, [-8, -2, 8, -2, 10, 20, -10, 20], '#8a5a2e'); g.fillStyle = '#6a4424'; nrr(g, -4, 9, 8, 6, 1.5); g.fill(); g.fillStyle = '#c99a3c'; nCirc(g, -7, -1, 1.4, '#c99a3c'); nCirc(g, 7, -1, 1.4, '#c99a3c');
+    // left arm at the side
+    g.fillStyle = '#e8b08a'; nrr(g, -15, -2, 6, 13, 3); g.fill(); g.fillStyle = '#5a5f6a'; nrr(g, -15.5, -4, 7, 5, 2.5); g.fill();
+    // hammer over the shoulder (rune-etched head)
+    g.strokeStyle = '#6a4424'; g.lineWidth = 3.2; g.lineCap = 'round'; g.beginPath(); g.moveTo(9, 4); g.lineTo(-8, -26); g.stroke(); g.lineCap = 'butt';
+    g.save(); g.translate(-9, -28); g.rotate(-1.05); g.fillStyle = '#4a4f5a'; nrr(g, -7, -4.5, 14, 9, 2); g.fill(); g.fillStyle = '#7a808c'; g.fillRect(-7, -4.5, 14, 2.4); g.strokeStyle = '#4fd4ff'; g.lineWidth = 1.2; g.beginPath(); g.moveTo(-4, 1); g.lineTo(-1, -2); g.lineTo(1, 2); g.lineTo(4, -1); g.stroke(); g.restore();
+    g.fillStyle = '#e8b08a'; nrr(g, 6, -4, 6, 10, 3); g.fill(); nCirc(g, 9, 4, 3, '#e8b08a');
+    // face, braided orange beard, horned helm
+    nCirc(g, 0, -12, 6.6, '#e8b08a'); g.fillStyle = '#e06a20'; g.beginPath(); g.moveTo(-6.5, -11); g.quadraticCurveTo(-7, 0, 0, 4); g.quadraticCurveTo(7, 0, 6.5, -11); g.quadraticCurveTo(0, -7, -6.5, -11); g.fill();
+    g.fillStyle = '#c0501a'; for (const y of [-4, -1, 2]) { g.beginPath(); g.ellipse(0, y, 2.2, 1.3, 0, 0, TAU); g.fill(); } nCirc(g, 0, 4.5, 1.4, '#f2c94c');
+    g.fillStyle = '#e06a20'; g.fillRect(-4, -10.5, 8, 1.6); nCirc(g, -2.2, -13.3, 1, '#2a1208'); nCirc(g, 2.6, -13.3, 1, '#2a1208'); g.fillStyle = '#c0501a'; g.fillRect(-4, -15.5, 3.4, 1.2); g.fillRect(1, -15.5, 3.4, 1.2);
+    nCirc(g, 1, -11.4, 1.6, '#d48a6a');
+    g.fillStyle = '#8a8f9a'; g.beginPath(); g.arc(0, -15, 7.6, Math.PI, 0); g.fill(); g.fillStyle = '#5a5f6a'; g.fillRect(-8.2, -16, 16.4, 2.4); g.fillRect(-1, -22.5, 2, 7);
+    g.fillStyle = '#efe4c8'; g.beginPath(); g.moveTo(-7, -17); g.quadraticCurveTo(-14, -20, -12, -28); g.quadraticCurveTo(-10, -22, -5, -20); g.fill(); g.beginPath(); g.moveTo(7, -17); g.quadraticCurveTo(14, -20, 12, -28); g.quadraticCurveTo(10, -22, 5, -20); g.fill(); },
+  stranger(g, f) { const s = f ? 1.5 : -1.5;
+    // tattered cloak (floats: no feet)
+    g.fillStyle = '#2a1640'; g.beginPath(); g.moveTo(0, -31); g.quadraticCurveTo(-9, -24, -10, -14); g.quadraticCurveTo(-14, 4, -15 + s, 20); g.lineTo(-10 + s, 17); g.lineTo(-6, 22); g.lineTo(-2, 18); g.lineTo(2, 22); g.lineTo(6, 18); g.lineTo(10 - s, 22); g.lineTo(15 - s, 19);
+    g.quadraticCurveTo(14, 4, 10, -14); g.quadraticCurveTo(9, -24, 0, -31); g.fill();
+    g.fillStyle = '#140a22'; g.beginPath(); g.moveTo(-3, -8); g.quadraticCurveTo(-5, 8, -4, 19); g.lineTo(4, 19); g.quadraticCurveTo(5, 8, 3, -8); g.fill();
+    g.strokeStyle = '#7a4ab0'; g.lineWidth = 1; g.beginPath(); g.moveTo(-10, -14); g.quadraticCurveTo(-14, 4, -15 + s, 20); g.moveTo(10, -14); g.quadraticCurveTo(14, 4, 15 - s, 19); g.stroke();
+    // runes on the cloak
+    g.strokeStyle = '#c56bff'; g.lineWidth = 0.9; g.beginPath(); g.moveTo(-9, 6); g.lineTo(-7, 3); g.lineTo(-5, 6); g.moveTo(6, 9); g.lineTo(8, 6); g.lineTo(9, 10); g.stroke();
+    // pale hands cradling a void orb
+    nCirc(g, -4, 2, 2.2, '#e8e0f0'); nCirc(g, 4, 2, 2.2, '#e8e0f0'); glowDot(g, 0, 0, 9, '#c56bff', 0.8); nCirc(g, 0, 0, 3.4, '#2a0a40'); nCirc(g, -1, -1, 1.1, '#f0d8ff');
+    // deep hood + porcelain mask with gold crescent, glowing eyes
+    nCirc(g, 0, -19, 8.5, '#1e0f30'); g.fillStyle = '#f4eee6'; g.beginPath(); g.ellipse(0.5, -18, 4.8, 6.2, 0, 0, TAU); g.fill();
+    g.strokeStyle = '#f2c94c'; g.lineWidth = 1.2; g.beginPath(); g.arc(0.5, -22, 2, 0.3, Math.PI - 0.3); g.stroke();
+    g.fillStyle = '#c56bff'; g.beginPath(); g.ellipse(-1.3, -18, 1.3, 0.7, 0.2, 0, TAU); g.fill(); g.beginPath(); g.ellipse(2.6, -18, 1.3, 0.7, -0.2, 0, TAU); g.fill();
+    glowDot(g, -1.3, -18, 3.5, '#c56bff', 0.7); glowDot(g, 2.6, -18, 3.5, '#c56bff', 0.7); g.fillStyle = '#c8bfb4'; g.fillRect(0, -14, 1.2, 2.4); },
+};
 const PDRAW = {
+  gold(g) { glowDot(g, 0, 0, 12, '#ffd24a', 0.45); g.fillStyle = '#8a5a10'; g.beginPath(); g.arc(0, 0.8, 6.5, 0, TAU); g.fill(); g.fillStyle = '#ffd24a'; g.beginPath(); g.arc(0, 0, 6, 0, TAU); g.fill();
+    g.strokeStyle = '#c99a2c'; g.lineWidth = 1.1; g.beginPath(); g.arc(0, 0, 4, 0, TAU); g.stroke(); g.fillStyle = '#fff3b0'; g.beginPath(); g.arc(-2, -2.2, 1.6, 0, TAU); g.fill(); },
   vial(g) { glowDot(g, 0, 2, 14, '#ff3d6e', 0.45); g.fillStyle = 'rgba(255,255,255,.25)'; g.beginPath(); g.arc(0, 3, 6.5, 0, TAU); g.fill();
     g.fillStyle = '#e0143c'; g.beginPath(); g.arc(0, 3.5, 5.5, 0, Math.PI * 2); g.fill(); g.fillStyle = '#ff7a96'; g.beginPath(); g.arc(-1.8, 2, 1.6, 0, TAU); g.fill();
     g.fillStyle = '#d8d0e8'; g.fillRect(-2, -6, 4, 4); g.fillStyle = '#6a3a1e'; g.fillRect(-2.5, -8, 5, 2.5); },
@@ -3472,7 +3600,7 @@ function paintSprite(c, rim = '#fff1cc', ra = 0.5, sx = 1, sy = 1, rw = 1) { con
   tg.globalCompositeOperation = 'destination-out'; tg.drawImage(c, Math.round(d * sx), Math.round(d * sy)); g.globalAlpha = ra; g.drawImage(t, 0, 0); g.restore(); return c; }
 function softShadow(w, h, a) { const c = mkCanvas(w, h), g = c.getContext('2d'); g.translate(w / 2, h / 2); g.scale(1, h / w); const gr = g.createRadialGradient(0, 0, 0, 0, 0, w / 2); gr.addColorStop(0, `rgba(16,8,26,${a})`); gr.addColorStop(0.55, `rgba(16,8,26,${a * 0.6})`); gr.addColorStop(1, 'rgba(16,8,26,0)'); g.fillStyle = gr; g.fillRect(-w / 2, -w / 2, w, w); return c; }
 function flashOf(src) { const c = mkCanvas(src.width, src.height), g = c.getContext('2d'); g.drawImage(src, 0, 0); g.globalCompositeOperation = 'source-atop'; g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height); return c; }
-const SPR = { enemy: {}, minion: {}, gem: [], pick: {}, prop: {}, glow: {}, shadow: null, smoke: null, light: null };
+const SPR = { enemy: {}, minion: {}, gem: [], pick: {}, prop: {}, glow: {}, npc: {}, npcP: {}, shadow: null, smoke: null, light: null };
 let groundTile = null;
 const TILE = 256;
 /* v15: creature frame bake. 4-step walk/flap cycle + wind-up pose (+ shared hit-flash, shadow silhouette for the death dissolve).
@@ -3513,6 +3641,7 @@ function buildArt() {
   for (const k in MDRAW) { const sz = MDEF[k].size; SPR.minion[k] = [0, 1].map(f => { const c = outlineSprite(paintSprite(makeSprite(g => MDRAW[k](g, f), sz), '#e8fff6', 0.4), OLW); return { img: c, flash: flashOf(c) }; }); }
   SPR.gem = GEM_COL.map((c, i) => makeSprite(g => drawGem(g, c, 3.2 + i * 0.9), 26));
   for (const k in PDRAW) SPR.pick[k] = outlineSprite(makeSprite(PDRAW[k], 50), OLW);
+  for (const k in NPCDRAW) SPR.npc[k] = [0, 1].map(f => outlineSprite(paintSprite(makeSprite(g => NPCDRAW[k](g, f), 64), '#fff1cc', 0.45), OLW)); SPR.npcP = {}; /* v22 traders */
   for (const k in PROPS) SPR.prop[k] = paintSprite(makeSprite(PROPS[k], 64), '#fff3d0', 0.35);
   SPR.shadow = softShadow(64, 20, 0.42);
   SPR.smoke = (() => { const c = mkCanvas(32, 32), g = c.getContext('2d'), gr = g.createRadialGradient(16, 16, 0, 16, 16, 16); gr.addColorStop(0, 'rgba(255,255,255,.9)'); gr.addColorStop(0.5, 'rgba(255,255,255,.45)'); gr.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = gr; g.fillRect(0, 0, 32, 32); return c; })();
@@ -3588,7 +3717,7 @@ function newRun(cls) {
   corpses = []; minions = []; enemies = []; gems = []; picks = []; projs = []; eprojs = []; effects = []; parts = []; nums = []; toasts = [];
   G = { cls, t: 0, kills: 0, level: 1, xp: 0, xpNext: xpNeed(1), weapons: [], passives: {}, gear: emptyGear(), rerolls: 1,
     pending: 0, shardsPicked: 0, salvage: 0, bossKills: 0, elites: 0, nextElite: 50, nextBoss: 180, bossIdx: 0, nextSurge: 70, spawnAcc: 0,
-    revived: false, wasNight: false, outfit: save.outfit, shake: 0, later: [], healPool: 0, bondPool: 0, critBuffT: 0, minionKills: 0, moved: false, dyingT: 0, boss: null, hurtFlash: 0, lowT: 0, achRun: {}, achNew: [], achT: 0, quests: [], qNext: 60, qStats: { done: 0, failed: 0, shards: 0, gear: 0 }, qN: 0, evo: {}, dm: {}, dmTot: 0, catPool: 0 };
+    revived: false, wasNight: false, outfit: save.outfit, shake: 0, later: [], healPool: 0, bondPool: 0, critBuffT: 0, minionKills: 0, moved: false, dyingT: 0, boss: null, hurtFlash: 0, lowT: 0, achRun: {}, achNew: [], achT: 0, quests: [], qNext: 60, qStats: { done: 0, failed: 0, shards: 0, gear: 0 }, qN: 0, evo: {}, dm: {}, dmTot: 0, catPool: 0, gold: 0, goldEarned: 0, goldSpent: 0, npcs: [], npcNext: 90, npcN: 0, npcBuys: 0, npcVisits: 0, npcSeen: 0 };
   G.obSeed = (Math.random() * 1e9) | 0; G.obGone = {}; obReset();
   hookSrc();
   P = { x: 0, y: 0, r: 11, hp: 100, maxHp: 0, facing: 1, aim: 0, moving: false, inv: 0, atk: 0 };
@@ -3623,6 +3752,7 @@ function recalc() {
   if (G.cls === 'paragon') { const ec = G.weapons.filter(w => PX_BASE[w.id]).length; s.dmg += (0.03 + (G.tf && G.tf.resonance ? 0.03 : 0)) * ec; s.crit += 0.01 * ec; } // v21 Eclipse Resonance
   s.minionAs = 0; s.eliteDmg = 0; s.extraShade = 0; s.extraArrow = 0; s.bondMul = 1; s.form = 0;
   for (const id in pv) { const x = passX(id); if (!(x > 0)) continue; const E = ENDL[id][1]; for (const k in E) { if (k === 'cd') s.cd -= E[k] * x; else if (k in s) s[k] += E[k] * x; } } /* v20 endless passives */
+  if (G.bufE > 0) s.dmg += 0.25; if (G.bufH > 0) s.cd -= 0.12; if (G.bufA > 0) s.armor += 3; /* v22 trader buffs */
   const tl = G.tal || {}; for (const k in tl) { if (k === 'f') continue; if (k === 'cd') s.cd -= tl[k]; else if (k in s) s[k] += tl[k]; }
   s.skd = {}; s.skc = {}; for (const k in tl) { if (k.startsWith('sd_')) s.skd[k.slice(3)] = tl[k]; else if (k.startsWith('sc_')) s.skc[k.slice(3)] = tl[k]; } // v19 talents: +% damage / -% cooldown for one skill
   const fx = {}; for (const k in G.gear) { const it = G.gear[k]; if (!it) continue; for (const a in it.st) { if (a === 'cd') s.cd -= it.st[a]; else if (a in s) s[a] += it.st[a]; } if (it.fx && GFX[it.fx.id]) fx[it.fx.id] = (fx[it.fx.id] || 0) + it.fx.v; }
@@ -3663,18 +3793,18 @@ function catPurge(quiet) { // v18: Shadowcat is pure melee — shed every ranged
   if (!n) return 0; G.pending += n; G.catRefund = (G.catRefund || 0) + n; G.luChoices = null; recalc();
   if (!quiet) toast(`🐾 Pure melee: ${names.length > 2 ? names.length + ' nature skills' : names.join(' & ')} shed → +${n} free pick${n > 1 ? 's' : ''}`, '#ff9ab8', 3.4);
   return n; }
-const RUN_STATES = { play: 1, paused: 1, levelup: 1, gear: 1, countdown: 1, equip: 1 };
+const RUN_STATES = { play: 1, paused: 1, levelup: 1, gear: 1, countdown: 1, equip: 1, npc: 1 };
 const r1 = v => Math.round(v * 10) / 10;
 function serializeRun() {
   const g = {}; for (const k of ['cls', 'race', 'outfit', 't', 'kills', 'level', 'xp', 'xpNext', 'passives', 'gear', 'pending', 'shardsPicked', 'salvage', 'bossKills', 'elites', 'nextElite', 'nextBoss',
-    'bossIdx', 'nextSurge', 'spawnAcc', 'revived', 'wasNight', 'healPool', 'bondPool', 'critBuffT', 'minionKills', 'moved', 'pendingChest', 'nextLoot', 'rushT', 'aegisT', 'kept', 'luChoices', 'tal', 'undyingUsed', 'tollT', 'rwT', 'sgT', 'achRun', 'achNew', 'dv', 'ancCd', 'frzCd', 'wsT', 'mcT', 'mwT', 'mvT', 'arc', 'stage', 'nextMini', 'surgeN', 'quests', 'qNext', 'qStats', 'qN', 'qLast', 'evo', 'dm', 'catPool', 'catRefund', 'obSeed', 'obGone', 'rerolls']) g[k] = G[k];
+    'bossIdx', 'nextSurge', 'spawnAcc', 'revived', 'wasNight', 'healPool', 'bondPool', 'critBuffT', 'minionKills', 'moved', 'pendingChest', 'nextLoot', 'rushT', 'aegisT', 'kept', 'luChoices', 'tal', 'undyingUsed', 'tollT', 'rwT', 'sgT', 'achRun', 'achNew', 'dv', 'ancCd', 'frzCd', 'wsT', 'mcT', 'mwT', 'mvT', 'arc', 'stage', 'nextMini', 'surgeN', 'quests', 'qNext', 'qStats', 'qN', 'qLast', 'evo', 'dm', 'catPool', 'catRefund', 'obSeed', 'obGone', 'rerolls', 'gold', 'goldEarned', 'goldSpent', 'npcs', 'npcNext', 'npcN', 'npcLast', 'npcBuys', 'npcVisits', 'npcSeen', 'bufE', 'bufH', 'bufA', 'deathward', 'goldBud']) g[k] = G[k];
   g.weapons = G.weapons.map(w => [w.id, w.lvl]);
   const live = enemies.filter(e => !e.dead);
   // compact enemy snapshot: [type, x, y, hp, maxHp, spd, dmg, r, sc, xp, flags(1=elite,2=boss), afflictions|0]
   const en = live.map(e => [e.type, r1(e.x), r1(e.y), r1(e.hp), r1(e.maxHp), r1(e.spd), r1(e.dmg), r1(e.r), e.sc, e.xp, (e.elite ? 1 : 0) | (e.boss ? 2 : 0), afCount(e) ? [e.rot, r1(e.rotT), r1(e.rotD), r1(e.agT), r1(e.agAge), r1(e.agD), r1(e.volT), r1(e.volD)] : 0, e.aff.length ? e.aff : 0, e.shMax ? [r1(e.sh), r1(e.shMax)] : 0, e.qid || 0]);
   return { v: RUN_V, at: Date.now(), ui: state === 'countdown' ? 'paused' : state, G: g, P: { x: r1(P.x), y: r1(P.y), hp: r1(P.hp), maxHp: r1(P.maxHp), facing: P.facing },
     en, boss: G.boss ? live.indexOf(G.boss) : -1, item: state === 'gear' ? curItem : null,
-    picks: picks.filter(p => p.k === 'chest' || p.k === 'shard').map(p => [p.k, r1(p.x), r1(p.y), p.v || 0, p.boss ? 1 : 0]) };
+    picks: picks.filter(p => p.k === 'chest' || p.k === 'shard' || p.k === 'gold').map(p => [p.k, r1(p.x), r1(p.y), p.v || 0, p.boss ? 1 : 0]) };
 }
 let lastRunSave = 0;
 function saveRun() {
@@ -3706,7 +3836,10 @@ function restoreRun(r) {
   if (typeof G.rerolls !== 'number' || !(G.rerolls >= 0)) G.rerolls = 1 + Math.floor((G.level || 1) / 5); /* v20: pre-v20 saves get the rerolls they would have earned */
   if (!G.evo || typeof G.evo !== 'object' || Array.isArray(G.evo)) G.evo = {}; if (!G.dm || typeof G.dm !== 'object' || Array.isArray(G.dm)) G.dm = {};
   for (const k in G.dm) if (!Array.isArray(G.dm[k]) || G.dm[k].length < 3) delete G.dm[k]; G.dmTot = Object.values(G.dm).reduce((a, r) => a + (+r[0] || 0), 0);
-  G.catPool = +G.catPool || 0; G.passives = G.passives && typeof G.passives === 'object' ? G.passives : {};
+  G.catPool = +G.catPool || 0;
+  /* v22: gold & traders (absent in v21 saves) */ for (const k of ['gold', 'goldEarned', 'goldSpent', 'npcN', 'npcBuys', 'npcVisits', 'npcSeen', 'bufE', 'bufH', 'bufA']) G[k] = Math.max(0, +G[k] || 0);
+  if (!Array.isArray(G.npcs)) G.npcs = []; G.npcs = G.npcs.filter(n => n && NPCS[n.nt] && Array.isArray(n.offers) && typeof n.x === 'number'); for (const n of G.npcs) { n.cool = 1; n.near = 0; }
+  if (typeof G.npcNext !== 'number') G.npcNext = Math.max(90, (G.t || 0) + 45); G.passives = G.passives && typeof G.passives === 'object' ? G.passives : {};
 
   P = { x: r.P.x || 0, y: r.P.y || 0, r: 11, hp: 100, maxHp: 0, facing: r.P.facing || 1, aim: 0, moving: false, inv: 1.5, atk: 0 };
   G.obSeed = G.obSeed | 0; if (!G.obGone || typeof G.obGone !== 'object') G.obGone = {}; obReset(); obGrid(); obFree(P, P.r + 1); // v17 runs get obstacles too; never restore inside one
@@ -3723,7 +3856,7 @@ function restoreRun(r) {
     const f = a[11]; if (Array.isArray(f)) { if (f.length === 3) { e.rot = 2; e.rotD = (+f[0] || 0) / 2; e.rotT = +f[1] || 0; } // v7 curse → 2 Rot stacks
       else { [e.rot, e.rotT, e.rotD, e.agT, e.agAge, e.agD, e.volT, e.volD] = f.map(v => +v || 0); } e.dotTk = AFF_TICK; } }
   if (r.boss >= 0 && enemies[r.boss] && enemies[r.boss].boss) G.boss = enemies[r.boss]; else G.boss = enemies.find(e => e.boss) || null;
-  for (const q of (r.picks || [])) picks.push(q[0] === 'chest' ? { k: 'chest', x: q[1], y: q[2], boss: !!q[4] } : { k: 'shard', x: q[1], y: q[2], v: q[3] || 1 });
+  for (const q of (r.picks || [])) picks.push(q[0] === 'chest' ? { k: 'chest', x: q[1], y: q[2], boss: !!q[4] } : { k: q[0] === 'gold' ? 'gold' : 'shard', x: q[1], y: q[2], v: q[3] || 1 });
   save.lastClass = cls; persist();
 }
 function runSummary(r) { const c = CLASSES[clsOf(r.G.cls)]; return `${RACES[raceOf(r.G.race || save.race)].name} ${c ? c.name : 'Hunter'} · ${fmtTime(r.G.t || 0)} survived · Lv ${r.G.level || 1} · ☠ ${r.G.kills || 0}`; }
@@ -4132,6 +4265,7 @@ function killEnemy(e) {
     if (r < 0.012) picks.push({ k: 'vial', x: e.x, y: e.y }); else if (r < 0.0145) picks.push({ k: 'lure', x: e.x, y: e.y }); else if (r < 0.022) picks.push({ k: 'shard', x: e.x, y: e.y, v: 1 });
     else if (G.t >= (G.nextLoot || 40) && r < 0.06 && def.t0 < 1e8) { picks.push({ k: 'loot', x: e.x, y: e.y }); G.nextLoot = G.t + rand(40, 70) * (G.t > 900 ? 0.8 : 1); }
   }
+  if (e.boss) dropGold(e.x, e.y, 15 + G.t / 30, 8); else if (e.elite || e.mini) dropGold(e.x, e.y, (e.mini ? 2 : 1) * (1 + G.t / 300), e.mini ? 4 : 2); else if (def.t0 < 1e8 && !def.totem) { const v = 1 + Math.floor(G.t / 300); if (G.goldBud >= v && Math.random() < 0.06) { G.goldBud -= v; dropGold(e.x, e.y, v, 1); } } /* v22 in-run gold (ordinary foes: paced by a budget so huge kill counts don't flood the economy) */
   if (def.split && enemies.length < ECAP + 30) for (const s of [-1, 1]) { const o = spawnEnemy(def.split, { x: e.x + s * 9, y: e.y + rand(-4, 4) }); o.kbx = s * 120; }
   if (e.elite && e.aff.includes('explosive')) effects.push({ k: 'warn', x: e.x, y: e.y, r: 72, life: 0.9, max: 0.9, dmg: e.dmg * 1.3, col: '#ff8a3c', boom: 1 });
   if (G.tf.grimTide && Math.random() < 0.06 && effects.length < 220) effects.push({ k: 'nova', x: e.x, y: e.y, r: 0, maxR: 80 * P.area, life: 0.35, max: 0.35, dmg: 18 + G.level * 1.2, hit: new Set([e]), col: '#ff3d6e', src: '@talent' });
@@ -4166,6 +4300,7 @@ function hurtPlayer(dmg, src) {
   if (P.hp <= 0) playerDown();
 }
 function playerDown() {
+  if (G && G.deathward) { G.deathward = 0; P.hp = Math.max(1, P.maxHp * 0.5); P.inv = 2.5; effects.push({ k: 'nova', x: P.x, y: P.y, r: 0, maxR: 220, life: 0.6, max: 0.6, dmg: 9999, hit: new Set(), col: '#c56bff', src: '@talent' }); toast('Deathward shatters — you rise again!', '#d79bff', 3); Snd.play('chest'); return; } /* v22 Mysterious Stranger */
   if (G.tf && G.tf.undying && !G.undyingUsed) { G.undyingUsed = true; P.hp = Math.max(1, P.maxHp * 0.4); P.inv = 3; effects.push({ k: 'nova', x: P.x, y: P.y, r: 0, maxR: 180, life: 0.5, max: 0.5, dmg: 60, hit: new Set(), col: '#ff3d6e', src: '@talent' }); toast('Undying Pact — death is refused!', '#ff7a96', 3); Snd.play('chest'); return; }
   if (mr('revive') && !G.revived) {
     G.revived = true; P.hp = P.maxHp * 0.5; P.inv = 2.5;
@@ -4761,8 +4896,9 @@ function updatePickups(dt) {
       if (p.k === 'vial') { heal(P.maxHp * 0.3); addNum(P.x, P.y - 24, '+HP', '#ff7a96', 14); Snd.play('heal'); burst(P.x, P.y, '#ff3d6e', 10, 70, 2.5, 0.5, true); }
       else if (p.k === 'lure') { for (const q of picks) q.pull = true; Snd.play('pick'); toast('Soul Lure — all treasures drawn to you!', '#4fd4ff', 1.8); }
       else if (p.k === 'shard') { G.shardsPicked += p.v || 1; Snd.play('pick'); addNum(P.x, P.y - 24, '+' + (p.v || 1) + '◆', '#d7a6ff', 13); }
-      else if (p.k === 'chest') { G.pendingChest = (G.pendingChest || []); G.pendingChest.push(p.boss ? 'boss' : p.mini ? 'mini' : 'elite'); Snd.play('chest'); triggerJump(true); }
-      else if (p.k === 'loot') { G.pendingChest = (G.pendingChest || []); G.pendingChest.push('drop'); Snd.play('pick'); }
+      else if (p.k === 'gold') addGold(p.v || 1, P.x + rand(-6, 6), P.y - 24);
+      else if (p.k === 'chest') { G.pendingChest = (G.pendingChest || []); G.pendingChest.push(p.boss ? 'boss' : p.mini ? 'mini' : 'elite'); Snd.play('chest'); triggerJump(true); addGold(p.boss ? 10 + G.t / 40 : p.mini ? 6 + G.t / 60 : 2 + G.t / 300, P.x, P.y - 40); }
+      else if (p.k === 'loot') { G.pendingChest = (G.pendingChest || []); G.pendingChest.push('drop'); Snd.play('pick'); addGold(1 + G.t / 300, P.x, P.y - 40); }
     }
   }
   picks = picks.filter(p => !p.dead); picks.push = obPush;
@@ -4804,7 +4940,7 @@ function update(dt, dying) {
   buildGrid();
   updateEnemies(dt, dying);
   if (!dying) { updateWeapons(dt); updateMinions(dt); }
-  updateProjs(dt); updateEffects(dt); G.srcW = null; if (!dying) { updatePickups(dt); questTick(dt); }
+  updateProjs(dt); updateEffects(dt); G.srcW = null; if (!dying) { updatePickups(dt); questTick(dt); npcTick(dt); }
   for (const p of parts) { p.life -= dt;
     if (p.home) { const dx = P.x - p.x, dy = P.y - 4 - p.y, d = Math.hypot(dx, dy) || 1, k = 1 - p.life / p.max; p.vx += dx / d * 1400 * k * dt; p.vy += dy / d * 1400 * k * dt; p.vx *= 0.9; p.vy *= 0.9; if (d < 10) p.life = 0; }
     else { p.vx *= 0.94; p.vy *= 0.94; }
@@ -4897,12 +5033,12 @@ function questDone(q, i) {
   let r = t < 300 ? 1 : t < 600 ? 2 : 3; if (Math.random() < 0.2 + Math.min(0.3, nth * 0.04) && (r < 3 || t >= 900)) r++;
   const it = genGear('quest', { r, cls: G.cls }), sl = gearSlotFor(it), cur = G.gear[sl]; let eq = false, sv = 0;
   if (!cur || itemScore(it) > itemScore(cur)) { G.gear[sl] = it; recalc(); G.gearFx = 0.7; eq = true; } else { sv = salvVal(it); G.salvage += sv; }
-  G.shardsPicked += sh; G.qStats.done++; G.qStats.shards += sh; G.qStats.gear++;
+  G.shardsPicked += sh; G.qStats.done++; G.qStats.shards += sh; G.qStats.gear++; const qg = Math.round(8 + t / 30); addGold(qg); /* v22 */
   achAdd('g_quests', 1); achMax('q_run_t', G.qStats.done);
   Snd.play('qdone'); G.shake = Math.max(G.shake, 0.12);
   burst(P.x, P.y, '#ffe23a', 22, 170, 3, 0.7, true); burst(P.x, P.y, GRAR[it.r].c, 12, 110, 2.6, 0.6, true); addNum(P.x, P.y - 34, '+' + sh + ' ◆', '#ffd24a', 15);
   qBanner(`<div class="qbi qgi" style="--rc:${GRAR[it.r].c}"><img alt="" src="${gIconURL(it)}"></div><div class="qbx"><div class="qbt qok">✓ Quest Complete</div><div class="qbn">${D.name(q)}</div>` +
-    `<div class="qbd"><b class="qsh">+${sh} ◆</b> · <b style="color:${GRAR[it.r].c}">${it.name}</b> <span class="qeq">${eq ? '▲ equipped' : 'salvaged +' + sv + '◆'}</span></div></div>`, 'done');
+    `<div class="qbd"><b class="qsh">+${sh} ◆</b> <b style="color:#ffd24a">+${qg} ●</b> · <b style="color:${GRAR[it.r].c}">${it.name}</b> <span class="qeq">${eq ? '▲ equipped' : 'salvaged +' + sv + '◆'}</span></div></div>`, 'done');
 }
 function questFail(q, i, why) {
   G.quests.splice(i, 1); qCleanup(q); qSig = ''; G.qStats.failed++; Snd.play('qfail');
@@ -4988,6 +5124,197 @@ function drawQuestHUD() {
 }
 function questSummary() { const s = G.qStats || { done: 0, failed: 0, shards: 0, gear: 0 }; if (!s.done && !s.failed) return '';
   return `<div><span>Quests completed</span><b style="color:#ffd24a">${s.done} / ${s.done + s.failed}</b></div>` + (s.done ? `<div style="font-size:13px;color:#a593c4"><span>Quest rewards</span><span>+${s.shards} ◆ · ${s.gear} gear</span></div>` : ''); }
+/* ================= v22 IN-RUN GOLD & WANDERING TRADERS =================
+   Gold ● is a run-only currency, separate from Shards (it never buys or becomes Shards, except a tiny leftover bonus at the end).
+   Foes sometimes drop coins (elites, bosses, chests and quests drop more). Every ~2–3½ min a wandering trader shows up for ~55s:
+   follow the edge arrow, walk into them (or press E / gamepad X / the Trade button) and the game pauses while you shop. */
+const GOLD_COL = '#ffd24a';
+let NPC_NEAR = null, npcCur = null, npcOpenAt = 0, npcMsgT = '', npcMsgK = '';
+const NPCS = {
+  merchant: { n: 'Pell', role: 'Wandering Merchant', ic: '⚖', col: '#ffc94a', glow: '#ffc94a',
+    hi: ['Coins for wares, wares for coins!', 'Fine goods at fair-ish prices!', 'Psst, you look like you need a tonic.', 'Everything must go, before the dark gets me!'],
+    bye: 'Safe roads, friend!', poor: 'Ah, come back with a heavier purse!' },
+  gambler: { n: 'Lady Vex', role: 'Fortune Gambler', ic: '⚄', col: '#ff7a9a', glow: '#ff4fd8',
+    hi: ['Feeling lucky, darling?', 'The bones never lie… mostly.', 'Double or nothing? Always double!', 'Fortune favours the bold. Are you bold?'],
+    bye: 'Luck be with you… or not!', poor: 'No coin, no game, sweetheart.' },
+  smith: { n: 'Brunhild', role: 'Runesmith', ic: '⚒', col: '#7fd6ff', glow: '#4fd4ff',
+    hi: ['Hah! That blade could use some love.', 'Steel and runes, the best things in the dark.', 'Hold still, I will sharpen you up.', 'Bring me coin, I bring you an edge!'],
+    bye: 'Go hit something hard!', poor: 'Runes are not free, little hunter.' },
+  stranger: { n: '???', role: 'Mysterious Stranger', ic: '☾', col: '#d79bff', glow: '#c56bff',
+    hi: ['…You can see me? Interesting.', 'Power has a price. Can you pay it?', 'The night whispers your name.', 'I trade in fates. Choose wisely.'],
+    bye: 'We will meet again… perhaps.', poor: 'Your purse is lighter than your courage.' },
+};
+const NOFF = {
+  heal: { ic: '✚', n: () => 'Crimson Tonic', d: () => 'Restore 50% of your HP', base: 14 },
+  lvl: { ic: '⇧', n: o => o.by === 'smith' ? 'Reforge' : 'Skill Tutor', d: o => '+1 level: ' + lvName(o.a), base: 40 },
+  lvl2: { ic: '⇧', n: () => 'Dark Tutelage', d: o => '+2 levels: ' + lvName(o.a), base: 95 },
+  reroll: { ic: '↻', n: () => 'Lucky Charm', d: () => '+1 level-up Reroll', base: 22 },
+  magnet: { ic: '⊛', n: () => 'Soul Lantern', d: () => 'Pull every soul gem, coin and treasure on the map to you', base: 10 },
+  edge: { ic: '⚔', n: () => 'Whetstone Edge', d: () => '+25% damage for 90s', base: 26 },
+  haste: { ic: '❖', n: () => 'Quickening Rune', d: () => 'Skills recharge 12% faster for 90s', base: 26 },
+  hide: { ic: '⛨', n: () => 'Ironhide Rune', d: () => '+3 armor for 90s', base: 20 },
+  bet: { ic: '⚄', n: () => 'Small Wager', d: () => 'Roll the bones: usually a nice prize, sometimes a dud', base: 16, rep: 3 },
+  bet2: { ic: '⚅', n: () => 'High Stakes', d: () => 'Bigger prizes (even an evolution!), bigger risks', base: 45, rep: 2 },
+  evo: { ic: '⇪', n: () => 'Pact of Ascension', d: o => 'Evolve ' + (WDEF[o.a] ? WDEF[o.a].name : 'a ready skill') + ' right now', base: 100 },
+  horde: { ic: '☄', n: () => 'Banish the Horde', d: () => 'Banish every ordinary foe on screen and hold back the swarm for 6s (elites & bosses lose 20% HP)', base: 55 },
+  ward: { ic: '✧', n: () => 'Deathward', d: () => 'Cheat death once this run: rise again with 50% HP', base: 110 },
+};
+function lvName(a) { if (!a) return 'a random skill'; if (a.k === 'w' && WDEF[a.id]) { const w = G.weapons.find(w => w.id === a.id); return WDEF[a.id].name + (w ? ` (Lv ${w.lvl})` : ''); }
+  if (a.k === 'p' && PDEF[a.id]) return PDEF[a.id].name + ` (Lv ${G.passives[a.id] || 0})`; return 'a random skill'; }
+function npcLvTarget(mode) { /* what a tutor / smith can teach right now: a skill or owned passive below max (endless passives as a last resort) */
+  const ws = G.weapons.filter(w => WDEF[w.id] && w.lvl < WDEF[w.id].max).map(w => ({ k: 'w', id: w.id, l: w.lvl }));
+  const ps = Object.keys(G.passives).filter(id => PDEF[id] && G.passives[id] < PDEF[id].max).map(id => ({ k: 'p', id, l: G.passives[id] }));
+  let L = mode === 'low' ? ws.sort((a, b) => a.l - b.l) : mode === 'top' ? ws.sort((a, b) => b.l - a.l) : ws.concat(ps);
+  if (!L.length) L = ps.length ? ps : Object.keys(G.passives).filter(id => ENDL[id]).map(id => ({ k: 'p', id }));
+  const t = mode === 'any' ? pick(L) : L[0]; return t ? { k: t.k, id: t.id } : null; }
+function npcLevel(a) { if (!a) return null;
+  if (a.k === 'w') { const w = G.weapons.find(w => w.id === a.id); if (!w || w.lvl >= WDEF[a.id].max) return null; w.lvl++; recalc(); return WDEF[a.id].name + ' → Lv ' + w.lvl; }
+  const d = PDEF[a.id]; if (!d || !G.passives[a.id] || (!ENDL[a.id] && G.passives[a.id] >= d.max)) return null;
+  G.passives[a.id]++; recalc(); if (a.id === 'vigor') heal(20); return d.name + ' → Lv ' + G.passives[a.id]; }
+function npcLevelAny(a) { return npcLevel(a) || npcLevel(npcLvTarget('any')); }
+function npcOffers(type) {
+  const f = 1 + G.t / 240, O = (k, x) => Object.assign({ k, p: Math.max(1, Math.round(NOFF[k].base * f)), left: NOFF[k].rep || 1 }, x || {});
+  if (type === 'merchant') { const a = npcLvTarget('any'); return [O('heal'), a ? O('lvl', { a, by: 'merchant' }) : O('reroll'), O(a && Math.random() < 0.5 ? 'reroll' : 'magnet')]; }
+  if (type === 'gambler') return [O('bet'), O('bet2'), O('reroll')];
+  if (type === 'smith') { const a = npcLvTarget('low'), L = [O('edge'), O('haste'), O('hide')]; if (a) L.unshift(O('lvl', { a, by: 'smith' })); return L; }
+  const er = evoReady(), L = []; if (er.length) L.push(O('evo', { a: er[0] })); else { const a = npcLvTarget('top'); if (a) L.push(O('lvl2', { a })); }
+  L.push(O('horde')); if (!G.deathward) L.push(O('ward')); return L; }
+function dropGold(x, y, total, n) { /* coins are normal pickups: pickup radius, magnet and Soul Lure all apply */
+  total = Math.round(total); if (!(total > 0)) return; n = Math.max(1, Math.min(n || 1, total)); let gc = 0; for (const p of picks) if (p.k === 'gold') gc++;
+  for (let i = 0; i < n; i++) { const v = Math.floor(total / n) + (i < total % n ? 1 : 0); if (v <= 0) continue;
+    if (gc > 140) { const q = picks.find(p => p.k === 'gold'); if (q) { q.v += v; continue; } }
+    const a = rand(TAU), d = n > 1 ? rand(8, 28) : 0; picks.push({ k: 'gold', x: x + Math.cos(a) * d, y: y + Math.sin(a) * d, v }); gc++; } }
+function addGold(v, x, y) { v = Math.round(v); if (!(v > 0) || !G) return; G.gold = (G.gold || 0) + v; G.goldEarned = (G.goldEarned || 0) + v;
+  if (x !== undefined) addNum(x, y, '+' + v + ' ●', GOLD_COL, v >= 10 ? 14 : 11);
+  if (!(G.coinT > G.t - 0.07)) { G.coinT = G.t; Snd.play('coin'); } }
+function npcSpawn(type) {
+  if (!type) { const pool = ['merchant', 'gambler', 'smith'].filter(k => k !== G.npcLast); type = G.t >= 300 && G.npcLast !== 'stranger' && Math.random() < 0.2 ? 'stranger' : pick(pool); }
+  const D = NPCS[type], a = rand(TAU), d = rand(240, 330);
+  const n = { id: ++G.npcN, nt: type, npc: 1, x: r1(P.x + Math.cos(a) * d), y: r1(P.y + Math.sin(a) * d), r: 10, T: 55, max: 55, face: 1, age: 0, cool: 0, visits: 0 };
+  obFree(n, n.r + 2); n.hx = n.x; n.hy = n.y; n.offers = npcOffers(type); n.say = pick(D.hi);
+  G.npcs.push(n); G.npcLast = type; G.npcSeen = (G.npcSeen || 0) + 1;
+  toast(`${D.ic}\uFE0E ${D.role} ${D.n === '???' ? '' : D.n + ' '}is nearby, follow the arrow!`, D.col, 3.2); Snd.play('greet'); return n; }
+function npcTick(dt) {
+  if (!Array.isArray(G.npcs)) G.npcs = [];
+  for (const k of ['bufE', 'bufH', 'bufA']) if (G[k] > 0) { G[k] -= dt; if (G[k] <= 0) { G[k] = 0; recalc(); } }
+  if (G.npcNext == null) G.npcNext = 90;
+  G.goldBud = Math.min(12, (G.goldBud || 0) + dt * 0.2 * (1 + G.t / 240)); /* ≈ 12 × price-factor gold per minute from ordinary foes */
+  if (G.t >= G.npcNext && !G.npcs.length) { npcSpawn(); G.npcNext = G.t + rand(120, 200); }
+  for (const n of G.npcs) { const D = NPCS[n.nt]; n.T -= dt; n.age = (n.age || 0) + dt;
+    if (n.tx == null || (n.wT = (n.wT || 0) - dt) <= 0) { n.wT = rand(2, 4.5); const a = rand(TAU), d = rand(0, 70); n.tx = n.hx + Math.cos(a) * d; n.ty = n.hy + Math.sin(a) * d; n.idle = Math.random() < 0.35 ? 1 : 0; }
+    const dx = n.tx - n.x, dy = n.ty - n.y, dd = Math.hypot(dx, dy), dP = Math.hypot(P.x - n.x, P.y - n.y);
+    n.mv = !n.idle && dd > 3 && dP > 46 ? 1 : 0; if (n.mv) { const s = Math.min(dd, 26 * dt); n.x += dx / dd * s; n.y += dy / dd * s; if (Math.abs(dx) > 1) n.face = dx < 0 ? -1 : 1; }
+    if (dP < 170) n.face = P.x < n.x ? -1 : 1;
+    obResolve(n, n.r); /* traders walk around rocks, trunks and graves like everyone else */
+    n.near = dP < 120 ? 1 : 0; if (n.cool && dP > 75) n.cool = 0;
+    if (window.__SIMSHOP) { if (n.age > 3 && !n.simDone) { n.simDone = 1; npcAutoBuy(n); n.T = Math.min(n.T, 0.5); } }
+    else if (dP < 24 + n.r && !n.cool && state === 'play' && !(G.pending > 0) && !(G.pendingChest && G.pendingChest.length)) npcOpen(n);
+    if (n.T <= 0) { n.gone = 1; burst(n.x, n.y - 10, D.glow, 16, 90, 3, 0.6, true); burst(n.x, n.y, '#cdb88c', 8, 50, 4, 0.5);
+      if (!n.visits && !window.__SIMSHOP) toast(`${D.role} ${D.n === '???' ? '' : D.n + ' '}moved on`, '#c9b6e8', 2); } }
+  if (G.npcs.some(n => n.gone)) G.npcs = G.npcs.filter(n => !n.gone);
+}
+function npcOpen(n) { if (!n || !G || (state !== 'play' && state !== 'countdown')) return; npcCur = n; n.cool = 1; n.visits = (n.visits || 0) + 1; G.npcVisits = (G.npcVisits || 0) + 1;
+  state = 'npc'; setJoy(false); keys.clear(); JB.kb = 0; JB.held = 0; show('npc'); Snd.play('greet'); npcOpenAt = performance.now();
+  const D = NPCS[n.nt]; npcMsgT = n.visits > 1 ? 'Back again? Take a look.' : 'Spend your gold ● on something nice (it does not carry over between runs).'; npcMsgK = '';
+  if (n.visits > 1) n.say = pick(D.hi); renderNpc(); saveRun(); }
+function npcClose() { if (state !== 'npc') return; const n = npcCur; npcCur = null; if (n) { n.cool = 1; } resumeGame(); P.inv = Math.max(P.inv, 0.8); }
+function npcPortrait(cv, type) {
+  const dpr = Math.min(3, window.devicePixelRatio || 1), S = 84; cv.width = S * dpr; cv.height = S * dpr; const g = cv.getContext('2d');
+  let img = SPR.npcP && SPR.npcP[type]; if (!img) { const k = 3 * dpr, c = mkCanvas(64 * k, 64 * k), cg = c.getContext('2d'); cg.scale(k, k); cg.translate(32, 32); NPCDRAW[type](cg, 0);
+    img = outlineSprite(paintSprite(c, '#fff1cc', 0.45), 1.6 * k / 2); (SPR.npcP = SPR.npcP || {})[type] = img; }
+  g.clearRect(0, 0, cv.width, cv.height); g.drawImage(img, -8 * dpr, -2 * dpr, (S + 16) * dpr, (S + 16) * dpr); }
+function renderNpc() { const n = npcCur; if (!n) return; const D = NPCS[n.nt];
+  $('npc').style.setProperty('--nc', D.col); $('npcName').textContent = D.n; $('npcRole').textContent = D.role; $('npcSay').textContent = '“' + n.say + '”';
+  $('npcGold').textContent = G.gold || 0; $('npcTime').textContent = `leaves in ${Math.max(1, Math.ceil(n.T))}s (time is paused)`;
+  npcPortrait($('npcArt'), n.nt);
+  const L = $('npcOffers'); L.innerHTML = '';
+  n.offers.forEach((o, i) => { const def = NOFF[o.k]; if (!def) return; const sold = !(o.left > 0), can = (G.gold || 0) >= o.p, nm = def.n(o), ds = def.d(o);
+    const b = document.createElement('button'); b.className = 'npco' + (sold ? ' sold' : can ? '' : ' poor'); b.disabled = sold; b.dataset.i = i;
+    b.innerHTML = `<kbd class="kh">${i + 1}</kbd><span class="ni">${def.ic}\uFE0E</span><span class="nt"><b>${nm}</b><small>${ds}</small></span><span class="np">${sold ? 'SOLD' : '● ' + o.p}${!sold && def.rep && o.left > 1 ? `<i>×${o.left}</i>` : ''}</span>`;
+    b.setAttribute('aria-label', `${nm}: ${ds}. ${sold ? 'Sold out' : o.p + ' gold' + (can ? '' : ', not enough gold')}`);
+    b.onclick = () => npcBuy(i); L.appendChild(b); });
+  const m = $('npcMsg'); m.textContent = npcMsgT; m.className = 'npcmsg ' + npcMsgK; }
+function npcSayMsg(t, k) { npcMsgT = t; npcMsgK = k || ''; }
+function npcBuy(i, auto) { const n = auto || npcCur; if (!n || (!auto && (state !== 'npc' || performance.now() - npcOpenAt < 300))) return false;
+  const o = n.offers[i], D = NPCS[n.nt]; if (!o || !(o.left > 0)) return false;
+  if ((G.gold || 0) < o.p) { if (!auto) { npcSayMsg(`${D.poor} (you need ${o.p - (G.gold || 0)} more ●)`, 'bad'); Snd.play('deny'); renderNpc(); } return false; }
+  const price = o.p; G.gold -= price; const r = npcApply(o, price, n);
+  if (!r || r.fail) { G.gold += price; if (!auto) { npcSayMsg(r && r.fail ? r.fail : 'Hmm… nothing I can do for you there.', 'bad'); Snd.play('deny'); if (r && r.gone) o.left = 0; renderNpc(); } else if (r && r.gone) o.left = 0; return false; }
+  G.goldSpent = (G.goldSpent || 0) + price; G.npcBuys = (G.npcBuys || 0) + 1; o.left--; if (o.left > 0) o.p = Math.round(o.p * 1.6);
+  if (!auto) { Snd.play(r.snd || 'buy'); npcSayMsg(r.t, r.good === false ? 'bad' : 'good'); renderNpc(); saveRun(); padRumble(0.2, 0.4, 120); }
+  return true; }
+function npcBuff(k, s) { G[k] = Math.max(G[k] || 0, s); recalc(); }
+function npcApply(o, price, n) { const by = n.nt;
+  switch (o.k) {
+    case 'heal': if (P.hp >= P.maxHp - 0.5) return { fail: 'You are already at full health. Keep your coin!' }; heal(P.maxHp * 0.5); burst(P.x, P.y, '#ff3d6e', 10, 70, 2.5, 0.5, true); return { t: '✚ Healed! ' + Math.ceil(P.hp) + ' / ' + Math.round(P.maxHp) + ' HP', snd: 'heal' };
+    case 'lvl': { const r = npcLevelAny(o.a); return r ? { t: '⇧ ' + r + (by === 'smith' ? '. Good as new!' : '. Lesson learned!') } : { fail: 'Your skills are all maxed, there is nothing left to teach!', gone: 1 }; }
+    case 'lvl2': { const a = npcLevelAny(o.a); if (!a) return { fail: 'Your power is already complete.', gone: 1 }; const b = npcLevelAny(o.a); return { t: '⇧ ' + a + (b && b !== a ? ' · ' + b : '') }; }
+    case 'reroll': G.rerolls = (G.rerolls || 0) + 1; return { t: '↻ +1 Reroll (' + G.rerolls + ' total)' };
+    case 'magnet': for (const g of gems) g.pull = true; for (const p of picks) p.pull = true; return { t: '⊛ Every treasure on the map is drifting to you!' };
+    case 'edge': npcBuff('bufE', 90); return { t: '⚔ +25% damage for 90s. Go get them!' };
+    case 'haste': npcBuff('bufH', 90); return { t: '❖ Skills recharge faster for 90s!' };
+    case 'hide': npcBuff('bufA', 90); return { t: '⛨ +3 armor for 90s!' };
+    case 'bet': case 'bet2': return npcGamble(o.k === 'bet2', price);
+    case 'evo': { const er = evoReady(), id = er.includes(o.a) ? o.a : er[0]; if (!id) return { fail: 'Nothing is ready to ascend… yet.' }; evolve(id); return { t: '⇪ ' + EVO[id].n + '! The pact is sealed.', snd: 'chest' }; }
+    case 'horde': { const k = npcBanish(); return { t: '☄ ' + k + ' foes banished into the void!', snd: 'nova' }; }
+    case 'ward': if (G.deathward) return { fail: 'You already carry my ward.' }; G.deathward = 1; return { t: '✧ Death will pass you by… once.', snd: 'shimmer' };
+  } return null; }
+function npcGamble(hi, price) { const er = evoReady();
+  const T = hi ? [['lvl2', 25], ['evo', er.length ? 10 : 0], ['buff', 15], ['gold3', 12], ['feast', 16], ['dud', 14], ['curse', 8]]
+    : [['lvl', 30], ['heal', 18], ['reroll', 14], ['gold2', 12], ['edge', 12], ['dud', 10], ['curse', 4]];
+  const r = wpick(T.filter(x => x[1] > 0), x => x[1])[0], S = { snd: 'dice' };
+  if (r === 'lvl' || r === 'lvl2') { const a = npcLevelAny(npcLvTarget('any')); if (!a) { G.rerolls = (G.rerolls || 0) + 1; return Object.assign(S, { t: '⚄ +1 Reroll!' }); } const b = r === 'lvl2' ? npcLevelAny(npcLvTarget('any')) : null; return Object.assign(S, { t: '⚄ Winner! ' + a + (b ? ' · ' + b : '') }); }
+  if (r === 'evo') { evolve(er[0]); return Object.assign(S, { t: '⚅ JACKPOT! ' + EVO[er[0]].n + '!', snd: 'chest' }); }
+  if (r === 'heal') { heal(P.maxHp); return Object.assign(S, { t: '⚄ Lucky! Fully healed.' }); }
+  if (r === 'feast') { heal(P.maxHp); G.rerolls = (G.rerolls || 0) + 1; return Object.assign(S, { t: '⚅ Feast! Fully healed and +1 Reroll.' }); }
+  if (r === 'reroll') { G.rerolls = (G.rerolls || 0) + 1; return Object.assign(S, { t: '⚄ +1 Reroll!' }); }
+  if (r === 'gold2' || r === 'gold3') { const w = price * (r === 'gold3' ? 3 : 2); G.gold += w; G.goldEarned = (G.goldEarned || 0) + w; return Object.assign(S, { t: `⚄ Double or nothing… DOUBLE! +${w} ●`, snd: 'coin' }); }
+  if (r === 'edge') { npcBuff('bufE', 60); return Object.assign(S, { t: '⚄ Fortune smiles: +25% damage for 60s!' }); }
+  if (r === 'buff') { npcBuff('bufE', 60); npcBuff('bufH', 60); return Object.assign(S, { t: '⚅ Hot streak! +25% damage and faster skills for 60s!' }); }
+  if (r === 'curse') { P.hp = Math.max(1, P.hp - P.maxHp * (hi ? 0.3 : 0.15)); G.hurtFlash = 0.25; return Object.assign(S, { t: '⚄ Snake eyes! A hex stings you (−' + (hi ? 30 : 15) + '% HP).', good: false }); }
+  return Object.assign(S, { t: '⚄ The bones say… nothing. Better luck next roll!', good: false }); }
+function npcBanish() { const vw = W / ZOOM / 2 + 30, vh = H / ZOOM / 2 + 30; let n = 0;
+  for (const e of enemies) { if (e.dead || Math.abs(e.x - P.x) > vw || Math.abs(e.y - P.y) > vh) continue; const d = ETYPES[e.type];
+    if (e.boss || e.elite || e.mini || d.totem || e.qid) { e.hp = Math.max(1, e.hp - e.maxHp * 0.2); continue; }
+    e.dead = true; n++; if (parts.length < 380) burst(e.x, e.y, '#c56bff', 4, 80, 2.4, 0.5, true); }
+  G.spawnAcc = Math.min(G.spawnAcc, -(1 + G.t * 0.04 + Math.pow(G.t / 60, 1.7) * 0.55) * 6);
+  effects.push({ k: 'nova', x: P.x, y: P.y, r: 0, maxR: 420, life: 0.6, max: 0.6, dmg: 0, hit: new Set(), col: '#c56bff', vis: 1 }); G.shake = 0.35; return n; }
+function npcAutoBuy(n) { /* balance sims only: a player who visits every trader and buys what helps most */
+  const pr = ['evo', 'lvl2', 'lvl', 'edge', 'haste', 'bet2', 'bet', 'ward', 'reroll', 'hide', 'horde'];
+  for (let guard = 0; guard < 12; guard++) { let done = false; for (const k of pr) { const i = n.offers.findIndex(o => o.k === k && o.left > 0 && G.gold >= o.p); if (i >= 0 && npcBuy(i, n)) { done = true; break; } } if (!done) break; } }
+function npcUI() { const b = $('npcTalk'); if (!b) return; let n = null;
+  if (G && !G.ended && state === 'play' && topScreen() === null && Array.isArray(G.npcs)) for (const q of G.npcs) if (q.near && !q.gone) { n = q; break; }
+  NPC_NEAR = n; const on = !!n; if (b.classList.contains('on') !== on) b.classList.toggle('on', on);
+  if (on && b._id !== n.id) { b._id = n.id; const D = NPCS[n.nt]; b.querySelector('.tn').textContent = 'Trade with ' + (D.n === '???' ? 'the Stranger' : D.n); b.style.setProperty('--nc', D.col); b.setAttribute('aria-label', 'Trade with ' + D.role); } }
+function drawNpc(n) { if (!inView(n.x, n.y, 70)) return; const D = NPCS[n.nt], A = SPR.npc && SPR.npc[n.nt]; if (!A) return;
+  const fade = clamp(Math.min(n.age * 3, n.T * 1.5), 0, 1), fl = n.nt === 'stranger', by = fl ? Math.sin(gtime * 2.2 + n.id) * 3 - 5 : n.mv ? -Math.abs(Math.sin(gtime * 8 + n.id)) * 1.6 : Math.sin(gtime * 2 + n.id) * 0.5;
+  ctx.globalAlpha = fade; ctx.drawImage(SPR.shadow, n.x - 15 * (fl ? 0.8 : 1), n.y + 11, 30 * (fl ? 0.8 : 1), 9);
+  ctx.globalCompositeOperation = 'lighter'; glowAt(D.glow, n.x, n.y - 6, 78, (0.22 + 0.1 * Math.sin(gtime * 3 + n.id)) * fade); ctx.globalCompositeOperation = 'source-over';
+  const fr = n.mv ? (Math.floor(gtime * 6 + n.id) & 1) : fl ? (Math.floor(gtime * 2) & 1) : 0;
+  ctx.save(); ctx.translate(n.x, n.y + by); ctx.scale(n.face < 0 ? -1 : 1, 1); ctx.drawImage(A[fr], -32, -40, 64, 64); ctx.restore();
+  ctx.globalCompositeOperation = 'lighter'; const sx = n.face < 0 ? -1 : 1;
+  if (n.nt === 'merchant') glowAt('#ffe23a', n.x + 14 * sx, n.y + by - 21, 26 + 4 * Math.sin(gtime * 7), fade);
+  else if (n.nt === 'smith') glowAt('#4fd4ff', n.x - 10 * sx, n.y + by - 30, 18 + 4 * Math.sin(gtime * 5), fade);
+  else if (n.nt === 'gambler') { const a = gtime * 1.6 + n.id, dx = n.x + Math.cos(a) * 18, dy = n.y - 22 + Math.sin(a * 2) * 4; glowAt('#ff4fd8', dx, dy, 22, 0.8 * fade); ctx.globalCompositeOperation = 'source-over';
+    ctx.save(); ctx.translate(dx, dy); ctx.rotate(Math.sin(gtime * 3) * 0.6); ctx.fillStyle = '#ffe9a8'; ctx.strokeStyle = '#6a3a00'; ctx.lineWidth = 1; rr(-3.5, -3.5, 7, 7, 1.6); ctx.fill(); ctx.stroke(); ctx.fillStyle = '#b0203a'; for (const [px, py] of [[-1.6, -1.6], [0, 0], [1.6, 1.6]]) { ctx.beginPath(); ctx.arc(px, py, 0.7, 0, TAU); ctx.fill(); } ctx.restore(); ctx.globalCompositeOperation = 'lighter'; }
+  else { for (let i = 0; i < 3; i++) { const a = gtime * 1.4 + i / 3 * TAU; glowAt('#c56bff', n.x + Math.cos(a) * 17, n.y + by - 14 + Math.sin(a) * 6, 14, 0.9 * fade); } glowAt('#ffffff', n.x, n.y + by - 26, 8, 0.5 * fade); }
+  ctx.globalCompositeOperation = 'source-over';
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.font = '800 8.5px -apple-system,system-ui,sans-serif'; ctx.lineWidth = 2.5; ctx.strokeStyle = 'rgba(10,4,20,.85)';
+  const tag = D.n === '???' ? 'Stranger' : D.n; ctx.strokeText(tag, n.x, n.y + 25); ctx.fillStyle = D.col; ctx.fillText(tag, n.x, n.y + 25);
+  if (n.near && state === 'play') { ctx.font = '700 8px -apple-system,system-ui,sans-serif'; const t = n.say.length > 34 ? n.say.slice(0, 32) + '…' : n.say, w = ctx.measureText(t).width + 10, x = n.x, y = n.y + by - 44;
+    ctx.fillStyle = 'rgba(255,248,230,.94)'; rr(x - w / 2, y - 7, w, 14, 6); ctx.fill(); ctx.strokeStyle = D.col; ctx.lineWidth = 1; ctx.stroke(); ctx.beginPath(); ctx.moveTo(x - 3, y + 7); ctx.lineTo(x + 3, y + 7); ctx.lineTo(x, y + 11); ctx.closePath(); ctx.fillStyle = 'rgba(255,248,230,.94)'; ctx.fill();
+    ctx.fillStyle = '#2a1430'; ctx.fillText(t, x, y + 0.5); }
+  ctx.globalAlpha = 1; }
+function npcHUD() { if (!G || !Array.isArray(G.npcs) || state === 'dying') return; for (const n of G.npcs) { if (n.near) continue; const D = NPCS[n.nt]; qArrow(n.x, n.y - 30, D.col, D.ic, n.T / n.max); } }
+function npcLights(L) { if (!Array.isArray(G.npcs)) return; for (const n of G.npcs) L(n.x, n.y - 14, 80, 0.8); }
+function goldHUD(x, y) { /* coin + count, then any running trader buffs */
+  ctx.save(); const r = 6.5; ctx.fillStyle = '#a8771e'; ctx.beginPath(); ctx.arc(x + r, y, r, 0, TAU); ctx.fill(); ctx.fillStyle = '#ffd24a'; ctx.beginPath(); ctx.arc(x + r, y - 0.6, r - 1.4, 0, TAU); ctx.fill();
+  ctx.fillStyle = '#fff3b0'; ctx.beginPath(); ctx.arc(x + r - 1.8, y - 2.4, 1.6, 0, TAU); ctx.fill(); ctx.strokeStyle = '#5a3a08'; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(x + r, y, r, 0, TAU); ctx.stroke();
+  ctx.font = '800 15px -apple-system,system-ui,sans-serif'; ctx.textAlign = 'left'; ctx.textBaseline = 'middle'; ctx.lineWidth = 3.5; ctx.strokeStyle = 'rgba(6,10,40,.9)'; const t = String(G.gold || 0);
+  ctx.strokeText(t, x + 2 * r + 4, y); ctx.fillStyle = GOLD_COL; ctx.fillText(t, x + 2 * r + 4, y); let bx = x + 2 * r + 10 + ctx.measureText(t).width;
+  ctx.font = '800 11px -apple-system,system-ui,sans-serif'; ctx.lineWidth = 3;
+  for (const [k, ic, c] of [['bufE', '⚔', '#ffb04a'], ['bufH', '❖', '#7ad7ff'], ['bufA', '⛨', '#c8d0e0']]) if (G[k] > 0) { const s = ic + '\uFE0E' + Math.ceil(G[k]); ctx.strokeText(s, bx, y); ctx.fillStyle = c; ctx.fillText(s, bx, y); bx += ctx.measureText(s).width + 6; }
+  ctx.restore(); }
 /* ================= DAY / NIGHT =================
    One full cycle = 210s: dawn -> day -> dusk -> night. Night: more & tougher shadows. */
 const DAY_LEN = 210;
@@ -5018,7 +5345,7 @@ function drawSky(t, cx, cy) {
       for (const p of projs) { if (++n > 60) break; L(p.x, p.y, p.k === 'morb' ? 70 : 36, 0.7); }
       for (const f of effects) { if (f.k === 'boom' || f.k === 'nova') L(f.x, f.y, (f.maxR || f.r || 40) * 1.6, 0.9 * Math.min(1, f.life / (f.max || 1) + 0.3)); else if (f.k === 'zone' && (f.fire || f.pull)) L(f.x, f.y, f.r * 2.2, 0.75); else if (f.k === 'star' && f.life < 0.25) L(f.x, f.y, f.r * 1.5, 0.6); }
       for (const e of enemies) if (!e.dead && (e.elite || e.boss || e.mini || e.bnT > 0) && inView(e.x, e.y, 60)) L(e.x, e.y, e.boss ? 120 : 50, 0.55);
-      for (const w of G.weapons) if (w.id === 'mbeam' && w.tg && !w.tg.dead) L(w.tg.x, w.tg.y, 70, 0.8); if (G) questLights(L); }
+      for (const w of G.weapons) if (w.id === 'mbeam' && w.tg && !w.tg.dead) L(w.tg.x, w.tg.y, 70, 0.8); if (G) { questLights(L); npcLights(L); } }
     g.globalAlpha = 1; g.globalCompositeOperation = 'source-over'; ctx.drawImage(LM, 0, 0, W, H); }
   if (k.wa > 0.005) { ctx.globalCompositeOperation = 'lighter'; ctx.fillStyle = `rgba(${k.wc},${k.wa})`; ctx.fillRect(0, 0, W, H); ctx.globalCompositeOperation = 'source-over'; }
   return k;
@@ -5243,7 +5570,8 @@ function render(dt) {
   // aura (ground)
   // gems & pickups
   for (const g of gems) { if (!inView(g.x, g.y, 20)) continue; const s = 13 + g.tier * 2; ctx.drawImage(SPR.gem[g.tier], g.x - s / 2, g.y - s / 2 + Math.sin(gtime * 4 + g.x) * 1.2, s, s); }
-  for (const p of picks) { if (!inView(p.x, p.y, 40)) continue; const s = p.k === 'chest' ? (p.boss ? 58 : 46) : 34; ctx.drawImage(SPR.pick[p.k], p.x - s / 2, p.y - s / 2 + Math.sin(gtime * 3 + p.x) * 2, s, s); }
+  for (const p of picks) { if (!inView(p.x, p.y, 40)) continue; if (p.k === 'gold') { const s = 24 + Math.min(8, (p.v || 1) * 0.8), sp = Math.abs(Math.cos(gtime * 4 + p.x * 0.3)) * 0.8 + 0.2; ctx.drawImage(SPR.pick.gold, p.x - s * sp / 2, p.y - s / 2 + Math.sin(gtime * 3 + p.x) * 1.5, s * sp, s); continue; }
+    const s = p.k === 'chest' ? (p.boss ? 58 : 46) : 34; ctx.drawImage(SPR.pick[p.k], p.x - s / 2, p.y - s / 2 + Math.sin(gtime * 3 + p.x) * 2, s, s); }
   // ground effects
   for (const m of minions) if (m.type === 'brute' && !m.dead) { const R = minionStats().brute.tauntR; ctx.strokeStyle = 'rgba(255,80,130,.18)'; ctx.lineWidth = 1.5; ctx.setLineDash([4, 8]); ctx.lineDashOffset = gtime * 12; ctx.beginPath(); ctx.ellipse(m.x, m.y + 10, R, R * 0.8, 0, 0, TAU); ctx.stroke(); ctx.setLineDash([]); }
   for (const f of effects) {
@@ -5299,10 +5627,11 @@ function render(dt) {
   // enemies
   enemies.sort((a, b) => a.y - b.y);
   // v18: one depth-sorted pass (foot y): obstacles, enemies, minions and the hero, so trunks/rocks overlap correctly
-  const DL = obCollect(cx, cy).slice(); for (const m of minions) if (!m.dead) DL.push(m); DL.push(P); for (const e of enemies) if (!e.dead) DL.push(e);
+  const DL = obCollect(cx, cy).slice(); for (const m of minions) if (!m.dead) DL.push(m); DL.push(P); for (const e of enemies) if (!e.dead) DL.push(e); if (Array.isArray(G.npcs)) for (const n of G.npcs) DL.push(n); /* v22 traders */
   DL.sort((a, b) => (a === P ? P.y + 14 : a.k && OBT[a.k] ? a.y : a.y + (a.r || 8)) - (b === P ? P.y + 14 : b.k && OBT[b.k] ? b.y : b.y + (b.r || 8)));
   for (const e of DL) {
     if (e === P) { drawPlayerBlock(); continue; }
+    if (e.npc) { drawNpc(e); continue; }
     if (e.k && OBT[e.k] && e.id !== undefined) { drawOb(e); continue; }
     if (MDEF[e.type] && minions.includes(e)) { drawMinion(e); continue; }
     if (e.dead) continue; const def = ETYPES[e.type], sz = eSz(e.type) * e.sc; if (!inView(e.x, e.y, sz)) continue;
@@ -5507,6 +5836,7 @@ function drawHUD() {
   const kt = '☠ ' + G.kills, st = '◆ ' + (G.shardsPicked + G.salvage), ky = lb + 12, kw = ctx.measureText(kt).width;
   ctx.strokeText(kt, x0 + 2, ky); ctx.fillStyle = '#e6dbff'; ctx.fillText(kt, x0 + 2, ky);
   ctx.strokeText(st, x0 + 14 + kw, ky); ctx.fillStyle = '#d7a6ff'; ctx.fillText(st, x0 + 14 + kw, ky);
+  goldHUD(x0 + 26 + kw + ctx.measureText(st).width, ky); /* v22 gold counter */
   { const dg = dangerAt(G.t), S = STAGES[stageAt(G.t)], y = lb + 28, hb = (HUD_BOT = y + 18 - t + 4), col = dg >= 7 ? '#ff6a6a' : dg >= 4 ? '#ffb05a' : '#ffe08a'; ctx.font = '900 12px -apple-system,system-ui,sans-serif'; ctx.textAlign = 'left'; ctx.lineWidth = 3; const lbl = 'DANGER ' + S.n;
     ctx.strokeText(lbl, x0 + 2, y); ctx.fillStyle = col; ctx.fillText(lbl, x0 + 2, y);
     ctx.fillStyle = 'rgba(8,3,16,.75)'; rr(x0 + 1, y + 7, 10 * 9 + 3, 10, 4); ctx.fill();
@@ -5517,7 +5847,7 @@ function drawHUD() {
     ctx.fillStyle = 'rgba(0,0,0,.78)'; rr(bx, by, bw, bh, 8); ctx.fill(); ctx.strokeStyle = 'rgba(255,200,140,.8)'; ctx.lineWidth = 1.5; ctx.stroke();
     const bg = ctx.createLinearGradient(0, by, 0, by + bh); bg.addColorStop(0, '#ff8a5c'); bg.addColorStop(1, '#c4281c'); ctx.fillStyle = bg; if (f > 0.005) { rr(bx + 2, by + 2, Math.max(6, (bw - 4) * f), bh - 4, 6); ctx.fill(); }
     ctx.font = '900 12px -apple-system,system-ui,sans-serif'; ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(40,0,0,.9)'; ctx.fillStyle = '#fff'; const bt = Math.ceil(f * 100) + '%'; ctx.strokeText(bt, bx + bw / 2, by + bh / 2 + 0.5); ctx.fillText(bt, bx + bw / 2, by + bh / 2 + 0.5); }
-  drawQuestHUD();
+  drawQuestHUD(); npcHUD();
   let ty = t + (G.boss ? 140 : 116); if (QT_H) ty = Math.max(ty, t + Math.max(HUD_BOT, G.boss && !G.boss.dead ? 128 : 0) + QT_H + 16); // toasts sit below the quest tracker
   ctx.textAlign = 'center';
   for (const to of toasts) { const a = Math.min(1, to.life * 2, (to.max - to.life) * 4); ctx.globalAlpha = a; ctx.font = '700 15px "Palatino Linotype",Palatino,Georgia,serif'; ctx.lineWidth = 4;
@@ -5673,7 +6003,7 @@ const KNAV = {
   shop: { Escape: 'btnShopBack' }, talents: { Escape: 'btnTalBack', Tab: 'btnTalBack', KeyT: 'btnTalBack' },
   levelup: { Enter: 'btnPick', Space: 'btnPick', NumpadEnter: 'btnPick', KeyR: 'btnReroll' },
   gear: { Enter: 'btnEquip', Space: 'btnEquip', KeyE: 'btnEquip', KeyX: 'btnSalvage' },
-  equip: { Escape: 'btnEqBack' }, pause: { Enter: 'btnResume', Space: 'btnResume', KeyH: 'btnKeysP', F1: 'btnKeysP' },
+  equip: { Escape: 'btnEqBack' }, npc: { Escape: 'btnNpcLeave', KeyE: 'btnNpcLeave', Backspace: 'btnNpcLeave' }, pause: { Enter: 'btnResume', Space: 'btnResume', KeyH: 'btnKeysP', F1: 'btnKeysP' },
   over: { Enter: () => visBtn('btnRetry'), Space: () => visBtn('btnRetry'), Escape: 'btnOverTitle' },
   ach: { Escape: 'btnAchBack' }, ward: { Escape: 'btnWardBack' }, audio: { Escape: 'btnAudBack' },
   how: { Escape: 'btnHowBack', Enter: 'btnHowBack', KeyH: 'btnKeysH' }, keys: { Escape: 'btnKeysBack', Enter: 'btnKeysBack', KeyH: 'btnKeysBack' } };
@@ -5684,6 +6014,12 @@ function keyNav(code) { // returns true when handled
     if (dg && +dg[2] <= n) { C[+dg[2] - 1].click(); return true; }
     if ((code === 'ArrowLeft' || code === 'ArrowRight' || code === 'KeyA' || code === 'KeyD') && n) { let i = [...C].findIndex(c => c.classList.contains('pickd')); i = i < 0 ? (code === 'ArrowLeft' || code === 'KeyA' ? n - 1 : 0) : (i + (code === 'ArrowLeft' || code === 'KeyA' ? n - 1 : 1)) % n; if (!C[i].classList.contains('pickd')) C[i].click(); return true; } }
   if (sc === 'talents' && talKey(code)) return true;
+  if (sc === 'npc') { /* v22 trader: 1–4 buy, ↑/↓ move, Enter/Space use the focused button */
+    const B = [...$('npcOffers').children], dg = /^(Digit|Numpad)([1-9])$/.exec(code);
+    if (dg && +dg[2] <= B.length) { B[+dg[2] - 1].click(); return true; }
+    const all = B.filter(b => !b.disabled).concat([$('btnNpcLeave')]), fi = all.indexOf(document.activeElement), up = code === 'ArrowUp' || code === 'KeyW';
+    if (up || code === 'ArrowDown' || code === 'KeyS') { const i = fi < 0 ? (up ? all.length - 1 : 0) : (fi + (up ? -1 : 1) + all.length) % all.length; all[i].focus(); return true; }
+    if ((code === 'Enter' || code === 'NumpadEnter' || code === 'Space') && fi >= 0) { all[fi].click(); return true; } }
   if (sc === 'select') { /* v21: ↑/↓ walk the class cards (owned ones are selected), Enter/Space on a locked card = buy it */
     const C = [...$('classList').children], fi = C.indexOf(document.activeElement), up = code === 'ArrowUp' || code === 'KeyW';
     if (up || code === 'ArrowDown' || code === 'KeyS') { let i = fi < 0 ? C.findIndex(c => c.classList.contains('sel')) : fi; i = (i + (up ? -1 : 1) + C.length) % C.length;
@@ -5700,6 +6036,7 @@ addEventListener('keydown', e => {
   if (cfmOpen()) { if (e.code === 'Escape' || e.code === 'KeyN') cfmClose(false); else if (e.code === 'Enter' || e.code === 'NumpadEnter' || e.code === 'KeyY') { const f = document.activeElement; if (f && f.id === 'cfmNo') cfmClose(false); else cfmClose(true); } e.preventDefault(); return; }
   if (state !== 'play' && keyNav(e.code)) return;
   if (e.code === 'KeyM' && (state === 'play' || state === 'countdown') && topScreen() === null) { dmToggle(); return; } // v18 damage meter
+  if ((e.code === 'KeyE' || e.code === 'Enter' || e.code === 'NumpadEnter') && state === 'play' && topScreen() === null && NPC_NEAR) { npcOpen(NPC_NEAR); return; } // v22 trade
   if (e.code === 'Space' && state === 'play' && topScreen() === null && !cfmOpen()) { JB.kb = 1; triggerJump(false, true); return; } // v21 manual jump (menus keep Space = confirm)
   if ((e.code === 'Escape' || e.code === 'KeyP') && (state === 'play' || state === 'paused') && (topScreen() === null || topScreen() === 'pause')) state === 'play' ? pauseGame() : resumeGame();
 });
@@ -5762,7 +6099,7 @@ function padRumble(strong, weak, ms) { if (save && save.rumble === false) return
 function padUI(p) { // connection state, glyphs, prompt bar, focus badge
   const was = GP.conn; GP.conn = !!p; document.body.classList.toggle('gpad', GP.conn);
   if (GP.conn && !was) { GP.ps = /054c|playstation|dualsense|dualshock/i.test(p.id || '') || (/^wireless controller/i.test(p.id || '') && !/xbox|045e/i.test(p.id || '')); GP.idx = p.index;
-    for (const e of document.querySelectorAll('[data-gp]')) e.setAttribute('data-gp', padGlyph('b')); for (const e of document.querySelectorAll('.gpA1')) e.textContent = padGlyph('a'); for (const e of document.querySelectorAll('.gpY1')) e.textContent = padGlyph('y');
+    for (const e of document.querySelectorAll('[data-gp]')) e.setAttribute('data-gp', padGlyph('b')); for (const e of document.querySelectorAll('.gpA1')) e.textContent = padGlyph('a'); for (const e of document.querySelectorAll('.gpY1')) e.textContent = padGlyph('y'); for (const e of document.querySelectorAll('.gpX1')) e.textContent = padGlyph('x');
     $('gpA').textContent = padGlyph('a'); padToast('🎮\uFE0E Controller connected'); GF.root = null; if ($('val_pad')) $('val_pad').textContent = GP.ps ? 'PlayStation' : 'Connected'; }
   if (!GP.conn && was) { gfClear(); padToast('🎮\uFE0E Controller disconnected'); if (state === 'play' || state === 'countdown') pauseGame(); if ($('val_pad')) $('val_pad').textContent = 'No controller'; }
   if (!GP.conn) return;
@@ -5788,6 +6125,7 @@ function pollPad() {
     GP.mx = state === 'play' || state === 'countdown' ? x : 0; GP.my = state === 'play' || state === 'countdown' ? y : 0;
     if (edge(9) && (state === 'play' || state === 'countdown')) pauseGame();
     if (edge(8) && (state === 'play' || state === 'countdown')) dmToggle();
+    if (edge(2) && state === 'play' && NPC_NEAR) npcOpen(NPC_NEAR); /* v22: X = trade */
     if (edge(0) && state === 'play') { GP.aRun = 1; triggerJump(false, true); } if (!b(0)) GP.aRun = 0; GP.aHeld = state === 'play' && b(0) && GP.aRun; /* v21: A = jump in a run */
   } else { GP.aHeld = 0; GP.aRun = 0;
     GP.mx = GP.my = 0;
@@ -5878,10 +6216,11 @@ function renderCodex() {
       `<div class="ce"><span class="cst">${ok ? '✓' : '◇'}</span><b style="color:${ok ? E.col : '#cbb8ea'}">${E.n}</b>${tag}</div><div class="cd">${ok ? E.d : E.d + ' — not yet discovered'}</div></div>`; }).join('');
 }
 /* ================= UI ================= */
-const SCREENS = ['talents', 'codex', 'title', 'race', 'select', 'ach', 'ward', 'audio', 'shop', 'levelup', 'gear', 'equip', 'pause', 'over', 'how', 'keys'];
+const SCREENS = ['talents', 'codex', 'title', 'race', 'select', 'ach', 'ward', 'audio', 'shop', 'levelup', 'gear', 'equip', 'npc', 'pause', 'over', 'how', 'keys'];
 function show(id) { if (PC && document.activeElement && document.activeElement.blur) document.activeElement.blur(); for (const s of SCREENS) $(s).classList.toggle('on', s === id); $('pauseBtn').classList.toggle('hidden', id !== null); if (id) $(id).scrollTop = 0; }
 function hudOnly() { for (const s of SCREENS) $(s).classList.remove('on'); $('pauseBtn').classList.remove('hidden'); }
 function bind(id, fn) { $(id).addEventListener('click', e => { Snd.init(); Snd.play('click'); fn(e); }); }
+setTimeout(() => { bind('btnNpcLeave', () => { const n = npcCur; if (n) { npcSayMsg(NPCS[n.nt].bye); } npcClose(); }); $('npcTalk').addEventListener('click', () => { Snd.init(); if (NPC_NEAR) npcOpen(NPC_NEAR); }); }, 0); /* v22 */
 function muteLabel() { const a = Snd.A, t = '♪ Audio' + (!a.musicOn && !a.sfxOn ? ' (muted)' : ''); $('btnMuteT').textContent = t; $('btnMuteP').textContent = t; }
 function goTitle() {
   state = 'title'; G = null; show('title'); muteLabel(); Snd.music('title');
@@ -5973,7 +6312,7 @@ function renderBuild() {
   const p = Object.keys(G.passives).map(k => `${PDEF[k].ic} ${PDEF[k].name} <b>${G.passives[k]}</b>`).join(' · ') || '—';
   const gi = GSLOTS.filter(s => G.gear[s]), g = gi.length ? `<b>Gear ${gi.length}/12</b> · ` + gi.sort((a, b) => G.gear[b].r - G.gear[a].r).slice(0, 3).map(s => `<span style="color:${GRAR[G.gear[s].r].c}">${G.gear[s].name}</span>`).join(' · ') + (gi.length > 3 ? ' …' : '') : '<span style="opacity:.5">No gear yet</span>';
   const mc = minions.filter(m => !m.dead).length; renderLoadoutDom($('loadoutP'), true); void w; void p;
-  $('buildInfo').innerHTML = `<b>${RACES[raceOf(G.race)].name} ${CLASSES[G.cls].name}</b> — ${CLASSES[G.cls].passive}: ${CLASSES[G.cls].pdesc}<br><b>${fmtTime(G.t)}</b> survived · Lv ${G.level} · ${G.kills} kills${minions.length ? ` · ${mc} minions` : ''}<br><br>${g}<br><br>HP ${Math.ceil(P.hp)}/${Math.round(P.maxHp)} · Dmg ×${P.dmg.toFixed(2)} · Crit ${(P.crit * 100) | 0}% · Armor ${P.armor} · Evasion ${(P.dodge * 100) | 0}%`;
+  $('buildInfo').innerHTML = `<b>${RACES[raceOf(G.race)].name} ${CLASSES[G.cls].name}</b> — ${CLASSES[G.cls].passive}: ${CLASSES[G.cls].pdesc}<br><b>${fmtTime(G.t)}</b> survived · Lv ${G.level} · ${G.kills} kills · <span style="color:#ffd24a">● ${G.gold || 0} gold</span>${minions.length ? ` · ${mc} minions` : ''}<br><br>${g}<br><br>HP ${Math.ceil(P.hp)}/${Math.round(P.maxHp)} · Dmg ×${P.dmg.toFixed(2)} · Crit ${(P.crit * 100) | 0}% · Armor ${P.armor} · Evasion ${(P.dodge * 100) | 0}%`;
 }
 /* level up */
 let luOpenAt = 0;
@@ -6213,7 +6552,8 @@ function showGameOver(quit) {
   clearRun(); if (G.ended) return; G.ended = true; qBanClear();
   { const nb = G.t > save.best && G.t >= 5; if (quit) Snd.music('victory'); else if (nb) setTimeout(() => { if (state === 'over') Snd.music('victory'); }, 2600); }
   const t = G.t, base = Math.floor(t / 10) + Math.floor(G.kills / 20) + G.bossKills * 15 + G.elites * 2, found = G.shardsPicked + G.salvage;
-  const total = Math.round((base + found) * (1 + 0.1 * mr('fortune') + ((P && P.shardMul) || 1) - 1));
+  const goldSh = Math.min(15, Math.floor((G.gold || 0) / 40)); /* v22: leftover gold → a tiny Shard tip (max +15, never multiplied) */
+  const total = Math.round((base + found) * (1 + 0.1 * mr('fortune') + ((P && P.shardMul) || 1) - 1)) + goldSh;
   const newBest = t > save.best && t >= 5;
   const cls = G.cls, before = classLevel(cls).lvl, cx = Math.round(t * 0.9 + G.kills * 0.35 + G.bossKills * 40 + G.elites * 6);
   if (TALENTS[cls]) save.cxp[cls] = (save.cxp[cls] || 0) + cx; const after = classLevel(cls);
@@ -6225,7 +6565,7 @@ function showGameOver(quit) {
   { const oh = $('overHero'); requestAnimationFrame(() => { heroPortrait(oh, cls, G.outfit || save.outfit, 1.25, G.race); setTimeout(() => menuHop(oh, newBest), 350); }); } /* v20: small celebratory hop on the run summary */
   $('overTime').textContent = fmtTime(t);
   $('overBest').innerHTML = newBest ? '<div class="newbest">★ NEW BEST ★</div>' : `<div class="lbl" style="margin-top:2px">Best ${fmtTime(save.best)}</div>`;
-  $('overRes').innerHTML = `<div><span>Foes banished</span><b>${G.kills}</b></div><div><span>Level reached</span><b>${G.level}</b></div>` +
+  $('overRes').innerHTML = (G.goldEarned ? `<div style="font-size:13px"><span>Gold ● earned / spent</span><b style="color:#ffd24a">${G.goldEarned} / ${G.goldSpent || 0}${goldSh ? ` · leftover +${goldSh} ◆` : ''}</b></div>` : '') + `<div><span>Foes banished</span><b>${G.kills}</b></div><div><span>Level reached</span><b>${G.level}</b></div>` +
     `<div><span>Elites / Bosses slain</span><b>${G.elites} / ${G.bossKills}</b></div>` + questSummary() + `<div><span>Shards found</span><b>${found}</b></div>` +
     `<div style="border-top:1px solid rgba(180,130,255,.3);margin-top:4px;padding-top:4px"><span>Shards earned</span><b class="shard">+${total} ◆</b></div>` +
     `<div style="font-size:13px;color:#a593c4"><span>Total Shards</span><span>◆ ${save.shards}</span></div>` +
@@ -6402,8 +6742,8 @@ function frame(now) {
     if (state === 'play') update(dt, false);
     else if (state === 'countdown') { G.cdT -= dt; if (G.cdT <= 0) state = 'play'; }
     else if (state === 'dying') { G.dyingT -= dt; update(dt * 0.3, true); if (G.dyingT <= 0) showGameOver(false); }
-    render(dt); questUI(dt); dmgUI(dt); jumpBtnUI(); if (state === 'ward') wardTick();
-    { const ms = $('audio').classList.contains('on') ? 'n' : state === 'paused' ? 'p' : (state === 'levelup' || state === 'gear') ? 'd' : 'n';
+    render(dt); questUI(dt); dmgUI(dt); jumpBtnUI(); npcUI(); if (state === 'ward') wardTick();
+    { const ms = $('audio').classList.contains('on') ? 'n' : state === 'paused' ? 'p' : (state === 'levelup' || state === 'gear' || state === 'npc') ? 'd' : 'n';
       if (ms !== Snd.ms && Snd.ac) { Snd.ms = ms; if (ms === 'p') Snd.pauseMusic(true); else { Snd.pauseMusic(false); Snd.duck(ms === 'd' ? 0.45 : 1, 0.4); } } }
     if (RUN_STATES[state] && now - lastRunSave > 6000) saveRun();   // periodic autosave
   } catch (err) { console.error(err); }

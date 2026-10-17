@@ -1,14 +1,18 @@
 {
- "version": "21",
+ "version": "22",
  "date": "2026-10-17",
  "minLauncher": "2.0.0",
  "notes": [
-  "Jump! Press Space (controller A) any time in a run to hop — hold it to bunny-hop. It's just for fun: jumping never changes your position, hitbox or damage taken",
-  "Phones: turn on the new optional jump button in Audio & Settings; a new \"Jump sound\" switch toggles the soft hop sound",
-  "New class: Eclipse Paragon — \"Master of every path\". A hybrid of all eight classes that hurls the Eclipse Glaive and channels echoes of every class: Umbral Daggers, Dread Hex, Echo Familiars, Starfall Volley, Penumbra Sweep, Riftstep Mines, Verdant Halo and Solar Cinder, plus the signature Convergence of Eight",
-  "The Eclipse Paragon has its own passives, 10 evolutions (see the Codex), three talent trees (Umbra, Wilds, Aether) with new capstones, 5 achievements and 5 armour sets",
-  "Unlock the Eclipse Paragon for 3000 Shards from the class select screen or the Armory",
-  "Class select: use the up/down arrow keys to choose a class; Enter on a locked class buys it"
+  "Gold! Enemies now sometimes drop gold coins during a run. Elites, mini-bosses and bosses drop more, and chests and quests give a pile. Your pickup radius and magnet pull coins in too",
+  "Gold is separate from Shards and resets every run. Your gold total shows on the HUD, and leftover gold adds a small Shard bonus at game over (up to +15)",
+  "Wandering traders: every few minutes a trader appears somewhere nearby. Follow the arrow at the edge of the screen. They only stay for about a minute",
+  "Walk into a trader, press E / Enter (controller X) or tap \"Trade\" to open their shop. The game pauses while you browse",
+  "Pell the Wandering Merchant sells healing tonics, skill lessons, rerolls and a Soul Lantern that pulls every gem and coin on the map to you",
+  "Lady Vex the Fortune Gambler offers wagers. They're mostly good, but not always",
+  "Brunhild the Runesmith reforges your weakest skill and sells 90-second buffs: Whetstone Edge (+25% damage), Quickening Rune (faster cooldowns) and Ironhide Rune (+3 armor)",
+  "Rarely, a Mysterious Stranger appears with pricey offers: an instant evolution, banishing the horde, or a Deathward that saves you once",
+  "Prices go up the longer a run lasts. Buying the same thing again costs more",
+  "Shops work fully with keyboard (number keys, arrows, Enter, Esc), controller (D-pad, A, B) and touch"
  ],
  "files": [
   {
@@ -33,8 +37,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "572efc95df9d41bdac4028a76ec160910119c01b458cfc00c13b95d5affbe2e0",
-   "size": 879853
+   "sha256": "3403b213a60301b60f6c30d75ea88650ca018f92026c9bb55056f816ef9bf06f",
+   "size": 924420
   },
   {
    "name": "manifest.webmanifest",
@@ -43,7 +47,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "13b5f6a2d9739c26e1d2749940ea6dbcb68367403bc6dddf81ccbc062e5447ed",
+   "sha256": "99471aab17b9b4f879711bf951fe5b886726d9c0b0c97d3d6e02a646dffe6734",
    "size": 1466
   }
  ]
