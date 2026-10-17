@@ -1,15 +1,16 @@
 {
- "version": "18",
+ "version": "19",
  "date": "2026-10-17",
  "minLauncher": "2.0.0",
  "notes": [
-  "Skill evolutions: max out a skill with its partner passive to evolve it into a stronger form (see the new Codex)",
-  "Cat Form is now pure melee: Shadowcat sheds ranged nature spells and refunds the levels as free picks",
-  "New Sanguine Maw talent: Cat Form claws heal you (lifesteal)",
-  "Damage meter: see which skill does the most damage, live and in the end-of-run summary",
-  "Exit Run from the pause menu, and a Quit Game button in the desktop app",
-  "Full controller play: every menu, card and dialog works with a gamepad",
-  "Solid obstacles: stumps, gravestones and ruined walls now block movement"
+  "Talent trees: every class now has three WoW-style spec trees (7 tiers, multi-rank talents, prerequisites and a capstone)",
+  "All your old talent points come back unspent, and the class level cap rises to 51 (1 talent point per level)",
+  "Respec any time: Reset, then Apply; leaving with unapplied points asks Apply or Discard",
+  "Talents work with touch (swipe or pinch between trees), mouse and keyboard, and controller (LB/RB switch trees, X removes)",
+  "New skill for every class: Umbral Double, Locust Swarm, Soul Wraiths, Hunter's Snare, Soul Chains, Nebula Spiral, Wild Stampede and Prismatic Comet",
+  "New form skills: Moonclaw Whirl (Cat Form, melee) and Uprooted Boulder (Tree Form)",
+  "Every new skill has its own evolution (see the Codex), shows in the damage meter and follows the obstacle rules",
+  "Download for Windows now gets the v2.0.0 installer"
  ],
  "files": [
   {
@@ -34,8 +35,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "f583614843c423cccd17e2c3c2da5eaf6415351e5b35f341ce703d2a33c574d0",
-   "size": 720625
+   "sha256": "5c7132358a6b1a089192e5a5d2947b5470cfe03bebfa009d5408d6e1c3617782",
+   "size": 799501
   },
   {
    "name": "manifest.webmanifest",
@@ -44,7 +45,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "f94803f77683280625a8e5fb22c8d13890cd3d4e087c388614b9ae6bc332b02f",
+   "sha256": "03eaf2c382266e65a8a944e71b95021d81c05d7445b11aeecdfcac0bea81f649",
    "size": 1466
   }
  ]

@@ -460,11 +460,6 @@ body:not(.desktopapp) .apponly{display:none!important}
 .pc .rdet,.pc #race .topbar,.pc #select .topbar,.pc #shop .topbar,.pc #shop .tabs,.pc #ach .topbar,.pc #ach .tabs,.pc .chipsrow,.pc .wsec,.pc .wrow{width:880px;max-width:100%}
 .pc .swatches{width:880px;max-width:100%}
 .pc .wrow{flex-wrap:wrap;overflow:visible}
-.pc .tree,.pc .talhead,.pc #talTabs,.pc .taltip{width:620px;max-width:100%}
-.pc #talents.on{display:grid;grid-template-columns:minmax(0,600px) minmax(0,400px);grid-template-areas:"h h" "tabs tabs" "tree head" "tree foot" "tree .";grid-template-rows:auto auto auto auto 1fr;justify-content:center;align-content:start;column-gap:26px}
-.pc #talents>h2{grid-area:h}.pc #talents>#talTabs{grid-area:tabs;width:100%;justify-self:center;max-width:1026px;flex-wrap:nowrap}.pc #talents #talTabs button{flex:1 1 0;min-width:0;white-space:nowrap}.pc #talents>.tree{grid-area:tree;width:100%}
-.pc #talents>.talhead{grid-area:head;width:100%;align-self:start;margin-top:0}.pc #talents>.spacer{display:none}
-.pc #talents>.selfoot{grid-area:foot;position:static;margin:8px 0 0!important;padding:0;background:none;align-self:start}.pc #talents .talfoot .taltip{width:100%;min-height:150px;box-shadow:none}.pc #talents .selfoot .row{width:100%}
 .pc .selfoot .row,.pc .row{width:560px;max-width:100%}
 .pc .row:has(>.btn:only-child){width:360px}
 .pc #choices{width:860px;max-width:100%;gap:20px}
@@ -523,6 +518,98 @@ body:not(.desktopapp) .apponly{display:none!important}
 .pc #cdxList{width:min(760px,92vw);display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
 #select .selfoot .row .btn.small{padding-left:4px;padding-right:4px;font-size:13px;white-space:nowrap;letter-spacing:0;min-width:0;overflow:hidden;text-overflow:ellipsis}
 #cdxTabs{flex-wrap:wrap;justify-content:center;gap:6px}#cdxTabs button{flex:0 0 calc(25% - 6px);min-height:44px;padding:5px 1px;font-size:13px;margin:0;line-height:1.15}
+/* ===== v19 talent trees (WoW-style: 3 spec trees, 7 tiers x 4 columns, ranked talents, arrows) ===== */
+#talents{--ns:46px;--rp:55px;--gut:22px;--pad:9px}
+#talents>h2{font-size:22px;margin:-6px 0 0!important}
+#talTabs{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;width:min(94vw,420px);margin:2px 0 6px;scrollbar-width:none;padding-bottom:2px}
+#talTabs::-webkit-scrollbar{display:none}
+#talTabs button{flex:0 0 auto;min-width:86px;position:relative}
+#talTabs .tfp{font-style:normal;font-size:11px;font-weight:900;color:#1a1000;background:#ffe27a;border-radius:9px;padding:0 5px;margin-left:3px;vertical-align:1px}
+#talents .talhead{width:min(92vw,380px);margin:0 0 6px}
+#talents .talhead canvas{width:46px;height:46px}
+#talents .talhead .xp{font-size:12px;color:#cfe0ff}
+#talents .talhead .pts{min-width:78px}#talents .talhead .pts small{display:block;font-size:12px;color:#e8d9a0;font-weight:700;margin-top:2px}
+.tspecs{display:flex;gap:8px;width:min(92vw,380px);margin:0 0 6px}
+.tspecs button{flex:1 1 0;min-width:0;min-height:46px;border-radius:14px;border:2px solid rgba(242,201,76,.4);background:rgba(10,20,64,.85);color:#dfe8ff;font:800 13px "Trebuchet MS",sans-serif;
+ display:flex;align-items:center;justify-content:center;gap:4px;padding:4px 4px;white-space:nowrap;overflow:hidden}
+.tspecs button .sic{color:var(--tc);font-size:16px;text-shadow:0 0 8px var(--tc)}
+.tspecs button b{font-size:12px;color:#1a1000;background:var(--tc);border-radius:8px;padding:0 5px;margin-left:2px}
+.tspecs button.on{border-color:var(--tc);background:linear-gradient(180deg,rgba(60,90,190,.95),rgba(16,30,88,.95));color:#fff;box-shadow:0 0 12px color-mix(in srgb,var(--tc) 55%,transparent)}
+#talView{position:relative;width:min(92vw,380px);overflow:hidden;border-radius:16px;touch-action:pan-y;flex:0 0 auto}
+#talTree{position:relative;display:flex;width:300%;transition:transform .28s cubic-bezier(.3,.8,.3,1);transform:translateX(calc(var(--sp,0) * -33.3333%))}
+.ttree{position:relative;flex:0 0 33.3333%;box-sizing:border-box;border-radius:16px;border:2px solid color-mix(in srgb,var(--tc) 60%,#f2c94c);overflow:hidden;
+ background:radial-gradient(ellipse at 50% 28%,color-mix(in srgb,var(--tc) 22%,#14245e),#0a1236 62%,#050a22);box-shadow:0 0 0 1px #2a1a00 inset,inset 0 1px 0 rgba(255,255,255,.18),0 6px 16px rgba(0,0,20,.45)}
+#talView:not(.ov) .ttree:not(.cur){visibility:hidden}
+.tth{display:none;align-items:center;justify-content:center;gap:6px;height:34px;font:900 15px "Trebuchet MS",sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#fff;cursor:pointer;
+ background:linear-gradient(180deg,color-mix(in srgb,var(--tc) 40%,#1a2a6a),rgba(10,18,54,.6));border-bottom:1px solid color-mix(in srgb,var(--tc) 50%,transparent);text-shadow:0 1px 2px #000}
+.tth .sic{color:var(--tc);text-shadow:0 0 8px var(--tc)}.tth b{font-size:13px;color:#1a1000;background:var(--tc);border-radius:9px;padding:0 7px;letter-spacing:0}
+.tgrid{position:relative;height:calc(var(--pad) * 2 + 6 * var(--rp) + var(--ns) + 10px)} /* +10: room for the larger capstone + its rank badge */
+.temb{position:absolute;left:0;right:0;top:44%;transform:translateY(-50%);text-align:center;font-size:200px;line-height:1;color:var(--tc);opacity:.07;pointer-events:none;filter:blur(1px)}
+.tlock{position:absolute;left:0;width:var(--gut);top:calc(var(--pad) + (var(--t) - 1) * var(--rp) + var(--ns) / 2 - 15px);text-align:center;font:800 10px/1.1 ui-monospace,Menlo,monospace;color:#c9b98a;opacity:.85;pointer-events:none}
+.tlock::after{content:"";position:absolute;left:calc(var(--gut) + 4px);width:1000px;top:15px;border-top:1px dashed rgba(242,201,76,.16)}
+.tarr{position:absolute;width:4px;margin-left:-2px;left:calc(var(--gut) + (var(--c) + .5) * (100% - var(--gut)) / 4);top:calc(var(--pad) + (var(--t) - 1) * var(--rp) + var(--ns) + 1px);
+ height:calc(var(--g) * var(--rp) - var(--ns) - 8px);background:rgba(120,140,200,.35);border-radius:2px;pointer-events:none}
+.tarr::after{content:"";position:absolute;left:-6px;bottom:-9px;border:8px solid transparent;border-top:9px solid rgba(140,160,220,.75);border-bottom:0}
+.tarr.on{background:linear-gradient(#ffe27a,var(--tc));box-shadow:0 0 8px var(--tc)}.tarr.on::after{border-top-color:var(--tc)}
+.ttree .tnode{position:absolute;margin:0;padding:0;width:var(--ns);height:var(--ns);border-radius:12px;transform:none;animation:none;
+ left:calc(var(--gut) + (var(--c) + .5) * (100% - var(--gut)) / 4 - var(--ns) / 2);top:calc(var(--pad) + (var(--t) - 1) * var(--rp));
+ border:2px solid rgba(150,160,190,.45);background:radial-gradient(circle at 38% 30%,color-mix(in srgb,var(--tc) 45%,#24356e),#0b1438 78%);color:#fff;font-size:24px;
+ display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 2px rgba(0,0,0,.55),0 3px 6px rgba(0,0,0,.5);cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.ttree .tnode .ti{text-shadow:0 0 8px var(--tc),0 2px 2px #000;line-height:1;transform:none}
+.ttree .tnode .rk{position:absolute;right:-7px;bottom:-7px;font:900 12px/1 "Trebuchet MS",sans-serif;font-style:normal;padding:2px 4px;border-radius:8px;background:#070d2c;color:#cfd6ea;border:1.5px solid rgba(150,160,190,.6);white-space:nowrap}
+.ttree .tnode.lock{filter:saturate(0) brightness(.62);border-color:rgba(120,120,140,.45)}
+.ttree .tnode.nopts{border-color:rgba(200,210,235,.6)}
+.ttree .tnode.avail{border-color:#5be05a;box-shadow:inset 0 0 0 2px rgba(0,0,0,.4),0 0 12px rgba(91,224,90,.55)}.ttree .tnode.avail .rk{color:#5be05a;border-color:#5be05a}
+.ttree .tnode.part{border-color:#5be05a;box-shadow:inset 0 0 0 2px rgba(0,0,0,.35),0 0 14px rgba(91,224,90,.6)}.ttree .tnode.part .rk{color:#5be05a;border-color:#5be05a}
+.ttree .tnode.own{border-color:var(--gold);background:radial-gradient(circle at 38% 30%,color-mix(in srgb,var(--tc) 75%,#fff 10%),color-mix(in srgb,var(--tc) 30%,#14245e) 72%);box-shadow:inset 0 0 0 2px rgba(0,0,0,.25),0 0 16px rgba(255,210,80,.7)}
+.ttree .tnode.own .rk{color:#ffe27a;border-color:var(--gold)}
+.ttree .tnode.pend .rk{background:#0b3a2a}
+.ttree .tnode.cap{width:calc(var(--ns) + 8px);height:calc(var(--ns) + 8px);margin:0 0 0 -4px;border-radius:50%;border-width:3px;font-size:28px}
+.ttree .tnode.cap::before{content:"";position:absolute;inset:-7px;border-radius:50%;border:2px solid rgba(242,201,76,.55);pointer-events:none}
+.ttree .tnode.cap.own::before{border-color:#ffe27a;box-shadow:0 0 14px #ffe27a}
+.ttree .tnode.cap .rk{right:-10px;bottom:-9px}
+.ttree .tnode.pick{outline:3px solid #fff;outline-offset:3px}
+.ttree .tnode:focus-visible{outline:3px solid #9fd4ff;outline-offset:3px}
+.ttree .tnode.gpf{outline:3px solid #ffe27a;outline-offset:4px}
+#talView.ov{overflow:visible}
+#talView.ov #talTree{transform:scale(.3333);transform-origin:0 0;width:300%;margin-bottom:calc(var(--th,520px) * -.6667)}
+#talView.ov .ttree{margin:0 1.5%;flex-basis:31%}#talView.ov .tth{display:flex;height:60px;font-size:34px}
+.talhov{position:absolute;z-index:5;width:250px;padding:9px 11px;border-radius:12px;pointer-events:none;display:none;font-size:13px;line-height:1.35;color:#e8eeff;
+ background:linear-gradient(180deg,rgba(18,28,78,.98),rgba(6,10,36,.98));border:2px solid rgba(242,201,76,.8);box-shadow:0 8px 24px rgba(0,0,0,.6)}
+.talhov.on{display:block}
+.talhov .tn,#talTip .tn{font-weight:900;font-size:15px;color:#fff;display:flex;align-items:center;gap:6px}
+.talhov .tn em,#talTip .tn em{font-style:normal;font-size:10px;color:#1a1000;background:#ffe27a;border-radius:6px;padding:1px 5px;text-transform:uppercase;letter-spacing:.06em}
+.tic{color:var(--tc);text-shadow:0 0 6px var(--tc)}
+.talhov .ts,#talTip .ts{font-size:12px;color:#b9c6ee}.talhov .ts b,#talTip .ts b{color:#ffe27a}
+.pd{color:#5be05a;font-weight:800}
+.tcur{margin-top:4px;color:#ffe9a8}.tcur span,.tnext span{color:#9fb0dc;font-weight:700}.tnext{margin-top:4px;color:#e8eeff}
+.treq{margin-top:4px;color:#ff7a7a;font-weight:700;font-size:12.5px}.thint{margin-top:5px;font-size:11px;color:#8fa0cc}
+.tmsg{color:#ffe27a;font-weight:800;font-size:13px;margin-bottom:3px}
+#talents .talfoot .taltip{min-height:74px;font-size:13.5px}
+body:not(.pc) #talents>h2{display:none}
+body:not(.pc) #talents .talfoot .taltip{font-size:12.5px;line-height:1.32;padding:8px 10px;max-height:134px;overflow-y:auto}body:not(.pc) #talTip .tn{font-size:14px}body:not(.pc) #talTip .ts{font-size:12px} /* v19 phone: the class tabs + header already title the screen; frees room for 3-line tooltips */
+#talTip .tbtns{float:right;display:flex;gap:6px;margin:0 0 4px 8px}
+#talTip .tbtns .buy{min-width:48px;min-height:48px;font-size:24px;font-weight:900;padding:0;line-height:1}
+#talTip .tbtns .buy:disabled{opacity:.4}
+#talents .talfoot .row{width:min(92vw,380px)}
+#talents .talfoot .row .btn{flex:1}
+#btnTalApply:disabled{filter:saturate(.3) brightness(.7)}
+/* PC: the three trees side by side, floating tooltip */
+.pc #talents{--ns:48px;--rp:62px;--gut:20px;--pad:8px}
+.pc #talents.on{display:flex;padding-top:10px}
+.pc #talents>h2{display:none}
+.pc #talTabs{width:980px;max-width:100%;justify-content:center;margin:0 0 6px}.pc #talTabs button{flex:1 1 0;min-height:44px;padding:5px 4px}
+.pc #talents .talhead{width:980px;max-width:100%;margin:0 0 6px}
+.pc .tspecs{display:none}
+.pc #talView{width:980px;max-width:100%;overflow:visible}
+.pc #talTree{width:100%;transform:none;gap:14px}
+.pc .ttree{flex:1 1 0;visibility:visible!important}
+.pc .tth{display:flex}
+.pc #talents>.spacer{display:none}
+.pc #talents>.selfoot{position:static;margin:8px 0 0!important;padding:0;background:none;width:980px;max-width:100%;flex-direction:row;align-items:stretch;gap:12px}
+.pc #talents .talfoot .taltip{flex:1;width:auto;min-height:0;margin:0;box-shadow:none;font-size:12.5px;padding:8px 12px}
+.pc #talents .talfoot .row{width:auto;flex:0 0 auto;margin:0}.pc #talents .talfoot .row .btn{min-width:120px;margin:0}
+.pc .ttree .tnode:hover{filter:brightness(1.25)}.pc .ttree .tnode.lock:hover{filter:saturate(.3) brightness(.85)}
 </style>
 </head>
 <body>
@@ -545,7 +632,7 @@ body:not(.desktopapp) .apponly{display:none!important}
  <div class="row"><button class="btn small" id="btnAch">★ Achievements</button><button class="btn small" id="btnWard">✦ Wardrobe</button></div>
  <div class="row"><button class="btn small" id="btnMuteT">♪ Audio</button><button class="btn small" id="btnHow">How to Play</button><button class="btn small pconly" id="btnKeys" data-kh="H">⌨ Controls</button></div>
  <button class="btn small apponly" id="btnQuitApp" style="width:min(80vw,300px)">⏻ Quit Game</button>
- <div class="dlwin pconly webonly" id="dlWin"><a class="btn small dlbtn" id="btnDl" href="https://github.com/VisrealSinan/shadowfall/releases/download/v1.0.0/Shadowfall-1.0.0-portable.exe" download="Shadowfall-1.0.0-portable.exe" rel="noopener">⬇ Download for Windows</a><a class="dlsub" id="lnkRel" href="https://github.com/VisrealSinan/shadowfall/releases/latest" target="_blank" rel="noopener noreferrer">Installer version / all downloads ↗</a><div class="dlnote">Windows may warn because the app isn't signed yet: click <b>More info</b>, then <b>Run anyway</b>.</div></div>
+ <div class="dlwin pconly webonly" id="dlWin"><a class="btn small dlbtn" id="btnDl" href="https://github.com/VisrealSinan/shadowfall/releases/download/v2.0.0/Shadowfall-Setup-2.0.0.exe" download="Shadowfall-Setup-2.0.0.exe" rel="noopener">⬇ Download for Windows</a><a class="dlsub" id="lnkRel" href="https://github.com/VisrealSinan/shadowfall/releases/latest" target="_blank" rel="noopener noreferrer">All downloads &amp; versions ↗</a><div class="dlnote">Windows may warn because the app isn't signed yet: click <b>More info</b>, then <b>Run anyway</b>.</div></div>
 </div>
 
 <div id="race" class="screen panel">
@@ -586,10 +673,11 @@ body:not(.desktopapp) .apponly{display:none!important}
  <h2 style="margin-bottom:2px">Talents</h2>
  <div class="tabs" id="talTabs"></div>
  <div class="talhead" id="talHead"></div>
- <div class="tree" id="talTree"></div>
+ <div class="tspecs" id="talSpecs"></div>
+ <div id="talView"><div id="talTree"></div><div class="talhov" id="talHov"></div></div>
  <div class="spacer" style="min-height:0"></div>
  <div class="selfoot talfoot"><div class="taltip" id="talTip"></div>
- <div class="row"><button class="btn small" id="btnTalReset">Refund all</button><button class="btn small" id="btnTalBack" data-kh="Esc">Back</button></div></div>
+ <div class="row"><button class="btn small" id="btnTalReset" data-kh="R">Reset</button><button class="btn small primary" id="btnTalApply">✔ Apply</button><button class="btn small" id="btnTalBack" data-kh="Esc">Back</button></div></div>
 </div>
 
 <div id="levelup" class="screen dim">
@@ -691,7 +779,7 @@ body:not(.desktopapp) .apponly{display:none!important}
   <div class="audrow" id="row_rumble"><div class="audhd"><span class="audic">🎮︎</span><b>Controller rumble</b><span class="audval" id="val_pad">No controller</span><button class="audtog" id="tog_rumble">On</button></div></div>
   <div class="audnote">All music &amp; sounds are generated live on your device. On iPhone, sound follows the silent switch and starts after your first tap.</div>
   <div class="audnote webonly"><b>Playing on PC?</b> Open the same address in Chrome or Edge: keyboard (WASD / arrows, Esc to pause, 1–3 for cards), mouse and gamepad all work, and the address-bar <b>Install</b> button adds Shadowfall as a desktop app. Progress is saved per browser/device.</div>
-  <div class="dlwin pconly webonly" id="dlWinA"><a class="btn small dlbtn" id="btnDlA" href="https://github.com/VisrealSinan/shadowfall/releases/download/v1.0.0/Shadowfall-1.0.0-portable.exe" download="Shadowfall-1.0.0-portable.exe" rel="noopener">⬇ Download for Windows</a><a class="dlsub" id="lnkRelA" href="https://github.com/VisrealSinan/shadowfall/releases/latest" target="_blank" rel="noopener noreferrer">Installer version / all downloads ↗</a><div class="dlnote">Windows may warn because the app isn't signed yet: click <b>More info</b>, then <b>Run anyway</b>.</div></div>
+  <div class="dlwin pconly webonly" id="dlWinA"><a class="btn small dlbtn" id="btnDlA" href="https://github.com/VisrealSinan/shadowfall/releases/download/v2.0.0/Shadowfall-Setup-2.0.0.exe" download="Shadowfall-Setup-2.0.0.exe" rel="noopener">⬇ Download for Windows</a><a class="dlsub" id="lnkRelA" href="https://github.com/VisrealSinan/shadowfall/releases/latest" target="_blank" rel="noopener noreferrer">All downloads &amp; versions ↗</a><div class="dlnote">Windows may warn because the app isn't signed yet: click <b>More info</b>, then <b>Run anyway</b>.</div></div>
  </div>
  <div class="spacer" style="min-height:0"></div>
  <div class="selfoot"><button class="btn primary" id="btnAudBack" style="margin-top:0" data-kh="Esc">Done</button></div>
@@ -708,7 +796,7 @@ body:not(.desktopapp) .apponly{display:none!important}
   <p><b>On PC:</b> move with <b>WASD</b> / arrow keys (or hold the left mouse button), <b>Esc</b> pauses, <b>1–3</b> pick level-up cards. Gamepads work too. <span class="webonly">Install it from Chrome/Edge's address bar for a desktop window, or get the Windows app from the title screen.</span> <span class="pconly" style="color:#ffe08a">Full list: Controls.</span></p>
   <p><b>Attack:</b> automatic! Your hero strikes the nearest foes on their own.</p>
   <p><b>Grow:</b> every foe you slay feeds you its soul (XP) instantly. Level up, then pick 1 of 3 cards — new skills or stronger stats.</p>
-  <p><b>Classes:</b> seven classes, each with its own costume, skills and <b>Talent tree</b>. Playing a class earns class XP → talent points.</p>
+  <p><b>Classes:</b> eight classes, each with its own costume, skills and three <b>Talent trees</b> (T). Playing a class earns class XP → 1 talent point per class level (up to 51). Every 5 points in a tree unlocks its next tier; the 7th tier holds a build-defining capstone. Respec any time with Reset.</p>
   <p><b>Gear:</b> elites and bosses drop treasure for 12 slots. Small upgrades equip themselves; Epic and Legendary finds open a compare card. At game over you may keep 1 item as a <b>keepsake</b>.</p>
   <p><b>Survive:</b> the danger meter climbs every few minutes — new foes, elite affixes, hordes, and a boss every 3 minutes.</p>
   <p><b>Pause:</b> tap the round ❚❚ button at the top right.</p>
@@ -1081,100 +1169,222 @@ const META = [
 ];
 /* ---------- Class talent trees (permanent, per class; separate from Shards) ----------
    3 branches x 4 tiers. Each node needs the one above it. Tier-4 capstones change how the class plays. */
-const T = (id, name, ic, desc, e, cost = 1) => ({ id, name, ic, desc, e, cost });
+/* ================= v19 WoW-STYLE TALENT TREES =================
+   Each class: 3 specialization trees side by side, 7 tiers x 4 columns. Talents have ranks (0/5 ...).
+   Tier N opens after 5*(N-1) points spent in THAT tree (lower tiers). Arrows = prerequisites (must be fully ranked).
+   Tier 7 = capstone. Points: 1 per class level (cap 51) — e.g. 31 in one tree for its capstone + 20 elsewhere.
+   e = stats PER RANK (same keys as before; sd_<skill> = +% that skill's damage, sc_<skill> = -% its cooldown);
+   f = build-defining flag (G.tf[f] = rank), d = its description ({4} = 4 x rank). */
+const TSL = [[1, 1], [1, 2], [2, 0], [2, 1], [2, 3], [3, 0], [3, 1], [3, 2], [4, 1], [4, 2], [4, 3], [5, 0], [5, 2], [6, 1], [6, 2], [7, 1]];
+const TDM = [5, 5, 3, 2, 3, 3, 1, 2, 3, 5, 2, 3, 1, 3, 2, 1], TREQ = { 8: 6, 14: 12, 15: 13 };
+const TPER = 5, CLASS_LV_MAX = 51, TAL_V = 19;
+function TTREE(name, ic, col, ents) { const nodes = ents.map((x, i) => { const [id, n, icn, e, o] = x, [t, c] = TSL[i];
+    return Object.assign({ id, n, name: n, ic: icn, t, c, m: TDM[i], e: e || {}, slot: i }, o || {}, i === 15 ? { cap: 1 } : {}); });
+  for (const k in TREQ) if (nodes[k] && nodes[TREQ[k]]) nodes[k].req = nodes[TREQ[k]].id; return { name, ic, col, nodes }; }
 const TALENTS = {
   rogue: [
-    { name: 'Blades', nodes: [T('r_edge', 'Keen Edge', '✦', '+6% damage', { dmg: 0.06 }), T('r_serr', 'Serrated', '◈', '+20% crit damage', { critMul: 0.2 }), T('r_flurry', 'Flurry', '↯', '-6% attack cooldowns', { cd: 0.06 }),
-      T('r_strike', 'Shadow Strike', '⚔', 'CAPSTONE: evading a hit unleashes a shadow slash all around you', { f: 'shadowStrike' }, 2), T('r_whet', 'Whetstone', '✦', '+8% damage', { dmg: 0.08 }, 2), T('r_razor', 'Razor Dance', '↯', '-8% cooldowns, +10% crit damage', { cd: 0.08, critMul: 0.1 }, 3),
-      T('r_cuts', 'Thousand Cuts', '✴', 'ULTIMATE: crits have a 25% chance to fling a free knife at another foe', { f: 'thousandCuts' }, 4)] },
-    { name: 'Evasion', nodes: [T('r_light', 'Light Feet', '»', '+5% move speed', { speed: 0.05 }), T('r_blur', 'Blur', '≋', '+4% evasion', { dodge: 0.04 }), T('r_tough', 'Wiry', '♥', '+15 max HP', { maxHp: 15 }),
-      T('r_phantom', 'Phantom Step', '☁', 'CAPSTONE: +5% evasion and every evade heals 3 HP', { dodge: 0.05, f: 'phantomStep' }, 2), T('r_veil', 'Smoke Veil', '≋', '+4% evasion', { dodge: 0.04 }, 2), T('r_ghost', 'Ghost Skin', '⬢', '+20 max HP, +1 armor', { maxHp: 20, armor: 1 }, 3),
-      T('r_vanish', 'Vanish', '◌', 'ULTIMATE: every evade makes you untouchable for 1.2s', { f: 'vanish' }, 4)] },
-    { name: 'Assassin', nodes: [T('r_eye', 'Cold Eye', '◎', '+4% crit chance', { crit: 0.04 }), T('r_hunt', 'Big Game', '☠', '+15% damage to elites & bosses', { eliteDmg: 0.15 }), T('r_lethal', 'Lethality', '◈', '+4% crit, +10% crit damage', { crit: 0.04, critMul: 0.1 }),
-      T('r_mark', 'Death Mark', '✝', 'CAPSTONE: crits instantly slay normal foes below 25% HP', { f: 'deathMark' }, 2), T('r_exploit', 'Exploit', '☠', '+20% damage to elites & bosses', { eliteDmg: 0.2 }, 2), T('r_instinct', 'Killer Instinct', '◈', '+5% crit, +15% crit damage', { crit: 0.05, critMul: 0.15 }, 3),
-      T('r_exec', 'Executioner', '✝', 'ULTIMATE: +60% damage to elites & bosses below 30% HP', { f: 'executioner' }, 4)] },
-  ],
+    TTREE('Assassination', '☠', '#7dff8a', [
+      ['r_eye', 'Cold Eye', '◎', { crit: 0.01 }], ['r_lethal', 'Lethality', '◈', { critMul: 0.03 }],
+      ['r_hunt', 'Big Game', '☠', { eliteDmg: 0.05 }], ['r_markm', 'Marked Blade', '⌖', { sd_mark: 0.1 }], ['r_vit', 'Vital Points', '✦', { dmg: 0.02 }],
+      ['r_venom', 'Envenom', '❧', {}, { f: 'venom', d: 'Critical hits make foes bleed for {10}% of the hit over 3s' }], ['r_mark', 'Death Mark', '✝', {}, { f: 'deathMark', d: 'Crits instantly slay normal foes below 25% HP' }], ['r_exploit', 'Exploit', '☠', { eliteDmg: 0.08 }],
+      ['r_cold', 'Cold Blood', '◈', { sd_mark: 0.08, crit: 0.01 }], ['r_instinct', 'Killer Instinct', '◈', { crit: 0.008, critMul: 0.02 }], ['r_evo', 'Perfected Poisons', '⇪', {}, { f: 'evoMight', d: 'Evolved skills deal +{5}% damage' }],
+      ['r_ambA', 'Garrote', '✝', { eliteDmg: 0.04, critMul: 0.03 }], ['r_cloneA', 'Shadow Pact', '👤', { sd_clone: 0.08 }, { f: 'cloneCrit', d: 'Umbral Double clones have +12% crit chance' }],
+      ['r_lethal2', 'Deadly Precision', '◈', { critMul: 0.04 }], ['r_ruth', 'Ruthlessness', '👤', { sd_clone: 0.06, sc_clone: 0.05 }],
+      ['r_exec', 'Executioner', '✝', {}, { f: 'executioner', d: 'CAPSTONE: +60% damage to elites & bosses below 30% HP' }]]),
+    TTREE('Combat', '⚔', '#ff6a8a', [
+      ['r_edge', 'Keen Edge', '✦', { dmg: 0.02 }], ['r_serr', 'Serrated', '◈', { critMul: 0.04 }],
+      ['r_flurry', 'Flurry', '↯', { cd: 0.02 }], ['r_fangm', 'Fang Mastery', '⚔', { sd_fangs: 0.1 }], ['r_juggle', 'Knife Juggler', '➶', { sd_knives: 0.06 }],
+      ['r_reflex', 'Lightning Reflexes', '»', { speed: 0.02 }], ['r_strike', 'Shadow Strike', '⚔', {}, { f: 'shadowStrike', d: 'Evading a hit unleashes a shadow slash all around you' }], ['r_fan', 'Fan Mastery', '✴', { sd_bladefan: 0.1 }],
+      ['r_razor', 'Razor Dance', '↯', { cd: 0.02, critMul: 0.03 }], ['r_whet', 'Whetstone', '✦', { dmg: 0.02 }], ['r_stone', 'Splintering Steel', '◆', {}, { f: 'stoneSplit', d: 'Knives and blades that strike rocks, trees or ruins shatter, hitting foes nearby for {30}% of their damage' }],
+      ['r_bflurry', 'Blade Flurry', '✴', { sd_fangs: 0.05, sd_bladefan: 0.05 }], ['r_echo', 'Twin Echo', '⚔', {}, { f: 'fangEcho', d: 'Twin Fangs strike an extra echo slash (50% damage) on every swing' }],
+      ['r_dance', 'Dance of Blades', '✦', { dmg: 0.03 }], ['r_honed', 'Honed Echo', '⚔', { sd_fangs: 0.08 }],
+      ['r_cuts', 'Thousand Cuts', '✴', {}, { f: 'thousandCuts', d: 'CAPSTONE: crits have a 25% chance to fling a free knife at another foe' }]]),
+    TTREE('Subtlety', '☁', '#c9b6ff', [
+      ['r_light', 'Light Feet', '»', { speed: 0.015 }], ['r_blur', 'Blur', '≋', { dodge: 0.01 }],
+      ['r_tough', 'Wiry', '♥', { maxHp: 6 }], ['r_smk', 'Choking Smoke', '☁', { sd_smoke: 0.12 }], ['r_shroud', 'Shroud', '✚', { regen: 0.15 }],
+      ['r_meld', 'Shadowmeld', '▲', {}, { f: 'ambush', d: 'While next to rocks, trees or ruins: +{4}% crit chance' }], ['r_phantom', 'Phantom Step', '☁', { dodge: 0.03 }, { f: 'phantomStep', d: 'Every evade heals 3 HP' }], ['r_bond', 'Umbral Bond', '👤', { sd_clone: 0.1 }],
+      ['r_ghost', 'Ghost Skin', '⬢', { maxHp: 6, dodge: 0.01 }], ['r_veil', 'Smoke Veil', '≋', { dodge: 0.008 }], ['r_cover', 'Cloak of Cover', '▲', {}, { f: 'cover', d: 'While next to rocks, trees or ruins: take {6}% less damage' }],
+      ['r_sdance', 'Shadow Dance', '👤', { sc_clone: 0.05 }], ['r_mirror', 'Mirror Image', '👤', {}, { f: 'cloneTwin', d: 'Umbral Double summons one extra clone' }],
+      ['r_after', 'Afterimage', '≋', { dodge: 0.01, critMul: 0.03 }], ['r_deep', 'Deepest Shadow', '👤', { sd_clone: 0.1 }],
+      ['r_vanish', 'Vanish', '◌', {}, { f: 'vanish', d: 'CAPSTONE: every evade makes you untouchable for 1.2s' }]])],
   warlock: [
-    { name: 'Rot', nodes: [T('wa_fester', 'Festering', '☣', '+10% affliction damage', { dot: 0.1 }), T('wa_linger', 'Lingering', '⌛', '+15% affliction duration', { dur: 0.15 }), T('wa_deep', 'Deep Rot', '☣', '+2 max Rot stacks', { rotMax: 2 }),
-      T('wa_putrid', 'Putrefaction', '❁', 'CAPSTONE: Blightbolts apply 2 Rot stacks per hit', { f: 'putrid' }, 2), T('wa_blight', 'Blackened Blood', '☣', '+15% affliction damage', { dot: 0.15 }, 2), T('wa_ever', 'Unending', '⌛', '+25% duration, +10% affliction damage', { dur: 0.25, dot: 0.1 }, 3),
-      T('wa_everrot', 'Everrot', '❂', 'ULTIMATE: afflictions tick 25% faster and deal +25% damage', { f: 'everrot' }, 4)] },
-    { name: 'Contagion', nodes: [T('wa_spores', 'Spores', '◍', '+8% attack area', { area: 0.08 }), T('wa_carrier', 'Carrier', '⁂', 'Fallen afflicted foes infect +1 more foe', { spread: 1 }), T('wa_miasma', 'Miasma', '◍', '+10% attack area', { area: 0.1 }),
-      T('wa_epidemic', 'Epidemic', '☠', 'CAPSTONE: spread afflictions keep their full stacks & duration (was 60%)', { f: 'epidemic' }, 2), T('wa_outbreak', 'Outbreak', '⁂', 'Fallen afflicted foes infect +1 more foe', { spread: 1 }, 2), T('wa_swarm', 'Swarming Rot', '⁂', '+1 infection, +10% area', { spread: 1, area: 0.1 }, 3),
-      T('wa_bloom', 'Black Bloom', '✺', 'ULTIMATE: afflicted foes burst on death for 40% of their remaining affliction damage and rot everything nearby', { f: 'bloom' }, 4)] },
-    { name: 'Drain', nodes: [T('wa_thirst', 'Thirst', '❦', '+1% life drain', { lifesteal: 0.01 }), T('wa_vigor', 'Dark Vigor', '♥', '+15 max HP', { maxHp: 15 }), T('wa_mend', 'Mend', '✚', '+0.3 HP regen/s', { regen: 0.3 }),
-      T('wa_feast', 'Soul Feast', '❤', 'CAPSTONE: afflicted kills heal 2 HP (was 1) and Soul Leech heals 50% more', { f: 'feast' }, 2), T('wa_leech', 'Leech', '❦', '+1.5% life drain', { lifesteal: 0.015 }, 2), T('wa_heart', 'Crimson Heart', '♥', '+25 max HP, +0.4 HP regen/s', { maxHp: 25, regen: 0.4 }, 3),
-      T('wa_undying', 'Deathless Pact', '❤', 'ULTIMATE: once per run, a lethal blow leaves you alive, healed 40% and untouchable for 3s', { f: 'undying' }, 4)] },
-  ],
+    TTREE('Affliction', '☣', '#9dff3b', [
+      ['wa_fester', 'Festering', '☣', { dot: 0.03 }], ['wa_linger', 'Lingering', '⌛', { dur: 0.04 }],
+      ['wa_tick', 'Quickened Rot', '♒', { tick: 0.03 }], ['wa_deep', 'Deep Rot', '☣', { rotMax: 1 }], ['wa_boltm', 'Blight Mastery', '☣', { sd_blightbolt: 0.06 }],
+      ['wa_blight', 'Blackened Blood', '☣', { dot: 0.03 }], ['wa_putrid', 'Putrefaction', '❁', {}, { f: 'putrid', d: 'Blightbolts apply 2 Rot stacks per hit' }], ['wa_dread', 'Creeping Doom', '♒', { sd_creep: 0.1 }],
+      ['wa_ever', 'Unending', '⌛', { dur: 0.05, dot: 0.02 }], ['wa_vir', 'Virulent Strain', '☣', { dot: 0.02 }], ['wa_evo', 'Perfect Plague', '⇪', {}, { f: 'evoMight', d: 'Evolved skills deal +{5}% damage' }],
+      ['wa_vol', 'Unstable Blight', '✹', { sd_volatile: 0.08 }], ['wa_swarm', 'Swarm Lord', '⁘', {}, { f: 'locustRot', d: 'Locust Swarm bites add +1 Rot stack and the swarm hops 2 more times' }],
+      ['wa_rotheart', 'Heart of Rot', '☣', { dot: 0.03 }], ['wa_hive', 'Hive Mind', '⁘', { sd_locust: 0.1 }],
+      ['wa_everrot', 'Everrot', '❂', {}, { f: 'everrot', d: 'CAPSTONE: afflictions tick 25% faster and deal +25% damage' }]]),
+    TTREE('Contagion', '⁂', '#ff6ad8', [
+      ['wa_spores', 'Spores', '◍', { area: 0.015 }], ['wa_reach', 'Wide Infection', '⌛', { dur: 0.03 }],
+      ['wa_harv', 'Reaping Plague', '❁', { sd_plaguereap: 0.06 }], ['wa_carrier', 'Carrier', '⁂', { spread: 1 }], ['wa_pest', 'Pestilence', '☣', { dot: 0.02 }],
+      ['wa_conta', 'Contagious', '✹', { sd_volatile: 0.05 }], ['wa_epidemic', 'Epidemic', '☠', {}, { f: 'epidemic', d: 'Spread afflictions keep their full stacks & duration (instead of 60%)' }], ['wa_burst', 'Bursting Boils', '◍', { area: 0.03 }],
+      ['wa_outbreak', 'Outbreak', '⁂', { dur: 0.03, dot: 0.02 }], ['wa_miasma', 'Miasma', '◍', { area: 0.015 }], ['wa_cloud', 'Rot Cloud', '◆', {}, { f: 'stoneSplit', d: 'Blightbolts that hit rocks or trees burst, rotting and hurting foes nearby for {30}% of their damage' }],
+      ['wa_swarming', 'Swarming Plague', '❁', { sd_plaguereap: 0.06 }], ['wa_chainb', 'Chain Reaction', '✹', {}, { f: 'volChain', d: 'Every Volatile Blight burst re-seeds a nearby foe (normally Lv 6 only)' }],
+      ['wa_pand', 'Pandemic', '☣', { dot: 0.02, area: 0.01 }], ['wa_cascade', 'Cascading Blight', '✹', { sd_volatile: 0.1 }],
+      ['wa_bloom', 'Black Bloom', '✺', {}, { f: 'bloom', d: 'CAPSTONE: afflicted foes burst on death for 40% of their remaining affliction damage and rot everything nearby' }]]),
+    TTREE('Soulbinding', '❦', '#c56bff', [
+      ['wa_thirst', 'Thirst', '❦', { lifesteal: 0.004 }], ['wa_vigor', 'Dark Vigor', '♥', { maxHp: 5 }],
+      ['wa_mend', 'Mend', '✚', { regen: 0.15 }], ['wa_leechm', 'Siphon Mastery', '∿', { sd_drain: 0.1 }], ['wa_armor', 'Soul Armor', '⬢', { dr: 0.02 }],
+      ['wa_leech', 'Leech', '❦', { lifesteal: 0.004 }], ['wa_feast', 'Soul Feast', '❤', {}, { f: 'feast', d: 'Afflicted kills heal 2 HP (instead of 1) and Soul Leech heals 50% more' }], ['wa_loc', 'Locust Lord', '⁘', { sd_locust: 0.1 }],
+      ['wa_heart', 'Crimson Heart', '♥', { maxHp: 6, regen: 0.1 }], ['wa_dark', 'Dark Pact', '✦', { dmg: 0.015 }], ['wa_shield', 'Gravestone Ward', '▲', {}, { f: 'cover', d: 'While next to rocks, trees or ruins: take {6}% less damage' }],
+      ['wa_hunger', 'Insatiable', '❦', { lifesteal: 0.003, dot: 0.02 }], ['wa_soulsw', 'Soul Swarm', '⁘', {}, { f: 'locustHeal', d: 'Locust Swarm bites heal you 1 HP' }],
+      ['wa_pact', 'Blood Pact', '♥', { maxHp: 8 }], ['wa_devour', 'Devouring Swarm', '⁘', { sd_locust: 0.1 }],
+      ['wa_undying', 'Deathless Pact', '❤', {}, { f: 'undying', d: 'CAPSTONE: once per run, a lethal blow leaves you alive, healed 40% and untouchable for 3s' }]])],
   summoner: [
-    { name: 'Legion', nodes: [T('s_bone', 'Hardened Bone', '⬢', '+12% minion HP', { minionHp: 0.12 }), T('s_teeth', 'Sharp Teeth', '✦', '+10% minion damage', { minion: 0.1 }), T('s_more', 'One More', '☗', '+1 Shadow Familiar', { extraShade: 1 }),
-      T('s_retinue', 'Bone Retinue', '➹', 'CAPSTONE: every run starts with a Bone Archer (extra minion type)', { f: 'startArcher' }, 2), T('s_ossuary', 'Ossuary', '☗', '+15% minion HP, +1 Shadow Familiar', { minionHp: 0.15, extraShade: 1 }, 2), T('s_lord', 'Bone Lord', '✦', '+15% minion damage', { minion: 0.15 }, 3),
-      T('s_army', 'Army of the Dead', '☗', 'ULTIMATE: minion limit +4 and +2 Shadow Familiars', { extraShade: 2, f: 'army' }, 4)] },
-    { name: 'Bond', nodes: [T('s_mend', 'Soul Mend', '✚', '+0.3 HP regen/s', { regen: 0.3 }), T('s_hp', 'Grave Vigor', '♥', '+12 max HP', { maxHp: 12 }), T('s_feast', 'Deep Bond', '❥', 'Minion kills heal 50% more', { bondMul: 0.5 }),
-      T('s_rites', 'Last Rites', '✹', 'CAPSTONE: fallen minions explode for double damage and respawn 30% faster', { f: 'lastRites' }, 2), T('s_pain', 'Shared Pain', '⬢', '+1 armor, +10 max HP', { armor: 1, maxHp: 10 }, 2), T('s_well', 'Soul Well', '❥', 'Minion kills heal 50% more, +0.3 HP regen/s', { bondMul: 0.5, regen: 0.3 }, 3),
-      T('s_lich', 'Lichdom', '☽', 'ULTIMATE: while 3+ minions stand with you, take 20% less damage', { f: 'lich' }, 4)] },
-    { name: 'Command', nodes: [T('s_drill', 'Drill', '↯', '+8% minion attack speed', { minionAs: 0.08 }), T('s_fury', 'Fury', '✦', '+10% minion damage', { minion: 0.1 }), T('s_drill2', 'Frenzy', '↯', '+8% minion attack speed', { minionAs: 0.08 }),
-      T('s_warden', 'Gloom Warden', '♜', 'CAPSTONE: every run starts with a Gloom Brute guarding you', { f: 'startBrute' }, 2), T('s_warcry', 'Warcry', '↯', '+10% minion attack speed', { minionAs: 0.1 }, 2), T('s_tyrant', 'Tyrant', '✦', '+15% minion damage, +10% minion HP', { minion: 0.15, minionHp: 0.1 }, 3),
-      T('s_dread', 'Dread Legion', '♜', 'ULTIMATE: minion hits slow foes 30% and deal +25% to elites & bosses', { f: 'dread' }, 4)] },
-  ],
+    TTREE('Legion', '☗', '#6ff3d0', [
+      ['s_bone', 'Hardened Bone', '⬢', { minionHp: 0.04 }], ['s_teeth', 'Sharp Teeth', '✦', { minion: 0.03 }],
+      ['s_fam', 'Familiar Bond', '☗', { sd_familiars: 0.06 }], ['s_more', 'One More', '☗', { extraShade: 1 }], ['s_arch', 'Bone Quivers', '➹', { sd_archers: 0.06 }],
+      ['s_ossuary', 'Ossuary', '⬢', { minionHp: 0.04 }], ['s_retinue', 'Bone Retinue', '➹', {}, { f: 'startArcher', d: 'Every run starts with a Bone Archer (extra minion type)' }], ['s_wcall', 'Wraithcaller', '♆', { sd_wraiths: 0.1 }],
+      ['s_lord', 'Bone Lord', '✦', { minion: 0.04 }], ['s_grim', 'Grim Legion', '✦', { minion: 0.02 }], ['s_evo', 'Perfected Undeath', '⇪', {}, { f: 'evoMight', d: 'Evolved skills deal +{5}% damage' }],
+      ['s_horde', 'Endless Horde', '☗', { minionHp: 0.04, minion: 0.02 }], ['s_wmore', 'Wraith Host', '♆', {}, { f: 'wraithMore', d: 'Soul Wraiths releases 2 more wraiths' }],
+      ['s_bonelord', 'Bonelord', '✦', { minion: 0.03 }], ['s_wfury', 'Phantom Fury', '♆', { sd_wraiths: 0.1 }],
+      ['s_army', 'Army of the Dead', '☗', { extraShade: 2 }, { f: 'army', d: 'CAPSTONE: minion limit +4 and +2 Shadow Familiars' }]]),
+    TTREE('Soulbond', '❥', '#ff9ad0', [
+      ['s_mend', 'Soul Mend', '✚', { regen: 0.1 }], ['s_hp', 'Grave Vigor', '♥', { maxHp: 5 }],
+      ['s_gward', 'Grave Ward', '⬢', { dr: 0.02 }], ['s_feast', 'Deep Bond', '❥', { bondMul: 0.3 }], ['s_corp', 'Corpse Lore', '✸', { sd_corpse: 0.06 }],
+      ['s_pain', 'Shared Pain', '♥', { maxHp: 5 }], ['s_rites', 'Last Rites', '✹', {}, { f: 'lastRites', d: 'Fallen minions explode for double damage and respawn 30% faster' }], ['s_soul', 'Soul Spring', '✚', { regen: 0.2 }],
+      ['s_well', 'Soul Well', '❥', { bondMul: 0.2, regen: 0.1 }], ['s_ward', 'Spirit Ward', '⬢', { dr: 0.01 }], ['s_tomb', 'Tombstone Shelter', '▲', {}, { f: 'cover', d: 'While next to rocks, trees or ruins: take {6}% less damage' }],
+      ['s_ghost', 'Ghostly Vigor', '♥', { maxHp: 6 }], ['s_wheal', 'Soul Siphon', '♆', {}, { f: 'wraithHeal', d: 'Every Soul Wraith that hits heals you 1.5 HP' }],
+      ['s_lifeb', 'Life Bond', '❦', { lifesteal: 0.004 }], ['s_wh2', 'Wraith Communion', '♆', { sd_wraiths: 0.1 }],
+      ['s_lich', 'Lichdom', '☽', {}, { f: 'lich', d: 'CAPSTONE: while 3+ minions stand with you, take 20% less damage' }]]),
+    TTREE('Dominion', '♜', '#ffc94a', [
+      ['s_drill', 'Drill', '↯', { minionAs: 0.025 }], ['s_fury', 'Fury', '✦', { minion: 0.03 }],
+      ['s_frenzy', 'Frenzy', '↯', { minionAs: 0.03 }], ['s_brutem', 'Brute Force', '♜', { sd_brute: 0.1 }], ['s_graspm', 'Grasping Mastery', '⸙', { sd_grasp: 0.06 }],
+      ['s_warcry', 'Warcry', '↯', { minionAs: 0.03 }], ['s_warden', 'Gloom Warden', '♜', {}, { f: 'startBrute', d: 'Every run starts with a Gloom Brute guarding you' }], ['s_pit', 'Charnel Pit', '✸', { sd_corpse: 0.1 }],
+      ['s_tyrant', 'Tyrant', '✦', { minion: 0.03, minionHp: 0.03 }], ['s_command', 'Command', '✦', { minion: 0.02 }], ['s_stone', 'Bone Splinters', '◆', {}, { f: 'stoneSplit', d: 'Arrows that hit rocks, trees or ruins shatter, hitting foes nearby for {30}% of their damage' }],
+      ['s_whip', 'Lash', '↯', { minionAs: 0.02 }], ['s_dark', 'Dark Command', '⸙', {}, { f: 'graspPull', d: 'Grasping Dead drags foes into its center and deals +20% damage' }],
+      ['s_overlord', 'Overlord', '✦', { minion: 0.03 }], ['s_pull2', 'Hungry Earth', '⸙', { sd_grasp: 0.1 }],
+      ['s_dread', 'Dread Legion', '♜', {}, { f: 'dread', d: 'CAPSTONE: minion hits slow foes 30% and deal +25% to elites & bosses' }]])],
   ranger: [
-    { name: 'Marksman', nodes: [T('g_tips', 'Honed Tips', '➵', '+8% arrow damage', { arrowDmg: 0.08 }), T('g_eye', 'Hawk Eye', '◎', '+5% crit chance, +8% arrow range', { crit: 0.05, range: 0.08 }), T('g_heavy', 'Heavy Draw', '➵', '+10% arrow damage', { arrowDmg: 0.1 }),
-      T('g_split', 'Splitting Arrows', '⋔', 'CAPSTONE: Shadow Bow arrows split into 2 on their first hit', { f: 'splitArrows' }, 2), T('g_broad', 'Broadheads', '➵', '+12% arrow damage', { arrowDmg: 0.12 }, 2), T('g_eagle', 'Eagle Sight', '◎', '+12% arrow range, +5% crit', { range: 0.12, crit: 0.05 }, 3),
-      T('g_deadeye', 'Deadeye', '➼', 'ULTIMATE: every 5th Shadow Bow volley adds a piercing bolt for 3× damage', { f: 'deadeye' }, 4)] },
-    { name: 'Fleetfoot', nodes: [T('g_stride', 'Long Stride', '»', '+5% move speed', { speed: 0.05 }), T('g_dodge', 'Sidestep', '≋', '+5% evasion', { dodge: 0.05 }), T('g_hp', 'Hardy', '♥', '+12 max HP', { maxHp: 12 }),
-      T('g_wind', 'Windrunner', '༄', 'CAPSTONE: while moving, Shadow Bow fires 25% faster', { f: 'windrunner' }, 2), T('g_secwind', 'Second Wind', '✚', '+10 max HP, +0.4 HP regen/s', { maxHp: 10, regen: 0.4 }, 2), T('g_fleet', 'Fleet', '»', '+6% move speed, +4% evasion', { speed: 0.06, dodge: 0.04 }, 3),
-      T('g_ghost', 'Ghost Walk', '≋', 'ULTIMATE: while moving, take 25% less damage', { f: 'ghostwalk' }, 4)] },
-    { name: 'Volley', nodes: [T('g_nock', 'Quick Nock', '↯', '-5% attack cooldowns', { cd: 0.05 }), T('g_pierce', 'Bodkin', '➶', '+1 arrow pierce', { pierce: 1 }), T('g_extra', 'Twin Nock', '⋔', '+1 Shadow Bow arrow', { extraArrow: 1 }),
-      T('g_rain', 'Storm Quiver', '⇣', 'CAPSTONE: every run starts with Arrow Rain', { f: 'startRain' }, 2), T('g_fletch', 'Fletcher', '↯', '-6% attack cooldowns', { cd: 0.06 }, 2), T('g_triple', 'Triple Nock', '⋔', '+1 Shadow Bow arrow', { extraArrow: 1 }, 3),
-      T('g_hail', 'Hail of Arrows', '⇣', 'ULTIMATE: Arrow Rain and Fan Volley fire 50% more often', { f: 'hail' }, 4)] },
-  ],
+    TTREE('Marksman', '➼', '#ffe23a', [
+      ['g_tips', 'Honed Tips', '➵', { arrowDmg: 0.03 }], ['g_eye', 'Hawk Eye', '◎', { crit: 0.01 }],
+      ['g_heavy', 'Heavy Draw', '➵', { arrowDmg: 0.03 }], ['g_bowm', 'Bow Mastery', '➶', { sd_bow: 0.1 }], ['g_range', 'Eagle Range', '◎', { range: 0.03 }],
+      ['g_broad', 'Broadheads', '➵', { arrowDmg: 0.03 }], ['g_split', 'Splitting Arrows', '⋔', {}, { f: 'splitArrows', d: 'Shadow Bow arrows split into 2 on their first hit' }], ['g_ball', 'Siege Mastery', '➼', { sd_ballista: 0.1 }],
+      ['g_eagle', 'Eagle Sight', '◎', { range: 0.03, crit: 0.01 }], ['g_aim', 'Steady Aim', '◈', { critMul: 0.04 }], ['g_arc', 'Arcing Shots', '⌒', {}, { f: 'arcShot', d: '{50}% of your arrows arc over rocks, trees and ruins instead of stopping' }],
+      ['g_kill', 'Killshot', '☠', { eliteDmg: 0.05 }], ['g_trapA', 'Trapper', '⊛', {}, { f: 'trapBleed', d: "Hunter's Snares make foes bleed heavily and you place 1 more snare" }],
+      ['g_dead', 'Dead Aim', '◈', { critMul: 0.05 }], ['g_trap2', 'Master Trapper', '⊛', { sd_traps: 0.1 }],
+      ['g_deadeye', 'Deadeye', '➼', {}, { f: 'deadeye', d: 'CAPSTONE: every 5th Shadow Bow volley adds a piercing bolt for 3x damage' }]]),
+    TTREE('Survival', '༄', '#9dff6a', [
+      ['g_stride', 'Long Stride', '»', { speed: 0.015 }], ['g_dodge', 'Sidestep', '≋', { dodge: 0.01 }],
+      ['g_hp', 'Hardy', '♥', { maxHp: 5 }], ['g_hawkm', 'Hawk Mastery', '⋎', { sd_hawk: 0.1 }], ['g_wild', 'Wild Mend', '✚', { regen: 0.12 }],
+      ['g_secwind', 'Second Wind', '✚', { maxHp: 4, regen: 0.1 }], ['g_wind', 'Windrunner', '༄', {}, { f: 'windrunner', d: 'While moving, Shadow Bow fires 25% faster' }], ['g_snare', 'Snare Mastery', '⊛', { sd_traps: 0.1 }],
+      ['g_fleet', 'Fleet', '»', { speed: 0.015, dodge: 0.01 }], ['g_surv', 'Survivalist', '⬢', { dr: 0.01 }], ['g_cover', "Hunter's Cover", '▲', {}, { f: 'cover', d: 'While next to rocks, trees or ruins: take {6}% less damage' }],
+      ['g_camo', 'Camouflage', '≋', { dodge: 0.01 }], ['g_trapBoom', 'Explosive Snares', '⊛', {}, { f: 'trapBoom', d: "Hunter's Snares explode when sprung, hitting every foe around them" }],
+      ['g_evasive', 'Evasive', '»', { speed: 0.01, dodge: 0.01 }], ['g_tb2', 'Blast Traps', '⊛', { sd_traps: 0.1 }],
+      ['g_ghost', 'Ghost Walk', '≋', {}, { f: 'ghostwalk', d: 'CAPSTONE: while moving, take 25% less damage' }]]),
+    TTREE('Volley', '⇣', '#c58bff', [
+      ['g_nock', 'Quick Nock', '↯', { cd: 0.012 }], ['g_volm', 'Volley Mastery', '⋙', { sd_volley: 0.04 }],
+      ['g_rainm', 'Rain Mastery', '⇣', { sd_arrowrain: 0.06 }], ['g_pierce', 'Bodkin', '➶', { pierce: 1 }], ['g_fletch', 'Fletcher', '↯', { cd: 0.015 }],
+      ['g_extra', 'Twin Nock', '⋔', { extraArrow: 1 }, { m: 1 }], ['g_rain', 'Storm Quiver', '⇣', {}, { f: 'startRain', d: 'Every run starts with Arrow Rain' }], ['g_hawkv', 'Hawk Talons', '⋎', { sd_hawk: 0.1 }],
+      ['g_triple', 'Triple Nock', '⋔', { extraArrow: 1 }, { m: 1 }], ['g_quiver', 'Deep Quiver', '➵', { arrowDmg: 0.025 }], ['g_stoneV', 'Shattering Arrows', '◆', {}, { f: 'stoneSplit', d: 'Arrows that hit rocks, trees or ruins shatter, hitting foes nearby for {30}% of their damage' }],
+      ['g_barrage', 'Barrage', '⇣', { sd_arrowrain: 0.06 }], ['g_hawkP', 'Stormcaller Hawk', '⋎', {}, { f: 'hawkPlus', d: 'Shadow Hawk dives 1 more time per attack' }],
+      ['g_storm', 'Arrow Storm', '⋙', { sd_volley: 0.05, sd_arrowrain: 0.05 }], ['g_hawk3', 'Raptor', '⋎', { sd_hawk: 0.12 }],
+      ['g_hail', 'Hail of Arrows', '⇣', {}, { f: 'hail', d: 'CAPSTONE: Arrow Rain and Fan Volley fire 50% more often' }]])],
   reaper: [
-    { name: 'Harvest', nodes: [T('k_whet', 'Whet Blade', '✦', '+6% damage', { dmg: 0.06 }), T('k_arc', 'Wide Arc', '◍', '+8% attack area', { area: 0.08 }), T('k_reap', 'Reaping', '✦', '+8% damage', { dmg: 0.08 }),
-      T('k_reaver', 'Soul Reaver', '☾', 'CAPSTONE: Grave Sweep heals twice as much', { f: 'soulReaver' }, 2), T('k_shaft', 'Long Shaft', '◍', '+10% attack area', { area: 0.1 }, 2), T('k_butcher', 'Butcher', '✦', '+12% damage, +10% crit damage', { dmg: 0.12, critMul: 0.1 }, 3),
-      T('k_tide', 'Grim Tide', '✺', 'ULTIMATE: kills have a 6% chance to release a nova of souls', { f: 'grimTide' }, 4)] },
-    { name: 'Undeath', nodes: [T('k_hide', 'Thick Hide', '♥', '+15 max HP', { maxHp: 15 }), T('k_plate', 'Bone Plate', '⬢', '+1 armor', { armor: 1 }), T('k_mend', 'Grave Mend', '✚', '+0.3 HP regen/s', { regen: 0.3 }),
-      T('k_deathless', 'Deathless', '❤', 'CAPSTONE: below 50% HP, your regeneration is tripled', { f: 'deathless' }, 2), T('k_iron', 'Iron Bones', '⬢', '+1 armor, +10 max HP', { armor: 1, maxHp: 10 }, 2), T('k_vamp', 'Vampiric', '❦', '+2% life drain', { lifesteal: 0.02 }, 3),
-      T('k_door', "Death's Door", '✝', 'ULTIMATE: below 25% HP, +30% damage and +15% evasion', { f: 'deathsDoor' }, 4)] },
-    { name: 'Dread', nodes: [T('k_haunt', 'Haunt', '↯', '-5% attack cooldowns', { cd: 0.05 }), T('k_terror', 'Terror', '◈', '+4% crit chance', { crit: 0.04 }), T('k_toll', 'Bell Toll', '☠', '+15% damage to elites & bosses', { eliteDmg: 0.15 }),
-      T('k_wraith', 'Wraith Form', '☁', 'CAPSTONE: +12% move speed, +5% evasion', { speed: 0.12, dodge: 0.05 }, 2), T('k_dirge', 'Dirge', '↯', '-6% attack cooldowns', { cd: 0.06 }, 2), T('k_doom', 'Doom', '◈', '+6% crit, +20% crit damage', { crit: 0.06, critMul: 0.2 }, 3),
-      T('k_harvest', "Reaper's Toll", '☾', 'ULTIMATE: every 12s a colossal phantom scythe sweeps the whole screen', { f: 'toll' }, 4)] },
-  ],
+    TTREE('Harvest', '☾', '#ff3d6e', [
+      ['k_whet', 'Whet Blade', '✦', { dmg: 0.02 }], ['k_arc', 'Wide Arc', '◍', { area: 0.02 }],
+      ['k_reap', 'Reaping', '✦', { dmg: 0.02 }], ['k_sweep', 'Sweep Mastery', '☾', { sd_reap: 0.1 }], ['k_throw', 'Scythe Mastery', '⟲', { sd_scythethrow: 0.06 }],
+      ['k_shaft', 'Long Shaft', '◍', { area: 0.02 }], ['k_reaver', 'Soul Reaver', '☾', {}, { f: 'soulReaver', d: 'Grave Sweep heals twice as much' }], ['k_hook', 'Hooked Chains', '⛓', { sd_chains: 0.1 }],
+      ['k_butcher', 'Butcher', '✦', { dmg: 0.02, critMul: 0.03 }], ['k_grim', 'Grim Edge', '◈', { critMul: 0.03 }], ['k_evo', 'Perfect Harvest', '⇪', {}, { f: 'evoMight', d: 'Evolved skills deal +{5}% damage' }],
+      ['k_reapw', 'Wide Reaping', '☾', { sd_reap: 0.06 }], ['k_drag', 'Drag to the Grave', '⛓', {}, { f: 'chainMore', d: 'Soul Chains hooks 2 more foes and its drain heals 50% more' }],
+      ['k_carnage', 'Carnage', '✦', { dmg: 0.03 }], ['k_ch2', 'Iron Links', '⛓', { sd_chains: 0.1 }],
+      ['k_tide', 'Grim Tide', '✺', {}, { f: 'grimTide', d: 'CAPSTONE: kills have a 6% chance to release a nova of souls' }]]),
+    TTREE('Undeath', '⬢', '#d8d0e8', [
+      ['k_hide', 'Thick Hide', '♥', { maxHp: 6 }], ['k_mend', 'Grave Mend', '✚', { regen: 0.12 }],
+      ['k_skull', 'Skull Mastery', '☠', { sd_skulls: 0.06 }], ['k_plate', 'Bone Plate', '⬢', { armor: 1 }], ['k_vamp', 'Vampiric', '❦', { lifesteal: 0.005 }],
+      ['k_iron', 'Iron Bones', '♥', { maxHp: 6 }], ['k_deathless', 'Deathless', '❤', {}, { f: 'deathless', d: 'Below 50% HP your regeneration is tripled' }], ['k_tomb', 'Tomb Warden', '▲', {}, { f: 'cover', d: 'While next to rocks, trees or ruins: take {6}% less damage' }],
+      ['k_iron2', 'Marrow', '⬢', { maxHp: 5, dr: 0.01 }], ['k_undy', 'Undying Flesh', '✚', { regen: 0.08 }], ['k_tether', 'Soul Tether', '⛓', {}, { f: 'chainHeal', d: 'Soul Chains drain heals {50}% more' }],
+      ['k_rot', 'Grave Hardened', '⬢', { dr: 0.015 }], ['k_break', 'Gravebreaker', '◆', {}, { f: 'obBreak', d: 'Grave Sweep and Banshee Wail shatter rocks, stumps and gravestones they touch, hurling bone-shards into foes' }],
+      ['k_ward', 'Bone Ward', '♥', { maxHp: 6, regen: 0.05 }], ['k_brk2', 'Rubble Reaper', '☾', { sd_reap: 0.08, area: 0.01 }],
+      ['k_door', "Death's Door", '✝', {}, { f: 'deathsDoor', d: 'CAPSTONE: below 25% HP, +30% damage and +15% evasion' }]]),
+    TTREE('Dread', '◠', '#bfefff', [
+      ['k_haunt', 'Haunt', '↯', { cd: 0.012 }], ['k_terror', 'Terror', '◈', { crit: 0.01 }],
+      ['k_toll', 'Bell Toll', '☠', { eliteDmg: 0.05 }], ['k_wail', 'Wail Mastery', '◠', { sd_wail: 0.1 }], ['k_nova', 'Nova Mastery', '✺', { sd_nova: 0.06 }],
+      ['k_dirge', 'Dirge', '↯', { cd: 0.015 }], ['k_wraith', 'Wraith Form', '☁', { speed: 0.12, dodge: 0.05 }], ['k_terr', 'Screaming Skulls', '☠', { sd_skulls: 0.1 }],
+      ['k_doom', 'Doom', '◈', { crit: 0.015, critMul: 0.05 }], ['k_dread', 'Dread', '✦', { dmg: 0.015 }], ['k_stone', 'Shattering Wail', '◆', {}, { f: 'stoneSplit', d: 'Hurled scythes that strike rocks or trees shatter shards into foes nearby for {30}% of their damage' }],
+      ['k_hex', 'Hex of Ruin', '☠', { eliteDmg: 0.04 }], ['k_fear', 'Chains of Dread', '⛓', {}, { f: 'chainFear', d: 'Chained foes are slowed 50% and take +15% damage from everything for 3s' }],
+      ['k_doom2', 'Final Doom', '◈', { critMul: 0.05 }], ['k_cf2', 'Shackles', '⛓', { sd_chains: 0.1 }],
+      ['k_harvest', "Reaper's Toll", '☾', {}, { f: 'toll', d: 'CAPSTONE: every 12s a colossal phantom scythe sweeps the whole screen' }]])],
   rift: [
-    { name: 'Void', nodes: [T('v_edge', 'Edge of Void', '✦', '+6% damage', { dmg: 0.06 }), T('v_spin', 'Rift Spin', '↯', '-5% attack cooldowns', { cd: 0.05 }), T('v_rim', 'Sharpened Rim', '◈', '+4% crit chance', { crit: 0.04 }),
-      T('v_rico', 'Ricochet Master', '◌', 'CAPSTONE: Void Chakrams bounce 2 extra times', { f: 'ricochet' }, 2), T('v_pulse', 'Void Pulse', '✦', '+10% damage', { dmg: 0.1 }, 2), T('v_horizon', 'Event Horizon', '◍', '+10% area, -5% cooldowns', { area: 0.1, cd: 0.05 }, 3),
-      T('v_collapse', 'Collapse', '✸', 'ULTIMATE: kills made while moving have a 10% chance to detonate a void blast', { f: 'collapse' }, 4)] },
-    { name: 'Flow', nodes: [T('v_step', 'Light Step', '»', '+5% move speed', { speed: 0.05 }), T('v_slip', 'Slip', '≋', '+4% evasion', { dodge: 0.04 }), T('v_flow', 'Flow', '♥', '+12 max HP', { maxHp: 12 }),
-      T('v_phase', 'Phase Shift', '◇', 'CAPSTONE: Momentum evasion bonus doubled (+20% while moving)', { f: 'phase' }, 2), T('v_fluid', 'Fluid', '»', '+5% move speed, +0.3 HP regen/s', { speed: 0.05, regen: 0.3 }, 2), T('v_after', 'Afterimage', '≋', '+5% evasion', { dodge: 0.05 }, 3),
-      T('v_walker', 'Riftwalker', '◇', 'ULTIMATE: while moving, you leave a free rift mine every 1.5s', { f: 'riftwalker' }, 4)] },
-    { name: 'Precision', nodes: [T('v_focus', 'Focus', '◎', '+5% crit chance', { crit: 0.05 }), T('v_keen', 'Keen', '◈', '+15% crit damage', { critMul: 0.15 }), T('v_hunter', 'Hunter', '☠', '+15% damage to elites & bosses', { eliteDmg: 0.15 }),
-      T('v_star', 'Starburst', '✸', 'CAPSTONE: crits on elites & bosses can burst for area damage', { f: 'starburst' }, 2), T('v_prec', 'Precision', '◎', '+5% crit chance', { crit: 0.05 }, 2), T('v_lethal', 'Lethal Spin', '◈', '+20% crit damage, +6% damage', { critMul: 0.2, dmg: 0.06 }, 3),
-      T('v_singular', 'Singular Point', '◉', 'ULTIMATE: every 12s a free Singularity opens on nearby foes', { f: 'singular' }, 4)] },
-  ],
+    TTREE('Void', '◌', '#4fd4ff', [
+      ['v_edge', 'Edge of Void', '✦', { dmg: 0.02 }], ['v_spin', 'Rift Spin', '↯', { cd: 0.012 }],
+      ['v_rim', 'Sharpened Rim', '◈', { crit: 0.01 }], ['v_chak', 'Chakram Mastery', '◌', { sd_chakram: 0.1 }], ['v_orb', 'Orb Mastery', '●', { sd_orbs: 0.06 }],
+      ['v_pulse', 'Void Pulse', '✦', { dmg: 0.02 }], ['v_rico', 'Ricochet Master', '◌', {}, { f: 'ricochet', d: 'Void Chakrams bounce 2 extra times' }], ['v_arms', 'Spiral Arms', '✺', { sd_spiral: 0.1 }],
+      ['v_horizon', 'Event Horizon', '◍', { area: 0.02, cd: 0.01 }], ['v_void', 'Abyssal', '✦', { dmg: 0.015 }], ['v_bank', 'Bank Shot', '▲', {}, { f: 'chakBank', d: 'Void Chakrams rebound off rocks, trees and ruins (+1 bounce) and gain +{15}% damage' }],
+      ['v_lanceS', 'Lance Mastery', '⟶', { sd_lance: 0.06 }], ['v_galaxy', 'Galactic Core', '✺', {}, { f: 'spiralMore', d: 'Nebula Spiral fires 2 more arms' }],
+      ['v_eh', 'Horizon Breaker', '✦', { dmg: 0.03 }], ['v_sp2', 'Supernova Arms', '✺', { sd_spiral: 0.1 }],
+      ['v_collapse', 'Collapse', '✸', {}, { f: 'collapse', d: 'CAPSTONE: kills made while moving have a 10% chance to detonate a void blast' }]]),
+    TTREE('Flow', '»', '#6ff3d0', [
+      ['v_step', 'Light Step', '»', { speed: 0.015 }], ['v_slip', 'Slip', '≋', { dodge: 0.01 }],
+      ['v_flow', 'Flow', '♥', { maxHp: 5 }], ['v_mine', 'Mine Mastery', '◇', { sd_blink: 0.1 }], ['v_fluidr', 'Ebb', '✚', { regen: 0.12 }],
+      ['v_fluid', 'Fluid', '»', { speed: 0.01, regen: 0.08 }], ['v_phase', 'Phase Shift', '◇', {}, { f: 'phase', d: 'Momentum evasion bonus doubled (+20% while moving)' }], ['v_sing', 'Gravity Mastery', '◉', { sd_singularity: 0.1 }],
+      ['v_after', 'Afterimage', '≋', { dodge: 0.012 }], ['v_drift', 'Drift', '⬢', { dr: 0.01 }], ['v_cover', 'Void Cover', '▲', {}, { f: 'cover', d: 'While next to rocks, trees or ruins: take {6}% less damage' }],
+      ['v_mom', 'Momentum', '»', { speed: 0.01 }], ['v_comet', 'Comet Trail', '✺', {}, { f: 'spiralMove', d: 'While moving, Nebula Spiral recharges 25% faster' }],
+      ['v_slip2', 'Slipstream', '≋', { dodge: 0.01, speed: 0.01 }], ['v_ct2', 'Stellar Wake', '✺', { sd_spiral: 0.08, sc_spiral: 0.04 }],
+      ['v_walker', 'Riftwalker', '◇', {}, { f: 'riftwalker', d: 'CAPSTONE: while moving, you leave a free rift mine every 1.5s' }]]),
+    TTREE('Precision', '◎', '#ffe23a', [
+      ['v_focus', 'Focus', '◎', { crit: 0.01 }], ['v_keen', 'Keen', '◈', { critMul: 0.04 }],
+      ['v_hunter', 'Hunter', '☠', { eliteDmg: 0.05 }], ['v_lancem', 'Lance Focus', '⟶', { sd_lance: 0.1 }], ['v_singm', 'Singularity Focus', '◉', { sd_singularity: 0.06 }],
+      ['v_prec', 'Precision', '◎', { crit: 0.01 }], ['v_star', 'Starburst', '✸', {}, { f: 'starburst', d: 'Crits on elites & bosses can burst for area damage' }], ['v_evo', 'Perfect Orbit', '⇪', {}, { f: 'evoMight', d: 'Evolved skills deal +{5}% damage' }],
+      ['v_lethal', 'Lethal Spin', '◈', { critMul: 0.05, dmg: 0.01 }], ['v_exact', 'Exactitude', '◈', { critMul: 0.03 }], ['v_stone', 'Shard Storm', '◆', {}, { f: 'stoneSplit', d: 'Void stars and chakrams that strike rocks or trees shatter into foes nearby for {30}% of their damage' }],
+      ['v_mark', 'Marked Prey', '☠', { eliteDmg: 0.04 }], ['v_null', 'Null Point', '✺', {}, { f: 'spiralCrit', d: 'Nebula Spiral stars have +12% crit chance' }],
+      ['v_ex2', 'Pinpoint', '◎', { crit: 0.01, critMul: 0.03 }], ['v_np2', 'Dark Matter', '✺', { sd_spiral: 0.1 }],
+      ['v_singular', 'Singular Point', '◉', {}, { f: 'singular', d: 'CAPSTONE: every 12s a free Singularity opens on nearby foes' }]])],
   druid: [
-    { name: 'Feral', nodes: [T('d_claw', 'Sharp Claws', '✦', '+8% feral damage (claws, talons, pounce, bites)', { feral: 0.08 }), T('d_paws', 'Swift Paws', '»', '+5% move speed', { speed: 0.05 }), T('d_rend', 'Rend', '❧', '+20% bleed damage', { bleed: 0.2 }),
-      T('d_scent', 'Bloodscent', '❦', 'CAPSTONE: bleeding foes take +15% damage from everything', { f: 'bloodscent' }, 2), T('d_fangs', 'Feral Fangs', '✦', '+12% feral damage', { feral: 0.12 }, 2), T('d_apex', 'Apex Hunter', '◈', '+6% crit, +10% feral damage', { crit: 0.06, feral: 0.1 }, 3),
-      T('d_frenzy', 'Moonlit Frenzy', '☾', 'ULTIMATE: every 12s enter a 5s frenzy — attacks 60% faster, +30% move speed, claws strike twice', { f: 'frenzy' }, 4)] },
-    { name: 'Nature', nodes: [T('d_bloom', 'Bloom', '✿', '+8% nature damage', { nature: 0.08 }), T('d_reach', 'Wild Reach', '◍', '+8% attack area', { area: 0.08 }), T('d_sap', 'Quick Sap', '↯', '-5% attack cooldowns', { cd: 0.05 }),
-      T('d_thorn', 'Thornburst', '✴', 'CAPSTONE: Thornseeds burst into 3 splinters when they hit (Shadowcat: every claw swipe flings 3 bleeding splinters)', { f: 'thornburst' }, 2), T('d_grove', 'Grove Power', '✿', '+12% nature damage', { nature: 0.12 }, 2), T('d_season', 'Endless Season', '◍', '+10% area, -5% cooldowns', { area: 0.1, cd: 0.05 }, 3),
-      T('d_storm', 'Wrath of the Wilds', '☄', 'ULTIMATE: every 15s a 4s wild storm rains star-seeds and leaf blades on foes all over the screen (Shadowcat: a 4s Blood Moon hunt of claw rakes all around you)', { f: 'wildstorm' }, 4)] },
-    { name: 'Guardian', nodes: [T('d_bark', 'Barkskin', '♥', '+15 max HP', { maxHp: 15 }), T('d_moss', 'Moss Mend', '✚', '+0.4 HP regen/s', { regen: 0.4 }), T('d_rooted', 'Rooted', '⬢', '+1 armor', { armor: 1 }),
-      T('d_bramble', 'Bramble Hide', '✸', 'CAPSTONE: reflect 40% of damage taken onto nearby foes', { f: 'brambles' }, 2), T('d_heart', 'Heartwood', '♥', '+25 max HP', { maxHp: 25 }, 2), T('d_oak', 'Old Oak', '⬢', '+1 armor, 8% damage reduction', { armor: 1, dr: 0.08 }, 3),
-      T('d_ancient', 'Ancient Awakening', '♣', 'ULTIMATE: below 35% HP, awaken as a towering Ancient for 6s — heal 50%, take 50% less damage, quake the ground every second (60s cooldown)', { f: 'ancient' }, 4)] },
-  ],
+    TTREE('Feral', '🐾', '#ff7a96', [
+      ['d_claw', 'Sharp Claws', '✦', { feral: 0.03 }], ['d_paws', 'Swift Paws', '»', { speed: 0.015 }],
+      ['d_rend', 'Rend', '❧', { bleed: 0.06 }], ['d_talon', 'Talon Mastery', '❧', { sd_talons: 0.1 }], ['d_pnc', 'Pounce Mastery', '⤳', { sd_pounce: 0.06 }],
+      ['d_fangs', 'Feral Fangs', '✦', { feral: 0.03 }], ['d_scent', 'Bloodscent', '❦', {}, { f: 'bloodscent', d: 'Bleeding foes take +15% damage from everything' }], ['d_maw', 'Sanguine Thirst', '♥', {}, { f: 'catLsT', d: 'In Shadowcat Form your melee lifesteals +{1}% more' }],
+      ['d_apex', 'Apex Hunter', '◈', { crit: 0.015, feral: 0.02 }], ['d_hunt', 'Stalker', '✦', { feral: 0.02 }], ['d_evo', 'Primal Evolution', '⇪', {}, { f: 'evoMight', d: 'Evolved skills deal +{5}% damage' }],
+      ['d_prowl', 'Prowler', '▲', {}, { f: 'ambush', d: 'While next to rocks, trees or ruins: +{4}% crit chance' }], ['d_whirl', 'Moonclaw Fury', '☾', {}, { f: 'shredMore', d: 'Moonclaw Whirl spins once more and its bleeds stack twice as deep' }],
+      ['d_savage', 'Savage', '✦', { feral: 0.03, bleed: 0.04 }], ['d_wh2', 'Crescent Claws', '☾', { sd_shred: 0.1 }],
+      ['d_frenzy', 'Moonlit Frenzy', '☾', {}, { f: 'frenzy', d: 'CAPSTONE: every 12s enter a 5s frenzy — attacks 60% faster, +30% move speed, claws strike twice' }]]),
+    TTREE('Wildcaller', '✿', '#9dff6a', [
+      ['d_bloom', 'Bloom', '✿', { nature: 0.03 }], ['d_reach', 'Wild Reach', '◍', { area: 0.02 }],
+      ['d_sap', 'Quick Sap', '↯', { cd: 0.015 }], ['d_seedm', 'Seed Mastery', '❂', { sd_seedbolt: 0.1 }], ['d_star', 'Star Mastery', '✧', { sd_starseed: 0.06 }],
+      ['d_grove', 'Grove Power', '✿', { nature: 0.03 }], ['d_thorn', 'Thornburst', '✴', {}, { f: 'thornburst', d: 'Thornseeds burst into 3 splinters when they hit (Shadowcat: every claw swipe flings 3 bleeding splinters)' }], ['d_stag', 'Stag Lord', '♈', { sd_stampede: 0.1 }],
+      ['d_season', 'Endless Season', '◍', { area: 0.02, cd: 0.01 }], ['d_wild', 'Wild Growth', '✿', { nature: 0.02 }], ['d_briar', 'Briar Mastery', '⸙', { sd_briars: 0.1 }],
+      ['d_temp', 'Gale Mastery', '❦', { sd_tempest: 0.06 }], ['d_herd', 'Wild Herd', '♈', {}, { f: 'stagMore', d: 'Wild Stampede sends 1 more stag, and stags crashing into rocks or trees erupt in thorns' }],
+      ['d_gaia', "Gaia's Gift", '✿', { nature: 0.03 }], ['d_herd2', 'Thundering Hooves', '♈', { sd_stampede: 0.1 }],
+      ['d_storm', 'Wrath of the Wilds', '✺', {}, { f: 'wildstorm', d: 'CAPSTONE: every 15s a 4s wild storm rains star-seeds and leaf blades across the screen (Shadowcat: a 4s Blood Moon hunt of claw rakes all around you)' }]]),
+    TTREE('Elderbark', '♣', '#d8a050', [
+      ['d_bark', 'Barkskin', '♥', { maxHp: 6 }], ['d_moss', 'Moss Mend', '✚', { regen: 0.15 }],
+      ['d_quake', 'Quake Mastery', '⛰', { sd_quake: 0.06 }], ['d_rooted', 'Rooted', '⬢', { armor: 1 }], ['d_iron', 'Ironwood', '⬢', { dr: 0.015 }],
+      ['d_heart', 'Heartwood', '♥', { maxHp: 8 }], ['d_bramble', 'Bramble Hide', '✸', {}, { f: 'brambles', d: 'Reflect 40% of damage taken onto nearby foes' }], ['d_trunk', 'Living Trunk', '♣', {}, { f: 'treeThick', d: 'In Elderbark Form: +{5}% max HP and +{6}% smash damage' }],
+      ['d_oak', 'Old Oak', '⬢', { dr: 0.02 }], ['d_root', 'Deep Roots', '✚', { regen: 0.1 }], ['d_uproot', 'Uprooter', '◆', {}, { f: 'obBreak', d: 'Elderbark smashes and Rootquake shatter rocks, stumps and gravestones, hurling splinters into foes' }],
+      ['d_thick', 'Thick Bark', '♥', { maxHp: 6 }], ['d_mount', "Mountain's Heart", '⬤', {}, { f: 'boulderMore', d: 'Uprooted Boulder hurls a second boulder and shatters into 3 rolling stones' }],
+      ['d_ancient2', 'Ancient Bark', '⬢', { dr: 0.015, maxHp: 5 }], ['d_bm2', 'Avalanche', '⬤', { sd_boulder: 0.1 }],
+      ['d_ancient', 'Ancient Awakening', '♣', {}, { f: 'ancient', d: 'CAPSTONE: below 35% HP, awaken as a towering Ancient for 6s — heal 50%, take 50% less damage, quake the ground every second (60s cooldown)' }]])],
   mage: [
-    { name: 'Fire', nodes: [T('m_spark', 'Kindled Spark', '✦', '+8% fire damage', { fire: 0.08 }), T('m_heat', 'Searing Heat', '♨', '+15% burn damage', { burn: 0.15 }), T('m_flare', 'Flare', '↯', '-5% spell cooldowns', { cd: 0.05 }),
-      T('m_wildfire', 'Wildfire', '✹', 'CAPSTONE: burning foes spread their burn to 1 extra foe when they fall and erupt in a small fire blast', { f: 'wildfire' }, 2), T('m_blaze', 'Blaze', '✦', '+12% fire damage', { fire: 0.12 }, 2), T('m_inferno', 'Inferno Heart', '◍', '+10% area, +10% burn damage', { area: 0.1, burn: 0.1 }, 3),
-      T('m_cataclysm', 'Cataclysm', '☄', 'ULTIMATE: every 14s, six burning meteors crash into foes across the screen', { f: 'cataclysm' }, 4)] },
-    { name: 'Frost', nodes: [T('m_chill', 'Biting Chill', '❄', '+8% frost damage', { frost: 0.08 }), T('m_rime', 'Rime Skin', '⬢', '+1 armor', { armor: 1 }), T('m_hoar', 'Hoarfrost Heart', '♥', '+12 max HP', { maxHp: 12 }),
-      T('m_shatter', 'Shatterpoint', '✧', 'CAPSTONE: hitting a frozen foe shatters the ice — +30% damage on that hit and ice shards burst out for 40% to foes nearby', { f: 'shatter' }, 2), T('m_glacier', 'Glacier', '❄', '+12% frost damage', { frost: 0.12 }, 2), T('m_embrace', "Winter's Embrace", '⬢', '+1 armor, 6% damage reduction', { armor: 1, dr: 0.06 }, 3),
-      T('m_winter', 'Absolute Winter', '❅', 'ULTIMATE: every 15s, every foe on screen is frozen solid for 2s and takes frost damage (bosses are slowed instead)', { f: 'winter' }, 4)] },
-    { name: 'Arcane', nodes: [T('m_mind', 'Keen Mind', '✧', '+8% arcane damage', { arcane: 0.08 }), T('m_ley', 'Ley Flow', '↯', '-5% spell cooldowns', { cd: 0.05 }), T('m_starlit', 'Starlit Focus', '◈', '+4% crit chance', { crit: 0.04 }),
-      T('m_overload', 'Overload', '◉', 'CAPSTONE: +2 max Arcane Charges; at full charges arcane spells deal +30% damage', { f: 'overload' }, 2), T('m_power', 'Raw Power', '✧', '+12% arcane damage', { arcane: 0.12 }, 2), T('m_prism', 'Prismatic Mind', '◈', '+20% crit damage, +6% damage', { critMul: 0.2, dmg: 0.06 }, 3),
-      T('m_converge', 'Astral Convergence', '✷', 'ULTIMATE: every 12s, a lance of starlight strikes the strongest foe on screen for massive damage and arcs to 4 more', { f: 'convergence' }, 4)] },
-  ],
-
+    TTREE('Fire', '☀', '#ff8a3c', [
+      ['m_spark', 'Kindled Spark', '✦', { fire: 0.03 }], ['m_heat', 'Searing Heat', '♨', { burn: 0.05 }],
+      ['m_flare', 'Flare', '↯', { cd: 0.015 }], ['m_cinder', 'Cinder Mastery', '☀', { sd_mcinder: 0.1 }], ['m_wake', 'Wake Mastery', '♨', { sd_mwake: 0.06 }],
+      ['m_blaze', 'Blaze', '✦', { fire: 0.03 }], ['m_wildfire', 'Wildfire', '✹', {}, { f: 'wildfire', d: 'Burning foes spread their burn to 1 extra foe when they fall and erupt in a small fire blast' }], ['m_comet', 'Comet Fire', '✹', { sd_mcomet: 0.1 }],
+      ['m_inferno', 'Inferno Heart', '◍', { area: 0.02, burn: 0.04 }], ['m_pyro', 'Pyromania', '✦', { fire: 0.02 }], ['m_evo', 'Phoenix Form', '⇪', {}, { f: 'evoMight', d: 'Evolved skills deal +{5}% damage' }],
+      ['m_meteor', 'Meteor Mastery', '✹', { sd_mmeteor: 0.06 }], ['m_cometF', 'Flaming Core', '✹', {}, { f: 'cometFire', d: "Prismatic Comet's impact leaves burning ground and ignites everything it hits" }],
+      ['m_combust', 'Combustion', '✦', { fire: 0.03 }], ['m_cf2', 'Sunfall', '✹', { sd_mcomet: 0.1 }],
+      ['m_cataclysm', 'Cataclysm', '❂', {}, { f: 'cataclysm', d: 'CAPSTONE: every 14s, six burning meteors crash into foes across the screen' }]]),
+    TTREE('Frost', '❄', '#7fd6ff', [
+      ['m_chill', 'Biting Chill', '❄', { frost: 0.03 }], ['m_hoar', 'Hoarfrost Heart', '♥', { maxHp: 5 }],
+      ['m_shardm', 'Shard Mastery', '❄', { sd_mshards: 0.06 }], ['m_rime', 'Rime Skin', '⬢', { armor: 1 }], ['m_pulse', 'Pulse Mastery', '❅', { sd_mnova: 0.06 }],
+      ['m_glacier', 'Glacier', '❄', { frost: 0.03 }], ['m_shatter', 'Shatterpoint', '✧', {}, { f: 'shatter', d: 'Hitting a frozen foe shatters the ice — +30% damage on that hit and ice shards burst out for 40% to foes nearby' }], ['m_ward', 'Ward Mastery', '⬡', { sd_mward: 0.1 }],
+      ['m_embrace', "Winter's Embrace", '⬢', { dr: 0.02 }], ['m_ice', 'Ice Veins', '❄', { frost: 0.02 }], ['m_cover', 'Ice Barrier', '▲', {}, { f: 'cover', d: 'While next to rocks, trees or ruins: take {6}% less damage' }],
+      ['m_cold', 'Deep Cold', '❅', { frzDur: 0.1 }], ['m_cometI', 'Frozen Core', '✹', {}, { f: 'cometFrost', d: 'Prismatic Comet freezes every foe it hits solid (bosses are slowed)' }],
+      ['m_deep', 'Permafrost', '❄', { frost: 0.03 }], ['m_ci2', 'Glacial Comet', '✹', { sd_mcomet: 0.1 }],
+      ['m_winter', 'Absolute Winter', '❅', {}, { f: 'winter', d: 'CAPSTONE: every 15s, every foe on screen is frozen solid for 2s and takes frost damage (bosses are slowed instead)' }]]),
+    TTREE('Arcane', '✧', '#c56bff', [
+      ['m_mind', 'Keen Mind', '✧', { arcane: 0.03 }], ['m_ley', 'Ley Flow', '↯', { cd: 0.012 }],
+      ['m_starlit', 'Starlit Focus', '◈', { crit: 0.01 }], ['m_orbm', 'Orb Mastery', '◉', { sd_morbs: 0.1 }], ['m_beam', 'Beam Mastery', '⟿', { sd_mbeam: 0.06 }],
+      ['m_power', 'Raw Power', '✧', { arcane: 0.03 }], ['m_overload', 'Overload', '◉', {}, { f: 'overload', d: '+2 max Arcane Charges; at full charges arcane spells deal +30% damage' }], ['m_blink', 'Blink Mastery', '⟡', { sd_mblink: 0.1 }],
+      ['m_prism', 'Prismatic Mind', '◈', { critMul: 0.05, dmg: 0.01 }], ['m_raw', 'Raw Magic', '✧', { arcane: 0.02 }], ['m_stone', 'Spellshatter', '◆', {}, { f: 'stoneSplit', d: 'Bolts and shards that strike rocks or trees shatter into foes nearby for {30}% of their damage' }],
+      ['m_bolt', 'Prism Mastery', '✦', { sd_mbolt: 0.06 }], ['m_cometA', 'Astral Core', '✹', {}, { f: 'cometArc', d: 'Prismatic Comet grants 2 Arcane Charges and arcs to 3 more foes' }],
+      ['m_astral', 'Astral Power', '✧', { arcane: 0.03 }], ['m_ca2', 'Starseeker', '✹', { sd_mcomet: 0.1 }],
+      ['m_converge', 'Astral Convergence', '✷', {}, { f: 'convergence', d: 'CAPSTONE: every 12s, a lance of starlight strikes the strongest foe on screen for massive damage and arcs to 4 more' }]])],
 };
-const CLASS_LV_MAX = 42;   // 3 branches x (1+1+1+2+2+3+4) = 42 points
-const cxpNeed = l => l <= 20 ? 120 + 90 * (l - 1) : 1830 + 45 * (l - 20);            // class XP for level l -> l+1
+const TAL_BY_ID = {}; for (const c in TALENTS) TALENTS[c].forEach((tr, bi) => tr.nodes.forEach(n => { TAL_BY_ID[c + ':' + n.id] = n; n.bi = bi; }));
+const cxpNeed = l => l <= 20 ? 120 + 90 * (l - 1) : 1830 + 45 * (l - 20);            // class XP for level l -> l+1 (v19: same curve, cap raised 42 -> 51)
 function classLevel(id) { let x = save.cxp[id] || 0, l = 0; while (l < CLASS_LV_MAX && x >= cxpNeed(l + 1)) { x -= cxpNeed(l + 1); l++; } return { lvl: l, into: x, need: l >= CLASS_LV_MAX ? 0 : cxpNeed(l + 1) }; }
 /* ================= COSMETICS (visual only — never touch stats) ================= */
 const AS = (id, name, cloak, cloak2, trim, motif, acc, prestige) => ({ id, name, cloak, cloak2, trim, motif, acc, prestige });
@@ -1325,7 +1535,7 @@ const ACH = [];
   ACH.push({ id: 'e_5', cat: 'gen', name: 'Evolutionist', ic: '⇪', desc: 'Evolve 5 different skills', goal: 5, f: () => evoCount(), rw: 'eye_ascend' });
   ACH.push({ id: 'e_15', cat: 'gen', name: 'Living Codex', ic: '✪', desc: 'Evolve 15 different skills', goal: 15, f: () => evoCount(), rw: 'aura_crown' });
   ACH.push({ id: 'e_cls', cat: 'gen', name: 'Apex Form', ic: '♛', desc: 'Evolve every skill of one class (across runs)', goal: 1, f: () => evoClassDone() ? 1 : 0, rw: 'aura_apex' });
-  ACH.push({ id: 'g_ult', cat: 'gen', name: 'Ascendant', ic: '✷', desc: 'Learn any ULTIMATE talent', goal: 1, f: () => { for (const c in TALENTS) for (const br of TALENTS[c]) { const n = br.nodes[br.nodes.length - 1]; if ((save.talents[c] || {})[n.id]) return 1; } return 0; }, rw: 'aura_gold' });
+  ACH.push({ id: 'g_ult', cat: 'gen', name: 'Ascendant', ic: '✷', desc: 'Learn any talent-tree capstone', goal: 1, f: () => { for (const c in TALENTS) for (const br of TALENTS[c]) { const n = br.nodes[br.nodes.length - 1]; if ((save.talents[c] || {})[n.id]) return 1; } return 0; }, rw: 'aura_gold' });
 })();
 const ACH_BY_ID = {}; for (const a of ACH) ACH_BY_ID[a.id] = a;
 const MAX_STATS = /(_t|_fast)$/;
@@ -1365,12 +1575,29 @@ function cosPortrait(canvas, cls, race, cos, scale = 1.35, t = 0.4) {
   const r = Math.min(3, window.devicePixelRatio || 1), w = canvas.clientWidth || 64, h = canvas.clientHeight || 64;
   if (canvas.width !== w * r) { canvas.width = w * r; canvas.height = h * r; } const g = canvas.getContext('2d'); g.setTransform(r, 0, 0, r, 0, 0); g.clearRect(0, 0, w, h);
   const bust = w <= 72, k = scale * 0.8 * w / 64 * (bust ? 1.3 : 0.92); g.translate(w / 2, h / 2 + (bust ? 17 : 11) * k); g.scale(k, k); /* v13: taller heroes; small icons show a head-and-shoulders bust */ drawHero(g, { t, cls, race, outfit: save.outfit, cos }); }
-function talentPoints(id) { const tr = save.talents[id] || {}; let spent = 0; for (const b of TALENTS[id] || []) for (const n of b.nodes) if (tr[n.id]) spent += n.cost; const total = classLevel(id).lvl; return { total, spent, free: Math.max(0, total - spent) }; }
-function talentFx(id) { // merged effect object for a class
-  const o = { f: {} }, tr = save.talents[id] || {};
-  for (const b of TALENTS[id] || []) for (const n of b.nodes) if (tr[n.id]) for (const k in n.e) { if (k === 'f') o.f[n.e.f] = 1; else o[k] = (o[k] || 0) + n.e[k]; }
-  return o;
-}
+const tRank = (tr, n) => Math.max(0, Math.min(n.m, (tr && +tr[n.id]) || 0));
+function talentPoints(id, tr) { tr = tr || save.talents[id] || {}; let spent = 0; for (const b of TALENTS[id] || []) for (const n of b.nodes) spent += tRank(tr, n); const total = classLevel(id).lvl; return { total, spent, free: Math.max(0, total - spent) }; }
+function treeSpent(id, bi, tr, below) { let s = 0; for (const n of TALENTS[id][bi].nodes) if (below == null || n.t < below) s += tRank(tr, n); return s; }
+const talNeed = n => TPER * (n.t - 1);
+function talCanAdd(id, n, tr, free) { if (tRank(tr, n) >= n.m) return 'max'; if (treeSpent(id, n.bi, tr, n.t) < talNeed(n)) return 'tier';
+  if (n.req) { const q = TAL_BY_ID[id + ':' + n.req]; if (tRank(tr, q) < q.m) return 'req'; } return free > 0 ? '' : 'pts'; }
+function talValid(id, tr) { for (const b of TALENTS[id]) for (const n of b.nodes) { if (!tRank(tr, n)) continue; if (treeSpent(id, n.bi, tr, n.t) < talNeed(n)) return false;
+  if (n.req) { const q = TAL_BY_ID[id + ':' + n.req]; if (tRank(tr, q) < q.m) return false; } } return true; }
+function talentFx(id, tr) { // merged effect object for a class: stats x rank, flags = rank (flags shared by several trees add up)
+  const o = { f: {} }; tr = tr || save.talents[id] || {};
+  for (const b of TALENTS[id] || []) for (const n of b.nodes) { const r = tRank(tr, n); if (!r) continue; for (const k in n.e) o[k] = (o[k] || 0) + n.e[k] * r; if (n.f) o.f[n.f] = (o.f[n.f] || 0) + r; }
+  return o; }
+const TSTAT = { dmg: ['+', '% damage', 100], cd: ['−', '% attack cooldowns', 100], crit: ['+', '% crit chance', 100], critMul: ['+', '% crit damage', 100], maxHp: ['+', ' max HP', 1], speed: ['+', '% move speed', 100],
+  dodge: ['+', '% evasion', 100], armor: ['+', ' armor', 1], regen: ['+', ' HP regen/s', 1], lifesteal: ['+', '% life drain', 100], area: ['+', '% attack area', 100], eliteDmg: ['+', '% damage to elites & bosses', 100],
+  dot: ['+', '% affliction damage', 100], dur: ['+', '% affliction duration', 100], rotMax: ['+', ' max Rot stack', 1], spread: ['+', ' infection when afflicted foes fall', 1], tick: ['', '% faster affliction ticks', 100],
+  minion: ['+', '% minion damage', 100], minionHp: ['+', '% minion HP', 100], minionAs: ['+', '% minion attack speed', 100], extraShade: ['+', ' Shadow Familiar', 1], bondMul: ['+', '% minion-kill healing', 100],
+  arrowDmg: ['+', '% arrow damage', 100], range: ['+', '% arrow range', 100], pierce: ['+', ' arrow pierce', 1], extraArrow: ['+', ' Shadow Bow arrow', 1], feral: ['+', '% feral damage', 100], nature: ['+', '% nature damage', 100],
+  bleed: ['+', '% bleed damage', 100], dr: ['', '% less damage taken', 100], fire: ['+', '% fire damage', 100], frost: ['+', '% frost damage', 100], arcane: ['+', '% arcane damage', 100], burn: ['+', '% burn damage', 100], frzDur: ['+', 's freeze duration', 1] };
+const tfmt = v => { const x = Math.round(v * 10) / 10; return x % 1 ? x.toFixed(1) : String(x); };
+function talDesc(n, r) { const out = []; if (n.d) out.push(n.d.replace(/\{([\d.]+)\}/g, (_, k) => tfmt(+k * r)));
+  for (const k in n.e) { const v = n.e[k] * r; if (/^s[dc]_/.test(k)) { const w = WDEF[k.slice(3)]; out.push((k[1] === 'd' ? '+' : '−') + tfmt(v * 100) + '% ' + (w ? w.name : k.slice(3)) + (k[1] === 'd' ? ' damage' : ' cooldown')); continue; }
+    const s = TSTAT[k]; if (s) out.push(s[0] + tfmt(v * s[2]) + s[1] + (s[2] === 1 && v > 1 && /stack|Familiar|arrow$|infection/.test(s[1]) ? 's' : '')); }
+  return out.join(' · '); }
 const metaCost = (m, r) => Math.round(m.base * Math.pow(m.grow, r));
 const mr = id => save.meta[id] || 0;
 
@@ -1434,6 +1661,17 @@ const WDEF = {
   mbeam: { name: 'Leyline Lance', ic: '⟿', cls: 'mage', dir: 'arcane', max: 6, desc: ['ARCANE: channel a beam into the toughest foe — up to 2.5× damage the longer it holds; at full charges it SURGES for a big burst', '+20% damage', 'Longer reach', 'Longer reach', '+25% damage', 'Beam forks to a second foe'] },
   mblink: { name: 'Shimmerstep', ic: '⟡', cls: 'mage', dir: 'arcane', max: 6, desc: ['ARCANE: when foes close in, blink away and leave an arcane detonation behind', '+20% damage', 'Bigger blast', 'Faster blinks', 'Further blink', 'Also detonates where you land'] },
   blink: { name: 'Rift Mines', ic: '◇', cls: 'rift', max: 6, desc: ['Leave unstable rift mines in your wake that detonate', '+damage', 'Bigger blasts', 'Drop 2 mines', 'Faster drops', '+damage, bigger'] },
+  // ---- v19: one new skill per class + one per druid form
+  clone: { name: 'Umbral Double', ic: '♞', cls: 'rogue', max: 6, desc: ['Summon a shadow double of yourself that blinks onto foes and slashes everything around it for 3s', '+25% damage', 'Doubles last 3.6s', 'Summon 2 doubles', 'Faster summons', 'MASTERY: +30% damage'] },
+  locust: { name: 'Locust Swarm', ic: '⁘', cls: 'warlock', max: 6, desc: ['Loose a locust swarm that hops from foe to foe, biting and spreading Rot (it flies over rocks & trees)', '+20% damage', '+2 hops', '+1 swarm', '+25% damage, faster', 'MASTERY: +1 swarm'] },
+  wraiths: { name: 'Soul Wraiths', ic: '♆', cls: 'summoner', max: 6, desc: ['Release homing soul wraiths that drift through rocks & trees and burst on foes (scales with minion damage)', '+1 wraith', '+25% damage', '+1 wraith', 'Bigger bursts, faster', 'MASTERY: +2 wraiths'] },
+  traps: { name: "Hunter's Snare", ic: '⊛', cls: 'ranger', max: 6, desc: ["Throw steel snares into foes' path (never inside rocks or trees): they snap shut for heavy damage and root", '+20% damage', '+1 snare per throw', 'Snares hold longer', '+20% damage, faster', 'MASTERY: +1 snare per throw'] },
+  chains: { name: 'Soul Chains', ic: '⛓', cls: 'reaper', max: 6, desc: ['Hurl spectral chains at foes in sight (rocks & trees block them): drag them in and drain their life', '+1 chain', 'Longer reach', '+1 chain', '+25% damage, faster', 'MASTERY: +2 chains'] },
+  spiral: { name: 'Nebula Spiral', ic: '❃', cls: 'rift', max: 6, desc: ['Spin out a spiral galaxy of void stars around you (stars shatter on rocks & trees)', '+20% damage', '+1 spiral arm', 'Stars pierce a foe', '+20% damage, faster', 'MASTERY: +1 spiral arm'] },
+  stampede: { name: 'Wild Stampede', ic: 'Ψ', cls: 'druid', dir: 'nature', max: 6, desc: ['Call a spectral stag that charges through foes in a line and crashes into rocks & trees with a shockwave (shed by Shadowcat Form)', '+20% damage', 'Charges further', '+1 stag', '+20% damage, faster', 'MASTERY: +1 stag'] },
+  shred: { name: 'Moonclaw Whirl', ic: '✲', cls: 'druid', dir: 'feral', cat: 1, max: 6, desc: ['CAT ONLY: whirl in a 360° frenzy of moonlit claws, shredding & bleeding every foe around you', '+20% damage', '+1 spin', 'Faster', '+20% damage, wider', 'MASTERY: +1 spin, bleeds stack twice as deep'] },
+  boulder: { name: 'Uprooted Boulder', ic: '⬣', cls: 'druid', dir: 'guard', tree: 1, max: 6, desc: ['TREE ONLY: tear a boulder from the earth and hurl it — it crushes through foes and shatters on rocks, trees or at the end of its roll', '+20% damage', 'Rips a nearby rock, stump or gravestone out of the ground for a 50% bigger boulder', 'Faster', '+25% damage, +2 pierce', 'MASTERY: hurl 2 boulders'] },
+  mcomet: { name: 'Prismatic Comet', ic: '✶', cls: 'mage', max: 6, desc: ['Call a prismatic comet onto foes: the impact splits into fire, frost & arcane shards (burn, chill, Arcane Charge)', '+15% damage', 'Bigger impact', '+1 comet', '+20% damage, faster', 'MASTERY: +1 comet'] },
 };
 /* ================= v18 SKILL EVOLUTIONS =================
    Max a skill (Lv 6) + own its paired passive (any level) → an EVOLUTION card is dealt first on the next level-up (normal 600ms deal guard, no extra pause).
@@ -1490,6 +1728,16 @@ const EVO = {
   morbs: E('focus', 'Twin Moons', '#ff4fd8', 1.35, 0.85, 1, 'chain', '+35% damage, faster; orbs arc to nearby foes'),
   mbeam: E('reservoir', 'Ley Sunder', '#ffe23a', 1.4, 1, 1, 'burst', '+40% beam damage; kills detonate'),
   mblink: E('haste', 'Starwalk', '#6ff3d0', 1.35, 0.8, 1.15, 'nova', '+35% damage, faster, wider; every step sends a shockwave'),
+  clone: E('haste', 'Eclipse Doppelgänger', '#c56bff', 1.2, 0.85, 1.15, 'crit', '+20% damage, faster, wider; +1 double and +20% crit chance'),
+  locust: E('fever', 'Plague of Locusts', '#9dff3b', 1.3, 0.85, 1, 'chain', '+30% damage, faster; bites arc to nearby foes'),
+  wraiths: E('darkpact', 'Wraith Choir', '#6ff3d0', 1.35, 0.85, 1.2, 'burst', '+35% damage, faster, bigger bursts; kills detonate'),
+  traps: E('longshot', 'Wildfire Snares', '#ff8a3c', 1.35, 0.85, 1.2, 'burst', '+35% damage, faster; every snare explodes and kills detonate'),
+  chains: E('vigor', 'Hellhooks', '#ff3d6e', 1.35, 0.85, 1, 'leech', '+35% damage, faster; chains drain 50% more life'),
+  spiral: E('expanse', 'Galaxy Spiral', '#4fd4ff', 0.9, 1, 1.1, 'echo', 'Every spiral spins twice, wider'),
+  stampede: E('wildheart', 'The Great Hunt', '#9dff6a', 1.35, 0.85, 1.15, 'slow', '+35% damage, faster, bigger crashes; trampled foes are slowed'),
+  shred: E('savagery', 'Bloodmoon Tempest', '#ff4fd8', 1.35, 0.85, 1.15, 'execute', '+35% damage, faster, wider; executes weakened foes'),
+  boulder: E('barkskin', 'Mountainfall', '#d8a050', 1.4, 0.85, 1.15, 'nova', '+40% damage, faster; every throw sends a shockwave'),
+  mcomet: E('spellweave', 'Trinity Starfall', '#ffffff', 0.9, 1, 1.15, 'echo', 'Every comet falls twice, wider'),
 };
 const EVO_BY_P = {}; for (const id in EVO) (EVO_BY_P[EVO[id].p] = EVO_BY_P[EVO[id].p] || []).push(id);
 const evOf = id => (G && G.evo && G.evo[id]) ? EVO[id] : null;
@@ -1498,7 +1746,7 @@ function evoCount() { const S = (typeof save !== 'undefined' && save && save.evo
 function evoClassDone() { const S = (save && save.evoSeen) || {}; for (const c in CLASSES) { const ids = Object.keys(EVO).filter(id => WDEF[id] && WDEF[id].cls === c); if (ids.length && ids.every(id => S[id])) return c; } return null; }
 function evoReady() { if (!G || !G.weapons) return []; return G.weapons.filter(w => EVO[w.id] && !(G.evo && G.evo[w.id]) && w.lvl >= (WDEF[w.id].max || 6) && (G.passives[EVO[w.id].p] || 0) >= 1).map(w => w.id); }
 const catBan = id => id === 'seedbolt' || !!(WDEF[id] && WDEF[id].dir === 'nature');   // v18: Shadowcat is pure melee
-const CAT_MELEE = { catform: 1, talons: 1, pounce: 1, quake: 1, bloodfang: 1 };
+const CAT_MELEE = { catform: 1, talons: 1, pounce: 1, quake: 1, bloodfang: 1, shred: 1 };
 const MSRC = { shade: 'familiars', archer: 'archers', brute: 'brute' };
 const PDEF = {
   vigor: { name: 'Heart of Night', ic: '♥', desc: '+20 max HP & heal 20', max: 5 },
@@ -3081,7 +3329,7 @@ function buildArt() {
   SPR.smoke = (() => { const c = mkCanvas(32, 32), g = c.getContext('2d'), gr = g.createRadialGradient(16, 16, 0, 16, 16, 16); gr.addColorStop(0, 'rgba(255,255,255,.9)'); gr.addColorStop(0.5, 'rgba(255,255,255,.45)'); gr.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = gr; g.fillRect(0, 0, 32, 32); return c; })();
   SPR.smokeT = {};
   SPR.light = (() => { const c = mkCanvas(64, 64), g = c.getContext('2d'), gr = g.createRadialGradient(32, 32, 0, 32, 32, 32); gr.addColorStop(0, 'rgba(0,0,0,1)'); gr.addColorStop(0.5, 'rgba(0,0,0,.6)'); gr.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = gr; g.fillRect(0, 0, 64, 64); return c; })();
-  for (const c of ['#b56bff', '#ff3d6e', '#4fd4ff', '#ffc94a', '#9dff3b', '#ff8a3c', '#ffffff', '#6ff3d0', '#ffe23a', '#7fb4ff', '#c56bff', '#ff4fd8', '#d8a050', '#ff6a2a', '#9fdcff', '#7fd6ff', '#e0b0ff', '#bfefff']) SPR.glow[c] = makeSprite(g => glowDot(g, 0, 0, 16, c, 0.9), 32);
+  for (const c of ['#b56bff', '#ff3d6e', '#4fd4ff', '#ffc94a', '#9dff3b', '#ff8a3c', '#ffffff', '#6ff3d0', '#ffe23a', '#7fb4ff', '#c56bff', '#ff4fd8', '#d8a050', '#ff6a2a', '#9fdcff', '#7fd6ff', '#e0b0ff', '#bfefff', '#9dff6a']) SPR.glow[c] = makeSprite(g => glowDot(g, 0, 0, 16, c, 0.9), 32);
   // ground tile (seamless) — v13: painterly meadow: colour-varied soil & grass, worn dirt path, cracked flagstones, dense two-tone grass blades
   const c = mkCanvas(TILE * RS, TILE * RS), g = c.getContext('2d'); g.scale(RS, RS);
   g.fillStyle = '#5c9e44'; g.fillRect(0, 0, TILE, TILE);
@@ -3160,6 +3408,7 @@ function recalc() {
   if (G.cls === 'ranger') s.pierce += 1;
   s.minionAs = 0; s.eliteDmg = 0; s.extraShade = 0; s.extraArrow = 0; s.bondMul = 1; s.form = 0;
   const tl = G.tal || {}; for (const k in tl) { if (k === 'f') continue; if (k === 'cd') s.cd -= tl[k]; else if (k in s) s[k] += tl[k]; }
+  s.skd = {}; s.skc = {}; for (const k in tl) { if (k.startsWith('sd_')) s.skd[k.slice(3)] = tl[k]; else if (k.startsWith('sc_')) s.skc[k.slice(3)] = tl[k]; } // v19 talents: +% damage / -% cooldown for one skill
   const fx = {}; for (const k in G.gear) { const it = G.gear[k]; if (!it) continue; for (const a in it.st) { if (a === 'cd') s.cd -= it.st[a]; else if (a in s) s[a] += it.st[a]; } if (it.fx && GFX[it.fx.id]) fx[it.fx.id] = (fx[it.fx.id] || 0) + it.fx.v; }
   s.fx = fx;
   const rs = RACES[raceOf(G.race)].st; // racial buffs & debuffs
@@ -3172,8 +3421,8 @@ function recalc() {
   const fb = 1 + s.form; // Form Mastery (gear) scales form bonuses
   s.catLs = 0;
   if (fm === 'cat') { const L = wlv('catform'); s.speed *= 1 + (0.15 + 0.025 * L + (L >= 6 ? 0.05 : 0)) * fb; s.crit += 0.08 * fb; s.dodge += 0.05 * fb;
-    const B = wlv('bloodfang'); if (B) s.catLs = [0.04, 0.055, 0.055, 0.07, 0.07, 0.09][B - 1] + (G.evo && G.evo.bloodfang ? 0.03 : 0); }
-  if (fm === 'tree') { const L = wlv('treeform'); s.maxHp = Math.round(s.maxHp * (1 + (0.5 + 0.08 * L) * fb)); s.armor += 2 + (L >= 4 ? 1 : 0); s.regen += (0.8 + 0.3 * L) * fb; s.speed *= 0.8; s.dmg *= 0.75; s.dr += (0.15 + (L >= 6 ? 0.1 : 0)) * fb; }
+    const B = wlv('bloodfang'); if (B) s.catLs = [0.04, 0.055, 0.055, 0.07, 0.07, 0.09][B - 1] + (G.evo && G.evo.bloodfang ? 0.03 : 0); if (G.tf && G.tf.catLsT) s.catLs += 0.01 * G.tf.catLsT; }
+  if (fm === 'tree') { const L = wlv('treeform'); s.maxHp = Math.round(s.maxHp * (1 + (0.5 + 0.08 * L) * fb)); s.armor += 2 + (L >= 4 ? 1 : 0); s.regen += (0.8 + 0.3 * L) * fb; s.speed *= 0.8; s.dmg *= 0.75; s.dr += (0.15 + (L >= 6 ? 0.1 : 0)) * fb; if (G.tf && G.tf.treeThick) s.maxHp = Math.round(s.maxHp * (1 + 0.05 * G.tf.treeThick)); }
   if (G.ancientT > 0) s.dr += 0.5;
   s.dr = Math.min(0.7, s.dr);
   s.cd = Math.max(0.35, s.cd); s.dodge = Math.min(0.6, s.dodge); s.crit = Math.min(1, s.crit);
@@ -3247,7 +3496,7 @@ function restoreRun(r) {
   recalc(); P.hp = clamp(r.P.hp, 1, P.maxHp);
   if (cls === 'druid' && G.weapons.some(w => w.id === 'catform') && catPurge(true)) G.catMig = 1; // v17 Shadowcat runs: shed nature spells, levels → free picks
   for (const k in G.evo) if (!EVO[k] || !G.weapons.some(w => w.id === k)) delete G.evo[k];
-  if (Array.isArray(G.luChoices) && G.luChoices.some(o => o && o.k === 'w' && WDEF[o.id] && ((WDEF[o.id].cat && druidForm() !== 'cat') || (druidForm() === 'cat' && catBan(o.id))))) G.luChoices = null;
+  if (Array.isArray(G.luChoices) && G.luChoices.some(o => o && o.k === 'w' && WDEF[o.id] && ((WDEF[o.id].cat && druidForm() !== 'cat') || (WDEF[o.id].tree && druidForm() !== 'tree') || (druidForm() === 'cat' && catBan(o.id))))) G.luChoices = null;
   recalc(); P.hp = clamp(r.P.hp, 1, P.maxHp);
   for (const a of (r.en || [])) { if (!ETYPES[a[0]]) continue;
     const e = spawnEnemy(a[0], { x: a[1], y: a[2], elite: !!(a[10] & 1), aff: Array.isArray(a[12]) ? a[12] : [] });
@@ -3499,7 +3748,7 @@ function updateEnemies(dt, dying) {
 function damage(e, base, o = {}) {
   if (e.dead) return 0;
   const sk = o.src || (o.msrc ? MSRC[o.msrc] : null) || G.srcW || (o.minion ? 'familiars' : '@other'), ev = G.evo && G.evo[sk] ? EVO[sk] : null; // v18: damage source (meter) & evolution
-  let d = base * P.dmg * (ev ? ev.dmg : 1), crit = false;
+  let d = base * P.dmg * (ev ? ev.dmg : 1) * (1 + ((P.skd && P.skd[sk]) || 0)), crit = false;
   const cl = G.cls;
   if (P.eliteDmg && (e.elite || e.boss)) d *= 1 + P.eliteDmg;
   const tf = G.tf || {};
@@ -3508,6 +3757,8 @@ function damage(e, base, o = {}) {
   if (tf.deathsDoor && P.hp < P.maxHp * 0.25) d *= 1.3;
   if (tf.dread && o.minion) { if (e.elite || e.boss) d *= 1.25; e.slow = Math.max(e.slowT > 0 ? e.slow : 0, 0.3); e.slowT = Math.max(e.slowT, 1); }
   if (tf.bloodscent && e.blT > 0) d *= 1.15;
+  if (ev && tf.evoMight) d *= 1 + 0.05 * tf.evoMight;   // v19 talents
+  if (e.vulnU > gtime) d *= 1.15;                        // Chains of Dread
   if (e.frzT > 0 && !o.dot) { d *= 1.25 + (P.shatter || 0); // frozen foes take shatter damage
     if (tf.shatter && !o.shard && !G.fxLock && gtime - (G.shT || 0) > 0.08) { G.shT = gtime; e.frzT = 0.01; d *= 1.3; const x = e.x, y = e.y, sd = d * 0.4 / Math.max(0.01, P.dmg);
       G.later.push({ t: 0, f: () => { G.fxLock = 1; query(x, y, 48 * P.area + 30, q => { if (q !== e && (q.x - x) ** 2 + (q.y - y) ** 2 < (48 * P.area + q.r) ** 2) damage(q, sd, { shard: 1 }); }); G.fxLock = 0; burst(x, y, '#dff6ff', 10, 150, 2.6, 0.4, true); effects.push({ k: 'boom', x, y, r: 48 * P.area, life: 0.2, max: 0.2, col: '#9fdcff' }); achAdd('m_shatter', 1); } }); } }
@@ -3515,8 +3766,8 @@ function damage(e, base, o = {}) {
   else if (cl === 'reaper' && P.hp < P.maxHp * 0.5) d *= 1.3;                 // Grim Harvest
   else if (cl === 'rift' && P.moving) d *= 1.15;                               // Momentum
   if (o.arrow) { d *= P.arrowDmg; if (cl === 'ranger' && (e.x - P.x) ** 2 + (e.y - P.y) ** 2 > 150 * 150) d *= 1.25; } // Hunter's Focus
-  const cc = P.crit + (cl === 'rogue' && G.critBuffT > 0 ? 0.5 : 0) + (ev && ev.perk === 'crit' ? 0.2 : 0); // Shadowstep
-  if (!o.dot && Math.random() < cc) { d *= P.critMul; crit = true;
+  const cc = P.crit + (cl === 'rogue' && G.critBuffT > 0 ? 0.5 : 0) + (ev && ev.perk === 'crit' ? 0.2 : 0) + (tf.ambush && G.nearOb ? 0.04 * tf.ambush : 0) + ((sk === 'clone' && tf.cloneCrit) || (sk === 'spiral' && tf.spiralCrit) ? 0.12 : 0); // Shadowstep · v19 talents
+  if (!o.dot && Math.random() < cc) { d *= P.critMul; crit = true; if (tf.venom && !o.venom) applyBleed(e, d * 0.1 * tf.venom / 3, 3);
     if (tf.thousandCuts && Math.random() < 0.25 && projs.length < 260) { const t = nearestN(e.x, e.y, 3, 260).find(q => q !== e); if (t) { const a = Math.atan2(t.y - e.y, t.x - e.x); projs.push({ k: 'knife', x: e.x, y: e.y, vx: Math.cos(a) * 460, vy: Math.sin(a) * 460, a, r: 6, dmg: 8 + G.level * 0.6, pierce: 0, life: 0.6, hit: new Set([e]), src: '@talent' }); } }
     if (tf.starburst && (e.elite || e.boss) && Math.random() < 0.3) { const x = e.x, y = e.y; G.later.push({ t: 0.05, src: '@talent', f: () => { areaHit(x, y, 60 * P.area, 14 + G.level, 60, new Set([e])); effects.push({ k: 'boom', x, y, r: 60 * P.area, life: 0.22, max: 0.22, col: '#4fd4ff' }); } }); } if (G.tf.deathMark && !e.elite && !e.boss && e.hp - d < e.maxHp * 0.25) d = Math.max(d, e.hp); }
   if (ev && ev.perk === 'execute' && !o.dot && !e.boss && !e.elite && !e.mini && e.hp - d < e.maxHp * 0.12) d = Math.max(d, e.hp);
@@ -3576,6 +3827,7 @@ function quakeAt(x, y, r, dmg, pull) {
   let n = 0; query(x, y, r * 1.6 + 30, e => { const dx = x - e.x, dy = y - e.y, d = Math.hypot(dx, dy) || 1; if (d > r * 1.6 + e.r) return;
     if (pull && !ETYPES[e.type].heavy) { e.x += dx / d * Math.min(d * 0.5, 40); e.y += dy / d * Math.min(d * 0.5, 40); }
     if (d < r + e.r && n++ < 45) { damage(e, dmg); e.slow = Math.max(e.slowT > 0 ? e.slow : 0, 0.5); e.slowT = Math.max(e.slowT, 1); } });
+  if (G.tf && G.tf.obBreak) obBreakAt(x, y, r);
   effects.push({ k: 'slam', x, y: y + 10, r, life: 0.35, max: 0.35, col: '#c8a060' }); effects.push({ k: 'nova', x, y, r: 0, maxR: r, life: 0.35, max: 0.35, dmg: 0, hit: new Set(), col: '#9dff6a', vis: 1 });
   burst(x, y + 8, '#8a6a40', 12, 150, 3.4, 0.5); G.shake = Math.max(G.shake, 0.22); Snd.play('stomp');
 }
@@ -3620,7 +3872,7 @@ function volatileBurst(e, dmg, reseed) {
   if (!(dmg > 0)) return; const vs = e.volS || 'volatile';
   G.later.push({ t: 0.03, src: vs, f: () => {
     let n = 0; query(x, y, r + 30, o => { if (o.dead || o === e || n > 40) return; if ((o.x - x) ** 2 + (o.y - y) ** 2 > (r + o.r) ** 2) return; n++; damage(o, dmg, { kb: 70, kx: Math.sign(o.x - x) || 1, ky: 0 }); applyRot(o, 1, rd, 4); });
-    if (reseed && L >= 6) { const q = nearestN(x, y, 6, r * 1.8).find(o => o !== e && !o.dead && !(o.volT > 0)); if (q) { applyVolatile(q, dmg * 0.6, 4); if (effects.length < 240) effects.push({ k: 'leap', x, y, x2: q.x, y2: q.y, life: 0.3, max: 0.3, col: '#ff5ad0' }); } }
+    if (reseed && (L >= 6 || (G.tf && G.tf.volChain))) { const q = nearestN(x, y, 6, r * 1.8).find(o => o !== e && !o.dead && !(o.volT > 0)); if (q) { applyVolatile(q, dmg * 0.6, 4); if (effects.length < 240) effects.push({ k: 'leap', x, y, x2: q.x, y2: q.y, life: 0.3, max: 0.3, col: '#ff5ad0' }); } }
     if (effects.length < 240) effects.push({ k: 'boom', x, y, r, life: 0.28, max: 0.28, col: '#d04cff' });
     burst(x, y, '#9dff6a', 10, 160, 3, 0.45, true); burst(x, y, '#e05cff', 6, 110, 2.5, 0.4, true); Snd.play('pop'); } });
 }
@@ -3683,6 +3935,7 @@ function hurtPlayer(dmg, src) {
       if (dmg <= 0.01) { P.inv = 0.3; addNum(P.x, P.y - 24, 'WARD', '#bfefff', 13); Snd.play('ice'); return; } } }
   let d = Math.max(1, dmg - P.armor - (G.cls === 'reaper' && P.hp < P.maxHp * 0.5 ? 2 : 0));
   if (tf.ghostwalk && P.moving) d *= 0.75;
+  if (tf.cover && G.nearOb) d *= 1 - Math.min(0.3, 0.06 * tf.cover); // v19: fighting from cover
   if (tf.lich) { let n = 0; for (const m of minions) if (!m.dead) n++; if (n >= 3) d *= 0.8; }
   if (P.dr) d *= 1 - P.dr;
   if (G.cls === 'druid') { const rf = (G.form === 'tree' ? 0.25 + (wlv('treeform') >= 3 ? 0.15 : 0) : 0) + (tf.brambles ? 0.4 : 0);
@@ -3724,6 +3977,7 @@ const WFIRE = {
     const dmg = 11 * (L >= 5 ? 1.6 : L >= 2 ? 1.25 : 1), r = (L >= 4 ? 84 : 70) * P.area; w.side ^= 1;
     slash(ang, r, dmg, w.side); if (L >= 3) slash(ang + Math.PI, r, dmg, w.side);
     if (L >= 6) G.later.push({ t: 0.12, f: () => slash(ang + 0.3, r * 1.1, dmg, w.side ^ 1) });
+    if (G.tf.fangEcho) G.later.push({ t: 0.07, f: () => slash(ang - 0.25, r * 0.92, dmg * 0.5, w.side ^ 1) }); // v19 Twin Echo
     P.atk = 1; Snd.play('slash'); return (L >= 4 ? 0.46 : 0.58); },
   knives(w) { const L = w.lvl, n = 1 + (L >= 2) + (L >= 4) + (L >= 6 ? 2 : 0), tg = nearestN(P.x, P.y, n, 420); if (!tg.length) return -1;
     for (let i = 0; i < n; i++) { const t = tg[i] || tg[0]; let a = Math.atan2(t.y - P.y, t.x - P.x); if (!tg[i]) a += (i - n / 2) * 0.25;
@@ -3798,7 +4052,7 @@ const WFIRE = {
     return L >= 4 ? 5 : 6.2; },
   reap(w) { const L = w.lvl, r = (82 + (L >= 5 ? 20 : 0)) * P.area, dmg = (20 + 4 * L) * (L >= 6 ? 1.3 : 1) * (L >= 2 ? 1.2 : 1);
     if (!nearestN(P.x, P.y, 1, r + 50).length) return -1;
-    const doSweep = () => { w.dir = -(w.dir || 1); effects.push({ k: 'reap', r, life: 0.3, max: 0.3, dir: w.dir, follow: true }); const n = areaHit(P.x, P.y, r, dmg, 150); heal(Math.min(5, n * 0.6) * (G.tf.soulReaver ? 2 : 1)); Snd.play('reap'); };
+    const doSweep = () => { w.dir = -(w.dir || 1); effects.push({ k: 'reap', r, life: 0.3, max: 0.3, dir: w.dir, follow: true }); const n = areaHit(P.x, P.y, r, dmg, 150); if (G.tf.obBreak) obBreakAt(P.x, P.y, r); heal(Math.min(5, n * 0.6) * (G.tf.soulReaver ? 2 : 1)); Snd.play('reap'); };
     doSweep(); if (L >= 4) G.later.push({ t: 0.35, f: doSweep }); P.atk = 1; return L >= 3 ? 1.15 : 1.45; },
   chakram(w) { const L = w.lvl, n = 1 + (L >= 3) + (L >= 5), tg = nearestN(P.x, P.y, n, 360); if (!tg.length) return -1;
     for (let i = 0; i < n; i++) { const t = tg[i] || tg[0], a = Math.atan2(t.y - P.y, t.x - P.x) + (tg[i] ? 0 : rand(-0.5, 0.5));
@@ -3828,7 +4082,7 @@ const WFIRE = {
       G.later.push({ t: 0.5, f: () => { if (e.dead) return; damage(e, dmg); effects.push({ k: 'boom', x: e.x, y: e.y, r: 26, life: 0.22, max: 0.22, col: '#ff3d6e' }); burst(e.x, e.y, '#ff3d6e', 10, 140, 2.5, 0.4, true); Snd.play('slash'); } }); }
     return L >= 4 ? 2.4 : 3; },
   grasp(w) { const L = w.lvl, n = 2 + (L >= 2) + (L >= 4) + (L >= 6 ? 2 : 0), tg = nearestN(P.x, P.y, n, 280); if (!tg.length) return -1;
-    for (const e of tg) effects.push({ k: 'zone', x: e.x, y: e.y, r: 30 * P.area, life: 1.6, max: 1.6, dps: (10 + 4 * L) * (L >= 3 ? 1.3 : 1), slow: L >= 4 ? 0.8 : 0.6, col: '#6ff3d0', tick: 0, hands: 1 });
+    for (const e of tg) effects.push({ k: 'zone', x: e.x, y: e.y, r: 30 * P.area, life: 1.6, max: 1.6, dps: (10 + 4 * L) * (L >= 3 ? 1.3 : 1) * (G.tf.graspPull ? 1.2 : 1), slow: L >= 4 ? 0.8 : 0.6, col: '#6ff3d0', tick: 0, hands: 1, pull: G.tf.graspPull ? 70 : 0 });
     Snd.play('bite'); return L >= 5 ? 2.4 : 3; },
   corpse(w) { const L = w.lvl, n = 1 + (L >= 3) + (L >= 5) + (L >= 6), vw = W / ZOOM / 2, vh = H / ZOOM / 2;
     const vis = enemies.filter(e => !e.dead && Math.abs(e.x - P.x) < vw && Math.abs(e.y - P.y) < vh); if (!vis.length) return -1;
@@ -3838,7 +4092,7 @@ const WFIRE = {
     const n = 3 + (L >= 2) + (L >= 4) + (L >= 6 ? 2 : 0), a0 = Math.atan2(tg.y - P.y, tg.x - P.x), dmg = (7 + 1.5 * L) * (L >= 3 ? 1.2 : 1);
     for (let i = 0; i < n; i++) fireArrow(P.x, P.y - 4, a0 + (i - (n - 1) / 2) * 0.13, 500, dmg, P.pierce > 1 ? 1 : 0, false).life = rg / 500 + 0.05;
     P.atk = 1; Snd.play('throw'); return (L >= 5 ? 1.4 : 1.8) * (G.tf.hail ? 0.67 : 1); },
-  hawk(w) { const L = w.lvl, n = 1 + (L >= 3) + (L >= 5) + (L >= 6), tg = nearestN(P.x, P.y, 6, bowRange(1) * 1.2); if (!tg.length) return -1;
+  hawk(w) { const L = w.lvl, n = 1 + (L >= 3) + (L >= 5) + (L >= 6) + (G.tf.hawkPlus ? 1 : 0), tg = nearestN(P.x, P.y, 6, bowRange(1) * 1.2); if (!tg.length) return -1;
     for (let i = 0; i < n; i++) { const e = tg[i % tg.length]; effects.push({ k: 'star', x: e.x + rand(-6, 6), y: e.y + rand(-6, 6), life: 0.4, max: 0.4, r: 32 * P.area, dmg: (16 + 6 * L) * (L >= 6 ? 1.2 : 1) * P.arrowDmg, col: '#9dff3b', hawk: 1 }); }
     return L >= 4 ? 1.8 : 2.3; },
   ballista(w) { const L = w.lvl, rg = bowRange(1) * 1.25, tg = nearestN(P.x, P.y, 2, rg); if (!tg.length) return -1;
@@ -3847,7 +4101,7 @@ const WFIRE = {
     P.atk = 1; Snd.play('throw'); return (L >= 3 ? 2.6 : 3.2) * (L >= 6 ? 0.8 : 1); },
   wail(w) { const L = w.lvl, tg = nearestN(P.x, P.y, 1, 200)[0]; if (!tg) return -1;
     const ang = Math.atan2(tg.y - P.y, tg.x - P.x), r = (130 + 8 * L + (L >= 3 ? 30 : 0)) * P.area, half = L >= 3 ? 0.75 : 0.6, dmg = (16 + 6 * L) * (L >= 2 ? 1.25 : 1) * (L >= 5 ? 1.25 : 1);
-    const go = () => { effects.push({ k: 'cone', ang, r, half, life: 0.3, max: 0.3 }); Snd.play('nova');
+    const go = () => { effects.push({ k: 'cone', ang, r, half, life: 0.3, max: 0.3 }); Snd.play('nova'); if (G.tf.obBreak) obBreakAt(P.x + Math.cos(ang) * r * 0.45, P.y + Math.sin(ang) * r * 0.45, r * 0.45);
       query(P.x, P.y, r + 30, e => { const dx = e.x - P.x, dy = e.y - P.y, d = Math.hypot(dx, dy) || 1; if (d < r + e.r && Math.abs(angDiff(Math.atan2(dy, dx), ang)) < half) { damage(e, dmg, { kb: 160, kx: dx / d, ky: dy / d }); e.slow = 0.4; e.slowT = 1.2 * P.dur; } }); };
     go(); if (L >= 6) G.later.push({ t: 0.45, f: go }); P.atk = 1; return L >= 4 ? 2.2 : 2.8; },
   scythethrow(w) { const L = w.lvl, n = 1 + (L >= 3) + (L >= 5), tg = nearestN(P.x, P.y, n, 300); if (!tg.length) return -1;
@@ -3865,6 +4119,61 @@ const WFIRE = {
     for (let i = 0; i < n; i++) effects.push({ k: 'star', x: P.x + rand(-14, 14), y: P.y + rand(-10, 10), life: 1.1 + i * 0.25, max: 1.1 + i * 0.25, r: (44 + (L >= 3 ? 10 : 0) + (L >= 6 ? 10 : 0)) * P.area, dmg: (22 + 8 * L) * (L >= 6 ? 1.2 : 1), col: '#4fd4ff', mine: 1 });
     return L >= 5 ? 1.5 : 1.9; },
   nova(w) { const L = w.lvl; effects.push({ k: 'nova', x: P.x, y: P.y, r: 0, maxR: (105 + 12 * L) * P.area, life: 0.45, max: 0.45, dmg: 14 + 6 * L, hit: new Set(), col: '#b56bff' }); Snd.play('nova'); return 3.4 - 0.25 * L; },
+  // ---- v19 new skills
+  clone(w) { const L = w.lvl, tg = nearestN(P.x, P.y, 6, 300); if (!tg.length) return -1; // Umbral Double: shadow copies of the rogue blink onto foes and slash around them
+    const n = 1 + (L >= 4) + (G.tf.cloneTwin ? 1 : 0) + (evOf('clone') ? 1 : 0), dur = L >= 3 ? 3.6 : 3, dmg = (2.8 + 1.0 * L) * (L >= 2 ? 1.25 : 1) * (L >= 6 ? 1.3 : 1);
+    for (let i = 0; i < n; i++) { const e = tg[i % tg.length], a = i / n * TAU; effects.push({ k: 'clone', x: P.x + Math.cos(a) * 14, y: P.y + Math.sin(a) * 10, e, life: dur, max: dur, dmg, r: 48, t: 0.12 + i * 0.1, face: P.facing, atk: 0, n: i, sw: 0 }); }
+    burst(P.x, P.y, '#b56bff', 12, 130, 2.6, 0.45, true); Snd.play('whoosh'); return L >= 5 ? 4.2 : 5; },
+  locust(w) { const L = w.lvl, n = 1 + (L >= 4) + (L >= 6), tg = nearestN(P.x, P.y, n, 360); if (!tg.length) return -1; // Locust Swarm: a hopping cloud that bites & rots, flies over cover
+    const hops = 3 + (L >= 3 ? 2 : 0) + (G.tf.locustRot ? 2 : 0), dmg = (4.2 + 1.3 * L) * (L >= 2 ? 1.2 : 1) * (L >= 5 ? 1.25 : 1);
+    for (let i = 0; i < n; i++) projs.push({ k: 'swarm', x: P.x + 10 * P.facing, y: P.y - 18, vx: rand(-60, 60), vy: -80, r: 12, dmg, tgt: tg[i % tg.length], hops, life: 7, hit: new Set(), bt: 0, rot: { n: 1 + (G.tf.locustRot ? 1 : 0), dps: 1.5 + 0.2 * L, dur: 4 }, seed: Math.random() * 99 });
+    P.atk = 1; Snd.play('curse'); return L >= 5 ? 2.2 : 2.7; },
+  wraiths(w) { const L = w.lvl, vis = nearestN(P.x, P.y, 12, 380); if (!vis.length) return -1; // Soul Wraiths: homing spirits that pass through cover and burst
+    const n = 2 + (L >= 2) + (L >= 4) + (L >= 6 ? 2 : 0) + (G.tf.wraithMore ? 2 : 0), dmg = (12 + 4.2 * L) * (L >= 3 ? 1.25 : 1) * P.minion, o = rand(TAU);
+    for (let i = 0; i < n; i++) { const a = o + i / n * TAU; projs.push({ k: 'wraith', x: P.x, y: P.y - 12, vx: Math.cos(a) * 200, vy: Math.sin(a) * 200, r: 10, dmg, tgt: vis[i % vis.length], life: 3.4, hit: new Set(), arm: 0.22 + i * 0.03, seed: Math.random() * 9, R: L >= 5 ? 44 : 36 }); }
+    Snd.play('wail'); return L >= 5 ? 2.6 : 3.2; },
+  traps(w) { const L = w.lvl, near = nearestN(P.x, P.y, 8, bowRange(1)); if (!near.length) return -1; // Hunter's Snare: thrown into foes' path, never inside cover
+    const n = 1 + (L >= 3) + (L >= 6) + (G.tf.trapBleed ? 1 : 0), dmg = (26 + 9 * L) * (L >= 2 ? 1.2 : 1) * (L >= 5 ? 1.2 : 1) * P.arrowDmg;
+    for (let i = 0; i < n; i++) { const e = near[i % near.length], dx = P.x - e.x, dy = P.y - e.y, d = Math.hypot(dx, dy) || 1, st = Math.min(46, d * 0.45), o = { x: e.x + dx / d * st + rand(-14, 14), y: e.y + dy / d * st + rand(-14, 14) };
+      obFree(o, 18); effects.push({ k: 'lob', x: P.x, y: P.y - 10, x2: o.x, y2: o.y, life: 0.3, max: 0.3, col: '#ffc94a', rock: 1 });
+      effects.push({ k: 'trap', x: o.x, y: o.y, life: 9, max: 9, arm: 0.45, dmg, r: 22, sprung: 0, hold: L >= 4 ? 1.8 : 1.2 }); }
+    const live = effects.filter(f => f.k === 'trap' && !f.sprung); for (let i = 0; i < live.length - (6 + 2 * (L >= 6)); i++) live[i].life = Math.min(live[i].life, 0.3); // oldest snares rust away
+    Snd.play('snare'); P.atk = 1; return L >= 5 ? 2.4 : 3; },
+  chains(w) { const L = w.lvl, reach = L >= 3 ? 250 : 210, near = nearestN(P.x, P.y, 14, reach).filter(e => obLOS(P.x, P.y - 8, e.x, e.y)); if (!near.length) return -1; // Soul Chains: line of sight only
+    near.sort((a, b) => ((b.elite || b.boss) ? 1 : 0) - ((a.elite || a.boss) ? 1 : 0) || b.hp - a.hp);
+    const n = 2 + (L >= 2) + (L >= 4) + (L >= 6 ? 2 : 0) + (G.tf.chainMore ? 2 : 0), dmg = (16 + 5.5 * L) * (L >= 5 ? 1.25 : 1), hf = 0.12 * (1 + (G.tf.chainMore ? 0.5 : 0) + 0.5 * (G.tf.chainHeal || 0)) * (evOf('chains') ? 1.5 : 1);
+    near.slice(0, n).forEach((e, i) => { effects.push({ k: 'chain', e, x: e.x, y: e.y, life: 0.55, max: 0.55, d0: i * 0.04 });
+      G.later.push({ t: 0.13 + i * 0.04, f: () => { if (e.dead) return; const d = damage(e, dmg, {}); const h = Math.min(4, d * hf); if (h > 0.5) heal(h);
+        if (!ETYPES[e.type].heavy && !e.boss) { const dx = P.x - e.x, dy = P.y - e.y, dd = Math.hypot(dx, dy) || 1, pull = Math.min(dd - 44, dd * 0.65); if (pull > 0) { e.kbx += dx / dd * pull * 8; e.kby += dy / dd * pull * 8; } }
+        if (G.tf.chainFear) { e.slow = Math.max(e.slowT > 0 ? e.slow : 0, 0.5); e.slowT = Math.max(e.slowT || 0, 3); e.vulnU = gtime + 3; }
+        burst(e.x, e.y, '#ff3d6e', 6, 90, 2.2, 0.35, true); } }); });
+    P.atk = 1; Snd.play('scythe'); return L >= 5 ? 2.6 : 3.2; },
+  spiral(w) { const L = w.lvl; if (!nearestN(P.x, P.y, 1, 270).length) return -1; // Nebula Spiral: rotating arms of void stars (shatter on cover)
+    const arms = 3 + (L >= 3) + (L >= 6) + (G.tf.spiralMore ? 2 : 0), dmg = (5 + 1.7 * L) * (L >= 2 ? 1.2 : 1) * (L >= 5 ? 1.2 : 1), a0 = rand(TAU), sp = (w.sd = -(w.sd || 1)), pierce = L >= 4 ? 1 : 0;
+    for (let k = 0; k < 9; k++) G.later.push({ t: k * 0.11, f: () => { if (projs.length > 320) return; for (let i = 0; i < arms; i++) { const a = a0 + i / arms * TAU + sp * k * 0.34;
+      projs.push({ k: 'vstar', x: P.x + Math.cos(a) * 12, y: P.y - 6 + Math.sin(a) * 12, vx: Math.cos(a) * 280, vy: Math.sin(a) * 280, a, r: 6, dmg, pierce, life: 0.85 * Math.sqrt(P.area), hit: new Set(), spin: rand(TAU), c: i % 2 }); } if (k % 3 === 0) Snd.play('zap'); } });
+    return L >= 5 ? 3 : 3.6; },
+  stampede(w) { const L = w.lvl, near = nearestN(P.x, P.y, 10, 340); if (!near.length) return -1; // Wild Stampede: a spectral stag charges a line, crashing into cover
+    const n = 1 + (L >= 4) + (L >= 6) + (G.tf.stagMore ? 1 : 0), dmg = (22 + 7.5 * L) * (L >= 2 ? 1.2 : 1) * (L >= 5 ? 1.2 : 1) * P.nature, life = L >= 3 ? 1.25 : 1.05;
+    for (let i = 0; i < n; i++) { const e = near[Math.min(near.length - 1, i * 2)], a = Math.atan2(e.y - P.y, e.x - P.x) + (i ? rand(-0.3, 0.3) : 0), sx = P.x - Math.cos(a) * 26, sy = P.y - Math.sin(a) * 26;
+      G.later.push({ t: i * 0.18, f: () => { projs.push({ k: 'stag', x: sx, y: sy, vx: Math.cos(a) * 400, vy: Math.sin(a) * 400, a, r: 18, dmg, pierce: 99, life, hit: new Set(), crash: stagCrash, gal: 0 }); burst(sx, sy, '#c8ff9a', 10, 120, 2.6, 0.4, true); } }); }
+    Snd.play('roar'); return L >= 5 ? 3 : 3.6; },
+  shred(w) { const L = w.lvl, r = (66 + 5 * L) * P.area; if (!nearestN(P.x, P.y, 1, r + 30).length) return -1; // Moonclaw Whirl (Cat only): 360° melee
+    const spins = 2 + (L >= 3) + (L >= 6) + (G.tf.shredMore ? 1 : 0), dmg = (8 + 2.6 * L) * (L >= 2 ? 1.2 : 1) * (L >= 5 ? 1.2 : 1) * P.feral, bl = (3 + 1.1 * L) * P.bleed, deep = !!G.tf.shredMore || L >= 6;
+    w.sd = -(w.sd || 1); const dir = w.sd;
+    for (let i = 0; i < spins; i++) G.later.push({ t: i * 0.13, f: () => { effects.push({ k: 'whirl', r, life: 0.24, max: 0.24, dir, follow: true, i });
+      query(P.x, P.y, r + 30, e => { const dx = e.x - P.x, dy = e.y - P.y, d = Math.hypot(dx, dy) || 1; if (d < r + e.r) { damage(e, dmg, { kb: 40, kx: dx / d, ky: dy / d }); applyBleed(e, bl, 3, deep); } }); Snd.play('claw'); } });
+    P.atk = 1; return L >= 4 ? 1.9 : 2.4; },
+  boulder(w) { const L = w.lvl, tg = nearestN(P.x, P.y, 6, 360); if (!tg.length) return -1; // Uprooted Boulder (Tree only): crushes through foes, shatters on cover
+    let big = 1; if (L >= 3) { const b = obSmallNear(P.x, P.y, 80); if (b) { obSmash(b); big = 1.5; effects.push({ k: 'slam', x: b.x, y: b.y + 6, r: 30, life: 0.3, max: 0.3, col: '#b08a50' }); } } // tear a rock / stump / gravestone out of the ground
+    const n = 1 + (G.tf.boulderMore ? 1 : 0) + (L >= 6 ? 1 : 0), dmg = (34 + 11 * L) * (L >= 2 ? 1.2 : 1) * (L >= 5 ? 1.25 : 1) * P.nature * big, pierce = 3 + (L >= 5 ? 2 : 0);
+    for (let i = 0; i < n; i++) { const t = tg[i % tg.length], a = Math.atan2(t.y - P.y, t.x - P.x) + (i ? rand(-0.3, 0.3) : 0);
+      G.later.push({ t: i * 0.22, f: () => projs.push({ k: 'rockp', x: P.x + Math.cos(a) * 16, y: P.y - 14 + Math.sin(a) * 10, vx: Math.cos(a) * 270, vy: Math.sin(a) * 270, a, r: 13 * Math.sqrt(big), dmg, pierce, life: 1.5, hit: new Set(), spin: 0, big, crash: rockShatter }) }); }
+    P.atk = 1; Snd.play('stomp'); G.shake = Math.max(G.shake, 0.1); return L >= 4 ? 2.6 : 3.2; },
+  mcomet(w) { const L = w.lvl, vw = W / ZOOM / 2, vh = H / ZOOM / 2, vis = enemies.filter(e => !e.dead && Math.abs(e.x - P.x) < vw && Math.abs(e.y - P.y) < vh); if (!vis.length) return -1; // Prismatic Comet: falls from the sky, splits into the 3 schools
+    const n = 1 + (L >= 4) + (L >= 6), dmg = (17 + 5.7 * L) * (L >= 2 ? 1.15 : 1) * (L >= 5 ? 1.2 : 1) * elemMul(G.mspec), r = (L >= 3 ? 58 : 48) * P.area;
+    const order = vis.slice().sort((a, b) => b.hp - a.hp); for (let i = 0; i < n; i++) { const e = order[i % order.length]; effects.push({ k: 'star', x: e.x + rand(-8, 8), y: e.y + rand(-8, 8), life: 0.7, max: 0.7, r, dmg, col: '#ffffff', comet: 1, sd: Math.random() * 9 }); }
+    Snd.play('arcane'); return L >= 5 ? 2.9 : 3.5; },
 };
 const WTICK = {
   familiars() { }, archers() { }, brute() { },
@@ -3874,7 +4183,7 @@ const WTICK = {
       query(ox, oy, 40, e => { if (gtime - (e.lfT || 0) < 0.4) return; const dx = e.x - ox, dy = e.y - oy, d = Math.hypot(dx, dy) || 1; if (d < 13 + e.r) { e.lfT = gtime; damage(e, dmg, { kb: 40, kx: dx / d, ky: dy / d }); } }); }
     if (L >= 6) query(P.x, P.y, R * 1.8, e => { if (e.boss) return; const dx = P.x - e.x, dy = P.y - e.y, d = Math.hypot(dx, dy); if (d > R * 0.9 && d < R * 1.8) { e.x += dx / d * 26 * dt; e.y += dy / d * 26 * dt; } }); },
   treeform(w, dt) { const L = w.lvl; // taunt: periodically drags nearby foes toward the treant and bruises them; branch smash on the closest foe
-    if ((w.sw = (w.sw || 0) - dt) <= 0) { const tg = nearestN(P.x, P.y, 1, 80 * P.area)[0]; if (tg) { w.sw = L >= 5 ? 0.85 : 1.05; P.atk = 1; areaHit(tg.x, tg.y, 34 * P.area, (44 + 15 * L) * P.nature, 110);
+    if ((w.sw = (w.sw || 0) - dt) <= 0) { const tg = nearestN(P.x, P.y, 1, 80 * P.area)[0]; if (tg) { w.sw = L >= 5 ? 0.85 : 1.05; P.atk = 1; areaHit(tg.x, tg.y, 34 * P.area, (44 + 15 * L) * P.nature * (1 + 0.06 * (G.tf.treeThick || 0)), 110); if (G.tf.obBreak) obBreakAt(tg.x, tg.y, 34 * P.area + 10);
         effects.push({ k: 'slam', x: tg.x, y: tg.y + 6, r: 34 * P.area, life: 0.3, max: 0.3, col: '#b08a50' }); burst(tg.x, tg.y, '#8a6a40', 8, 120, 2.6, 0.4); Snd.play('stomp'); } else w.sw = 0.2; }
     if ((w.t -= dt) <= 0) { w.t = L >= 4 ? 2.2 : 2.8; const r = (140 + (L >= 4 ? 30 : 0)) * P.area; let n = 0;
       query(P.x, P.y, r + 30, e => { if (e.boss || n > 50) return; const dx = P.x - e.x, dy = P.y - e.y, d = Math.hypot(dx, dy) || 1; if (d > r + e.r) return; n++; if (!ETYPES[e.type].heavy) { e.kbx += dx / d * 150; e.kby += dy / d * 150; } damage(e, (5 + 2 * L) * P.nature, { dot: true, col: '#c8e66a' }); });
@@ -4077,10 +4386,11 @@ function updateMinions(dt) {
       if (d2 < rr * rr && d2 > 0.01) { const d = Math.sqrt(d2), p = (rr - d) * 0.5 / d; A.x -= dx * p; A.y -= dy * p; B.x += dx * p; B.y += dy * p; } } }
 }
 function updateWeapons(dt) {
+  if ((G.nobT = (G.nobT || 0) - dt) <= 0) { G.nobT = 0.15; G.nearOb = !!(G.tf && (G.tf.cover || G.tf.ambush) && obHit(P.x, P.y, P.r + 26)); } // v19: next to a rock / tree / ruin
   for (const w of G.weapons) { const np = projs.length, nf = effects.length, nl = G.later.length; G.srcW = w.id; // v14: tag what each weapon spawns (Signature Strike quests)
     const ev = evOf(w.id), a0 = P.area; if (ev && ev.area !== 1) P.area = a0 * ev.area; // v18 evolutions
     if (WTICK[w.id]) WTICK[w.id](w, dt);
-    else { w.t -= dt * (G.frenzyT > 0 ? 1.6 : 1) * (G.rushT > 0 ? 1.35 : 1); if (w.t <= 0) { Snd.wctx = w.id; const cd = WFIRE[w.id](w); Snd.wctx = null; w.t = cd < 0 ? 0.15 : cd * P.cd * (ev ? ev.cd : 1); w.wait = cd < 0; if (cd >= 0) { w.cdMax = w.t; if (ev) evoCast(w, ev); } } }
+    else { w.t -= dt * (G.frenzyT > 0 ? 1.6 : 1) * (G.rushT > 0 ? 1.35 : 1) * (w.id === 'spiral' && G.tf.spiralMove && P.moving ? 1.25 : 1); if (w.t <= 0) { Snd.wctx = w.id; const cd = WFIRE[w.id](w); Snd.wctx = null; w.t = cd < 0 ? 0.15 : cd * P.cd * (ev ? ev.cd : 1) * (1 - Math.min(0.5, (P.skc && P.skc[w.id]) || 0)); w.wait = cd < 0; if (cd >= 0) { w.cdMax = w.t; if (ev) evoCast(w, ev); } } }
     P.area = a0;
     for (let i = np; i < projs.length; i++) if (!projs[i].src) projs[i].src = w.id; for (let i = nf; i < effects.length; i++) if (!effects[i].src) effects[i].src = w.id; for (let i = nl; i < G.later.length; i++) if (!G.later[i].src) G.later[i].src = w.id;
   }
@@ -4121,18 +4431,36 @@ function updateProjs(dt) {
       if (Math.random() < 0.6 && parts.length < 340) parts.push({ x: p.x + rand(-p.r, p.r), y: p.y + rand(-p.r, p.r), vx: 0, vy: -20, life: 0.4, max: 0.4, s: 2.2, c: '#e0b0ff', glow: true }); continue; }
     if (p.k === 'scy') { p.spin += dt * 16; p.out -= dt; if (p.out <= 0 && !p.ret) { p.ret = true; p.hit = new Set(); }
       if (p.ret) { const dx = P.x - p.x, dy = P.y - p.y, d = Math.hypot(dx, dy) || 1; p.vx = dx / d * 440; p.vy = dy / d * 440; if (d < 18) p.life = 0; } }
+    if (p.k === 'swarm') { p.bt -= dt; // v19 Locust Swarm: steer to the prey, bite, hop on
+      if (!p.tgt || p.tgt.dead) { p.tgt = nearestN(p.x, p.y, 6, 260).find(o => !p.hit.has(o)) || null; if (!p.tgt) { p.hit.clear(); p.tgt = nearestN(p.x, p.y, 1, 260)[0] || null; } if (!p.tgt) p.life = Math.min(p.life, 0.5); }
+      if (p.tgt) { const e = p.tgt, dx = e.x - p.x, dy = e.y - 6 - p.y, d = Math.hypot(dx, dy) || 1, sp = 290, k = Math.min(1, dt * 6); p.vx += (dx / d * sp - p.vx) * k; p.vy += (dy / d * sp - p.vy) * k;
+        if (d < p.r + e.r && p.bt <= 0) { p.bt = 0.14; p.hit.add(e); damage(e, p.dmg, { kb: 12, kx: dx / d, ky: dy / d }); applyRot(e, p.rot.n, p.rot.dps, p.rot.dur); if (G.tf.locustHeal) heal(1);
+          if (parts.length < 360) burst(e.x, e.y, '#9dff3b', 4, 70, 2, 0.3, true); if (--p.hops < 0) p.life = 0; else p.tgt = nearestN(e.x, e.y, 6, 220).find(o => !p.hit.has(o) && !o.dead) || null; } }
+      p.x += p.vx * dt; p.y += p.vy * dt; continue; }
+    if (p.k === 'wraith') { p.arm -= dt; // v19 Soul Wraiths: drift out, home in, burst (ghosts ignore cover)
+      if (!p.tgt || p.tgt.dead) p.tgt = nearestN(p.x, p.y, 3, 320)[Math.floor(Math.random() * 3)] || nearestN(p.x, p.y, 1, 320)[0] || null;
+      if (p.tgt && p.arm <= 0) { const a = Math.atan2(p.tgt.y - p.y, p.tgt.x - p.x), sp = Math.min(390, Math.hypot(p.vx, p.vy) + 420 * dt), cur = Math.atan2(p.vy, p.vx), na = cur + clamp(angDiff(a, cur), -7.5 * dt, 7.5 * dt); p.vx = Math.cos(na) * sp; p.vy = Math.sin(na) * sp; }
+      p.x += p.vx * dt; p.y += p.vy * dt; if (Math.random() < 0.5 && parts.length < 360) parts.push({ x: p.x, y: p.y, vx: -p.vx * 0.1, vy: -p.vy * 0.1 - 10, life: 0.35, max: 0.35, s: 2.4, c: '#6ff3d0', glow: true });
+      let hit = p.life <= 0.02; if (!hit) query(p.x, p.y, p.r + 36, e => { if (!hit && (e.x - p.x) ** 2 + (e.y - p.y) ** 2 < (p.r + e.r) ** 2) hit = true; });
+      if (hit) { p.life = 0; const r = p.R * P.area; areaHit(p.x, p.y, r, p.dmg, 70); effects.push({ k: 'boom', x: p.x, y: p.y, r, life: 0.25, max: 0.25, col: '#6ff3d0' }); if (parts.length < 360) burst(p.x, p.y, '#bfefff', 8, 120, 2.4, 0.35, true); if (G.tf.wraithHeal) heal(1.5); Snd.play('puff'); }
+      continue; }
+    if (p.k === 'vstar' || p.k === 'rockp') p.spin += dt * (p.k === 'vstar' ? 9 : 7);
+    if (p.k === 'stag') { p.gal += dt * 14; if (Math.random() < 0.6 && parts.length < 360) parts.push({ x: p.x - p.vx * 0.04 + rand(-8, 8), y: p.y + 10, vx: rand(-20, 20), vy: -rand(10, 40), life: 0.4, max: 0.4, s: 2.6, c: Math.random() < 0.5 ? '#9dff6a' : '#e8ffd0', glow: true }); }
     if (p.k === 'chak') { p.spin += dt * 18; if (p.ret) { const dx = P.x - p.x, dy = P.y - p.y, d = Math.hypot(dx, dy) || 1; p.vx = dx / d * 460; p.vy = dy / d * 460; if (d < 18) p.life = 0; } }
     p.x += p.vx * dt; p.y += p.vy * dt;
+    if (p.k === 'rockp' && p.life <= 0 && !p.done && p.crash) p.crash(p, null);
     if (p.life <= 0) continue;
     obProj(p); if (p.life <= 0) continue;
     query(p.x, p.y, p.r + 36, e => {
       if (p.life <= 0 || p.hit.has(e)) return;
       const rr = p.r + e.r; if ((e.x - p.x) ** 2 + (e.y - p.y) ** 2 > rr * rr) return;
       p.hit.add(e); const d = Math.hypot(p.vx, p.vy) || 1;
-      if (p.k === 'mbolt') { damage(e, p.dmg, { kb: 30, kx: p.vx / d, ky: p.vy / d }); if (p.el === 'fire') applyBurn(e, p.burn, 3); else if (p.el === 'frost') applyChill(e, 1);
+      if (p.k === 'mbolt') { damage(e, p.dmg, { kb: 30, kx: p.vx / d, ky: p.vy / d }); if (p.el === 'fire') applyBurn(e, p.burn, 3); else if (p.el === 'frost') applyChill(e, p.chill || 1); if (p.arcG) arcGain(p.arcG);
         burst(p.x, p.y, MCOL[p.el] || '#d9b8ff', 5, 80, 2.2, 0.3, true); if (p.pierce-- <= 0) p.life = 0; }
       else if (p.k === 'mshard') { damage(e, p.dmg, { kb: 30, kx: p.vx / d, ky: p.vy / d }); applyChill(e, p.chill || 1); if (p.pierce-- <= 0) p.life = 0; }
-      else if (p.k === 'knife' || p.k === 'lance') { damage(e, p.dmg, { kb: 50, kx: p.vx / d, ky: p.vy / d }); if (p.pierce-- <= 0) p.life = 0; }
+      else if (p.k === 'knife' || p.k === 'lance' || p.k === 'vstar') { damage(e, p.dmg, { kb: p.k === 'vstar' ? 25 : 50, kx: p.vx / d, ky: p.vy / d }); if (p.k === 'vstar' && parts.length < 360) burst(p.x, p.y, '#9fdcff', 3, 60, 2, 0.25, true); if (p.pierce-- <= 0) p.life = 0; }
+      else if (p.k === 'stag') { const sd = (-p.vy * (e.x - p.x) + p.vx * (e.y - p.y)) > 0 ? 1 : -1; damage(e, p.dmg, { kb: 150, kx: -p.vy / d * sd * 0.8 + p.vx / d * 0.5, ky: p.vx / d * sd * 0.8 + p.vy / d * 0.5 }); if (parts.length < 360) burst(e.x, e.y, '#c8ff9a', 4, 90, 2.2, 0.3, true); }
+      else if (p.k === 'rockp') { damage(e, p.dmg, { kb: p.mini ? 60 : 170, kx: p.vx / d, ky: p.vy / d }); if (!p.mini) G.shake = Math.max(G.shake, 0.08); if (p.pierce-- <= 0) { if (p.crash) p.crash(p, null); else p.life = 0; } }
       else if (p.k === 'scy') { damage(e, p.dmg, { kb: 90, kx: p.vx / d, ky: p.vy / d }); if (G.cls === 'reaper') heal(0.4); }
       else if (p.k === 'arrow') { damage(e, p.dmg, { kb: 40, kx: p.vx / d, ky: p.vy / d, arrow: !p.minion, minion: p.minion });
         if (p.burst) { const bx = p.x, by = p.y; areaHit(bx, by, 26 + 6 * p.burst, p.dmg * (0.35 + 0.1 * (p.burst - 1)), 30, new Set([e])); effects.push({ k: 'boom', x: bx, y: by, r: 26 + 6 * p.burst, life: 0.2, max: 0.2 }); }
@@ -4160,7 +4488,23 @@ function updateEffects(dt) {
     if (f.k === 'star' && f.life <= 0 && !f.done && (f.burn || f.ground || f.chill)) { const r = f.r; query(f.x, f.y, r + 30, e => { if ((e.x - f.x) ** 2 + (e.y - f.y) ** 2 < (r + e.r) ** 2) { if (f.burn) applyBurn(e, f.burn, 3); if (f.chill) applyChill(e, f.chill); } });
       if (f.ground) effects.push({ k: 'zone', x: f.x, y: f.y, r: f.ground.r, life: f.ground.life, max: f.ground.life, dps: f.ground.dps, col: '#ff6a2a', tick: 0, fire: 1, burn: f.burn * 0.5 });
       if (f.meteor) { G.shake = Math.max(G.shake, 0.2); burst(f.x, f.y, '#5a4a40', 10, 120, 3.2, 0.7); } }
+    if (f.k === 'star' && f.comet && f.life <= 0 && !f.done) cometImpact(f);
     if (f.k === 'star' && f.life <= 0 && !f.done) { puff(f.x, f.y, f.meteor ? 7 : 3, f.burn || f.meteor ? '#4a3a36' : '#5a4870', f.r * 0.35); f.done = true; areaHit(f.x, f.y, f.r, f.dmg, 80); burst(f.x, f.y, f.col || '#c58bff', 14, 160, 3, 0.5, true); effects.push({ k: 'boom', x: f.x, y: f.y, r: f.r, life: 0.25, max: 0.25, col: f.col }); Snd.play('boom'); }
+    if (f.k === 'clone' && f.life > 0) { // v19 Umbral Double
+      if (!f.e || f.e.dead) f.e = nearestN(f.x, f.y, 1, 280)[0] || null;
+      if (f.e) { const dx = f.e.x - f.x, dy = f.e.y - f.y, d = Math.hypot(dx, dy) || 1; f.face = dx < 0 ? -1 : 1;
+        if (d > 150) { if (parts.length < 360) burst(f.x, f.y, '#b56bff', 6, 90, 2.2, 0.3, true); f.x = f.e.x - dx / d * 22; f.y = f.e.y - dy / d * 22; obFree(f, 10); if (parts.length < 360) burst(f.x, f.y, '#b56bff', 6, 90, 2.2, 0.3, true); } // shadow blink
+        else if (d > 26) { const st = Math.min(d - 22, 360 * dt); f.x += dx / d * st; f.y += dy / d * st; obFree(f, 10); } }
+      if ((f.t -= dt) <= 0) { f.t = 0.34; f.atk = 1; f.sw++; const r = f.r * P.area; let n = 0; query(f.x, f.y, r + 30, e => { const dx = e.x - f.x, dy = e.y - f.y, d = Math.hypot(dx, dy) || 1; if (n < 6 && d < r + e.r) { /* each slash hits up to 6 foes */ damage(e, f.dmg, { kb: 45, kx: dx / d, ky: dy / d }); n++; } }); if (n) Snd.play('slash'); }
+      f.atk = Math.max(0, f.atk - dt * 4); }
+    if (f.k === 'trap' && f.life > 0) { // v19 Hunter's Snare
+      if (f.arm > 0) f.arm -= dt;
+      else if (!f.sprung) { let tg = null; query(f.x, f.y, f.r + 30, e => { if (!tg && !e.under && (e.x - f.x) ** 2 + (e.y - f.y) ** 2 < (f.r + e.r) ** 2) tg = e; });
+        if (tg) { f.sprung = 1; f.life = Math.min(f.life, 0.5); f.max = Math.max(f.max, 0.5); f.st = f.life; const boom = G.tf.trapBoom || (G.evo && G.evo.traps), R = 58 * P.area, list = [tg];
+          if (boom) query(f.x, f.y, R + 30, e => { if (e !== tg && (e.x - f.x) ** 2 + (e.y - f.y) ** 2 < (R + e.r) ** 2) list.push(e); });
+          for (const e of list) { damage(e, f.dmg * (e === tg ? 1 : 0.6), { kb: boom ? 90 : 0, kx: Math.sign(e.x - f.x) || 1, ky: 0 }); e.slow = Math.max(e.slowT > 0 ? e.slow : 0, e.boss ? 0.5 : 0.95); e.slowT = Math.max(e.slowT || 0, f.hold * P.dur); if (G.tf.trapBleed) applyBleed(e, f.dmg * 0.12, 4); }
+          if (boom) { effects.push({ k: 'boom', x: f.x, y: f.y, r: R, life: 0.3, max: 0.3, col: '#ff8a3c' }); G.shake = Math.max(G.shake, 0.15); Snd.play('boom'); } else Snd.play('snare');
+          if (parts.length < 360) burst(f.x, f.y, boom ? '#ff8a3c' : '#e8dcc0', 8, 120, 2.4, 0.35, true); } } }
     if (f.k === 'mark' && f.e && !f.e.dead) { f.x = f.e.x; f.y = f.e.y; }
     if (f.k === 'warn' && f.life <= 0 && !f.done) { f.done = true; let hit = false;
       if (f.line) { const dx = P.x - f.x, dy = P.y - f.y, c = Math.cos(f.ang), sn = Math.sin(f.ang), al = dx * c + dy * sn; hit = al > -10 && al < f.len && Math.abs(-dx * sn + dy * c) < f.w / 2 + P.r; }
@@ -4544,10 +4888,37 @@ function obSteer(e, dx, dy) { // swarms flow around: steer along the obstacle's 
   if (!best) return null; const [b, nx, ny] = best; let tx = -ny, ty = nx;
   if (e.obB !== b) { e.obB = b; const px = P.x - b.x, py = P.y - b.y; e.obS = (tx * px + ty * py) >= 0 ? 1 : -1; if (Math.abs(tx * px + ty * py) < 8) e.obS = e.seed > 0.5 ? 1 : -1; }
   tx *= e.obS; ty *= e.obS; const w = clamp(1 - bd / 34, 0, 1), rx = dx * (1 - 0.8 * w) + tx * w, ry = dy * (1 - 0.8 * w) + ty * w, l = Math.hypot(rx, ry) || 1; return [rx / l, ry / l]; }
+function obLOS(x0, y0, x1, y1) { const d = Math.hypot(x1 - x0, y1 - y0), n = Math.ceil(d / 14); for (let i = 1; i < n; i++) { const q = i / n; if (obHit(x0 + (x1 - x0) * q, y0 + (y1 - y0) * q, 2, 1)) return false; } return true; } // v19: chains need a clear line
+function obSmallNear(x, y, r) { const L = obCell(x, y); if (!L) return null; let best = null, bd = 1e9; for (const b of L) { if (b.gone || !b.small) continue; const d = Math.hypot(b.x - x, b.y - y) - b.r; if (d < r && d < bd) { bd = d; best = b; } } return best; }
+function obBreakAt(x, y, r) { // v19 Gravebreaker / Uprooter: shatter small cover (rocks, stumps, gravestones, ruin walls) and hurl shards into foes
+  if (gtime - (G.obBrT || 0) < 0.25) return; const L = obCell(x, y); if (!L) return; for (const b of L.slice()) { if (b.gone || !b.small || Math.hypot(b.x - x, b.y - y) > r + b.r) continue; G.obBrT = gtime; obSmash(b);
+    const bx = b.x, by = b.y; G.later.push({ t: 0.02, src: '@talent', f: () => { G.fxLock = 1; areaHit(bx, by, 58 * P.area, 12 + 1.4 * G.level, 110); G.fxLock = 0; effects.push({ k: 'boom', x: bx, y: by, r: 58 * P.area, life: 0.25, max: 0.25, col: '#d8a050' }); } }); Snd.play('stomp'); break; } }
+function stagCrash(p, b) { p.life = 0; p.done = 1; const r = 64 * P.area, x = p.x, y = p.y; // the stag slams into cover: shockwave
+  areaHit(x, y, r, p.dmg * 1.2, 170); effects.push({ k: 'boom', x, y, r, life: 0.3, max: 0.3, col: '#9dff6a' }); effects.push({ k: 'slam', x, y: y + 8, r, life: 0.32, max: 0.32, col: '#c8ff9a' });
+  if (parts.length < 360) burst(x, y, '#c8ff9a', 14, 170, 3, 0.5, true); G.shake = Math.max(G.shake, 0.2); Snd.play('stomp');
+  if (G.tf.stagMore && projs.length < 280) for (let i = 0; i < 8; i++) { const a = i / 8 * TAU; projs.push({ k: 'seed', x, y, vx: Math.cos(a) * 300, vy: Math.sin(a) * 300, a, r: 5, dmg: p.dmg * 0.3, pierce: 0, life: 0.35, hit: new Set(), mini: 1, src: p.src }); } }
+function rockShatter(p, b) { if (p.done) return; p.done = 1; p.life = 0; const x = p.x, y = p.y; // the boulder bursts: area crush (+ splitting stones with Mountain's Heart)
+  if (p.mini) { if (parts.length < 360) burst(x, y, '#8a7a60', 4, 80, 2.2, 0.3); return; }
+  const r = 54 * P.area * Math.sqrt(p.big || 1); areaHit(x, y, r, p.dmg * 0.8, 120); effects.push({ k: 'slam', x, y: y + 6, r, life: 0.32, max: 0.32, col: '#b08a50' }); effects.push({ k: 'boom', x, y, r, life: 0.25, max: 0.25, col: '#d8a050' });
+  if (parts.length < 360) burst(x, y, '#8a7a60', 14, 170, 3.4, 0.55); G.shake = Math.max(G.shake, 0.18); Snd.play('stomp');
+  if (b && b.small && G.tf.obBreak) obBreakAt(b.x, b.y, 4);
+  if (G.tf.boulderMore && projs.length < 280) for (let i = 0; i < 3; i++) { const a = (p.a || 0) + (i - 1) * 0.7 + Math.PI * (b ? 1 : 0); projs.push({ k: 'rockp', x: x - Math.cos(p.a || 0) * (b ? 14 : 0), y, vx: Math.cos(a) * 240, vy: Math.sin(a) * 240, a, r: 7, dmg: p.dmg * 0.35, pierce: 1, life: 0.55, hit: new Set(), spin: 0, mini: 1, crash: rockShatter, src: p.src }); } }
+function cometImpact(f) { // Prismatic Comet: split into fire / frost / arcane shards + talent cores
+  const tf = G.tf, x = f.x, y = f.y, r = f.r, el = ['fire', 'frost', 'arcane'], o = f.sd || 0;
+  if (tf.cometFire) { f.burn = (6 + 0.6 * G.level) * P.burn * P.fire; f.ground = { r: r * 0.75, life: 3, dps: (8 + 0.8 * G.level) * P.fire }; }
+  if (tf.cometFrost) query(x, y, r + 30, e => { if ((e.x - x) ** 2 + (e.y - y) ** 2 < (r + e.r) ** 2) freezeE(e, 1.2); });
+  if (tf.cometArc) { arcGain(2); nearestN(x, y, 4, 220).slice(0, 3).forEach((e, i) => G.later.push({ t: 0.05 + i * 0.05, src: f.src, f: () => { if (e.dead) return; effects.push({ k: 'bolt', x: e.x, y: e.y, x0: x, y0: y - 10, life: 0.2, max: 0.2, seed: Math.random() * 99, col: '#c56bff' }); damage(e, f.dmg * 0.35, {}); } })); }
+  if (projs.length < 300) for (let i = 0; i < 3; i++) { const a = o + i / 3 * TAU; projs.push({ k: 'mbolt', x, y, vx: Math.cos(a) * 340, vy: Math.sin(a) * 340, r: 7, dmg: f.dmg * 0.3 * (el[i] === 'arcane' ? 1.25 : 1), pierce: 2, life: 0.5, hit: new Set(), el: el[i], burn: el[i] === 'fire' ? (5 + 0.5 * G.level) * P.burn : 0, chill: 2, arcG: el[i] === 'arcane' ? 1 : 0, src: f.src }); }
+  G.shake = Math.max(G.shake, 0.18); }
 function obSmash(b) { b.gone = true; if (G) { G.obGone = G.obGone || {}; G.obGone[b.id] = 1; } burst(b.x, b.y - 8, b.k === 'stump' ? '#8a5c34' : '#b8ae98', 14, 150, 3.4, 0.55); G.shake = Math.max(G.shake, 0.15); obGK = null; }
-const OB_STOP = { knife: 1, arrow: 1, mbolt: 1, mshard: 1, seed: 1, hex: 1 }; // magic lances, arcane orbs pass; boomerangs (chakram, scythe) bounce back
-function obProj(p) { if (!(OB_STOP[p.k] || p.k === 'chak' || p.k === 'scy')) return; const b = obHit(p.x, p.y, Math.min(4, p.r * 0.5), 1); if (!b) return; // low stumps & gravestones don't block shots
-  if (p.k === 'chak') { if (!p.ret) { p.ret = true; burst(p.x, p.y, '#9fdcff', 4, 70, 2, 0.25, true); } return; }
+const OB_STOP = { knife: 1, arrow: 1, mbolt: 1, mshard: 1, seed: 1, hex: 1, vstar: 1 }; // v19: void stars shatter; stags & boulders crash (p.crash); locusts & wraiths fly over // magic lances, arcane orbs pass; boomerangs (chakram, scythe) bounce back
+function obProj(p) { if (p.crash) { const b = obHit(p.x, p.y, p.r * 0.6, 1); if (b) p.crash(p, b); return; } // v19: charging stags & rolling boulders crash into cover
+  if (!(OB_STOP[p.k] || p.k === 'chak' || p.k === 'scy')) return; const b = obHit(p.x, p.y, Math.min(4, p.r * 0.5), 1); if (!b) return; // low stumps & gravestones don't block shots
+  const tf = G.tf || {};
+  if (p.k === 'arrow' && tf.arcShot && !p.minion) { if (p.arc === undefined) p.arc = Math.random() < 0.5 * tf.arcShot; if (p.arc) return; } // v19 Arcing Shots: lobbed over cover
+  if (tf.stoneSplit && !p.ss) { p.ss = 1; const sx = p.x, sy = p.y, sd = p.dmg * Math.min(0.6, 0.3 * tf.stoneSplit), rot = p.rot; G.later.push({ t: 0, src: p.src, f: () => { G.fxLock = 1; areaHit(sx, sy, 38 * P.area, sd, 40); G.fxLock = 0; if (rot) query(sx, sy, 38 * P.area + 30, q => { if ((q.x - sx) ** 2 + (q.y - sy) ** 2 < (38 * P.area + q.r) ** 2) applyRot(q, 1, rot.dps, rot.dur); }); if (parts.length < 360) burst(sx, sy, rot ? '#9dff6a' : '#e8dcc0', 7, 120, 2.4, 0.35, true); } }); } // v19 talent: splinters off the stone
+  if (p.k === 'chak') { if (tf.chakBank && !p.banked && !p.ret) { p.banked = 1; let nx = p.x - b.x, ny = p.y - b.y; const nl = Math.hypot(nx, ny) || 1; nx /= nl; ny /= nl; const dot = p.vx * nx + p.vy * ny; p.vx -= 2 * dot * nx; p.vy -= 2 * dot * ny; p.x = b.x + nx * (b.r + 6); p.y = b.y + ny * (b.r + 6); p.dmg *= 1 + 0.15 * tf.chakBank; p.bounces++; p.hit = new Set(); burst(p.x, p.y, '#4fd4ff', 6, 90, 2.2, 0.3, true); return; } // v19 Bank Shot
+    if (!p.ret) { p.ret = true; burst(p.x, p.y, '#9fdcff', 4, 70, 2, 0.25, true); } return; }
   if (p.k === 'scy') { if (!p.ret) { p.out = 0; burst(p.x, p.y, '#e8dcff', 4, 70, 2, 0.25, true); } return; }
   p.life = 0; if (parts.length < 360) burst(p.x, p.y, b.k === 'tree' || b.k === 'oldtree' || b.k === 'stump' ? '#a87448' : '#cfc6b0', 4, 70, 2, 0.28); }
 function obCollect(cx, cy) { obVis = []; const vw = W / ZOOM / 2 + 70, vh = H / ZOOM / 2 + 110;
@@ -4601,6 +4972,7 @@ function drawPlayerBlock() {
     if (P.fx && P.fx.aegis && !(G.aegisT > 0)) { ctx.strokeStyle = `rgba(255,214,110,${0.35 + 0.15 * Math.sin(gtime * 4)})`; ctx.lineWidth = 1.6; ctx.beginPath(); ctx.arc(P.x, P.y - 2, 21, 0, TAU); ctx.stroke(); }
     if (G.gearFx > 0) { ctx.globalCompositeOperation = 'lighter'; glowAt('#ffd24a', P.x, P.y - 4, 60, G.gearFx * 0.5); ctx.globalCompositeOperation = 'source-over'; }
     ctx.drawImage(SPR.shadow, P.x - 17, P.y + 12, 34, 11);
+    if (G.nearOb && G.tf && (G.tf.cover || G.tf.ambush)) { ctx.strokeStyle = `rgba(242,201,76,${0.35 + 0.15 * Math.sin(gtime * 5)})`; ctx.lineWidth = 1.5; ctx.setLineDash([3, 4]); ctx.beginPath(); ctx.ellipse(P.x, P.y + 16, 19, 6.5, 0, 0, TAU); ctx.stroke(); ctx.setLineDash([]); } // v19: in cover
     if (P.inv > 0 && Math.floor(gtime * 20) % 2) ctx.globalAlpha = 0.45;
     drawHeroLit({ t: gtime, moving: P.moving, cls: G.cls, race: G.race, outfit: G.outfit || save.outfit, atk: P.atk, form: G.form, gear: G.gear, gearOver: save.gearOver, tails: G.level >= 20 ? 3 : G.level >= 10 ? 2 : 1, noShadow: 1, hurt: clamp(G.hurtFlash * 4, 0, 1) }, P.x, P.y, P.facing, G.ancientT > 0 ? 1.55 : 1);
     ctx.globalAlpha = 1;
@@ -4634,12 +5006,23 @@ function render(dt) {
       continue; }
     if (f.k === 'goo') { const a = Math.min(1, f.life, (f.max - f.life) * 5); ctx.fillStyle = `rgba(120,220,60,${0.32 * a})`; ctx.beginPath(); for (let i = 0; i <= 10; i++) { const an = i / 10 * TAU, rr = f.r * (0.85 + 0.15 * Math.sin(i * 2.3 + f.x)); ctx.lineTo(f.x + Math.cos(an) * rr, f.y + Math.sin(an) * rr * 0.8); } ctx.fill();
       ctx.fillStyle = `rgba(200,255,140,${0.4 * a})`; for (let i = 0; i < 3; i++) { ctx.beginPath(); ctx.arc(f.x + Math.cos(gtime + i * 2) * f.r * 0.4, f.y + Math.sin(gtime * 1.3 + i * 2) * f.r * 0.3, 2.2, 0, TAU); ctx.fill(); } continue; }
+    if (f.k === 'trap') { const a = Math.min(1, f.life * 3), arm = f.arm > 0 ? 1 - f.arm / 0.45 : 1, cl = f.sprung ? 1 : 0; ctx.save(); ctx.translate(f.x, f.y); ctx.globalAlpha = a * (0.4 + 0.6 * arm); // v19 snare: steel jaws on the ground
+      ctx.fillStyle = 'rgba(30,20,10,.35)'; ctx.beginPath(); ctx.ellipse(0, 2, 17, 7, 0, 0, TAU); ctx.fill();
+      ctx.strokeStyle = '#2a1e12'; ctx.lineWidth = 3.4; ctx.beginPath(); ctx.ellipse(0, 0, 14, 6, 0, 0, TAU); ctx.stroke(); ctx.strokeStyle = cl ? '#ff8a6a' : '#d8d0c0'; ctx.lineWidth = 1.5; ctx.stroke();
+      ctx.fillStyle = cl ? '#ffd0c0' : '#efe8d8'; for (let i = 0; i < 10; i++) { const an = i / 10 * TAU, bx = Math.cos(an) * 14, by = Math.sin(an) * 6, k = cl ? 0.15 : 0.55; ctx.beginPath(); ctx.moveTo(bx - Math.sin(an) * 2.2, by + Math.cos(an) * 1); ctx.lineTo(bx * k, by * k - 3); ctx.lineTo(bx + Math.sin(an) * 2.2, by - Math.cos(an) * 1); ctx.closePath(); ctx.fill(); }
+      ctx.fillStyle = '#6a4a2a'; ctx.fillRect(-2, -2, 4, 4);
+      if (!f.sprung && f.arm <= 0) { ctx.globalCompositeOperation = 'lighter'; glowAt('#ffc94a', 0, 0, 22, 0.25 + 0.2 * Math.sin(gtime * 6 + f.x)); ctx.globalCompositeOperation = 'source-over'; }
+      ctx.restore(); }
     if (f.k === 'arrowfall') { const p = 1 - f.life / f.max; ctx.strokeStyle = `rgba(200,140,255,${0.25 + p * 0.4})`; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(f.x, f.y, f.r * 0.6, 0, TAU); ctx.stroke();
       const ay = f.y - (1 - p) * 220; ctx.strokeStyle = '#e8dcff'; ctx.lineWidth = 1.6; ctx.beginPath(); ctx.moveTo(f.x + 3, ay - 16); ctx.lineTo(f.x, ay); ctx.stroke(); ctx.fillStyle = '#b56bff'; ctx.beginPath(); ctx.moveTo(f.x, ay + 3); ctx.lineTo(f.x - 2, ay - 2); ctx.lineTo(f.x + 2, ay - 2); ctx.fill(); }
     if (f.k === 'star') { const p = 1 - f.life / f.max, col = f.col || '#b56bff'; ctx.strokeStyle = hexA(f.col || '#c88cff', 0.3 + p * 0.5); ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(f.x, f.y, f.r * (0.6 + 0.4 * p), 0, TAU); ctx.stroke();
       ctx.globalCompositeOperation = 'lighter';
       if (f.mine) { const pu = 0.6 + 0.4 * Math.sin(gtime * 18); glowAt(col, f.x, f.y, 26 + 14 * p, pu); glowAt('#ffffff', f.x, f.y, 8, pu); }
       else if (f.lob) { const x = f.x0 + (f.x - f.x0) * p, y = f.y0 + (f.y - f.y0) * p - Math.sin(p * Math.PI) * 60; glowAt(col, x, y, 34); glowAt('#ffe23a', x, y, 14); glowAt('#ffffff', x, y, 6); }
+      else if (f.comet) { const q = 1 - p, x = f.x - q * 120, y = f.y - q * 320, cs = ['#ff8a3c', '#7fd6ff', '#c56bff']; ctx.globalCompositeOperation = 'source-over'; ctx.lineCap = 'round'; // v19 prismatic comet: tri-colour tail
+        cs.forEach((c, i) => { ctx.strokeStyle = hexA(c, 0.45); ctx.lineWidth = 7 - i * 1.5; ctx.beginPath(); ctx.moveTo(x, y); ctx.quadraticCurveTo(x - 30 + (i - 1) * 14, y - 60, x - 46 + (i - 1) * 22, y - 118); ctx.stroke(); });
+        ctx.globalCompositeOperation = 'lighter'; for (let i = 0; i < 3; i++) { const an = gtime * 9 + i / 3 * TAU; glowAt(cs[i], x + Math.cos(an) * 7, y + Math.sin(an) * 7, 26); } glowAt('#ffffff', x, y, 24); glowAt('#ffffff', x, y, 10);
+        ctx.strokeStyle = hexA('#ffffff', 0.2 + p * 0.4); ctx.lineWidth = 2; ctx.setLineDash([5, 6]); ctx.lineDashOffset = gtime * 30; ctx.beginPath(); ctx.ellipse(f.x, f.y, f.r * (0.4 + 0.6 * p), f.r * (0.4 + 0.6 * p) * 0.55, 0, 0, TAU); ctx.stroke(); ctx.setLineDash([]); }
       else if (f.meteor) { const q = 1 - p, x = f.x + q * 140, y = f.y - q * 300; ctx.globalCompositeOperation = 'source-over'; ctx.strokeStyle = 'rgba(255,120,40,.35)'; ctx.lineWidth = 10; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + 40, y - 86); ctx.stroke();
         ctx.strokeStyle = 'rgba(255,220,120,.55)'; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + 26, y - 56); ctx.stroke(); ctx.fillStyle = '#4a2a1a'; ctx.beginPath(); ctx.arc(x, y, 8, 0, TAU); ctx.fill(); ctx.fillStyle = '#8a4a2a'; ctx.beginPath(); ctx.arc(x - 2, y - 2, 4, 0, TAU); ctx.fill();
         ctx.globalCompositeOperation = 'lighter'; glowAt(col, x, y, 46); glowAt('#ffe23a', x, y, 18); ctx.fillStyle = hexA('#ff6a2a', 0.12 + p * 0.2); ctx.beginPath(); ctx.ellipse(f.x, f.y, f.r * p, f.r * p * 0.55, 0, 0, TAU); ctx.fill(); }
@@ -4739,6 +5122,26 @@ function render(dt) {
       ctx.fillStyle = p.bleed ? '#2a0610' : p.wood ? '#6a4a2a' : '#1e3a10'; ctx.beginPath(); ctx.moveTo(8 * s, 0); ctx.quadraticCurveTo(0, -4 * s, -5 * s, 0); ctx.quadraticCurveTo(0, 4 * s, 8 * s, 0); ctx.fill(); ctx.strokeStyle = p.bleed ? '#ff8aa0' : '#c8ff9a'; ctx.lineWidth = 1; ctx.stroke(); ctx.restore(); }
     else if (p.k === 'hex') { ctx.globalCompositeOperation = 'lighter'; glowAt('#7dff4a', p.x, p.y, 34, 0.8); glowAt('#b56bff', p.x, p.y, 22); ctx.globalCompositeOperation = 'source-over'; ctx.fillStyle = '#12200a'; ctx.beginPath(); ctx.arc(p.x, p.y, 4.5, 0, TAU); ctx.fill(); ctx.strokeStyle = '#c8ff9a'; ctx.lineWidth = 1.4; ctx.stroke(); }
     else if (p.k === 'chak') { ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.spin); drawChakram(ctx, 7); ctx.restore(); }
+    else if (p.k === 'swarm') { ctx.globalCompositeOperation = 'lighter'; glowAt('#9dff3b', p.x, p.y, 36, 0.45); ctx.globalCompositeOperation = 'source-over'; // v19 locusts
+      for (let i = 0; i < 14; i++) { const an = gtime * (5 + (i % 4)) + i * 2.3 + p.seed, rr = 3 + (i * 7 % 10), lx = p.x + Math.cos(an) * rr, ly = p.y + Math.sin(an * 1.3) * rr * 0.7; ctx.fillStyle = i % 3 ? '#1a240c' : '#3a4a14'; ctx.beginPath(); ctx.ellipse(lx, ly, 2.4, 1.3, an, 0, TAU); ctx.fill();
+        if (i % 2) { ctx.fillStyle = 'rgba(220,255,180,.55)'; ctx.fillRect(lx - 2, ly - 2.2, 1.6, 1.2); ctx.fillRect(lx + 0.6, ly - 2.2, 1.6, 1.2); } } }
+    else if (p.k === 'wraith') { const a = Math.atan2(p.vy, p.vx); ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(a); ctx.globalCompositeOperation = 'lighter'; glowAt('#6ff3d0', 0, 0, 34, 0.7); glowAt('#bfefff', 0, 0, 14, 0.8); ctx.globalCompositeOperation = 'source-over'; // v19 wraith
+      ctx.fillStyle = 'rgba(210,255,245,.82)'; ctx.beginPath(); ctx.arc(4, 0, 6, -Math.PI / 2, Math.PI / 2); for (let i = 0; i <= 4; i++) ctx.lineTo(-4 - i * 3.4, (i % 2 ? -1 : 1) * (3.5 - i * 0.6) + Math.sin(gtime * 14 + i + p.seed) * 1.6); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = '#0a2a28'; ctx.beginPath(); ctx.arc(6, -2, 1.3, 0, TAU); ctx.arc(6, 2, 1.3, 0, TAU); ctx.fill(); ctx.restore(); }
+    else if (p.k === 'vstar') { const c = p.c ? '#c56bff' : '#4fd4ff'; ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.spin); ctx.globalCompositeOperation = 'lighter'; glowAt(c, 0, 0, 20, 0.75); ctx.fillStyle = '#ffffff'; // v19 void star
+      ctx.beginPath(); for (let i = 0; i < 8; i++) { const an = i / 8 * TAU, rr = i % 2 ? 1.6 : 5.5; ctx.lineTo(Math.cos(an) * rr, Math.sin(an) * rr); } ctx.closePath(); ctx.fill(); ctx.globalCompositeOperation = 'source-over'; ctx.restore(); }
+    else if (p.k === 'stag') { const fl = p.vx < 0 ? -1 : 1, g = p.gal; ctx.save(); ctx.translate(p.x, p.y - 4); ctx.scale(fl * 1.15, 1.15); ctx.globalCompositeOperation = 'lighter'; glowAt('#9dff6a', 0, 0, 58, 0.55); // v19 spectral stag
+      ctx.fillStyle = 'rgba(200,255,190,.55)'; ctx.strokeStyle = 'rgba(240,255,230,.9)'; ctx.lineWidth = 1.4; ctx.lineCap = 'round';
+      ctx.beginPath(); ctx.ellipse(-2, 0, 15, 7, 0, 0, TAU); ctx.fill(); ctx.stroke(); // body
+      ctx.beginPath(); ctx.moveTo(10, -3); ctx.lineTo(17, -13); ctx.lineTo(22, -12); ctx.lineTo(16, -2); ctx.closePath(); ctx.fill(); ctx.stroke(); // neck & head
+      ctx.beginPath(); for (const s of [0, 1]) { const ox = 15 + s * 3; ctx.moveTo(ox, -13); ctx.lineTo(ox - 4, -24); ctx.moveTo(ox - 2, -18); ctx.lineTo(ox - 8, -21); ctx.moveTo(ox - 3, -22); ctx.lineTo(ox + 2, -28); } ctx.stroke(); // antlers
+      ctx.beginPath(); for (let i = 0; i < 4; i++) { const lx = -12 + i * 7 + (i > 1 ? 4 : 0), sw = Math.sin(g + i * 1.6) * 5; ctx.moveTo(lx, 5); ctx.lineTo(lx + sw, 15); } ctx.stroke(); // legs
+      ctx.globalCompositeOperation = 'source-over'; ctx.restore(); }
+    else if (p.k === 'rockp') { const s = p.mini ? 0.55 : Math.sqrt(p.big || 1); ctx.drawImage(SPR.shadow, p.x - 12 * s, p.y + 8 * s, 24 * s, 7 * s); ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.spin); ctx.scale(s, s); // v19 boulder
+      ctx.fillStyle = '#6a6052'; ctx.strokeStyle = '#2a2218'; ctx.lineWidth = 2; ctx.beginPath(); for (let i = 0; i < 9; i++) { const an = i / 9 * TAU, rr = 12 + ((i * 37) % 5) - 2; ctx.lineTo(Math.cos(an) * rr, Math.sin(an) * rr); } ctx.closePath(); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = '#9a8e78'; ctx.beginPath(); ctx.ellipse(-3, -4, 5, 3, -0.5, 0, TAU); ctx.fill(); ctx.strokeStyle = 'rgba(40,30,20,.6)'; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.moveTo(2, -2); ctx.lineTo(7, 4); ctx.moveTo(-6, 3); ctx.lineTo(-1, 7); ctx.stroke();
+      ctx.fillStyle = '#4a7a2a'; ctx.beginPath(); ctx.arc(5, -7, 2.6, 0, TAU); ctx.arc(-8, -2, 2, 0, TAU); ctx.fill(); ctx.restore(); }
+
     else if (p.k === 'lance') { ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.a); ctx.globalCompositeOperation = 'lighter'; ctx.strokeStyle = 'rgba(79,212,255,.35)'; ctx.lineWidth = 7; ctx.beginPath(); ctx.moveTo(-34, 0); ctx.lineTo(10, 0); ctx.stroke();
       ctx.strokeStyle = '#e6fbff'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(-26, 0); ctx.lineTo(12, 0); ctx.stroke(); ctx.globalCompositeOperation = 'source-over'; ctx.restore(); }
     else if (p.k === 'scy') { ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.spin); ctx.globalCompositeOperation = 'lighter'; glowAt('#ff3d6e', 0, 0, 34, 0.5); ctx.globalCompositeOperation = 'source-over';
@@ -4781,6 +5184,19 @@ function render(dt) {
       ctx.restore(); ctx.globalCompositeOperation = 'source-over'; }
     else if (f.k === 'lob') { const x = lerp(f.x, f.x2, p), y = lerp(f.y, f.y2, p) - Math.sin(p * Math.PI) * 70; ctx.globalCompositeOperation = 'lighter'; glowAt(SPR.glow[f.col] ? f.col : '#9dff3b', x, y, f.rock ? 34 : 24); ctx.globalCompositeOperation = 'source-over';
       ctx.fillStyle = f.rock ? '#5a6478' : '#2a4a10'; ctx.beginPath(); ctx.arc(x, y, f.rock ? 7 : 4, 0, TAU); ctx.fill(); ctx.strokeStyle = OL; ctx.lineWidth = 1; ctx.stroke(); }
+    else if (f.k === 'clone') { const fa = Math.min(1, f.life * 3, (f.max - f.life) * 6); ctx.globalCompositeOperation = 'lighter'; glowAt('#b56bff', f.x, f.y - 4, 60, 0.4 * fa); ctx.globalCompositeOperation = 'source-over'; // v19 shadow double
+      ctx.globalAlpha = 0.25 * fa; ctx.fillStyle = '#2a0d45'; ctx.beginPath(); ctx.ellipse(f.x, f.y + 2, 15, 5, 0, 0, TAU); ctx.fill(); // umbral pool under the double
+      ctx.globalAlpha = 0.72 * fa; drawHeroLit({ t: gtime + f.n * 0.7, moving: true, cls: 'rogue', race: G.race, outfit: G.outfit || save.outfit, atk: f.atk, form: null, gear: G.gear, gearOver: save.gearOver, tails: 1, noShadow: 1, hurt: 0 }, f.x, f.y, f.face, 0.95); ctx.globalAlpha = 1;
+      ctx.globalCompositeOperation = 'lighter'; glowAt('#c56bff', f.x, f.y - 14, 46, 0.55 * fa); ctx.globalCompositeOperation = 'source-over'; // violet shadow-sheen so it never reads as the real hero
+      if (f.atk > 0.4) { ctx.save(); ctx.translate(f.x, f.y); ctx.rotate(f.sw * 2.2); ctx.globalCompositeOperation = 'lighter'; const r = f.r * P.area, aa = (f.atk - 0.4) / 0.6; ctx.strokeStyle = `rgba(200,140,255,${0.8 * aa})`; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(0, 0, r * 0.85, 0, 4.2 * (1 - aa) + 1); ctx.stroke(); ctx.strokeStyle = `rgba(255,240,255,${0.9 * aa})`; ctx.lineWidth = 1.2; ctx.stroke(); ctx.restore(); ctx.globalCompositeOperation = 'source-over'; } }
+    else if (f.k === 'chain') { const e = f.e; if (e && !e.dead) { f.x = e.x; f.y = e.y; } const t = Math.max(0, (f.max - f.life) - (f.d0 || 0)), ext = Math.min(1, t / 0.13) * Math.min(1, f.life / 0.18); if (ext > 0) { // v19 soul chain: links shoot out, hook, drag back
+        const sx = P.x, sy = P.y - 10, dx = f.x - sx, dy = f.y - sy, d = Math.hypot(dx, dy) || 1, ux = dx / d, uy = dy / d, len = d * ext, n = Math.floor(len / 7);
+        ctx.globalCompositeOperation = 'lighter'; ctx.strokeStyle = 'rgba(255,61,110,.35)'; ctx.lineWidth = 6; ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(sx + ux * len, sy + uy * len); ctx.stroke(); ctx.globalCompositeOperation = 'source-over';
+        ctx.strokeStyle = '#d8d0e0'; ctx.lineWidth = 1.6; for (let i = 0; i < n; i++) { const cx = sx + ux * (i * 7 + 3.5), cy = sy + uy * (i * 7 + 3.5); ctx.beginPath(); if (i % 2) ctx.ellipse(cx, cy, 4, 1.4, Math.atan2(uy, ux), 0, TAU); else ctx.ellipse(cx, cy, 4, 2.4, Math.atan2(uy, ux), 0, TAU); ctx.stroke(); }
+        const hx = sx + ux * len, hy = sy + uy * len; ctx.globalCompositeOperation = 'lighter'; glowAt('#ff3d6e', hx, hy, 26, 0.8); ctx.globalCompositeOperation = 'source-over'; ctx.strokeStyle = '#f2ecff'; ctx.lineWidth = 2.2; ctx.beginPath(); ctx.arc(hx - ux * 4, hy - uy * 4, 6, Math.atan2(uy, ux) - 1.4, Math.atan2(uy, ux) + 1.4); ctx.stroke(); } }
+    else if (f.k === 'whirl') { ctx.save(); ctx.translate(P.x, P.y); ctx.rotate(f.dir * p * TAU * 1.25 + (f.i || 0) * 1.3); ctx.globalCompositeOperation = 'lighter'; // v19 moonclaw whirl: three claw-crescents spinning round the cat
+      glowAt('#ff4fd8', 0, 0, f.r * 1.4, 0.3 * a); for (let k = 0; k < 3; k++) { ctx.rotate(TAU / 3); for (let i = -1; i <= 1; i++) { const rr = f.r * 0.92 + i * 6; ctx.strokeStyle = `rgba(255,${110 + 50 * (i + 1)},${200 + 20 * i},${0.85 * a})`; ctx.lineWidth = 3 - Math.abs(i); ctx.beginPath(); ctx.arc(0, 0, rr, -0.55 * f.dir, 0.55 * f.dir, f.dir < 0); ctx.stroke(); } }
+      ctx.restore(); ctx.globalCompositeOperation = 'source-over'; }
     else if (f.k === 'leap') { ctx.strokeStyle = f.col ? hexA(f.col, a) : `rgba(200,130,255,${a})`; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(f.x, f.y); ctx.quadraticCurveTo((f.x + f.x2) / 2, Math.min(f.y, f.y2) - 30, f.x2, f.y2); ctx.stroke(); }
   }
   // particles
@@ -4970,6 +5386,7 @@ function keyNav(code) { // returns true when handled
   if (sc === 'levelup') { const C = $('choices').children, n = C.length, dg = /^(Digit|Numpad)([1-9])$/.exec(code);
     if (dg && +dg[2] <= n) { C[+dg[2] - 1].click(); return true; }
     if ((code === 'ArrowLeft' || code === 'ArrowRight' || code === 'KeyA' || code === 'KeyD') && n) { let i = [...C].findIndex(c => c.classList.contains('pickd')); i = i < 0 ? (code === 'ArrowLeft' || code === 'KeyA' ? n - 1 : 0) : (i + (code === 'ArrowLeft' || code === 'KeyA' ? n - 1 : 1)) % n; if (!C[i].classList.contains('pickd')) C[i].click(); return true; } }
+  if (sc === 'talents' && talKey(code)) return true;
   const m = sc && KNAV[sc]; let id = m && m[code]; if (typeof id === 'function') id = id();
   if (id && visBtn(id)) { $(id).click(); return true; }
   return false; }
@@ -4988,9 +5405,10 @@ addEventListener('blur', () => { keys.clear(); MM.on = false; if (PC && (state =
 // v18: confirm dialog (replaces native confirm(): works with touch, keyboard and controller)
 let cfmFn = null;
 const cfmOpen = () => $('cfm').classList.contains('on');
-function askConfirm(title, body, yes, fn, no) { $('cfmT').textContent = title; $('cfmB').textContent = body || ''; $('cfmYes').textContent = yes || 'OK'; $('cfmNo').textContent = no || 'Cancel';
+let cfmNoFn = null;
+function askConfirm(title, body, yes, fn, no, noFn) { cfmNoFn = noFn || null; $('cfmT').textContent = title; $('cfmB').textContent = body || ''; $('cfmYes').textContent = yes || 'OK'; $('cfmNo').textContent = no || 'Cancel';
   cfmFn = fn; $('cfm').classList.add('on'); gfClear(); Snd.init(); Snd.play('click'); }
-function cfmClose(ok) { if (!cfmOpen()) return; const fn = cfmFn; cfmFn = null; $('cfm').classList.remove('on'); gfClear(); if (ok && fn) fn(); }
+function cfmClose(ok, no) { if (!cfmOpen()) return; const fn = cfmFn, nf = cfmNoFn; cfmFn = cfmNoFn = null; $('cfm').classList.remove('on'); gfClear(); if (ok && fn) fn(); else if (no && nf) nf(); } // no = the No button itself (Esc / B just cancel)
 function exitRunAsk() { if (!G || G.ended) return; askConfirm('Exit this run?', 'The run ends now: you see the run summary and keep everything it earned (Shards, class XP, achievements).', '⏏ Exit Run', () => showGameOver(true), 'Keep Playing'); }
 const IS_APP = !!(window.shadowfallDesktop && window.shadowfallDesktop.isDesktopApp) || /Electron/i.test(navigator.userAgent || '');
 function quitApp() { askConfirm('Quit Shadowfall?', 'Your progress is saved.', '⏻ Quit', () => { try { saveRun(); persist(); } catch (_) { } window.close(); }); }
@@ -5006,9 +5424,11 @@ function gfItems(root) { return root ? [...root.querySelectorAll(GP_SEL)].filter
 function gfKey(e) { return e.id || ((e.dataset.id || e.dataset.race || e.dataset.s || e.dataset.evo || e.dataset.t || '') + '|' + e.className.replace(/\b(gpf|on|sel|pickd|pressed)\b/g, '').trim() + '|' + (e.textContent || '').slice(0, 24)); }
 function gfClear() { for (const e of document.querySelectorAll('.gpf')) e.classList.remove('gpf'); GF.el = null; $('gpA').classList.remove('on'); }
 function gfSet(e, noScroll) { for (const o of document.querySelectorAll('.gpf')) if (o !== e) o.classList.remove('gpf'); GF.el = e; if (!e) return; e.classList.add('gpf'); GF.key = gfKey(e); GF.i = gfItems(GF.root).indexOf(e);
+  if (e.classList.contains('tnode') && state === 'talents') { talPick = e.dataset.node; const t = TAL_BY_ID[talCls + ':' + talPick]; if (t && t.bi !== talSpec && !PC) talSetSpec(t.bi); talHover(talPick); for (const o of document.querySelectorAll('.ttree .tnode.pick')) o.classList.toggle('pick', o === e); }
   if (!noScroll) try { e.scrollIntoView({ block: 'nearest', inline: 'nearest' }); } catch (_) { } }
 function gfDefault(root, it) {
   if (root.id === 'cfm') return $('cfmNo');                                                  // safe default: never confirm by accident
+  if (root.id === 'talents') { const t = root.querySelector('.ttree.cur') || root; const q = t.querySelector('.tnode.pick') || t.querySelector('.tnode.avail') || t.querySelector('.tnode'); if (q) return q; } // v19: start on a talent, not the class tabs
   if (root.id === 'levelup') return root.querySelector('#choices .card.pickd') || root.querySelector('#choices .card') || it[0]; // cards may still be mid-deal (scaled), so not via visibility
   return it.find(e => e.classList.contains('sel') && e.classList.contains('ccard')) || it.find(e => e.classList.contains('btn') && e.classList.contains('primary') && e.id !== 'btnPick') || it[0]; }
 function gfMove(dx, dy) {
@@ -5027,7 +5447,7 @@ function gfMove(dx, dy) {
 function gfActivate() {
   const it = gfItems(GF.root); let e = GF.el; if (!e || !it.includes(e)) { gfSet(gfDefault(GF.root, it)); return; }
   if (e.tagName === 'INPUT') return; if (e.tagName === 'LABEL') { const c = e.querySelector('input'); if (c) c.click(); return; }
-  e.click(); }
+  GF.act = true; try { e.click(); } finally { GF.act = false; } }
 function gfAdjust(e, d) { const st = +e.step || 1, v = Math.max(+e.min || 0, Math.min(+e.max || 100, +e.value + d * Math.max(st, 5))); if (v !== +e.value) { e.value = v; e.dispatchEvent(new Event('input', { bubbles: true })); e.dispatchEvent(new Event('change', { bubbles: true })); } }
 function gfTabs(d) { const tb = [...GF.root.querySelectorAll('.tabs, #cdxTabs')].find(t => t.offsetParent !== null); if (!tb) return false;
   const bs = [...tb.querySelectorAll('button')].filter(gfVis); if (bs.length < 2) return false; let i = bs.findIndex(b => b.classList.contains('on')); i = ((i < 0 ? 0 : i) + d + bs.length) % bs.length; bs[i].click(); return true; }
@@ -5046,7 +5466,7 @@ function padUI(p) { // connection state, glyphs, prompt bar, focus badge
   const sig = (root ? root.id : state) + (root && [...root.querySelectorAll('.tabs, #cdxTabs')].some(t => t.offsetParent !== null) ? 't' : '');
   if (bar._sig !== sig) { bar._sig = sig; const g = (k, c) => `<span class="gpg ${c || k}">${padGlyph(k)}</span>`;
     bar.innerHTML = inRun ? `<span><span class="gpg">☰</span>Pause</span><span><span class="gpg">⧉</span>Damage meter</span>`
-      : root ? `<span><span class="gpg">✥</span>Move</span><span>${g('a')}Select</span><span>${g('b')}${root.id === 'pause' ? 'Resume' : root.id === 'cfm' ? 'Cancel' : 'Back'}</span>` + (sig.endsWith('t') ? `<span><span class="gpg">LB</span><span class="gpg">RB</span>Tabs</span>` : '') : '';
+      : root ? `<span><span class="gpg">✥</span>Move</span><span>${g('a')}Select</span><span>${g('b')}${root.id === 'pause' ? 'Resume' : root.id === 'cfm' ? 'Cancel' : 'Back'}</span>` + (root.id === 'talents' ? `<span>${g('x')}Remove</span><span><span class="gpg">LB</span><span class="gpg">RB</span>Tree</span><span><span class="gpg">LT</span><span class="gpg">RT</span>Class</span>` : sig.endsWith('t') ? `<span><span class="gpg">LB</span><span class="gpg">RB</span>Tabs</span>` : '') : '';
     bar.classList.toggle('on', !!bar.innerHTML && state !== 'dying'); }
   const A = $('gpA'), e = GF.el; if (root && e && e.isConnected && gfVis(e)) { const r = e.getBoundingClientRect(); A.style.left = r.right + 'px'; A.style.top = r.top + 'px'; A.classList.toggle('on', r.bottom > 0 && r.top < innerHeight); } else A.classList.remove('on'); }
 function pollPad() {
@@ -5073,7 +5493,14 @@ function pollPad() {
       const e = GF.el; if (e && e.tagName === 'INPUT' && e.type === 'range' && (dir === 'l' || dir === 'r')) gfAdjust(e, dir === 'r' ? 1 : -1);
       else gfMove(dir === 'r' ? 1 : dir === 'l' ? -1 : 0, dir === 'd' ? 1 : dir === 'u' ? -1 : 0); }
     if (!dir) GF.dir = '';
+    const talB = root.id === 'talents' && GF.el && GF.el.classList.contains('tnode'); // talents: hold B on a talent = remove a pending point, tap B = back
+    if (talB && b(1)) { if (!GP.prev[1]) GP.bT = now; else if (GP.bT && now - GP.bT > 450) { GP.bT = now + 1e9; GP.bUsed = 1; talRemove(GF.el.dataset.node); } }
     if (edge(0)) gfActivate();
+    else if (root.id === 'talents' && (edge(4) || edge(5))) talSetSpec(talSpec + (edge(5) ? 1 : -1), true);
+    else if (root.id === 'talents' && (edge(6) || edge(7))) talCycleClass(edge(7) ? 1 : -1);
+    else if (root.id === 'talents' && edge(2)) { if (GF.el && GF.el.classList.contains('tnode')) talRemove(GF.el.dataset.node); }
+    else if (root.id === 'talents' && talB && GP.prev[1] && !b(1)) { if (!GP.bUsed) keyNav('Escape'); GP.bUsed = 0; GP.bT = 0; }
+    else if (root.id === 'talents' && talB) { }
     else if (edge(1)) { if (root.id === 'cfm') cfmClose(false); else if (root.id === 'pause') resumeGame(); else keyNav('Escape'); }
     else if (edge(9)) { if (root.id === 'pause') resumeGame(); else if (root.id !== 'cfm') keyNav('Enter'); }
     else if (edge(4) || edge(5)) gfTabs(edge(5) ? 1 : -1);
@@ -5200,41 +5627,6 @@ function renderSelect() {
     b.onclick = () => { save.outfit = id; persist(); Snd.play('click'); renderSelect(); }; O.appendChild(b); heroPortrait(b.querySelector('canvas'), selClass, id, 1.25); }
   if (Object.keys(save.outfits).length < 2) O.insertAdjacentHTML('beforeend', '<div style="font-size:12px;color:#8f7fb0;align-self:center">More outfits in the Armory</div>');
 }
-/* talents screen */
-let talCls = 'rogue', talPick = null, talFrom = 'select';
-function goTalents(cls, from) { talCls = TALENTS[cls] ? cls : 'rogue'; talFrom = from || 'select'; talPick = null; state = 'talents'; show('talents'); renderTalents(); }
-function nodeState(cls, bi, ti) { const tr = save.talents[cls] || {}, n = TALENTS[cls][bi].nodes[ti]; if (tr[n.id]) return 'own';
-  if (ti > 0 && !tr[TALENTS[cls][bi].nodes[ti - 1].id]) return 'lock'; return talentPoints(cls).free >= n.cost ? 'avail' : 'need'; }
-function renderTalents() {
-  const tabs = $('talTabs'); tabs.innerHTML = '';
-  for (const id in TALENTS) { const b = document.createElement('button'); b.textContent = CLASSES[id].name; b.className = id === talCls ? 'on' : ''; b.onclick = () => { talCls = id; talPick = null; Snd.play('click'); renderTalents(); }; tabs.appendChild(b); }
-  const cl = classLevel(talCls), tp = talentPoints(talCls);
-  $('talHead').innerHTML = `<canvas></canvas><div class="lv"><b>${CLASSES[talCls].name}</b> · Class Lv ${cl.lvl}<div class="bar"><i style="width:${cl.need ? Math.round(cl.into / cl.need * 100) : 100}%"></i></div>` +
-    `<span style="font-size:12.5px">${cl.need ? cl.into + ' / ' + cl.need + ' class XP — play runs as ' + CLASSES[talCls].name : 'Max level'}</span></div><div class="pts"><b>${tp.free}</b>points</div>`;
-  heroPortrait($('talHead').querySelector('canvas'), talCls, save.outfit, 1.3);
-  const tree = $('talTree'); tree.innerHTML = '';
-  TALENTS[talCls].forEach((br, bi) => {
-    const col = document.createElement('div'); col.className = 'branch'; col.innerHTML = `<div class="bn">${br.name}</div>`;
-    br.nodes.forEach((n, ti) => {
-      if (ti) { const l = document.createElement('div'); l.className = 'tlink' + (/^(CAPSTONE|ULTIMATE)/.test(n.desc) ? ' capl' : '') + (nodeState(talCls, bi, ti - 1) === 'own' ? ' on' : ''); col.appendChild(l); }
-      const st = nodeState(talCls, bi, ti), b = document.createElement('button');
-      b.className = 'tnode ' + st + (/^(CAPSTONE|ULTIMATE)/.test(n.desc) ? ' cap' : '') + (/^ULTIMATE/.test(n.desc) ? ' ult' : '') + (talPick && talPick[0] === bi && talPick[1] === ti ? ' pick' : ''); b.dataset.node = n.id;
-      b.innerHTML = `<span>${n.ic}\uFE0E</span>` + (st === 'own' ? '' : `<span class="c">${n.cost}</span>`);
-      b.onclick = () => { talPick = [bi, ti]; Snd.play('click'); renderTalents(); };
-      col.appendChild(b);
-    });
-    tree.appendChild(col);
-  });
-  const tip = $('talTip');
-  if (!talPick) { tip.innerHTML = `<div class="tn">Tap a node</div><div>Earn class XP by surviving and slaying foes as <b>${CLASSES[talCls].name}</b>. Each class level = 1 talent point. Capstones (◇) cost 2 and change how the class plays; the deep tiers cost 2–3 and each branch ends in a 4-point ULTIMATE.</div>`; }
-  else { const [bi, ti] = talPick, n = TALENTS[talCls][bi].nodes[ti], st = nodeState(talCls, bi, ti);
-    tip.innerHTML = `<div class="tn">${n.name}</div><div class="ts">${TALENTS[talCls][bi].name} · Tier ${ti + 1} · ${n.cost} pt${n.cost > 1 ? 's' : ''}</div><div>${n.desc}</div>`;
-    const btn = document.createElement('button'); btn.className = 'buy'; btn.id = 'btnLearn';
-    btn.textContent = st === 'own' ? 'Learned' : st === 'lock' ? 'Locked' : st === 'need' ? `Need ${n.cost}` : 'Learn';
-    btn.disabled = st !== 'avail'; btn.onclick = () => { const tr = save.talents[talCls] = save.talents[talCls] || {}; tr[n.id] = 1; persist(); Snd.play('buy'); achCheck(false); renderTalents(); };
-    tip.prepend(btn);
-    if (st === 'lock') tip.insertAdjacentHTML('beforeend', `<div class="ts" style="margin-top:4px">Requires ${TALENTS[talCls][bi].nodes[ti - 1].name} first.</div>`); }
-}
 let shopTab = 'up', shopFrom = 'title';
 function goShop(from) { shopFrom = from || 'title'; state = 'shop'; show('shop'); renderShop(); }
 function renderShop() {
@@ -5284,7 +5676,8 @@ function buildChoices() {
   if (G.weapons.length < 5) for (const id in WDEF) { if (owned.has(id)) continue; const d = WDEF[id]; if (d.cls !== G.cls) continue;   // class-only weapon pool
     if (d.form && druidForm()) continue;                                             // one form per run: taking Cat or Tree removes the other
     if (d.cat && druidForm() !== 'cat') continue; if (druidForm() === 'cat' && catBan(id)) continue; // v18: Sanguine Maw is cat-only; the Cat never gets ranged nature spells
-    opts.push({ k: 'w', id, w: d.cat ? 4 : d.form ? 2.8 : 2.4 }); }
+    if (d.tree && druidForm() !== 'tree') continue;                                  // v19: Uprooted Boulder is tree-only
+    opts.push({ k: 'w', id, w: d.cat || d.tree ? 4 : d.form ? 2.8 : 2.4 }); }
   const pc = Object.keys(G.passives).length;
   const hm = hasMinions(), ha = hasArrows();
   for (const id in PDEF) { const d = PDEF[id], lv = G.passives[id] || 0; if (lv >= d.max || (!lv && pc >= 6)) continue;
@@ -5316,7 +5709,7 @@ function buildChoices() {
     let hint = ''; // v18: show evolution pairings on the cards
     if (o.k === 'e') { const E = EVO[o.id]; tags = `<span class="tag" style="background:#b0207a">${WDEF[o.id].name} + ${PDEF[E.p].name}</span>`; }
     else if (o.k === 'w' && EVO[o.id] && !G.evo[o.id]) { const pp = EVO[o.id].p; hint = `⇪ Pairs with ${PDEF[pp].name}${G.passives[pp] ? ' ✓' : ''}`; }
-    else if (o.k === 'p' && EVO_BY_P[o.id]) { const L = EVO_BY_P[o.id].filter(id => WDEF[id].cls === G.cls && !G.evo[id] && !(druidForm() === 'cat' && catBan(id)) && !(WDEF[id].cat && druidForm() !== 'cat'));
+    else if (o.k === 'p' && EVO_BY_P[o.id]) { const L = EVO_BY_P[o.id].filter(id => WDEF[id].cls === G.cls && !G.evo[id] && !(druidForm() === 'cat' && catBan(id)) && !(WDEF[id].cat && druidForm() !== 'cat') && !(WDEF[id].tree && druidForm() !== 'tree'));
       const ow = L.filter(id => G.weapons.some(w => w.id === id)), pick1 = ow[0] || L[0];
       if (pick1) { const w = G.weapons.find(w => w.id === pick1); hint = `⇪ Evolves ${WDEF[pick1].name}${w && w.lvl >= WDEF[pick1].max ? ' ✓' : ''}${(ow.length || L.length) > 1 ? ' +' + ((ow.length || L.length) - 1) : ''}`; } }
     const [rc, rg, rn] = RC[rar];
@@ -5610,8 +6003,8 @@ bind('btnAchBack', goTitle); bind('btnAchWard', () => goWard('ach')); bind('btnW
 for (const b of $('achTabs').children) b.addEventListener('click', () => { achTab = b.dataset.t; achKey = 'all'; Snd.play('click'); renderAch(); $('ach').scrollTop = 0; });
 
 bind('btnTalents', () => goTalents(selClass, 'select'));
-bind('btnTalBack', () => { if (talFrom !== 'select') return goTitle(); state = 'select'; show('select'); if (save.classes[talCls]) selClass = talCls; renderSelect(); });
-bind('btnTalReset', () => { if (talentPoints(talCls).spent) askConfirm('Refund talents?', `Refund all ${CLASSES[talCls].name} talent points?`, 'Refund', () => { save.talents[talCls] = {}; persist(); talPick = null; renderTalents(); }); });
+bind('btnTalBack', () => talGuard(() => { $('talHov').classList.remove('on'); if (talFrom !== 'select') return goTitle(); state = 'select'; show('select'); if (save.classes[talCls]) selClass = talCls; renderSelect(); }));
+bind('btnTalReset', talReset); bind('btnTalApply', () => { if (talPend().any) talApply(); });
 bind('btnShopBack', () => shopFrom === 'over' ? goTitle() : goTitle());
 for (const b of $('shopTabs').children) b.addEventListener('click', () => { shopTab = b.dataset.t; Snd.play('click'); renderShop(); });
 { // pause button: deliberate taps only (not a drag passing over it, not a re-grab right after a popup closed, not while steering)
@@ -5619,7 +6012,7 @@ for (const b of $('shopTabs').children) b.addEventListener('click', () => { shop
   pb.addEventListener('pointerdown', e => { pd = { x: e.clientX, y: e.clientY, t: performance.now(), ok: !joy.on && performance.now() - resumeAt > 450 && performance.now() - joyEndAt > 350 }; });
   pb.addEventListener('pointerup', e => { const d = pd; pd = null; if (!d || !d.ok || joy.on) return; if (Math.hypot(e.clientX - d.x, e.clientY - d.y) > 14 || performance.now() - d.t > 600) return; Snd.init(); Snd.play('click'); pauseGame(); });
   pb.addEventListener('click', e => { if (e.detail === 0) pauseGame(); }); // keyboard / accessibility activation
-} bind('btnResume', resumeGame); bind('btnQuit', exitRunAsk); $('cfmYes').addEventListener('click', () => { Snd.init(); cfmClose(true); }); $('cfmNo').addEventListener('click', () => { Snd.init(); Snd.play('click'); cfmClose(false); });
+} bind('btnResume', resumeGame); bind('btnQuit', exitRunAsk); $('cfmYes').addEventListener('click', () => { Snd.init(); cfmClose(true); }); $('cfmNo').addEventListener('click', () => { Snd.init(); Snd.play('click'); cfmClose(false, true); });
 $('cfm').addEventListener('click', e => { if (e.target.id === 'cfm') cfmClose(false); }); bind('btnQuitApp', quitApp);
 bind('tog_rumble', () => { save.rumble = save.rumble === false; persist(); rumbleLbl(); if (save.rumble) padRumble(0.4, 0.6, 160); });
 function rumbleLbl() { const t = $('tog_rumble'); if (!t) return; const on = save.rumble !== false; t.textContent = on ? 'On' : 'Off'; t.classList.toggle('off', !on); } rumbleLbl();
@@ -5689,6 +6082,116 @@ function frame(now) {
     if (RUN_STATES[state] && now - lastRunSave > 6000) saveRun();   // periodic autosave
   } catch (err) { console.error(err); }
 }
+/* talents screen — v19 WoW-style trees. Changes go into a draft; Apply commits them (Reset = full respec, also via Apply). */
+let talCls = 'rogue', talPick = null, talFrom = 'select', talDraft = {}, talSpec = 0, talOv = false, talTouchSel = null, talMsg = '';
+const talNodes = c => TALENTS[c].flatMap(t => t.nodes);
+const talComm = () => save.talents[talCls] || {};
+function talPend() { let add = 0, rem = 0; const a = talComm(); for (const n of talNodes(talCls)) { const d = tRank(talDraft, n) - tRank(a, n); if (d > 0) add += d; else rem -= d; } return { add, rem, any: add + rem > 0 }; }
+function talBestSpec() { let b = 0, bs = 0; TALENTS[talCls].forEach((t, i) => { const s = treeSpent(talCls, i, talDraft); if (s > bs) { bs = s; b = i; } }); return b; }
+function talLoad(cls) { talCls = TALENTS[cls] ? cls : 'rogue'; talDraft = Object.assign({}, save.talents[talCls] || {}); talPick = null; talTouchSel = null; talMsg = ''; talSpec = talBestSpec(); }
+function goTalents(cls, from) { talFrom = from || 'select'; talLoad(cls); talOv = false; state = 'talents'; show('talents'); renderTalents(); $('talents').scrollTop = 0; }
+function talGuard(go) { // pending changes? ask Apply / Discard (Cancel stays)
+  const p = talPend(); if (!p.any) return go();
+  askConfirm('Apply talent changes?', `You have ${p.add ? p.add + ' new point' + (p.add > 1 ? 's' : '') : ''}${p.add && p.rem ? ' and ' : ''}${p.rem ? p.rem + ' refunded point' + (p.rem > 1 ? 's' : '') : ''} not applied yet.`, '✔ Apply', () => { talApply(); go(); }, 'Discard', () => { talDraft = Object.assign({}, talComm()); go(); }); }
+function talSetClass(id) { if (id === talCls) return; talGuard(() => { talLoad(id); Snd.play('click'); renderTalents(); }); }
+function talCycleClass(d) { const ks = Object.keys(TALENTS); talSetClass(ks[(ks.indexOf(talCls) + d + ks.length) % ks.length]); }
+function talSetSpec(i, focus) { talSpec = (i + 3) % 3; talOv = false; Snd.play('click'); renderTalents();
+  if (focus && GP.conn) { const n = TALENTS[talCls][talSpec].nodes, sel = talPick && n.find(x => x.id === talPick) || n[0], el = $('tn_' + sel.id); if (el) gfSet(el, true); talHover(sel.id); } }
+function talNodeState(n) { const r = tRank(talDraft, n), c = tRank(talComm(), n), free = talentPoints(talCls, talDraft).free;
+  const why = talCanAdd(talCls, n, talDraft, free); return { r, c, why, st: r >= n.m ? 'own' : r > 0 ? 'part' : !why ? 'avail' : why === 'pts' ? 'nopts' : 'lock', pend: r !== c }; }
+function talAdd(id) { const n = TAL_BY_ID[talCls + ':' + id]; if (!n) return false; const why = talCanAdd(talCls, n, talDraft, talentPoints(talCls, talDraft).free);
+  talPick = id; if (why) { talMsg = why === 'max' ? 'Already at max rank' : why === 'pts' ? 'No talent points left — level this class to earn more' : why === 'tier' ? `Spend ${talNeed(n)} points in ${TALENTS[talCls][n.bi].name} to open tier ${n.t}` : `Requires ${TAL_BY_ID[talCls + ':' + n.req].n} at max rank`; Snd.play('click'); renderTalents(); return false; }
+  talDraft[id] = tRank(talDraft, n) + 1; talMsg = ''; Snd.play(n.cap || talDraft[id] === n.m ? 'buy' : 'pick'); renderTalents(); return true; }
+function talRemove(id) { const n = TAL_BY_ID[talCls + ':' + id]; if (!n) return false; const r = tRank(talDraft, n); talPick = id;
+  if (r <= 0 || r <= tRank(talComm(), n)) { talMsg = r > 0 ? 'Applied points can only be refunded with Reset' : ''; renderTalents(); return false; }
+  const was = talDraft[id]; if (r - 1) talDraft[id] = r - 1; else delete talDraft[id];
+  if (!talValid(talCls, talDraft)) { talDraft[id] = was; talMsg = 'Other pending talents depend on this one'; renderTalents(); return false; }
+  talMsg = ''; Snd.play('click'); renderTalents(); return true; }
+function talApply() { const o = {}; for (const n of talNodes(talCls)) { const r = tRank(talDraft, n); if (r) o[n.id] = r; } save.talents[talCls] = o; talDraft = Object.assign({}, o); persist(); Snd.play('buy'); achCheck(false); talMsg = 'Talents applied'; if (state === 'talents') renderTalents(); }
+function talReset() { if (!talentPoints(talCls, talDraft).spent) return; talDraft = {}; talMsg = 'All points refunded — spend them and press Apply (Back discards)'; Snd.play('click'); renderTalents(); }
+function talTipHTML(n, compact) { const s = talNodeState(n), tr = TALENTS[talCls][n.bi];
+  let h = `<div class="tn" style="--tc:${tr.col}"><span class="tic">${n.ic}\uFE0E</span>${n.n}${n.cap ? ' <em>Capstone</em>' : ''}</div><div class="ts">${tr.name} · Tier ${n.t} · Rank <b>${s.r}/${n.m}</b>${s.pend ? ' <span class="pd">pending</span>' : ''}</div>`;
+  if (s.r > 0) h += `<div class="tcur">${s.r < n.m ? '<span>Current:</span> ' : ''}${talDesc(n, s.r)}</div>`;
+  if (s.r < n.m) h += `<div class="tnext"><span>${s.r ? 'Next rank:' : n.m > 1 ? 'Rank 1:' : ''}</span> ${talDesc(n, s.r + 1)}</div>`;
+  if (s.r < n.m && s.why && s.why !== 'max') h += `<div class="treq">${s.why === 'tier' ? `Requires ${talNeed(n)} points in ${tr.name} (${treeSpent(talCls, n.bi, talDraft, n.t)}/${talNeed(n)})` : s.why === 'req' ? `Requires ${TAL_BY_ID[talCls + ':' + n.req].n} (${tRank(talDraft, TAL_BY_ID[talCls + ':' + n.req])}/${TAL_BY_ID[talCls + ':' + n.req].m})` : 'No talent points available'}</div>`;
+  if (!compact && PC) h += `<div class="thint">${s.r < n.m && !s.why ? 'Click: add a point' : ''}${s.r > s.c ? (s.r < n.m && !s.why ? ' · ' : '') + 'Right-click: remove' : ''}</div>`;
+  return h; }
+function talHover(id) { const box = $('talHov'); if (!box) return; const n = id && TAL_BY_ID[talCls + ':' + id], el = id && $('tn_' + id);
+  if (!PC || !n || !el) { box.classList.remove('on'); return; }
+  box.innerHTML = talTipHTML(n); box.classList.add('on'); const v = $('talView'); let x = 0, y = 0, e = el; while (e && e !== v) { x += e.offsetLeft; y += e.offsetTop; e = e.offsetParent; }
+  const bw = box.offsetWidth, bh = box.offsetHeight, vw = v.clientWidth; let lx = x + el.offsetWidth + 10; if (lx + bw > vw) lx = x - bw - 10; if (lx < 0) lx = Math.max(0, Math.min(vw - bw, x - bw / 2));
+  let ly = y - 6; ly = Math.max(0, Math.min(v.clientHeight - bh, ly)); box.style.left = lx + 'px'; box.style.top = ly + 'px'; }
+function renderTalents() {
+  const tabs = $('talTabs'); tabs.innerHTML = '';
+  for (const id in TALENTS) { const b = document.createElement('button'); const fp = talentPoints(id).free; b.innerHTML = CLASSES[id].name + (fp ? ` <i class="tfp">${fp}</i>` : ''); b.className = id === talCls ? 'on' : ''; b.dataset.id = id; b.onclick = () => talSetClass(id); tabs.appendChild(b); }
+  const cl = classLevel(talCls), tp = talentPoints(talCls, talDraft), pend = talPend(), T = TALENTS[talCls];
+  $('talHead').innerHTML = `<canvas></canvas><div class="lv"><b>${CLASSES[talCls].name}</b> · Class Lv ${cl.lvl}/${CLASS_LV_MAX}<div class="bar"><i style="width:${cl.need ? Math.round(cl.into / cl.need * 100) : 100}%"></i></div>` +
+    `<span class="xp">${cl.need ? cl.into + ' / ' + cl.need + ' class XP' : 'Max level'}</span></div>` +
+    `<div class="pts" id="talPts"><b>${tp.free}</b>available<small>${tp.spent}/${tp.total} spent</small></div>`;
+  heroPortrait($('talHead').querySelector('canvas'), talCls, save.outfit, 1.3);
+  const sp = $('talSpecs'); sp.innerHTML = '';
+  T.forEach((tr, bi) => { const b = document.createElement('button'); b.className = bi === talSpec ? 'on' : ''; b.style.setProperty('--tc', tr.col); b.dataset.t = bi;
+    b.innerHTML = `<span class="sic">${tr.ic}\uFE0E</span>${tr.name}<b>${treeSpent(talCls, bi, talDraft)}</b>`; b.onclick = () => talSetSpec(bi); sp.appendChild(b); });
+  const view = $('talView'), track = $('talTree'); track.innerHTML = ''; view.classList.toggle('ov', talOv); track.style.setProperty('--sp', talSpec); view.style.setProperty('--th', (track.offsetHeight || 520) + 'px');
+  T.forEach((tr, bi) => { const spent = treeSpent(talCls, bi, talDraft), tree = document.createElement('div'); tree.className = 'ttree' + (bi === talSpec ? ' cur' : ''); tree.style.setProperty('--tc', tr.col); tree.dataset.t = bi;
+    let h = `<div class="tth" data-t="${bi}"><span class="sic">${tr.ic}\uFE0E</span>${tr.name}<b>${spent}</b></div><div class="tgrid"><div class="temb">${tr.ic}\uFE0E</div>`;
+    for (let t = 2; t <= 7; t++) { const need = TPER * (t - 1), have = treeSpent(talCls, bi, talDraft, t); if (have < need) h += `<div class="tlock" style="--t:${t}">🔒\uFE0E<br>${need}</div>`; }
+    for (const n of tr.nodes) if (n.req) { const q = TAL_BY_ID[talCls + ':' + n.req]; h += `<div class="tarr${tRank(talDraft, q) >= q.m ? ' on' : ''}" style="--c:${n.c};--t:${q.t};--g:${n.t - q.t}"></div>`; }
+    for (const n of tr.nodes) { const s = talNodeState(n);
+      h += `<button class="tnode ${s.st}${s.pend ? ' pend' : ''}${n.cap ? ' cap' : ''}${talPick === n.id ? ' pick' : ''}" id="tn_${n.id}" data-node="${n.id}" style="--c:${n.c};--t:${n.t}" aria-label="${n.n} ${s.r} of ${n.m}"><span class="ti">${n.ic}\uFE0E</span><i class="rk">${s.r}/${n.m}</i></button>`; }
+    tree.innerHTML = h + '</div>'; track.appendChild(tree); });
+  // footer: selected talent (phone) or help (PC)
+  const tip = $('talTip'), n = talPick && TAL_BY_ID[talCls + ':' + talPick];
+  if (n && !PC) { const s = talNodeState(n); tip.innerHTML = `<div class="tbtns"><button class="buy tminus" id="btnTalMinus" ${s.r > s.c ? '' : 'disabled'} aria-label="Remove point">−</button><button class="buy tplus" id="btnLearn" ${s.why ? 'disabled' : ''} aria-label="Add point">+</button></div>` + talTipHTML(n, true) + (talMsg ? `<div class="tmsg">${talMsg}</div>` : '');
+    $('btnLearn').onclick = () => talAdd(n.id); $('btnTalMinus').onclick = () => talRemove(n.id); }
+  else tip.innerHTML = (talMsg ? `<div class="tmsg">${talMsg}</div>` : '') + `<div class="ts">${PC ? 'Hover a talent for details · click adds a point · right-click removes a pending one · <b>Q</b>/<b>E</b> or <b>LB</b>/<b>RB</b> switch tree · <b>LT</b>/<b>RT</b> class'
+      : 'Tap a talent to see it, tap again (or +) to add a point · swipe or pinch to switch trees'} · every ${TPER} points in a tree opens its next tier · 1 point per class level (max ${CLASS_LV_MAX}). Earn class XP by playing runs as ${CLASSES[talCls].name}.</div>`;
+  $('btnTalApply').textContent = pend.any ? `Apply ${pend.add ? '+' + pend.add : ''}${pend.add && pend.rem ? '/' : ''}${pend.rem ? '−' + pend.rem : ''}` : '✔ Apply';
+  $('btnTalApply').disabled = !pend.any; $('btnTalReset').disabled = !tp.spent;
+  if (PC && GF.el && GF.el.classList && GF.el.classList.contains('tnode')) talHover(GF.el.dataset.node); else talHover(PC && talPick);
+}
+function talMoveSel(dx, dy) { // keyboard: arrows walk the grid (and across trees on PC)
+  const T = TALENTS[talCls]; let n = talPick && TAL_BY_ID[talCls + ':' + talPick]; if (!n) { talPick = T[talSpec].nodes[0].id; renderTalents(); return; }
+  let bi = n.bi, best = null, bs = 1e9; const pool = PC ? T.flatMap(t => t.nodes) : T[bi].nodes, gx = m => m.bi * 5 + m.c;
+  for (const m of pool) { if (m === n) continue; const ddx = gx(m) - gx(n), ddy = m.t - n.t; if (dx && Math.sign(ddx) !== dx) continue; if (dy && Math.sign(ddy) !== dy) continue;
+    const sc = dx ? Math.abs(ddx) + Math.abs(ddy) * 3 : Math.abs(ddy) + Math.abs(ddx) * 3; if (sc < bs) { bs = sc; best = m; } }
+  if (!best && !PC && dx) { talSpec = (talSpec + dx + 3) % 3; best = T[talSpec].nodes.slice().sort((a, b) => Math.abs(a.t - n.t) - Math.abs(b.t - n.t) || (dx > 0 ? a.c - b.c : b.c - a.c))[0]; }
+  if (best) { talPick = best.id; talSpec = best.bi; Snd.play('click'); renderTalents(); } }
+function talKey(code) { // talents-screen keys; true = handled
+  if (code === 'KeyQ' || code === 'PageUp') { talSetSpec(talSpec - 1); return true; } if (code === 'KeyE' || code === 'PageDown') { talSetSpec(talSpec + 1); return true; }
+  if (code === 'BracketLeft') { talCycleClass(-1); return true; } if (code === 'BracketRight') { talCycleClass(1); return true; }
+  const mv = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] }[code];
+  if (mv && !GP.conn) { const f = document.activeElement; if (f && f.classList && f.classList.contains('tnode')) f.blur(); talMoveSel(mv[0], mv[1]); return true; }
+  if ((code === 'Enter' || code === 'NumpadEnter' || code === 'Space' || code === 'Equal' || code === 'NumpadAdd') && talPick) { const f = document.activeElement; if (f && f.tagName === 'BUTTON' && !f.classList.contains('tnode')) return false; talAdd(talPick); return true; }
+  if ((code === 'Backspace' || code === 'Delete' || code === 'Minus' || code === 'NumpadSubtract') && talPick) { talRemove(talPick); return true; }
+  if (code === 'KeyR') { talReset(); return true; } if (code === 'KeyA' && talPend().any) { talApply(); return true; }
+  return false; }
+// pointer / touch wiring for the trees (event delegation; the trees are re-rendered on every change)
+(function talWire() { const view = $('talView'); let pts = new Map(), d0 = 0, sw = null, lastType = 'mouse';
+  $('talents').addEventListener('pointerdown', e => { lastType = e.pointerType || 'mouse'; if (e.isPrimary) pts.clear(); pts.set(e.pointerId, [e.clientX, e.clientY]); // whole screen (pinching out of the small overview can start anywhere); a new first finger = every earlier touch has ended
+    if (pts.size === 2) { const [a, b] = [...pts.values()]; d0 = Math.hypot(a[0] - b[0], a[1] - b[1]); sw = null; } else if (pts.size === 1 && !PC && view.contains(e.target)) sw = { x: e.clientX, y: e.clientY, t: performance.now() }; });
+  window.addEventListener('pointermove', e => { if (!pts.has(e.pointerId)) return; pts.set(e.pointerId, [e.clientX, e.clientY]);
+    if (pts.size === 2 && d0 > 20) { const [a, b] = [...pts.values()], d = Math.hypot(a[0] - b[0], a[1] - b[1]); // pinch in = overview of all 3 trees, pinch out = back to one
+      if (!talOv && d < d0 * 0.72) { talOv = true; d0 = d; renderTalents(); } else if (talOv && d > d0 * 1.3) { talOv = false; d0 = d; renderTalents(); } } });
+  const up = e => { const s = sw; pts.delete(e.pointerId); if (pts.size) return; sw = null; if (!s || PC) return; const dx = e.clientX - s.x, dy = e.clientY - s.y;
+    if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.4 && performance.now() - s.t < 900) { view._swiped = performance.now(); talSetSpec(talSpec + (dx < 0 ? 1 : -1)); } };
+  window.addEventListener('pointerup', e => { if (pts.has(e.pointerId)) up(e); }); window.addEventListener('pointercancel', e => { pts.delete(e.pointerId); if (!pts.size) sw = null; }); // on window: re-rendering mid-gesture detaches the touched node
+  view.addEventListener('click', e => { if (view._swiped && performance.now() - view._swiped < 400) return; const hd = e.target.closest('.tth'); if (hd) { talSetSpec(+hd.dataset.t); return; }
+    const tr = e.target.closest('.ttree'); if (talOv && tr) { talSetSpec(+tr.dataset.t); return; }
+    const b = e.target.closest('.tnode'); if (!b) return; const id = b.dataset.node;
+    if (e.detail === 0 || GF.act || lastType !== 'touch' || PC) { talAdd(id); return; } // controller A / keyboard / mouse: add a point
+    if (talPick === id && talTouchSel === id) talAdd(id); else { talPick = talTouchSel = id; talMsg = ''; Snd.play('click'); renderTalents(); } }); // touch: 1st tap shows, 2nd tap adds
+  view.addEventListener('contextmenu', e => { const b = e.target.closest('.tnode'); if (!b) return; e.preventDefault(); talRemove(b.dataset.node); });
+  view.addEventListener('mouseover', e => { if (!PC) return; const b = e.target.closest('.tnode'); if (b) talHover(b.dataset.node); });
+  view.addEventListener('mouseleave', () => { if (PC) talHover(talPick); });
+})();
+const talMig = (function migrateTalents19() { // v19: WoW-style trees — every point spent in the old 3-branch trees comes back unspent (and the level cap rises 42 -> 51)
+  let had = false; save.talents = save.talents || {};
+  if ((save.talV | 0) < TAL_V) { for (const c in save.talents) { const tr = save.talents[c]; if (tr && Object.keys(tr).some(k => tr[k])) had = true; save.talents[c] = {}; } save.talV = TAL_V; }
+  for (const c in save.talents) { const tr = save.talents[c]; if (!TALENTS[c] || !tr || typeof tr !== 'object') { delete save.talents[c]; continue; } // unknown ids / bad ranks are cleaned; an invalid tree is refunded
+    for (const k of Object.keys(tr)) { const n = TAL_BY_ID[c + ':' + k]; if (!n || !(+tr[k] > 0)) delete tr[k]; else tr[k] = Math.min(n.m, Math.floor(+tr[k])); }
+    if (!talValid(c, tr) || talentPoints(c, tr).spent > classLevel(c).lvl) save.talents[c] = {}; }
+  if (had) save.notice = Object.assign({}, save.notice, { tal19: 1 }); persist(); return had; })();
 const achRetro = achInit();
 const wlRefund = (function migrateWarlockTalents() { // v8: Warlock tree reworked → refund every point spent in the old tree
   const tr = save.talents && save.talents.warlock; if (!tr) return false; const ok = new Set(); for (const b of TALENTS.warlock) for (const n of b.nodes) ok.add(n.id);
@@ -5697,6 +6200,7 @@ const wlRefund = (function migrateWarlockTalents() { // v8: Warlock tree reworke
 function showNotice(txt) { const n = $('notice'); n.textContent = txt; n.classList.add('on'); clearTimeout(n._t); n._t = setTimeout(() => n.classList.remove('on'), 8000); n.onclick = () => n.classList.remove('on'); }
 goTitle();
 if (achRetro.length) setTimeout(() => titleNote(`${achRetro.length} achievement${achRetro.length > 1 ? 's' : ''} unlocked from your past hunts — see Achievements & Wardrobe`), 400);
+if (save.notice && save.notice.tal19 === 1) { setTimeout(() => showNotice('✦ Talents are now full talent trees — all your points were refunded, spend them again (level cap raised to 51)'), 700); save.notice.tal19 = 2; if (save.notice.wl8 === 1) save.notice.wl8 = 2; persist(); }
 if (save.notice && save.notice.wl8 === 1) { setTimeout(() => showNotice('☣ Warlock talents were reworked — your points were refunded'), 700); save.notice.wl8 = 2; persist(); }
 requestAnimationFrame(frame);
 if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => { }));
@@ -5727,7 +6231,10 @@ if (DEBUG) window.VS = {
   choices: () => [...document.querySelectorAll('#choices .card')].map(b => b.dataset.id), cxp: (c, n) => { save.cxp[c] = n; persist(); }, tal: () => G && G.tal, stats: () => P && ({ pierce: P.pierce, minion: P.minion, crit: P.crit, dmg: P.dmg, extraShade: P.extraShade }),
   kill: () => { GOD = false; G.revived = true; P.hp = 0; playerDown(); }, chest: () => { (G.pendingChest = G.pendingChest || []).push('elite'); }, shards: n => { save.shards += n; persist(); }, reset: () => { localStorage.removeItem(SAVE_KEY); clearRun(); save = loadSave(); },
   bowRange: () => P && bowRange(wlv('bow') || 1), pool: c => Object.keys(WDEF).filter(k => WDEF[k].cls === c), dmgTest: (far) => { const e = spawnEnemy('bone', { x: P.x + (far ? 220 : 60), y: P.y }); e.hp = e.maxHp = 1e9; const c = P.crit; P.crit = 0; const d = damage(e, 10, { arrow: true }); P.crit = c; e.dead = true; return d; },
-  allTal: c => { save.cxp[c] = 1e6; const tr = save.talents[c] = {}; for (const b of TALENTS[c]) for (const n of b.nodes) tr[n.id] = 1; persist(); return talentPoints(c); }, talCount: () => Object.fromEntries(Object.keys(TALENTS).map(c => [c, TALENTS[c].reduce((a, b) => a + b.nodes.length, 0)])),
+  allTal: c => { save.cxp[c] = 1e6; const tr = save.talents[c] = {}; for (const b of TALENTS[c]) for (const n of b.nodes) tr[n.id] = n.m; persist(); return talentPoints(c); }, talCount: () => Object.fromEntries(Object.keys(TALENTS).map(c => [c, TALENTS[c].reduce((a, b) => a + b.nodes.length, 0)])),
+  spec: (c, bi, pts) => { save.cxp[c] = 1e6; const tr = save.talents[c] = {}; let left = pts == null ? CLASS_LV_MAX : pts; const order = [bi, ...[0, 1, 2].filter(x => x !== bi)]; // auto-spend: fill tree bi tier by tier, then the others
+    for (const b of order) for (let t = 1; t <= 7; t++) for (const n of TALENTS[c][b].nodes.filter(x => x.t === t)) while (left > 0 && !talCanAdd(c, n, tr, left)) { tr[n.id] = tRank(tr, n) + 1; left--; }
+    persist(); return talentPoints(c); }, talSet: (c, o) => { save.talents[c] = o; persist(); }, talDraft: () => talDraft, talPick: () => talPick, talSpec: () => talSpec,
   cds: () => G.weapons.map(w => ({ id: w.id, t: +w.t.toFixed(2), max: w.cdMax && +w.cdMax.toFixed(2), wait: !!w.wait })),
   saveRun: () => saveRun(), run: () => loadRun(), cont: () => continueRun(), meta: () => JSON.parse(JSON.stringify(save)),
   aff: () => { const l = enemies.filter(e => !e.dead); return { alive: l.length, afflicted: l.filter(e => afCount(e)).length, rot: l.filter(e => e.rotT > 0).length, dread: l.filter(e => e.agT > 0).length, vol: l.filter(e => e.volT > 0).length, maxRot: Math.max(0, ...l.map(e => e.rotT > 0 ? e.rot : 0)), spread: P.spread }; },
