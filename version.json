@@ -1,16 +1,15 @@
 {
- "version": "28",
+ "version": "29",
  "date": "2026-10-23",
  "minLauncher": "2.0.0",
  "notes": [
-  "Both maps are now much more alive. Each run has a new random layout of landmarks, pots, crates and buried treasure to find.",
-  "Random events can pop up during a run: Ember Rain, a Vault Thief to chase down, a Hunt, thick Fog, a Swarm and a mysterious Altar.",
-  "Find the Spirit Shrine on each map and pick a free blessing. Claim landmarks (stone circles, forges, crypts and more) for rewards.",
-  "Gloomwood has new monsters: Puffcaps, Hornets, Shamans, Lurkers, Goblin Thieves and a new mini-boss, The Hollow Stag.",
-  "The Ashen Citadel is now a fire-and-metal fortress with its own monsters: Cinderhounds, Pyromancers, Slags that split, Automatons, Gargoyles and a new boss, The Molten Tyrant.",
-  "New weather and details on both maps: fireflies, mist and blood moons in Gloomwood, smoke and embers in the Citadel.",
-  "The Armory has 24 new talents, including a whole new fourth tree, Wayfarer, with talents for treasure, events and shrines. Reset still refunds every shard.",
-  "Old saves keep all their talents and progress."
+  "Easier-to-read alerts: wave, boss and event messages are now short, plain and big, with a dark backing so they stand out in a busy fight.",
+  "Every Summoner summon now has its own look: imps, archers, wraiths, hounds, familiars and the rest each have their own shape, size, colours and animation, so you can tell them apart at a glance.",
+  "XP now drops as gems you pick up, like in Vampire Survivors. Purple, blue, red and green gems are worth more as they go up. Bosses and elites drop a big gem. Your pickup radius, Magnet and vacuum all pull gems in.",
+  "The base pickup radius is bigger, and the level curve is back to normal, so levelling feels about the same as before if you collect your gems.",
+  "Levelling up in a run is about 20% slower after level 20 (each level past 20 needs 25% more XP). Levels 1 to 20 are as fast as before. Class levels and talent points are not affected.",
+  "Campfires no longer heal forever. Each one heals for a total of 5 seconds while you stand by it (the timer pauses when you step away), then burns out. A ring around the fire shows how much is left.",
+  "Old saves load fine. Spent campfires and gems on the ground are kept when you resume a run."
  ],
  "files": [
   {
@@ -35,8 +34,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "7ce7db171fbbcb82b5d6c2842b89a2b609866c0650b5ad36041d2afe566f6338",
-   "size": 1231784
+   "sha256": "6a7190680fb135ef4ed5bac5d660088488f9215403d1092d1349421aef0a6a24",
+   "size": 1256175
   },
   {
    "name": "manifest.webmanifest",
@@ -45,7 +44,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "a6f3405e6ac98037f361c0256c5009cd7300c9b579a77f29eab3ca10cb8451eb",
+   "sha256": "d79c32863e637c560b9ffe0bcf077374386d4d5ec11264d0c0c0f3cbdb8fc04c",
    "size": 1466
   }
  ]
