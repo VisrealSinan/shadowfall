@@ -1,13 +1,18 @@
 {
- "version": "31",
+ "version": "32",
  "date": "2026-10-23",
  "minLauncher": "2.0.0",
  "notes": [
-  "Level-up cards now look like real trading cards: a rarity frame and gem, a picture window, a name banner, a type line, a text box and level pips. Evolution cards get a gold holo foil, and the reroll cards match.",
-  "Heroes have new poses: they face up and down as well as left and right, a dodge pose with afterimages when you jump on the move, a brief moment of invulnerability (a fifth of a second) when you start a jump, and a proper death animation (stagger, fall, fade away).",
-  "Enemies now face up and down, flash red as they wind up an attack, and die in three styles: crumble to dust, burst into pieces, or collapse. The number of bodies on screen is capped so phones stay smooth.",
-  "Every class has its own talent tree backgrounds, one for each of its three trees, such as a stained-glass chapel for the Knight, blueprints for the Engineer and a clock face for the Chronomancer.",
-  "The Armory has a new look: stone walls, wooden weapon racks and flickering torchlight instead of the plain blue, with a scene for each Armory branch."
+  "Every race and class combination now has its own look. Each race has its own pixel body: build, ears, horns or tusks, face, hair, tails and markings. Each class's gear picks up race-flavoured metals and trims, like Dwarf pauldrons and braided beards, Elf filigree and Orc iron. The new look shows in every pose, facing, menu portrait, armour set and with the gear toggle.",
+  "The Shade is now a proper pixel hero: a smoky, see-through body with glowing soul-eyes, wisps and legs that fade into mist.",
+  "The Ranger's Shadow Hawk is a real bird now instead of a green blob. It swoops in, flaps, folds its wings and dives onto its target with a violet smoke trail. The evolved Stormwing Roc gets blue storm plumage, and falling stars now twinkle like stars.",
+  "Talent trees get full scenes. They have depth, props and lighting: a cathedral with stained glass and pews for the Knight, a gear-filled workshop for the Engineer, a bubbling lab for the Alchemist, a tavern stage for the Bard, a gothic altar under a blood moon for the Blood Knight, a clocktower for the Chronomancer, a neon studio for the Maestro, a loom sanctum for the Unraveler, a grove for the Druid, a graveyard and crypt for the Reaper, and a scene for every other class too. Each scene has soft torchlight.",
+  "Talent nodes and connector lines now match each class, with stone, brass, wood, gold, iron, neon, thread, vine, bone and crystal frames. Locked, available and owned nodes still show their usual colours.",
+  "Every skill now has its own sound. All 165 skills get a unique cast sound and a deeper evolved version, and all 19 ultimates have their own sound. Each enemy type has its own death sound, bosses get big signature death sounds, and your hero's death sound fits their race. Sounds are made on the fly when you pick a class, so loading stays fast. Rapid-fire sounds are throttled so they never turn into noise. Your volume and mute settings still apply.",
+  "The race and class select screens are no longer bland. Each race shows its homeland behind the cards: Elf forest arches, a Dwarf forge hall, the Shade's void vortex, moonlit Cat Girl rooftops, an Ogre swamp bonfire, a Troll river bridge, Kitsune torii under sakura and a Scaleborn jungle ziggurat. The scene crossfades as you pick a race. Class select is now a hero hall: a campfire camp in Gloomwood or the Citadel's stained-glass great hall. Your hero stands on a lit pedestal, and the colours shift to match the class you hover or pick. Cards get framed borders, nameplates, iron locks and crystal Shard badges. Text stays readable, and taps and gamepad focus work as before. Before and after screenshots are in playtest-v32.",
+  "Level-up and reroll cards now match the talent tree they belong to. Every class skill and evolution card takes that tree's look: its frame material (Knight stone, Engineer brass, Unraveler woven thread, Rogue iron, Warlock bone and more), its colours, its sigil on the card back, and its talent scene as the card art, such as the Knight's stained glass, the Engineer's blueprints or the Unraveler's purple threads. A tree badge shows which spec the card feeds. Skills that don't belong to one tree use their class's look. Rarity is still easy to read from the gem, the glowing border and the gold foil on evolutions.",
+  "Neutral cards now come from Pip's travelling jester stall. Shared passives, potions and Shard caches get a candy-striped frame, a harlequin backdrop, bunting, twinkling sparkles, a wobbling icon and Pip, a cheeky mimic chest in a jester hat. Before and after card screenshots for phone and PC are in playtest-v32.",
+  "The talent screen is no longer a wall of blue. The whole page now takes on your class's colours, including the background, header, class and tree tabs, info box, and the Reset, Apply and Back buttons. Behind it sits a soft, blurred glow of the class scene. Each class has its own look, like warm gold and stone for the Knight, brass and copper for the Engineer, green and amber for the Alchemist, neon magenta and cyan for the Neural Maestro, crimson for the Blood Knight, bronze and teal for the Chronomancer, forest green for the Druid and fel green for the Warlock. Text stays easy to read and the Back button always stands out."
  ],
  "files": [
   {
@@ -32,8 +37,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "073efb9ee5f73fcd6c81e2159090ef06887fd93bc5d708e619590f7d97e9dba8",
-   "size": 1568687
+   "sha256": "3e4ec8615e81304bda6d3ad830e98d194ddc51da084d52a0493a24c188606ba2",
+   "size": 1709348
   },
   {
    "name": "manifest.webmanifest",
@@ -42,7 +47,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "02906ef2c055113d0872294b2b7a8494431ca104e74dd075ea2e8ed1cf8a6870",
+   "sha256": "2980338f99725efe707c47795ea1ff4399876ad86756b4dd3ae712d5e4806234",
    "size": 1466
   }
  ]
