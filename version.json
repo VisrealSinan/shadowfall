@@ -1,15 +1,20 @@
 {
- "version": "29",
+ "version": "30",
  "date": "2026-10-23",
  "minLauncher": "2.0.0",
  "notes": [
-  "Easier-to-read alerts: wave, boss and event messages are now short, plain and big, with a dark backing so they stand out in a busy fight.",
-  "Every Summoner summon now has its own look: imps, archers, wraiths, hounds, familiars and the rest each have their own shape, size, colours and animation, so you can tell them apart at a glance.",
-  "XP now drops as gems you pick up, like in Vampire Survivors. Purple, blue, red and green gems are worth more as they go up. Bosses and elites drop a big gem. Your pickup radius, Magnet and vacuum all pull gems in.",
-  "The base pickup radius is bigger, and the level curve is back to normal, so levelling feels about the same as before if you collect your gems.",
-  "Levelling up in a run is about 20% slower after level 20 (each level past 20 needs 25% more XP). Levels 1 to 20 are as fast as before. Class levels and talent points are not affected.",
-  "Campfires no longer heal forever. Each one heals for a total of 5 seconds while you stand by it (the timer pauses when you step away), then burns out. A ring around the fire shows how much is left.",
-  "Old saves load fine. Spent campfires and gems on the ground are kept when you resume a run."
+  "Eight new classes to unlock with Shards, and each one stays unlocked once you buy it: Knight (Paladin) 500, Engineer 600, Alchemist 650, Bard 700, Blood Knight 900, Chronomancer 1400, Neural Maestro 1800 and Visreal the Unraveler 2000.",
+  "Every new class has a main attack, 7 more skills, its own SIGNATURE skill and evolutions, plus a class passive, 3 talent trees, 5 achievements, 5 armour sets, a pixel hero and a portrait.",
+  "Knight (Paladin): a holy tank with a shield, consecrated ground and judgement from above. Engineer: turrets, a mortar nest, mines and a tesla coil do the fighting, with a repair drone to patch you up. Alchemist: throws vials that leave fire, poison and frost puddles that react with each other.",
+  "Bard: songs that buff you and blast foes, building up to a big crescendo. Blood Knight: spends his own health for huge hits and heals it back by drawing blood. Chronomancer: slows, rewinds and stops time, then lets every stored hit land at once.",
+  "Neural Maestro (Ghalrym's class): an AI music producer whose beats pulse out, backed by holographic anime cat-girl idols who dance and fire heart beams.",
+  "Visreal the Unraveler: a purple damage-over-time class that stacks poison, burning and curses on foes and makes them pop together with Unravel.",
+  "New: ULTIMATES. Every class (all the old ones, Paragon and the eight new ones) now has its own Ultimate move. Max out all six of your skills in a run and a big alert tells you it is ready.",
+  "Fire your Ultimate with R on PC, Y on a gamepad, or the glowing ✹ button on phones. It has a long cooldown, and if you don't fire it, it fires itself a few seconds after it is ready.",
+  "The Druid gets three Ultimates: Gaia's Wrath in normal form, Moonclaw Frenzy in Cat form and World-Tree Awakening in Tree form. It changes with your form.",
+  "A few Ultimates: Thousand Cuts (Rogue), Eclipse of Ruin (Warlock), Skyfall Barrage (Ranger), Event Horizon (Rift), Heaven's Gate (Knight), Orbital Strike (Engineer), Timeline Collapse (Chronomancer), Neko Idol World Tour (Maestro) and The Great Unweaving (Unraveler).",
+  "Ultimates have their own line in the damage meter, so you can see how much they did.",
+  "Old saves load fine. The old classes play the same as before, apart from the new Ultimate."
  ],
  "files": [
   {
@@ -34,8 +39,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "6a7190680fb135ef4ed5bac5d660088488f9215403d1092d1349421aef0a6a24",
-   "size": 1256175
+   "sha256": "04bf46a6f2906e099a26e9ab523abed658e1cae178aee0cc194fa82fa15e6a8f",
+   "size": 1510511
   },
   {
    "name": "manifest.webmanifest",
@@ -44,7 +49,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "d79c32863e637c560b9ffe0bcf077374386d4d5ec11264d0c0c0f3cbdb8fc04c",
+   "sha256": "6384631974fa842748924d095d79bc9ae434e73b839daccd3d034cb398815abd",
    "size": 1466
   }
  ]
