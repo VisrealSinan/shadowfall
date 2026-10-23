@@ -1,15 +1,16 @@
 {
- "version": "27",
+ "version": "28",
  "date": "2026-10-23",
  "minLauncher": "2.0.0",
  "notes": [
-  "Town visits are now saved: if you close the game in town, Continue brings you back to the shop with your gold and items intact.",
-  "You now arrive in town by the fountain, well away from the exit portal.",
-  "The town shop no longer shows a \"leaves in 9997s\" timer, and pop-up messages no longer hide behind the stage banner.",
-  "Armory buttons are bigger and easier to tap. On phones the three talent trees now have tabs, so you see one tree at a time.",
-  "The \"show my gear\" option now works with the pixel-art heroes.",
-  "Class screen on phones: the shard counter fits on one line, and tapping the locked map tells you how to unlock it.",
-  "Summoner minions hit a bit harder (familiars, archers, hounds, imps and the colossus)."
+  "Both maps are now much more alive. Each run has a new random layout of landmarks, pots, crates and buried treasure to find.",
+  "Random events can pop up during a run: Ember Rain, a Vault Thief to chase down, a Hunt, thick Fog, a Swarm and a mysterious Altar.",
+  "Find the Spirit Shrine on each map and pick a free blessing. Claim landmarks (stone circles, forges, crypts and more) for rewards.",
+  "Gloomwood has new monsters: Puffcaps, Hornets, Shamans, Lurkers, Goblin Thieves and a new mini-boss, The Hollow Stag.",
+  "The Ashen Citadel is now a fire-and-metal fortress with its own monsters: Cinderhounds, Pyromancers, Slags that split, Automatons, Gargoyles and a new boss, The Molten Tyrant.",
+  "New weather and details on both maps: fireflies, mist and blood moons in Gloomwood, smoke and embers in the Citadel.",
+  "The Armory has 24 new talents, including a whole new fourth tree, Wayfarer, with talents for treasure, events and shrines. Reset still refunds every shard.",
+  "Old saves keep all their talents and progress."
  ],
  "files": [
   {
@@ -34,8 +35,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "58b7b1a65301546e3e49ef1974184be3866364d602ac3cf14934e39a2c7b3a5e",
-   "size": 1140858
+   "sha256": "7ce7db171fbbcb82b5d6c2842b89a2b609866c0650b5ad36041d2afe566f6338",
+   "size": 1231784
   },
   {
    "name": "manifest.webmanifest",
@@ -44,7 +45,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "293f2ecd5c121458a2721f3b66f5a950f287aa3ac0b29f1323bef65caa4d2021",
+   "sha256": "a6f3405e6ac98037f361c0256c5009cd7300c9b579a77f29eab3ca10cb8451eb",
    "size": 1466
   }
  ]

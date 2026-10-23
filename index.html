@@ -713,6 +713,8 @@ canvas.hop{animation:hopk .55s ease-in-out;transform-origin:50% 90%}canvas.hopbi
 .mttabs button.on{color:#fff;border-color:var(--tc);box-shadow:0 0 10px color-mix(in srgb,var(--tc) 70%,transparent)}.mttabs button b{color:var(--tc);margin-left:4px}
 @media(max-width:699px){.mtrees{--ns:48px;--rp:58px;--pad:8px}.mttabs{display:flex}.mtrees .mtbr .ttree:not(.mton){display:none}.mtrees .tth{font-size:14px;height:34px}.mtrees .temb{font-size:180px}}
 @media(min-width:900px) and (min-height:760px){.mtrees{--ns:48px;--rp:58px;--pad:8px}}
+/* v28: a 4th branch (Wayfarer) - phone tabs shrink to fit four */
+@media(max-width:699px){.mttabs{gap:8px}.mttabs button{font-size:12px;padding:3px 2px;line-height:1.15;border-radius:10px;letter-spacing:-.2px}.mttabs button b{display:block;margin:1px 0 0}}
 </style>
 </head>
 <body>
@@ -4805,6 +4807,259 @@ PXA.glue = {
   jumpPhase() { const e = G.t - P.jAt; return e < JUMP_A ? 0 : e < JUMP_L ? ((e - JUMP_A) / (JUMP_L - JUMP_A) < 0.5 ? 1 : 2) : 3; },
 };
 
+/* ================= v28 NEW FOES: Gloomwood gets Puffcaps, Gloom Hornets, Moss Shamans, Mire Lurkers and the Hollow Stag (mini-boss);
+   the Ashen Citadel gets its own fire & metal roster: Cinder Hounds, Pyromancers, Slag Golems, Brass Automatons, Ember Gargoyles and
+   the Molten Tyrant (boss). Forest-only foes carry map:'forest', citadel foes map:'castle' (see onMap28 / pickType). ================= */
+Object.assign(ETYPES, {
+  puffcap: { name: 'Puffcap', fam: 'beast', hp: 16, spd: 44, dmg: 7, r: 11, xp: 2, t0: 150, size: 38, ai: 'chase', puff: '#9dff3b', map: 'forest', cap: 1.2 },
+  hornet: { name: 'Gloom Hornet', fam: 'beast', hp: 10, spd: 96, dmg: 7, r: 9, xp: 1, t0: 270, size: 34, ai: 'hornet', puff: '#ffc23a', fly: 1, pack: 3, cap: 1, map: 'forest' },
+  shaman: { name: 'Moss Shaman', fam: 'fae', hp: 44, spd: 34, dmg: 9, r: 13, xp: 5, t0: 420, size: 46, ai: 'shaman', puff: '#7ad428', cap: 0.8, map: 'forest' },
+  lurker: { name: 'Mire Lurker', fam: 'beast', hp: 70, spd: 46, dmg: 15, r: 14, xp: 6, t0: 600, size: 50, ai: 'lurker', heavy: true, puff: '#4a8a5a', cap: 1.1, map: 'forest' },
+  hstag: { name: 'The Hollow Stag', fam: 'beast', hp: 950, spd: 40, dmg: 24, r: 26, xp: 40, t0: 1e9, size: 92, ai: 'hstag', heavy: true, mini: true, puff: '#9dff3b' },
+  thief: { name: 'Goblin Thief', fam: 'beast', hp: 60, spd: 92, dmg: 0, r: 11, xp: 4, t0: 1e9, size: 40, ai: 'thief', puff: '#ffd24a' },
+  cinderhound: { name: 'Cinder Hound', fam: 'beast', hp: 26, spd: 80, dmg: 11, r: 13, xp: 3, t0: 120, size: 48, ai: 'cinderhound', puff: '#ff7a1e', map: 'castle' },
+  pyromancer: { name: 'Pyromancer', fam: 'undead', hp: 32, spd: 38, dmg: 10, r: 12, xp: 4, t0: 200, size: 46, ai: 'pyromancer', puff: '#ff8a3c', cap: 1.1, map: 'castle' },
+  slag: { name: 'Slag Golem', fam: 'construct', hp: 44, spd: 34, dmg: 11, r: 14, xp: 3, t0: 240, size: 46, ai: 'chase', puff: '#ff7a1e', split: 'slaglet', cap: 1.4, map: 'castle' },
+  slaglet: { name: 'Slagling', fam: 'construct', hp: 11, spd: 60, dmg: 6, r: 9, xp: 1, t0: 1e9, size: 30, ai: 'chase', puff: '#ff7a1e' },
+  automaton: { name: 'Brass Automaton', fam: 'construct', hp: 110, spd: 30, dmg: 17, r: 16, xp: 7, t0: 520, size: 54, ai: 'automaton', heavy: true, shield: 0.4, puff: '#ffc23a', cap: 1.2, map: 'castle' },
+  gargoyle: { name: 'Ember Gargoyle', fam: 'construct', hp: 60, spd: 70, dmg: 13, r: 13, xp: 6, t0: 720, size: 50, ai: 'gargoyle', puff: '#ff6a2a', fly: 1, cap: 1.2, map: 'castle' },
+  tyrant: { name: 'The Molten Tyrant', hp: 1150, spd: 34, dmg: 25, r: 32, xp: 85, size: 112, ai: 'tyrant', boss: true, heavy: true, puff: '#ff6a2a' },
+});
+for (const k of ['wolf', 'spitter', 'burrower', 'sprite']) ETYPES[k].map = 'forest';
+function onMap28(k) { const m = ETYPES[k].map; return !m || m === (mapOn() ? 'castle' : 'forest'); }
+Object.assign(EVS, { puffcap: 1.15, hornet: 1.3, slaglet: 1.1, thief: 1.05 });
+Object.assign(CSHW, { puffcap: 22, shaman: 20, lurker: 34, hstag: 30, thief: 20, cinderhound: 34, pyromancer: 18, slag: 34, slaglet: 34, automaton: 26, tyrant: 30 });
+Object.assign(WIND_AI, { shaman: 330, pyromancer: 340, cinderhound: 230, tyrant: 1e4, hstag: 1e4 });
+Object.assign(WIND_MELEE, { hornet: 1, lurker: 1, automaton: 1, gargoyle: 1 });
+Object.assign(WIND_ST, { dive: 1, spin: 1 });
+STAGES[1].subC = 'Dusk bats and cinder imps swarm the rafters'; STAGES[2].subC = 'Cinder hounds run · pyromancers burn · slag golems split';
+STAGES[3].subC = 'Grave rams charge · hollow cantors heal the horde'; STAGES[4].subC = 'Bulwark knights · brass automatons spin · a Juggernaut stirs';
+STAGES[5].subC = 'Ember gargoyles swoop · bone callers raise the dead'; STAGES[6].subC = 'Rune golems march · elites grow fiercer';
+STAGES[2].sub = 'Cinder skulls explode · bog spitters · puffcaps burst · ooze shades split'; STAGES[3].sub = 'Grave rams charge · gloom hornets dive · hollow cantors heal';
+STAGES[4].sub = 'Bulwark knights · moss shamans · a Hollow Stag stirs'; STAGES[5].sub = 'Barrow worms burrow · mire lurkers leap · bone callers raise the dead';
+const W28NAMES = { hornet: 'The hive is angry!', lurker: 'Something stirs in the mire!', puffcap: 'Spores on the wind!', cinderhound: 'The hounds are loose!', pyromancer: 'The pyre-choir sings!', slag: 'Molten slag pours in!', automaton: 'The engines wake!', gargoyle: 'Stone wings above!' };
+const MAPSUB28 = { wolf: 'cinderhound', spitter: 'pyromancer', burrower: 'automaton', sprite: 'gargoyle', splitter: 'slag' };
+function w28Pool(pool, t) { if (mapOn()) { for (let i = 0; i < pool.length; i++) if (MAPSUB28[pool[i]]) pool[i] = MAPSUB28[pool[i]]; }
+  else { if (t >= 300 && t < 480) pool.push('hornet'); if (t >= 720) pool.push('lurker'); if (t >= 160 && t < 300) pool.push('puffcap'); } }
+function bossList28() { return mapOn() ? ['tyrant', 'warden', 'mother', 'colossus', 'thornqueen'] : BOSS_ORDER; }
+function w28Mini() { const w = G.w28 || {}, n = w.mini = (w.mini || 0) + 1, stag = !mapOn() && n % 2 === 1, k = stag ? 'hstag' : 'juggernaut'; spawnEnemy(k);
+  announce(stag ? 'The Hollow Stag approaches!' : 'A Grave Juggernaut approaches!', stag ? 'Mini-boss · it charges, sprays spirit orbs and sows thorns' : 'Mini-boss · watch for its charge and slam', stag ? '#9dff3b' : '#c56bff', 'boss'); }
+/* fire patches left by cinder hounds, pyromancers and the Molten Tyrant (ticked & drawn by the v28 world layer) */
+let W28E = [];
+function w28Emb(x, y, r, life, dmg) { if (W28E.length > 46) W28E.shift(); W28E.push({ x, y, r, life, max: life, dmg: Math.max(1, dmg), tk: 0.2 }); }
+/* ---- AI: each returns [dx, dy, speed] through A28 (or null to keep chasing) ---- */
+const A28 = [0, 0, 0];
+const ao = (dx, dy, sp) => { A28[0] = dx; A28[1] = dy; A28[2] = sp; return A28; };
+const AI28 = {
+  hornet(e, def, d, dx, dy, sp, dt) {
+    if (e.st === 'tele') { e.stT -= dt; if (e.stT <= 0) { e.st = 'dive'; e.stT = 0.4; Snd.play('swish'); } return ao(e.dx, e.dy, 0); }
+    if (e.st === 'dive') { e.stT -= dt; if (e.stT <= 0) { e.st = null; e.ai = rand(2.4, 3.4); } return ao(e.dx, e.dy, e.spd * 2.7); }
+    if (e.ai <= 0 && d < 190 && e.tauntT <= 0) { e.st = 'tele'; e.stT = 0.38; e.dx = dx; e.dy = dy; return ao(dx, dy, 0); }
+    const w = Math.sin(G.t * 6 + e.seed * 5) * 0.9, nx = dx - dy * w, ny = dy + dx * w, l = Math.hypot(nx, ny) || 1; return ao(nx / l, ny / l, sp); },
+  shaman(e, def, d, dx, dy, sp, dt) {
+    if (e.ai <= 0 && d < 330) { e.ai = rand(3.6, 4.6); for (let i = 0; i < 3; i++) { const a = rand(TAU), r0 = i ? rand(34, 70) : rand(0, 14), tx = P.x + Math.cos(a) * r0, ty = P.y + Math.sin(a) * r0, L = 1.1 + i * 0.18;
+        effects.push({ k: 'warn', x: tx, y: ty, r: 28, life: L, max: L, dmg: e.dmg * 0.7, col: '#7ad428', goo: 1 }); effects.push({ k: 'lob', x: e.x, y: e.y - 14, x2: tx, y2: ty, life: L, max: L, col: '#9dff3b' }); } Snd.play('cast'); }
+    if (d < 160) return ao(-dx, -dy, sp * 0.8); if (d < 240) return ao(dx, dy, 0); return null; },
+  lurker(e, def, d, dx, dy, sp, dt) {
+    if (e.st === 'tele') { e.stT -= dt; if (e.stT <= 0) { e.st = 'leap'; e.stT = 0.5; e.lx = e.x; e.ly = e.y; Snd.play('swish'); } return ao(dx, dy, 0); }
+    if (e.st === 'leap') { e.stT -= dt; const q = 1 - Math.max(0, e.stT) / 0.5; e.x = e.lx + (e.tx - e.lx) * q; e.y = e.ly + (e.ty - e.ly) * q; if (e.stT <= 0) { e.st = null; e.ai = rand(3, 4.4); burst(e.x, e.y, '#4a8a5a', 10, 120, 3, 0.4); } return ao(dx, dy, 0); }
+    if (e.ai <= 0 && d < 250 && d > 50 && e.tauntT <= 0) { e.st = 'tele'; e.stT = 0.6; e.tx = P.x; e.ty = P.y; effects.push({ k: 'warn', x: P.x, y: P.y, r: 44, life: 1.1, max: 1.1, dmg: e.dmg * 1.1, col: '#ffb43a', boom: 1 }); Snd.play('tele'); return ao(dx, dy, 0); }
+    return null; },
+  hstag(e, def, d, dx, dy, sp, dt, dying) {
+    if (e.st === 'tele') { e.stT -= dt; if (e.stT <= 0) { e.st = 'charge'; e.stT = 0.85; Snd.play('swish'); } return ao(e.dx, e.dy, 0); }
+    if (e.st === 'charge') { e.stT -= dt; if (Math.random() < 0.5) burst(e.x, e.y + 14, '#9dff3b', 1, 40, 3, 0.4, true); if (e.stT <= 0) { e.st = null; e.ai = 1.4; } return ao(e.dx, e.dy, e.spd * 5.4); }
+    if (e.ai <= 0 && !dying) { e.ai = 3.1; const m = (e.ph = (e.ph || 0) + 1) % 3;
+      if (m === 1 && d < 420) { e.st = 'tele'; e.stT = 0.85; e.dx = dx; e.dy = dy; effects.push({ k: 'warn', line: 1, x: e.x, y: e.y, ang: Math.atan2(dy, dx), len: e.spd * 5.4 * 0.85 + 30, w: 46, life: 0.85, max: 0.85, dmg: 0, col: '#9dff3b' }); Snd.play('tele'); }
+      else if (m === 2) { const o = rand(TAU); for (let i = 0; i < 12; i++) fireEOrb(e.x, e.y - 20, o + i / 12 * TAU, 105, e.dmg * 0.5, '#9dff3b'); Snd.play('cast'); }
+      else { const a = Math.atan2(dy, dx); for (let i = 0; i < 6; i++) { const r0 = 40 + i * 42, L = 0.7 + i * 0.12; effects.push({ k: 'warn', x: e.x + Math.cos(a) * r0, y: e.y + Math.sin(a) * r0, r: 28, life: L, max: L, dmg: e.dmg * 0.8, col: '#7ad428', boom: 1 }); } Snd.play('tele'); } }
+    return null; },
+  thief(e, def, d, dx, dy, sp, dt) { const w = Math.sin(G.t * 2.2 + e.seed * 7) * 0.7, nx = -dx - dy * w, ny = -dy + dx * w, l = Math.hypot(nx, ny) || 1;
+    if (Math.random() < dt * 4 && parts.length < 330) parts.push({ x: e.x + rand(-6, 6), y: e.y - 8, vx: rand(-20, 20), vy: -30, life: 0.6, max: 0.6, s: 2, c: '#ffd24a', glow: true });
+    return ao(nx / l, ny / l, d > 520 ? sp * 0.35 : sp); },
+  cinderhound(e, def, d, dx, dy, sp, dt) {
+    if (e.st === 'dash') { e.stT -= dt; if ((e.emT = (e.emT || 0) - dt) <= 0) { e.emT = 0.11; w28Emb(e.x, e.y, 15, 2.2, e.dmg * 0.22); } if (e.stT <= 0) e.st = null; return ao(e.dx, e.dy, sp * 2.6); }
+    if (e.ai <= 0 && d < 230 && e.tauntT <= 0) { e.ai = rand(2.6, 4); e.st = 'dash'; e.stT = 0.45; e.dx = dx; e.dy = dy; }
+    return null; },
+  pyromancer(e, def, d, dx, dy, sp, dt) {
+    if (e.ai <= 0 && d < 340) { e.ai = rand(3.2, 4.4); const tx = P.x + (P.vx || 0) * P.spdPx * 0.4, ty = P.y + (P.vy || 0) * P.spdPx * 0.4;
+      effects.push({ k: 'warn', x: tx, y: ty, r: 42, life: 1.05, max: 1.05, dmg: e.dmg, col: '#ff8a3c', boom: 1, emb: 1 }); effects.push({ k: 'lob', x: e.x, y: e.y - 18, x2: tx, y2: ty, life: 1.05, max: 1.05, col: '#ff8a3c' }); Snd.play('cast'); }
+    if (d < 150) return ao(-dx, -dy, sp * 0.8); if (d < 235) return ao(dx, dy, 0); return null; },
+  automaton(e, def, d, dx, dy, sp, dt) {
+    if (e.st === 'tele') { e.stT -= dt; if (e.stT <= 0) { e.st = 'spin'; e.stT = 1.4; e.hT = 0; Snd.play('swish'); } return ao(dx, dy, 0); }
+    if (e.st === 'spin') { e.stT -= dt; if ((e.hT -= dt) <= 0) { e.hT = 0.45; if (d < 50 + P.r) hurtPlayer(e.dmg * 0.6, 'melee'); if (parts.length < 330) burst(e.x, e.y - 12, '#ffc23a', 4, 120, 2, 0.25, true); }
+      if (e.stT <= 0) { e.st = null; e.ai = rand(3.6, 5); } return ao(dx, dy, e.spd * 1.9); }
+    if (e.ai <= 0 && d < 150 && e.tauntT <= 0) { e.st = 'tele'; e.stT = 0.7; effects.push({ k: 'warn', x: e.x, y: e.y, r: 50, life: 0.7, max: 0.7, dmg: 0, col: '#ffc23a' }); Snd.play('tele'); return ao(dx, dy, 0); }
+    return null; },
+  gargoyle(e, def, d, dx, dy, sp, dt) {
+    if (e.st === 'tele') { e.stT -= dt; if (e.stT <= 0) { e.st = 'dive'; e.stT = 0.42; Snd.play('swish'); } return ao(e.dx, e.dy, 0); }
+    if (e.st === 'dive') { e.stT -= dt; if (e.stT <= 0) { e.st = null; e.ai = rand(3, 4.2); } return ao(e.dx, e.dy, 640); }
+    if (e.ai <= 0 && d < 260 && e.tauntT <= 0) { e.st = 'tele'; e.stT = 0.6; e.dx = dx; e.dy = dy; effects.push({ k: 'warn', line: 1, x: e.x, y: e.y, ang: Math.atan2(dy, dx), len: 290, w: 34, life: 0.78, max: 0.78, dmg: e.dmg * 1.2, col: '#ff6a2a' }); Snd.play('tele'); return ao(dx, dy, 0); }
+    if (d < 170) { const s = e.seed > 0.5 ? 1 : -1; return ao(-dy * s * 0.9 - dx * 0.3, dx * s * 0.9 - dy * 0.3, sp); } return null; },
+  tyrant(e, def, d, dx, dy, sp, dt, dying) {
+    if (!e.enr && e.hp < e.maxHp * 0.5) { e.enr = 1; e.spd *= 1.25; toast('The Molten Tyrant erupts in fury!', '#ff6a2a', 2.4); G.shake = 0.4; burst(e.x, e.y - 30, '#ff6a2a', 24, 200, 3.4, 0.6, true); }
+    if (e.st === 'tele') { e.stT -= dt; if (e.stT <= 0) e.st = null; return ao(dx, dy, 0); }
+    if (e.ai <= 0 && !dying) { e.ai = e.enr ? 2.7 : 3.4; const m = (e.ph = (e.ph || 0) + 1) % 3;
+      if (m === 1) { e.st = 'tele'; e.stT = 0.95; effects.push({ k: 'warn', x: e.x, y: e.y, r: 140, life: 0.95, max: 0.95, dmg: e.dmg * 1.15, col: '#ff6a2a', boom: 1 });
+        for (let i = 0; i < (e.enr ? 5 : 3); i++) { const a = rand(TAU), r0 = rand(40, 120), x = P.x + Math.cos(a) * r0, y = P.y + Math.sin(a) * r0, L = 1.2 + i * 0.12; effects.push({ k: 'warn', x, y, r: 38, life: L, max: L, dmg: e.dmg * 0.6, col: '#ff8a3c', boom: 1, emb: 1 }); effects.push({ k: 'lob', x: e.x, y: e.y - 50, x2: x, y2: y, life: L, max: L, col: '#ff6a2a', rock: 1 }); }
+        Snd.play('tele'); }
+      else if (m === 2) { for (let v = 0; v < 3; v++) G.later.push({ t: v * 0.45, f: () => { if (e.dead) return; const a0 = Math.atan2(P.y - e.y, P.x - e.x); for (let i = 0; i < 7; i++) fireEOrb(e.x, e.y - 30, a0 + (i - 3) * 0.16, 130, e.dmg * 0.45, '#ff8a3c'); Snd.play('cast'); } }); }
+      else { for (let i = 0; i < 4 && enemies.length < ECAP + 20; i++) { const a = i / 4 * TAU, x = e.x + Math.cos(a) * 60, y = e.y + Math.sin(a) * 60; spawnEnemy(i === 3 ? 'pyromancer' : 'cinderhound', { x, y }); summonFx(x, y); } toast('The Tyrant calls the hounds!', '#ff8a3c'); } }
+    return null; },
+};
+/* ---- pixel art for the new foes (same rules as the other px mobs: feet at y = 0, facing +x, frames 0-3 walk, w = wind-up) ---- */
+(() => {
+  const { ramp: R } = PXA, M = PXA.mobs, D = M.D, st = PXA.step;
+  Object.assign(M.FLOAT, { hornet: 1, gargoyle: 1 });
+  Object.assign(M.SCALE, { hstag: 0.9, tyrant: 0.9, automaton: 0.94, lurker: 0.94 });
+  const VOID = R(['#000000', '#02030a', '#05061a', '#0a0c28', '#121638']), YEL = R(['#6a4a08', '#c08a1c', '#ffd23a', '#fff0a8', '#ffffff'], 1);
+  const CAPR = R(['#2a0614', '#5a1028', '#962440', '#cc4a64', '#f490a0']), SPOT = R(['#8a8070', '#c8bca0', '#efe4c8', '#fffaf0', '#ffffff']), STEM = R(['#3a3428', '#6a6048', '#a89a78', '#d0c4a0', '#efe6cc']);
+  const SPORE = R(['#2a5a08', '#5aa014', '#9dff3b', '#d0ff9a', '#f4ffe0'], 1), AMBR = R(['#3a2004', '#7a4a08', '#c8860e', '#ffc23a', '#fff0a0']), CHIT = R(['#050408', '#0e0c14', '#1c1824', '#2e2838', '#4a4258']);
+  const WING = R(['#2a4060', '#4a6a90', '#80a8d0', '#c0e0ff', '#f4fbff']), EYER = R(['#5a0a0a', '#a01414', '#ff3a3a', '#ff9a8a', '#fff0e8'], 1);
+  const MOSS = R(['#0a1a08', '#16300e', '#2a5018', '#447a28', '#6aa83c']), BARK = R(['#1a1008', '#3a2a1c', '#6a4e30', '#8a6a44', '#b08a58']), MASKW = R(['#5a4a30', '#8a7450', '#b8a070', '#e0cc9c', '#fff4d0']);
+  const MIRE = R(['#06100c', '#0e2018', '#1a3a2a', '#2e5a40', '#4a8a5a']), MBEL = R(['#3a3a20', '#5a5a30', '#8a8a48', '#b8b870', '#e0e0a0']), TEETH = R(['#a89870', '#d8c8a0', '#efe2c0', '#fff4dc', '#ffffff']);
+  const STAG = R(['#06080a', '#101418', '#1e262a', '#34403e', '#526258']), ANTL = R(['#2a2418', '#4a4030', '#7a6a4c', '#b0a07a', '#e0d4b0']), GLW = R(['#1a5a10', '#3aa020', '#7ae83a', '#c0ff8a', '#f4ffe0'], 1);
+  const GOB = R(['#0a1a08', '#1a3410', '#2e5a1a', '#4a8a2a', '#7ac04a']), CLOTH = R(['#1a1008', '#3a2414', '#5a3a20', '#7a5430', '#9a7040']), SACK = R(['#3a2a10', '#6a4e24', '#9a7a40', '#c8a860', '#efd898']);
+  const GOLDT = R(['#5a3608', '#9a6a1c', '#d8a040', '#f0c860', '#fff0b0'], 1), CHAR = R(['#0c0806', '#1c1210', '#2e201a', '#46302a', '#664840']), EMB = R(['#6a1004', '#c23a0a', '#ff7a1e', '#ffc05a', '#fff2c8'], 1);
+  const EMBW = R(['#ff6a1a', '#ffb43a', '#ffe88a', '#fff4c0', '#ffffff'], 1), ROBR = R(['#1a0406', '#3a0a0e', '#6a1418', '#9a2a24', '#c84a3a']), BRASS = R(['#2a1a06', '#5a3a10', '#9a6a20', '#d8a840', '#fff0a0']);
+  const STEEL = R(['#14161c', '#2e333c', '#565c68', '#8a909e', '#c8ceda']), STONE = R(['#141418', '#24242c', '#3a3a46', '#5a5a68', '#84849a']), OBS = R(['#060406', '#120c10', '#22181c', '#36282c', '#504048']);
+  const BLUE = R(['#0a2a6a', '#1a5ac0', '#4fa0ff', '#9ad6ff', '#eefaff'], 1);
+  // generic 4-legged walker leg
+  const qleg = (b, hx, hy, ph, far, front, w, P1, P2, len = 1) => { const s = w ? (front ? (far ? 2 : 6) : -3) : Math.sin(ph) * 5 * len, lift = w ? 0 : Math.max(0, Math.cos(ph)) * 3 * len, fx = hx + s, fy = -1 - lift, kx = hx + s * 0.4 + (front ? -2 : 2) * len, ky = (hy + fy) / 2;
+    b.cap(hx, hy, kx, ky, 3 * len, 2 * len, P1, far ? 1 : 2); b.cap(kx, ky, fx, fy - 1, 2 * len, 1.5 * len, P1, far ? 1 : 2); b.rect(fx - 1.4 * len, fy - 1.6, 3 * len, 2.2, P2[far ? 0 : 1]); };
+
+  D.puffcap = (b, f, w) => { const t = f / 4 * TAU, hop = w ? 0 : Math.abs(Math.sin(t)) * 2.4, g0 = -hop, sw = w ? 1.18 : 1 + Math.sin(t * 2) * 0.04;
+    b.ell(-4, -1.2, 3.2, 1.6, STEM, 1, 0); b.ell(5, -1.2 - (f & 1), 3.2, 1.6, STEM, 2, 0);
+    b.ell(0, -9 + g0, 7.5, 8, STEM, 2, 1); b.tint((x, y) => x < -3, c => st(c, -1));
+    b.rect(1, -11 + g0, 1.6, 2.6, VOID[0]); b.rect(5, -11 + g0, 1.6, 2.4, VOID[0]); b.set(1.4, -10.6 + g0, w ? SPORE[4] : YEL[3]); b.set(5.4, -10.6 + g0, w ? SPORE[4] : YEL[3]); b.line(2, -6.5 + g0, 6, -6.8 + g0, STEM[0]);
+    b.ell(0, -19 + g0, 15 * sw, 9.5 * sw, CAPR, 2, 1); b.ell(0, -13.5 + g0, 13 * sw, 2.4, CAPR, 1, 0); for (let x = -11; x <= 11; x += 2.4) b.line(x * sw, -14 + g0, x * sw * 0.8, -12 + g0, CAPR[0]);
+    for (const [x, y, r] of [[-7, -21, 2.6], [2, -25, 2.2], [8, -18, 2.4], [-1, -18, 1.6], [-11, -16, 1.4], [10, -24, 1.3]]) b.ell(x * sw, y * sw + 1 + g0, r, r * 0.8, SPOT, 3, 0);
+    b.ell(-5 * sw, -25 * sw + g0, 4, 1.4, CAPR, 4, 0, -0.4);
+    if (w) for (let i = 0; i < 8; i++) { const a = i / 8 * TAU; b.set(Math.cos(a) * 18, -19 + Math.sin(a) * 12, SPORE[3]); } };
+
+  D.hornet = (b, f, w) => { const fl = f & 1, cy = -24 + (f === 1 || f === 2 ? -1 : 0), cur = w ? 1 : 0;
+    b.ell(-3, cy - 7 - fl * 3, 9, 3.6, WING, 2, 0, -0.5 - fl * 0.5); b.line(-10, cy - 3 - fl * 6, 2, cy - 7, WING[1]);
+    for (let i = 0; i < 3; i++) b.line(1 + i * 2, cy + 3, i * 2 - 1 + (fl ? 1 : 0), cy + 7, CHIT[2]);
+    b.ell(-7 - cur * 2, cy + 2 + cur * 3, 9, 6, AMBR, 2, 1, cur * 0.6); b.tint((x, y) => (x > -14 && x < 0) && Math.floor((x + 20) / 3) % 2 === 0 && (x - -7) ** 2 / 81 + (y - cy - 2) ** 2 / 36 < 1.3, () => CHIT[1]);
+    b.poly(cur ? [-11, cy + 9, -9, cy + 15, -7, cy + 9] : [-15, cy + 1, -21, cy + 3, -15, cy + 4], CHIT, 3, 0);
+    b.ell(3, cy - 1, 5.4, 5, CHIT, 2, 1); b.ell(9, cy - 2, 4.4, 4.2, CHIT, 3, 1); b.ell(10.5, cy - 3, 2, 2.2, EYER, 2, 0); b.set(11, cy - 4, EYER[4]);
+    b.line(11, cy - 6, 14, cy - 10, CHIT[3]); b.line(9, cy - 6, 10, cy - 11, CHIT[3]); b.line(12, cy + 1, 14, cy + 3, CHIT[3]);
+    b.ell(0, cy - 9 + fl * 4, 10, 3.8, WING, 3, 0, -0.9 + fl * 0.9); b.set(-4, cy - 12 + fl * 5, WING[4]); };
+
+  D.shaman = (b, f, w) => { const t = f / 4 * TAU, by = Math.sin(t * 2) * -0.6, sy = w ? -45 : -34 + Math.sin(t) * 1.2, sx = w ? 9 : 15;
+    b.cap(sx + 1, -1, sx, sy + 4, 1.3, 1.1, BARK, 2); b.line(sx + 1.6, -1, sx + 0.6, sy + 5, BARK[4]);
+    b.ell(-5, -1.2, 3.4, 1.5, BARK, 1, 0); b.ell(5, -1.2, 3.4, 1.5, BARK, 2, 0);
+    const P = [-10, -6 + by, -9, -20 + by, -4, -29 + by, 5, -29 + by, 10, -19 + by, 11, -5 + by]; for (let i = 0; i < 6; i++) P.push(11 - i * 4.3, -1.5 + by + (i % 2 ? -2.4 : 0.6)); b.poly(P, MOSS, 2, 1);
+    b.tint((x, y) => x < -4 && y > -18 + by, c => st(c, -1)); for (let i = 0; i < 7; i++) { const x = -8 + i * 2.8, y = -14 + ((i * 37) % 9) + by; b.line(x, y, x, y + 3, MOSS[4]); }
+    b.poly([-8, -23 + by, -6, -35 + by, 1, -41 + by, 8, -37 + by, 10, -27 + by, 6, -21 + by, -4, -21 + by], MOSS, 3, 1); b.ell(4, -29 + by, 5, 6, VOID, 0, 0);
+    b.poly([1, -33 + by, 7, -34 + by, 9, -28 + by, 7, -23 + by, 3, -23 + by, 1, -28 + by], MASKW, 3, 1); b.rect(2.4, -30 + by, 1.4, 2, VOID[0]); b.rect(6, -30 + by, 1.4, 2, VOID[0]); b.set(2.8, -29.5 + by, SPORE[3]); b.set(6.4, -29.5 + by, SPORE[3]); b.line(3, -25.5 + by, 7, -25.5 + by, MASKW[0]);
+    b.ell(-5, -33 + by, 3.4, 2, CAPR, 2, 1); b.set(-6, -34 + by, SPOT[3]); b.ell(-8, -27 + by, 2.4, 1.4, CAPR, 3, 1);
+    b.cap(4, -21 + by, sx - 1, sy + 9, 2.4, 1.8, MOSS, 3); b.ell(sx - 0.5, sy + 9, 2.2, 2.2, MASKW, 2, 1);
+    const orb = w ? 5 : 3.6; b.ell(sx, sy, orb, orb, SPORE, 2, 1); b.set(sx - 1, sy - 1.4, SPORE[4]); b.set(sx - 4, sy + 2, MOSS[4]); b.set(sx + 4, sy + 2, MOSS[4]); if (w) for (let i = 0; i < 6; i++) { const a = i / 6 * TAU; b.set(sx + Math.cos(a) * 8, sy + Math.sin(a) * 8, SPORE[3]); } };
+
+  D.lurker = (b, f, w) => { const t = f / 4 * TAU, cr = w ? 3 : 0, hy = -9 + cr + Math.sin(t * 2) * -0.4;
+    b.curve(-16, hy - 1, -24, hy + 2 + Math.sin(t) * 2, -26, -1, 4, 1, MIRE, 1);
+    qleg(b, -10, hy, t + Math.PI, 1, 0, w, MIRE, MBEL, 1.1); qleg(b, 9, hy, t, 1, 1, w, MIRE, MBEL, 1.1);
+    b.ell(-1, hy - 3, 18, 8.4, MIRE, 2, 1); b.ell(2, hy + 2, 13, 3.4, MBEL, 2, 0);
+    for (let i = 0; i < 6; i++) { const x = -14 + i * 4.8; b.poly([x - 2, hy - 9, x, hy - 13 - (i % 2) * 2, x + 2, hy - 9], MIRE, 3, 0); }
+    for (let i = 0; i < 9; i++) b.set(-12 + ((i * 47) % 24), hy - 6 + ((i * 29) % 6), MIRE[4]);
+    qleg(b, -6, hy, t, 0, 0, w, MIRE, MBEL, 1.1); qleg(b, 13, hy, t + Math.PI, 0, 1, w, MIRE, MBEL, 1.1);
+    const hx = 17, jy = hy - 2, op = w ? 5 : 1.2; b.ell(hx, jy - 3, 9, 5, MIRE, 3, 1); b.poly([hx - 4, jy + 1, hx + 11, jy + 1 + op, hx + 9, jy + 3 + op, hx - 4, jy + 4], MIRE, 2, 1);
+    b.poly([hx - 2, jy - 1, hx + 10, jy - 1, hx + 10, jy + op, hx - 2, jy + 1], VOID, 0, 0); for (let i = 0; i < 5; i++) { b.set(hx + i * 2.2, jy - 0.4, TEETH[3]); b.set(hx + 1 + i * 2.2, jy + op - 0.4, TEETH[2]); }
+    for (const x of [hx - 3, hx + 2]) { b.ell(x, jy - 8, 2.6, 2.6, MIRE, 3, 1); b.ell(x + 0.4, jy - 8.4, 1.6, 1.6, YEL, 2, 0); b.rect(x + 0.2, jy - 9.6, 0.8, 2.4, VOID[0]); } };
+
+  D.hstag = (b, f, w) => { const t = f / 4 * TAU, by = w ? 3 : -Math.abs(Math.sin(t * 2)) * 1.2, hy = -40 + by;
+    qleg(b, -20, hy, t + Math.PI, 1, 0, w, STAG, ANTL, 2.2); qleg(b, 16, hy, t, 1, 1, w, STAG, ANTL, 2.2);
+    b.curve(-28, hy - 8, -34, hy - 12, -33, hy - 4, 3, 1.2, STAG, 2);
+    b.ell(-3, hy - 6, 27, 13, STAG, 2, 1); b.ell(16, hy - 8, 13, 15, STAG, 3, 1); b.tint((x, y) => y < hy - 14, c => st(c, 1));
+    b.ell(13, hy - 6, 8, 8, VOID, 0, 0); for (let i = 0; i < 4; i++) b.line(6 + i * 4, hy - 13, 7 + i * 4, hy + 1, ANTL[3]); const cg = w ? 4.6 : 3.4 + Math.sin(t * 2) * 0.4; b.ell(13, hy - 6, cg, cg, GLW, 2, 1); b.set(12, hy - 8, GLW[4]);
+    for (let i = 0; i < 10; i++) b.set(-24 + ((i * 53) % 40), hy - 14 + ((i * 31) % 16), i % 3 ? STAG[4] : GLW[2]);
+    qleg(b, -14, hy, t, 0, 0, w, STAG, ANTL, 2.2); qleg(b, 22, hy, t + Math.PI, 0, 1, w, STAG, ANTL, 2.2);
+    const hx = w ? 36 : 32, hh = w ? hy - 4 : hy - 28; b.cap(22, hy - 14, hx - 4, hh + 2, 8, 6, STAG, 3); b.ell(hx, hh, 8, 6.4, STAG, 3, 1); b.poly([hx + 3, hh - 3, hx + 12, hh + 1, hx + 11, hh + 4, hx + 3, hh + 5], STAG, 2, 1);
+    b.ell(hx + 1, hh - 2, 2.2, 2.2, GLW, 2, 0); b.set(hx + 0.4, hh - 2.6, GLW[4]); b.set(hx + 11, hh + 1, VOID[0]);
+    const ant = (ox, far) => { const ax = hx - 3 + ox, ay = hh - 5, d = w ? 1 : -1, lv = far ? 1 : 3; b.curve(ax, ay, ax - 8, ay - 16, ax - 4 + (w ? 14 : 0), ay - 30 + (w ? 14 : 0), 2.4, 1.2, ANTL, lv);
+      b.curve(ax - 5, ay - 10, ax - 14, ay - 14, ax - 18, ay - 22 + (w ? 8 : 0), 1.6, 0.8, ANTL, lv); b.curve(ax - 4, ay - 20, ax + 4, ay - 26, ax + 8 + (w ? 6 : 0), ay - 26 + (w ? 12 : 0) * -d * -1, 1.4, 0.7, ANTL, lv);
+      b.set(ax - 4 + (w ? 14 : 0), ay - 31 + (w ? 14 : 0), GLW[3]); b.set(ax - 18, ay - 23 + (w ? 8 : 0), GLW[3]); };
+    ant(-4, 1); ant(2, 0); };
+
+  D.thief = (b, f, w) => { const t = f / 4 * TAU, by = -Math.abs(Math.sin(t * 2)) * 1.4 - (w ? 2.5 : 0); /* wind-up: hops, ready to bolt */
+    const lg = (ph, far) => { const s = Math.sin(ph) * 5, lift = Math.max(0, Math.cos(ph)) * 3; b.cap(0, -10 + by, s * 0.6, -5, 2.2, 1.6, GOB, far ? 1 : 2); b.cap(s * 0.6, -5, s, -1 - lift, 1.6, 1.4, GOB, far ? 1 : 2); b.ell(s + 1.2, -0.8 - lift, 2.4, 1.2, CLOTH, far ? 0 : 1, 0); };
+    lg(t + Math.PI, 1); b.ell(-8, -21 + by, 8.5, 9.5, SACK, 2, 1); b.line(-10, -30 + by, -6, -30 + by, SACK[0]); b.set(-11, -24 + by, GOLDT[4]); b.set(-5, -18 + by, GOLDT[3]); b.ell(-6, -31 + by, 2, 1.6, GOLDT, 3, 0);
+    b.poly([-3, -21 + by, 4, -22 + by, 5, -11 + by, -4, -10 + by], CLOTH, 2, 1); b.line(-3, -15 + by, 5, -15 + by, CLOTH[0]); lg(t, 0);
+    b.cap(3, -19 + by, 9, -14 + by + Math.sin(t) * 2, 1.8, 1.4, GOB, 3);
+    b.ell(5, -25 + by, 6.4, 5.4, GOB, 3, 1); b.poly([0, -27 + by, -7, -32 + by, -1, -24 + by], GOB, 2, 1); b.poly([9, -27 + by, 15, -31 + by, 10, -24 + by], GOB, 3, 1);
+    b.ell(11, -23 + by, 2.4, 1.6, GOB, 3, 0); b.set(6, -26 + by, YEL[3]); b.set(9, -26 + by, YEL[3]); b.line(6, -21.5 + by, 10, -22 + by, GOB[0]); b.poly([0, -29 + by, 4, -32 + by, 10, -30 + by], CLOTH, 1, 0); };
+
+  D.cinderhound = (b, f, w) => { const t = f / 4 * TAU, by = w ? 2 : -Math.abs(Math.sin(t * 2)) * 1, hy = -14 + by;
+    qleg(b, -12, hy, t + Math.PI, 1, 0, w, CHAR, CHAR, 1.05); qleg(b, 10, hy, t, 1, 1, w, CHAR, CHAR, 1.05);
+    for (let i = 0; i < 4; i++) b.curve(-16, hy - 5 + i, -22 - i, hy - 10 - i * 2 + Math.sin(t + i) * 2, -25 - i * 0.5, hy - 14 - i * 2, 2.4 - i * 0.4, 0.5, i ? EMB : CHAR, 2);
+    b.ell(-2, hy - 4, 16, 7.4, CHAR, 2, 1); b.ell(9, hy - 6, 8.5, 8, CHAR, 3, 1);
+    for (const [x0, y0, x1, y1] of [[-12, -6, -6, -1], [-4, -8, 2, -2], [4, -9, 8, -3], [-9, 0, -2, 2]]) b.line(x0, hy + y0, x1, hy + y1, EMB[3]);
+    for (let i = 0; i < 6; i++) { const x = -8 + i * 4; b.poly([x - 2, hy - 9, x + (f & 1), hy - 15 - (i % 2) * 3 - (w ? 2 : 0), x + 2, hy - 9], EMB, 2 + (i % 2), 0); }
+    qleg(b, -7, hy, t, 0, 0, w, CHAR, CHAR, 1.05); qleg(b, 14, hy, t + Math.PI, 0, 1, w, CHAR, CHAR, 1.05);
+    const hx = 19, hh = hy - 8 + (w ? 3 : 0); b.ell(hx, hh, 6, 5, CHAR, 3, 1); b.poly([hx + 2, hh - 1, hx + 10, hh + 1, hx + 9, hh + 4, hx + 2, hh + 4], CHAR, 2, 1); b.line(hx + 3, hh + 2.6, hx + 9, hh + 2.6, EMB[w ? 4 : 2]);
+    b.poly([hx - 3, hh - 3, hx - 2, hh - 10, hx + 1, hh - 4], CHAR, 3, 0); b.ell(hx + 2, hh - 1.6, 1.6, 1.4, EMBW, 2, 0); };
+
+  D.pyromancer = (b, f, w) => { const t = f / 4 * TAU, by = Math.sin(t * 2) * -0.6, hx = w ? 6 : 13, hyy = w ? -44 : -21 + Math.sin(t) * 1.4;
+    b.ell(-5, -1.2, 3.2, 1.5, CHAR, 1, 0); b.ell(5, -1.2, 3.2, 1.5, CHAR, 2, 0);
+    const P = [-9, -8 + by, -8, -22 + by, -3, -29 + by, 5, -29 + by, 9, -21 + by, 10, -6 + by]; for (let i = 0; i < 6; i++) P.push(10 - i * 4, -1.5 + by + (i % 2 ? -2 : 0.6)); b.poly(P, ROBR, 2, 1);
+    b.tint((x, y) => x < -3 && y > -18 + by, c => st(c, -1)); b.line(-9, -6 + by, 10, -6 + by, GOLDT[2]); b.line(0, -27 + by, 0, -6 + by, GOLDT[1]); b.rect(-2, -16 + by, 5, 2, GOLDT[3]);
+    b.poly([-7, -23 + by, -5, -35 + by, 0, -41 + by, 7, -37 + by, 9, -27 + by, 6, -22 + by, -4, -22 + by], ROBR, 3, 1); b.poly([0, -41 + by, -4, -44 + by, -2, -38 + by], ROBR, 3, 0);
+    b.ell(4, -30 + by, 4.6, 5.4, VOID, 0, 0); b.set(2.6, -31 + by, EMBW[2]); b.set(5.8, -31 + by, EMBW[2]);
+    b.cap(4, -22 + by, hx - 1, hyy + 3, 2.4, 1.8, ROBR, 3); b.ell(hx - 0.5, hyy + 3, 1.8, 1.8, CHAR, 3, 0);
+    const fr = w ? 5.2 : 3.6 + Math.sin(t * 2) * 0.4; b.ell(hx, hyy - 1, fr, fr, EMB, 2, 1); b.ell(hx, hyy - 1.6, fr * 0.55, fr * 0.55, EMBW, 2, 0); b.poly([hx - 2, hyy - 3, hx, hyy - 8 - fr, hx + 2, hyy - 3], EMB, 3, 0); };
+
+  const slagB = (b, f, w, rx, ry, big) => { const t = f / 4 * TAU, hgt = w ? 1.15 : 1 + Math.sin(t) * 0.05, wid = w ? 0.92 : 1 - Math.sin(t) * 0.04, cy = -ry * hgt - 0.6;
+    b.ell(0, -1.4, rx * 1.05 * wid, 2.4, EMB, 1, 0); b.ell(0, cy, rx * wid, ry * hgt, EMB, 2, 1.1); b.ell(0, cy + 1, rx * 0.7 * wid, ry * 0.6 * hgt, EMBW, 1, 0);
+    const rocks = big ? [[-9, -0.55, 6, 5], [2, -0.85, 7, 4.4], [9, -0.35, 5, 5], [-4, -0.05, 5, 3.4], [-11, 0.1, 3.4, 3]] : [[-5, -0.5, 5, 4], [4, -0.7, 5, 3.4], [6, 0.1, 3, 2.6]];
+    for (const [x, yy, r1, r2] of rocks) b.ell(x * rx / 17 * wid, cy + yy * ry * hgt, r1 * rx / 17, r2 * ry / 13, CHAR, 2, 1);
+    const ey = cy - ry * 0.05, e1 = rx * 0.25, e2 = rx * 0.6; b.ell(e1, ey, 1.8, 2, EMBW, 3, 0); b.ell(e2, ey + 0.4, 1.5, 1.8, EMBW, 3, 0);
+    if (w) b.ell((e1 + e2) / 2, ey + ry * 0.5, rx * 0.3, ry * 0.22, EMBW, 4, 0); else b.line(e1, ey + ry * 0.45, e2 + 1, ey + ry * 0.38, CHAR[0]);
+    for (let i = 0; i < 3; i++) b.set(-rx * 0.5 + i * rx * 0.5, cy - ry * hgt - 1 - ((t / TAU + i * 0.3) % 1) * 3, EMB[3]); };
+  D.slag = (b, f, w) => slagB(b, f, w, 17, 13.5, true); D.slaglet = (b, f, w) => slagB(b, f, w, 11, 9, false);
+
+  D.automaton = (b, f, w) => { const t = f / 4 * TAU, by = -Math.abs(Math.sin(t * 2)) * 0.8, ax = w ? 1 : 0;
+    const lg = (x, ph, far) => { const s = w ? 0 : Math.sin(ph) * 4; b.cap(x, -15 + by, x + s * 0.5, -7, 2.6, 2.2, STEEL, far ? 1 : 2); b.cap(x + s * 0.5, -7, x + s, -2, 2.2, 2, STEEL, far ? 1 : 2); b.rect(x + s - 3.4, -3, 7, 3, BRASS[far ? 1 : 2]); };
+    lg(-5, t + Math.PI, 1);
+    const arm = (sx, far) => { const ex = w ? sx + (far ? -16 : 18) : sx + 4, ey = w ? -26 + by : -12 + by + Math.sin(t + (far ? 0 : Math.PI)) * 2; b.cap(sx, -27 + by, ex, ey, 2.8, 2.2, BRASS, far ? 1 : 3);
+      b.ell(ex, ey, 5.4, 5.4, STEEL, far ? 1 : 3, 1); for (let i = 0; i < 6; i++) { const a = i / 6 * TAU + f * 0.4; b.set(ex + Math.cos(a) * 6.4, ey + Math.sin(a) * 6.4, STEEL[4]); } b.ell(ex, ey, 1.4, 1.4, BRASS, 4, 0); };
+    arm(-9, 1);
+    b.ell(0, -24 + by, 12, 11, BRASS, 2, 1); b.rect(-12, -26 + by, 24, 2, BRASS[0]); b.rect(-12, -19 + by, 24, 1.4, BRASS[1]); for (const [x, y] of [[-8, -30], [8, -30], [-9, -16], [9, -16]]) b.set(x, y + by, BRASS[4]);
+    b.ell(1, -23 + by, 4.6, 4, VOID, 0, 0); b.ell(1, -23 + by, 2.6 + ax, 2.4 + ax, EMB, 2, 1); for (let i = 0; i < 4; i++) b.line(-3 + i * 2.6, -20 + by, -3 + i * 2.6, -18 + by, BRASS[0]);
+    lg(5, t, 0);
+    b.rect(-2, -38 + by, 4, 4, STEEL[2]); b.ell(2, -42 + by, 7.4, 6.4, BRASS, 3, 1); b.rect(-5, -42 + by, 14, 2, BRASS[1]); b.ell(5, -42 + by, 2.4, 2.4, w ? EMBW : BLUE, 2, 0); b.set(4.4, -42.6 + by, BLUE[4]);
+    b.cap(-3, -48 + by, -6, -52 + by, 1, 0.8, STEEL, 3); b.set(-6, -53 + by, EMB[3]);
+    arm(9, 0); };
+
+  D.gargoyle = (b, f, w) => { const fl = f & 1, cy = -26 + (f === 1 || f === 2 ? -1.5 : 0), ws = w ? 1.2 : 1;
+    const wing = (far) => { const up = fl ? -14 : -4, x0 = far ? -2 : 0, lv = far ? 1 : 2; b.poly([x0, cy - 6, x0 - 20 * ws, cy + up - 4, x0 - 22 * ws, cy + up + 6, x0 - 16 * ws, cy + up + 3, x0 - 14 * ws, cy + up + 10, x0 - 9 * ws, cy + up + 6, x0 - 6, cy + 4], STONE, lv, 1);
+      b.line(x0, cy - 6, x0 - 20 * ws, cy + up - 4, STONE[4]); };
+    wing(1);
+    b.cap(-4, cy + 6, -10, cy + 12 + Math.sin(f) * 1, 2.4, 1.2, STONE, 1); b.ell(0, cy + 1, 9, 9, STONE, 2, 1); b.ell(2, cy + 4, 6, 4, STONE, 1, 0);
+    for (const x of [-3, 4]) { b.cap(x, cy + 7, x + 2, cy + 13, 2.2, 1.6, STONE, 2); b.poly([x, cy + 13, x + 5, cy + 14, x + 2, cy + 11], STONE, 3, 0); }
+    for (const [x, y] of [[-4, -2], [3, 2], [-2, 4]]) b.line(x, cy + y, x + 2, cy + y + 2, EMB[2]);
+    b.ell(7, cy - 9, 6.4, 5.6, STONE, 3, 1); b.poly([10, cy - 8, 15, cy - 6, 14, cy - 3, 10, cy - 4], STONE, 2, 1); b.line(11, cy - 4.6, 14, cy - 4.6, w ? EMBW[2] : VOID[0]);
+    b.poly([3, cy - 13, 0, cy - 21, 5, cy - 14], STONE, 4, 0); b.poly([7, cy - 14, 7, cy - 21, 10, cy - 14], STONE, 4, 0);
+    b.ell(8.6, cy - 10, 1.6, 1.4, EMB, 3, 0); b.set(8.4, cy - 10.4, EMBW[3]);
+    wing(0); };
+
+  D.tyrant = (b, f, w) => { const t = f / 4 * TAU, by = w ? 2 : -Math.abs(Math.sin(t * 2)) * 1.4, hy = -46 + by;
+    const lg = (x, ph, far) => { const s = Math.sin(ph) * 7, lift = Math.max(0, Math.cos(ph)) * 3; b.cap(x, hy + 4, x + s * 0.5, -18, 8, 6.4, OBS, far ? 1 : 2); b.cap(x + s * 0.5, -18, x + s, -3 - lift, 6.4, 6, OBS, far ? 1 : 2);
+      b.line(x + s * 0.5 - 2, -22, x + s * 0.5 + 2, -14, EMB[far ? 1 : 3]); b.poly([x + s - 8, -lift, x + s + 9, -lift, x + s + 7, -6 - lift, x + s - 6, -6 - lift], OBS, far ? 2 : 3, 1); };
+    lg(-12, t + Math.PI, 1);
+    const fist = (sx, far) => { const ex = w ? (far ? sx - 6 : sx + 6) : sx + 10 + Math.sin(t + (far ? 0 : Math.PI)) * 3, ey = w ? hy - 44 : hy + 12; b.cap(sx, hy - 16, (sx + ex) / 2, (hy - 16 + ey) / 2, 8, 7, OBS, far ? 1 : 3);
+      b.cap((sx + ex) / 2, (hy - 16 + ey) / 2, ex, ey, 7, 6, OBS, far ? 1 : 3); b.ell(ex, ey, 9, 8.5, EMB, far ? 1 : 2, 1); b.ell(ex, ey + 1, 5, 4.4, EMBW, 1, 0); for (let i = 0; i < 3; i++) b.rect(ex - 7 + i * 5, ey - 9, 3.4, 3, OBS[3]); };
+    fist(-26, 1);
+    b.ell(0, hy - 8, 26, 22, OBS, 2, 1); b.tint((x, y) => y > hy + 2, c => st(c, -1));
+    for (const [x0, y0, x1, y1] of [[-18, -12, -8, 2], [-6, -22, 4, -10], [8, -16, 16, -2], [-2, 0, 8, 8], [-14, 4, -6, 10]]) b.line(x0, hy + y0, x1, hy + y1, EMBW[1]);
+    for (const [x, y, r] of [[-12, -20, 8], [10, -22, 9], [2, -4, 7]]) { b.ell(x, hy + y, r, r * 0.7, OBS, 3, 1); b.line(x - r * 0.7, hy + y + r * 0.5, x + r * 0.7, hy + y + r * 0.5, OBS[0]); }
+    const core = w ? 7 : 5.4 + Math.sin(t * 2) * 0.6; b.ell(4, hy - 8, core, core, EMB, 2, 1); b.ell(4, hy - 8, core * 0.5, core * 0.5, EMBW, 3, 0);
+    lg(12, t, 0);
+    const hx = 10, hh = hy - 34; b.ell(hx, hh, 11, 10, OBS, 3, 1); b.rect(hx - 4, hh - 1, 16, 4, VOID[0]); b.rect(hx + 1, hh, 3, 2, EMBW[2]); b.rect(hx + 7, hh, 3, 2, EMBW[2]);
+    for (const [x, h] of [[-6, 16], [0, 22], [7, 24], [14, 20], [20, 14]]) b.poly([hx + x - 3, hh - 7, hx + x, hh - 7 - h * 0.6, hx + x + 3, hh - 7], OBS, 4, 0);
+    for (const x of [0, 7, 14]) b.set(hx + x, hh - 7 - (x === 7 ? 14 : 12), EMB[3]);
+    b.poly([hx - 6, hh + 6, hx + 14, hh + 6, hx + 10, hh + 12, hx - 2, hh + 12], OBS, 2, 1); for (let i = 0; i < 4; i++) b.set(hx - 2 + i * 4, hh + 8, EMB[3]);
+    fist(24, 0); };
+})();
 function heroPortrait(canvas, cls, outfit, scale = 1.35, race, gear) {
   const r = Math.min(3, window.devicePixelRatio || 1), w = canvas.clientWidth || 64, h = canvas.clientHeight || 64;
   canvas.width = w * r; canvas.height = h * r; const g = canvas.getContext('2d'); g.scale(r, r);
@@ -4855,7 +5110,7 @@ function newRun(cls) {
   addWeapon(CLASSES[cls].weapon);
   applyKeepsakes(cls);
   if (G.tf.startArcher) addWeapon('archers'); if (G.tf.startBrute) addWeapon('brute'); if (G.tf.startRain) addWeapon('arrowrain');
-  recalc(); P.hp = P.maxHp;
+  w28Start(); recalc(); P.hp = P.maxHp;
   save.lastClass = cls; save.runs++; persist();
 }
 function recalc() {
@@ -4898,6 +5153,7 @@ function recalc() {
   if (fm === 'cat') { const L = wlv('catform'); s.speed *= 1 + (0.15 + 0.025 * L + (L >= 6 ? 0.05 : 0)) * fb; s.crit += 0.08 * fb; s.dodge += 0.05 * fb;
     const B = wlv('bloodfang'); if (B) s.catLs = [0.04, 0.055, 0.055, 0.07, 0.07, 0.09][B - 1] + (G.evo && G.evo.bloodfang ? 0.03 : 0); if (G.tf && G.tf.catLsT) s.catLs += 0.01 * G.tf.catLsT; }
   if (fm === 'tree') { const L = wlv('treeform'); s.maxHp = Math.round(s.maxHp * (1 + (0.5 + 0.08 * L) * fb)); s.armor += 2 + (L >= 4 ? 1 : 0); s.regen += (0.8 + 0.3 * L) * fb; s.speed *= 0.8; s.dmg *= 0.75; s.dr += (0.15 + (L >= 6 ? 0.1 : 0)) * fb; if (G.tf && G.tf.treeThick) s.maxHp = Math.round(s.maxHp * (1 + 0.05 * G.tf.treeThick)); }
+  w28Recalc(s);
   if (G.ancientT > 0) s.dr += 0.5;
   s.dr = Math.min(0.7, s.dr);
   s.cd = Math.max(0.35, s.cd); s.dodge = Math.min(0.6, s.dodge); s.crit = Math.min(1, s.crit);
@@ -4927,7 +5183,7 @@ const RUN_STATES = { play: 1, paused: 1, levelup: 1, gear: 1, countdown: 1, equi
 const r1 = v => Math.round(v * 10) / 10;
 function serializeRun() {
   const g = {}; for (const k of ['cls', 'race', 'outfit', 't', 'kills', 'level', 'xp', 'xpNext', 'passives', 'gear', 'pending', 'shardsPicked', 'salvage', 'bossKills', 'elites', 'nextElite', 'nextBoss',
-    'map', 'bossIdx', 'nextSurge', 'spawnAcc', 'revived', 'wasNight', 'healPool', 'bondPool', 'critBuffT', 'minionKills', 'moved', 'pendingChest', 'nextLoot', 'rushT', 'aegisT', 'kept', 'luChoices', 'tal', 'undyingUsed', 'tollT', 'rwT', 'sgT', 'achRun', 'achNew', 'dv', 'ancCd', 'frzCd', 'wsT', 'mcT', 'mwT', 'mvT', 'arc', 'stage', 'nextMini', 'surgeN', 'quests', 'qNext', 'qStats', 'qN', 'qLast', 'evo', 'dm', 'catPool', 'catRefund', 'obSeed', 'obGone', 'rerolls', 'gold', 'goldEarned', 'goldSpent', 'npcs', 'npcNext', 'npcN', 'npcLast', 'npcBuys', 'npcVisits', 'npcSeen', 'bufE', 'bufH', 'bufA', 'deathward', 'goldBud', 'portal', 'portalNext', 'townVisits']) g[k] = G[k];
+    'map', 'w28', 'bossIdx', 'nextSurge', 'spawnAcc', 'revived', 'wasNight', 'healPool', 'bondPool', 'critBuffT', 'minionKills', 'moved', 'pendingChest', 'nextLoot', 'rushT', 'aegisT', 'kept', 'luChoices', 'tal', 'undyingUsed', 'tollT', 'rwT', 'sgT', 'achRun', 'achNew', 'dv', 'ancCd', 'frzCd', 'wsT', 'mcT', 'mwT', 'mvT', 'arc', 'stage', 'nextMini', 'surgeN', 'quests', 'qNext', 'qStats', 'qN', 'qLast', 'evo', 'dm', 'catPool', 'catRefund', 'obSeed', 'obGone', 'rerolls', 'gold', 'goldEarned', 'goldSpent', 'npcs', 'npcNext', 'npcN', 'npcLast', 'npcBuys', 'npcVisits', 'npcSeen', 'bufE', 'bufH', 'bufA', 'deathward', 'goldBud', 'portal', 'portalNext', 'townVisits']) g[k] = G[k];
   g.weapons = G.weapons.map(w => [w.id, w.lvl]);
   /* v27: inside the Safe Haven the real battlefield is stashed in G.town.st - save that world (and where you left it) plus the town itself */
   const TW = G.town, st = TW && TW.st, EN = st ? st.enemies : enemies, BOSS = st ? st.boss : G.boss, PK = st ? st.picks : picks; if (st) g.npcs = st.npcs;
@@ -5071,7 +5327,7 @@ function spawnEnemy(type, o = {}) {
 }
 const RANGED = { seer: 22, spitter: 22, healer: 10, caller: 8, sprite: 26 }; // ranged/support types hold back; capped so they can't clog the enemy cap
 function pickType(t) {
-  const rc = G.typeN || {}, av = Object.keys(ETYPES).filter(k => !ETYPES[k].boss && ETYPES[k].t0 <= t && !(RANGED[k] && (rc[k] || 0) >= RANGED[k]));
+  const rc = G.typeN || {}, av = Object.keys(ETYPES).filter(k => !ETYPES[k].boss && ETYPES[k].t0 <= t && onMap28(k) && !(RANGED[k] && (rc[k] || 0) >= RANGED[k]));
   return wpick(av, k => { const d = ETYPES[k]; if (k === 'wisp') return Math.max(0.35, 3 - t / 80) * (t > 600 ? 0.5 : 1); // older, weaker types fade out of the mix late so new threats dominate
     return Math.min(d.cap || 3, 0.8 + (t - d.t0) / 50) * (d.hp < 20 ? Math.max(0.35, 1 - Math.max(0, t - d.t0 - 480) / 900) : 1); });
 }
@@ -5090,14 +5346,14 @@ function spawnDirector(dt) {
   if (si > G.stage) { G.stage = si; const S = STAGES[si]; announce(`Stage ${S.n} — ${S.name}`, S.sub, si >= 6 ? '#ff7a7a' : '#ffd24a'); }
   if (t >= G.nextSurge) { G.nextSurge += 75; const horde = t >= 240 && (G.surgeN = (G.surgeN || 0) + 1) % 2 === 0;
     const pool = t < 75 ? ['wisp'] : t < 160 ? ['bone', 'wisp'] : t < 300 ? ['ghost', 'bone', 'wolf', 'bat'] : t < 480 ? ['wolf', 'charger', 'bomber', 'bone'] : t < 720 ? ['armor', 'shield', 'splitter', 'blinker'] : t < 900 ? ['bone', 'caller', 'bomber', 'burrower', 'charger'] : ['sprite', 'blinker', 'golem', 'shield', 'bat', 'bomber'];
-    const names = { wisp: 'The shadows close in!', bone: 'The dead march!', ghost: 'Wails in the dark!', wolf: 'Beast stampede!', charger: 'Beast stampede!', armor: 'An iron tide!', shield: 'An iron tide!', splitter: 'The ooze rises!', blinker: 'Rift tear!', caller: 'Bone tide!', bomber: 'Cinder storm!', burrower: 'The ground trembles!', sprite: 'Fae storm!', golem: 'The constructs wake!', bat: 'A cloud of bats!' };
+    w28Pool(pool, t); const names = { wisp: 'The shadows close in!', bone: 'The dead march!', ghost: 'Wails in the dark!', wolf: 'Beast stampede!', charger: 'Beast stampede!', armor: 'An iron tide!', shield: 'An iron tide!', splitter: 'The ooze rises!', blinker: 'Rift tear!', caller: 'Bone tide!', bomber: 'Cinder storm!', burrower: 'The ground trembles!', sprite: 'Fae storm!', golem: 'The constructs wake!', bat: 'A cloud of bats!' };
     const ty = pick(pool), n = Math.min(horde ? 54 : 36, Math.round((16 + Math.floor(t / 30)) * (horde ? 1.5 : 1)) * (ETYPES[ty].heavy ? 0.5 : 1)), [cx, cy] = [P.x, P.y], d = Math.hypot(W / ZOOM, H / ZOOM) / 2 + 20;
     for (let i = 0; i < n && enemies.length < ECAP + 40; i++) { const a = i / n * TAU, t2 = horde && i % 3 === 1 ? pick(pool) : ty; spawnEnemy(t2, { x: cx + Math.cos(a) * d, y: cy + Math.sin(a) * d }); }
-    if (horde) announce('⚠ HORDE INCOMING', names[ty] || 'They come from every side!', '#ff7a7a', 'boss'); else toast(names[ty] || 'The shadows close in!', '#ff8fab'); }
+    if (horde) announce('⚠ HORDE INCOMING', W28NAMES[ty] || names[ty] || 'They come from every side!', '#ff7a7a', 'boss'); else toast(W28NAMES[ty] || names[ty] || 'The shadows close in!', '#ff8fab'); }
   if (t >= G.nextElite) { G.nextElite += Math.max(22, 45 - t / 50); const e = spawnEnemy(pickType(t), { elite: true }); toast((e.aff.length ? e.aff.map(a => EAFF[a].n).join(' ') + ' elite' : 'An elite') + ' approaches — it carries treasure!', '#ffd24a'); Snd.play('elite'); }
   if (G.nextMini === undefined) G.nextMini = 480;
-  if (t >= G.nextMini) { G.nextMini += 240; spawnEnemy('juggernaut'); announce('A Grave Juggernaut approaches!', 'Mini-boss · watch for its charge and slam', '#c56bff', 'boss'); }
-  if (t >= G.nextBoss) { G.nextBoss += 180; const twin = t >= 1200, list = [BOSS_ORDER[G.bossIdx % 4]]; if (twin) list.push(BOSS_ORDER[(G.bossIdx + 1) % 4]);
+  if (t >= G.nextMini) { G.nextMini += 240; w28Mini(); }
+  if (t >= G.nextBoss) { G.nextBoss += 180; const twin = t >= 1200, BL = bossList28(), list = [BL[G.bossIdx % BL.length]]; if (twin) list.push(BL[(G.bossIdx + 1) % BL.length]);
     for (const type of list) { const b = spawnEnemy(type); if (!G.boss || G.boss.dead) G.boss = b; G.bossIdx++; }
     if (t >= 900) spawnEnemy('juggernaut');
     announce(list.map(k => ETYPES[k].name).join(' & ') + (list.length > 1 ? ' have' : ' has') + ' risen!', twin ? 'Twin bosses — Endless Night' : 'Boss wave · telegraphed attacks glow red', '#ff5a5a', 'boss'); G.shake = 0.5; }
@@ -5203,6 +5459,7 @@ function updateEnemies(dt, dying) {
         if (e.ai <= 0) { e.ai = 4.5; for (let i = 0; i < 5; i++) { const a = rand(TAU); if (enemies.length < 260) spawnEnemy('wisp', { x: e.x + Math.cos(a) * 40, y: e.y + Math.sin(a) * 40 }); } }
         e.ai2 -= dt; if (e.ai2 <= 0) { e.ai2 = 5.5; const o = rand(TAU); for (let i = 0; i < 14; i++) fireEOrb(e.x, e.y, o + i / 14 * TAU, 105, 12, '#ff4fd8'); Snd.play('cast'); }
         break;
+      default: { const h = AI28[def.ai]; if (h) { const o = h(e, def, d, dx, dy, sp, dt, dying); if (o) { dx = o[0]; dy = o[1]; sp = o[2]; } } }
     }
     if (e.boss || def.mini) { for (let i = _ne0; i < effects.length; i++) effects[i].bossSrc = 1; for (let i = _np0; i < eprojs.length; i++) eprojs[i].bossSrc = 1; }
     if (e.dead) continue;
@@ -5213,7 +5470,7 @@ function updateEnemies(dt, dying) {
     const kd = Math.min(1, dt * 8); e.kbx -= e.kbx * kd; e.kby -= e.kby * kd;
     if (Math.abs(dx) > 0.15) e.face = dx < 0 ? -1 : 1;
     if (e.rotT > 0 || e.agT > 0 || e.volT > 0 || e.blT > 0) { if (tickAff(e, dt)) continue; }
-    if (!dying && !e.under && !def.totem && !(e.frzT > 0) && d < e.r + P.r) { const h0 = P.hp; hurtPlayer(e.dmg, e.boss || def.mini ? 'boss' : 'melee'); if (e.elite && P.hp < h0 && e.aff.includes('vampiric')) { e.hp = Math.min(e.maxHp, e.hp + (h0 - P.hp) * 4 + e.maxHp * 0.04); burst(e.x, e.y, '#ff3d6e', 5, 60, 2, 0.4, true); } }
+    if (!dying && !e.under && !def.totem && !(e.frzT > 0) && e.dmg > 0 && d < e.r + P.r) { const h0 = P.hp; hurtPlayer(e.dmg, e.boss || def.mini ? 'boss' : 'melee'); if (e.elite && P.hp < h0 && e.aff.includes('vampiric')) { e.hp = Math.min(e.maxHp, e.hp + (h0 - P.hp) * 4 + e.maxHp * 0.04); burst(e.x, e.y, '#ff3d6e', 5, 60, 2, 0.4, true); } }
     if (d > farD && !e.boss && !def.totem) { // relocate ahead of the player
       const mvA = P.moving ? Math.atan2(P.vy, P.vx) : rand(TAU), a = mvA + rand(-0.9, 0.9), rr = Math.hypot(vw, vh) / 2 + 40;
       e.x = P.x + Math.cos(a) * rr; e.y = P.y + Math.sin(a) * rr;
@@ -5242,7 +5499,8 @@ function damage(e, base, o = {}) {
   if (tf.dread && o.minion) { if (e.elite || e.boss) d *= 1.25; e.slow = Math.max(e.slowT > 0 ? e.slow : 0, 0.3); e.slowT = Math.max(e.slowT, 1); }
   if (tf.bloodscent && e.blT > 0) d *= 1.15;
   if (ev && tf.evoMight) d *= 1 + 0.05 * tf.evoMight;   // v19 talents
-  if (e.vulnU > gtime) d *= 1.15;                        // Chains of Dread
+  if (e.vulnU > gtime) d *= 1.15;
+  if (P.w28d) d *= w28Dmg(e);                        // Chains of Dread
   if (e.frzT > 0 && !o.dot) { d *= 1.25 + (P.shatter || 0); // frozen foes take shatter damage
     if (tf.shatter && !o.shard && !G.fxLock && gtime - (G.shT || 0) > 0.08) { G.shT = gtime; e.frzT = 0.01; d *= 1.3; const x = e.x, y = e.y, sd = d * 0.4 / Math.max(0.01, P.dmg);
       G.later.push({ t: 0, f: () => { G.fxLock = 1; query(x, y, 48 * P.area + 30, q => { if (q !== e && (q.x - x) ** 2 + (q.y - y) ** 2 < (48 * P.area + q.r) ** 2) damage(q, sd, { shard: 1 }); }); G.fxLock = 0; burst(x, y, '#dff6ff', 10, 150, 2.6, 0.4, true); effects.push({ k: 'boom', x, y, r: 48 * P.area, life: 0.2, max: 0.2, col: '#9fdcff' }); achAdd('m_shatter', 1); } }); } }
@@ -5389,10 +5647,10 @@ function killEnemy(e) {
   if (SPR.enemy[e.type]) { if (corpses.length >= 70) corpses.shift(); corpses.push({ k: e.type, x: e.x, y: e.y, f: e.face < 0 ? -1 : 1, sc: e.sc || 1, t: 0, d: e.boss ? 1.4 : e.elite || e.mini ? 0.9 : 0.55, el: !!(e.elite || e.boss) }); }
   burst(e.x, e.y, def.puff, e.boss ? 40 : e.elite ? 20 : 7, e.boss ? 220 : 110, e.boss ? 5 : 3, 0.55);
   burst(e.x, e.y, '#120818', 4, 60, 4, 0.6);
-  Snd.play('kill');
+  Snd.play('kill'); w28Kill(e);
   if (e.boss) { gainXp(e.x, e.y, 60); picks.push({ k: 'chest', x: e.x + 20, y: e.y, boss: true }); for (let i = 0; i < 6; i++) picks.push({ k: 'shard', x: e.x + rand(-40, 40), y: e.y + rand(-40, 40), v: 4 });
     picks.push({ k: 'vial', x: e.x - 20, y: e.y }); G.bossKills++; achAdd('c_' + G.cls + '_b', 1); achAdd('g_boss', 1); G.shake = 0.6; if (G.boss === e) G.boss = null; toast('Boss vanquished!', '#ffd24a', 3); }
-  else if (e.elite || e.mini) { gainXp(e.x, e.y, e.xp * (e.mini ? 2 : 6)); picks.push({ k: 'chest', x: e.x, y: e.y, mini: e.mini }); picks.push({ k: 'shard', x: e.x + 14, y: e.y + 8, v: e.mini ? 6 : 3 }); G.elites++; if (e.mini) toast('Juggernaut felled!', '#c56bff'); }
+  else if (e.elite || e.mini) { gainXp(e.x, e.y, e.xp * (e.mini ? 2 : 6)); picks.push({ k: 'chest', x: e.x, y: e.y, mini: e.mini }); picks.push({ k: 'shard', x: e.x + 14, y: e.y + 8, v: e.mini ? 6 : 3 }); G.elites++; if (e.mini) toast((def.name || 'Mini-boss') + ' felled!', '#c56bff'); }
   else {
     gainXp(e.x, e.y, e.xp);
     const r = Math.random();
@@ -5425,6 +5683,7 @@ function hurtPlayer(dmg, src) {
   if (tf.cover && G.nearOb) d *= 1 - Math.min(0.3, 0.06 * tf.cover); // v19: fighting from cover
   if (tf.lich) { let n = 0; for (const m of minions) if (!m.dead) n++; if (n >= 3) d *= 0.8; }
   if (P.dr) d *= 1 - P.dr;
+  if (P.w28h) { d = w28Hurt(d, src); if (d < 0) return; }
   if (G.cls === 'druid') { const rf = (G.form === 'tree' ? 0.25 + (wlv('treeform') >= 3 ? 0.15 : 0) : 0) + (tf.brambles ? 0.4 : 0);
     if (rf > 0) { const rd = Math.max(4, dmg * rf * 1.5); G.later.push({ t: 0, src: '@bark', f: () => { areaHit(P.x, P.y, 70 * P.area, rd, 60); burst(P.x, P.y, '#9de07a', 6, 110, 2.4, 0.35, true); } }); }
     if (tf.ancient && !(G.ancCd > 0) && P.hp - d < P.maxHp * 0.35) { G.ancCd = 60; G.ancientT = 6; G.ancQ = 0; recalc(); heal(P.maxHp * 0.5); P.inv = 0.8; d *= 0.5; toast('Ancient Awakening!', '#9dff6a', 2.2); Snd.play('morph'); burst(P.x, P.y, '#9dff6a', 24, 180, 3.6, 0.6, true); } }
@@ -6214,7 +6473,7 @@ function updateEffects(dt) {
       else hit = (P.x - f.x) ** 2 + (P.y - f.y) ** 2 < (f.r + P.r) ** 2;
       if (hit && f.dmg && state === 'play') hurtPlayer(f.dmg, f.bossSrc ? 'boss' : 'aoe');
       if (f.goo) { effects.push({ k: 'goo', x: f.x, y: f.y, r: f.r, life: 4, max: 4, dmg: Math.max(1, f.dmg * 0.25), tick: 0 }); burst(f.x, f.y, '#9dff3b', 8, 80, 2.4, 0.4, true); Snd.play('pop'); }
-      if (f.boom) { effects.push({ k: 'boom', x: f.x, y: f.y, r: f.r, life: 0.3, max: 0.3, col: f.col }); burst(f.x, f.y, f.col, 12, 150, 3, 0.45, true); Snd.play('boom'); } }
+      if (f.boom) { effects.push({ k: 'boom', x: f.x, y: f.y, r: f.r, life: 0.3, max: 0.3, col: f.col }); burst(f.x, f.y, f.col, 12, 150, 3, 0.45, true); Snd.play('boom'); } if (f.emb) w28Emb(f.x, f.y, f.r * 0.8, 3, f.dmg * 0.2); }
     if (f.k === 'goo' && f.life > 0 && (P.x - f.x) ** 2 + (P.y - f.y) ** 2 < (f.r + P.r * 0.5) ** 2) { P.slowT = 0.25; if ((f.tick -= dt) <= 0) { f.tick = 0.7; if (state === 'play') hurtPlayer(f.dmg, 'poison'); } }
     if (f.k === 'zone' && f.life > 0) {
       if (f.pull) query(f.x, f.y, f.r * 1.6, e => { if (e.boss) return; const dx = f.x - e.x, dy = f.y - e.y, d = Math.hypot(dx, dy); if (d > 8 && d < f.r * 1.6) { e.x += dx / d * f.pull * dt; e.y += dy / d * f.pull * dt; } });
@@ -6239,7 +6498,7 @@ function updatePickups(dt) {
     if (p.pull || d2 < pr2 * (p.k === 'chest' ? 0.5 : 1)) { p.pull = true; p.sp = Math.min(600, (p.sp || 0) + 800 * dt); const d = Math.sqrt(d2) || 1; p.x += dx / d * p.sp * dt; p.y += dy / d * p.sp * dt; }
     if (d2 < (P.r + 12) ** 2) {
       p.dead = true;
-      if (p.k === 'vial') { heal(P.maxHp * 0.3); addNum(P.x, P.y - 24, '+HP', '#ff7a96', 14); Snd.play('heal'); burst(P.x, P.y, '#ff3d6e', 10, 70, 2.5, 0.5, true); }
+      if (p.k === 'vial') { heal(P.maxHp * 0.3 * (1 + 0.1 * mr('stock'))); addNum(P.x, P.y - 24, '+HP', '#ff7a96', 14); Snd.play('heal'); burst(P.x, P.y, '#ff3d6e', 10, 70, 2.5, 0.5, true); }
       else if (p.k === 'lure') { for (const q of picks) q.pull = true; Snd.play('pick'); toast('Soul Lure — all treasures drawn to you!', '#4fd4ff', 1.8); }
       else if (p.k === 'shard') { G.shardsPicked += p.v || 1; Snd.play('pick'); addNum(P.x, P.y - 24, '+' + (p.v || 1) + '◆', '#d7a6ff', 13); }
       else if (p.k === 'gold') addGold(p.v || 1, P.x + rand(-6, 6), P.y - 24);
@@ -6286,7 +6545,7 @@ function update(dt, dying) {
   buildGrid();
   updateEnemies(dt, dying);
   if (!dying) { updateWeapons(dt); updateMinions(dt); }
-  updateProjs(dt); updateEffects(dt); G.srcW = null; if (!dying) { updatePickups(dt); if (!G.town) { questTick(dt); portalTick(dt); } npcTick(dt); if (G.town) townTick(dt); }
+  updateProjs(dt); updateEffects(dt); G.srcW = null; if (!dying) { updatePickups(dt); if (!G.town) { questTick(dt); portalTick(dt); world28Tick(dt); } npcTick(dt); if (G.town) townTick(dt); }
   for (const p of parts) { p.life -= dt;
     if (p.home) { const dx = P.x - p.x, dy = P.y - 4 - p.y, d = Math.hypot(dx, dy) || 1, k = 1 - p.life / p.max; p.vx += dx / d * 1400 * k * dt; p.vy += dy / d * 1400 * k * dt; p.vx *= 0.9; p.vy *= 0.9; if (d < 10) p.life = 0; }
     else { p.vx *= 0.94; p.vy *= 0.94; }
@@ -6324,7 +6583,7 @@ function qProg(q) {
 }
 function qElite(q) { for (const e of enemies) if (!e.dead && e.qid === q.id) return e; return null; }
 function qAround(dmin, dmax) { const a = rand(TAU), d = rand(dmin, dmax); return [P.x + Math.cos(a) * d, P.y + Math.sin(a) * d]; }
-function qEliteType() { const l = Object.keys(ETYPES).filter(k => { const d = ETYPES[k]; return !d.boss && !d.mini && !d.totem && d.t0 <= G.t && d.t0 < 1e8 && !RANGED[k]; }).sort((a, b) => ETYPES[b].hp - ETYPES[a].hp); return pick(l.slice(0, 3)) || 'bone'; }
+function qEliteType() { const l = Object.keys(ETYPES).filter(k => { const d = ETYPES[k]; return !d.boss && !d.mini && !d.totem && onMap28(k) && d.t0 <= G.t && d.t0 < 1e8 && !RANGED[k]; }).sort((a, b) => ETYPES[b].hp - ETYPES[a].hp); return pick(l.slice(0, 3)) || 'bone'; }
 function qSpawnElite(q) { const [x, y] = spawnPos(60), e = spawnEnemy(q.ty, { x, y, elite: true }); e.hp = e.maxHp = e.maxHp * 1.5; e.xp = Math.round(e.xp * 1.5); e.qid = q.id; return e; }
 function questStart(k) {
   const t = G.t, active = G.quests.map(q => q.k);
@@ -6530,7 +6789,7 @@ function dropGold(x, y, total, n) { /* coins are normal pickups: pickup radius, 
   for (let i = 0; i < n; i++) { const v = Math.floor(total / n) + (i < total % n ? 1 : 0); if (v <= 0) continue;
     if (gc > 140) { const q = picks.find(p => p.k === 'gold'); if (q) { q.v += v; continue; } }
     const a = rand(TAU), d = n > 1 ? rand(8, 28) : 0; picks.push({ k: 'gold', x: x + Math.cos(a) * d, y: y + Math.sin(a) * d, v }); gc++; } }
-function addGold(v, x, y) { v = Math.round(v); if (!(v > 0) || !G) return; G.gold = (G.gold || 0) + v; G.goldEarned = (G.goldEarned || 0) + v;
+function addGold(v, x, y) { v = w28Gold(v); if (!(v > 0) || !G) return; G.gold = (G.gold || 0) + v; G.goldEarned = (G.goldEarned || 0) + v;
   if (x !== undefined) addNum(x, y, '+' + v + ' ●', GOLD_COL, v >= 10 ? 14 : 11);
   if (!(G.coinT > G.t - 0.07)) { G.coinT = G.t; Snd.play('coin'); } }
 function npcSpawn(type) {
@@ -6545,9 +6804,9 @@ function npcTick(dt) {
   for (const k of ['bufE', 'bufH', 'bufA']) if (G[k] > 0) { G[k] -= dt; if (G[k] <= 0) { G[k] = 0; recalc(); } }
   if (G.npcNext == null) G.npcNext = 90;
   G.goldBud = Math.min(12, (G.goldBud || 0) + dt * 0.2 * (1 + G.t / 240)); /* ≈ 12 × price-factor gold per minute from ordinary foes */
-  if (G.t >= G.npcNext && !G.npcs.length) { npcSpawn(); G.npcNext = G.t + rand(120, 200); }
+  if (G.t >= G.npcNext && !G.npcs.some(q => !q.fixed)) { npcSpawn(); G.npcNext = G.t + rand(120, 200); }
   for (const n of G.npcs) { const D = NPCS[n.nt]; n.T -= dt; n.age = (n.age || 0) + dt;
-    if (n.tx == null || (n.wT = (n.wT || 0) - dt) <= 0) { n.wT = rand(2, 4.5); const a = rand(TAU), d = rand(0, 70); n.tx = n.hx + Math.cos(a) * d; n.ty = n.hy + Math.sin(a) * d; n.idle = Math.random() < 0.35 ? 1 : 0; }
+    if (n.tx == null || (n.wT = (n.wT || 0) - dt) <= 0) { n.wT = rand(2, 4.5); const a = rand(TAU), d = rand(0, 70); n.tx = n.hx + Math.cos(a) * d; n.ty = n.hy + Math.sin(a) * d; n.idle = n.fixed || Math.random() < 0.35 ? 1 : 0; }
     const dx = n.tx - n.x, dy = n.ty - n.y, dd = Math.hypot(dx, dy), dP = Math.hypot(P.x - n.x, P.y - n.y);
     n.mv = !n.idle && dd > 3 && dP > 46 ? 1 : 0; if (n.mv) { const s = Math.min(dd, 26 * dt); n.x += dx / dd * s; n.y += dy / dd * s; if (Math.abs(dx) > 1) n.face = dx < 0 ? -1 : 1; }
     if (dP < 170) n.face = P.x < n.x ? -1 : 1;
@@ -6556,12 +6815,12 @@ function npcTick(dt) {
     if (window.__SIMSHOP) { if (n.age > 3 && !n.simDone) { n.simDone = 1; npcAutoBuy(n); n.T = Math.min(n.T, 0.5); } }
     else if (dP < 24 + n.r && !n.cool && state === 'play' && !(G.pending > 0) && !(G.pendingChest && G.pendingChest.length)) npcOpen(n);
     if (n.T <= 0) { n.gone = 1; burst(n.x, n.y - 10, D.glow, 16, 90, 3, 0.6, true); burst(n.x, n.y, '#cdb88c', 8, 50, 4, 0.5);
-      if (!n.visits && !window.__SIMSHOP) toast(`${D.role} ${D.n === '???' ? '' : D.n + ' '}moved on`, '#c9b6e8', 2); } }
+      if (!n.visits && !n.fixed && !window.__SIMSHOP) toast(`${D.role} ${D.n === '???' ? '' : D.n + ' '}moved on`, '#c9b6e8', 2); } }
   if (G.npcs.some(n => n.gone)) G.npcs = G.npcs.filter(n => !n.gone);
 }
 function npcOpen(n) { if (!n || !G || (state !== 'play' && state !== 'countdown')) return; npcCur = n; n.cool = 1; n.visits = (n.visits || 0) + 1; G.npcVisits = (G.npcVisits || 0) + 1;
   state = 'npc'; setJoy(false); keys.clear(); JB.kb = 0; JB.held = 0; show('npc'); Snd.play('greet'); npcOpenAt = performance.now();
-  const D = NPCS[n.nt]; npcMsgT = n.visits > 1 ? 'Back again? Take a look.' : 'Spend your gold ● on something nice (it does not carry over between runs).'; npcMsgK = '';
+  const D = NPCS[n.nt]; npcMsgT = n.fixed ? 'Choose one blessing. It lasts for the rest of this run.' : n.visits > 1 ? 'Back again? Take a look.' : 'Spend your gold ● on something nice (it does not carry over between runs).'; npcMsgK = '';
   if (n.visits > 1) n.say = pick(D.hi); renderNpc(); saveRun(); }
 function npcClose() { if (state !== 'npc') return; const n = npcCur; npcCur = null; if (n) { n.cool = 1; } resumeGame(); P.inv = Math.max(P.inv, 0.8); }
 function npcPortrait(cv, type) {
@@ -6571,12 +6830,12 @@ function npcPortrait(cv, type) {
   g.clearRect(0, 0, cv.width, cv.height); g.drawImage(img, -8 * dpr, -2 * dpr, (S + 16) * dpr, (S + 16) * dpr); }
 function renderNpc() { const n = npcCur; if (!n) return; const D = NPCS[n.nt];
   $('npc').style.setProperty('--nc', D.col); $('npcName').textContent = D.n; $('npcRole').textContent = D.role; $('npcSay').textContent = '“' + n.say + '”';
-  $('npcGold').textContent = G.gold || 0; $('npcTime').textContent = n.town ? 'Safe Haven · the portal clock is paused while you shop' : `leaves in ${Math.max(1, Math.ceil(n.T))}s (time is paused)`; /* v27: town shops never leave */
+  $('npcGold').textContent = G.gold || 0; $('npcTime').textContent = n.town ? 'Safe Haven · the portal clock is paused while you shop' : n.fixed ? `fades in ${Math.max(1, Math.ceil(n.T))}s (time is paused)` : `leaves in ${Math.max(1, Math.ceil(n.T))}s (time is paused)`; /* v27: town shops never leave */
   npcPortrait($('npcArt'), n.nt);
   const L = $('npcOffers'); L.innerHTML = '';
   n.offers.forEach((o, i) => { const def = NOFF[o.k]; if (!def) return; const sold = !(o.left > 0), can = (G.gold || 0) >= o.p, nm = def.n(o), ds = def.d(o);
     const b = document.createElement('button'); b.className = 'npco' + (sold ? ' sold' : can ? '' : ' poor'); b.disabled = sold; b.dataset.i = i;
-    b.innerHTML = `<kbd class="kh">${i + 1}</kbd><span class="ni">${def.ic}\uFE0E</span><span class="nt"><b>${nm}</b><small>${ds}</small></span><span class="np">${sold ? 'SOLD' : '● ' + o.p}${!sold && def.rep && o.left > 1 ? `<i>×${o.left}</i>` : ''}</span>`;
+    b.innerHTML = `<kbd class="kh">${i + 1}</kbd><span class="ni">${def.ic}\uFE0E</span><span class="nt"><b>${nm}</b><small>${ds}</small></span><span class="np">${sold ? (n.fixed ? '—' : 'SOLD') : o.p ? '● ' + o.p : 'FREE'}${!sold && def.rep && o.left > 1 ? `<i>×${o.left}</i>` : ''}</span>`;
     b.setAttribute('aria-label', `${nm}: ${ds}. ${sold ? 'Sold out' : o.p + ' gold' + (can ? '' : ', not enough gold')}`);
     b.onclick = () => npcBuy(i); L.appendChild(b); });
   const m = $('npcMsg'); m.textContent = npcMsgT; m.className = 'npcmsg ' + npcMsgK; }
@@ -6604,7 +6863,7 @@ function npcApply(o, price, n) { const by = n.nt;
     case 'evo': { const er = evoReady(), id = er.includes(o.a) ? o.a : er[0]; if (!id) return { fail: 'Nothing is ready to ascend… yet.' }; evolve(id); return { t: '⇪ ' + EVO[id].n + '! The pact is sealed.', snd: 'chest' }; }
     case 'horde': { const k = npcBanish(); return { t: '☄ ' + k + ' foes banished into the void!', snd: 'nova' }; }
     case 'ward': if (G.deathward) return { fail: 'You already carry my ward.' }; G.deathward = 1; return { t: '✧ Death will pass you by… once.', snd: 'shimmer' };
-  } return null; }
+  } return w28Apply(o, n); }
 function npcGamble(hi, price) { const er = evoReady();
   const T = hi ? [['lvl2', 25], ['evo', er.length ? 10 : 0], ['buff', 15], ['gold3', 12], ['feast', 16], ['dud', 14], ['curse', 8]]
     : [['lvl', 30], ['heal', 18], ['reroll', 14], ['gold2', 12], ['edge', 12], ['dud', 10], ['curse', 4]];
@@ -6626,12 +6885,12 @@ function npcBanish() { const vw = W / ZOOM / 2 + 30, vh = H / ZOOM / 2 + 30; let
   G.spawnAcc = Math.min(G.spawnAcc, -(1 + G.t * 0.04 + Math.pow(G.t / 60, 1.7) * 0.55) * 6);
   effects.push({ k: 'nova', x: P.x, y: P.y, r: 0, maxR: 420, life: 0.6, max: 0.6, dmg: 0, hit: new Set(), col: '#c56bff', vis: 1 }); G.shake = 0.35; return n; }
 function npcAutoBuy(n) { /* balance sims only: a player who visits every trader and buys what helps most */
-  const pr = ['evo', 'lvl2', 'lvl', 'edge', 'haste', 'bet2', 'bet', 'ward', 'reroll', 'hide', 'horde'];
+  const pr = n.fixed ? n.offers.map(o => o.k) : ['evo', 'lvl2', 'lvl', 'edge', 'haste', 'bet2', 'bet', 'ward', 'reroll', 'hide', 'horde'];
   for (let guard = 0; guard < 12; guard++) { let done = false; for (const k of pr) { const i = n.offers.findIndex(o => o.k === k && o.left > 0 && G.gold >= o.p); if (i >= 0 && npcBuy(i, n)) { done = true; break; } } if (!done) break; } }
 function npcUI() { const b = $('npcTalk'); if (!b) return; let n = null;
   if (G && !G.ended && state === 'play' && topScreen() === null && Array.isArray(G.npcs)) for (const q of G.npcs) if (q.near && !q.gone) { n = q; break; }
   NPC_NEAR = n; const on = !!n; if (b.classList.contains('on') !== on) b.classList.toggle('on', on);
-  if (on && b._id !== n.id) { b._id = n.id; const D = NPCS[n.nt]; b.querySelector('.tn').textContent = 'Trade with ' + (D.n === '???' ? 'the Stranger' : D.n); b.style.setProperty('--nc', D.col); b.setAttribute('aria-label', 'Trade with ' + D.role); } }
+  if (on && b._id !== n.id) { b._id = n.id; const D = NPCS[n.nt]; b.querySelector('.tn').textContent = n.fixed ? 'Pray at the Shrine' : 'Trade with ' + (D.n === '???' ? 'the Stranger' : D.n); b.style.setProperty('--nc', D.col); b.setAttribute('aria-label', 'Trade with ' + D.role); } }
 function drawNpc(n) { if (!inView(n.x, n.y, 70)) return; const D = NPCS[n.nt], A = SPR.npc && SPR.npc[n.nt]; if (!A) return;
   const fade = clamp(Math.min(n.age * 3, n.T * 1.5), 0, 1), fl = n.nt === 'stranger', by = fl ? Math.sin(gtime * 2.2 + n.id) * 3 - 5 : n.mv ? -Math.abs(Math.sin(gtime * 8 + n.id)) * 1.6 : Math.sin(gtime * 2 + n.id) * 0.5;
   ctx.globalAlpha = fade; ctx.drawImage(SPR.shadow, n.x - 15 * (fl ? 0.8 : 1), n.y + 11, 30 * (fl ? 0.8 : 1), 9);
@@ -6643,6 +6902,7 @@ function drawNpc(n) { if (!inView(n.x, n.y, 70)) return; const D = NPCS[n.nt], A
   else if (n.nt === 'smith') glowAt('#4fd4ff', n.x - 10 * sx, n.y + by - 30, 18 + 4 * Math.sin(gtime * 5), fade);
   else if (n.nt === 'gambler') { const a = gtime * 1.6 + n.id, dx = n.x + Math.cos(a) * 18, dy = n.y - 22 + Math.sin(a * 2) * 4; glowAt('#ff4fd8', dx, dy, 22, 0.8 * fade); ctx.globalCompositeOperation = 'source-over';
     ctx.save(); ctx.translate(dx, dy); ctx.rotate(Math.sin(gtime * 3) * 0.6); ctx.fillStyle = '#ffe9a8'; ctx.strokeStyle = '#6a3a00'; ctx.lineWidth = 1; rr(-3.5, -3.5, 7, 7, 1.6); ctx.fill(); ctx.stroke(); ctx.fillStyle = '#b0203a'; for (const [px, py] of [[-1.6, -1.6], [0, 0], [1.6, 1.6]]) { ctx.beginPath(); ctx.arc(px, py, 0.7, 0, TAU); ctx.fill(); } ctx.restore(); ctx.globalCompositeOperation = 'lighter'; }
+  else if (n.nt === 'shrine') { glowAt('#8affc8', n.x, n.y + by - 24, 30 + 6 * Math.sin(gtime * 3), fade); for (let i = 0; i < 4; i++) { const a = gtime * 0.9 + i / 4 * TAU; glowAt('#8affc8', n.x + Math.cos(a) * 20, n.y + by - 18 + Math.sin(a) * 7, 9, 0.7 * fade); } }
   else { for (let i = 0; i < 3; i++) { const a = gtime * 1.4 + i / 3 * TAU; glowAt('#c56bff', n.x + Math.cos(a) * 17, n.y + by - 14 + Math.sin(a) * 6, 14, 0.9 * fade); } glowAt('#ffffff', n.x, n.y + by - 26, 8, 0.5 * fade); }
   ctx.globalCompositeOperation = 'source-over';
   ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.font = '800 8.5px -apple-system,system-ui,sans-serif'; ctx.lineWidth = 2.5; ctx.strokeStyle = 'rgba(10,4,20,.85)';
@@ -6681,7 +6941,7 @@ const isNight = t => { const p = dayPhase(t); return p > 0.62 && p < 0.96; };
 function phaseName(t) { const p = dayPhase(t); return p < 0.1 ? 'Dawn' : p < 0.5 ? 'Day' : p < 0.62 ? 'Dusk' : p < 0.96 ? 'Night' : 'Dawn'; }
 let LM = null;
 function drawSky(t, cx, cy) {
-  const k = skyAt(t);
+  const k = w28Sky(skyAt(t));
   if (k.da > 0.005) { // v13 light map: moonlit darkness with light pools punched out by the hero, spells, fires and glowing foes
     const lw = Math.max(2, Math.ceil(W / 3)), lh = Math.max(2, Math.ceil(H / 3)); if (!LM || LM.width !== lw || LM.height !== lh) LM = mkCanvas(lw, lh);
     const g = LM.getContext('2d'), s = lw / W, zz = ZOOM * s; g.globalCompositeOperation = 'copy'; g.fillStyle = `rgba(${k.dc},${Math.min(0.66, k.da * 1.1)})`; g.fillRect(0, 0, lw, lh);
@@ -6691,7 +6951,7 @@ function drawSky(t, cx, cy) {
       for (const p of projs) { if (++n > 60) break; L(p.x, p.y, p.k === 'morb' ? 70 : 36, 0.7); }
       for (const f of effects) { if (f.k === 'boom' || f.k === 'nova') L(f.x, f.y, (f.maxR || f.r || 40) * 1.6, 0.9 * Math.min(1, f.life / (f.max || 1) + 0.3)); else if (f.k === 'zone' && (f.fire || f.pull)) L(f.x, f.y, f.r * 2.2, 0.75); else if (f.k === 'star' && f.life < 0.25) L(f.x, f.y, f.r * 1.5, 0.6); }
       for (const e of enemies) if (!e.dead && (e.elite || e.boss || e.mini || e.bnT > 0) && inView(e.x, e.y, 60)) L(e.x, e.y, e.boss ? 120 : 50, 0.55);
-      for (const w of G.weapons) if (w.id === 'mbeam' && w.tg && !w.tg.dead) L(w.tg.x, w.tg.y, 70, 0.8); if (G) { questLights(L); npcLights(L); } }
+      for (const w of G.weapons) if (w.id === 'mbeam' && w.tg && !w.tg.dead) L(w.tg.x, w.tg.y, 70, 0.8); if (G) { questLights(L); npcLights(L); w28Lights(L); } }
     g.globalAlpha = 1; g.globalCompositeOperation = 'source-over'; ctx.drawImage(LM, 0, 0, W, H); }
   if (k.wa > 0.005) { ctx.globalCompositeOperation = 'lighter'; ctx.fillStyle = `rgba(${k.wc},${k.wa})`; ctx.fillRect(0, 0, W, H); ctx.globalCompositeOperation = 'source-over'; }
   return k;
@@ -6754,14 +7014,14 @@ function obChunk(i, j) {
     a.push({ k, x, y, r, s: sc, id, tall: T.tall, small: T.small, low: T.low }); return true; };
   if (G && G.map === 'castle') { castleChunk(i, j, key, a, rnd, add, x0, y0); OBCACHE.set(key, a); if (OBCACHE.size > 1600) OBCACHE.delete(OBCACHE.keys().next().value); return a; }
   const u = rnd(), cx = x0 + 30 + rnd() * (OBC - 60), cy = y0 + 30 + rnd() * (OBC - 60);
-  if (u < 0.36) { /* open ground */ }
+  if (u < 0.36 || w28Pick(key)) w28Open(key, a, rnd, add, cx, cy, 0);
   else if (u < 0.63) add(obPick(OB_SINGLE, rnd()), cx, cy, 0.9 + rnd() * 0.25);
   else if (u < 0.8) { for (let q = 0; q < 2 + (rnd() < 0.35 ? 1 : 0); q++) add(obPick(OB_SINGLE, rnd()), x0 + 25 + rnd() * (OBC - 50), y0 + 25 + rnd() * (OBC - 50), 0.9 + rnd() * 0.2); }
   else if (u < 0.9) { const m = 3 + Math.floor(rnd() * 3); for (let q = 0; q < m; q++) { const an = rnd() * TAU, rr = 20 + rnd() * 70; add(rnd() < 0.8 ? 'tree' : 'oldtree', cx + Math.cos(an) * rr, cy + Math.sin(an) * rr, 0.9 + rnd() * 0.25); } } // grove
   else { const an = rnd() < 0.5 ? 0 : Math.PI / 2 + (rnd() - 0.5) * 0.5, m = 4 + Math.floor(rnd() * 2), gap = 1 + Math.floor(rnd() * (m - 2)); // ruin: a wall line with a gap = choke point
     for (let q = 0; q < m; q++) { if (q === gap) continue; const d = (q - (m - 1) / 2) * 30 + (q > gap ? 34 : 0); add(q === 0 || q === m - 1 ? 'pillar' : 'wall', cx + Math.cos(an) * d, cy + Math.sin(an) * d); } }
   OBCACHE.set(key, a); if (OBCACHE.size > 1600) OBCACHE.delete(OBCACHE.keys().next().value); return a; }
-function obReset() { OBCACHE.clear(); OBG = new Map(); obGK = null; }
+function obReset() { OBCACHE.clear(); OBG = new Map(); obGK = null; W28LM.clear(); W28C.clear(); }
 function obGrid() { if (G && G.town) return; // rebuild the collision grid around the hero when they cross a chunk
   const ci = Math.floor(P.x / OBC), cj = Math.floor(P.y / OBC), R = Math.ceil((Math.hypot(W, H) / ZOOM / 2 + 420) / OBC), k = ci + ',' + cj + ',' + R;
   if (k === obGK) return; obGK = k; OBG = new Map();
@@ -6806,7 +7066,7 @@ function cometImpact(f) { // Prismatic Comet: split into fire / frost / arcane s
   if (tf.cometArc) { arcGain(2); nearestN(x, y, 4, 220).slice(0, 3).forEach((e, i) => G.later.push({ t: 0.05 + i * 0.05, src: f.src, f: () => { if (e.dead) return; effects.push({ k: 'bolt', x: e.x, y: e.y, x0: x, y0: y - 10, life: 0.2, max: 0.2, seed: Math.random() * 99, col: '#c56bff' }); damage(e, f.dmg * 0.35, {}); } })); }
   if (projs.length < 300) for (let i = 0; i < 3; i++) { const a = o + i / 3 * TAU; projs.push({ k: 'mbolt', x, y, vx: Math.cos(a) * 340, vy: Math.sin(a) * 340, r: 7, dmg: f.dmg * 0.3 * (el[i] === 'arcane' ? 1.25 : 1), pierce: 2, life: 0.5, hit: new Set(), el: el[i], burn: el[i] === 'fire' ? (5 + 0.5 * G.level) * P.burn : 0, chill: 2, arcG: el[i] === 'arcane' ? 1 : 0, src: f.src }); }
   G.shake = Math.max(G.shake, 0.18); }
-function obSmash(b) { b.gone = true; if (G) { G.obGone = G.obGone || {}; G.obGone[b.id] = 1; } burst(b.x, b.y - 8, b.k === 'stump' ? '#8a5c34' : '#b8ae98', 14, 150, 3.4, 0.55); G.shake = Math.max(G.shake, 0.15); obGK = null; }
+function obSmash(b) { b.gone = true; if (G) { G.obGone = G.obGone || {}; G.obGone[b.id] = 1; } burst(b.x, b.y - 8, b.k === 'stump' ? '#8a5c34' : '#b8ae98', 14, 150, 3.4, 0.55); G.shake = Math.max(G.shake, 0.15); obGK = null; if (OBT[b.k] && OBT[b.k].brk) w28Brk(b); }
 const OB_STOP = { gbolt: 1, knife: 1, arrow: 1, mbolt: 1, mshard: 1, seed: 1, hex: 1, vstar: 1 }; // v19: void stars shatter; stags & boulders crash (p.crash); locusts & wraiths fly over // magic lances, arcane orbs pass; boomerangs (chakram, scythe) bounce back
 function obProj(p) { if (p.crash) { const b = obHit(p.x, p.y, p.r * 0.6, 1); if (b) p.crash(p, b); return; } // v19: charging stags & rolling boulders crash into cover
   if (!(OB_STOP[p.k] || p.k === 'chak' || p.k === 'scy')) return; const b = obHit(p.x, p.y, Math.min(4, p.r * 0.5), 1); if (!b) return; // low stumps & gravestones don't block shots
@@ -6821,7 +7081,7 @@ function obCollect(cx, cy) { obVis = []; if (G && G.town) return obVis; const vw
   for (let i = Math.floor((cx - vw) / OBC); i <= Math.floor((cx + vw) / OBC); i++) for (let j = Math.floor((cy - vh) / OBC); j <= Math.floor((cy + vh) / OBC); j++)
     for (const o of obChunk(i, j)) if (!o.gone && Math.abs(o.x - cx) < vw && Math.abs(o.y - cy) < vh) obVis.push(o);
   return obVis; }
-function drawOb(o) { const T = OBT[o.k], img = (PXA.on && SPR.prop['px_' + o.k]) || SPR.prop[T.spr || o.k]; if (!img) return; ctx.imageSmoothingEnabled = !img.px; const S = T.S * o.s, top = o.y - T.f * S / 64 - S / 2;
+function drawOb(o) { const T = OBT[o.k], img = (PXA.on && SPR.prop['px_' + o.k]) || (SPR.prop[T.spr || o.k] || w28Lazy(o.k)); if (!img) return; ctx.imageSmoothingEnabled = !img.px; const S = T.S * o.s, top = o.y - T.f * S / 64 - S / 2;
   let a = 1; if (T.tall && P && P.y + 10 < o.y && P.y + 10 > top + S * 0.1 && Math.abs(P.x - o.x) < S * 0.42) a = 0.5; // hero behind a canopy / big rock: see-through
   if (a >= 1) { ctx.drawImage(img, o.x - S / 2, top, S, S); ctx.imageSmoothingEnabled = true; return; }
   const cut = (o.k === 'tree' || o.k === 'oldtree') ? 0.62 : 0.5, iw = img.width, ih = img.height; // trunk / base stays solid, canopy / top turns see-through
@@ -6835,6 +7095,7 @@ function drawWorldBg(cx, cy) {
   for (let i = c0; i <= c1; i++) for (let j = r0; j <= r1; j++) { const h = hash2(i, j); if (h % 100 > (mapOn() ? 12 : 34)) continue;
     const k = mapOn() ? 'rubble' : PROP_KEYS[(h >>> 8) % PROP_KEYS.length], px = i * C + ((h >>> 12) % 170) + 30, py = j * C + ((h >>> 20) % 170) + 30, s = k === 'grave' ? 46 : 52;
     ctx.drawImage(SPR.prop[k], px - s / 2, py - s / 2, s, s); }
+  w28Ground(cx, cy, vw, vh);
   ctx.imageSmoothingEnabled = true;
 }
 let HB = null, HB2 = null;
@@ -6957,7 +7218,7 @@ const CASTLE_KINDS = ['cpillar', 'cwall', 'brazier', 'statue', 'banner', 'crate'
 const CASTLE_SINGLE = [['statue', 12], ['brazier', 14], ['cpillar', 16], ['crate', 12], ['rubble', 14], ['banner', 10], ['cwall', 8]];
 function castleChunk(i, j, key, a, rnd, add, x0, y0) {
   const u = rnd(), cx = x0 + 30 + rnd() * (OBC - 60), cy = y0 + 30 + rnd() * (OBC - 60), hz = rnd() < 0.5;
-  if (u < 0.28) { /* courtyard */ }
+  if (u < 0.28 || w28Pick(key)) w28Open(key, a, rnd, add, cx, cy, 1);
   else if (u < 0.46) add(obPick(CASTLE_SINGLE, rnd()), cx, cy, 0.95 + rnd() * 0.15);
   else if (u < 0.66) { const m = 3 + Math.floor(rnd() * 2); for (let q = 0; q < m; q++) { const d = (q - (m - 1) / 2) * 62; add('cpillar', hz ? cx + d : cx, hz ? cy : cy + d); } }               // colonnade
   else if (u < 0.82) { const m = 4 + Math.floor(rnd() * 2), gap = 1 + Math.floor(rnd() * (m - 2)); for (let q = 0; q < m; q++) { if (q === gap) continue; const d = (q - (m - 1) / 2) * 30 + (q > gap ? 34 : 0); add(q === 0 || q === m - 1 ? 'banner' : 'cwall', hz ? cx + d : cx, hz ? cy : cy + d); } } // wall with a gate
@@ -6965,6 +7226,400 @@ function castleChunk(i, j, key, a, rnd, add, x0, y0) {
   else { for (let q = 0; q < 4; q++) add(rnd() < 0.5 ? 'crate' : 'rubble', cx + rand(-50, 50), cy + rand(-40, 40)); add('brazier', cx, cy - 56); }
 }
 function mapApply() { const mp = mapOn() ? 'castle' : 'forest'; if (mp === ARTMAP) return; ARTMAP = mp;  ROADC.clear(); PXA.cache.clear(); buildArt(); if (mapOn()) PXA.world.castleProps(); }
+/* ================= v28 LIVING WORLD: art for landmarks, breakables, ground decals and the shrine =================
+   Everything is baked once per map into small pixel sprites (PXA), so the per-frame cost is a handful of drawImage calls. */
+Object.assign(RANGED, { shaman: 8, pyromancer: 18 });
+Object.assign(OBT, {
+  menhir: { S: 64, f: 20, r: 10, tall: 1 }, altar: { S: 60, f: 14, r: 14 }, eldertree: { S: 132, f: 24, r: 22, tall: 1 }, tent: { S: 76, f: 18, r: 20 },
+  campfire: { S: 44, f: 14, r: 9, low: 1 }, crypt: { S: 96, f: 20, r: 26, tall: 1 }, forge: { S: 88, f: 20, r: 24, tall: 1 }, anvil: { S: 44, f: 12, r: 9, low: 1 },
+  throne: { S: 84, f: 20, r: 18, tall: 1 }, gibbet: { S: 72, f: 20, r: 8, tall: 1 }, urn: { S: 36, f: 14, r: 7, small: 1, low: 1, brk: 1 }, cask: { S: 40, f: 14, r: 8, small: 1, low: 1, brk: 1 },
+});
+const W28_PROPS = ['menhir', 'altar', 'eldertree', 'tent', 'campfire', 'crypt', 'forge', 'anvil', 'throne', 'gibbet', 'urn', 'cask'];
+let W28ART = null;
+(() => {
+  const { ramp: R, PB, finish } = PXA, PW = PXA.world, PD = PW.PD;
+  const STN = R(['#14181c', '#262c30', '#3c4448', '#5a6468', '#8a9498']), MOS = R(['#0e2010', '#1a3a1a', '#2a5a26', '#44803a', '#6aa850']), RUN = R(['#0a4a3a', '#1a8a6a', '#3affc0', '#a0ffe0', '#f0fff8'], 1);
+  const BRK = R(['#1a0e06', '#3a2412', '#5e3c1e', '#86592e', '#b07a42']), LEAF = R(['#06120a', '#0e2414', '#18381e', '#25502a', '#38703a']), GLW = R(['#1a5a10', '#3aa020', '#7ae83a', '#c0ff8a', '#f4ffe0'], 1);
+  const CANV = R(['#3a2a18', '#6a5030', '#9a7a4a', '#c8a870', '#ecd8a8']), RED = R(['#2a0608', '#5a1014', '#8a2020', '#b83a30', '#e06a50']), FIRE = R(['#5a1004', '#a02a08', '#ff7a1e', '#ffc84a', '#fff4c0'], 1);
+  const CLAY = R(['#2a1008', '#5a2814', '#8a4424', '#b86a3a', '#e09a60']), IRN = R(['#08080c', '#16161e', '#262634', '#3e3e52', '#62627a']), GLD = R(['#4a3008', '#8a5a14', '#d09a2a', '#f6cf5a', '#fff0a8']);
+  const MRB = R(['#1c1a2a', '#34304a', '#504a6c', '#77709a', '#a8a2c8']), VLV = R(['#200814', '#3e0e26', '#64183c', '#922a58', '#c4487c']), MAG = R(['#4a0a02', '#9a2006', '#ff5a10', '#ffb030', '#fff0a0'], 1);
+  const BON = R(['#4a4434', '#7a705a', '#b0a688', '#dcd2b4', '#fffaf0']), WAT = R(['#04101c', '#0a1e30', '#143450', '#2a5a7a', '#7ab0d0']), BLU = R(['#06202a', '#0e3a44', '#1a5a62', '#2e8486', '#5abab0']);
+  const FLW = [R(['#4a0a2a', '#8a1a4a', '#e04a8a', '#ff9ac8', '#fff0f8']), R(['#0a1a4a', '#1a3a8a', '#4a7ae0', '#9ac0ff', '#f0f8ff']), R(['#4a4a0a', '#8a8a1a', '#e0d04a', '#fff09a', '#fffff0'])];
+  const AUT = R(['#3a1404', '#7a2c08', '#c45a14', '#e88a2a', '#ffc060']), ASH = R(['#18161a', '#2a282c', '#423e42', '#625c5e', '#8c8686']), BLD = R(['#1a0204', '#3a0408', '#5e0a10', '#8a1418', '#b02a2a']);
+  const FLG = R(['#12101c', '#1d1a2c', '#2a2740', '#38344f', '#4a4666']), RUNB = R(['#1a2a7a', '#2e5ad0', '#4fa0ff', '#9ad6ff', '#eefaff'], 1);
+  const hh = (x, y, s) => { let h = (Math.floor(x) * 374761393 + Math.floor(y) * 668265263 + s * 2246822519) | 0; h = (h ^ (h >>> 13)) * 1274126177; return ((h ^ (h >>> 16)) >>> 0) / 4294967296; };
+  /* ---------- landmark props ---------- */
+  PD.menhir = (b) => { b.ell(0, -1, 11, 3, STN, 0, 0); b.poly([-8, 0, -9, -30, -5, -44, 3, -46, 8, -34, 8, 0], STN, 2, 1); b.rect(-8, -40, 3, 38, STN[3]);
+    for (const [x, y] of [[-2, -36], [1, -30], [-3, -24], [2, -18]]) { b.set(x, y, RUN[2]); b.set(x + 1, y, RUN[3]); b.set(x, y + 1, RUN[1]); }
+    for (let i = 0; i < 14; i++) b.set(-8 + hh(i, 1, 3) * 16, -2 - hh(i, 2, 3) * 14, MOS[2 + (i & 1)]); b.poly([-8, -2, -8, -10, -3, -6, 2, -3], MOS, 2, 0); };
+  PD.altar = (b) => { b.ell(0, 0, 18, 5, STN, 0, 0); b.rect(-16, -10, 32, 10, STN[2]); b.rect(-16, -10, 32, 2, STN[4]); b.rect(-12, -18, 24, 8, STN[3]); b.rect(-12, -18, 24, 1, STN[4]);
+    b.rect(-14, -2, 28, 2, STN[1]); for (let x = -10; x <= 10; x += 4) b.set(x, -6, RUN[2]); b.ell(0, -22, 5, 3, RUN, 2, 0); b.ell(0, -23, 2.5, 1.5, RUN, 4, 0);
+    for (let i = 0; i < 10; i++) b.set(-16 + hh(i, 5, 4) * 32, -hh(i, 6, 4) * 8, MOS[3]); };
+  PD.eldertree = (b) => { b.ell(0, 0, 34, 7, LEAF, 0, 0);
+    for (const s of [-1, 1]) { b.curve(0, -8, s * 18, -2, s * 30, 2, 5, 2, BRK, 1); b.curve(0, -12, s * 10, -4, s * 22, 4, 4, 1.5, BRK, 2); }
+    b.poly([-11, 0, -9, -44, -5, -66, 5, -66, 9, -44, 12, 0], BRK, 2, 1); b.rect(-9, -60, 4, 56, BRK[3]); for (let y = -60; y < -4; y += 7) b.line(-2, y, 2, y + 4, BRK[1]);
+    b.ell(1, -30, 4, 6, BRK, 0, 0); b.ell(1, -30, 2, 3, GLW, 2, 0);
+    for (const [x, y, r] of [[-30, -70, 18], [28, -72, 19], [0, -88, 24], [-18, -96, 16], [20, -98, 16], [-36, -84, 12], [36, -86, 12], [0, -64, 18]]) b.ell(x, y, r, r * 0.8, LEAF, 2, 1);
+    for (let i = 0; i < 60; i++) { const x = -44 + hh(i, 7, 5) * 88, y = -112 + hh(i, 8, 5) * 56; if (b.get(x, y)) b.set(x, y, LEAF[hh(i, 9, 5) < 0.5 ? 3 : 4]); }
+    for (let i = 0; i < 9; i++) { const x = -38 + hh(i, 1, 6) * 76, y = -104 + hh(i, 2, 6) * 46; b.set(x, y, GLW[3]); b.set(x, y + 1, GLW[2]); }
+    for (let i = 0; i < 6; i++) { const x = -40 + i * 15 + hh(i, 3, 6) * 6; b.line(x, -62 + (i % 2) * 6, x, -48 + (i % 3) * 4, MOS[2]); } };
+  PD.tent = (b) => { b.ell(0, 0, 30, 6, BRK, 0, 0); b.poly([-30, 0, 0, -42, 30, 0], CANV, 2, 1); b.poly([0, -42, 30, 0, 14, 0], CANV, 1, 0); b.poly([-8, 0, 0, -22, 8, 0], BRK, 0, 0);
+    b.line(0, -42, 0, -48, BRK[3]); b.poly([0, -48, 9, -45, 0, -42], RED, 3, 0); for (let i = 0; i < 4; i++) b.line(-24 + i * 7, -2 - i * 2, -16 + i * 7, -14 - i * 7, CANV[3]);
+    b.rect(-34, -4, 4, 4, BRK[2]); b.rect(30, -4, 4, 4, BRK[2]); b.line(-30, 0, -36, 2, BRK[3]); b.line(30, 0, 36, 2, BRK[3]); };
+  PD.campfire = (b) => { b.ell(0, 0, 14, 5, STN, 1, 0); for (let i = 0; i < 8; i++) { const a = i / 8 * TAU; b.ell(Math.cos(a) * 12, Math.sin(a) * 4, 3, 2.2, STN, 2, 1); }
+    b.cap(-9, -1, 8, -4, 2, 2, BRK, 2); b.cap(9, -1, -8, -4, 2, 2, BRK, 3); b.poly([-6, -3, -4, -14, -1, -9, 1, -20, 3, -10, 5, -15, 6, -3], FIRE, 2, 0); b.poly([-3, -3, -1, -11, 1, -7, 3, -3], FIRE, 4, 0); b.set(-2, -22, FIRE[3]); b.set(4, -19, FIRE[2]); };
+  PD.crypt = (b) => { b.ell(0, 0, 40, 7, STN, 0, 0); b.rect(-34, -40, 68, 40, STN[2]); b.rect(-34, -40, 68, 2, STN[4]); b.poly([-38, -40, 0, -62, 38, -40], STN, 3, 1); b.rect(-38, -42, 76, 3, STN[1]);
+    for (let r = 0; r < 5; r++) for (let c = 0; c < 6; c++) b.rect(-33 + c * 11 + (r & 1) * 5, -38 + r * 8, 10, 1, STN[1]);
+    b.rect(-12, -30, 24, 30, STN[0]); b.poly([-12, -30, 0, -38, 12, -30], STN, 0, 0); b.rect(-10, -28, 20, 28, IRN[1]); for (let x = -8; x <= 8; x += 4) b.line(x, -28, x, -1, IRN[3]); b.ell(0, -16, 3, 3, RUN, 2, 0);
+    for (const s of [-1, 1]) { b.rect(s * 26 - 4, -48, 8, 48, STN[3]); b.rect(s * 26 - 4, -48, 2, 48, STN[4]); b.ell(s * 26, -50, 5, 3, STN, 3, 1); }
+    b.ell(0, -50, 5, 5, STN, 1, 0); b.ell(0, -50, 2.5, 2.5, RUN, 3, 0); for (let i = 0; i < 24; i++) b.set(-34 + hh(i, 4, 7) * 68, -2 - hh(i, 5, 7) * 22, MOS[2 + (i % 3 === 0 ? 1 : 0)]); };
+  PD.forge = (b) => { b.ell(0, 0, 36, 6, IRN, 0, 0); b.rect(-30, -28, 60, 28, FLG[2]); b.rect(-30, -28, 60, 2, FLG[4]); for (let r = 0; r < 4; r++) for (let c = 0; c < 6; c++) b.rect(-29 + c * 10 + (r & 1) * 5, -26 + r * 7, 9, 1, FLG[0]);
+    b.rect(-14, -22, 28, 18, IRN[0]); b.poly([-14, -22, 0, -30, 14, -22], FLG, 1, 0); b.rect(-12, -18, 24, 14, MAG[1]); b.poly([-10, -4, -7, -14, -3, -8, 0, -17, 3, -9, 7, -13, 10, -4], MAG, 3, 0); b.rect(-10, -6, 20, 2, MAG[4]);
+    b.rect(14, -64, 12, 36, FLG[3]); b.rect(14, -64, 3, 36, FLG[4]); b.rect(12, -66, 16, 3, FLG[1]); for (let i = 0; i < 4; i++) b.set(17 + hh(i, 1, 8) * 6, -68 - i * 3, i % 2 ? ASH[3] : MAG[2]);
+    b.rect(-30, -30, 60, 2, IRN[2]); b.poly([-34, -4, -24, -10, -24, 0], IRN, 2, 0); };
+  PD.anvil = (b) => { b.ell(0, 0, 12, 3.5, IRN, 0, 0); b.rect(-5, -10, 10, 10, BRK[2]); b.rect(-5, -10, 10, 1, BRK[4]); b.poly([-14, -18, 12, -18, 16, -16, 8, -12, -8, -12, -10, -16], IRN, 3, 1); b.rect(-14, -19, 26, 2, IRN[4]);
+    b.line(-8, -13, -4, -9, IRN[1]); b.set(6, -20, MAG[3]); b.set(9, -22, MAG[2]); b.cap(10, -20, 15, -24, 1, 1, BRK, 3); b.rect(12, -28, 7, 4, IRN[3]); };
+  PD.throne = (b) => { b.ell(0, 0, 32, 6, FLG, 0, 0); b.rect(-26, -8, 52, 8, MRB[2]); b.rect(-26, -8, 52, 1, MRB[4]); b.rect(-20, -14, 40, 6, MRB[3]); b.rect(-20, -14, 40, 1, MRB[4]);
+    b.poly([-16, -14, -18, -58, -10, -66, 0, -60, 10, -66, 18, -58, 16, -14], GLD, 2, 1); b.poly([-12, -16, -13, -54, 13, -54, 12, -16], VLV, 2, 1);
+    b.rect(-18, -30, 6, 16, GLD[3]); b.rect(12, -30, 6, 16, GLD[2]); b.rect(-14, -30, 28, 6, VLV[3]); for (const x of [-10, 0, 10]) { b.set(x, -66 + (x ? 0 : 6), GLD[4]); b.ell(x, x ? -64 : -58, 1.6, 1.6, MAG, 3, 0); }
+    b.ell(0, -44, 3, 3, MAG, 2, 0); b.set(-1, -45, MAG[4]); b.line(-24, -2, -20, -6, MRB[0]); b.line(22, -4, 18, -1, MRB[0]); };
+  PD.gibbet = (b) => { b.ell(0, 0, 10, 3, IRN, 0, 0); b.rect(-3, -54, 5, 54, BRK[2]); b.rect(-3, -54, 2, 54, BRK[3]); b.rect(-3, -56, 24, 4, BRK[2]); b.rect(-3, -56, 24, 1, BRK[4]); b.line(1, -48, 8, -54, BRK[3]);
+    b.line(16, -52, 16, -42, IRN[3]); b.poly([10, -42, 22, -42, 21, -18, 16, -14, 11, -18], IRN, 2, 0); for (let x = 11; x <= 21; x += 3) b.line(x, -42, x, -18, IRN[3]); b.line(10, -30, 22, -30, IRN[3]);
+    b.ell(16, -36, 3, 3, BON, 3, 1); b.set(15, -36, IRN[0]); b.set(17, -36, IRN[0]); b.line(16, -33, 16, -24, BON[2]); b.line(13, -28, 19, -28, BON[2]); b.rect(-7, -2, 13, 2, BRK[1]); };
+  PD.urn = (b) => { b.ell(0, 0, 9, 2.6, CLAY, 0, 0); b.ell(0, -8, 8, 8, CLAY, 2, 1); b.rect(-4, -18, 8, 4, CLAY[2]); b.rect(-5, -19, 10, 2, CLAY[3]); b.line(-6, -9, 6, -9, CLAY[4]); b.line(-7, -6, 7, -6, CLAY[1]);
+    for (const x of [-4, 0, 4]) b.set(x, -9, mapOn() ? GLD[3] : RUN[2]); };
+  PD.cask = (b) => { b.ell(0, 0, 10, 3, BRK, 0, 0); b.ell(0, -10, 10, 11, BRK, 2, 1); for (const y of [-17, -3]) b.rect(-9, y, 18, 2, IRN[3]); b.rect(-10, -11, 20, 2, IRN[2]);
+    for (let x = -6; x <= 6; x += 4) b.line(x, -19, x, -1, BRK[1]); b.ell(0, -20, 7, 2, BRK, 3, 0); b.set(-3, -20, BRK[1]); };
+  PW.w28Props = () => { for (const k of W28_PROPS) { const c = PW.prop(k); SPR.prop[k] = c; SPR.prop['px_' + k] = c; } W28ART = null; };
+  /* ---------- ground decals & patches (baked per map, drawn under everything) ---------- */
+  const dith = (b, cx, cy, rx, ry, P, lv, s, den = 1) => { b.box(cx - rx, cy - ry, cx + rx, cy + ry, (x, y) => { const d = ((x - cx) / rx) ** 2 + ((y - cy) / ry) ** 2; if (d >= 1 || hh(x, y, s) > den * (1.25 - d)) return 0;
+    return P[clamp(lv + (hh(x, y, s + 1) < 0.18 ? 1 : 0) - (d > 0.72 ? 1 : 0), 0, 4)]; }); };
+  const tufts = (b, cx, cy, rx, ry, P, n, s) => { for (let i = 0; i < n; i++) { const a = hh(i, 1, s) * TAU, q = Math.sqrt(hh(i, 2, s)), x = cx + Math.cos(a) * rx * q, y = cy + Math.sin(a) * ry * q, h = 2 + (hh(i, 3, s) * 3 | 0);
+    for (let k = 0; k < h; k++) b.set(x + (k === h - 1 ? 1 : 0), y - k, P[k === h - 1 ? 4 : 3]); } };
+  const F = {
+    moss: b => { for (let i = 0; i < 5; i++) dith(b, -14 + hh(i, 1, 21) * 28, -6 + hh(i, 2, 21) * 12, 8 + hh(i, 3, 21) * 6, 4 + hh(i, 4, 21) * 3, MOS, 2, 21 + i, 1.1); },
+    flowers: b => { tufts(b, 0, 0, 20, 10, MOS, 10, 31); for (let i = 0; i < 8; i++) { const x = -18 + hh(i, 1, 32) * 36, y = -9 + hh(i, 2, 32) * 18, P = FLW[i % 3]; b.set(x, y + 2, MOS[2]); b.set(x, y + 1, MOS[3]); for (const [dx, dy] of [[-1, 0], [1, 0], [0, -1], [0, 1]]) b.set(x + dx, y - 1 + dy, P[3]); b.set(x, y - 1, GLD[4]); } },
+    puddle: b => { dith(b, 0, 0, 20, 8, BRK, 1, 41, 1.6); dith(b, 0, 0, 16, 6, WAT, 1, 42, 2); b.line(-8, -2, 2, -3, WAT[4]); b.line(4, 1, 9, 1, WAT[3]); },
+    leaves: b => { for (let i = 0; i < 16; i++) { const x = -20 + hh(i, 1, 51) * 40, y = -9 + hh(i, 2, 51) * 18, c = AUT[1 + (hh(i, 3, 51) * 4 | 0)]; b.set(x, y, c); b.set(x + 1, y, c); if (i & 1) b.set(x, y - 1, AUT[4]); } },
+    fairy: b => { for (let i = 0; i < 8; i++) { const a = i / 8 * TAU, x = Math.cos(a) * 17, y = Math.sin(a) * 8; b.set(x, y, STN[4]); b.set(x, y - 1, RED[3]); b.set(x - 1, y - 1, RED[2]); b.set(x + 1, y - 1, RED[2]); b.set(x, y - 2, RED[4]); }
+      for (let i = 0; i < 7; i++) b.set(-10 + hh(i, 1, 61) * 20, -4 + hh(i, 2, 61) * 8, GLW[2 + (i & 1)]); },
+    bones: b => { b.ell(-4, 0, 4, 3, BON, 3, 1); b.set(-5, 0, IRN[0]); b.set(-3, 0, IRN[0]); b.line(2, 2, 12, -2, BON[3]); b.line(3, -2, 11, 3, BON[2]); b.set(2, 2, BON[4]); b.set(12, -2, BON[4]); b.line(-12, 4, -8, 5, BON[2]); },
+    roots: b => { for (let i = 0; i < 3; i++) b.curve(-20 + i * 4, -4 + i * 3, -4, -8 + i * 6, 18 - i * 3, 2 + i * 2, 1.6, 0.6, BRK, 1 + (i & 1), 0); },
+    crack: b => { let x = -16, y = -2; for (let k = 0; k < 30; k++) { b.set(x, y, FLG[0]); b.set(x, y + 1, FLG[3]); x += 1; y += hh(k, 1, 71) < 0.33 ? -1 : hh(k, 2, 71) < 0.5 ? 1 : 0; if (k === 12) { let bx = x, by = y; for (let q = 0; q < 8; q++) { b.set(bx, by, FLG[0]); bx += 1; by += 1; } } } },
+    scorch: b => { dith(b, 0, 0, 18, 8, ASH, 0, 81, 1.4); dith(b, 0, 0, 9, 4, IRN, 0, 82, 1.6); for (let i = 0; i < 4; i++) b.set(-6 + hh(i, 1, 83) * 12, -2 + hh(i, 2, 83) * 4, MAG[2]); },
+    grate: b => { b.rect(-12, -6, 24, 12, IRN[1]); b.rect(-12, -6, 24, 1, IRN[3]); for (let x = -10; x <= 10; x += 4) b.rect(x, -5, 2, 10, IRN[0]); for (let x = -9; x <= 9; x += 4) b.rect(x, -4, 2, 8, MAG[1 + (x & 2 ? 1 : 0)]); b.rect(-12, 5, 24, 1, IRN[0]); },
+    runes: b => { for (let i = 0; i < 18; i++) { const a = i / 18 * TAU; b.set(Math.cos(a) * 16, Math.sin(a) * 7, RUNB[1 + (i % 3 === 0 ? 2 : 0)]); } for (let i = 0; i < 5; i++) { const a = i / 5 * TAU; b.line(Math.cos(a) * 10, Math.sin(a) * 4, Math.cos(a + 2.5) * 10, Math.sin(a + 2.5) * 4, RUNB[1]); } b.set(0, 0, RUNB[3]); },
+    tiles: b => { for (let r = 0; r < 2; r++) for (let c = 0; c < 3; c++) { const x = -15 + c * 10 + (r & 1) * 5, y = -6 + r * 6, P = (r + c) & 1 ? MRB : FLG; b.rect(x, y, 9, 5, P[2]); b.rect(x, y, 9, 1, P[3]); } },
+    chains: b => { for (let i = 0; i < 9; i++) { const x = -18 + i * 4, y = Math.sin(i * 0.8) * 3; if (i & 1) { b.set(x, y, IRN[3]); b.set(x + 1, y, IRN[3]); } else { b.set(x, y - 1, IRN[3]); b.set(x, y + 1, IRN[2]); b.set(x + 1, y, IRN[4]); } } b.ell(18, 0, 3, 2, IRN, 2, 0); },
+    blood: b => { dith(b, 0, 0, 12, 5, BLD, 2, 91, 1.5); for (let i = 0; i < 6; i++) b.set(-16 + hh(i, 1, 92) * 32, -6 + hh(i, 2, 92) * 12, BLD[2]); },
+  };
+  const PT = {
+    clear: b => { dith(b, 0, 0, 70, 30, MOS, 3, 101, 0.9); tufts(b, 0, 0, 60, 24, MOS, 40, 102); for (let i = 0; i < 10; i++) { const x = -50 + hh(i, 1, 103) * 100, y = -20 + hh(i, 2, 103) * 40; b.set(x, y, FLW[i % 3][3]); b.set(x, y - 1, GLD[4]); } },
+    bog: b => { dith(b, 0, 0, 70, 30, BRK, 1, 111, 1.2); for (let i = 0; i < 4; i++) dith(b, -40 + i * 26, -10 + hh(i, 1, 112) * 20, 12, 5, WAT, 1, 113 + i, 2); tufts(b, 0, 0, 66, 28, MOS, 26, 114); },
+    blue: b => { dith(b, 0, 0, 66, 28, BLU, 1, 121, 0.8); tufts(b, 0, 0, 62, 26, BLU, 60, 122); for (let i = 0; i < 8; i++) b.set(-50 + hh(i, 1, 123) * 100, -20 + hh(i, 2, 123) * 40, GLW[3]); },
+    carpet: b => { b.rect(-60, -22, 120, 44, VLV[2]); b.rect(-60, -22, 120, 2, GLD[3]); b.rect(-60, 20, 120, 2, GLD[2]); b.rect(-56, -18, 112, 36, VLV[1]); for (let x = -50; x <= 50; x += 20) b.poly([x, -8, x + 6, 0, x, 8, x - 6, 0], GLD, 2, 0);
+      for (let i = 0; i < 30; i++) b.set(-60 + hh(i, 1, 131) * 120, -22 + hh(i, 2, 131) * 44, VLV[0]); for (let x = -60; x < 60; x += 3) { b.set(x, 23, GLD[1]); b.set(x, -24, GLD[1]); } },
+    ash: b => { dith(b, 0, 0, 70, 30, ASH, 1, 141, 1.1); dith(b, 10, 4, 40, 16, ASH, 2, 142, 0.9); for (let i = 0; i < 10; i++) b.set(-50 + hh(i, 1, 143) * 100, -20 + hh(i, 2, 143) * 40, MAG[1 + (i & 1)]); },
+    magma: b => { dith(b, 0, 0, 64, 26, IRN, 0, 151, 1.4); let x = -52, y = 0; for (let k = 0; k < 110; k++) { b.set(x, y, MAG[2]); b.set(x, y + 1, MAG[1]); if (k % 9 === 0) b.set(x, y - 1, MAG[3]); x += 1; y += hh(k, 1, 152) < 0.3 ? -1 : hh(k, 2, 152) < 0.45 ? 1 : 0; y = clamp(y, -14, 14); }
+      for (let i = 0; i < 3; i++) dith(b, -30 + i * 30, -6 + i * 4, 7, 3, MAG, 2, 153 + i, 2); },
+  };
+  const bake = (n, fn) => { const b = new PB(n, Math.round(n * 0.6), n / 2, Math.round(n * 0.3)); fn(b); const c = finish(b, { ol: 0, rim: 0, glow: 0 }).img; c.px = 1; c.n = n; return c; };
+  PW.w28Bake = () => { const c = mapOn(), out = { m: c, dec: [], pat: [] };
+    const D = c ? [['crack', 5], ['scorch', 3], ['grate', 1.4, 1], ['runes', 1.2, 1], ['tiles', 3], ['chains', 1.4], ['blood', 1.2], ['bones', 1]] : [['moss', 5], ['flowers', 3], ['puddle', 1.6], ['leaves', 2.2], ['fairy', 0.9, 1], ['bones', 1], ['roots', 2.4]];
+    const Pt = c ? [['carpet', 1], ['ash', 2], ['magma', 1.2, 1]] : [['clear', 2], ['bog', 1.2], ['blue', 1.3]];
+    for (const [k, w, e] of D) out.dec.push({ k, w, img: bake(44, F[k]), e }); for (const [k, w, e] of Pt) out.pat.push({ k, w, img: bake(150, PT[k]), e });
+    W28ART = out; return out; };
+})();
+/* the Spirit Shrine (a fixed NPC: free blessings, one per visit) */
+NPCDRAW.shrine = function (g, f) { const c = mapOn(), st = c ? '#3a3650' : '#3e4a44', st2 = c ? '#5a5478' : '#5e6e64', rim = c ? '#d0a040' : '#6aa850', cr = '#8affc8';
+  g.fillStyle = 'rgba(0,0,0,.25)'; g.beginPath(); g.ellipse(0, 20, 18, 4, 0, 0, TAU); g.fill();
+  g.fillStyle = st; nrr(g, -16, 10, 32, 10, 2); g.fill(); g.fillStyle = st2; nrr(g, -12, 2, 24, 10, 2); g.fill(); g.fillStyle = rim; g.fillRect(-16, 10, 32, 1.5); g.fillRect(-12, 2, 24, 1.2);
+  g.fillStyle = st; g.beginPath(); g.moveTo(-8, 2); g.lineTo(-5, -12); g.lineTo(5, -12); g.lineTo(8, 2); g.closePath(); g.fill(); g.fillStyle = st2; g.fillRect(-5, -10, 3, 11);
+  glowDot(g, 0, -24, 15, cr, 0.7); g.fillStyle = '#2a8a6a'; g.beginPath(); g.moveTo(0, -38); g.lineTo(6, -24); g.lineTo(0, -12); g.lineTo(-6, -24); g.closePath(); g.fill();
+  g.fillStyle = cr; g.beginPath(); g.moveTo(0, -36); g.lineTo(4, -24); g.lineTo(0, -15); g.lineTo(-1.5, -24); g.closePath(); g.fill(); g.fillStyle = '#f0fff8'; g.fillRect(-0.6, -32, 1.4, 6);
+  g.strokeStyle = cr; g.lineWidth = 0.9; g.beginPath(); g.moveTo(-10, 15); g.lineTo(-7, 13); g.lineTo(-4, 15); g.moveTo(4, 15); g.lineTo(7, 13); g.lineTo(10, 15); g.stroke(); };
+NPCS.shrine = { n: 'Spirit Shrine', role: 'Ancient Shrine', ic: '✧', col: '#8affc8', glow: '#8affc8', hi: ['The old spirits stir…', 'Kneel, and be blessed.', 'One gift. Choose with care.', 'The dark cannot reach this light.'], bye: 'The spirits watch over you.', poor: '' };
+/* ===== v28 LIVING WORLD: landmarks, random events, spirit shrines, weather, ground detail, dig spots and breakables ===== */
+let W28LM = new Map(), W28C = new Map(), W28A = [], W28G = null; const W28ACC = {};
+const LMD28 = {
+  stones: { n: 'Standing Stones', ic: '◈', col: '#9fdcff', r: 64, hold: 1.2, d: 'Stand in the ring to wake the runes' },
+  elder: { n: 'Elder Tree', ic: '♣', col: '#9dff6a', r: 66, hold: 1, d: 'Rest beneath its boughs' },
+  camp: { n: "Hunter's Camp", ic: '▲', col: '#ffae4a', r: 58, hold: 1, d: 'Search the abandoned camp' },
+  crypt: { n: 'Old Crypt', n2: 'Ossuary', ic: '✝', col: '#c56bff', r: 64, hold: 1.3, d: 'Wake the guardians for treasure' },
+  forge: { n: 'Ember Forge', ic: '⚒', col: '#ff8a3c', r: 64, hold: 1, d: 'Temper your weapons' },
+  throne: { n: 'Fallen Throne', ic: '♛', col: '#ffd36a', r: 58, hold: 1.3, d: 'Claim the royal hoard' },
+  gibbet: { n: 'Gallows Hill', ic: '☠', col: '#ff5a7a', r: 60, hold: 1, d: 'Loot the hanged men' },
+};
+const w28LN = k => (mapOn() && LMD28[k].n2) || LMD28[k].n;
+const WX28 = {
+  forest: { clear: { n: 'Clear skies', w: 3 }, mist: { n: 'Morning Mist', fog: 0.55, ov: '150,190,225,.05', w: 2 }, moon: { n: 'Bright Moon', da: 0.7, w: 1.2, p: 'fly', pr: 3 },
+    autumn: { n: 'Falling Leaves', p: 'leaf', pr: 8, w: 2 }, blood: { n: 'Blood Moon', ov: '170,20,40,.07', gold: 1.2, w: 1, d: '+20% gold while it lasts' }, fly: { n: 'Firefly Night', p: 'fly', pr: 6, w: 1.5 } },
+  castle: { clear: { n: 'Still air', w: 2 }, smolder: { n: 'Smoldering Ruins', p: 'ember', pr: 9, w: 2 }, ashfall: { n: 'Ashfall', p: 'ash', pr: 16, fog: 0.35, ov: '90,80,80,.06', w: 2 },
+    molten: { n: 'Molten Sky', ov: '255,90,20,.055', gold: 1.1, w: 1, d: '+10% gold while it lasts', p: 'ember', pr: 4 }, spark: { n: 'Spark Storm', p: 'spark', pr: 7, w: 1.4 } },
+};
+function w28Wx() { const m = mapOn() ? WX28.castle : WX28.forest; return m[G && G.w28 && G.w28.wx] || m.clear; }
+function w28WxPick() { const m = mapOn() ? WX28.castle : WX28.forest; return wpick(Object.keys(m), k => m[k].w); }
+const EVD28 = {
+  meteor: { n: ['Meteor Shower', 'Ember Rain'], ic: '☄', col: '#ff8a3c', T: 22, w: 1, d: 'Dodge the red circles! Impacts hurt monsters too' },
+  thief: { n: ['Goblin Thief', 'Vault Thief'], ic: '✦', col: '#ffd36a', T: 25, w: 1, d: 'Catch the thief before he escapes with the gold!' },
+  hunt: { n: ['The Great Hunt', 'Marked Champion'], ic: '⚔', col: '#ff5a7a', T: 50, w: 1, d: 'Slay the marked champion for a big reward' },
+  fog: { n: ['Spirit Fog', 'Smoke of Souls'], ic: '≋', col: '#9fdcff', T: 30, w: 0.8, d: '+40% XP while the fog lasts' },
+  swarm: { n: ['Bat Swarm', 'Imp Swarm'], ic: '✺', col: '#c56bff', T: 24, w: 1, d: 'Survive the swarm!' },
+  altar: { n: ['Spirit Altar', 'Ember Altar'], ic: '✧', col: '#8affc8', T: 45, w: 1, d: 'Stand on the glowing circle for 8 seconds' },
+};
+const pc28 = v => Math.round(v * 100) + '%';
+const BOON28 = {
+  blood: { n: 'Blood Pact', ic: '⚔', d: v => `+${pc28(0.12 * v)} damage for this run` },
+  greed: { n: 'Midas Touch', ic: '●', d: v => `+${pc28(0.3 * v)} gold for this run` },
+  wis: { n: "Sage's Insight", ic: '✦', d: v => `+${pc28(0.15 * v)} XP for this run` },
+  swift: { n: 'Wind Step', ic: '➶', d: v => `+${pc28(0.08 * v)} move speed, +${pc28(0.1 * v)} pickup range` },
+  renew: { n: 'Spring of Life', ic: '✚', d: v => `Heal 30% now, +${(0.6 * v).toFixed(1)} HP/s regen` },
+  ward: { n: 'Stone Skin', ic: '⛨', d: v => `+${Math.round(2 * v)} armor, ${pc28(0.04 * v)} less damage taken` },
+  magnet: { n: 'Lodestone', ic: '⊛', d: v => `+${pc28(0.4 * v)} pickup range` },
+  fury: { n: 'Battle Trance', ic: '⚡', d: v => `Skills ${pc28(0.08 * v)} faster` },
+  gamble: { n: 'Wild Fate', ic: '⚄', d: v => `+${pc28(0.2 * v)} damage, but −10% max HP` },
+};
+const w28Bv = () => 1 + 0.1 * mr('boon');
+for (const k in BOON28) { const b = BOON28[k]; NOFF['b_' + k] = { ic: b.ic, n: () => b.n, d: () => b.d(w28Bv()), base: 0 }; }
+function w28Lazy(k) { if (!W28_PROPS.includes(k) || !PXA.world || !PXA.world.w28Props) return null; PXA.world.w28Props(); return SPR.prop[k] || null; }
+function w28Art() { if (!W28ART || W28ART.m !== mapOn()) { if (!PXA.world || !PXA.world.w28Bake) return null; PXA.world.w28Bake(); W28C.clear(); } return W28ART; }
+
+/* ---------- start / save ---------- */
+function w28Start(resume) { const om = mr('omen'), ss = mr('shrinesage');
+  G.w28 = { v: 1, lm: {}, fd: {}, found: 0, dug: {}, ev: null, evT: (resume ? G.t + 30 : 70) * (resume ? 1 : 1 - 0.06 * om), evN: 0, evW: 0, shT: (resume ? G.t + 60 : 160) * (resume ? 1 : 1 - 0.12 * ss), bl: [], wx: w28WxPick(), wxT: rand(170, 250),
+    lust: 0, lustT: 0, barT: 0, intT: 60, mini: 0, cg: {}, lmN: 0, digN: 0, brkN: 0 };
+  W28E = []; W28A = []; W28G = G; if (resume) return;
+  const sg = 10 * mr('luckyst'); if (sg) G.gold = (G.gold || 0) + sg;
+  if (mr('chosen')) G.pending = (G.pending || 0) + 1;
+  if (mr('fateweaver')) G.w28.bl.push(pick(Object.keys(BOON28).filter(k => k !== 'gamble')));
+}
+
+/* ---------- landmarks & breakables (placed by obChunk/castleChunk from the run's seed: a new layout every run) ---------- */
+function w28Pick(key) { const i = Math.floor(key / 60000) - 30000, j = key % 60000 - 30000, si = Math.floor(i / 3), sj = Math.floor(j / 3), sd = (G && G.obSeed) | 0;
+  return (i - si * 3) + 3 * (j - sj * 3) === hash2(si * 7919 + sd, sj * 104729 - sd * 13) % 9; }
+const w28Even = key => { const i = Math.floor(key / 60000) - 30000, j = key % 60000 - 30000; return ((Math.floor(i / 3) + Math.floor(j / 3)) & 1) === 0; }; /* landmarks on a checkerboard of 3x3-chunk cells, so two never crowd together */
+function w28Open(key, a, rnd, add, cx, cy, cas) {
+  const u = rnd(), far = Math.hypot(cx, cy) > 650;
+  if (w28Pick(key) && far && u < 0.8 && w28Even(key)) { const L = cas ? ['forge', 'throne', 'gibbet', 'crypt'] : ['stones', 'elder', 'camp', 'crypt'], k = L[hash2(key, ((G && G.obSeed) | 0) + 77) % L.length]; if (w28Place(k, key, add, rnd, cx, cy)) return; }
+  if (u > 0.74 && Math.hypot(cx, cy) > 320) { const m = 2 + Math.floor(rnd() * 2), b0 = rnd() * TAU; for (let q = 0; q < m; q++) { const an = b0 + q / m * TAU, rr = 32 + rnd() * 10; add(cas ? (rnd() < 0.6 ? 'cask' : 'urn') : 'urn', cx + Math.cos(an) * rr, cy + Math.sin(an) * rr, 0.9 + rnd() * 0.2); } }
+}
+function w28Place(k, key, add, rnd, cx, cy) { let lx = cx, ly = cy;
+  if (k === 'gibbet') { if (!add('gibbet', cx - 34, cy)) return false; add('gibbet', cx + 34, cy, 0.95); add('cask', cx, cy + 52); ly = cy + 18; }
+  else { const main = { stones: 'altar', elder: 'eldertree', camp: 'tent', crypt: 'crypt', forge: 'forge', throne: 'throne' }[k]; if (!add(main, cx, cy)) return false;
+    if (k === 'stones') for (let q = 0; q < 5; q++) { const an = q / 5 * TAU - Math.PI / 2; add('menhir', cx + Math.cos(an) * 78, cy + Math.sin(an) * 64, 0.9 + rnd() * 0.2); }
+    else if (k === 'camp') { add('campfire', cx + 10, cy + 66); add('urn', cx - 60, cy + 40); add('urn', cx + 70, cy + 20); add('urn', cx - 40, cy - 62); }
+    else if (k === 'crypt') { const t = mapOn() ? 'urn' : 'tomb'; add(t, cx - 84, cy + 22); add(t, cx + 84, cy + 22); }
+    else if (k === 'forge') { add('anvil', cx, cy + 72); add('cask', cx - 74, cy + 30); add('cask', cx + 76, cy + 28); }
+    else if (k === 'throne') { add('brazier', cx - 70, cy + 14); add('brazier', cx + 70, cy + 14); add('urn', cx, cy + 66); }
+    else if (k === 'elder') { add(mapOn() ? 'urn' : 'stump', cx + 80, cy + 30); } }
+  W28LM.set(key, { k, key, x: lx, y: ly, h: 0, fx: cx + 10, fy: cy + 66 }); if (W28LM.size > 120) W28LM.delete(W28LM.keys().next().value); return true; }
+function w28Brk(b) { const w = G && G.w28; if (w) w.brkN++; Snd.play('pop'); burst(b.x, b.y - 6, b.k === 'cask' ? '#a8743a' : '#c9a27a', 10, 120, 2.6, 0.45); w28Loot('brk', b.x, b.y); }
+function w28Shard(x, y, v) { picks.push({ k: 'shard', x: x + rand(-10, 10), y: y + rand(-8, 8), v: Math.max(1, Math.round(v)) }); }
+function w28Loot(t, x, y) { const ch = 1 + 0.15 * mr('cachehunt'), u = Math.random();
+  if (t === 'brk') { if (u < 0.55) dropGold(x, y, (2 + G.t / 90) * ch, 2); else if (u < 0.7) picks.push({ k: 'vial', x, y }); else if (u < 0.82) w28Shard(x, y, 1 * ch); else if (u < 0.9 && G.t >= 40) picks.push({ k: 'loot', x, y }); return; }
+  if (t === 'dig') { dropGold(x, y, (6 + G.t / 40) * ch, 4); if (Math.random() < 0.4) w28Shard(x, y, 2 * ch); if (Math.random() < 0.2 && G.t >= 40) picks.push({ k: 'loot', x: x + 12, y }); return; }
+  if (t === 'lm') { dropGold(x, y, (10 + G.t / 30) * ch, 5); w28Shard(x, y, 3 * ch); if (G.t >= 40) picks.push({ k: 'loot', x: x - 14, y: y + 6 }); return; }
+  if (t === 'royal') { picks.push({ k: 'chest', x: x + 16, y: y + 10 }); dropGold(x, y + 20, (15 + G.t / 25) * ch, 6); w28Shard(x, y, 4 * ch); }
+}
+function w28Claim(L) { const w = G.w28, D = LMD28[L.k], nm = w28LN(L.k); w.lm[L.key] = 1; L.h = 0; w.lmN++; let msg = '';
+  burst(L.x, L.y - 12, D.col, 26, 160, 3, 0.8, true); G.shake = Math.max(G.shake, 0.12); Snd.play('qdone'); padRumble(0.2, 0.4, 120);
+  switch (L.k) {
+    case 'stones': npcBuff('bufH', 45); gainXp(L.x, L.y, Math.round(5 + G.t / 30)); msg = 'The runes wake: skills 12% faster for 45s'; break;
+    case 'elder': heal(P.maxHp * 0.5); gainXp(L.x, L.y, Math.round(4 + G.t / 40)); msg = 'You feel rested: healed 50%'; break;
+    case 'camp': w28Loot('lm', L.x, L.y + 30); msg = 'Supplies found! Sit by the fire to heal'; break;
+    case 'crypt': { const n = G.t > 600 ? 3 : 2; w.cg[L.key] = n; for (let i = 0; i < n; i++) { const a = i / n * TAU + 0.5, e = spawnEnemy(qEliteType(), { x: L.x + Math.cos(a) * 130, y: L.y + Math.sin(a) * 130, elite: true }); e.w28g = L.key; }
+      msg = 'The guardians wake! Slay them for the hoard'; announce(`${D.ic} ${nm} guardians!`, 'Slay them all for the hoard', D.col, 'elite'); break; }
+    case 'forge': npcBuff('bufE', 30); dropGold(L.x, L.y + 30, 4 + G.t / 60, 3); msg = 'Weapons tempered: +25% damage for 30s'; break;
+    case 'throne': w28Loot('royal', L.x, L.y + 30); msg = 'The royal hoard is yours!'; break;
+    case 'gibbet': w28Loot('lm', L.x, L.y + 30); for (let i = 0; i < 4; i++) { const a = i / 4 * TAU; spawnEnemy(mapOn() ? 'bone' : 'bone', { x: L.x + Math.cos(a) * 110, y: L.y + Math.sin(a) * 110 }); } msg = 'Loot taken… and the hanged men stir!'; break;
+  }
+  qBanner(`<div class="qbi" style="color:${D.col}">${D.ic}\uFE0E</div><div class="qbx"><div class="qbt qok">✓ ${nm}</div><div class="qbn">${msg}</div></div>`, 'done'); }
+
+/* ---------- ground detail: decals, patches and dig spots (seeded per run) ---------- */
+function w28Chunk(i, j) { const key = (i + 30000) * 60000 + (j + 30000); let c = W28C.get(key); if (c) return c;
+  const A = w28Art(), sd = (G && G.obSeed) | 0; let st = hash2(i * 48271 - sd * 3, j * 16807 + sd) || 7; const rnd = () => { st = Math.imul(st ^ (st >>> 15), 2246822519) ^ Math.imul(st ^ (st >>> 13), 3266489917); st >>>= 0; return (st & 0xffffff) / 0x1000000; };
+  const cas = mapOn(), x0 = i * OBC, y0 = j * OBC; c = { p: [], d: [], g: null };
+  const wi = (L, u) => { let t = 0; for (const o of L) t += o.w; u *= t; for (let q = 0; q < L.length; q++) { u -= L[q].w; if (u <= 0) return q; } return L.length - 1; };
+  if (A) { if (rnd() < (cas ? 0.16 : 0.2)) { const t = wi(A.pat, rnd()), s = 1 + rnd() * 0.5, x = x0 + 50 + rnd() * (OBC - 100), y = y0 + 50 + rnd() * (OBC - 100); if (!obRoadNear(x, y, 50)) c.p.push({ t, x, y, s }); }
+    const n = (cas ? 2 : 3) + Math.floor(rnd() * 4); for (let q = 0; q < n; q++) { const t = wi(A.dec, rnd()), x = x0 + rnd() * OBC, y = y0 + rnd() * OBC, s = 1.1 + rnd() * 0.4; if (!obRoadNear(x, y, 22)) c.d.push({ t, x, y, s }); } }
+  if (Math.hypot(x0 + OBC / 2, y0 + OBC / 2) > 450 && rnd() < 0.075) { const x = x0 + 40 + rnd() * (OBC - 80), y = y0 + 40 + rnd() * (OBC - 80); if (!obRoadNear(x, y, 40) && !obChunk(i, j).some(o => Math.hypot(o.x - x, o.y - y) < o.r + 28)) c.g = { x, y, id: key }; }
+  W28C.set(key, c); if (W28C.size > 900) W28C.delete(W28C.keys().next().value); return c; }
+function w28Ground(cx, cy, vw, vh) { if (G && G.town) return; const A = w28Art(); if (!A) return; ctx.imageSmoothingEnabled = false;
+  const i0 = Math.floor((cx - vw / 2 - 110) / OBC), i1 = Math.floor((cx + vw / 2 + 110) / OBC), j0 = Math.floor((cy - vh / 2 - 80) / OBC), j1 = Math.floor((cy + vh / 2 + 80) / OBC), w = G && G.w28, ch = mr('cachehunt');
+  for (let i = i0; i <= i1; i++) for (let j = j0; j <= j1; j++) for (const p of w28Chunk(i, j).p) { const im = A.pat[p.t].img, ww = im.width * p.s, hh = im.height * p.s; ctx.drawImage(im, p.x - ww / 2, p.y - hh / 2, ww, hh); }
+  for (let i = i0; i <= i1; i++) for (let j = j0; j <= j1; j++) { const c = w28Chunk(i, j); for (const d of c.d) { const im = A.dec[d.t].img, ww = im.width * d.s, hh = im.height * d.s; ctx.drawImage(im, d.x - ww / 2, d.y - hh / 2, ww, hh); } }
+  ctx.imageSmoothingEnabled = true;
+  if (!w) return;
+  for (let i = i0; i <= i1; i++) for (let j = j0; j <= j1; j++) { const g = w28Chunk(i, j).g; if (!g || w.dug[g.id]) continue; const tw = Math.sin(gtime * 4 + g.id) * 0.5 + 0.5;
+    ctx.fillStyle = mapOn() ? 'rgba(70,50,40,.85)' : 'rgba(84,58,34,.85)'; ctx.beginPath(); ctx.ellipse(g.x, g.y, 12, 6, 0, 0, TAU); ctx.fill(); ctx.fillStyle = mapOn() ? '#6a5040' : '#7a5634'; ctx.beginPath(); ctx.ellipse(g.x, g.y - 2, 9, 4, 0, 0, TAU); ctx.fill();
+    ctx.strokeStyle = '#ffd36a'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(g.x - 5, g.y - 5); ctx.lineTo(g.x + 5, g.y + 1); ctx.moveTo(g.x + 5, g.y - 5); ctx.lineTo(g.x - 5, g.y + 1); ctx.stroke();
+    ctx.globalCompositeOperation = 'lighter'; glowAt('#ffe58a', g.x + Math.sin(gtime * 2 + g.id) * 6, g.y - 8 - tw * 4, 10 + 5 * tw + ch * 3, 0.45 + 0.35 * tw + ch * 0.06); ctx.globalCompositeOperation = 'source-over'; } }
+
+/* ---------- events ---------- */
+function w28EvPick() { const w = G.w28, ks = Object.keys(EVD28).filter(k => (k !== 'hunt' || G.t > 150) && k !== w.evLast); return wpick(ks, k => EVD28[k].w); }
+const w28EvE = (ev, e) => Object.defineProperty(ev, 'e', { value: e, writable: true, enumerable: false }); /* not saved: an enemy can't go into the run save */
+function w28EvStart(k) { const w = G.w28; k = k || w28EvPick(); const D = EVD28[k], c = mapOn() ? 1 : 0, ev = { k, T: D.T, max: D.T, p: 0 };
+  w.evLast = k; w.evN++;
+  if (k === 'thief') { const [x, y] = qAround(170, 230), e = spawnEnemy('thief', { x, y }); e.hp = e.maxHp = e.maxHp * 3; e.w28t = 1; w28EvE(ev, e); }
+  else if (k === 'hunt') { const [x, y] = qAround(300, 380), e = spawnEnemy(qEliteType(), { x, y, elite: true }); e.hp = e.maxHp = e.maxHp * 1.5; e.xp = Math.round(e.xp * 1.5); e.w28h = 1; w28EvE(ev, e); }
+  else if (k === 'altar') { const [x, y] = qAround(200, 280); ev.x = x; ev.y = y; }
+  w.ev = ev; if (k === 'fog') recalc();
+  announce(`${D.ic} ${D.n[c]}`, D.d, D.col, 'elite'); }
+function w28EvTick(ev, dt) { ev.T -= dt;
+  switch (ev.k) {
+    case 'meteor': if ((ev.mt = (ev.mt || 0) - dt) <= 0) { ev.mt = 0.42; const near = Math.random() < 0.3, a = rand(TAU), d = near ? rand(0, 50) : rand(70, 270), x = P.x + Math.cos(a) * d + (P.vx || 0) * P.spdPx * 0.4, y = P.y + Math.sin(a) * d + (P.vy || 0) * P.spdPx * 0.4;
+        effects.push({ k: 'warn', x, y, r: 40, life: 1.1, max: 1.1, dmg: 7 * dmgMul(G.t), col: '#ff8a3c', boom: 1 });
+        effects.push({ k: 'star', x, y, life: 1.1, max: 1.1, r: 40, dmg: 30 + G.level * 4, col: '#ff6a2a', meteor: 1 }); }
+      if (ev.T <= 0) w28EvEnd(true); break;
+    case 'thief': if (ev.e.dead) w28EvEnd(true); else if (ev.T <= 0) { burst(ev.e.x, ev.e.y, '#ffd36a', 16, 120, 3, 0.5, true); ev.e.dead = true; w28EvEnd(false, 'The thief got away with the gold'); } break;
+    case 'hunt': if (ev.e.dead) w28EvEnd(true); else if (ev.T <= 0) { ev.e.w28h = 0; w28EvEnd(false, 'The champion slipped into the dark'); } break;
+    case 'fog': if (ev.T <= 0) w28EvEnd(true); break;
+    case 'swarm': if ((ev.sT = (ev.sT || 0) - dt) <= 0) { ev.sT = 3; const ty = mapOn() ? 'imp' : 'bat', n = Math.min(22, Math.round(10 + G.t / 60)), d = Math.hypot(W / ZOOM, H / ZOOM) / 2 + 20;
+        if (ETYPES[ty]) for (let i = 0; i < n && enemies.length < ECAP + 40; i++) { const a = i / n * TAU; spawnEnemy(ty, { x: P.x + Math.cos(a) * d, y: P.y + Math.sin(a) * d }); } }
+      if (ev.T <= 0) w28EvEnd(true); break;
+    case 'altar': if ((P.x - ev.x) ** 2 + (P.y - ev.y) ** 2 < 70 * 70) { ev.p += dt; if (Math.random() < dt * 8) burst(ev.x + rand(-40, 40), ev.y + rand(-20, 20), '#8affc8', 1, 40, 2.2, 0.8, true); }
+      if (ev.p >= 8) w28EvEnd(true); else if (ev.T <= 0) w28EvEnd(false, 'The altar went dark'); break;
+  } }
+function w28EvEnd(ok, why) { const w = G.w28, ev = w.ev; if (!ev) return; const D = EVD28[ev.k], nm = D.n[mapOn() ? 1 : 0]; w.ev = null; w.evT = G.t + rand(85, 130) * (1 - 0.06 * mr('omen')); if (ev.k === 'fog') recalc();
+  if (ok) { w.evW++; const em = 1 + 0.2 * mr('eventmaster'), g = Math.round((8 + G.t / 25) * em), sh = Math.round((2 + G.t / 150) * em), x = ev.k === 'altar' ? ev.x : P.x + 30, y = ev.k === 'altar' ? ev.y : P.y;
+    dropGold(x, y, g, 5); w28Shard(x, y, sh); if (mr('fateweaver')) picks.push({ k: 'chest', x: x - 18, y: y + 6 });
+    if (ev.k === 'thief') dropGold(ev.e.x, ev.e.y, (20 + G.t / 10) * em, 8);
+    Snd.play('qdone'); qBanner(`<div class="qbi" style="color:${D.col}">${D.ic}\uFE0E</div><div class="qbx"><div class="qbt qok">✓ Event Complete</div><div class="qbn">${nm}</div><div class="qbd"><b class="qsh">+${sh} ◆</b> <b style="color:#ffd24a">+${g} ●</b>${mr('fateweaver') ? ' · <b style="color:#b88cff">Fate chest</b>' : ''}</div></div>`, 'done'); }
+  else { Snd.play('qfail'); qBanner(`<div class="qbi" style="color:#a593c4">✕</div><div class="qbx"><div class="qbt qno">Event Failed</div><div class="qbn">${nm}</div><div class="qbd">${why || 'Time ran out'}</div></div>`, 'fail'); } }
+
+/* ---------- spirit shrine (a fixed NPC: one free blessing) ---------- */
+function w28Shrine() { const w = G.w28, own = w.bl, ks = Object.keys(BOON28).filter(k => !own.includes(k)), L = (ks.length >= 3 ? ks : Object.keys(BOON28)).sort(() => Math.random() - 0.5).slice(0, mr('shrinesage') >= 3 ? 4 : 3);
+  const [x, y] = qAround(220, 300), n = { id: ++G.npcN, nt: 'shrine', npc: 1, fixed: 1, x: r1(x), y: r1(y), r: 12, T: 60, max: 60, face: 1, age: 0, cool: 0, visits: 0, idle: 1 };
+  obFree(n, n.r + 2); n.hx = n.x; n.hy = n.y; n.offers = L.map(k => ({ k: 'b_' + k, p: 0, left: 1 })); n.say = pick(NPCS.shrine.hi); G.npcs.push(n);
+  toast('✧\uFE0E A Spirit Shrine has appeared! Follow the arrow for a free blessing', '#8affc8', 3.4); Snd.play('shimmer'); return n; }
+function w28Apply(o, n) { if (!o.k.startsWith('b_')) return null; const id = o.k.slice(2), B = BOON28[id]; if (!B) return null; const w = G.w28; if (!w) return null;
+  w.bl.push(id); for (const q of n.offers) if (q !== o) q.left = 0; n.T = Math.min(n.T, 2); recalc(); if (id === 'renew') heal(P.maxHp * 0.30);
+  burst(P.x, P.y, '#8affc8', 20, 120, 3, 0.7, true); return { t: `✧ ${B.n}: ${B.d(w28Bv())}`, snd: 'shimmer' }; }
+
+/* ---------- stat hooks ---------- */
+function w28Recalc(s) { const w = (G && G.w28) || {}, R = {}; for (const k of ['opener', 'momentum', 'overkill', 'bloodlust', 'laststand', 'barrier', 'retal', 'bounty', 'goldrush', 'shardsense', 'interest', 'cartog', 'cachehunt', 'wander', 'pilgrim', 'stock']) R[k] = mr(k);
+  s.w28r = R; s.healMul *= 1 + 0.1 * mr('medic'); s.speed *= 1 + 0.02 * R.wander;
+  if (R.pilgrim) { const f = Math.min(8, w.found || 0); s.dmg += 0.01 * R.pilgrim * f; s.xp += 0.01 * R.pilgrim * f; }
+  if (w.ev && w.ev.k === 'fog') s.xp += 0.4;
+  const v = w28Bv(); let gm = 1 + 0.08 * R.goldrush;
+  for (const b of w.bl || []) switch (b) {
+    case 'blood': s.dmg += 0.12 * v; break; case 'greed': gm += 0.3 * v; break; case 'wis': s.xp += 0.15 * v; break;
+    case 'swift': s.speed *= 1 + 0.08 * v; s.pickup += 0.1 * v; break; case 'renew': s.regen += 0.6 * v; break;
+    case 'ward': s.armor += Math.round(2 * v); s.dr += 0.04 * v; break; case 'magnet': s.pickup += 0.4 * v; break;
+    case 'fury': s.cd -= 0.08 * v; break; case 'gamble': s.dmg += 0.2 * v; s.maxHp = Math.round(s.maxHp * 0.9); break; }
+  s.w28g = gm; s.w28d = R.opener || R.momentum || R.overkill || R.bloodlust || R.laststand ? 1 : 0; s.w28h = R.barrier || R.laststand || R.retal ? 1 : 0; }
+function w28Gold(v) { v *= (P && P.w28g) || 1; const wx = G && G.w28 && !G.town ? w28Wx() : null; if (wx && wx.gold) v *= wx.gold; return Math.round(v); }
+function w28Dmg(e) { const r = P.w28r; if (!r) return 1; let m = 1;
+  if (r.opener && e.hp >= e.maxHp * 0.999) m += 0.08 * r.opener;
+  if (r.momentum && P.moving) m += 0.03 * r.momentum;
+  if (r.overkill && e.hp < e.maxHp * 0.5) m += 0.05 * r.overkill;
+  if (r.bloodlust && G.w28) m += 0.005 * r.bloodlust * G.w28.lust;
+  if (r.laststand && P.hp < P.maxHp * 0.3) m += 0.08 * r.laststand;
+  return m; }
+function w28Hurt(d, src) { const w = G.w28, r = P.w28r || {}; if (!w) return d;
+  if (r.barrier && !(w.barT > 0)) { w.barT = [0, 24, 18, 12][Math.min(3, r.barrier)]; P.inv = 0.5; addNum(P.x, P.y - 24, 'BARRIER', '#ffd66e', 13); Snd.play('evade'); burst(P.x, P.y, '#ffd66e', 12, 110, 2.6, 0.45, true); return -1; }
+  if (r.laststand && P.hp < P.maxHp * 0.3) d *= 1 - 0.08 * r.laststand;
+  if (r.retal && !(w.retT > G.t)) { w.retT = G.t + 0.6; effects.push({ k: 'nova', x: P.x, y: P.y, r: 0, maxR: 80 * P.area, life: 0.3, max: 0.3, dmg: (8 + G.level) * r.retal, hit: new Set(), col: '#ffd66e', src: '@talent' }); }
+  return d; }
+function w28Kill(e) { const w = G.w28; if (!w) return; const r = P.w28r || {};
+  if (r.bloodlust) { w.lust = Math.min(20, w.lust + 1); w.lustT = 3; }
+  if (e.elite || e.mini) { if (r.bounty) dropGold(e.x, e.y, (4 + G.t / 120) * r.bounty, 2); }
+  if ((e.elite || e.mini || e.boss) && r.shardsense) w28Shard(e.x - 12, e.y + 6, r.shardsense);
+  if (e.w28g && w.cg[e.w28g] > 0 && --w.cg[e.w28g] === 0) { const L = W28LM.get(e.w28g), x = L ? L.x : e.x, y = L ? L.y + 30 : e.y; w28Loot('lm', x, y); w28Shard(x, y, 3);
+    qBanner(`<div class="qbi" style="color:#c56bff">✝\uFE0E</div><div class="qbx"><div class="qbt qok">✓ Guardians Defeated</div><div class="qbn">The ${w28LN('crypt')} hoard is yours</div></div>`, 'done'); Snd.play('qdone'); } }
+
+/* ---------- per-frame world tick ---------- */
+function world28Tick(dt) { let w = G.w28; if (!w) { w28Start(1); w = G.w28; }
+  if (W28G !== G) { W28G = G; W28E = []; W28A = []; if (w.ev) { w.ev = null; w.evT = G.t + 25; recalc(); } }
+  const r = P.w28r || {};
+  for (let i = W28E.length - 1; i >= 0; i--) { const f = W28E[i]; f.life -= dt; if (f.life <= 0) { W28E.splice(i, 1); continue; } f.tk -= dt;
+    if (f.tk <= 0 && (P.x - f.x) ** 2 + (P.y - f.y) ** 2 < (f.r + P.r * 0.6) ** 2) { f.tk = 0.5; hurtPlayer(f.dmg, 'aoe'); } }
+  if (w.lust > 0 && (w.lustT -= dt) <= 0) { w.lustT = 0.25; w.lust--; }
+  if (w.barT > 0) w.barT -= dt;
+  if (r.interest && (w.intT -= dt) <= 0) { w.intT = 60; const g = Math.round(Math.min(15 * r.interest, (G.gold || 0) * 0.03 * r.interest)); if (g > 0) { addGold(g, P.x, P.y - 30); toast(`● Interest: +${g} gold`, '#ffd24a', 2); } }
+  if ((w.wxT -= dt) <= 0) { w.wxT = rand(170, 250); const nk = w28WxPick(); if (nk !== w.wx) { w.wx = nk; const X = w28Wx(); toast(`☁\uFE0E Weather: ${X.n}${X.d ? ' · ' + X.d : ''}`, '#c9d8ff', 2.8); } }
+  w28Parts(dt);
+  /* breakables: walk into urns & casks */
+  const L0 = obCell(P.x, P.y); if (L0) for (const b of L0) if (!b.gone && OBT[b.k] && OBT[b.k].brk && (P.x - b.x) ** 2 + (P.y - b.y) ** 2 < (b.r + P.r + 5) ** 2) obSmash(b);
+  /* dig spots */
+  const ci = Math.floor(P.x / OBC), cj = Math.floor(P.y / OBC), dr = 26 + 8 * mr('cachehunt');
+  for (let i = ci - 1; i <= ci + 1; i++) for (let j = cj - 1; j <= cj + 1; j++) { const g = w28Chunk(i, j).g; if (g && !w.dug[g.id] && (P.x - g.x) ** 2 + (P.y - g.y) ** 2 < dr * dr) {
+      w.dug[g.id] = 1; w.digN++; burst(g.x, g.y, '#c9a27a', 14, 120, 3, 0.5); burst(g.x, g.y - 6, '#ffe58a', 10, 90, 2.4, 0.6, true); Snd.play('coin'); w28Loot('dig', g.x, g.y); toast('✕ Buried treasure!', '#ffd36a', 1.8); } }
+  /* landmarks */
+  for (const L of W28LM.values()) { const dx = P.x - L.x, dy = P.y - L.y, d2 = dx * dx + dy * dy; if (d2 > 400000) continue; const D = LMD28[L.k];
+    if (!w.fd[L.key] && d2 < 280 * 280) { w.fd[L.key] = 1; w.found++; if (!(W28ACC._dT > gtime)) { W28ACC._dT = gtime + 2.5; toast(`${D.ic}\uFE0E Discovered: ${w28LN(L.k)} · ${D.d}`, D.col, 3); Snd.play('shimmer'); } if (mr('pilgrim')) recalc(); }
+    if (L.k === 'camp' && (P.x - L.fx) ** 2 + (P.y - L.fy) ** 2 < 85 * 85) heal(P.maxHp * 0.012 * dt);
+    if (w.lm[L.key]) continue;
+    if (d2 < D.r * D.r) { L.h += dt * (1 + 0.25 * mr('wander')); if (L.h >= D.hold) w28Claim(L); } else if (L.h > 0) L.h = Math.max(0, L.h - dt); }
+  /* events & shrines */
+  if (!w.ev && G.t >= w.evT) { if (G.boss && !G.boss.dead) w.evT = G.t + 10; else w28EvStart(); }
+  if (w.ev) w28EvTick(w.ev, dt);
+  if (G.t >= w.shT) { w.shT = G.t + rand(230, 290) * (1 - 0.12 * mr('shrinesage')); if (!G.npcs.some(n => n.nt === 'shrine')) w28Shrine(); }
+}
+
+/* ---------- weather particles ---------- */
+const PCOL28 = { leaf: ['#d8862a', '#c0502a', '#e0b040', '#9a6a2a'], ash: ['#9a9090', '#b8b0a8', '#706868'] };
+function w28Parts(dt) { const X = w28Wx(), cap = PC ? 70 : 34, vw = W / ZOOM / 2 + 30, vh = H / ZOOM / 2 + 30, base = mapOn() ? 'ember' : 'pollen', R = { [base]: 2.2 };
+  if (X.p) R[X.p] = (R[X.p] || 0) + (X.pr || 6) * (PC ? 1 : 0.6);
+  for (const k in R) { W28ACC[k] = (W28ACC[k] || 0) + R[k] * dt; while (W28ACC[k] >= 1) { W28ACC[k]--; if (W28A.length >= cap) continue;
+      const p = { k, x: P.x + rand(-vw, vw), y: P.y + rand(-vh, vh), vx: 0, vy: 0, life: 4, max: 4, s: 2, c: '', ph: rand(TAU) };
+      if (k === 'leaf') { p.vx = rand(18, 40); p.vy = rand(16, 30); p.life = p.max = rand(4, 6); p.c = pick(PCOL28.leaf); p.s = 2.6; }
+      else if (k === 'ash') { p.vx = rand(6, 16); p.vy = rand(14, 24); p.life = p.max = rand(4, 6); p.c = pick(PCOL28.ash); p.s = 1.8; }
+      else if (k === 'ember') { p.vx = rand(-10, 10); p.vy = rand(-40, -24); p.life = p.max = rand(2, 3.2); p.s = 6; }
+      else if (k === 'spark') { p.vx = rand(-30, 30); p.vy = rand(-70, -40); p.life = p.max = rand(0.9, 1.5); p.s = 7; }
+      else if (k === 'fly') { p.vx = rand(-12, 12); p.vy = rand(-12, 12); p.life = p.max = rand(3, 5); p.s = 10; }
+      else { p.vx = rand(4, 10); p.vy = rand(-6, 2); p.life = p.max = rand(4, 6); p.s = 1.5; }
+      W28A.push(p); } }
+  for (let i = W28A.length - 1; i >= 0; i--) { const p = W28A[i]; p.life -= dt; p.x += (p.vx + Math.sin(gtime * 2 + p.ph) * (p.k === 'leaf' ? 14 : 5)) * dt; p.y += p.vy * dt;
+    if (p.life <= 0 || Math.abs(p.x - P.x) > vw + 80 || Math.abs(p.y - P.y) > vh + 80) { W28A[i] = W28A[W28A.length - 1]; W28A.pop(); } } }
+function w28Air() { if (!G || G.town || !W28A.length) return; let lit = false;
+  for (const p of W28A) { const a = Math.min(1, p.life / 0.6, (p.max - p.life) / 0.6);
+    if (p.k === 'leaf' || p.k === 'ash' || p.k === 'pollen') { ctx.globalAlpha = a * (p.k === 'pollen' ? 0.55 : 0.85); ctx.fillStyle = p.k === 'pollen' ? '#f0f6c0' : p.c; const w = p.k === 'leaf' ? p.s * (0.6 + 0.4 * Math.abs(Math.sin(gtime * 3 + p.ph))) : p.s; ctx.fillRect(p.x - w / 2, p.y - p.s / 2, w, p.s); }
+    else { if (!lit) { ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'lighter'; lit = true; } glowAt(p.k === 'fly' ? '#ffe58a' : p.k === 'spark' ? '#ffae4a' : '#ff6a2a', p.x, p.y, p.s * (p.k === 'fly' ? 0.8 + 0.4 * Math.sin(gtime * 5 + p.ph) : 1), a * (p.k === 'fly' ? 0.8 : 0.7)); } }
+  ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; }
+
+/* ---------- world-space marks: fire patches, landmark rings, altar, barrier ---------- */
+function w28World() { const w = G && G.w28; if (!w || G.town) return;
+  ctx.globalCompositeOperation = 'lighter';
+  for (const f of W28E) { if (!inView(f.x, f.y, 40)) continue; const a = Math.min(1, f.life / 0.6); glowAt('#ff6a2a', f.x, f.y, f.r * 2.2, 0.55 * a); for (let q = 0; q < 3; q++) glowAt('#ffae4a', f.x + Math.sin(gtime * 3 + q * 2) * f.r * 0.5, f.y + Math.cos(gtime * 2.3 + q) * f.r * 0.3 - (gtime * 20 + q * 7) % 10, 8, 0.6 * a); }
+  for (const L of W28LM.values()) { if (!inView(L.x, L.y, 120)) continue; const D = LMD28[L.k], done = w.lm[L.key];
+    if (L.k === 'camp') glowAt('#ffae4a', L.fx, L.fy - 6, 50 + 6 * Math.sin(gtime * 9), 0.7);
+    else if (L.k === 'forge') glowAt('#ff6a2a', L.x, L.y - 10, 70 + 6 * Math.sin(gtime * 6), done ? 0.35 : 0.6);
+    if (!done) glowAt(D.col, L.x, L.y - 20, 60 + 8 * Math.sin(gtime * 2.5), 0.35); }
+  ctx.globalCompositeOperation = 'source-over';
+  for (const L of W28LM.values()) { if (w.lm[L.key] || !inView(L.x, L.y, 120)) continue; const D = LMD28[L.k];
+    ctx.strokeStyle = hexA(D.col, 0.45); ctx.lineWidth = 2; ctx.setLineDash([6, 6]); ctx.lineDashOffset = -gtime * 12; ctx.beginPath(); ctx.ellipse(L.x, L.y + 8, D.r, D.r * 0.5, 0, 0, TAU); ctx.stroke(); ctx.setLineDash([]);
+    if (L.h > 0) { ctx.strokeStyle = D.col; ctx.lineWidth = 4; ctx.beginPath(); ctx.ellipse(L.x, L.y + 8, D.r, D.r * 0.5, 0, -Math.PI / 2, -Math.PI / 2 + TAU * Math.min(1, L.h / D.hold)); ctx.stroke(); } }
+  const ev = w.ev; if (ev && ev.k === 'altar') { const f = ev.p / 8;
+    ctx.fillStyle = 'rgba(138,255,200,.10)'; ctx.beginPath(); ctx.ellipse(ev.x, ev.y, 70, 35, 0, 0, TAU); ctx.fill(); ctx.strokeStyle = 'rgba(138,255,200,.55)'; ctx.lineWidth = 2; ctx.stroke();
+    ctx.strokeStyle = '#8affc8'; ctx.lineWidth = 5; ctx.beginPath(); ctx.ellipse(ev.x, ev.y, 70, 35, 0, -Math.PI / 2, -Math.PI / 2 + TAU * f); ctx.stroke();
+    ctx.globalCompositeOperation = 'lighter'; glowAt('#8affc8', ev.x, ev.y - 6, 60 + 10 * Math.sin(gtime * 4), 0.5); ctx.globalCompositeOperation = 'source-over'; }
+  const r = P.w28r; if (r && r.barrier && !(w.barT > 0) && state !== 'dying') { ctx.strokeStyle = `rgba(255,214,110,${0.35 + 0.15 * Math.sin(gtime * 4)})`; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.ellipse(P.x, P.y + 4, 20, 10, 0, 0, TAU); ctx.stroke(); } }
+
+/* ---------- sky, lights, screen overlays ---------- */
+function w28Sky(k) { const X = G && G.w28 && !G.town ? w28Wx() : null; if (!X || !X.da || k.da <= 0.005) return k; return Object.assign({}, k, { da: k.da * X.da }); }
+function w28Lights(L) { const w = G.w28; if (!w || G.town) return;
+  for (const f of W28E) L(f.x, f.y, f.r * 2, 0.6);
+  for (const Lm of W28LM.values()) { if (!inView(Lm.x, Lm.y, 200)) continue; if (Lm.k === 'camp') L(Lm.fx, Lm.fy, 120, 0.9); else if (Lm.k === 'forge') L(Lm.x, Lm.y, 130, 0.85); else if (!w.lm[Lm.key]) L(Lm.x, Lm.y - 10, 80, 0.55); }
+  if (w.ev && w.ev.k === 'altar') L(w.ev.x, w.ev.y, 110, 0.8);
+  let n = 0; for (const p of W28A) if (p.k === 'fly' || p.k === 'ember' || p.k === 'spark') { if (++n > 24) break; L(p.x, p.y, p.k === 'fly' ? 26 : 18, 0.6); }
+  const A = W28ART; if (A) { const i0 = Math.floor((P.x - W / ZOOM / 2) / OBC), i1 = Math.floor((P.x + W / ZOOM / 2) / OBC), j0 = Math.floor((P.y - H / ZOOM / 2) / OBC), j1 = Math.floor((P.y + H / ZOOM / 2) / OBC);
+    for (let i = i0; i <= i1; i++) for (let j = j0; j <= j1; j++) { const c = W28C.get((i + 30000) * 60000 + (j + 30000)); if (!c) continue; for (const d of c.d) if (A.dec[d.t] && A.dec[d.t].e) L(d.x, d.y, 34, 0.6); for (const p of c.p) if (A.pat[p.t] && A.pat[p.t].e) L(p.x, p.y, 110, 0.5); } } }
+function w28Screen() { const w = G && G.w28; if (!w || G.town) return; const X = w28Wx(), fog = Math.max(X.fog || 0, w.ev && w.ev.k === 'fog' ? 0.8 : 0);
+  if (X.ov) { ctx.fillStyle = `rgba(${X.ov})`; ctx.fillRect(0, 0, W, H); }
+  if (fog > 0) { const sm = smokeOf(mapOn() ? '#8a7a78' : w.ev && w.ev.k === 'fog' ? '#bfe0ff' : '#c8d8ea'), S = Math.max(W, H) * 0.7;
+    for (let i = 0; i < 5; i++) { const x = ((gtime * (10 + i * 4) + i * W / 4) % (W + S)) - S / 2, y = H * (0.15 + 0.18 * i) + Math.sin(gtime * 0.3 + i) * 30; ctx.globalAlpha = fog * 0.16; ctx.drawImage(sm, x - S / 2, y - S / 2, S, S); }
+    ctx.globalAlpha = 1; } }
+function w28HUD() { const w = G && G.w28; if (!w || G.town || state === 'dying') return; const r = P.w28r || {}, R = r.cartog ? 1000 : 520;
+  for (const L of W28LM.values()) { if (w.lm[L.key]) continue; const d2 = (P.x - L.x) ** 2 + (P.y - L.y) ** 2; if (d2 < R * R) { const D = LMD28[L.k]; qArrow(L.x, L.y - 46, D.col, D.ic); } }
+  if (r.cartog >= 2) { const ci = Math.floor(P.x / OBC), cj = Math.floor(P.y / OBC); for (let i = ci - 2; i <= ci + 2; i++) for (let j = cj - 2; j <= cj + 2; j++) { const c = W28C.get((i + 30000) * 60000 + (j + 30000)), g = c && c.g; if (g && !w.dug[g.id]) qArrow(g.x, g.y - 6, '#ffe58a', '✕'); } }
+  const ev = w.ev; if (!ev) return; const D = EVD28[ev.k];
+  if ((ev.k === 'thief' || ev.k === 'hunt') && ev.e && !ev.e.dead) qArrow(ev.e.x, ev.e.y - 30, D.col, D.ic, ev.e.hp / ev.e.maxHp); else if (ev.k === 'altar') qArrow(ev.x, ev.y - 30, D.col, D.ic);
+  const nm = D.n[mapOn() ? 1 : 0], f = ev.k === 'altar' ? ev.p / 8 : Math.max(0, ev.T) / ev.max, txt = `${D.ic}\uFE0E ${nm} · ${ev.k === 'altar' ? Math.floor(ev.p) + '/8s' : Math.ceil(Math.max(0, ev.T)) + 's'}`;
+  ctx.font = '800 12px -apple-system,system-ui,sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; const tw = ctx.measureText(txt).width + 26, x = W / 2, y = SAFE.t + W28PILL_Y + (G.boss ? 22 : 0);
+  ctx.fillStyle = 'rgba(14,6,26,.82)'; rr(x - tw / 2, y - 12, tw, 24, 12); ctx.fill(); ctx.strokeStyle = D.col; ctx.lineWidth = 1.5; ctx.stroke();
+  ctx.fillStyle = hexA(D.col, 0.35); rr(x - tw / 2 + 3, y + 7, (tw - 6) * clamp(f, 0, 1), 3, 1.5); ctx.fill(); ctx.fillStyle = D.col; ctx.fillText(txt, x, y - 1); }
+let W28PILL_Y = 112;
 function musicName() { const m = mapOn() ? 'm_' : ''; return G.boss && !G.boss.dead ? (m ? 'm_boss' : 'boss') : G.isNight ? (m ? 'm_night' : 'night') : (m ? 'm_battle' : 'battle'); }
 /* ---- metal ---- */
 function _dist(c, amt) { const ws = c.createWaveShaper(), n = 513, cv = new Float32Array(n); for (let i = 0; i < n; i++) { const x = i * 2 / (n - 1) - 1; cv[i] = Math.tanh(x * amt); } ws.curve = cv; ws.oversample = '2x'; return ws; }
@@ -7047,7 +7702,7 @@ function render(dt) {
           ctx.fillStyle = hexA('#ff6a2a', 0.55 * a); ctx.beginPath(); ctx.moveTo(fx - 4 * fl, fy); ctx.quadraticCurveTo(fx, fy - 16 * fl, fx + 4 * fl, fy); ctx.fill(); ctx.fillStyle = hexA('#ffd36a', 0.6 * a); ctx.beginPath(); ctx.moveTo(fx - 2 * fl, fy); ctx.quadraticCurveTo(fx, fy - 9 * fl, fx + 2 * fl, fy); ctx.fill(); } ctx.globalCompositeOperation = 'source-over'; }
       else for (let i = 0; i < 3; i++) { const an = gtime * 0.8 + i * 2.1; ctx.fillStyle = hexA(f.col, 0.12 * a); ctx.beginPath(); ctx.arc(f.x + Math.cos(an) * f.r * 0.35, f.y + Math.sin(an) * f.r * 0.3, f.r * 0.55, 0, TAU); ctx.fill(); } }
   }
-  drawQuestWorld();
+  drawQuestWorld(); w28World();
   // v15: time-of-day key light re-bake (incremental)
   { const kp = phaseName(G.t || 0); if (kp !== SPR.keyPh) relightEnemies(kp); if (SPR.rq.length) tickRelight(); }
   // v15: death animation: collapse (tip back, sink) while dissolving into a shadow silhouette, then fade
@@ -7222,6 +7877,7 @@ function render(dt) {
   ctx.globalCompositeOperation = 'lighter';
   for (const p of parts) { if (!p.glow) continue; ctx.globalAlpha = Math.max(0, p.life / p.max); ctx.fillStyle = p.c; ctx.beginPath(); ctx.arc(p.x, p.y, p.s, 0, TAU); ctx.fill(); }
   ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
+  w28Air();
   // numbers
   ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.lineJoin = 'round';
   for (const n of nums) { const age = 0.7 - n.life, pop = age < 0.1 ? 0.5 + age * 9 : Math.max(1, 1.4 - (age - 0.1) * 2.5), hop = Math.abs(Math.cos(age * 11)) * 5 * Math.max(0, 1 - age * 2);
@@ -7230,7 +7886,7 @@ function render(dt) {
   ctx.globalAlpha = 1;
   // screen space
   ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-  const sky = drawSky(G.t, cx, cy);
+  const sky = drawSky(G.t, cx, cy); w28Screen();
   if (vignette) { ctx.globalAlpha = 0.55 + sky.da; ctx.drawImage(vignette, 0, 0, W, H); ctx.globalAlpha = 1; }
   const low = P.hp / P.maxHp < 0.3 && state === 'play';
   if (G.hurtFlash > 0 || low) { const a = Math.max(G.hurtFlash > 0 ? G.hurtFlash * 1.6 : 0, low ? 0.18 + 0.12 * Math.sin(gtime * 6) : 0);
@@ -7283,7 +7939,7 @@ function drawHUD() {
     ctx.fillStyle = 'rgba(0,0,0,.78)'; rr(bx, by, bw, bh, 8); ctx.fill(); ctx.strokeStyle = 'rgba(255,200,140,.8)'; ctx.lineWidth = 1.5; ctx.stroke();
     const bg = ctx.createLinearGradient(0, by, 0, by + bh); bg.addColorStop(0, '#ff8a5c'); bg.addColorStop(1, '#c4281c'); ctx.fillStyle = bg; if (f > 0.005) { rr(bx + 2, by + 2, Math.max(6, (bw - 4) * f), bh - 4, 6); ctx.fill(); }
     ctx.font = '900 12px -apple-system,system-ui,sans-serif'; ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(40,0,0,.9)'; ctx.fillStyle = '#fff'; const bt = Math.ceil(f * 100) + '%'; ctx.strokeText(bt, bx + bw / 2, by + bh / 2 + 0.5); ctx.fillText(bt, bx + bw / 2, by + bh / 2 + 0.5); }
-  drawQuestHUD(); npcHUD();
+  drawQuestHUD(); npcHUD(); w28HUD();
   let ty = t + (G.boss ? 140 : 116); if (QT_H) ty = Math.max(ty, t + Math.max(HUD_BOT, G.boss && !G.boss.dead ? 128 : 0) + QT_H + 16); // toasts sit below the quest tracker
   ctx.textAlign = 'center';
   const bnA = G.banner ? H * 0.27 - 36 : 0, bnB = G.banner ? H * 0.27 + 36 : 0; /* v27: toasts hop below the stage banner instead of hiding under it */
@@ -7500,7 +8156,7 @@ function gfVis(e) { if (e.disabled || e.closest('.hidden')) return false; const 
   const cs = getComputedStyle(e); return cs.visibility !== 'hidden' && cs.pointerEvents !== 'none' && (e.offsetParent !== null || cs.position === 'fixed'); }
 function gfRoot() { if (cfmOpen()) return $('cfm'); const sc = topScreen(); return sc ? $(sc) : null; }
 function gfItems(root) { return root ? [...root.querySelectorAll(GP_SEL)].filter(gfVis) : []; }
-function gfKey(e) { return e.id || ((e.dataset.id || e.dataset.race || e.dataset.s || e.dataset.evo || e.dataset.t || '') + '|' + e.className.replace(/\b(gpf|on|sel|pickd|pressed)\b/g, '').trim() + '|' + (e.textContent || '').slice(0, 24)); }
+function gfKey(e) { return e.id || (e.dataset.mt ? 'mt|' + e.dataset.mt : '') || ((e.dataset.id || e.dataset.race || e.dataset.s || e.dataset.evo || e.dataset.t || '') + '|' + e.className.replace(/\b(gpf|on|sel|pickd|pressed)\b/g, '').trim() + '|' + (e.textContent || '').slice(0, 24)); }
 function gfClear() { for (const e of document.querySelectorAll('.gpf')) e.classList.remove('gpf'); GF.el = null; $('gpA').classList.remove('on'); }
 function gfSet(e, noScroll) { for (const o of document.querySelectorAll('.gpf')) if (o !== e) o.classList.remove('gpf'); GF.el = e; if (!e) return; e.classList.add('gpf'); GF.key = gfKey(e); GF.i = gfItems(GF.root).indexOf(e);
   if (e.classList.contains('tnode') && state === 'talents') { talPick = e.dataset.node; const t = TAL_BY_ID[talCls + ':' + talPick]; if (t && t.bi !== talSpec && !PC) talSetSpec(t.bi); talHover(talPick); for (const o of document.querySelectorAll('.ttree .tnode.pick')) o.classList.toggle('pick', o === e); }
@@ -7738,6 +8394,36 @@ const MTREE = [
   { id: 'def', name: 'Aegis', ic: '⛨', col: '#5aa9ff', nodes: [['vit', 1, 1], ['armor', 2, 0], ['regen', 2, 2], ['thick', 3, 0, 'armor'], ['fort', 4, 0, 'thick'], ['secwind', 4, 2, 'regen'], ['lifeb', 5, 1], ['ironw', 6, 2, 'secwind'], ['revive', 7, 1, 'lifeb']] },
   { id: 'uti', name: 'Fortune', ic: '◆', col: '#ffd24a', nodes: [['swift', 1, 1], ['reach', 2, 0], ['wisdom', 2, 2], ['fortune', 3, 1], ['pathf', 4, 0, 'reach'], ['scholar', 4, 2, 'wisdom'], ['haggle', 5, 1, 'fortune'], ['quick', 6, 2, 'scholar'], ['lord', 7, 1, 'haggle']] },
 ];
+/* ================= v28 ARMORY: 12 more talents in the three old branches and a 4th branch, Wayfarer (exploration, events & shrines) ================= */
+META.push(
+  { id: 'opener', name: 'Opening Strike', ic: '⚔', desc: '+8% damage to foes at full health', max: 3, base: 50, grow: 1.5 },
+  { id: 'momentum', name: 'Momentum', ic: '➶', desc: '+3% damage while you are moving', max: 3, base: 55, grow: 1.5 },
+  { id: 'overkill', name: 'Finisher', ic: '✂', desc: '+5% damage to foes below half health', max: 3, base: 65, grow: 1.5 },
+  { id: 'bloodlust', name: 'Bloodlust', ic: '♨', desc: 'Each kill gives +0.5% damage for a few seconds (stacks up to 20)', max: 2, base: 120, grow: 1.7 },
+  { id: 'medic', name: 'Field Medic', ic: '✙', desc: '+10% healing from vials, drains and blessings', max: 3, base: 45, grow: 1.5 },
+  { id: 'retal', name: 'Retaliation', ic: '✸', desc: 'When you are hit, a shockwave hurts nearby foes', max: 3, base: 60, grow: 1.5 },
+  { id: 'barrier', name: 'Barrier', ic: '◍', desc: 'A golden barrier blocks one hit completely. Recharges in 24s (−6s per extra rank)', max: 3, base: 90, grow: 1.6 },
+  { id: 'laststand', name: 'Last Stand', ic: '⚑', desc: 'Below 30% HP: +8% damage and take 8% less damage', max: 2, base: 130, grow: 1.7 },
+  { id: 'bounty', name: 'Bounty Hunter', ic: '☩', desc: 'Elites and mini-bosses drop extra gold', max: 3, base: 30, grow: 1.5 },
+  { id: 'goldrush', name: 'Gold Rush', ic: '●', desc: '+8% gold picked up', max: 3, base: 35, grow: 1.5 },
+  { id: 'shardsense', name: 'Shard Sense', ic: '◆', desc: 'Elites, mini-bosses and bosses drop +1 Shard', max: 3, base: 70, grow: 1.55 },
+  { id: 'interest', name: 'Interest', ic: '⚖', desc: 'Every minute, earn 3% of the gold you carry (up to 15)', max: 2, base: 110, grow: 1.7 },
+  { id: 'omen', name: 'Omens', ic: '☄', desc: 'Random events happen 6% more often', max: 3, base: 30, grow: 1.5 },
+  { id: 'luckyst', name: 'Lucky Purse', ic: '¤', desc: 'Start every run with +10 gold', max: 5, base: 25, grow: 1.4 },
+  { id: 'wander', name: 'Wanderlust', ic: '➤', desc: '+2% move speed. Claim landmarks 25% faster', max: 3, base: 35, grow: 1.5 },
+  { id: 'stock', name: 'Field Rations', ic: '⚗', desc: 'Healing vials heal 10% more', max: 3, base: 35, grow: 1.5 },
+  { id: 'cachehunt', name: 'Treasure Nose', ic: '✕', desc: 'Pots, crates, dig spots and landmarks give 15% more loot; dig from further away', max: 3, base: 45, grow: 1.5 },
+  { id: 'cartog', name: 'Cartographer', ic: '⌖', desc: 'Rank 1: arrows point to landmarks twice as far away. Rank 2: arrows also show buried treasure', max: 2, base: 60, grow: 1.6 },
+  { id: 'shrinesage', name: 'Shrine Sage', ic: '✧', desc: 'Spirit Shrines appear 12% sooner. At rank 3 they offer 4 blessings', max: 3, base: 55, grow: 1.5 },
+  { id: 'eventmaster', name: 'Event Master', ic: '★', desc: '+20% rewards from random events', max: 3, base: 70, grow: 1.55 },
+  { id: 'boon', name: 'Devout', ic: '✟', desc: 'Shrine blessings are 10% stronger', max: 3, base: 60, grow: 1.55 },
+  { id: 'pilgrim', name: 'Pilgrim', ic: '⛰', desc: '+1% damage and XP for each landmark you find in a run (up to 8)', max: 3, base: 80, grow: 1.6 },
+  { id: 'chosen', name: 'Chosen One', ic: '✦', desc: 'Start every run with one free level-up', max: 1, base: 150, grow: 1 },
+  { id: 'fateweaver', name: 'Fateweaver', ic: '❂', desc: 'CAPSTONE: start every run with a random shrine blessing, and every event you win also drops a chest', max: 1, base: 420, grow: 1 });
+MTREE[0].nodes.push(['opener', 3, 1], ['momentum', 4, 1], ['overkill', 5, 1], ['bloodlust', 6, 2, 'warlord']);
+MTREE[1].nodes.push(['medic', 3, 1], ['retal', 4, 1], ['barrier', 5, 0, 'fort'], ['laststand', 6, 0, 'barrier']);
+MTREE[2].nodes.push(['bounty', 1, 0], ['goldrush', 1, 2], ['shardsense', 5, 0, 'pathf'], ['interest', 6, 0, 'shardsense']);
+MTREE.push({ id: 'way', name: 'Wayfarer', ic: '✧', col: '#b88cff', nodes: [['omen', 1, 1], ['luckyst', 1, 0], ['stock', 1, 2], ['wander', 2, 0], ['cachehunt', 3, 1], ['cartog', 4, 0], ['shrinesage', 4, 2], ['eventmaster', 5, 1], ['boon', 5, 2, 'shrinesage'], ['pilgrim', 6, 0, 'cartog'], ['chosen', 6, 1, 'eventmaster'], ['fateweaver', 7, 1, 'chosen']] });
 const MT_BY = {}, MT_META = {}; for (const m of META) MT_META[m.id] = m;
 for (const br of MTREE) br.nodes = br.nodes.map(([id, t, c, req]) => { const n = { id, t, c, req, m: MT_META[id], br, cap: t === 7 }; MT_BY[id] = n; return n; });
 const MT_PER = 5; let mtPick = null, mtMsg = '', mtTab = 0; // mtTab: which branch a phone shows (v27)
