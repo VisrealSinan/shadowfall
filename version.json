@@ -1,20 +1,13 @@
 {
- "version": "30",
+ "version": "31",
  "date": "2026-10-23",
  "minLauncher": "2.0.0",
  "notes": [
-  "Eight new classes to unlock with Shards, and each one stays unlocked once you buy it: Knight (Paladin) 500, Engineer 600, Alchemist 650, Bard 700, Blood Knight 900, Chronomancer 1400, Neural Maestro 1800 and Visreal the Unraveler 2000.",
-  "Every new class has a main attack, 7 more skills, its own SIGNATURE skill and evolutions, plus a class passive, 3 talent trees, 5 achievements, 5 armour sets, a pixel hero and a portrait.",
-  "Knight (Paladin): a holy tank with a shield, consecrated ground and judgement from above. Engineer: turrets, a mortar nest, mines and a tesla coil do the fighting, with a repair drone to patch you up. Alchemist: throws vials that leave fire, poison and frost puddles that react with each other.",
-  "Bard: songs that buff you and blast foes, building up to a big crescendo. Blood Knight: spends his own health for huge hits and heals it back by drawing blood. Chronomancer: slows, rewinds and stops time, then lets every stored hit land at once.",
-  "Neural Maestro (Ghalrym's class): an AI music producer whose beats pulse out, backed by holographic anime cat-girl idols who dance and fire heart beams.",
-  "Visreal the Unraveler: a purple damage-over-time class that stacks poison, burning and curses on foes and makes them pop together with Unravel.",
-  "New: ULTIMATES. Every class (all the old ones, Paragon and the eight new ones) now has its own Ultimate move. Max out all six of your skills in a run and a big alert tells you it is ready.",
-  "Fire your Ultimate with R on PC, Y on a gamepad, or the glowing ✹ button on phones. It has a long cooldown, and if you don't fire it, it fires itself a few seconds after it is ready.",
-  "The Druid gets three Ultimates: Gaia's Wrath in normal form, Moonclaw Frenzy in Cat form and World-Tree Awakening in Tree form. It changes with your form.",
-  "A few Ultimates: Thousand Cuts (Rogue), Eclipse of Ruin (Warlock), Skyfall Barrage (Ranger), Event Horizon (Rift), Heaven's Gate (Knight), Orbital Strike (Engineer), Timeline Collapse (Chronomancer), Neko Idol World Tour (Maestro) and The Great Unweaving (Unraveler).",
-  "Ultimates have their own line in the damage meter, so you can see how much they did.",
-  "Old saves load fine. The old classes play the same as before, apart from the new Ultimate."
+  "Level-up cards now look like real trading cards: a rarity frame and gem, a picture window, a name banner, a type line, a text box and level pips. Evolution cards get a gold holo foil, and the reroll cards match.",
+  "Heroes have new poses: they face up and down as well as left and right, a dodge pose with afterimages when you jump on the move, a brief moment of invulnerability (a fifth of a second) when you start a jump, and a proper death animation (stagger, fall, fade away).",
+  "Enemies now face up and down, flash red as they wind up an attack, and die in three styles: crumble to dust, burst into pieces, or collapse. The number of bodies on screen is capped so phones stay smooth.",
+  "Every class has its own talent tree backgrounds, one for each of its three trees, such as a stained-glass chapel for the Knight, blueprints for the Engineer and a clock face for the Chronomancer.",
+  "The Armory has a new look: stone walls, wooden weapon racks and flickering torchlight instead of the plain blue, with a scene for each Armory branch."
  ],
  "files": [
   {
@@ -39,8 +32,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "04bf46a6f2906e099a26e9ab523abed658e1cae178aee0cc194fa82fa15e6a8f",
-   "size": 1510511
+   "sha256": "073efb9ee5f73fcd6c81e2159090ef06887fd93bc5d708e619590f7d97e9dba8",
+   "size": 1568687
   },
   {
    "name": "manifest.webmanifest",
@@ -49,7 +42,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "6384631974fa842748924d095d79bc9ae434e73b839daccd3d034cb398815abd",
+   "sha256": "02906ef2c055113d0872294b2b7a8494431ca104e74dd075ea2e8ed1cf8a6870",
    "size": 1466
   }
  ]
