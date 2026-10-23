@@ -1,12 +1,15 @@
 {
- "version": "26",
+ "version": "27",
  "date": "2026-10-23",
  "minLauncher": "2.0.0",
  "notes": [
-  "The Armory talent trees now sit side by side on one screen, no scrolling.",
-  "Every skill added in v25 now has an evolution, with its own name, effect and paired passive.",
-  "The Ashen Citadel map is now locked. Survive 15 minutes in Gloomwood to unlock it (the achievement \"Dawn Over Gloomwood\").",
-  "Cleaner in-run text: toasts have a soft backing and shrink to fit, and the move hint no longer gets cut off on narrow screens."
+  "Town visits are now saved: if you close the game in town, Continue brings you back to the shop with your gold and items intact.",
+  "You now arrive in town by the fountain, well away from the exit portal.",
+  "The town shop no longer shows a \"leaves in 9997s\" timer, and pop-up messages no longer hide behind the stage banner.",
+  "Armory buttons are bigger and easier to tap. On phones the three talent trees now have tabs, so you see one tree at a time.",
+  "The \"show my gear\" option now works with the pixel-art heroes.",
+  "Class screen on phones: the shard counter fits on one line, and tapping the locked map tells you how to unlock it.",
+  "Summoner minions hit a bit harder (familiars, archers, hounds, imps and the colossus)."
  ],
  "files": [
   {
@@ -31,8 +34,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "ad1bd1073baf0430880933b4517ae14002078366d4e19bf784f1fff1e134cfb0",
-   "size": 1135011
+   "sha256": "58b7b1a65301546e3e49ef1974184be3866364d602ac3cf14934e39a2c7b3a5e",
+   "size": 1140858
   },
   {
    "name": "manifest.webmanifest",
@@ -41,7 +44,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "734dad08901cb5ebf29289d2641bf7e38a5b215dda8371b39751f85ed4b3e2a6",
+   "sha256": "293f2ecd5c121458a2721f3b66f5a950f287aa3ac0b29f1323bef65caa4d2021",
    "size": 1466
   }
  ]

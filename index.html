@@ -701,6 +701,18 @@ canvas.hop{animation:hopk .55s ease-in-out;transform-origin:50% 90%}canvas.hopbi
 .mtip .mtn{display:flex;gap:8px;align-items:center;font-size:15px}.mtip .mti{font-size:20px}.mtip i{color:#ffd98a;font-style:normal;margin-left:auto}.mtd{color:#c9bde8;margin:4px 0}.mtr{color:#ff9a7a;font-size:12px}.mtmsg{color:#ffd24a;margin:4px 0}.mtfoot{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:8px;color:#9a8cc4;font-size:12px}
 .mtfoot .btn{font-size:12px;padding:3px 10px;min-height:0;height:26px;line-height:1;width:auto}.mtip .buy{min-width:84px;padding:6px 12px}.mtbr{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}.mtbr .ttree{flex:1 1 230px;max-width:340px;min-width:210px}
 .racepill.locked{opacity:.8}.racepill.locked span{color:#ffb070}.racepill.shake{animation:pshake .35s}@keyframes pshake{20%{transform:translateX(-4px)}60%{transform:translateX(4px)}}
+/* v27: class-screen top bar - pills shrink, the shard counter never wraps; a short note explains the locked map */
+#select .seltop{gap:8px;flex-wrap:nowrap}#select .seltop .racepill{flex:0 1 auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#select .seltop .shard{flex:0 0 auto;white-space:nowrap;font-size:clamp(12px,3.8vw,16px)}
+#btnSelMap .ln{display:none}@media(max-width:560px){#btnSelMap .lw{display:none}#btnSelMap .ln{display:inline}#select .seltop .racepill{padding-left:10px;padding-right:10px}#btnSelRace span{display:none}}
+.selmapmsg{width:min(92vw,380px);box-sizing:border-box;max-height:0;overflow:hidden;opacity:0;transition:opacity .2s,max-height .2s,margin .2s;text-align:center;font-size:13px;color:#ffe08a;background:rgba(40,20,0,.55);border:1px solid rgba(242,201,76,.5);border-radius:10px}
+.selmapmsg.on{max-height:60px;opacity:1;padding:6px 10px;margin:6px 0 2px}.pc .selmapmsg{width:880px;max-width:100%}
+/* v27: Armory tap targets - every talent and button is at least 44px with 8px gaps. Phones show one branch at a time (tabs); wider screens keep all three side by side */
+.mtrees{--ns:44px;--rp:52px;--pad:6px}.mtrees .tnode .rk{font-size:12px;padding:1px 4px;right:-6px;bottom:-6px}.mtrees .tth{font-size:13px;height:32px}.mtrees .tth b{font-size:12px}
+.mtfoot .btn{min-height:44px;height:auto;font-size:13px;padding:8px 14px}.mtip .buy{min-height:44px}
+.mttabs{display:none;gap:8px;margin:0 0 8px}.mttabs button{flex:1 1 0;min-height:44px;border-radius:12px;border:2px solid color-mix(in srgb,var(--tc) 55%,#3a2d63);background:linear-gradient(180deg,color-mix(in srgb,var(--tc) 30%,#1a2a6a),#0a1236);color:#cfd6ea;font:800 13px "Trebuchet MS",sans-serif;cursor:pointer;touch-action:manipulation}
+.mttabs button.on{color:#fff;border-color:var(--tc);box-shadow:0 0 10px color-mix(in srgb,var(--tc) 70%,transparent)}.mttabs button b{color:var(--tc);margin-left:4px}
+@media(max-width:699px){.mtrees{--ns:48px;--rp:58px;--pad:8px}.mttabs{display:flex}.mtrees .mtbr .ttree:not(.mton){display:none}.mtrees .tth{font-size:14px;height:34px}.mtrees .temb{font-size:180px}}
+@media(min-width:900px) and (min-height:760px){.mtrees{--ns:48px;--rp:58px;--pad:8px}}
 </style>
 </head>
 <body>
@@ -741,7 +753,7 @@ canvas.hop{animation:hopk .55s ease-in-out;transform-origin:50% 90%}canvas.hopbi
 
 <div id="select" class="screen panel">
  <h2 style="margin-bottom:4px">Choose Your Class</h2>
- <div class="topbar"><button class="racepill" id="btnSelRace"></button><button class="racepill" id="btnSelMap"></button><span class="shard" id="selShards"></span></div>
+ <div class="topbar seltop"><button class="racepill" id="btnSelRace"></button><button class="racepill" id="btnSelMap" aria-describedby="selMapMsg"></button><span class="shard" id="selShards"></span></div><div class="selmapmsg" id="selMapMsg" role="status" aria-live="polite"></div>
  <div id="classList"></div>
  <h3 style="align-self:center;margin-top:8px">Outfit</h3>
  <div class="swatches" id="outfitPick"></div>
@@ -802,7 +814,7 @@ canvas.hop{animation:hopk .55s ease-in-out;transform-origin:50% 90%}canvas.hopbi
  <div class="doll"><div class="dcol" id="eqL"></div><div class="dmid"><canvas id="eqHero"></canvas><div class="eqst" id="eqStats"></div></div><div class="dcol" id="eqR"></div></div>
  <div id="eqTip"></div>
  <label class="chk"><input type="checkbox" id="eqAuto"> Auto-equip upgrades (Common–Rare drops)</label>
- <label class="chk"><input type="checkbox" id="eqLook"> Show gear over achievement armor set</label>
+ <label class="chk"><input type="checkbox" id="eqLook"> Show my gear on the hero (even over an armor set)</label>
  <button class="btn" id="btnEqBack" data-kh="Esc">Back</button>
  <div class="spacer"></div>
 </div>
@@ -3794,8 +3806,14 @@ const PXA = (() => {
       hair: RL.hair ? R(RL.hair) : race === 'cat' || race === 'kitsune' ? R(RL.fur) : cls === 'paragon' ? HAIRM : HAIRW,
       lea: R(of.cloak), lea2: R(of.cloak2), trim: R(of.trim), cape: R(cls === 'paragon' ? of.cloak : sig ? SCARF : of.set ? of.acc : mixHex(SCARF, OUTFITS[o.outfit] ? OUTFITS[o.outfit].cloak : SCARF, 0.55)),
       mantle: R(of.acc || '#d6c49a'), eye: R(of.eye || '#b56bff', 1), weap: cls === 'paragon' ? GOLDE : BLADE }; }
-  function look(o) { const L = look0(o), K = PXA.kits[L.cls]; if (!K) return L; const CL = CLASS_LOOK[L.cls] || {}; L.K = K; L.CL = CL; L.acc = R(L.of.acc || CL.acc || '#5a2a9a'); L.acc2 = R(L.of.acc2 || CL.acc2 || '#24103e');
-    L.bone = R(CL.bone || '#ece3cf'); L.moss = R(CL.moss || '#5f9a3a'); if (K.look) K.look(L, o); return L; }
+  function look(o) { const L = look0(o), K = PXA.kits[L.cls]; if (!K) return gearTint(L, o); const CL = CLASS_LOOK[L.cls] || {}; L.K = K; L.CL = CL; L.acc = R(L.of.acc || CL.acc || '#5a2a9a'); L.acc2 = R(L.of.acc2 || CL.acc2 || '#24103e');
+    L.bone = R(CL.bone || '#ece3cf'); L.moss = R(CL.moss || '#5f9a3a'); if (K.look) K.look(L, o); return gearTint(L, o); }
+  /* v27: "Show gear over armor set" for pixel heroes - with the toggle on, equipped gear recolours the outfit (chest -> coat, legs/feet -> trousers, shoulders -> cape, waist/hands -> trim) */
+  function gearTint(L, o) { const GV = o.gear && o.gearOver && typeof gearLook === 'function' ? gearLook(o.gear, L.cls) : null; if (!GV) return L;
+    const c = k => GV[k] && GV[k].c, sig = ['chest', 'legs', 'feet', 'shoulders', 'waist', 'hands'].map(k => c(k) || '-').join(','); L.key += '|G' + sig;
+    const ch = c('chest'), lg = c('legs') || c('feet'), sh = c('shoulders'), tr = c('waist') || c('hands');
+    if (ch) { L.lea = R(ch); if (L.K) L.acc = R(ch); } if (lg) { L.lea2 = R(lg); if (L.K) L.acc2 = R(lg); } if (sh) { L.cape = R(sh); L.mantle = R(sh); } if (tr) L.trim = R(tr);
+    return L; }
   const rotP = (x, y, cx, cy, a) => { const c = Math.cos(a), s = Math.sin(a); return [cx + (x - cx) * c - (y - cy) * s, cy + (x - cx) * s + (y - cy) * c]; };
   /* pose: legs {a: thigh angle (+ = forward), b: knee bend}, arms {u: upper angle, e: elbow bend}, body bob/lean, cape/hair wave, weapon swing */
   function pose(an, f, cls) { const P = { by: 0, bx: 0, lean: 0, lf: { a: 0.08, b: 0.12 }, lb: { a: -0.12, b: 0.14 }, af: { u: 0.18, e: 0.35 }, ab: { u: -0.15, e: 0.4 }, cape: 0, hair: 0, w: 0, smear: 0, face: 0, crouch: 0 };
@@ -4904,23 +4922,26 @@ function catPurge(quiet) { // v18: Shadowcat is pure melee — shed every ranged
   if (!n) return 0; G.pending += n; G.catRefund = (G.catRefund || 0) + n; G.luChoices = null; recalc();
   if (!quiet) toast(`🐾 Pure melee: ${names.length > 2 ? names.length + ' nature skills' : names.join(' & ')} shed → +${n} free pick${n > 1 ? 's' : ''}`, '#ff9ab8', 3.4);
   return n; }
+const SKILL_SLOTS = 6; // v25: a hero carries up to 6 skills (v27: named so tools/sim_balance.py can read it)
 const RUN_STATES = { play: 1, paused: 1, levelup: 1, gear: 1, countdown: 1, equip: 1, npc: 1 };
 const r1 = v => Math.round(v * 10) / 10;
 function serializeRun() {
   const g = {}; for (const k of ['cls', 'race', 'outfit', 't', 'kills', 'level', 'xp', 'xpNext', 'passives', 'gear', 'pending', 'shardsPicked', 'salvage', 'bossKills', 'elites', 'nextElite', 'nextBoss',
-    'map', 'bossIdx', 'nextSurge', 'spawnAcc', 'revived', 'wasNight', 'healPool', 'bondPool', 'critBuffT', 'minionKills', 'moved', 'pendingChest', 'nextLoot', 'rushT', 'aegisT', 'kept', 'luChoices', 'tal', 'undyingUsed', 'tollT', 'rwT', 'sgT', 'achRun', 'achNew', 'dv', 'ancCd', 'frzCd', 'wsT', 'mcT', 'mwT', 'mvT', 'arc', 'stage', 'nextMini', 'surgeN', 'quests', 'qNext', 'qStats', 'qN', 'qLast', 'evo', 'dm', 'catPool', 'catRefund', 'obSeed', 'obGone', 'rerolls', 'gold', 'goldEarned', 'goldSpent', 'npcs', 'npcNext', 'npcN', 'npcLast', 'npcBuys', 'npcVisits', 'npcSeen', 'bufE', 'bufH', 'bufA', 'deathward', 'goldBud']) g[k] = G[k];
+    'map', 'bossIdx', 'nextSurge', 'spawnAcc', 'revived', 'wasNight', 'healPool', 'bondPool', 'critBuffT', 'minionKills', 'moved', 'pendingChest', 'nextLoot', 'rushT', 'aegisT', 'kept', 'luChoices', 'tal', 'undyingUsed', 'tollT', 'rwT', 'sgT', 'achRun', 'achNew', 'dv', 'ancCd', 'frzCd', 'wsT', 'mcT', 'mwT', 'mvT', 'arc', 'stage', 'nextMini', 'surgeN', 'quests', 'qNext', 'qStats', 'qN', 'qLast', 'evo', 'dm', 'catPool', 'catRefund', 'obSeed', 'obGone', 'rerolls', 'gold', 'goldEarned', 'goldSpent', 'npcs', 'npcNext', 'npcN', 'npcLast', 'npcBuys', 'npcVisits', 'npcSeen', 'bufE', 'bufH', 'bufA', 'deathward', 'goldBud', 'portal', 'portalNext', 'townVisits']) g[k] = G[k];
   g.weapons = G.weapons.map(w => [w.id, w.lvl]);
-  const live = enemies.filter(e => !e.dead);
+  /* v27: inside the Safe Haven the real battlefield is stashed in G.town.st - save that world (and where you left it) plus the town itself */
+  const TW = G.town, st = TW && TW.st, EN = st ? st.enemies : enemies, BOSS = st ? st.boss : G.boss, PK = st ? st.picks : picks; if (st) g.npcs = st.npcs;
+  const live = EN.filter(e => !e.dead);
   // compact enemy snapshot: [type, x, y, hp, maxHp, spd, dmg, r, sc, xp, flags(1=elite,2=boss), afflictions|0]
   const en = live.map(e => [e.type, r1(e.x), r1(e.y), r1(e.hp), r1(e.maxHp), r1(e.spd), r1(e.dmg), r1(e.r), e.sc, e.xp, (e.elite ? 1 : 0) | (e.boss ? 2 : 0), afCount(e) ? [e.rot, r1(e.rotT), r1(e.rotD), r1(e.agT), r1(e.agAge), r1(e.agD), r1(e.volT), r1(e.volD)] : 0, e.aff.length ? e.aff : 0, e.shMax ? [r1(e.sh), r1(e.shMax)] : 0, e.qid || 0]);
-  return { v: RUN_V, at: Date.now(), ui: state === 'countdown' ? 'paused' : state, G: g, P: { x: r1(P.x), y: r1(P.y), hp: r1(P.hp), maxHp: r1(P.maxHp), facing: P.facing },
-    en, boss: G.boss ? live.indexOf(G.boss) : -1, item: state === 'gear' ? curItem : null,
-    picks: picks.filter(p => p.k === 'chest' || p.k === 'shard' || p.k === 'gold').map(p => [p.k, r1(p.x), r1(p.y), p.v || 0, p.boss ? 1 : 0]) };
+  return { v: RUN_V, at: Date.now(), ui: state === 'countdown' ? 'paused' : state, G: g, P: { x: r1(st ? st.ret.x : P.x), y: r1(st ? st.ret.y : P.y), hp: r1(P.hp), maxHp: r1(P.maxHp), facing: P.facing },
+    en, boss: BOSS ? live.indexOf(BOSS) : -1, item: state === 'gear' ? curItem : null, town: TW ? { t: r1(TW.t), npcs: G.npcs } : 0,
+    picks: PK.filter(p => p.k === 'chest' || p.k === 'shard' || p.k === 'gold').map(p => [p.k, r1(p.x), r1(p.y), p.v || 0, p.boss ? 1 : 0]) };
 }
 let lastRunSave = 0;
 function saveRun() {
   // never write a run that is dead/dying/over: a save must not let you dodge a death
-  if (!G || !P || !RUN_STATES[state] || !(P.hp > 0) || G.ended || G.town) return false;
+  if (!G || !P || !RUN_STATES[state] || !(P.hp > 0) || G.ended) return false; // v27: saving inside the Safe Haven works too (see serializeRun)
   try { localStorage.setItem(RUN_KEY, JSON.stringify(serializeRun())); lastRunSave = performance.now(); return true; } catch (e) { return false; }
 }
 function restoreRun(r) {
@@ -4975,6 +4996,7 @@ function continueRun() {
   const r = loadRun(); if (!r) { goTitle(); return; }
   Snd.init(); setJoy(false); keys.clear();
   try { restoreRun(r); } catch (err) { console.warn('run restore failed', err); clearRun(); goTitle(); return; }
+  if (r.town && typeof r.town === 'object') try { restoreTown(r.town); } catch (err) { console.warn('town restore failed', err); }
   if (r.ui === 'levelup' && G.pending > 0) openLevelUp(true);
   else if (r.ui === 'gear' && r.item && (r.item.slot || r.item.t)) openGear('elite', r.item);
   else { state = 'paused'; show('pause'); muteLabel(); renderBuild(); $('pauseTitle').textContent = 'Run Restored'; $('btnResume').textContent = 'Tap to Resume'; G.countdownNext = true; }
@@ -5777,16 +5799,16 @@ function minionPlan() {
   const hound = ho ? Math.min([2, 2, 3, 3, 4, 6][ho - 1], Math.max(0, room())) : 0, imp = im ? Math.min([1, 1, 2, 2, 3, 4][im - 1] , Math.max(0, room() - hound)) : 0, colossus = co ? Math.min(co >= 5 ? 2 : 1, Math.max(0, room() - hound - imp)) : 0;
   return { shade: sh, archer: ar, brute: br, hound, imp, colossus };
 }
-function minionStats() {
+function minionStats() { // v27: summoner minions buffed (familiars 7→8.5, archers 9→11, hounds 6→7.5, imps 8→11, colossus 26→31 dmg; small hp bumps)
   const f = wlv('familiars'), a = wlv('archers'), b = wlv('brute'), ho = wlv('hounds'), im = wlv('imps'), co = wlv('colossus'), M = P.minion, H = P.minionHp, as = Math.max(0.5, 1 - 0.12 * passLv('soulfeast') - P.minionAs), grow = 1 + 0.05 * passLv('darkpact');
   return {
-    shade: { hp: 38 * H * (f >= 3 ? 1.4 : 1) * (f >= 6 ? 1.3 : 1), dmg: 7 * M * (f >= 3 ? 1.4 : 1) * (f >= 6 ? 1.3 : 1), cd: (f >= 5 ? 0.42 : 0.55) * as, sc: (f >= 6 ? 1.45 : f >= 3 ? 1.25 : 1) * grow },
-    archer: { hp: 45 * H, dmg: 9 * M * (a >= 2 ? 1.3 : 1) * (a >= 6 ? 1.15 : 1), cd: 1.3 * as, sc: grow, pierce: a >= 4 ? 2 : 0, volley: (a >= 6 ? 3 : 1) + (evOf('archers') ? 2 : 0) },
+    shade: { hp: 38 * H * (f >= 3 ? 1.4 : 1) * (f >= 6 ? 1.3 : 1), dmg: 8.5 * M * (f >= 3 ? 1.4 : 1) * (f >= 6 ? 1.3 : 1), cd: (f >= 5 ? 0.42 : 0.55) * as, sc: (f >= 6 ? 1.45 : f >= 3 ? 1.25 : 1) * grow },
+    archer: { hp: 45 * H, dmg: 11 * M * (a >= 2 ? 1.3 : 1) * (a >= 6 ? 1.15 : 1), cd: 1.3 * as, sc: grow, pierce: a >= 4 ? 2 : 0, volley: (a >= 6 ? 3 : 1) + (evOf('archers') ? 2 : 0) },
     brute: { hp: 230 * H * (b >= 2 ? 1.4 : 1) * (evOf('brute') ? 1.6 : 1), dmg: 18 * M * (b >= 2 ? 1.3 : 1) * (b >= 6 ? 1.4 : 1), cd: (b >= 6 ? 0.9 : 1.3) * as, sc: grow * (b >= 6 ? 1.12 : 1) * (evOf('brute') ? 1.15 : 1),
       slamR: 50 * (b >= 3 ? 1.3 : 1) * P.area * (evOf('brute') ? 1.25 : 1), tauntR: 125 * (b >= 4 ? 1.35 : 1) },
-    hound: { hp: 30 * H * (ho >= 4 ? 1.3 : 1), dmg: 6 * M * (ho >= 2 ? 1.3 : 1), cd: (ho >= 6 ? 0.28 : ho >= 4 ? 0.34 : 0.4) * as, sc: grow },
-    imp: { hp: 26 * H, dmg: 8 * M * (im >= 2 ? 1.3 : 1), cd: 1.1 * as, sc: grow, fire: im >= 4 ? 5 : 3, volley: im >= 6 ? 2 : 1 },
-    colossus: { hp: 330 * H * (co >= 2 ? 1.4 : 1) * (co >= 6 ? 1.3 : 1), dmg: 26 * M * (co >= 2 ? 1.3 : 1) * (co >= 6 ? 1.3 : 1), cd: (co >= 4 ? 1.35 : 1.7) * (co >= 6 ? 0.8 : 1) * as, sc: grow * (co >= 6 ? 1.15 : 1), slamR: 70 * (co >= 3 ? 1.3 : 1) * P.area * (co >= 6 ? 1.2 : 1), tauntR: 135 },
+    hound: { hp: 34 * H * (ho >= 4 ? 1.3 : 1), dmg: 7.5 * M * (ho >= 2 ? 1.3 : 1), cd: (ho >= 6 ? 0.28 : ho >= 4 ? 0.34 : 0.4) * as, sc: grow },
+    imp: { hp: 30 * H, dmg: 11 * M * (im >= 2 ? 1.3 : 1), cd: 1.1 * as, sc: grow, fire: im >= 4 ? 5 : 3, volley: im >= 6 ? 2 : 1 },
+    colossus: { hp: 330 * H * (co >= 2 ? 1.4 : 1) * (co >= 6 ? 1.3 : 1), dmg: 31 * M * (co >= 2 ? 1.3 : 1) * (co >= 6 ? 1.3 : 1), cd: (co >= 4 ? 1.35 : 1.7) * (co >= 6 ? 0.8 : 1) * as, sc: grow * (co >= 6 ? 1.15 : 1), slamR: 70 * (co >= 3 ? 1.3 : 1) * P.area * (co >= 6 ? 1.2 : 1), tauntR: 135 },
   };
 }
 function spawnMinion(type) {
@@ -5988,21 +6010,24 @@ function portalTick(dt) {
     else if (Math.hypot(P.x - pr.x, P.y - pr.y) < 28 && townOk()) enterTown(); }
   else if (G.t >= G.portalNext && townOk()) { const a = rand(TAU), d = rand(150, 210), n = { x: r1(P.x + Math.cos(a) * d), y: r1(P.y + Math.sin(a) * d) }; obFree(n, 14);
     G.portal = { x: n.x, y: n.y, T: 45, max: 45, age: 0 }; G.portalNext = G.t + rand(170, 230); toast('✦ A portal to the Safe Haven has opened nearby!', '#7fd6ff', 3.4); Snd.play('greet'); } }
-function enterTown() {
+function restoreTown(tw) { // v27: Continue a run that was saved inside the Safe Haven - same shops, same stock, same time left
+  enterTown(true); G.town.t = clamp(+tw.t || TOWN_TIME, 1, TOWN_TIME);
+  if (Array.isArray(tw.npcs)) { const ok = tw.npcs.filter(n => n && NPCS[n.nt] && Array.isArray(n.offers) && typeof n.x === 'number'); if (ok.length) { for (const n of ok) { n.cool = 1; n.near = 0; n.town = 1; n.T = n.max = 9999; } G.npcs = ok; } } }
+function enterTown(restored) {
   const st = { enemies, eprojs, projs, effects, gems, picks, parts, nums, corpses, npcs: G.npcs, boss: G.boss, ret: { x: P.x, y: P.y }, aim: P.aim };
   enemies = []; eprojs = []; projs = []; effects = []; gems = []; picks = []; parts = []; nums = []; corpses = []; G.boss = null;
-  const cx = st.ret.x + 30000, cy = st.ret.y; G.town = { t: TOWN_TIME, cx, cy, st, age: 0 }; G.portal = null; G.townVisits = (G.townVisits || 0) + 1;
-  P.x = cx; P.y = cy + TOWN_R - 80; P.inv = Math.max(P.inv, 1); OBG = new Map(); obGK = 'town'; for (const m of minions) { m.x = P.x + rand(-24, 24); m.y = P.y + rand(-24, 24); m.tgt = null; }
+  const cx = st.ret.x + 30000, cy = st.ret.y; G.town = { t: TOWN_TIME, cx, cy, st, age: 0 }; G.portal = null; if (!restored) G.townVisits = (G.townVisits || 0) + 1;
+  P.x = cx; P.y = cy + 70; /* v27: arrive by the fountain, well away from the EXIT portal */ P.inv = Math.max(P.inv, 1); OBG = new Map(); obGK = 'town'; for (const m of minions) { m.x = P.x + rand(-24, 24); m.y = P.y + rand(-24, 24); m.tgt = null; }
   G.npcs = []; const types = ['merchant', 'gambler', 'smith', 'stranger'];
   types.forEach((ty, i) => { const D = NPCS[ty], a = [-2.35, -0.8, 2.45, 0.7][i], rr = i < 2 ? 150 : 150, n = { id: ++G.npcN, nt: ty, npc: 1, x: r1(cx + Math.cos(a) * rr), y: r1(cy + Math.sin(a) * rr * 0.8 - 20), r: 10, T: 9999, max: 9999, face: 1, age: 1, cool: 0, visits: 0, town: 1 };
     n.hx = n.x; n.hy = n.y; n.tx = n.x; n.ty = n.y; n.wT = 1e9; n.idle = 1; n.offers = npcOffers(ty); n.say = pick(D.hi); G.npcs.push(n); });
   for (let i = 0; i < 24; i++) { const a = rand(TAU); parts.push({ x: P.x + Math.cos(a) * 8, y: P.y + Math.sin(a) * 8, vx: Math.cos(a) * 90, vy: Math.sin(a) * 90, life: 0.8, max: 0.8, s: 3, c: '#7fd6ff', glow: true }); }
-  toast('✦ Safe Haven — shop in peace! Portal closes in ' + TOWN_TIME + 's', '#7fd6ff', 3.4); Snd.play('shimmer'); Snd.music('title'); }
+  if (!restored) { toast('✦ Safe Haven — shop in peace! Portal closes in ' + TOWN_TIME + 's', '#7fd6ff', 3.4); Snd.play('shimmer'); saveRun(); } Snd.music('title'); }
 function exitTown() {
   const T = G.town; if (!T) return; const st = T.st; enemies = st.enemies; eprojs = st.eprojs; projs = st.projs; effects = st.effects; gems = st.gems; picks = st.picks; parts = st.parts; nums = st.nums; corpses = st.corpses; G.npcs = st.npcs; G.boss = st.boss;
   G.town = null; P.x = st.ret.x; P.y = st.ret.y; P.inv = Math.max(P.inv, 2.2); OBG = new Map(); obGK = null; obGrid(); obFree(P, P.r);
   for (const m of minions) { m.x = P.x + rand(-26, 26); m.y = P.y + rand(-26, 26); m.tgt = null; m.inv = 1.5; } for (const e of enemies) if (!e.dead && Math.hypot(e.x - P.x, e.y - P.y) < 90) { const d = Math.hypot(e.x - P.x, e.y - P.y) || 1; e.x = P.x + (e.x - P.x) / d * 110; e.y = P.y + (e.y - P.y) / d * 110; }
-  G.portalNext = G.t + rand(170, 230); burst(P.x, P.y, '#7fd6ff', 24, 160, 3, 0.7, true); toast('Back to the fight!', '#ffd24a', 2.2); Snd.play('shimmer'); Snd.music(musicName()); }
+  G.portalNext = G.t + rand(170, 230); burst(P.x, P.y, '#7fd6ff', 24, 160, 3, 0.7, true); toast('Back to the fight!', '#ffd24a', 2.2); Snd.play('shimmer'); Snd.music(musicName()); saveRun(); }
 function townTick(dt) {
   const T = G.town; if (!T || state !== 'play') return; T.t -= dt; T.age += dt;
   const dx = P.x - T.cx, dy = (P.y - T.cy) * 1.0, d = Math.hypot(dx, dy), lim = TOWN_R - 16; if (d > lim) { P.x = T.cx + dx / d * lim; P.y = T.cy + dy / d * lim; }
@@ -6546,7 +6571,7 @@ function npcPortrait(cv, type) {
   g.clearRect(0, 0, cv.width, cv.height); g.drawImage(img, -8 * dpr, -2 * dpr, (S + 16) * dpr, (S + 16) * dpr); }
 function renderNpc() { const n = npcCur; if (!n) return; const D = NPCS[n.nt];
   $('npc').style.setProperty('--nc', D.col); $('npcName').textContent = D.n; $('npcRole').textContent = D.role; $('npcSay').textContent = '“' + n.say + '”';
-  $('npcGold').textContent = G.gold || 0; $('npcTime').textContent = `leaves in ${Math.max(1, Math.ceil(n.T))}s (time is paused)`;
+  $('npcGold').textContent = G.gold || 0; $('npcTime').textContent = n.town ? 'Safe Haven · the portal clock is paused while you shop' : `leaves in ${Math.max(1, Math.ceil(n.T))}s (time is paused)`; /* v27: town shops never leave */
   npcPortrait($('npcArt'), n.nt);
   const L = $('npcOffers'); L.innerHTML = '';
   n.offers.forEach((o, i) => { const def = NOFF[o.k]; if (!def) return; const sold = !(o.left > 0), can = (G.gold || 0) >= o.p, nm = def.n(o), ds = def.d(o);
@@ -7261,7 +7286,8 @@ function drawHUD() {
   drawQuestHUD(); npcHUD();
   let ty = t + (G.boss ? 140 : 116); if (QT_H) ty = Math.max(ty, t + Math.max(HUD_BOT, G.boss && !G.boss.dead ? 128 : 0) + QT_H + 16); // toasts sit below the quest tracker
   ctx.textAlign = 'center';
-  for (const to of toasts) { const a = Math.min(1, to.life * 2, (to.max - to.life) * 4); ctx.globalAlpha = a; ctx.font = '700 15px "Palatino Linotype",Palatino,Georgia,serif'; ctx.lineWidth = 4;
+  const bnA = G.banner ? H * 0.27 - 36 : 0, bnB = G.banner ? H * 0.27 + 36 : 0; /* v27: toasts hop below the stage banner instead of hiding under it */
+  for (const to of toasts) { if (G.banner && ty + 8 > bnA && ty - 16 < bnB) ty = bnB + 16; const a = Math.min(1, to.life * 2, (to.max - to.life) * 4); ctx.globalAlpha = a; ctx.font = '700 15px "Palatino Linotype",Palatino,Georgia,serif'; ctx.lineWidth = 4;
     { let fs = 15; const mw = W - 28; while (fs > 10 && ctx.measureText(to.text).width > mw) { fs--; ctx.font = `700 ${fs}px "Palatino Linotype",Palatino,Georgia,serif`; }
       const tw = ctx.measureText(to.text).width + 18; ctx.fillStyle = 'rgba(8,2,16,.5)'; rr(W / 2 - tw / 2, ty - 15, tw, 21, 10); ctx.fill(); ctx.fillStyle = to.col; }
     ctx.strokeText(to.text, W / 2, ty); ctx.fillText(to.text, W / 2, ty); ty += 25; }
@@ -7668,8 +7694,8 @@ function renderSelect() {
   $('selShards').textContent = '◆ ' + save.shards; const rc = RACES[raceOf(save.race)];
   $('btnSelRace').innerHTML = `Race: <b>${rc.name}</b> <span>change ›</span>`;
   { const open = castleOpen(), onC = save.map === 'castle' && open, mb = $('btnSelMap'); mb.classList.toggle('locked', !open);
-    mb.innerHTML = open ? `Map: <b>${onC ? 'Ashen Citadel' : 'Gloomwood'}</b> <span>change ›</span>` : `Map: <b>Gloomwood</b> <span>🔒 Citadel: survive 15:00 here</span>`;
-    mb.onclick = () => { if (!open) { Snd.play('click'); mb.classList.remove('shake'); void mb.offsetWidth; mb.classList.add('shake'); return; } save.map = onC ? 'forest' : 'castle'; persist(); Snd.play('click'); renderSelect(); }; }
+    mb.innerHTML = open ? `Map: <b>${onC ? 'Ashen Citadel' : 'Gloomwood'}</b> <span>change ›</span>` : `Map: <b>Gloomwood</b> <span class="lw">🔒 Citadel: survive 15:00 here</span><span class="ln">🔒</span>`;
+    mb.onclick = () => { if (!open) { Snd.play('click'); mb.classList.remove('shake'); void mb.offsetWidth; mb.classList.add('shake'); selMapMsg('🔒 Survive 15:00 in Gloomwood to unlock the Ashen Citadel'); return; } save.map = onC ? 'forest' : 'castle'; persist(); Snd.play('click'); renderSelect(); }; }
   const L = $('classList'); L.innerHTML = '';
   for (const id in CLASSES) {
     const c = CLASSES[id], owned = !!save.classes[id], sel = selClass === id && owned;
@@ -7714,7 +7740,7 @@ const MTREE = [
 ];
 const MT_BY = {}, MT_META = {}; for (const m of META) MT_META[m.id] = m;
 for (const br of MTREE) br.nodes = br.nodes.map(([id, t, c, req]) => { const n = { id, t, c, req, m: MT_META[id], br, cap: t === 7 }; MT_BY[id] = n; return n; });
-const MT_PER = 5; let mtPick = null, mtMsg = '';
+const MT_PER = 5; let mtPick = null, mtMsg = '', mtTab = 0; // mtTab: which branch a phone shows (v27)
 const mtSpent = br => br.nodes.reduce((a, n) => a + mr(n.id), 0);
 const mtTierOk = n => n.t === 1 || mtSpent(n.br) >= MT_PER * (n.t - 1);
 function mtState(n) { const r = mr(n.id), m = n.m, cost = metaCost(m, r), reqN = n.req && MT_BY[n.req], reqOk = !reqN || mr(reqN.id) >= reqN.m.max;
@@ -7724,14 +7750,16 @@ function mtBuy(id) { const n = MT_BY[id]; if (!n) return; const s = mtState(n); 
   if (s.why) { mtMsg = s.why === 'max' ? 'Already at max rank' : s.why === 'tier' ? `Spend ${MT_PER * (n.t - 1)} ranks in ${n.br.name} to open tier ${n.t}` : s.why === 'req' ? `Requires ${MT_BY[n.req].m.name} at max rank` : `Need ${s.cost} ◆ Shards`; Snd.play('click'); renderShop(); return; }
   save.shards -= s.cost; save.meta[id] = s.r + 1; mtMsg = ''; persist(); Snd.play(s.r + 1 >= n.m.max ? 'buy' : 'pick'); renderShop(); }
 function mtRefundAll() { let t = 0; for (const m of META) { const r = mr(m.id); for (let i = 0; i < r; i++) t += metaCost(m, i); } return t; }
+let _smT = 0; function selMapMsg(t) { const m = $('selMapMsg'); if (!m) return; m.textContent = t; m.classList.add('on'); clearTimeout(_smT); _smT = setTimeout(() => m.classList.remove('on'), 3200); } // v27: say why the map is locked
 function renderMetaTree(L) {
   const wrap = document.createElement('div'); wrap.className = 'mtrees'; const pn = mtPick && MT_BY[mtPick], tot = Object.values(save.meta || {}).reduce((a, b) => a + (b | 0), 0);
   let tip = '<div class="mtip">'; if (pn) { const s = mtState(pn), m = pn.m; tip += `<div class="mtn"><span class="mti">${m.ic}︎</span><b>${m.name}</b> <i>${s.r}/${m.max}</i></div><div class="mtd">${m.desc}${pn.req ? `<br><span class="mtr">Requires ${MT_BY[pn.req].m.name} (max)</span>` : ''}${pn.t > 1 ? `<br><span class="mtr">Tier ${pn.t}: needs ${MT_PER * (pn.t - 1)} ranks in ${pn.br.name}</span>` : ''}</div>`;
     tip += s.why === 'max' ? '<div class="mtmsg">Maxed out</div>' : `<button class="buy" id="mtBuy" ${s.why ? 'data-why="1"' : ''}>${s.why === 'tier' || s.why === 'req' ? 'Locked' : s.cost + '◆'}</button>`; }
   else tip += '<div class="mtd">Tap a talent to read it, tap again to buy a rank. Every 5 ranks in a branch opens its next tier. Arrows mean the talent above must be maxed first.</div>';
   tip += (mtMsg ? `<div class="mtmsg">${mtMsg}</div>` : '') + `<div class="mtfoot"><span>${tot} ranks bought</span><button class="btn small" id="mtReset" ${tot ? '' : 'disabled'}>Reset tree (+${mtRefundAll()}◆)</button></div></div>`;
-  wrap.innerHTML = tip + '<div class="mtbr"></div>'; const row = wrap.querySelector('.mtbr');
-  for (const br of MTREE) { const sp = mtSpent(br), tree = document.createElement('div'); tree.className = 'ttree cur'; tree.style.setProperty('--tc', br.col);
+  if (pn) mtTab = Math.max(0, MTREE.indexOf(pn.br));
+  wrap.innerHTML = tip + '<div class="mttabs">' + MTREE.map((br, i) => `<button class="${i === mtTab ? 'on' : ''}" data-mtb="${i}" style="--tc:${br.col}">${br.ic}︎ ${br.name}<b>${mtSpent(br)}</b></button>`).join('') + '</div><div class="mtbr"></div>'; const row = wrap.querySelector('.mtbr');
+  for (const br of MTREE) { const sp = mtSpent(br), tree = document.createElement('div'); tree.className = 'ttree cur' + (MTREE.indexOf(br) === mtTab ? ' mton' : ''); tree.style.setProperty('--tc', br.col);
     let h = `<div class="tth"><span class="sic">${br.ic}︎</span>${br.name}<b>${sp}</b></div><div class="tgrid"><div class="temb">${br.ic}︎</div>`;
     for (let t = 2; t <= 7; t++) { const need = MT_PER * (t - 1); if (sp < need) h += `<div class="tlock" style="--t:${t}">🔒︎<br>${need}</div>`; }
     for (const n of br.nodes) if (n.req) { const q = MT_BY[n.req]; h += `<div class="tarr${mr(q.id) >= q.m.max ? ' on' : ''}" style="--c:${n.c};--t:${q.t};--g:${n.t - q.t}"></div>`; }
@@ -7739,6 +7767,7 @@ function renderMetaTree(L) {
     tree.innerHTML = h + '</div>'; row.appendChild(tree); }
   L.appendChild(wrap);
   for (const b of wrap.querySelectorAll('.tnode')) b.onclick = () => { Snd.init(); if (mtPick === b.dataset.mt) mtBuy(b.dataset.mt); else { mtPick = b.dataset.mt; mtMsg = ''; Snd.play('click'); renderShop(); } };
+  for (const b of wrap.querySelectorAll('.mttabs button')) b.onclick = () => { Snd.init(); mtTab = +b.dataset.mtb; if (mtPick && MT_BY[mtPick] && MTREE.indexOf(MT_BY[mtPick].br) !== mtTab) mtPick = null; mtMsg = ''; Snd.play('click'); renderShop(); };
   const bb = wrap.querySelector('#mtBuy'); if (bb) bb.onclick = () => { Snd.init(); mtBuy(mtPick); };
   const rb = wrap.querySelector('#mtReset'); if (rb) rb.onclick = () => { Snd.init(); const t = mtRefundAll(); askConfirm('Reset the tree?', `Refund all ${t} ◆ Shards and clear every rank. You can rebuy them in any order.`, 'Reset', () => { save.shards += t; save.meta = {}; mtPick = null; mtMsg = ''; persist(); Snd.play('buy'); renderShop(); }); };
 }
@@ -7793,7 +7822,7 @@ function buildChoices() {
   $('luTitle').textContent = 'Level ' + (G.level - G.pending + 1) + '!';
   const opts = [], owned = new Set(G.weapons.map(w => w.id));
   for (const w of G.weapons) if (w.lvl < WDEF[w.id].max) opts.push({ k: 'w', id: w.id, w: 3 });
-  if (G.weapons.length < 6) for (const id in WDEF) { if (owned.has(id)) continue; const d = WDEF[id]; if (d.cls !== G.cls) continue;   // class-only weapon pool
+  if (G.weapons.length < SKILL_SLOTS) for (const id in WDEF) { if (owned.has(id)) continue; const d = WDEF[id]; if (d.cls !== G.cls) continue;   // class-only weapon pool
     if (d.form && druidForm()) continue;                                             // one form per run: taking Cat or Tree removes the other
     if (d.cat && druidForm() !== 'cat') continue; if (druidForm() === 'cat' && catBan(id)) continue; // v18: Sanguine Maw is cat-only; the Cat never gets ranged nature spells
     if (d.tree && druidForm() !== 'tree') continue;                                  // v19: Uprooted Boulder is tree-only
