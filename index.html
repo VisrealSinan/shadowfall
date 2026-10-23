@@ -875,7 +875,6 @@ canvas.hop{animation:hopk .55s ease-in-out;transform-origin:50% 90%}canvas.hopbi
    <input type="range" min="0" max="100" step="1" id="vol_sfx" aria-label="Sound effects volume"></div>
   <button class="btn small" id="btnAudTest" style="width:100%;margin-top:4px">▶ Test sounds</button>
   <div class="audrow" id="row_rumble"><div class="audhd"><span class="audic">🎮︎</span><b>Controller rumble</b><span class="audval" id="val_pad">No controller</span><button class="audtog" id="tog_rumble">On</button></div></div>
-  <div class="audrow" id="row_art"><div class="audhd"><span class="audic">✦</span><b>Art style</b><span class="audval">Classic or HD Anime Pixel (preview: every hero and foe, plus the world)</span><button class="audtog" id="tog_art">Classic</button></div></div>
   <div class="audrow" id="row_jsfx"><div class="audhd"><span class="audic">⤒</span><b>Jump sound</b><span class="audval">soft hop when you jump</span><button class="audtog" id="tog_jsfx">On</button></div></div>
   <div class="audrow" id="row_jbtn"><div class="audhd"><span class="audic">⬆︎</span><b>Phone jump button</b><span class="audval">touch screens</span><button class="audtog" id="tog_jbtn">Off</button></div></div>
   <div class="audnote">All music &amp; sounds are generated live on your device. On iPhone, sound follows the silent switch and starts after your first tap.</div>
@@ -4737,16 +4736,14 @@ const PXA = (() => {
   PXA.world = { ground, road, prop, gem, coin, pell, PD };
 })();
 
-/* ---- v23 glue: Art style setting (Classic / Anime Pixel). Converted content swaps in, everything else stays classic ---- */
+/* ---- v23 glue: Anime Pixel is the game's only art style. Converted content swaps in, everything else stays classic ---- */
 PXA.glue = {
-  sync() { PXA.on = !!(typeof save !== 'undefined' && save && save.artStyle === 'pixel'); return PXA.on; },
+  sync() { PXA.on = true; return true; },
   art() { // called at the end of buildArt() when pixel mode is on: overwrite only the converted sprites
     const W = PXA.world; SPR.gem = [0, 1, 2, 3].map(t => W.gem(t)); SPR.pick.gold = W.coin(); if (SPR.npc) SPR.npc.merchant = [W.pell(0), W.pell(1)].map(c => (c.px = 1, c));
     for (const k of ['tree', 'oldtree', 'rock', 'pillar', 'stump', 'tomb', 'wall', 'grave', 'crystal', 'mushrooms']) SPR.prop[k] = W.prop(k);
     SPR.prop.px_boulder = W.prop('boulder'); groundTile = W.ground(); },
   jumpPhase() { const e = G.t - P.jAt; return e < JUMP_A ? 0 : e < JUMP_L ? ((e - JUMP_A) / (JUMP_L - JUMP_A) < 0.5 ? 1 : 2) : 3; },
-  toggle() { save.artStyle = save.artStyle === 'pixel' ? 'classic' : 'pixel'; persist(); PXA.glue.sync(); PXA.cache.clear(); ROADC.clear(); buildArt(); PXA.glue.label(); },
-  label() { const t = document.getElementById('tog_art'); if (!t) return; const on = save.artStyle === 'pixel'; t.textContent = on ? 'Anime Pixel' : 'Classic'; t.classList.toggle('off', !on); },
 };
 
 function heroPortrait(canvas, cls, outfit, scale = 1.35, race, gear) {
@@ -7753,7 +7750,6 @@ for (const b of $('shopTabs').children) b.addEventListener('click', () => { shop
 } bind('btnResume', resumeGame); bind('btnQuit', exitRunAsk); $('cfmYes').addEventListener('click', () => { Snd.init(); cfmClose(true); }); $('cfmNo').addEventListener('click', () => { Snd.init(); Snd.play('click'); cfmClose(false, true); });
 $('cfm').addEventListener('click', e => { if (e.target.id === 'cfm') cfmClose(false); }); bind('btnQuitApp', quitApp);
 bind('tog_rumble', () => { save.rumble = save.rumble === false; persist(); rumbleLbl(); if (save.rumble) padRumble(0.4, 0.6, 160); });
-bind('tog_art', () => PXA.glue.toggle()); PXA.glue.label();
 bind('tog_jsfx', () => { save.jumpSfx = save.jumpSfx === false; persist(); jumpLbl(); if (save.jumpSfx) Snd.play('hop'); });
 bind('tog_jbtn', () => { save.jumpBtn = !save.jumpBtn; persist(); jumpLbl(); });
 function jumpLbl() { for (const [id, on] of [['tog_jsfx', save.jumpSfx !== false], ['tog_jbtn', !!save.jumpBtn]]) { const t = $(id); if (!t) continue; t.textContent = on ? 'On' : 'Off'; t.classList.toggle('off', !on); } } jumpLbl();

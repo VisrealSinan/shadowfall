@@ -1,14 +1,10 @@
 {
- "version": "23",
+ "version": "24",
  "date": "2026-10-22",
  "minLauncher": "2.0.0",
  "notes": [
-  "New optional look: Anime Pixel! Open Settings and tap \"Art style\" to switch between Classic (still the default) and the new HD pixel-art style. Your choice is saved",
-  "All 9 heroes are redrawn with new idle, walk, attack, jump and hurt animations: Rogue, Warlock, Summoner, Ranger, Reaper, Rift Dancer, Druid, Mage and Eclipse Paragon. Your outfit, armour set and race still change how they look",
-  "The Druid's Shadowcat and Elderbark Treant forms get the new look too",
-  "All 26 enemy types are redrawn, including every boss, plus the ground, roads, trees, rocks, gems, gold coins and the Wandering Merchant",
-  "Spell effects, projectiles and menus keep their classic look for now, and the Shade race keeps its classic hero",
-  "In our tests Anime Pixel ran a little faster than Classic, and switching styles never touches your saves"
+  "Anime Pixel is now the one and only look. Every hero, every enemy and the world are always drawn in the new HD pixel-art style, and the \"Art style\" setting is gone.",
+  "Effects, menus and the Shade race still use their classic look for now."
  ],
  "files": [
   {
@@ -33,8 +29,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "375a3f4a8e8133f0b2abbf1f7901e4b78dddafd6b2540d019f8aed3d87283431",
-   "size": 1072320
+   "sha256": "24605aa9f4fc84bc4b47216dd4be14d0369a2cb506ff695ae170eda44be86eb7",
+   "size": 1071561
   },
   {
    "name": "manifest.webmanifest",
@@ -43,7 +39,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "af0e230a31f6bc2e4faff6cbd2f0e24e165663ecb49a13d36ea6cb86736ef532",
+   "sha256": "5c33e28900fa51d19e4a34fcc29f04fe6d75268ac66b429241f77ee5de065b72",
    "size": 1466
   }
  ]
