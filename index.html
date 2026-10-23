@@ -692,9 +692,15 @@ canvas.hop{animation:hopk .55s ease-in-out;transform-origin:50% 90%}canvas.hopbi
 .ovhero::after{content:"";position:absolute;left:14px;right:14px;bottom:2px;height:7px;border-radius:50%;background:rgba(0,0,0,.45);z-index:0}.ovhero canvas{position:relative;z-index:1}
 @media (prefers-reduced-motion:reduce){canvas.hop,canvas.hopbig{animation:none}}
 
-.mtrees{width:100%;--ns:46px;--rp:55px;--gut:22px;--pad:9px}.pc .mtrees{--ns:48px;--rp:62px;--gut:20px;--pad:8px}.mtip{background:#150f26;border:1px solid #3a2d63;border-radius:10px;padding:10px 12px;margin:0 0 10px;font-size:13px;line-height:1.35}
+.mtrees{grid-column:1/-1;width:100%;box-sizing:border-box;--ns:34px;--rp:41px;--gut:0px;--pad:6px}@media(min-width:900px) and (min-height:760px){.mtrees{--ns:46px;--rp:54px;--pad:8px;max-width:880px;margin:0 auto}.mtrees .mtip{display:flex;gap:14px;align-items:center;padding:8px 14px}.mtrees .mtip .mtn{min-width:190px}.mtrees .mtip>.mtd{flex:1;margin:0}.mtrees .mtip>.mtmsg{margin:0}.mtrees .mtip .mtfoot{margin:0;flex-direction:column;align-items:flex-end;gap:2px}.mtrees .tth{font-size:15px;height:36px}.mtrees .tnode .rk{font-size:12px}}@media(max-width:699px) and (max-height:720px){.mtrees{--ns:30px;--rp:34px;--pad:4px}.mtip{padding:5px 10px}.mtip .mtd{margin:0}.mtrees .tnode .ti{font-size:14px}}@media(min-width:700px) and (max-height:759px){.mtrees{--ns:36px;--rp:40px;--pad:5px}.mtip{padding:6px 12px}.mtip .mtd{margin:1px 0}}
+.mtrees .mtbr{display:flex;gap:6px;flex-wrap:nowrap;justify-content:stretch}.mtrees .mtbr .ttree{flex:1 1 0;min-width:0;max-width:none}
+.mtrees .tth{display:flex;height:28px;font-size:10px;letter-spacing:0;gap:3px;cursor:default;padding:0 2px}.mtrees .tth b{font-size:11px;padding:0 5px}
+.mtrees .tnode{left:calc((var(--c) + .5) * 100% / 3 - var(--ns) / 2)}.mtrees .tarr{left:calc((var(--c) + .5) * 100% / 3)}.mtrees .tlock{display:none}.mtrees .tnode .ti{font-size:calc(var(--ns) * .5)}.mtrees .tnode .rk{font-size:9px;padding:1px 3px;right:-4px;bottom:-5px}
+.mtrees .temb{font-size:110px}
+.mtip{box-sizing:border-box;width:100%;background:linear-gradient(180deg,#1a1233,#120c24);border:1px solid #3a2d63;border-radius:12px;padding:8px 12px;margin:0 0 8px;font-size:13px;line-height:1.35;display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:center}.mtip>.mtd:only-child,.mtip>.mtmsg,.mtip>.mtfoot{grid-column:1/-1}.mtip .mtn{grid-column:1}.mtip>.mtd{grid-column:1}.mtip>.buy{grid-column:2;grid-row:1/3}
 .mtip .mtn{display:flex;gap:8px;align-items:center;font-size:15px}.mtip .mti{font-size:20px}.mtip i{color:#ffd98a;font-style:normal;margin-left:auto}.mtd{color:#c9bde8;margin:4px 0}.mtr{color:#ff9a7a;font-size:12px}.mtmsg{color:#ffd24a;margin:4px 0}.mtfoot{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:8px;color:#9a8cc4;font-size:12px}
-.mtfoot .btn{font-size:12px;padding:6px 10px;min-height:0;width:auto}.mtip .buy{min-width:84px;padding:6px 12px}.mtbr{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}.mtbr .ttree{flex:1 1 230px;max-width:340px;min-width:210px}
+.mtfoot .btn{font-size:12px;padding:3px 10px;min-height:0;height:26px;line-height:1;width:auto}.mtip .buy{min-width:84px;padding:6px 12px}.mtbr{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}.mtbr .ttree{flex:1 1 230px;max-width:340px;min-width:210px}
+.racepill.locked{opacity:.8}.racepill.locked span{color:#ffb070}.racepill.shake{animation:pshake .35s}@keyframes pshake{20%{transform:translateX(-4px)}60%{transform:translateX(4px)}}
 </style>
 </head>
 <body>
@@ -1678,6 +1684,7 @@ const ACH = [];
   ACH.push({ id: 'q_10', cat: 'gen', name: 'Questing Hero', ic: '⚑', desc: 'Complete 10 in-run quests', goal: 10, k: 'g_quests', rw: 'aura_lantern' });
   ACH.push({ id: 'q_50', cat: 'gen', name: 'Legend of the Night Roads', ic: '♜', desc: 'Complete 50 in-run quests', goal: 50, k: 'g_quests', rw: 'aura_sigil' });
   ACH.push({ id: 'q_run5', cat: 'gen', name: 'Busy Night', ic: '✪', desc: 'Complete 5 quests in a single run', goal: 5, k: 'q_run_t', rw: 'eye_dawn' });
+  ACH.push({ id: 'm_15', cat: 'gen', name: 'Dawn Over Gloomwood', ic: '♜', desc: 'Survive 15 minutes in Gloomwood to unlock the Ashen Citadel map', goal: 1, f: () => (save.ach.p.f15 || save.best >= 900) ? 1 : 0 }); // v26: unlocks the castle map
   ACH.push({ id: 'e_1', cat: 'gen', name: 'Metamorphosis', ic: '⇪', desc: 'Evolve a skill', goal: 1, f: () => evoCount(), rw: 'aura_prism' }); // v18 evolutions
   ACH.push({ id: 'e_5', cat: 'gen', name: 'Evolutionist', ic: '⇪', desc: 'Evolve 5 different skills', goal: 5, f: () => evoCount(), rw: 'eye_ascend' });
   ACH.push({ id: 'e_15', cat: 'gen', name: 'Living Codex', ic: '✪', desc: 'Evolve 15 different skills', goal: 15, f: () => evoCount(), rw: 'aura_crown' });
@@ -4822,7 +4829,7 @@ function newRun(cls) {
   G = { cls, t: 0, kills: 0, level: 1, xp: 0, xpNext: xpNeed(1), weapons: [], passives: {}, gear: emptyGear(), rerolls: 1 + mr('quick'),
     pending: 0, shardsPicked: 0, salvage: 0, bossKills: 0, elites: 0, nextElite: 50, nextBoss: 180, bossIdx: 0, nextSurge: 70, spawnAcc: 0,
     revived: false, wasNight: false, outfit: save.outfit, shake: 0, later: [], healPool: 0, bondPool: 0, critBuffT: 0, minionKills: 0, moved: false, dyingT: 0, boss: null, hurtFlash: 0, lowT: 0, achRun: {}, achNew: [], achT: 0, quests: [], qNext: 60, qStats: { done: 0, failed: 0, shards: 0, gear: 0 }, qN: 0, evo: {}, dm: {}, dmTot: 0, catPool: 0, gold: 0, goldEarned: 0, goldSpent: 0, npcs: [], npcNext: 90, npcN: 0, npcBuys: 0, npcVisits: 0, npcSeen: 0 };
-  G.obSeed = (Math.random() * 1e9) | 0; G.obGone = {}; obReset(); G.map = save.map === 'castle' ? 'castle' : 'forest'; mapApply();
+  G.obSeed = (Math.random() * 1e9) | 0; G.obGone = {}; obReset(); G.map = save.map === 'castle' && castleOpen() ? 'castle' : 'forest'; mapApply();
   hookSrc();
   P = { x: 0, y: 0, r: 11, hp: 100, maxHp: 0, facing: 1, aim: 0, moving: false, inv: 0, atk: 0 };
   G.race = raceOf(save.race); G.tal = talentFx(cls); G.tf = G.tal.f;
@@ -6024,6 +6031,33 @@ function drawTownWorld(cx, cy) { const T = G.town; if (!T) return; const vw = W 
   drawPortalFx(T.cx, T.cy + TOWN_R - 40, gtime, 1.1, 1); ctx.fillStyle = '#bfefff'; ctx.font = '700 10px sans-serif'; ctx.textAlign = 'center'; ctx.fillText('EXIT', T.cx, T.cy + TOWN_R - 8); }
 function drawTownHud() { const T = G.town; if (!T) return; const w = 250, x = W / 2 - w / 2, y = H - 128; ctx.save(); ctx.fillStyle = 'rgba(8,10,28,.72)'; ctx.fillRect(x, y, w, 38); ctx.strokeStyle = 'rgba(127,214,255,.7)'; ctx.lineWidth = 1.5; ctx.strokeRect(x, y, w, 38);
   ctx.fillStyle = '#7fd6ff'; ctx.font = '700 13px sans-serif'; ctx.textAlign = 'center'; ctx.fillText('✦ SAFE HAVEN  ·  ' + Math.max(0, Math.ceil(T.t)) + 's', W / 2, y + 17); ctx.fillStyle = 'rgba(255,255,255,.15)'; ctx.fillRect(x + 12, y + 25, w - 24, 5); ctx.fillStyle = T.t < 8 ? '#ff7a6a' : '#7fd6ff'; ctx.fillRect(x + 12, y + 25, (w - 24) * clamp(T.t / TOWN_TIME, 0, 1), 5); ctx.restore(); }
+/* ================= v26: evolutions for the v25 skills (same rules as v18: max the skill + own its paired passive) ================= */
+Object.assign(EVO, {
+  viper: E('phantom', 'Basilisk Kiss', '#7dff5a', 1.35, 0.85, 1, 'execute', '+35% damage, faster; executes weakened foes'),
+  cyclone: E('swift', 'Eventide Maelstrom', '#b56bff', 1.3, 0.85, 1.2, 'echo', 'The cyclone bursts twice, wider'),
+  hellrain: E('malice', 'Ashen Deluge', '#ff6a2a', 1.35, 0.9, 1.15, 'burst', '+35% damage, bigger; kills detonate'),
+  doomwell: E('virulence', 'Event Horizon', '#a05cff', 1.3, 0.85, 1.2, 'slow', '+30% damage, faster, wider; wells slow foes'),
+  frostshot: E('longshot', 'Glacier Lance', '#9fe8ff', 1.35, 0.85, 1, 'crit', '+35% damage, faster; +20% crit chance'),
+  stormcall: E('piercing', 'Tempest Verdict', '#7fd4ff', 1.3, 0.9, 1.15, 'chain', '+30% damage; lightning arcs to nearby foes'),
+  harvest: E('ward', "Soulreaper's Feast", '#ff3d6e', 1.3, 0.85, 1.15, 'leech', '+30% damage, faster, wider; siphons life'),
+  spikes: E('hunger', 'Ossuary Cathedral', '#e8e0c8', 1.35, 0.9, 1.15, 'burst', '+35% damage, wider; kills detonate'),
+  voidrip: E('precision', 'Maw of Nothing', '#8a6bff', 1.3, 0.85, 1.2, 'slow', '+30% damage, faster, wider; rifts slow foes'),
+  starfall: E('might', 'Constellation Crash', '#ffe58a', 1.35, 0.9, 1.15, 'echo', 'Every starfall comes down twice'),
+  barrage: E('spellweave', 'Arcane Tempest', '#c56bff', 1.3, 0.8, 1, 'chain', '+30% damage, faster; bolts arc to nearby foes'),
+  pyroclasm: E('smolder', 'Cataclysm Bloom', '#ff7a2a', 1.35, 0.9, 1.15, 'echo', 'Every eruption blooms twice, wider'),
+  dawnray: E('twilight', 'Daybreak Verdict', '#fff0a0', 1.35, 0.85, 1, 'crit', '+35% damage, faster; +20% crit chance'),
+  twilightpulse: E('aegis', 'Eventide Choir', '#b79bff', 1.3, 0.85, 1.2, 'nova', '+30% damage, faster, wider; pulses ring out again'),
+  sunbloom: E('wildheart', 'Solstice Bloom', '#ffd24a', 1.35, 0.9, 1.2, 'burst', '+35% damage, wider; kills detonate'),
+  spores: E('verdance', 'Rotheart Spores', '#9dff6a', 1.3, 0.9, 1.1, 'slow', '+30% damage; spores slow foes'),
+  rake: E('savagery', 'Dire Rend', '#ff3d6e', 1.35, 0.85, 1, 'execute', '+35% damage, faster; executes weakened foes'),
+  ravage: E('predator', 'Apex Ravage', '#ff8a3d', 1.35, 0.9, 1.15, 'nova', '+35% damage, wider; each leap shockwaves'),
+  sporecloud: E('overgrowth', 'Blightbloom Cloud', '#7dffa0', 1.3, 0.9, 1.2, 'leech', '+30% damage, bigger clouds that siphon life'),
+  roots: E('deeproots', 'Worldroot Snare', '#6fcf5a', 1.3, 0.9, 1.15, 'slow', '+30% damage, wider; roots slow foes'),
+  hounds: E('legion', 'Hellhound Pack', '#7dffe0', 1.3, 1, 1, 'burst', '+30% hound damage; their kills detonate'),
+  imps: E('soulfeast', 'Infernal Brood', '#ff7a2a', 1.35, 1, 1, 'burst', '+35% imp damage; their kills detonate'),
+  colossus: E('darkpact', 'Titan of Bone', '#e8e0c8', 1.4, 1, 1.1, 'burst', '+40% damage, wider stomps; kills detonate'),
+});
+for (const id of ['viper', 'cyclone', 'hellrain', 'doomwell', 'frostshot', 'stormcall', 'harvest', 'spikes', 'voidrip', 'starfall', 'barrage', 'pyroclasm', 'dawnray', 'twilightpulse', 'sunbloom', 'spores', 'rake', 'ravage', 'sporecloud', 'roots', 'hounds', 'imps', 'colossus']) (EVO_BY_P[EVO[id].p] = EVO_BY_P[EVO[id].p] || []).push(id);
 function updateWeapons(dt) {
   if (G.cls === 'summoner') sumAuto(dt);
   if (!WFIRE.eclipse) pxInit(); // v21 (continued runs skip newRun)
@@ -6192,7 +6226,7 @@ function updatePickups(dt) {
 }
 function update(dt, dying) {
   for (let i = corpses.length - 1; i >= 0; i--) if ((corpses[i].t += dt) >= corpses[i].d) corpses.splice(i, 1);
-  if (!dying) { if (!G.town) G.t += dt; jumpTick(); }
+  if (!dying) { if (!G.town) { G.t += dt; if (G.t >= 900 && G.map !== 'castle' && !save.ach.p.f15) { save.ach.p.f15 = 1; achCheck(false); } } jumpTick(); }
   if (!dying) { const want = G.town ? 'title' : musicName(); if (!Snd.cur || Snd.cur.name !== want) Snd.music(want); }
   if (!dying && (G.achT -= dt) <= 0) { G.achT = 0.5; const t = Math.floor(G.t); achMax('c_' + G.cls + '_t', t); achMax('r_' + G.race + '_t', t);
     if (G.race === 'elf' && G.t < 360) achMax('r_elf_fast', G.level); achCheck(false); }
@@ -6849,6 +6883,7 @@ function drawPlayerBlock() {
 }
 /* ================= v25 ASHEN CITADEL: a second, castle-like map (choose it on the class screen). Flagstone halls, red carpet "roads",
    colonnades, crumbling walls, braziers, statues and banners; its own metal soundtrack. ================= */
+const castleOpen = () => !!(save && save.ach && save.ach.done && save.ach.done.m_15);
 const mapOn = () => !!(G && G.map === 'castle');
 Object.assign(OBT, { cpillar: { S: 76, f: 16, r: 11, tall: 1, small: 1 }, cwall: { S: 72, f: 13, r: 16, small: 1 }, brazier: { S: 56, f: 12, r: 9, small: 1 }, statue: { S: 80, f: 15, r: 12, tall: 1, small: 1 },
   banner: { S: 72, f: 12, r: 7, small: 1 }, crate: { S: 50, f: 11, r: 11, small: 1, low: 1 }, rubble: { S: 54, f: 10, r: 12, small: 1, low: 1 } });
@@ -7227,14 +7262,16 @@ function drawHUD() {
   let ty = t + (G.boss ? 140 : 116); if (QT_H) ty = Math.max(ty, t + Math.max(HUD_BOT, G.boss && !G.boss.dead ? 128 : 0) + QT_H + 16); // toasts sit below the quest tracker
   ctx.textAlign = 'center';
   for (const to of toasts) { const a = Math.min(1, to.life * 2, (to.max - to.life) * 4); ctx.globalAlpha = a; ctx.font = '700 15px "Palatino Linotype",Palatino,Georgia,serif'; ctx.lineWidth = 4;
-    ctx.strokeText(to.text, W / 2, ty); ctx.fillStyle = to.col; ctx.fillText(to.text, W / 2, ty); ty += 22; }
+    { let fs = 15; const mw = W - 28; while (fs > 10 && ctx.measureText(to.text).width > mw) { fs--; ctx.font = `700 ${fs}px "Palatino Linotype",Palatino,Georgia,serif`; }
+      const tw = ctx.measureText(to.text).width + 18; ctx.fillStyle = 'rgba(8,2,16,.5)'; rr(W / 2 - tw / 2, ty - 15, tw, 21, 10); ctx.fill(); ctx.fillStyle = to.col; }
+    ctx.strokeText(to.text, W / 2, ty); ctx.fillText(to.text, W / 2, ty); ty += 25; }
   ctx.globalAlpha = 1;
   if (G.banner) { const b = G.banner, a = Math.min(1, (b.max - b.life) * 4, b.life * 1.5), y = H * 0.27, sc = 1 + Math.max(0, 0.25 - (b.max - b.life)) * 1.2;
     ctx.globalAlpha = a; ctx.textAlign = 'center'; ctx.fillStyle = 'rgba(8,2,16,.55)'; { const bw = Math.min(W - 32, 640); rr(W / 2 - bw / 2, y - 30, bw, 62, 14); } ctx.fill(); ctx.strokeStyle = hexA(b.col, 0.6); ctx.lineWidth = 1.5; ctx.stroke();
     ctx.font = `700 ${Math.round(21 * sc)}px "Palatino Linotype",Palatino,Georgia,serif`; ctx.lineWidth = 4; ctx.strokeStyle = 'rgba(0,0,0,.8)'; ctx.strokeText(b.a, W / 2, y - 9); ctx.fillStyle = b.col; ctx.fillText(b.a, W / 2, y - 9);
     ctx.font = '600 13px -apple-system,system-ui,sans-serif'; ctx.lineWidth = 3; ctx.strokeText(b.b, W / 2, y + 15); ctx.fillStyle = '#efe6ff'; ctx.fillText(b.b, W / 2, y + 15); ctx.globalAlpha = 1; }
   if (!G.moved && state === 'play') { ctx.globalAlpha = 0.6 + 0.4 * Math.sin(gtime * 4); ctx.font = '600 15px -apple-system,system-ui,sans-serif'; ctx.fillStyle = '#e6dbff';
-    ctx.fillText(!PC ? 'Touch & drag anywhere to move' : 'Move with WASD / Arrow keys, or hold the mouse button', W / 2, H - SAFE.b - 135); ctx.globalAlpha = 1; }
+    { const tx = !PC ? 'Touch & drag anywhere to move' : W < 560 ? 'Move with WASD / Arrows' : 'Move with WASD / Arrow keys, or hold the mouse button'; ctx.fillText(tx, W / 2, H - SAFE.b - 135); } ctx.globalAlpha = 1; }
 }
 /* v20 loadout HUD */
 let HUD_BOT = 116, QT_EL = null, LO_RECTS = [];
@@ -7630,7 +7667,9 @@ function goSelect() {
 function renderSelect() {
   $('selShards').textContent = '◆ ' + save.shards; const rc = RACES[raceOf(save.race)];
   $('btnSelRace').innerHTML = `Race: <b>${rc.name}</b> <span>change ›</span>`;
-  $('btnSelMap').innerHTML = `Map: <b>${save.map === 'castle' ? 'Ashen Citadel' : 'Gloomwood'}</b> <span>change ›</span>`; $('btnSelMap').onclick = () => { save.map = save.map === 'castle' ? 'forest' : 'castle'; persist(); Snd.play('click'); renderSelect(); };
+  { const open = castleOpen(), onC = save.map === 'castle' && open, mb = $('btnSelMap'); mb.classList.toggle('locked', !open);
+    mb.innerHTML = open ? `Map: <b>${onC ? 'Ashen Citadel' : 'Gloomwood'}</b> <span>change ›</span>` : `Map: <b>Gloomwood</b> <span>🔒 Citadel: survive 15:00 here</span>`;
+    mb.onclick = () => { if (!open) { Snd.play('click'); mb.classList.remove('shake'); void mb.offsetWidth; mb.classList.add('shake'); return; } save.map = onC ? 'forest' : 'castle'; persist(); Snd.play('click'); renderSelect(); }; }
   const L = $('classList'); L.innerHTML = '';
   for (const id in CLASSES) {
     const c = CLASSES[id], owned = !!save.classes[id], sel = selClass === id && owned;
@@ -7695,8 +7734,8 @@ function renderMetaTree(L) {
   for (const br of MTREE) { const sp = mtSpent(br), tree = document.createElement('div'); tree.className = 'ttree cur'; tree.style.setProperty('--tc', br.col);
     let h = `<div class="tth"><span class="sic">${br.ic}︎</span>${br.name}<b>${sp}</b></div><div class="tgrid"><div class="temb">${br.ic}︎</div>`;
     for (let t = 2; t <= 7; t++) { const need = MT_PER * (t - 1); if (sp < need) h += `<div class="tlock" style="--t:${t}">🔒︎<br>${need}</div>`; }
-    for (const n of br.nodes) if (n.req) { const q = MT_BY[n.req]; h += `<div class="tarr${mr(q.id) >= q.m.max ? ' on' : ''}" style="--c:${n.c + 0.5};--t:${q.t};--g:${n.t - q.t}"></div>`; }
-    for (const n of br.nodes) { const s = mtState(n); h += `<button class="tnode ${s.st}${n.cap ? ' cap' : ''}${mtPick === n.id ? ' pick' : ''}" data-mt="${n.id}" style="--c:${n.c + 0.5};--t:${n.t}" aria-label="${n.m.name} ${s.r} of ${n.m.max}"><span class="ti">${n.m.ic}︎</span><i class="rk">${s.r}/${n.m.max}</i></button>`; }
+    for (const n of br.nodes) if (n.req) { const q = MT_BY[n.req]; h += `<div class="tarr${mr(q.id) >= q.m.max ? ' on' : ''}" style="--c:${n.c};--t:${q.t};--g:${n.t - q.t}"></div>`; }
+    for (const n of br.nodes) { const s = mtState(n); h += `<button class="tnode ${s.st}${n.cap ? ' cap' : ''}${mtPick === n.id ? ' pick' : ''}" data-mt="${n.id}" style="--c:${n.c};--t:${n.t}" aria-label="${n.m.name} ${s.r} of ${n.m.max}"><span class="ti">${n.m.ic}︎</span><i class="rk">${s.r}/${n.m.max}</i></button>`; }
     tree.innerHTML = h + '</div>'; row.appendChild(tree); }
   L.appendChild(wrap);
   for (const b of wrap.querySelectorAll('.tnode')) b.onclick = () => { Snd.init(); if (mtPick === b.dataset.mt) mtBuy(b.dataset.mt); else { mtPick = b.dataset.mt; mtMsg = ''; Snd.play('click'); renderShop(); } };

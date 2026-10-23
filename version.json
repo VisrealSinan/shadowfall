@@ -1,16 +1,12 @@
 {
- "version": "25",
- "date": "2026-10-22",
+ "version": "26",
+ "date": "2026-10-23",
  "minLauncher": "2.0.0",
  "notes": [
-  "New map: the Castle, a dark stone fortress with its own heavy-metal music. Pick it on the class screen.",
-  "The Safe Haven: a portal takes you to a mob-free town with every shop. You are sent back out after 30 seconds.",
-  "Every class gets 2 extra skills (Druid forms too) and one more skill slot, so you can now carry 6.",
-  "The Summoner has an auto attack and more summons.",
-  "Each race now has its own cat form for the Druid.",
-  "New passives to pick on level-up.",
-  "The Armory is now a branching talent tree with ranks, tiers and capstones, and you can reset it for a full refund.",
-  "Balance: XP pickups are smaller and XP shrinks further after minute 8."
+  "The Armory talent trees now sit side by side on one screen, no scrolling.",
+  "Every skill added in v25 now has an evolution, with its own name, effect and paired passive.",
+  "The Ashen Citadel map is now locked. Survive 15 minutes in Gloomwood to unlock it (the achievement \"Dawn Over Gloomwood\").",
+  "Cleaner in-run text: toasts have a soft backing and shrink to fit, and the move hint no longer gets cut off on narrow screens."
  ],
  "files": [
   {
@@ -35,8 +31,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "63a49b2890a9de24c8de3f37270d068cb423528f1eafa73dbe2d423a258d19f2",
-   "size": 1128805
+   "sha256": "ad1bd1073baf0430880933b4517ae14002078366d4e19bf784f1fff1e134cfb0",
+   "size": 1135011
   },
   {
    "name": "manifest.webmanifest",
@@ -45,7 +41,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "2027305cb7c1cec0eda2fa47422c6e5dc9db1c036a102fb8f0f3d45c9047023e",
+   "sha256": "734dad08901cb5ebf29289d2641bf7e38a5b215dda8371b39751f85ed4b3e2a6",
    "size": 1466
   }
  ]
