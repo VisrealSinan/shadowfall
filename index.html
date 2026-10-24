@@ -1626,7 +1626,7 @@ const SND32 = (() => {
     lute: 'lute', warsong: 'horn', allegro: 'lute:wind', lullaby: 'lute:holy', chorus: 'horn:holy', drum: 'drum', discord: 'lute:glitch', ballad: 'lute:arcane', finale: 'horn:boom',
     bloodblade: 'blood:blade', hemorrhage: 'blood', bloodnova: 'blood:boom', crimsonleap: 'blood:wind', thirst: 'shadow:blood', bloodlance: 'blood:metal', bloodward: 'blood:holy', rupture: 'blood:earth', bloodmoon: 'blood:void',
     clockhand: 'time:blade', rewind: 'time:wind', stasis: 'time:ice', echoself: 'time:arcane', sands: 'time:nature', paradox: 'time:void', entropy: 'time:shadow', quicken: 'time:shock', zerohour: 'time:boom',
-    beatpulse: 'synth', holoneko: 'synth:beast', subwoofer: 'synth:boom', glitchstep: 'glitch', promptstorm: 'glitch:shock', neuralnet: 'synth:arcane', vinyl: 'scratch', autotune: 'synth:wind', thedrop: 'synth:earth',
+    beatpulse: 'synth', holoneko: 'synth:beast', subwoofer: 'synth:boom', glitchstep: 'synth:holy', promptstorm: 'glitch:shock', neuralnet: 'synth:arcane', vinyl: 'scratch', autotune: 'synth:wind', thedrop: 'synth:earth',
     fraybolt: 'thread', plaguebloom: 'thread:poison', hexfire: 'thread:fire', withering: 'thread:shadow', threadsnare: 'thread:chain', snap: 'thread:blade', spindle: 'thread:time', blackpall: 'thread:void', unravel: 'thread:boom',
   };
   // very frequent casts: quieter, throttled harder
@@ -2273,7 +2273,7 @@ Object.assign(TALENTS, {
       ['mx_catjam', 'Cat Jam', '⚈', {}, { f: 'mCatJam', d: 'CAPSTONE: during the Hype Train every Cat Human fires twice per beat, and The Drop summons 2 extra Cat Humans for 8s' }]]),
     TTREE('Neural Net', '⏣', '#9aff6a', [
       ['mx_net', 'Wider Layers', '⏣', { sd_neuralnet: 0.08 }], ['mx_cd3', 'Fast Inference', '↯', { cd: 0.012 }],
-      ['mx_glitch', 'Corrupted Data', '⌘', {}, { f: 'mGlitch', d: 'Hits Glitch foes {3}% more often' }], ['mx_prompt', 'Better Prompts', '⍟', { sd_promptstorm: 0.08 }], ['mx_step', 'Lag Spike', '⌘', { sd_glitchstep: 0.08 }],
+      ['mx_glitch', 'Corrupted Data', '⌘', {}, { f: 'mGlitch', d: 'Hits Glitch foes {3}% more often' }], ['mx_prompt', 'Better Prompts', '⍟', { sd_promptstorm: 0.08 }], ['mx_step', 'Persistent Projection', '⧉', { sd_glitchstep: 0.08 }, { f: 'mDecoy', d: 'Hologram Decoy lasts {0.3}s longer and its blast deals {10}% more damage' }],
       ['mx_overfit', 'Overfitting', '⌘', {}, { f: 'mOverfit', d: 'Glitched foes take {25}% more damage (instead of 15%)' }], ['mx_crit2', 'Attention Heads', '◈', { crit: 0.01 }], ['mx_area2', 'Embedding Space', '◍', { area: 0.015 }],
       ['mx_words', 'Long Context', '⍟', {}, { f: 'mPrompt', d: 'Prompt Storm throws 2 more words' }], ['mx_dur', 'Long Render', '◔', { dur: 0.03 }], ['mx_layers', 'Deep Layers', '⏣', {}, { f: 'mTrain', d: 'Neural Net links 2 more foes' }],
       ['mx_hp3', 'Backup Server', '♥', { maxHp: 6 }], ['mx_dr', 'Firewall', '⛨', { dr: 0.008 }],
@@ -6428,6 +6428,7 @@ function newRun(cls) {
   w28Start(); recalc(); P.hp = P.maxHp;
   save.lastClass = cls; save.runs++; persist();
 }
+const CLS_DMG34 = { rogue: 1.1, ranger: 1.1, mage: 1.1 }; // v34 balance buff
 function recalc() {
   const c = CLASSES[G.cls].stats;
   const s = { maxHp: c.maxHp || 100, dmg: 1, cd: 1, area: c.area || 1, speed: c.speed || 1, pickup: 1, crit: c.crit || 0.05, critMul: 2, armor: c.armor || 0,
@@ -6469,6 +6470,7 @@ function recalc() {
     const B = wlv('bloodfang'); if (B) s.catLs = [0.04, 0.055, 0.055, 0.07, 0.07, 0.09][B - 1] + (G.evo && G.evo.bloodfang ? 0.03 : 0); if (G.tf && G.tf.catLsT) s.catLs += 0.01 * G.tf.catLsT; }
   if (fm === 'tree') { const L = wlv('treeform'); s.maxHp = Math.round(s.maxHp * (1 + (0.5 + 0.08 * L) * fb)); s.armor += 2 + (L >= 4 ? 1 : 0); s.regen += (0.8 + 0.3 * L) * fb; s.speed *= 0.8; s.dmg *= 0.75; s.dr += (0.15 + (L >= 6 ? 0.1 : 0)) * fb; if (G.tf && G.tf.treeThick) s.maxHp = Math.round(s.maxHp * (1 + 0.05 * G.tf.treeThick)); }
   w28Recalc(s); v30Recalc(s, n);
+  s.dmg *= CLS_DMG34[G.cls] || 1; // v34: +10% class damage buff
   if (G.ancientT > 0) s.dr += 0.5;
   s.dr = Math.min(0.7, s.dr);
   s.cd = Math.max(0.35, s.cd); s.dodge = Math.min(0.6, s.dodge); s.crit = Math.min(1, s.crit);
@@ -7263,7 +7265,7 @@ const WFIRE = {
     const n = 1 + (G.tf.boulderMore ? 1 : 0) + (L >= 6 ? 1 : 0), dmg = (34 + 11 * L) * (L >= 2 ? 1.2 : 1) * (L >= 5 ? 1.25 : 1) * P.nature * big, pierce = 3 + (L >= 5 ? 2 : 0);
     for (let i = 0; i < n; i++) { const t = tg[i % tg.length], a = Math.atan2(t.y - P.y, t.x - P.x) + (i ? rand(-0.3, 0.3) : 0);
       G.later.push({ t: i * 0.22, f: () => projs.push({ k: 'rockp', x: P.x + Math.cos(a) * 16, y: P.y - 14 + Math.sin(a) * 10, vx: Math.cos(a) * 270, vy: Math.sin(a) * 270, a, r: 13 * Math.sqrt(big), dmg, pierce, life: 1.5, hit: new Set(), spin: 0, big, crash: rockShatter }) }); }
-    P.atk = 1; Snd.play('stomp'); G.shake = Math.max(G.shake, 0.1); return L >= 4 ? 2.6 : 3.2; },
+    P.atk = 1; Snd.play('stomp'); return L >= 4 ? 2.6 : 3.2; },
   mcomet(w) { const L = w.lvl, vw = W / ZOOM / 2, vh = H / ZOOM / 2, vis = enemies.filter(e => !e.dead && Math.abs(e.x - P.x) < vw && Math.abs(e.y - P.y) < vh); if (!vis.length) return -1; // Prismatic Comet: falls from the sky, splits into the 3 schools
     const n = 1 + (L >= 4) + (L >= 6), dmg = (17 + 5.7 * L) * (L >= 2 ? 1.15 : 1) * (L >= 5 ? 1.2 : 1) * elemMul(G.mspec), r = (L >= 3 ? 58 : 48) * P.area;
     const order = vis.slice().sort((a, b) => b.hp - a.hp); for (let i = 0; i < n; i++) { const e = order[i % order.length]; effects.push({ k: 'star', x: e.x + rand(-8, 8), y: e.y + rand(-8, 8), life: 0.7, max: 0.7, r, dmg, col: '#ffffff', comet: 1, sd: Math.random() * 9 }); }
@@ -7731,7 +7733,7 @@ sk30('aegis', { name: 'Aegis Throw', ic: '⬟', cls: 'paladin', desc: ['Hurl you
 sk30('dawnwrath', { name: 'Wrath of Dawn', ic: '☉', cls: 'paladin', desc: ['SIGNATURE: call down the dawn — a vast holy blast that heals 15% HP, makes you untouchable for 2s and spends all Holy for extra damage', '+20% damage', 'Wider blast', '+20% damage, 12% faster', 'Calls down 6 extra Judgment pillars', 'Untouchable for 3s and heals 25%'] }, w => {
   const L = w.lvl, S = v30S(); if (!nearestN(P.x, P.y, 1, 260).length) return -1; const h = S.holy || 0, r = 220 * P.area * (L >= 3 ? 1.15 : 1), dmg = (42 + h * 0.5) * dm30(L);
   nova30(P.x, P.y, r, dmg, PAL_GOLD, { on: e => { e.judgT = gtime + 4; } }); ring30(P.x, P.y, r, '#ffffff', 0.8, { w: 6 }); u30('pillar', { x: P.x, y: P.y + 4, col: PAL_GOLD, life: 1, max: 1, h: 260, w: 46 });
-  heal(P.maxHp * (L >= 6 ? 0.25 : 0.15)); P.inv = Math.max(P.inv, L >= 6 ? 3 : 2); S.holy = tf30('kReserve') ? h / 2 : 0; G.shake = Math.max(G.shake || 0, 6);
+  heal(P.maxHp * (L >= 6 ? 0.25 : 0.15)); P.inv = Math.max(P.inv, L >= 6 ? 3 : 2); S.holy = tf30('kReserve') ? h / 2 : 0;
   if (L >= 5) nearestN(P.x, P.y, 6, 360).forEach((e, i) => G.later.push({ t: 0.1 * i + 0.2, f: () => palJudge(e.x, e.y, dmg * 0.5, 50) }));
   burst(P.x, P.y, PAL_HOLY, 40, 260, 3.4, 0.8, true); Snd.play('hexnova'); toast('☀ WRATH OF DAWN', PAL_GOLD, 1.2); return 14 * cd30(L) * (L >= 4 ? 0.85 : 1); });
 pas30('devotion', { name: 'Devotion', ic: '✙', desc: '+0.5 armour, +3% block chance, Holy builds 10% faster', max: 5, cls: ['paladin'] }, {}, ['c', { armor: 0.5 }]);
@@ -7919,7 +7921,7 @@ UK30.homu = { upd(u, dt, S) { const t = nearestN(u.x, u.y, 1, 300)[0], dP = Math
 function alcOpusLand(u) { const S = G.v30 || {}; G.srcW = u.src; const L = u.lvl, r = 105 * Math.sqrt(P.area);
   nova30(u.x1, u.y1, r * 1.3, u.dmg * alcD(S), ALC.x, { src: u.src, on: e => { alcPoison(e, 4, u.dps * 0.4, u.src); alcBurn(e, u.dps, 3, u.src); slow30(e, 0.5, 2); } });
   u30('pud', { el: 'x', x: u.x1, y: u.y1, r, life: (L >= 3 ? 8 : 6) * alcLife(), max: (L >= 3 ? 8 : 6) * alcLife(), dps: u.dps, tk: 0.05, mixed: 1, src: u.src, boom: 1, bd: u.dmg * 1.6 });
-  u30('pillar', { x: u.x1, y: u.y1, col: ALC.x, life: 0.7, max: 0.7, h: 160, w: 22 }); boom30(u.x1, u.y1, r, ALC.x); Snd.play('boom'); G.shake = Math.max(G.shake || 0, 6); }
+  u30('pillar', { x: u.x1, y: u.y1, col: ALC.x, life: 0.7, max: 0.7, h: 160, w: 22 }); boom30(u.x1, u.y1, r, ALC.x); Snd.play('boom'); }
 function alcOpusBoom(u) { G.srcW = u.src; area30(u.x, u.y, u.r * 1.35, u.bd * alcD(G.v30), 200); boom30(u.x, u.y, u.r * 1.35, ALC.x); ring30(u.x, u.y, u.r * 1.6, ALC.x, 0.6, { w: 5 }); Snd.play('boom'); }
 V30.alchemist = { dm: 1.13, cols: [ALC.f, ALC.p, ALC.s, ALC.fp, ALC.fs, ALC.ps, '#f0d0ff'],
   start(S) { S.reag = 0; S.elixT = 0; S.fn = 0; S.rk = 0; S.dk = 0; S.reacts = 0; },
@@ -8040,7 +8042,7 @@ V30.bard = { dm: 1, cols: [BRD.war, BRD.all, BRD.lul, BRD.cho, BRD.note],
 function brdFinale(S, L, free) { S.finT = 6; S.fins = (S.fins || 0) + 1; G.srcW = 'finale'; const R = brdR(), d = 34 * dm30(L) * brdP(S) / 2; // brdP doubled by finT
   for (let i = 0; i < (L >= 5 ? 4 : 3); i++) G.later.push({ t: i * 0.45, src: 'finale', f: () => { nova30(P.x, P.y, R * (1.5 + i * 0.35), d * (1 + 0.2 * i), [BRD.war, BRD.all, BRD.lul, BRD.cho][i % 4], { src: 'finale', on: e => { if (i === 0) stun30(e, 0.6); if (L >= 6) e.dis = gtime + 4; } }); ring30(P.x, P.y, R * (1.7 + i * 0.35), BRD.note, 0.5, { w: 4 }); Snd.play('nova'); } });
   if (tf30('bChoir')) for (let i = 0; i < 2; i++) u30('wisp', { x: P.x, y: P.y, a: i * Math.PI, k: 9 + i, cd: 0.3, lvl: brdLv('chorus') || 1, dmg: 10 * dm30(brdLv('chorus') || 1), life: 6, max: 6, src: 'chorus', tmp: 1 });
-  u30('pillar', { x: P.x, y: P.y, col: BRD.all, life: 0.8, max: 0.8, h: 170, w: 24 }); G.shake = Math.max(G.shake || 0, 5);
+  u30('pillar', { x: P.x, y: P.y, col: BRD.all, life: 0.8, max: 0.8, h: 170, w: 24 });
   toast(free ? '✯ ENCORE FINALE!' : '✯ GRAND FINALE', BRD.all, 1.2); brdInsp(S, 25); }
 /* ---- skills ---- */
 sk30('lute', { name: 'Lute Strike', ic: '♪', cls: 'bard', desc: ['Strum a chord: a fan of piercing sound-notes flies at the nearest foe', '+20% damage', '+1 note', '+20% damage, 12% faster', 'Notes pierce 1 more foe', '+1 note, and each strum builds Inspiration'] }, w => {
@@ -8098,7 +8100,7 @@ function bkBleed(e, n, dps, src) { if (e.dead) return; const B = bkB(e), mx = 10
 function bkLeech(n, k) { heal(P.maxHp * Math.min(0.04, 0.004 * n) * (k || 1) * (1 + 0.3 * tf30('kClose')) * (G.v30 && G.v30.moonT > 0 ? 2 : 1)); }
 function bkWave(S, a, L) { S.blood = 0; S.waves = (S.waves || 0) + 1; G.srcW = 'bloodblade'; const d = (40 + 3 * G.level) * dm30(L || 1) * 0.6;
   for (let i = 0; i < 3; i++) G.later.push({ t: i * 0.08, src: 'bloodblade', f: () => { const r = (150 + 40 * i) * Math.sqrt(P.area); cone30(P.x, P.y, a, r, 1.5, d, 200, e => bkBleed(e, 2, 4 + 0.4 * G.level, 'bloodblade')); arc30(a, r, 1.5, BK.r, BK.l); } });
-  txt30(P.x, P.y - 34, 'CRIMSON WAVE', BK.r, { sz: 11 }); Snd.play('reap'); G.shake = Math.max(G.shake || 0, 4); }
+  txt30(P.x, P.y - 34, 'CRIMSON WAVE', BK.r, { sz: 11 }); Snd.play('reap'); }
 /* ---- blood moon overlay unit ---- */
 UK30.bmoon = { top: 1, upd(u) { u.x = P.x; u.y = P.y - 120; },
   draw(u) { const a = Math.min(1, u.life / 0.5, (u.max - u.life) / 0.4); ctx.save(); ctx.globalAlpha = 0.85 * a; ctx.fillStyle = '#c0101a'; ctx.beginPath(); ctx.arc(u.x, u.y, 22, 0, TAU); ctx.fill(); ctx.fillStyle = '#ff6a5a'; ctx.beginPath(); ctx.arc(u.x - 5, u.y - 4, 16, 0, TAU); ctx.fill();
@@ -8161,7 +8163,7 @@ sk30('bloodmoon', { name: 'Blood Moon', ic: '◓', cls: 'bloodknight', desc: ['S
   const L = w.lvl, S = v30S(); if (nearestN(P.x, P.y, 5, 220).length < 3) return -1; bkPay(S, 0.25); S.moonT = 6 + 2 * tf30('kLord'); S.moons = (S.moons || 0) + 1;
   u30('bmoon', { x: P.x, y: P.y - 120, life: S.moonT, max: S.moonT }); u30('pillar', { x: P.x, y: P.y, col: BK.r, life: 0.8, max: 0.8, h: 180, w: 26 });
   if (L >= 5) G.later.push({ t: 3, src: 'bloodmoon', f: () => heal(P.maxHp * 0.12) }); if (L >= 6) { G.srcW = 'bloodmoon'; nova30(P.x, P.y, 170 * Math.sqrt(P.area), 50 * dm30(L), BK.m, { src: 'bloodmoon' }); }
-  toast('◓ BLOOD MOON', BK.r, 1.2); Snd.play('roar'); G.shake = Math.max(G.shake || 0, 6); return 22 * cd30(L); });
+  toast('◓ BLOOD MOON', BK.r, 1.2); Snd.play('roar'); return 22 * cd30(L); });
 pas30('sanguine', { name: 'Sanguine Pact', ic: '♢', desc: '+0.6% lifesteal and +4% max health', max: 5, cls: ['bloodknight'] }, { lifesteal: 0.006 }, ['c', { dmg: 0.03 }], (s, lv) => { s.maxHp *= 1 + 0.04 * lv; });
 evo30('bloodblade', 'might', 'Sanguine Reaver', '#ff4a5a', 1.4, 0.9, 1.15, 'leech', '+40% damage; cleaves drain life');
 evo30('hemorrhage', 'haste', 'Arterial Spray', '#c0101a', 1.35, 0.85, 1.1, 'chain', '+35% damage; the thrust chains to more foes');
@@ -8187,7 +8189,7 @@ function chWarp(S) { S.sand = 0; S.warps = (S.warps || 0) + 1; for (const w of G
 function chEcho(x, y, L, k) { const life = (L >= 3 ? 8 : 6) * P.dur * (1 + 0.4 * tf30('cTwin')) * (k || 1); return u30('echo', { x, y, L, ft: 0.3, life, max: life, src: 'echoself' }); }
 function chShatter(S) { const L = chLv('zerohour') || 1, k = 1 + 0.5 * tf30('cShatter'); let n = 0; G.srcW = 'zerohour';
   for (const e of enemies) { if (e.dead || !e.zh30) continue; const d = (40 + 8 * Math.min(24, e.zh30)) * dm30(L) * k; e.zh30 = 0; damage(e, d, { src: 'zerohour', col: CH.g }); if (n++ < 14 && parts.length < 340) burst(e.x, e.y - 8, CH.l, 5, 120, 2.2, 0.4, true); }
-  if (n) { txt30(P.x, P.y - 40, 'TIME RESUMES', CH.g, { sz: 11 }); Snd.play('boom'); G.shake = Math.max(G.shake || 0, 5); S.shat = (S.shat || 0) + n; } }
+  if (n) { txt30(P.x, P.y - 40, 'TIME RESUMES', CH.g, { sz: 11 }); Snd.play('boom'); S.shat = (S.shat || 0) + n; } }
 /* ---- units ---- */
 UK30.echo = { upd(u, dt) { if ((u.ft -= dt) > 0) return; u.ft = 0.75; const t = nearestN(u.x, u.y, 1, 340)[0]; if (!t) return; const a = Math.atan2(t.y - u.y, t.x - u.x), n = tf30('cMirror') ? 2 : 1, L = chLv('clockhand') || 1;
     for (let i = 0; i < n; i++) bolt30(u.x, u.y - 12, a + (i - (n - 1) / 2) * 0.16, 420, 11 * dm30(u.L), { col: CH.p, r: 6, life: 0.8, pierce: 1, src: 'echoself', on: e => slow30(e, 0.25, 1.2) }); },
@@ -8379,6 +8381,44 @@ UK30.vinyl = { top: 1, upd(u, dt, S) { const L = mxLv('vinyl') || 1, vs = units3
     query(u.x, u.y, r + 30, e => { if (e.under || !in30(e, u.x, u.y, r) || (e.vn30 || 0) > gtime) return; e.vn30 = gtime + 0.4; damage(e, d, { src: 'vinyl', col: MX.v }); }); },
   draw(u) { ctx.save(); ctx.translate(u.x, u.y); ctx.rotate(u.a * 2); ctx.fillStyle = '#0e0e16'; ctx.beginPath(); ctx.arc(0, 0, 9, 0, TAU); ctx.fill(); ctx.strokeStyle = '#2e2e44'; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(0, 0, 6, 0, TAU); ctx.stroke();
     ctx.fillStyle = MX.p; ctx.beginPath(); ctx.arc(0, 0, 3, 0, TAU); ctx.fill(); ctx.fillStyle = '#ffffff'; ctx.fillRect(4, -1, 3, 1); ctx.globalCompositeOperation = 'lighter'; glowAt(MX.v, 0, 0, 16, 0.3); ctx.restore(); } };
+/* v34 Hologram Decoy: a flickering hard-light copy of the hero. Taunts + gently pulls nearby foes, soaks a few hits, then explodes. */
+const DECOY = { last: null, booms: 0 };
+const mxDecoyEvo = () => !!(G.evo && G.evo.glitchstep);
+function mxDecoySpawn(x, y, L) { const ev = mxDecoyEvo(), tal = tf30('mDecoy'), life = Math.min(6.5, (3.5 + (L >= 3 ? 1 : 0) + 0.3 * tal + (ev ? 1 : 0)) * Math.min(1.25, P.dur || 1));
+  const u = u30('decoy', { x, y, life, max: life, L, hp: 4 + (L >= 3 ? 2 : 0), hpMax: 4 + (L >= 3 ? 2 : 0), R: (L >= 5 ? 210 : 165) * Math.sqrt(P.area) * (ev ? 1.2 : 1), tk: 0, fl: 0, face: 1, k: Math.random() * 9, src: 'glitchstep' });
+  if (!u) return null; DECOY.last = u; ring30(x, y, 26, MX.c, 0.35, { w: 2 }); if (parts.length < 360) burst(x, y - 18, MX.c, 10, 90, 2, 0.4, true); return u; }
+function mxDecoyBoom(u, k) { const L = u.L || 1, ev = mxDecoyEvo(), r = (L >= 6 ? 125 : 100) * Math.sqrt(P.area) * (ev ? 1.15 : 1) * (k || 1), d = 38 * dm30(L) * (L >= 6 ? 1.5 : 1) * (1 + 0.1 * tf30('mDecoy')) * (k || 1);
+  G.srcW = 'glitchstep'; const n = area30(u.x, u.y, r, d, 170, mxGlitch); DECOY.booms++; DECOY.lastBoom = { x: u.x, y: u.y, r, d, n, t: gtime };
+  effects.push({ k: 'boom', x: u.x, y: u.y - 8, r: r * 0.85, life: 0.42, max: 0.42, col: MX.c }); effects.push({ k: 'boom', x: u.x, y: u.y - 8, r: r * 0.4, life: 0.3, max: 0.3, col: '#e8fcff' }); const bx = u.x, by = u.y; // V30 units spawned inside an end() hook would be dropped by the tick's filter, so queue them
+  G.later.push({ t: 0, src: 'glitchstep', f: () => { ring30(bx, by, r, MX.c, 0.55, { w: 5 }); ring30(bx, by, r * 0.62, MX.p, 0.45, { w: 3 }); ring30(bx, by, r * 1.08, MX.g, 0.7, { w: 2 }); txt30(bx, by - 40, 'SEGFAULT', MX.p, { sz: 12 }); } });
+  effects.push({ k: 'nova', x: u.x, y: u.y, r: 0, maxR: r, life: 0.35, max: 0.35, dmg: 0, hit: new Set(), col: MX.c, vis: 1 });
+  if (parts.length < 380) { burst(u.x, u.y - 16, MX.c, 16, 220, 3, 0.5, true); burst(u.x, u.y - 16, MX.p, 8, 160, 2.6, 0.45, true); }
+  Snd.play('boom'); }
+UK30.decoy = { upd(u, dt) { u.fl = Math.max(0, u.fl - dt * 4); const R = u.R, R2 = R * R, ev = mxDecoyEvo(), pull = ev ? 52 : 38;
+    if ((u.tk -= dt) <= 0) { u.tk = 0.25; query(u.x, u.y, R, e => { if (e.boss || e.dead) return; const dx = e.x - u.x, dy = e.y - u.y; if (dx * dx + dy * dy < R2) { e.taunt = u; e.tauntT = 0.5; } }); }
+    query(u.x, u.y, R, e => { if (e.dead || e.boss || e.under) return; const dx = u.x - e.x, dy = u.y - e.y, d = Math.hypot(dx, dy) || 1; if (d > R) return;
+      if (d > (e.r || 10) + 12 && !(ETYPES[e.type] && ETYPES[e.type].heavy)) { const s = Math.min(d - (e.r || 10) - 10, pull * dt); e.x += dx / d * s; e.y += dy / d * s; }
+      if (d < (e.r || 10) + 16 && (e.dc30 || 0) < gtime && u.life > 0) { e.dc30 = gtime + 0.7; u.hp--; u.fl = 1; if (parts.length < 380) burst(u.x, u.y - 18, '#bffcff', 4, 70, 1.6, 0.25, true); if (u.hp <= 0) { u.broke = 1; u.life = 0; } } }); },
+  end(u) { u.dead = true; mxDecoyBoom(u, 1); if (mxDecoyEvo()) { const x = u.x, y = u.y, L = u.L; G.later.push({ t: mxPer(v30S()), src: 'glitchstep', f: () => mxDecoyBoom({ x, y, L }, 0.6) }); } },
+  draw(u) { mxDrawDecoy(u); } };
+const mxDecoyO = () => ({ t: gtime * 0.7, moving: false, cls: G.cls, race: G.race, outfit: G.outfit || save.outfit, atk: 0, form: G.form, gear: G.gear, gearOver: save.gearOver, tails: G.level >= 20 ? 3 : G.level >= 10 ? 2 : 1, noShadow: 1, hurt: 0, vf: 0 });
+function mxHoloImg(S) { const im = S.img, W = im.width, H = im.height, c = mkCanvas(W, H), g = c.getContext('2d'); g.drawImage(im, 0, 0); g.globalCompositeOperation = 'source-atop';
+  g.globalAlpha = 0.3; g.fillStyle = MX.c; g.fillRect(0, 0, W, H); const st = Math.max(2, Math.round(H / (S.h || H) * 2.4)); g.globalAlpha = 0.28; g.fillStyle = '#e8fcff';
+  for (let y = 0; y < H; y += st) g.fillRect(0, y, W, Math.max(1, st >> 2)); g.globalAlpha = 0.35; g.fillStyle = '#04121c'; for (let y = (st >> 1); y < H; y += st) g.fillRect(0, y, W, Math.max(1, st >> 2)); c.k = im.k; c.px = im.px; return c; }
+function mxDrawDecoy(u) { const x = u.x, y = u.y, fin = Math.min(1, u.t / 0.2), fo = Math.min(1, Math.max(0, u.life) / 0.4), a = fin * fo, fl = 0.84 + 0.16 * Math.sin(gtime * 29 + u.k), jx = Math.random() < 0.07 ? (Math.random() - 0.5) * 5 : 0, hy = Math.sin(gtime * 3 + u.k) * 1.2;
+  ctx.save(); ctx.globalCompositeOperation = 'lighter'; glowAt(MX.c, x, y - 18, 56, 0.16 * a); glowAt(MX.c, x, y + 3, 36, 0.2 * a);
+  ctx.globalAlpha = 0.6 * a; ctx.strokeStyle = MX.c; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.ellipse(x, y + 4, 17, 6, 0, 0, TAU); ctx.stroke(); ctx.globalAlpha = 0.3 * a; ctx.beginPath(); ctx.ellipse(x, y + 4, 11 + 6 * ((gtime * 1.6) % 1), 4 + 2 * ((gtime * 1.6) % 1), 0, 0, TAU); ctx.stroke();
+  const gr = ctx.createLinearGradient(0, y + 4, 0, y - 52); gr.addColorStop(0, 'rgba(58,240,255,0.26)'); gr.addColorStop(1, 'rgba(58,240,255,0)'); ctx.globalAlpha = a; ctx.fillStyle = gr; ctx.beginPath(); ctx.moveTo(x - 17, y + 4); ctx.lineTo(x + 17, y + 4); ctx.lineTo(x + 24, y - 52); ctx.lineTo(x - 24, y - 52); ctx.fill();
+  ctx.globalCompositeOperation = 'source-over'; const o = mxDecoyO(); let S = null;
+  try { if (PXA.hero.ok(o)) { const [an, f] = PXA.hero.frameOf(o); S = PXA.hero.get(o, an, f); } } catch (err) { S = null; }
+  if (S && S.img) { if (!S.holo) { S.holo = mxHoloImg(S); S.holoP = PXA.sil(S, MX.p, 1); S.holoE = PXA.sil(S, MX.c, 1); }
+    ctx.globalAlpha = 0.88 * a * fl; PXA.blit(ctx, S, x + jx, y + hy, u.face, 1, 1, S.holo); ctx.globalCompositeOperation = 'lighter';
+    ctx.globalAlpha = 0.13 * a; PXA.blit(ctx, S, x + jx - 1.6, y + hy, u.face, 1, 1, S.holoP); PXA.blit(ctx, S, x + jx + 1.6, y + hy, u.face, 1, 1, S.holoE);
+    if (u.fl > 0) { ctx.globalAlpha = 0.28 * u.fl * a; PXA.blit(ctx, S, x, y + hy, u.face, 1, 1, S.holoE); } }
+  else { ctx.globalAlpha = 0.55 * a * fl; drawHeroLit(o, x, y + hy, u.face, 1); ctx.globalCompositeOperation = 'lighter'; glowAt(MX.c, x, y - 18, 40, 0.4 * a); }
+  ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 0.9 * a; const n = u.hpMax || 4, pw = 4, gp = 2, tw = n * pw + (n - 1) * gp;
+  for (let i = 0; i < n; i++) { ctx.fillStyle = i < u.hp ? MX.c : 'rgba(40,60,80,0.7)'; ctx.fillRect(Math.round(x - tw / 2 + i * (pw + gp)), Math.round(y - 60), pw, 2); }
+  ctx.restore(); }
 UK30.gimg = { top: 1, upd() {}, draw(u) { const a = Math.max(0, u.life / u.max); ctx.save(); ctx.globalAlpha = 0.6 * a; for (const [dx, c] of [[-3, '#ff2a6a'], [3, MX.c], [0, '#ffffff']]) { ctx.fillStyle = c; const o = (Math.random() - 0.5) * 6 * (1 - a);
     ctx.fillRect(u.x - 6 + dx + o, u.y - 30, 12, 8); ctx.fillRect(u.x - 7 + dx, u.y - 22 + o * 0.5, 14, 14); ctx.fillRect(u.x - 5 + dx - o, u.y - 8, 10, 8); } ctx.restore(); } };
 UK30.pwb = { top: 1, upd(u, dt) { const k = Math.min(1, u.t / u.ft); u.x = u.x0 + (u.tx - u.x0) * k; u.y = u.y0 + (u.ty - u.y0) * k - Math.sin(k * Math.PI) * 40; if (k < 1 || u.done) return; u.done = 1; u.life = 0.01;
@@ -8417,11 +8457,11 @@ sk30('subwoofer', { name: 'Subwoofer', ic: '⛃', cls: 'maestro', desc: ['Drop a
   const L = w.lvl, S = v30S(), { t } = aim30(200); if (!t) return -1; const n = (L >= 5 ? 2 : 1) + tf30('mSub');
   for (let i = 0; i < n; i++) { const a = Math.random() * TAU, rr = i ? 60 : 0, x = (P.x + t.x) / 2 + Math.cos(a) * rr, y = (P.y + t.y) / 2 + Math.sin(a) * rr; u30('sub', { x, y, L, lb: S.bn, life: 8 * P.dur, max: 8 * P.dur, src: 'subwoofer' }); }
   Snd.play('stomp'); return 9 * cd30(L); });
-sk30('glitchstep', { name: 'Glitch Step', ic: '⌘', cls: 'maestro', desc: ['Glitch out of reality: blink a short way, leaving a corrupted afterimage that bursts and Glitches foes', '+20% damage', 'Burst at both ends', '+20% damage, 12% faster', 'Bigger bursts', 'The afterimage bursts again a beat later'] }, w => {
-  const L = w.lvl, S = v30S(), near = nearestN(P.x, P.y, 1, 150)[0]; if (!near) return -1; const m = Math.hypot(P.vx || 0, P.vy || 0), a = m > 1 ? Math.atan2(P.vy, P.vx) : Math.atan2(P.y - near.y, P.x - near.x);
-  const r = (L >= 5 ? 105 : 85) * Math.sqrt(P.area), d = 22 * dm30(L), ox = P.x, oy = P.y, go = (x, y, k) => { G.srcW = 'glitchstep'; area30(x, y, r, d * k, 80, mxGlitch); boom30(x, y, r * 0.7, MX.c); ring30(x, y, r, MX.p, 0.3); };
-  u30('gimg', { x: ox, y: oy, life: 0.6, max: 0.6 }); go(ox, oy, 1); P.x += Math.cos(a) * 120; P.y += Math.sin(a) * 120; if (typeof obFree === 'function') obFree(P, P.r); P.inv = Math.max(P.inv, 0.4);
-  if (L >= 3) go(P.x, P.y, 0.7); if (L >= 6) G.later.push({ t: mxPer(S), src: 'glitchstep', f: () => go(ox, oy, 0.8) }); txt30(ox, oy - 34, 'ERR_404', MX.g, { sz: 8 }); Snd.play('drain'); return 5 * cd30(L); });
+sk30('glitchstep', { name: 'Hologram Decoy', ic: '⧉', cls: 'maestro', desc: ['Project a glowing hologram of yourself (you stay put): for 3.5s nearby foes are drawn to it and attack it instead of you. When it expires or breaks it explodes, Glitching foes', '+20% damage', 'Lasts 1s longer and takes 2 more hits', '+20% damage, 12% faster', 'Bigger pull radius', 'Bigger, 50% stronger explosion'] }, w => {
+  /* v34: replaces the Glitch Step blink - the hero never moves */
+  const L = w.lvl, near = nearestN(P.x, P.y, 1, 200)[0]; if (!near || units30('decoy').length) return -1; const m = Math.hypot(P.vx || 0, P.vy || 0);
+  const a = P.moving && m > 0.1 ? Math.atan2(-P.vy, -P.vx) : Math.atan2(near.y - P.y, near.x - P.x), x = P.x + Math.cos(a) * 24, y = P.y + Math.sin(a) * 18;
+  const u = mxDecoySpawn(x, y, L); if (!u) return -1; u.face = near.x < x ? -1 : 1; txt30(x, y - 58, 'DECOY.exe', MX.c, { sz: 12 }); return 5 * cd30(L); });
 sk30('promptstorm', { name: 'Prompt Storm', ic: '⍟', cls: 'maestro', desc: ['Type a burst of prompts: three glowing words arc onto foes and explode', '+20% damage', '+1 word', '+20% damage, 12% faster', 'Words Glitch what they hit', '+2 words'] }, w => {
   const L = w.lvl, tg = nearestN(P.x, P.y, 8, 300); if (!tg.length) return -1; const n = 3 + (L >= 3) + (L >= 6 ? 2 : 0) + 2 * tf30('mPrompt'), r = 60 * Math.sqrt(P.area), d = 18 * dm30(L);
   for (let i = 0; i < n; i++) { const t = tg[i % tg.length], j = i >= tg.length ? 30 : 0; G.later.push({ t: i * 0.06, src: 'promptstorm', f: () => u30('pwb', { x0: P.x, y0: P.y - 20, x: P.x, y: P.y - 20, tx: t.x + (Math.random() - 0.5) * j, ty: t.y + (Math.random() - 0.5) * j, ft: 0.45, r, d, gl: L >= 5, s: MX_WORDS[Math.floor(Math.random() * MX_WORDS.length)], col: [MX.c, MX.g, MX.k][i % 3], src: 'promptstorm' }) }); }
@@ -8447,7 +8487,7 @@ pas30('latent', { name: 'Latent Space', ic: '⚮', desc: '+2% crit chance and +2
 evo30('beatpulse', 'haste', 'Infinite BPM', '#3af0ff', 1.4, 0.85, 1.1, 'chain', '+40% damage; pulses chain to another foe');
 evo30('holoneko', 'vigor', 'Cat Human Idol Concert', '#ff8ad8', 1.4, 0.9, 1, 'burst', '+40% damage; heart-notes burst on impact');
 evo30('subwoofer', 'expanse', 'Wall of Sound', '#3af0ff', 1.4, 0.85, 1.2, 'slow', '+40% damage; the bass pins foes in place');
-evo30('glitchstep', 'swift', 'Buffer Overflow', '#9aff6a', 1.35, 0.8, 1.15, 'nova', '+35% damage; every blink rings out a shockwave');
+evo30('glitchstep', 'swift', 'Buffer Overflow', '#9aff6a', 1.35, 0.8, 1.15, 'decoy', '+35% damage; the decoy lasts 1s longer, pulls from farther and its blast echoes a beat later');
 evo30('promptstorm', 'insight', 'Hallucination Engine', '#9aff6a', 1.4, 0.85, 1.15, 'crit', '+40% damage; +20% crit chance');
 evo30('neuralnet', 'reach', 'Deep Learning', '#9aff6a', 1.4, 0.85, 1.1, 'leech', '+40% damage; the net drains life to you');
 evo30('vinyl', 'might', 'Platinum Record', '#ff4ad8', 1.4, 1, 1.1, 'execute', '+40% damage; records execute weakened foes');
@@ -8521,7 +8561,7 @@ function uvUnravel(S, L, k) { const R = (L >= 3 ? 400 : 340) * Math.sqrt(P.area)
     let n = 0; query(e.x, e.y, sr + 30, q => { if (q === e || q.under || q.dead || n >= 6 || !in30(q, e.x, e.y, sr)) return; n++; uvSpread(snap, q, 0.6); if (L >= 5) uvAff(q, 'c', 1, 2 * dm30(L), 'unravel'); });
     if (L >= 5) uvAff(e, 'c', 1, 2 * dm30(L), 'unravel'); }
   S.unr = (S.unr || 0) + 1; for (let i = 0; i < 3; i++) ring30(P.x, P.y, R * (0.4 + i * 0.3), [UV.c, UV.v, UV.p][i], 0.5 + i * 0.15, { w: 6 - i * 2 });
-  u30('pillar', { x: P.x, y: P.y, col: UV.c, life: 0.9, max: 0.9, h: 220, w: 30 }); G.shake = Math.max(G.shake || 0, 7); Snd.play('nova'); Snd.play('drain'); txt30(P.x, P.y - 46, 'UNRAVEL', UV.v, { sz: 12 }); return top.length; }
+  u30('pillar', { x: P.x, y: P.y, col: UV.c, life: 0.9, max: 0.9, h: 220, w: 30 }); Snd.play('nova'); Snd.play('drain'); txt30(P.x, P.y - 46, 'UNRAVEL', UV.v, { sz: 12 }); return top.length; }
 V30.unraveler = { dm: 1, cols: [UV.p, UV.b, UV.c, UV.v, UV.w, UV.d],
   start(S) { S.loom = 0; S.looms = 0; S.dk = 0; S.ik = 0; S.unr = 0; S.tri = 0; S.cont = 0; S.pall = 0; },
   dmg(e, o, sk) { const A = e.u30; if (!A) return 1; const n = uvN(e); let m = 1 + (0.1 + 0.05 * tf30('uTriad')) * n;
@@ -8630,12 +8670,12 @@ const ULTS = {
     cast() { const tg = uScr(0).sort((a, b) => b.hp - a.hp).slice(0, 14); P.inv = Math.max(P.inv, 2.6); let px = P.x, py = P.y;
       tg.forEach((e, i) => uLater(0.09 * i, () => { if (e.dead) return; uBeam(px, py - 8, e.x, e.y - 8, 6, '#ff4a6a', 0.3); px = e.x; py = e.y; uHit(e, uD(3.2), { crit: 1 }); uArea(e.x, e.y, uR(60), uD(1.2), 80); uSpark(e.x, e.y, '#ff8aa0', 8); Snd.play('slash'); }));
       uLater(0.09 * tg.length + 0.25, () => { const s = 360; uBeam(P.x - s, P.y - s * 0.6, P.x + s, P.y + s * 0.6, 14, '#ff4a6a', 0.7); uBeam(P.x + s, P.y - s * 0.6, P.x - s, P.y + s * 0.6, 14, '#ff4a6a', 0.7);
-        for (const e of uScr(0)) { const dx = e.x - P.x, dy = (e.y - P.y) / 0.6; if (Math.abs(Math.abs(dx) - Math.abs(dy)) < 70) uHit(e, uD(4.5)); } uFlash('#ff4a6a', 0.3, 0.35); G.shake = Math.max(G.shake || 0, 8); Snd.play('scythe'); }); } },
+        for (const e of uScr(0)) { const dx = e.x - P.x, dy = (e.y - P.y) / 0.6; if (Math.abs(Math.abs(dx) - Math.abs(dy)) < 70) uHit(e, uD(4.5)); } uFlash('#ff4a6a', 0.3, 0.35); Snd.play('scythe'); }); } },
   warlock: { n: 'Eclipse of Ruin', ic: '☉', col: '#9a4aff', d: 'A black sun rises over you: for 6s it rains curses on every foe on screen, then collapses in a ruinous implosion',
     cast() { const sx = () => P.x, sy = () => P.y - 120; uFx(6.6, (f, k, a) => uLit(() => { const x = sx(), y = sy(), r = 34 + 6 * Math.sin(gtime * 4); glowAt('#9a4aff', x, y, 200, 0.7 * a); ctx.fillStyle = '#0a0014'; ctx.beginPath(); ctx.arc(x, y, r, 0, TAU); ctx.fill();
         ctx.strokeStyle = hexA('#d8a8ff', a); ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(x, y, r + 3, 0, TAU); ctx.stroke(); for (let i = 0; i < 12; i++) { const an = gtime * 0.8 + i * TAU / 12; ctx.strokeStyle = hexA('#9a4aff', 0.5 * a); ctx.beginPath(); ctx.moveTo(x + Math.cos(an) * (r + 6), y + Math.sin(an) * (r + 6)); ctx.lineTo(x + Math.cos(an) * (r + 30), y + Math.sin(an) * (r + 30)); ctx.stroke(); } }), { top: 1 });
       for (let i = 0; i < 12; i++) uLater(0.5 * i + 0.3, () => { const tg = uScr(0).slice(0, 18); for (const e of tg) { uBeam(sx(), sy(), e.x, e.y - 8, 3, '#9a4aff', 0.25); uHit(e, uD(1.1)); applyBurn(e, uD(0.25), 3); slow30(e, 0.3, 1); } Snd.play('curse'); });
-      uLater(6.4, () => { uRing(P.x, P.y, uR(320), '#d8a8ff', 0.6, 8, 320); uFlash('#3a0a6a', 0.5, 0.45); for (const e of uScr(0)) { uHit(e, uD(5)); } G.shake = 10; Snd.play('hexnova'); }); } },
+      uLater(6.4, () => { uRing(P.x, P.y, uR(320), '#d8a8ff', 0.6, 8, 320); uFlash('#3a0a6a', 0.5, 0.45); for (const e of uScr(0)) { uHit(e, uD(5)); } Snd.play('hexnova'); }); } },
   summoner: { n: 'Legion Gate', ic: '⛩', col: '#7ad0ff', d: 'Tear open a spirit gate: eight spectral champions charge out and cut through the horde for 8s',
     cast() { const gx = P.x, gy = P.y - 30; uFx(8.5, (f, k, a) => uLit(() => { const s = 1 + 0.06 * Math.sin(gtime * 6); glowAt('#7ad0ff', gx, gy, 140 * s, 0.6 * a); ctx.strokeStyle = hexA('#bfe8ff', a); ctx.lineWidth = 4; ctx.beginPath(); ctx.ellipse(gx, gy, 26 * s, 42 * s, 0, 0, TAU); ctx.stroke(); ctx.fillStyle = hexA('#0a2a4a', 0.7 * a); ctx.fill(); }));
       for (let i = 0; i < 8; i++) { const c = { x: gx, y: gy + 20, t: 0, tg: null, cd: 0.2 * i };
@@ -8648,7 +8688,7 @@ const ULTS = {
         uBeam(x + 20, y - 190, x, y - 4, 3, '#9aff6a', 0.18); uLater(0.12, () => { uArea(x, y, uR(42), uD(1.2), 30); uSpark(x, y, '#d8ffb0', 5, 90); }); if (i % 6 === 0) Snd.play('knife'); });
       uLater(5.2, () => { const a = aim30(700).a, x1 = P.x + Math.cos(a) * 900, y1 = P.y + Math.sin(a) * 900; uBeam(P.x, P.y - 10, x1, y1, 22, '#9aff6a', 0.8);
         for (const e of uScr(80)) { const t = ((e.x - P.x) * Math.cos(a) + (e.y - P.y) * Math.sin(a)), px = P.x + Math.cos(a) * t, py = P.y + Math.sin(a) * t; if (t > 0 && Math.hypot(e.x - px, e.y - py) < 46 + e.r) uHit(e, uD(7)); }
-        uFlash('#9aff6a', 0.3, 0.35); G.shake = 9; Snd.play('boom'); }); } },
+        uFlash('#9aff6a', 0.3, 0.35); Snd.play('boom'); }); } },
   reaper: { n: 'Harvest Moon', ic: '☾', col: '#c8ff4a', d: 'A blood-red moon: a colossal scythe sweeps twice around you, executing weakened foes and healing you for every soul',
     cast() { const sweep = (t0, dir) => { for (let i = 0; i < 10; i++) uLater(t0 + i * 0.05, () => { const a = dir * i / 10 * TAU, r = uR(240); uBeam(P.x, P.y - 6, P.x + Math.cos(a) * r, P.y + Math.sin(a) * r * 0.6, 12, '#c8ff4a', 0.25);
         cone30(P.x, P.y, a, r, TAU / 9, uD(2.2), 150, e => { if (!e.boss && !e.elite && e.hp < e.maxHp * 0.15) uHit(e, e.hp * 4 + 999); }); }); Snd.play('scythe'); };
@@ -8660,11 +8700,11 @@ const ULTS = {
         for (let i = 0; i < 3; i++) { ctx.beginPath(); ctx.ellipse(cx, cy, r * (1.6 + i * 0.5), r * (0.5 + i * 0.15), gtime * (1 + i) , 0, TAU); ctx.stroke(); } }));
       uFx(3, () => {}, { upd(f, dt) { for (const e of uScr(100)) { if (e.boss) continue; const dx = cx - e.x, dy = cy - e.y, d = Math.hypot(dx, dy) || 1; if (d > 12) { e.x += dx / d * Math.min(d, 260 * dt); e.y += dy / d * Math.min(d, 260 * dt); } } } });
       for (let i = 0; i < 6; i++) uLater(0.5 * i, () => uArea(cx, cy, uR(90), uD(0.9), 0));
-      uLater(3.1, () => { uRing(cx, cy, uR(300), '#e0c8ff', 0.6, 10); uDisc(cx, cy, uR(200), '#b07aff', 0.5, 0.5); uArea(cx, cy, uR(240), uD(8), 300); uFlash('#b07aff', 0.4, 0.45); G.shake = 12; Snd.play('boom'); }); Snd.play('tele'); } },
+      uLater(3.1, () => { uRing(cx, cy, uR(300), '#e0c8ff', 0.6, 10); uDisc(cx, cy, uR(200), '#b07aff', 0.5, 0.5); uArea(cx, cy, uR(240), uD(8), 300); uFlash('#b07aff', 0.4, 0.45); Snd.play('boom'); }); Snd.play('tele'); } },
   druid: { n: "Gaia's Wrath", ic: '❀', col: '#6ae07a', d: 'The earth answers: six waves of thorned roots burst outward, rooting the horde, and a seed-meteor crashes into the thickest crowd',
     cast() { for (let i = 0; i < 6; i++) uLater(0.45 * i, () => { const r = uR(110 + 45 * i); uRing(P.x, P.y, r, '#6ae07a', 0.5, 7, r * 0.6); for (let j = 0; j < 10; j++) { const a = j / 10 * TAU + i; uPillar(P.x + Math.cos(a) * r, P.y + Math.sin(a) * r * 0.6, 40, 8, '#9de07a', 0.5); }
         query(P.x, P.y, r + 40, e => { const d = Math.hypot(e.x - P.x, (e.y - P.y) / 0.6); if (d < r + 20 && d > r - 70) { uHit(e, uD(1.6)); slow30(e, 0.8, 1.2); } }); Snd.play('crackle'); });
-      uLater(2.8, () => { const tg = uScr(0); const e = tg.sort((a, b) => b.hp - a.hp)[0]; const x = e ? e.x : P.x, y = e ? e.y : P.y; star30(x, y, uR(170), uD(9), '#6ae07a', 0.5, { src: ULT_SRC }); uLater(0.5, () => { uFlash('#6ae07a', 0.3, 0.3); G.shake = 10; uRing(x, y, uR(220), '#d0ffb0', 0.6, 8); }); }); } },
+      uLater(2.8, () => { const tg = uScr(0); const e = tg.sort((a, b) => b.hp - a.hp)[0]; const x = e ? e.x : P.x, y = e ? e.y : P.y; star30(x, y, uR(170), uD(9), '#6ae07a', 0.5, { src: ULT_SRC }); uLater(0.5, () => { uFlash('#6ae07a', 0.3, 0.3); uRing(x, y, uR(220), '#d0ffb0', 0.6, 8); }); }); } },
   druid_cat: { n: 'Moonclaw Frenzy', ic: '☽', col: '#ff9ad8', d: 'Cat form: a blur of moonlit claws — for 4s you shred everything around you, deepening Bleed — and nothing can touch you for the first second',
     cast() { P.inv = Math.max(P.inv, 1.2); for (let i = 0; i < 26; i++) uLater(0.15 * i, () => { const r = uR(150); for (let q = 0; q < 3; q++) { const a = Math.random() * TAU, o = (q - 1) * 9; uBeam(P.x + Math.cos(a) * r + o, P.y + Math.sin(a) * r * 0.6, P.x - Math.cos(a) * r + o, P.y - Math.sin(a) * r * 0.6, 7, q === 1 ? '#ffffff' : '#ff9ad8', 0.24); }
         uArea(P.x, P.y, r, uD(0.9), 40, e => applyBleed(e, uD(0.3), 3, 1)); if (i % 3 === 0) Snd.play('claw'); });
@@ -8672,7 +8712,7 @@ const ULTS = {
   druid_tree: { n: 'World-Tree Awakening', ic: '♣', col: '#8ad04a', d: 'Tree form: you become the World-Tree — giant roots erupt in widening rings, you heal 30% and take 50% less damage for 5s',
     cast() { G.ult.drT = 5; heal(P.maxHp * 0.3); uFx(5, (f, k, a) => uLit(() => { glowAt('#8ad04a', P.x, P.y - 40, 220, 0.5 * a); for (let i = 0; i < 6; i++) { const an = i / 6 * TAU + gtime * 0.3; ctx.strokeStyle = hexA('#c8ff8a', 0.5 * a); ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(P.x, P.y); ctx.quadraticCurveTo(P.x + Math.cos(an) * 60, P.y + Math.sin(an) * 20 - 40, P.x + Math.cos(an) * 110, P.y + Math.sin(an) * 66); ctx.stroke(); } }));
       for (let i = 0; i < 5; i++) uLater(0.8 * i + 0.2, () => { const r = uR(140 + 30 * i); for (let j = 0; j < 12; j++) { const a = j / 12 * TAU; const x = P.x + Math.cos(a) * r, y = P.y + Math.sin(a) * r * 0.6; uPillar(x, y, 70, 12, '#8ad04a', 0.6); }
-        uArea(P.x, P.y, r + 30, uD(2), 200); uRing(P.x, P.y, r, '#c8ff8a', 0.5, 9); G.shake = 7; Snd.play('stomp'); }); } },
+        uArea(P.x, P.y, r + 30, uD(2), 200); uRing(P.x, P.y, r, '#c8ff8a', 0.5, 9); Snd.play('stomp'); }); } },
   mage: { n: 'Elemental Cataclysm', ic: '✺', col: '#ff8a3c', d: 'Fire, frost and arcane at once: a meteor storm, a freezing nova that locks the horde in ice, then a sweeping arcane ray',
     cast() { for (let i = 0; i < 12; i++) uLater(0.12 * i, () => { const tg = uScr(0); const e = tg.length ? tg[(Math.random() * tg.length) | 0] : null; star30(e ? e.x : P.x + (Math.random() - 0.5) * 300, e ? e.y : P.y + (Math.random() - 0.5) * 200, uR(80), uD(2.6), '#ff8a3c', 0.45, { src: ULT_SRC, on: q => applyBurn(q, uD(0.3), 3) }); });
       uLater(1.9, () => { uRing(P.x, P.y, uR(340), '#8ad8ff', 0.6, 9); uFlash('#8ad8ff', 0.35, 0.4); for (const e of uScr(0)) { uHit(e, uD(2)); stun30(e, 1.6); } Snd.play('ice'); });
@@ -8682,20 +8722,20 @@ const ULTS = {
     cast() { P.inv = Math.max(P.inv, 1.5); const t0 = gtime; uFx(4, (f, k, a) => uLit(() => { const sp = (gtime - t0) * 1.6; for (let i = 0; i < 8; i++) { const an = sp + i * TAU / 8, col = i % 2 ? '#c08aff' : '#ffd36a', x1 = P.x + Math.cos(an) * 460, y1 = P.y + Math.sin(an) * 300;
         ctx.strokeStyle = hexA(col, 0.5 * a); ctx.lineWidth = 12; ctx.beginPath(); ctx.moveTo(P.x, P.y - 10); ctx.lineTo(x1, y1); ctx.stroke(); ctx.strokeStyle = hexA('#ffffff', 0.7 * a); ctx.lineWidth = 3; ctx.stroke(); } glowAt('#ffd36a', P.x, P.y - 10, 140, a); }));
       for (let s = 0; s < 16; s++) uLater(0.25 * s, () => { const sp = s * 0.25 * 1.6; for (let i = 0; i < 8; i++) cone30(P.x, P.y, sp + i * TAU / 8, 480, 0.22, uD(0.7), 20); });
-      uLater(4.05, () => { nova30(P.x, P.y, uR(300), uD(4), '#ffd36a', { src: ULT_SRC }); uLater(0.25, () => nova30(P.x, P.y, uR(340), uD(4), '#c08aff', { src: ULT_SRC })); uFlash('#ffd36a', 0.4, 0.4); G.shake = 10; Snd.play('nova'); }); } },
+      uLater(4.05, () => { nova30(P.x, P.y, uR(300), uD(4), '#ffd36a', { src: ULT_SRC }); uLater(0.25, () => nova30(P.x, P.y, uR(340), uD(4), '#c08aff', { src: ULT_SRC })); uFlash('#ffd36a', 0.4, 0.4); Snd.play('nova'); }); } },
   paladin: { n: "Heaven's Gate", ic: '✝', col: '#ffe08a', d: 'The heavens open: a great cross of light slams down around you, pillars march outward along it, and you are untouchable for 3s',
     cast() { P.inv = Math.max(P.inv, 3); uFlash('#fff6d0', 0.5, 0.55); uGlyph(P.x, P.y - 90, '✝', 70, '#fff2a0', 1.6, { grow: 1 });
       for (let i = 1; i <= 7; i++) uLater(0.13 * i, () => { const d = uR(60 * i); for (const [dx, dy] of [[1, 0], [-1, 0], [0, 0.6], [0, -0.6]]) { const x = P.x + dx * d, y = P.y + dy * d; uPillar(x, y, 220, 30, '#ffe08a', 0.7); uArea(x, y, uR(58), uD(2.8), 120); } Snd.play('nova'); });
-      uLater(1.1, () => { nova30(P.x, P.y, uR(260), uD(3), '#fff2a0', { src: ULT_SRC }); G.shake = 9; }); } },
+      uLater(1.1, () => { nova30(P.x, P.y, uR(260), uD(3), '#fff2a0', { src: ULT_SRC }); }); } },
   engineer: { n: 'Orbital Strike', ic: '⊕', col: '#ffb040', d: 'Paint targets for the satellite: lock-on reticles mark the biggest foes, then an orbital laser burns a path across the screen',
     cast() { const tg = uScr(0).sort((a, b) => b.maxHp - a.maxHp).slice(0, 8); tg.forEach(e => uFx(1.2, (f, k, a) => { ctx.save(); ctx.strokeStyle = hexA('#ff4a2a', 0.9); ctx.lineWidth = 2; const r = 30 - 14 * k; ctx.beginPath(); ctx.arc(e.x, e.y - 8, r, 0, TAU); ctx.moveTo(e.x - r - 6, e.y - 8); ctx.lineTo(e.x + r + 6, e.y - 8); ctx.moveTo(e.x, e.y - 8 - r - 6); ctx.lineTo(e.x, e.y - 8 + r + 6); ctx.stroke(); ctx.restore(); }));
-      Snd.play('chak'); uLater(1.2, () => { tg.forEach((e, i) => uLater(0.06 * i, () => { const x = e.dead ? e.x : e.x, y = e.y; uPillar(x, y, 600, 46, '#ffb040', 0.6); uArea(x, y, uR(90), uD(5), 160); uSpark(x, y, '#ffd890', 14, 220); })); uFlash('#ffb040', 0.3, 0.4); G.shake = 12; Snd.play('boom');
+      Snd.play('chak'); uLater(1.2, () => { tg.forEach((e, i) => uLater(0.06 * i, () => { const x = e.dead ? e.x : e.x, y = e.y; uPillar(x, y, 600, 46, '#ffb040', 0.6); uArea(x, y, uR(90), uD(5), 160); uSpark(x, y, '#ffd890', 14, 220); })); uFlash('#ffb040', 0.3, 0.4); Snd.play('boom');
         const a0 = Math.random() * TAU, t0 = gtime; uFx(2.2, (f, k, a) => uLit(() => { const an = a0 + k * Math.PI, x = P.x + Math.cos(an) * 260 * (1 - k * 0.3), y = P.y + Math.sin(an) * 160; const g = ctx.createLinearGradient(0, y - 600, 0, y); g.addColorStop(0, hexA('#ffb040', 0)); g.addColorStop(1, hexA('#ffb040', 0.8)); ctx.fillStyle = g; ctx.fillRect(x - 20, y - 600, 40, 600); ctx.fillStyle = hexA('#fff', 0.8); ctx.fillRect(x - 5, y - 600, 10, 600); glowAt('#ffb040', x, y, 140, 1); }),
           { upd(f, dt) { f.tk = (f.tk || 0) - dt; if (f.tk > 0) return; f.tk = 0.12; const k = 1 - f.life / f.max, an = a0 + k * Math.PI; uArea(P.x + Math.cos(an) * 260 * (1 - k * 0.3), P.y + Math.sin(an) * 160, uR(70), uD(1.4), 40, e => applyBurn(e, uD(0.25), 2)); } }); }); } },
   alchemist: { n: 'Grand Transmutation', ic: '♁', col: '#ffe04a', d: 'Transmute the battlefield: every foe on screen turns to gold and is frozen in place, then shatters — reactions erupt from the fragments',
     cast() { const tg = uScr(0).slice(0, 60); uFlash('#ffe04a', 0.5, 0.45); uRing(P.x, P.y, uR(380), '#ffe04a', 0.7, 8); for (const e of tg) { stun30(e, 1.8); e.gold30 = gtime + 1.8; uDisc(e.x, e.y, e.r + 6, '#ffe04a', 1.8, 0.6); }
       Snd.play('shimmer'); uLater(1.8, () => { for (const e of tg) { if (e.dead) continue; uHit(e, uD(6)); uSpark(e.x, e.y, '#ffe04a', 6, 160); if (Math.random() < 0.35 && typeof alcPud === 'function') alcPud(['f', 'p', 's'][(Math.random() * 3) | 0], e.x, e.y, 34, 3, uD(0.4), { src: ULT_SRC }); }
-        uArea(P.x, P.y, uR(150), uD(2), 200); G.shake = 10; Snd.play('boom'); }); } },
+        uArea(P.x, P.y, uR(150), uD(2), 200); Snd.play('boom'); }); } },
   bard: { n: 'Encore of Legends', ic: '♬', col: '#ff8ad8', d: 'The crowd goes wild: four great waves of song sweep the screen, and the encore gives you +25% damage for 8s',
     cast() { G.ultBuf = 8; G.ultBufM = 0.25; for (let i = 0; i < 4; i++) uLater(0.55 * i, () => { const dir = i % 2 ? -1 : 1, y0 = P.y - 160 + i * 90, t0 = gtime;
         uFx(1.1, (f, k, a) => uLit(() => { const x = P.x - dir * 420 + dir * 840 * k; for (let j = 0; j < 5; j++) { ctx.strokeStyle = hexA('#ff8ad8', 0.5 * a); ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(x - 260 * dir, y0 + j * 8); ctx.lineTo(x, y0 + j * 8); ctx.stroke(); }
@@ -8711,7 +8751,7 @@ const ULTS = {
       uFx(3.1, (f, k, a) => uLit(() => { ctx.strokeStyle = hexA('#bfe8ff', 0.6); ctx.lineWidth = 2; const R = 80 + 40 * Math.sin(gtime * 2); ctx.beginPath(); ctx.arc(P.x, P.y - 10, R, 0, TAU); ctx.stroke(); for (let i = 0; i < 12; i++) { const an = i / 12 * TAU; ctx.beginPath(); ctx.moveTo(P.x + Math.cos(an) * (R - 6), P.y - 10 + Math.sin(an) * (R - 6)); ctx.lineTo(P.x + Math.cos(an) * R, P.y - 10 + Math.sin(an) * R); ctx.stroke(); }
         const hn = -Math.PI / 2 + k * TAU * 3; ctx.strokeStyle = hexA('#ffffff', 0.9); ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(P.x, P.y - 10); ctx.lineTo(P.x + Math.cos(hn) * (R - 12), P.y - 10 + Math.sin(hn) * (R - 12)); ctx.stroke(); }));
       for (let s = 0; s < 6; s++) uLater(0.45 * s, () => { for (const e of tg) { if (e.dead) continue; acc.set(e, (acc.get(e) || 0) + 1); uGlyph(e.x + (Math.random() - 0.5) * 14, e.y - 20 - acc.get(e) * 5, '✧', 12, '#bfe8ff', 3.2 - 0.45 * s); } Snd.play('tele'); });
-      uLater(3.05, () => { for (const [e, n] of acc) { if (!e.dead) { uHit(e, uD(1.7) * n); uSpark(e.x, e.y, '#bfe8ff', 6, 160); } } uRing(P.x, P.y, uR(360), '#8ad8ff', 0.6, 8); G.shake = 11; Snd.play('boom'); }); } },
+      uLater(3.05, () => { for (const [e, n] of acc) { if (!e.dead) { uHit(e, uD(1.7) * n); uSpark(e.x, e.y, '#bfe8ff', 6, 160); } } uRing(P.x, P.y, uR(360), '#8ad8ff', 0.6, 8); Snd.play('boom'); }); } },
   maestro: { n: 'Cat Human World Tour', ic: '♛', col: '#ff8ad8', d: 'Drop the beat: a holographic stage lights up with six idol Cat Humans who fire heart-beams on every beat for 6s, then the bass drop floods the screen with neon light',
     cast() { const cx = P.x, cy = P.y, t0 = gtime; uFlash('#ff8ad8', 0.3, 0.3); G.mxNS = gtime + 7.5; G.shake = 0;
       uFx(6.4, (f, k, a) => { uLit(() => { for (let i = 0; i < 6; i++) { const an = gtime * 1.2 + i * TAU / 6, col = MX_TOP[i % 5]; ctx.fillStyle = hexA(col, 0.18 * a); ctx.beginPath(); ctx.moveTo(cx, cy - 260); ctx.lineTo(cx + Math.cos(an) * 220 - 30, cy + Math.sin(an) * 130); ctx.lineTo(cx + Math.cos(an) * 220 + 30, cy + Math.sin(an) * 130); ctx.closePath(); ctx.fill(); }
@@ -8722,7 +8762,7 @@ const ULTS = {
   unraveler: { n: 'The Great Unweaving', ic: '✵', col: '#b05aff', d: 'Pull every thread at once: violet threads bind the whole screen, stacking poison, burning and curses on every foe, then the whole tapestry unravels',
     cast() { const tg = uScr(0).slice(0, 50); uFlash('#3a0a5a', 0.5, 0.45); tg.forEach((e, i) => uLater(0.03 * i, () => { if (e.dead) return; uBeam(P.x, P.y - 14, e.x, e.y - 8, 2, '#d8a8ff', 2); if (typeof uvAff === 'function') { uvAff(e, 'p', 6, uD(0.2), ULT_SRC); uvAff(e, 'b', 6, uD(0.2), ULT_SRC); uvAff(e, 'c', 6, uD(0.2), ULT_SRC); } else applyBurn(e, uD(0.5), 3); }));
       uFx(2.2, (f, k, a) => uLit(() => { glowAt('#b05aff', P.x, P.y - 20, 160, a); for (let i = 0; i < 8; i++) { const an = gtime * 2 + i * TAU / 8; ctx.strokeStyle = hexA('#d8a8ff', 0.6 * a); ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(P.x, P.y - 20, 30 + 50 * k, an, an + 1); ctx.stroke(); } }));
-      uLater(2.2, () => { for (const e of tg) { if (e.dead) continue; uHit(e, uD(6.2), { col: '#d8a8ff' }); uSpark(e.x, e.y, '#b05aff', 8, 140); } uRing(P.x, P.y, uR(380), '#d8a8ff', 0.7, 9); uGlyph(P.x, P.y - 90, 'UNRAVEL', 30, '#f4e8ff', 1.3, { grow: 1 }); G.shake = 11; Snd.play('hexnova'); }); } },
+      uLater(2.2, () => { for (const e of tg) { if (e.dead) continue; uHit(e, uD(6.2), { col: '#d8a8ff' }); uSpark(e.x, e.y, '#b05aff', 8, 140); } uRing(P.x, P.y, uR(380), '#d8a8ff', 0.7, 9); uGlyph(P.x, P.y - 90, 'UNRAVEL', 30, '#f4e8ff', 1.3, { grow: 1 }); Snd.play('hexnova'); }); } },
 };
 /* ---- state, unlock & casting ---- */
 function ultKey() { if (G.cls === 'druid') { const f = druidForm(); if (f === 'cat' || f === 'tree') return 'druid_' + f; } return ULTS[G.cls] ? G.cls : null; }
@@ -9067,7 +9107,7 @@ function updateProjs(dt) {
       else if (p.k === 'mshard') { damage(e, p.dmg, { kb: 30, kx: p.vx / d, ky: p.vy / d }); applyChill(e, p.chill || 1); if (p.pierce-- <= 0) p.life = 0; }
       else if (p.k === 'knife' || p.k === 'lance' || p.k === 'vstar') { damage(e, p.dmg, { kb: p.k === 'vstar' ? 25 : 50, kx: p.vx / d, ky: p.vy / d }); if (p.k === 'vstar' && parts.length < 360) burst(p.x, p.y, '#9fdcff', 3, 60, 2, 0.25, true); if (p.pierce-- <= 0) p.life = 0; }
       else if (p.k === 'stag') { const sd = (-p.vy * (e.x - p.x) + p.vx * (e.y - p.y)) > 0 ? 1 : -1; damage(e, p.dmg, { kb: 150, kx: -p.vy / d * sd * 0.8 + p.vx / d * 0.5, ky: p.vx / d * sd * 0.8 + p.vy / d * 0.5 }); if (parts.length < 360) burst(e.x, e.y, '#c8ff9a', 4, 90, 2.2, 0.3, true); }
-      else if (p.k === 'rockp') { damage(e, p.dmg, { kb: p.mini ? 60 : 170, kx: p.vx / d, ky: p.vy / d }); if (!p.mini) G.shake = Math.max(G.shake, 0.08); if (p.pierce-- <= 0) { if (p.crash) p.crash(p, null); else p.life = 0; } }
+      else if (p.k === 'rockp') { damage(e, p.dmg, { kb: p.mini ? 60 : 170, kx: p.vx / d, ky: p.vy / d }); if (!p.mini) if (p.pierce-- <= 0) { if (p.crash) p.crash(p, null); else p.life = 0; } }
       else if (p.k === 'scy') { damage(e, p.dmg, { kb: 90, kx: p.vx / d, ky: p.vy / d }); if (G.cls === 'reaper') heal(0.4); }
       else if (p.k === 'arrow') { damage(e, p.dmg, { kb: 40, kx: p.vx / d, ky: p.vy / d, arrow: !p.minion, minion: p.minion }); if (p.fireb) applyBurn(e, p.fireb, 3);
         if (p.burst) { const bx = p.x, by = p.y; areaHit(bx, by, 26 + 6 * p.burst, p.dmg * (0.35 + 0.1 * (p.burst - 1)), 30, new Set([e])); effects.push({ k: 'boom', x: bx, y: by, r: 26 + 6 * p.burst, life: 0.2, max: 0.2 }); }
@@ -9148,7 +9188,7 @@ function updatePickups(dt) {
     if (d2 < (P.r + 12) ** 2) {
       p.dead = true;
       if (p.k === 'vial') { heal(P.maxHp * 0.3 * (1 + 0.1 * mr('stock'))); addNum(P.x, P.y - 24, '+HP', '#ff7a96', 14); Snd.play('heal'); burst(P.x, P.y, '#ff3d6e', 10, 70, 2.5, 0.5, true); }
-      else if (p.k === 'lure') { for (const q of picks) q.pull = true; Snd.play('pick'); toast('Soul Lure — all treasures drawn to you!', '#4fd4ff', 1.8); }
+      else if (p.k === 'lure') { for (const q of picks) q.pull = true; for (const g of gems) { g.pull = true; g.sp = Math.max(g.sp || 0, 260); } /* v34: and every XP gem on the map */ Snd.play('pick'); toast('Soul Lure — all treasures and XP drawn to you!', '#4fd4ff', 1.8); }
       else if (p.k === 'shard') { G.shardsPicked += p.v || 1; Snd.play('pick'); addNum(P.x, P.y - 24, '+' + (p.v || 1) + '◆', '#d7a6ff', 13); }
       else if (p.k === 'gold') addGold(p.v || 1, P.x + rand(-6, 6), P.y - 24);
       else if (p.k === 'chest') { G.pendingChest = (G.pendingChest || []); G.pendingChest.push(p.boss ? 'boss' : p.mini ? 'mini' : 'elite'); Snd.play('chest'); triggerJump(true); addGold(p.boss ? 10 + G.t / 40 : p.mini ? 6 + G.t / 60 : 2 + G.t / 300, P.x, P.y - 40); }
@@ -9708,7 +9748,7 @@ function stagCrash(p, b) { p.life = 0; p.done = 1; const r = 64 * P.area, x = p.
 function rockShatter(p, b) { if (p.done) return; p.done = 1; p.life = 0; const x = p.x, y = p.y; // the boulder bursts: area crush (+ splitting stones with Mountain's Heart)
   if (p.mini) { if (parts.length < 360) burst(x, y, '#8a7a60', 4, 80, 2.2, 0.3); return; }
   const r = 54 * P.area * Math.sqrt(p.big || 1); areaHit(x, y, r, p.dmg * 0.8, 120); effects.push({ k: 'slam', x, y: y + 6, r, life: 0.32, max: 0.32, col: '#b08a50' }); effects.push({ k: 'boom', x, y, r, life: 0.25, max: 0.25, col: '#d8a050' });
-  if (parts.length < 360) burst(x, y, '#8a7a60', 14, 170, 3.4, 0.55); G.shake = Math.max(G.shake, 0.18); Snd.play('stomp');
+  if (parts.length < 360) burst(x, y, '#8a7a60', 14, 170, 3.4, 0.55); Snd.play('stomp');
   if (b && b.small && G.tf.obBreak) obBreakAt(b.x, b.y, 4);
   if (G.tf.boulderMore && projs.length < 280) for (let i = 0; i < 3; i++) { const a = (p.a || 0) + (i - 1) * 0.7 + Math.PI * (b ? 1 : 0); projs.push({ k: 'rockp', x: x - Math.cos(p.a || 0) * (b ? 14 : 0), y, vx: Math.cos(a) * 240, vy: Math.sin(a) * 240, a, r: 7, dmg: p.dmg * 0.35, pierce: 1, life: 0.55, hit: new Set(), spin: 0, mini: 1, crash: rockShatter, src: p.src }); } }
 function cometImpact(f) { // Prismatic Comet: split into fire / frost / arcane shards + talent cores

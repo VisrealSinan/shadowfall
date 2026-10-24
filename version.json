@@ -1,22 +1,17 @@
 {
- "version": "33",
+ "version": "34",
  "date": "2026-10-24",
  "minLauncher": "2.0.0",
  "notes": [
-  "The whole game has a new art style. The pixel look is gone. Everything is now drawn in a smooth, dark, hand-painted fantasy style, like the concept art you picked, with soft painted shading, warm torchlight against cool shadows, glowing magic and a moody vignette.",
-  "Every hero is repainted at full screen resolution, including every race and class combination (each one still looks unique), Druid forms, all facings, poses, dodges and deaths. Heroes get soft form shading, rim light and soft shadows under their feet.",
-  "All enemies, elites and bosses are repainted too, including the Hollow Stag and the Molten Tyrant with their wind-ups and deaths. They now load in the background as you need them, so the game starts faster.",
-  "Both maps have painted ground. Gloomwood has mossy, brush-textured earth and dirt roads. The Ashen Citadel has worn flagstones and carpets. Trees, rocks, ruins, tombs, landmarks, campfires, caches, shrines, puddles, bones and other ground details have soft painted edges instead of pixel blocks. Safe Haven town is repainted as well.",
-  "The world is darker and moodier. A cool ambient shadow is always on, torches, campfires and braziers cast warm glowing pools of light, spells glow, and a deeper vignette frames the screen.",
-  "Menu art is repainted: race homelands, the class hall, the talent tree scenes, the Armory, level-up and reroll cards (they keep their tree themes and Pip's jester stall) and portraits are all smooth and painterly now.",
-  "Gameplay, hitboxes and your saves are unchanged. Balance is the same except for the XP change below. Performance stays smooth on phones.",
-  "Talent trees always fit now. On small phones and in landscape the tree scrolls by itself (drag or mouse wheel, with a small \"more talents\" hint), and the tabs, info box and Reset, Apply and Back buttons stay on screen. This works for every class, the Druid and the Armory's four trees.",
-  "The health bar under your hero and your class bar (Blood, Inspiration, Hype and the rest) are now stacked with a small gap instead of drawn on top of each other. On landscape phones the Ultimate button moved so it no longer covers the DPS button, and its label is bigger.",
-  "Neural Maestro's ultimate no longer shakes the screen, and neither do its bass drop or The Drop beat pulses. It still hits hard with neon flashes, rings and glow.",
-  "Levelling is faster late in a run. XP no longer drops off after minute 8, so every gem gives the same XP all run, and levels past 20 no longer need 25% extra XP.",
-  "Visreal the Unraveler's fog is much easier to see. Black Pall and Plague Bloom, including their evolved and boosted versions, now have a glowing purple ring with drifting threads and runes that marks exactly where they deal damage, plus a slightly stronger tint. Enemies and gems still show through it on both maps.",
-  "Neural Maestro's holograms are now called Cat Humans everywhere, and they come as cat-eared young women or young men in the same hologram glow, with the same stats. They match your hero's chosen body, or you can pick Auto, Female or Male under Outfit when Neural Maestro is selected. The Cat Girl race is now called Cat Human.",
-  "You can now choose a Male or Female body for every race on the race select screen. Male is the classic look, so existing saves look the same. Your choice is saved for each race and changes your hero's face and hair in every class, pose and portrait. It does not change any stats."
+  "Neural Maestro's Glitch Step blink is gone. It could teleport you straight into a crowd. In its place is Hologram Decoy, on the same button with about the same cooldown (5 seconds).",
+  "Hologram Decoy projects a glowing hologram copy of your hero just behind you. You stay exactly where you are. For 3.5 seconds, nearby enemies are drawn toward the decoy and attack it instead of you. Bosses ignore it.",
+  "The decoy can take 4 hits. When it breaks or runs out, it explodes in a neon blast that damages every nearby enemy and Glitches them. The blast scales with the skill's level and your damage bonuses.",
+  "Hologram Decoy upgrades: level 3 makes it last 1 second longer and take 2 more hits, level 5 gives it a bigger pull radius, and level 6 gives it a bigger explosion that hits 50% harder. Levels 2 and 4 add damage, and level 4 also lowers the cooldown.",
+  "The Lag Spike talent is now Persistent Projection. Each rank makes the decoy last 0.3 seconds longer and its blast hit 10% harder. Your existing ranks carry over.",
+  "The evolution is now Buffer Overflow. The decoy lasts 1 second longer and pulls enemies from farther away, and its explosion goes off a second time a beat later. No part of the Neural Maestro's kit teleports you anymore.",
+  "Soul Lure now also pulls in every experience gem on the map, not just treasure.",
+  "Class signature skills and ultimates no longer shake the screen. Their flashes and effects are unchanged. Signature skills affected: Paladin's Wrath of Dawn, Alchemist's Magnum Opus, Bard's Grand Finale, Blood Knight's Crimson Wave and Blood Moon, Chronomancer's Zero Hour, the Unraveler's Unravel, and the Druid's Tree Form Boulder. Ultimates affected: Rogue, Warlock, Ranger, Rift Dancer, Druid (all forms), Eclipse Paragon, Paladin, Engineer, Alchemist, Chronomancer and Unraveler. The new decoy explosion doesn't shake the screen either. Shake from taking big hits and from boss slams is unchanged.",
+  "Rogue, Ranger and Mage now deal 10% more damage with all of their skills and ultimates. Other classes are unchanged."
  ],
  "files": [
   {
@@ -41,8 +36,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "be825aff4faaceee14a88af2d1b336ca76fddfdd9fd07f68a4d700c40dcab787",
-   "size": 1746266
+   "sha256": "261a4b6caa4a3fb20e53d1e6d18841fb6b9ef6d32a442f559485e5e36aa83fc8",
+   "size": 1752195
   },
   {
    "name": "manifest.webmanifest",
@@ -51,7 +46,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "dcd02dd4a986538bc45b3a8855924d7c3ec6684941a0396696fb0ba38f0af917",
+   "sha256": "ddf049d8884040917e5b0327aa702199f90216bbe9225f8d55b41c11ea47cb2b",
    "size": 1466
   }
  ]
