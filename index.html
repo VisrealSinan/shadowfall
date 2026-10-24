@@ -214,6 +214,51 @@ h3,.lbl,.branch .bn{color:#ffe08a}
 .spark{position:absolute;width:14px;height:14px;pointer-events:none;background:radial-gradient(circle,#fff 0 18%,transparent 20%),linear-gradient(0deg,transparent 45%,#fff 45% 55%,transparent 55%),linear-gradient(90deg,transparent 45%,#fff 45% 55%,transparent 55%);
  filter:drop-shadow(0 0 4px #ffe27a);animation:twinkle 2.2s infinite ease-in-out}
 @keyframes twinkle{0%,100%{transform:scale(.2) rotate(0);opacity:0}50%{transform:scale(1) rotate(45deg);opacity:1}}
+/* ===== v38 painted chrome: dark painted fantasy panels, gilded frames, violet + gold accents. Base skin only - every themed screen
+   (class talent scenes, vendor shops, race/class halls, Armory, tree-themed level-up cards, Pip's jester cards) keeps its own look on top ===== */
+:root{--g0:#fff3c8;--g1:#f6dc8c;--g2:#d4a84a;--g3:#8a6420;--gd:#2a1a06;--v1:#c9a8ff;--v2:#7b4fd6;--v3:#3a2266;--pn1:#2a2034;--pn2:#120d18;--cr1:#d8445e;--cr2:#6a0c22;
+ --gold:#e2b85a;--gold2:#8a6420;--ease:cubic-bezier(.2,.8,.2,1)}
+.dim{background:radial-gradient(ellipse 90% 60% at 50% 18%,rgba(96,56,160,.42),transparent 70%),radial-gradient(ellipse at 50% 110%,rgba(160,80,30,.18),transparent 60%),rgba(6,4,10,.84)}
+.panel{background:radial-gradient(ellipse 80% 45% at 50% -6%,rgba(130,80,210,.30),transparent 70%),radial-gradient(ellipse 70% 30% at 50% 108%,rgba(200,120,40,.14),transparent 70%),
+ repeating-linear-gradient(115deg,rgba(255,255,255,.012) 0 2px,transparent 2px 7px),linear-gradient(180deg,#1a1322,#0b080f)}
+h2{letter-spacing:.07em;position:relative;
+ background:linear-gradient(180deg,#fffaf0 0%,#f6dc8c 38%,#d4a84a 70%,#8a6420 100%);-webkit-background-clip:text;background-clip:text;color:transparent;
+ filter:drop-shadow(0 2px 0 #1a0e02) drop-shadow(0 0 12px rgba(230,180,80,.35))}
+h2::after{content:"";position:absolute;left:50%;bottom:-5px;width:min(70%,240px);height:7px;transform:translateX(-50%);pointer-events:none;
+ background:radial-gradient(circle,#f6dc8c 0 2px,#8a6420 2.5px,transparent 3.5px) center/10px 7px no-repeat,linear-gradient(90deg,transparent,rgba(226,184,90,.85) 30%,rgba(226,184,90,.85) 70%,transparent) center/100% 1px no-repeat}
+h3,.lbl,.branch .bn{color:#f0d48a}
+.btn{border:2px solid #c9a24a;color:#f8edd4;text-shadow:0 2px 0 rgba(0,0,0,.75);
+ background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(190,150,255,.20),transparent 70%),linear-gradient(180deg,#43325a 0%,#2a1d3c 48%,#1d1329 52%,#120b1a 100%);
+ box-shadow:0 0 0 1px #1a0e02 inset,inset 0 1px 0 rgba(255,236,180,.28),inset 0 -2px 6px rgba(0,0,0,.45),0 3px 0 #3a2608,0 8px 18px rgba(0,0,0,.55);
+ transition:transform .12s var(--ease),filter .15s,box-shadow .2s,border-color .2s}
+.btn.primary{border-color:#f2cf78;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(255,200,160,.30),transparent 70%),linear-gradient(180deg,#e2566e 0%,#b0243f 48%,#8a1430 52%,#4a0616 100%);
+ box-shadow:0 0 0 1px #1a0204 inset,inset 0 1px 0 rgba(255,220,200,.45),0 3px 0 #4a2a06,0 0 22px rgba(230,60,90,.38),0 8px 18px rgba(0,0,0,.55)}
+.btn:disabled{filter:grayscale(.7) brightness(.8);border-color:rgba(160,140,110,.55);box-shadow:0 0 0 1px #1a0e02 inset,0 2px 0 #241a08;cursor:not-allowed}
+.btn:disabled::after{display:none}
+.card,.ccard,.res,.build,.taltip,.tree,.gearbox{border:2px solid rgba(201,162,74,.72);
+ background:radial-gradient(ellipse 90% 50% at 50% 0%,rgba(140,90,220,.16),transparent 70%),linear-gradient(180deg,rgba(42,32,54,.95),rgba(18,12,26,.97));
+ box-shadow:0 0 0 1px rgba(0,0,0,.65) inset,inset 0 1px 0 rgba(255,230,170,.16),inset 0 0 22px rgba(0,0,0,.35),0 6px 16px rgba(0,0,0,.5)}
+.ccard.sel{border-color:#f6dc8c;background:radial-gradient(ellipse 90% 60% at 50% 0%,rgba(170,110,255,.30),transparent 70%),linear-gradient(180deg,rgba(64,44,92,.97),rgba(26,16,40,.98));
+ box-shadow:0 0 0 2px rgba(246,220,140,.45),0 0 24px rgba(200,150,60,.35),0 0 40px rgba(140,80,230,.25)}
+.ccard canvas,.card canvas,.sw canvas,.talhead canvas{background:radial-gradient(circle at 50% 38%,#5a3c8c,#24163a 70%,#0f0a16);border-color:rgba(226,184,90,.6)}
+.ccard .role{color:#fff;background:rgba(170,30,60,.7);border-color:rgba(246,220,140,.6)}
+.ccard .fl{color:#d6c6ee}.ccard .ds,.card .ds{color:#ece4f8}.ccard .pa{color:#f6dc8c}
+.ccard .chips i{background:rgba(40,24,64,.85);border:1px solid rgba(226,184,90,.4)}
+.card .ic{background:radial-gradient(circle at 40% 30%,#d8b8ff,#7b4fd6 55%,#2a1650);border:2px solid #d4a84a;text-shadow:0 0 8px #fff}
+.buy{border:2px solid #c9a24a;background:linear-gradient(180deg,#4a3466,#1d1329);border-radius:14px;color:#f8edd4}.buy.eq{background:linear-gradient(180deg,#d8445e,#6a0c22)}
+.tabs button{border:2px solid rgba(201,162,74,.45);background:linear-gradient(180deg,rgba(40,28,54,.92),rgba(18,12,26,.95));color:#e6dcf4;border-radius:14px;transition:background .2s,border-color .2s,color .2s}
+.tabs button.on{background:radial-gradient(ellipse 80% 70% at 50% 0%,rgba(220,190,255,.30),transparent 70%),linear-gradient(180deg,#6a44b0,#2e1a58);border-color:#f2cf78;color:#fff;box-shadow:0 0 12px rgba(160,110,255,.35)}
+.stats{color:#e6dcf4}.stats b{color:#f6dc8c}
+.shard{color:#cdb0ff}
+.iconbtn{border:2px solid #c9a24a;background:radial-gradient(circle at 50% 30%,#4a3466,#160e20);color:#f8edd4;box-shadow:0 3px 10px rgba(0,0,0,.5)}
+.tnode{border-color:rgba(226,184,90,.35);background:radial-gradient(circle at 40% 35%,#3a2858,#120c1c)}
+.tnode.own{border-color:#e2b85a;background:radial-gradient(circle at 40% 30%,#e0c8ff,#7b4fd6 60%,#2e1a58);box-shadow:0 0 16px rgba(170,120,255,.7)}
+.tlink.on{background:linear-gradient(#f6dc8c,#7b4fd6)}
+.talhead .bar i,.pips i.f{background:linear-gradient(90deg,#9b6bff,#f6dc8c)}
+.big{font-family:"Palatino Linotype",Palatino,Georgia,serif;color:#fff6dc;text-shadow:0 3px 0 #1a0e02,0 0 18px rgba(230,180,80,.55),0 0 34px rgba(140,80,230,.35)}
+.logo .l2{background:linear-gradient(180deg,#4a3466,#1d1329);border-color:#d4a84a;box-shadow:0 4px 0 #3a2608,0 0 16px rgba(140,80,230,.35)}
+.logo .tag{color:#e6dcf4}
+/* v38: h2 keeps the v37 Trebuchet face + weight: a serif face changes the line box and would shift every screen layout */
 /* ===== level-up card pick ===== */
 #luTitle{font-size:32px}
 #choices{display:flex;gap:8px;justify-content:center;align-items:stretch;width:min(96vw,410px);perspective:900px;margin-top:4px}
@@ -1123,6 +1168,66 @@ canvas.hop{animation:hopk .55s ease-in-out;transform-origin:50% 90%}canvas.hopbi
 #talents.tp32 #btnTalBack{box-shadow:0 0 0 2px #000 inset,0 0 16px color-mix(in srgb,var(--t1) 55%,transparent),0 4px 10px rgba(0,0,0,.5)}
 #talents.tp32 #talTip .buy{background:linear-gradient(180deg,color-mix(in srgb,var(--t1) 60%,var(--t2)),var(--t3));border-color:var(--t1);color:#fff}
 .pc #talents.tp32 .btn.small[data-kh]::before{font-size:12px}
+/* ===== v38 polish layer (cross-cutting): overlays & toasts in the painted style, focus rings, button states, screen transitions, >=12px text.
+   Only base/neutral surfaces are re-skinned here; themed screens keep their own colours. ===== */
+#cfm{background:radial-gradient(ellipse at 50% 40%,rgba(60,30,100,.35),rgba(4,2,10,.78))}
+#cfm .cfb{position:relative;background:radial-gradient(ellipse 90% 50% at 50% 0%,rgba(150,100,230,.22),transparent 70%),linear-gradient(180deg,#2a2036,#120c1a);border:2px solid #d4a84a;
+ box-shadow:0 0 0 1px #000 inset,0 0 0 4px rgba(212,168,74,.14) inset,inset 0 1px 0 rgba(255,230,170,.2),0 18px 50px rgba(0,0,0,.7);animation:v38pop .22s var(--ease) both}
+#cfm h3{font-family:"Palatino Linotype",Palatino,Georgia,serif;letter-spacing:.04em;color:#f6dc8c;text-transform:none;text-shadow:0 2px 0 #000}#cfm p{color:#e6dcf4}
+#notice{background:radial-gradient(ellipse 90% 70% at 50% 0%,rgba(170,120,255,.28),transparent 70%),linear-gradient(180deg,rgba(46,32,66,.97),rgba(18,12,28,.97));border-color:#d4a84a;
+ box-shadow:0 0 0 1px #000 inset,inset 0 1px 0 rgba(255,230,170,.2),0 8px 22px rgba(0,0,0,.6)}
+#achBanner{background:radial-gradient(ellipse 80% 80% at 20% 0%,rgba(246,220,140,.22),transparent 60%),linear-gradient(180deg,rgba(48,34,66,.97),rgba(18,12,28,.98));border-color:#e2b85a;
+ box-shadow:0 0 0 1px #000 inset,0 0 0 2px rgba(20,10,30,.6),0 6px 26px rgba(0,0,0,.55),0 0 24px rgba(230,180,80,.35)}
+#achBanner .abt{font-size:12px}#achBanner .abr{color:#e6dcf4}
+#qBan .qbt{font-size:12px}#jumpBtn small{font-size:12px}
+#gpToast{background:linear-gradient(180deg,rgba(40,28,58,.96),rgba(16,10,24,.96));border-color:#d4a84a;color:#fff3dc}
+.aent{background:radial-gradient(ellipse 90% 60% at 50% 0%,rgba(140,90,220,.14),transparent 70%),linear-gradient(180deg,rgba(40,30,52,.95),rgba(18,12,26,.97));border-color:rgba(201,162,74,.45)}
+.aent.done{border-color:#e2b85a;box-shadow:0 0 14px rgba(230,180,80,.28),inset 0 1px 0 rgba(255,230,170,.16)}
+.aent .aic{background:rgba(16,10,24,.85);border-color:rgba(200,180,230,.35);color:#a898c4}.aent .ad{color:#e6dcf4}.aent .apn{color:#cbbbe6}
+.aent .arw canvas{background:radial-gradient(circle at 50% 38%,#5a3c8c,#24163a 70%,#0f0a16);border-color:rgba(226,184,90,.6)}
+.aent .apb i{background:linear-gradient(90deg,#9b6bff,#d8b8ff)}.aent.done .apb i{background:linear-gradient(90deg,#d4a84a,#fff3c8)}
+.chipsrow button{color:#e6dcf4;background:linear-gradient(180deg,rgba(40,28,54,.92),rgba(18,12,26,.95));border-color:rgba(201,162,74,.4);transition:background .2s,border-color .2s}
+.chipsrow button.on{background:linear-gradient(180deg,#c8344e,#6a0c22);border-color:#f6dc8c;color:#fff}
+.keytab td{background:linear-gradient(180deg,rgba(40,30,52,.9),rgba(22,15,30,.92));border-top:1px solid rgba(201,162,74,.25);border-bottom:1px solid rgba(0,0,0,.5)}
+.keytab td:last-child{color:#ddd0ee}.keynote{color:#ddd0ee}
+.ahead{color:#f0d48a;border-bottom:1px solid rgba(201,162,74,.3);padding-bottom:3px}
+/* button states */
+.btn:not(:disabled):active,.btn.pressed{transform:scale(.96) translateY(1px);filter:brightness(1.2);box-shadow:0 0 0 1px #1a0e02 inset,inset 0 2px 6px rgba(0,0,0,.5),0 1px 0 #3a2608,0 3px 8px rgba(0,0,0,.5)}
+.tabs button:active,.chipsrow button:active,.buy:not(:disabled):active,.iconbtn:active{transform:scale(.95);filter:brightness(1.2)}
+.buy:disabled{filter:grayscale(.7);cursor:not-allowed}
+/* keyboard / gamepad focus rings (gold + violet halo), never on mouse/touch */
+button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visible{outline:3px solid #f6dc8c;outline-offset:3px;box-shadow:0 0 0 7px rgba(150,100,255,.35),0 0 22px rgba(246,220,140,.5)}
+.gpf{outline-color:#f6dc8c!important;box-shadow:0 0 0 7px rgba(150,100,255,.38),0 0 26px rgba(246,220,140,.65)!important}
+/* screen transitions: fade + slight rise when a menu opens (transform-free on the screen box itself so layout/rects never move) */
+:where(.screen.on>*){animation:v38in .26s var(--ease) both}
+:where(.screen.on>:nth-child(2)){animation-delay:.03s}:where(.screen.on>:nth-child(3)){animation-delay:.06s}:where(.screen.on>:nth-child(n+4)){animation-delay:.09s}
+
+@keyframes v38in{from{opacity:0}to{opacity:1}}
+@keyframes v38pop{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){:where(.screen.on>*),#cfm .cfb{animation:none!important}}
+/* readability floor: small labels/badges >=12px */
+.card .tag,.ccard .role,.ccard .chips i,.ccard .lvb,.rchips i,.racepill span,.aent .apn,.audnote,.dlwin .dlnote,.eqst,.branch .bn,.sw{font-size:12px}
+.pc kbd.kh,.pc .btn[data-kh]::before,.pc .btn.small[data-kh]::before,.gpg,#qTrack .qmore{font-size:12px}
+/* remaining neutral surfaces -> painted style */
+.racepill{background:radial-gradient(ellipse 80% 70% at 50% 0%,rgba(190,150,255,.22),transparent 70%),linear-gradient(180deg,rgba(58,40,82,.96),rgba(22,14,34,.97));border-color:rgba(212,168,74,.8);color:#fff6e4}
+#gearNew .gearbox{background:radial-gradient(ellipse 90% 50% at 50% 0%,rgba(160,110,240,.24),transparent 70%),linear-gradient(180deg,#3a2a52 0%,#22163a 55%,#100a18 100%)}
+.gearbox ul,#choices .card .ds{color:#ece4f8}
+.wprev canvas,.wsw canvas{background:radial-gradient(circle at 50% 38%,#6a4a9c,#2a1a44 70%,#0f0a16)}
+.wprev{background:linear-gradient(180deg,rgba(16,10,24,.97) 80%,rgba(16,10,24,0))}
+.wprev .wname,.wsw{color:#ece4f8}.wsw.lock{color:#b8a8d4}
+.wsw .df{background:linear-gradient(180deg,rgba(40,28,54,.92),rgba(18,12,26,.95))}
+.audbox{position:relative;background:radial-gradient(ellipse 90% 40% at 50% 0%,rgba(150,100,230,.20),transparent 70%),repeating-linear-gradient(115deg,rgba(255,255,255,.012) 0 2px,transparent 2px 7px),linear-gradient(180deg,rgba(42,32,54,.96),rgba(16,11,24,.97));
+ border-color:#d4a84a;box-shadow:0 0 0 1px #000 inset,0 0 0 5px rgba(212,168,74,.12) inset,inset 0 1px 0 rgba(255,230,170,.18),0 10px 28px rgba(0,0,0,.55)}
+.audrow{border-bottom-color:rgba(212,168,74,.22)}
+.audnote,.dlwin .dlnote,.rsex .lb,#raceList .rcard .rl{color:#ddd0ee}.achsum .asf{color:#cbbbe6}
+#gpBar{background:rgba(16,10,24,.9);color:#efe6fa;border-color:rgba(212,168,74,.5)}
+.keytab{color:#efe6fa}
+.pc #pauseBtn::after{font-size:12px}#dmgBtn .dc{font-size:12px}
+#dmgBtn{border-color:rgba(212,168,74,.6)!important}
+/* v38: 12px floor for the talent tier-lock labels and the select-stage race plate */
+.tlock{font-size:12px;letter-spacing:-.04em;white-space:nowrap}
+#selStage .plate span{font-size:12px}
+/* v38: hover = the existing .pc gold-glow hover (brightness + gold ring), unchanged - it already matches the new chrome */
 </style>
 </head>
 <body>
@@ -10584,7 +10689,7 @@ function goldHUD(x, y) { /* coin + count, then any running trader buffs */
   ctx.fillStyle = '#fff3b0'; ctx.beginPath(); ctx.arc(x + r - 1.8, y - 2.4, 1.6, 0, TAU); ctx.fill(); ctx.strokeStyle = '#5a3a08'; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(x + r, y, r, 0, TAU); ctx.stroke();
   ctx.font = '800 15px -apple-system,system-ui,sans-serif'; ctx.textAlign = 'left'; ctx.textBaseline = 'middle'; ctx.lineWidth = 3.5; ctx.strokeStyle = 'rgba(6,10,40,.9)'; const t = String(G.gold || 0);
   ctx.strokeText(t, x + 2 * r + 4, y); ctx.fillStyle = GOLD_COL; ctx.fillText(t, x + 2 * r + 4, y); let bx = x + 2 * r + 10 + ctx.measureText(t).width;
-  ctx.font = '800 11px -apple-system,system-ui,sans-serif'; ctx.lineWidth = 3;
+  ctx.font = '800 12px -apple-system,system-ui,sans-serif'; ctx.lineWidth = 3;
   for (const [k, ic, c] of [['bufE', '⚔', '#ffb04a'], ['bufH', '❖', '#7ad7ff'], ['bufA', '⛨', '#c8d0e0']]) if (G[k] > 0) { const s = ic + '\uFE0E' + Math.ceil(G[k]); ctx.strokeText(s, bx, y); ctx.fillStyle = c; ctx.fillText(s, bx, y); bx += ctx.measureText(s).width + 6; }
   ctx.restore(); }
 /* ================= DAY / NIGHT =================
@@ -10646,6 +10751,9 @@ function buildVignette() {
   gr.addColorStop(0, 'rgba(0,0,0,0)'); gr.addColorStop(0.55, 'rgba(6,3,14,0.28)'); gr.addColorStop(1, 'rgba(4,1,10,0.82)'); g.fillStyle = gr; g.fillRect(0, 0, w, h);
   const sg = g.createLinearGradient(0, 0, w * 0.8, h); sg.addColorStop(0, 'rgba(255,222,150,.13)'); sg.addColorStop(0.45, 'rgba(255,222,150,0)'); sg.addColorStop(1, 'rgba(36,18,70,.1)'); g.fillStyle = sg; g.fillRect(0, 0, w, h); vignette = c; // v13: soft key-light grade baked in (no extra full-screen pass)
 }
+function gild38(x, y, w, h, r, a) { /* v38: painted gilt frame (dark keyline, gold line, inner highlight) */ ctx.save(); ctx.globalAlpha *= (a == null ? 1 : a); rr(x - 1.5, y - 1.5, w + 3, h + 3, r + 1.5); ctx.lineWidth = 2; ctx.strokeStyle = 'rgba(0,0,0,.85)'; ctx.stroke();
+  const g = ctx.createLinearGradient(0, y, 0, y + h); g.addColorStop(0, '#fff0b8'); g.addColorStop(0.45, '#d9ad52'); g.addColorStop(1, '#7a5418'); rr(x, y, w, h, r); ctx.lineWidth = 1.6; ctx.strokeStyle = g; ctx.stroke(); ctx.restore(); }
+function stud38(x, y, s, col) { ctx.save(); ctx.translate(x, y); ctx.rotate(Math.PI / 4); ctx.fillStyle = '#1a0e02'; ctx.fillRect(-s - 1.2, -s - 1.2, 2 * s + 2.4, 2 * s + 2.4); const g = ctx.createLinearGradient(-s, -s, s, s); g.addColorStop(0, '#fff3c8'); g.addColorStop(0.5, col || '#e2b85a'); g.addColorStop(1, '#6a4410'); ctx.fillStyle = g; ctx.fillRect(-s, -s, 2 * s, 2 * s); ctx.restore(); }
 function rr(x, y, w, h, r) { ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); }
 function hash2(a, b) { let h = Math.imul(a, 374761393) + Math.imul(b, 668265263) | 0; h = Math.imul(h ^ (h >>> 13), 1274126177); return (h ^ (h >>> 16)) >>> 0; }
 const PROP_KEYS = ['grave', 'crystal', 'mushrooms', 'grave', 'mushrooms', 'grave']; // v18: trees/rocks/pillars are solid obstacles (OB) now
@@ -10759,7 +10867,7 @@ function drawFire29(o, img, S, top, fr) { const cy = o.y - 4 * o.s; // logs + st
   else { ctx.fillStyle = '#3a3438'; ctx.beginPath(); ctx.ellipse(o.x, cy + 1, 9 * o.s, 3.6 * o.s, 0, 0, TAU); ctx.fill(); ctx.fillStyle = '#5c5458'; ctx.beginPath(); ctx.ellipse(o.x - 2, cy, 5 * o.s, 2 * o.s, 0, 0, TAU); ctx.fill(); // cold ash
     for (let q = 0; q < 3; q++) { const t = gtime * 1.7 + q * 2.1, a = 0.45 + 0.45 * Math.sin(t * 2.3); ctx.globalAlpha = Math.max(0, a); ctx.fillStyle = q === 1 ? '#ffae4a' : '#ff5a2a'; ctx.fillRect(o.x - 6 + q * 5, cy - 1 + (q & 1), 2, 2); } ctx.globalAlpha = 1; // dying embers
     for (let q = 0; q < 2; q++) { const p = (gtime * 0.35 + q * 0.5) % 1; ctx.globalAlpha = 0.35 * (1 - p); ctx.fillStyle = '#8a8a92'; ctx.beginPath(); ctx.arc(o.x + Math.sin(p * 5 + q) * 4, cy - 6 - p * 26, 3 + p * 5, 0, TAU); ctx.fill(); } ctx.globalAlpha = 1; // thin smoke
-    if ((P.x - o.x) ** 2 + (P.y - o.y) ** 2 < 170 * 170) { ctx.font = 'bold 10px system-ui, sans-serif'; ctx.textAlign = 'center'; ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(0,0,0,0.85)'; ctx.strokeText('Burned out', o.x, top + S * 0.3); ctx.fillStyle = '#c9b8a8'; ctx.fillText('Burned out', o.x, top + S * 0.3); } }
+    if ((P.x - o.x) ** 2 + (P.y - o.y) ** 2 < 170 * 170) { ctx.font = 'bold 12px system-ui, sans-serif'; ctx.textAlign = 'center'; ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(0,0,0,0.85)'; ctx.strokeText('Burned out', o.x, top + S * 0.3); ctx.fillStyle = '#c9b8a8'; ctx.fillText('Burned out', o.x, top + S * 0.3); } }
   ctx.imageSmoothingEnabled = true; }
 function drawOb(o) { const T = OBT[o.k], img = (PXA.on && SPR.prop['px_' + o.k]) || (SPR.prop[T.spr || o.k] || w28Lazy(o.k)); if (!img) return; ctx.imageSmoothingEnabled = !img.px; const S = T.S * o.s, top = o.y - T.f * S / 64 - S / 2;
   if (o.k === 'campfire') { const fr = w29FireOf(o); if (fr < 1) { drawFire29(o, img, S, top, fr); return; } }
@@ -11882,14 +11990,16 @@ function drawHUD() {
   ctx.textBaseline = 'middle';
   // v11: thick XP bar with level + percent labels
   const xpf = clamp(G.xp / G.xpNext, 0, 1);
-  ctx.fillStyle = 'rgba(8,3,16,.85)'; rr(xb, t + 6, wb, 18, 9); ctx.fill(); ctx.strokeStyle = 'rgba(242,201,76,.7)'; ctx.lineWidth = 1.5; ctx.stroke();
-  const xg = ctx.createLinearGradient(xb, 0, xb + wb, 0); xg.addColorStop(0, '#3a7cff'); xg.addColorStop(1, '#8ff0ff');
-  const fw = (wb - 4) * xpf; if (fw > 2) { ctx.fillStyle = xg; rr(xb + 2, t + 8, fw, 14, 7); ctx.fill(); ctx.fillStyle = 'rgba(255,255,255,.28)'; rr(xb + 4, t + 9, Math.max(0, fw - 4), 4, 2); ctx.fill(); }
-  ctx.font = '900 12px -apple-system,system-ui,sans-serif'; ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(6,10,40,.9)'; ctx.fillStyle = '#fff';
+  ctx.fillStyle = 'rgba(10,6,16,.88)'; rr(xb, t + 6, wb, 18, 9); ctx.fill(); gild38(xb, t + 6, wb, 18, 9);
+  const xg = ctx.createLinearGradient(xb, 0, xb + wb, 0); xg.addColorStop(0, '#6a3cd8'); xg.addColorStop(0.6, '#b07cff'); xg.addColorStop(1, '#ffe39a');
+  const fw = (wb - 4) * xpf; if (fw > 2) { ctx.fillStyle = xg; rr(xb + 2, t + 8, fw, 14, 7); ctx.fill(); ctx.fillStyle = 'rgba(255,255,255,.28)'; rr(xb + 4, t + 9, Math.max(0, fw - 4), 4, 2); ctx.fill(); if (fw > 8) { ctx.fillStyle = 'rgba(255,240,200,.85)'; ctx.fillRect(xb + 1 + fw, t + 9, 1.5, 12); } }
+  stud38(xb, t + 15, 3.2); stud38(xb + wb, t + 15, 3.2);
+  ctx.font = '900 12px -apple-system,system-ui,sans-serif'; ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(10,4,20,.92)'; ctx.fillStyle = '#fff';
   ctx.textAlign = 'left'; ctx.strokeText('LV ' + G.level, xb + 8, t + 15.5); ctx.fillText('LV ' + G.level, xb + 8, t + 15.5);
   ctx.textAlign = 'right'; const xpt = 'XP ' + Math.floor(xpf * 100) + '%'; ctx.strokeText(xpt, xb + wb - 8, t + 15.5); ctx.fillText(xpt, xb + wb - 8, t + 15.5);
   ctx.textAlign = 'center'; ctx.font = '700 30px "Palatino Linotype",Palatino,Georgia,serif'; ctx.lineWidth = 4; ctx.strokeStyle = 'rgba(0,0,0,.7)';
-  const ts = fmtTime(G.t); ctx.strokeText(ts, W / 2, t + 50); ctx.fillStyle = '#f4ecff'; ctx.fillText(ts, W / 2, t + 50);
+  const ts = fmtTime(G.t); { const pw = Math.max(92, ctx.measureText(ts).width + 30); ctx.save(); const pg = ctx.createLinearGradient(0, t + 34, 0, t + 66); pg.addColorStop(0, 'rgba(46,32,66,.78)'); pg.addColorStop(1, 'rgba(12,8,18,.82)'); ctx.fillStyle = pg; rr(W / 2 - pw / 2, t + 34, pw, 32, 10); ctx.fill(); gild38(W / 2 - pw / 2, t + 34, pw, 32, 10, 0.85); ctx.restore(); ctx.lineWidth = 4; ctx.strokeStyle = 'rgba(0,0,0,.7)'; }
+  ctx.strokeText(ts, W / 2, t + 50); ctx.fillStyle = '#f4ecff'; ctx.fillText(ts, W / 2, t + 50);
   drawSunMoon(W / 2 + 62, t + 49, G.t);
   /* v20: Vampire-Survivors-style loadout (skills row, passives row) top-left; kills/shards/danger stack under it */
   const side = xb - x0 >= 200, LS = PC ? 28 : 20, LG = PC ? 4 : 2, lb = drawLoadout(x0, side ? t + 6 : t + 28, LS, LG);
@@ -11905,8 +12015,10 @@ function drawHUD() {
   { const qt = QT_EL || (QT_EL = $('qTrack')), tp = Math.round(Math.max(HUD_BOT, G.boss && !G.boss.dead ? 128 : 0)) + 'px'; if (qt && qt._top !== tp) { qt._top = tp; qt.style.top = 'calc(env(safe-area-inset-top,0px) + ' + tp + ')'; } } /* quest tracker sits under the loadout */
   if (G.boss && !G.boss.dead) { const bw = Math.min(300, W * 0.56), bx = W / 2 - bw / 2 + 18, by = t + 106, bh = 16, f = clamp(G.boss.hp / G.boss.maxHp, 0, 1);
     ctx.textAlign = 'center'; ctx.font = '800 14px "Palatino Linotype",Palatino,Georgia,serif'; ctx.lineWidth = 3.5; ctx.strokeStyle = 'rgba(0,0,0,.8)'; ctx.fillStyle = '#ffc3a0'; ctx.strokeText(ETYPES[G.boss.type].name, bx + bw / 2, by - 10); ctx.fillText(ETYPES[G.boss.type].name, bx + bw / 2, by - 10);
-    ctx.fillStyle = 'rgba(0,0,0,.78)'; rr(bx, by, bw, bh, 8); ctx.fill(); ctx.strokeStyle = 'rgba(255,200,140,.8)'; ctx.lineWidth = 1.5; ctx.stroke();
-    const bg = ctx.createLinearGradient(0, by, 0, by + bh); bg.addColorStop(0, '#ff8a5c'); bg.addColorStop(1, '#c4281c'); ctx.fillStyle = bg; if (f > 0.005) { rr(bx + 2, by + 2, Math.max(6, (bw - 4) * f), bh - 4, 6); ctx.fill(); }
+    ctx.fillStyle = 'rgba(14,4,6,.86)'; rr(bx, by, bw, bh, 8); ctx.fill(); gild38(bx, by, bw, bh, 8);
+    const bg = ctx.createLinearGradient(0, by, 0, by + bh); bg.addColorStop(0, '#ff9a6a'); bg.addColorStop(0.5, '#d8362a'); bg.addColorStop(1, '#7a0e12'); ctx.fillStyle = bg; if (f > 0.005) { rr(bx + 2, by + 2, Math.max(6, (bw - 4) * f), bh - 4, 6); ctx.fill(); ctx.fillStyle = 'rgba(255,230,200,.3)'; rr(bx + 4, by + 3, Math.max(2, (bw - 4) * f - 4), 3, 1.5); ctx.fill(); }
+    for (let q = 1; q < 4; q++) { ctx.fillStyle = 'rgba(0,0,0,.35)'; ctx.fillRect(bx + bw * q / 4 - 0.5, by + 3, 1, bh - 6); }
+    stud38(bx - 1, by + bh / 2, 4.5, '#e04a3a'); stud38(bx + bw + 1, by + bh / 2, 4.5, '#e04a3a');
     ctx.font = '900 12px -apple-system,system-ui,sans-serif'; ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(40,0,0,.9)'; ctx.fillStyle = '#fff'; const bt = Math.ceil(f * 100) + '%'; ctx.strokeText(bt, bx + bw / 2, by + bh / 2 + 0.5); ctx.fillText(bt, bx + bw / 2, by + bh / 2 + 0.5); }
   drawQuestHUD(); npcHUD(); w28HUD(); v30HUD(); ultHUD();
   drawMsgs(t);
@@ -11933,7 +12045,7 @@ function drawMsgs(t) { const ph = W < 700 || !PC, big = !ph && W >= 1100 && H >=
     ctx.font = `700 ${fb}px ${FF}`; const BL = bn.b ? msgWrap(bn.b, mwB - 28, 2) : [];
     const h = 18 + fA + (BL.length ? 8 + BL.length * (fb + 5) : 0) + 4, bw = Math.min(mwB, Math.max(ctx.measureText(BL[0] || '').width, (ctx.font = `900 ${fA}px ${FF}`, ctx.measureText(A).width)) + 44);
     y = Math.max(y, Math.min(H * 0.24, lim - h - 60));
-    ctx.globalAlpha = a; ctx.fillStyle = 'rgba(10,6,18,.88)'; rr(W / 2 - bw / 2, y, bw, h, 14); ctx.fill(); ctx.strokeStyle = msgLite(bn.col, 0.1); ctx.lineWidth = 2.5; ctx.stroke();
+    ctx.globalAlpha = a; { const mg = ctx.createLinearGradient(0, y, 0, y + h); mg.addColorStop(0, 'rgba(40,28,58,.92)'); mg.addColorStop(1, 'rgba(10,6,16,.92)'); ctx.fillStyle = mg; } rr(W / 2 - bw / 2, y, bw, h, 14); ctx.fill(); ctx.save(); ctx.lineWidth = 1; ctx.strokeStyle = 'rgba(246,220,140,.28)'; { const x0 = W / 2 - bw / 2 + 4, y0 = y + 4, w0 = bw - 8, h0 = h - 8, r0 = 10; ctx.beginPath(); ctx.moveTo(x0 + r0, y0); ctx.arcTo(x0 + w0, y0, x0 + w0, y0 + h0, r0); ctx.arcTo(x0 + w0, y0 + h0, x0, y0 + h0, r0); ctx.arcTo(x0, y0 + h0, x0, y0, r0); ctx.arcTo(x0, y0, x0 + w0, y0, r0); ctx.closePath(); ctx.stroke(); } ctx.restore(); { const x0 = W / 2 - bw / 2, y0 = y, w0 = bw, h0 = h, r0 = 14; ctx.beginPath(); ctx.moveTo(x0 + r0, y0); ctx.arcTo(x0 + w0, y0, x0 + w0, y0 + h0, r0); ctx.arcTo(x0 + w0, y0 + h0, x0, y0 + h0, r0); ctx.arcTo(x0, y0 + h0, x0, y0, r0); ctx.arcTo(x0, y0, x0 + w0, y0, r0); ctx.closePath(); } ctx.strokeStyle = msgLite(bn.col, 0.1); ctx.lineWidth = 2.5; ctx.stroke();
     ctx.fillStyle = msgLite(bn.col, 0.1); rr(W / 2 - bw / 2 + 10, y + 3, bw - 20, 3, 1.5); ctx.fill();
     ctx.strokeStyle = 'rgba(0,0,0,.9)'; ctx.lineWidth = 4; ctx.font = `900 ${fA}px ${FF}`; let yy = y + 12 + fA; ctx.strokeText(A, W / 2, yy); ctx.fillStyle = msgLite(bn.col, 0.32); ctx.fillText(A, W / 2, yy);
     ctx.font = `700 ${fb}px ${FF}`; ctx.lineWidth = 3; yy += 8; for (const l of BL) { yy += fb + 5; ctx.strokeText(l, W / 2, yy - 4); ctx.fillStyle = '#ffffff'; ctx.fillText(l, W / 2, yy - 4); }
@@ -11942,7 +12054,7 @@ function drawMsgs(t) { const ph = W < 700 || !PC, big = !ph && W >= 1100 && H >=
   for (const to of toasts) { if (!to.on) break; ctx.font = `800 ${fa}px ${FF}`; const TL = msgWrap(to.text, mwT - 24, 2); ctx.font = `700 ${fb}px ${FF}`; const SL = to.sub ? msgWrap(to.sub, mwT - 24, 1) : [];
     const h = 12 + TL.length * (fa + 4) + SL.length * (fb + 5) + 2; if (fit >= maxV || (fit > 0 && y + h > lim)) break; fit++;
     let w = 0; ctx.font = `800 ${fa}px ${FF}`; for (const l of TL) w = Math.max(w, ctx.measureText(l).width); ctx.font = `700 ${fb}px ${FF}`; for (const l of SL) w = Math.max(w, ctx.measureText(l).width); w = Math.min(mwT, w + 30);
-    ctx.globalAlpha = fade(to); ctx.fillStyle = 'rgba(10,6,18,.84)'; rr(W / 2 - w / 2, y, w, h, 12); ctx.fill(); ctx.strokeStyle = hexA(/^#[0-9a-f]{6}$/i.test(to.col) ? to.col : '#ffffff', 0.75); ctx.lineWidth = 1.5; ctx.stroke();
+    ctx.globalAlpha = fade(to); { const mg = ctx.createLinearGradient(0, y, 0, y + h); mg.addColorStop(0, 'rgba(36,26,52,.9)'); mg.addColorStop(1, 'rgba(10,6,16,.9)'); ctx.fillStyle = mg; } rr(W / 2 - w / 2, y, w, h, 12); ctx.fill(); ctx.strokeStyle = hexA(/^#[0-9a-f]{6}$/i.test(to.col) ? to.col : '#ffffff', 0.75); ctx.lineWidth = 1.5; ctx.stroke();
     ctx.strokeStyle = 'rgba(0,0,0,.9)'; let yy = y + 6; ctx.font = `800 ${fa}px ${FF}`; ctx.lineWidth = 3.5; ctx.fillStyle = msgLite(to.col, 0.3);
     for (const l of TL) { yy += fa + 4; ctx.strokeText(l, W / 2, yy - 4); ctx.fillText(l, W / 2, yy - 4); }
     ctx.font = `700 ${fb}px ${FF}`; ctx.lineWidth = 3; ctx.fillStyle = '#ffffff'; for (const l of SL) { yy += fb + 5; ctx.strokeText(l, W / 2, yy - 4); ctx.fillText(l, W / 2, yy - 4); }
@@ -11962,7 +12074,7 @@ function loTile(x, y, S, ic, lv, o) { /* o: { col, empty, evo, max, endless } */
   rr(x, y, S, S, S * 0.22); ctx.lineWidth = o.evo ? 2.4 : 1.2; ctx.strokeStyle = o.evo ? '#ffd24a' : o.max ? 'rgba(242,201,76,.85)' : 'rgba(220,200,255,.45)'; ctx.stroke();
   if (o.evo) { ctx.lineWidth = 1; ctx.strokeStyle = 'rgba(255,240,170,.6)'; rr(x + 2.5, y + 2.5, S - 5, S - 5, S * 0.16); ctx.stroke(); }
   ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = '#fff'; ctx.font = `600 ${Math.round(S * 0.58)}px -apple-system,system-ui,sans-serif`; ctx.fillText(ic + '\uFE0E', x + S / 2 - S * 0.06, y + S / 2 - S * 0.04);
-  const bt = String(lv), bf = Math.max(9, Math.round(S * 0.44)); ctx.font = `900 ${bf}px -apple-system,system-ui,sans-serif`; const bw = Math.max(bf * 0.95, ctx.measureText(bt).width + 4), bx = x + S - bw + 1, by = y + S - bf + 1;
+  const bt = String(lv), bf = Math.max(12, Math.round(S * 0.44)); ctx.font = `900 ${bf}px -apple-system,system-ui,sans-serif`; const bw = Math.max(bf * 0.95, ctx.measureText(bt).width + 4), bx = x + S - bw + 1, by = y + S - bf + 1;
   rr(bx, by, bw, bf, bf / 2); ctx.fillStyle = o.endless ? '#ffd24a' : '#1a0a30'; ctx.fill(); ctx.lineWidth = 1; ctx.strokeStyle = o.max || o.endless ? '#ffd24a' : 'rgba(242,201,76,.6)'; ctx.stroke();
   ctx.fillStyle = o.endless ? '#2a1400' : o.max ? '#ffd24a' : '#fff'; ctx.fillText(bt, bx + bw / 2, by + bf / 2 + 0.5);
   if (o.evo) { ctx.font = `900 ${bf}px -apple-system,system-ui,sans-serif`; ctx.lineWidth = 2.5; ctx.strokeStyle = '#1a0a30'; ctx.strokeText('★', x + bf * 0.45, y + bf * 0.45); ctx.fillStyle = '#ffd24a'; ctx.fillText('★', x + bf * 0.45, y + bf * 0.45); } }
@@ -11999,12 +12111,12 @@ function drawGauge() {
   if (hp > 0.002) { ctx.strokeStyle = hp < 0.3 ? (Math.sin(gtime * 10) > 0 ? '#ff5a4a' : '#ffb03a') : '#5be05a'; ctx.beginPath(); ctx.arc(cx, cy, R, a0, a0 + span * hp); ctx.stroke();
     ctx.lineWidth = 2.5; ctx.strokeStyle = 'rgba(255,255,255,.45)'; ctx.beginPath(); ctx.arc(cx, cy, R - 2.5, a0, a0 + span * hp); ctx.stroke(); }
   ctx.lineWidth = 8; ctx.strokeStyle = '#1a1000'; ctx.beginPath(); ctx.arc(cx, cy, R - 13, a0 + 0.2, a0 + span - 0.2); ctx.stroke();
-  ctx.lineWidth = 5; ctx.strokeStyle = '#0c1a4a'; ctx.stroke();
-  if (xp > 0.002) { ctx.strokeStyle = '#5ac8ff'; ctx.beginPath(); ctx.arc(cx, cy, R - 13, a0 + 0.2, a0 + 0.2 + (span - 0.4) * xp); ctx.stroke(); }
+  ctx.lineWidth = 5; ctx.strokeStyle = '#1e0e36'; ctx.stroke();
+  if (xp > 0.002) { ctx.strokeStyle = '#b98cff'; ctx.beginPath(); ctx.arc(cx, cy, R - 13, a0 + 0.2, a0 + 0.2 + (span - 0.4) * xp); ctx.stroke(); }
   ctx.lineCap = 'butt';
-  const gr = ctx.createRadialGradient(cx - 5, cy - 6, 2, cx, cy, 21); gr.addColorStop(0, '#9fd4ff'); gr.addColorStop(0.6, '#2f62d0'); gr.addColorStop(1, '#163a8a');
+  const gr = ctx.createRadialGradient(cx - 5, cy - 6, 2, cx, cy, 21); gr.addColorStop(0, '#e6d0ff'); gr.addColorStop(0.55, '#7b4fd6'); gr.addColorStop(1, '#2a1650');
   ctx.fillStyle = gr; ctx.beginPath(); ctx.arc(cx, cy, 20, 0, TAU); ctx.fill(); ctx.lineWidth = 2.5; ctx.strokeStyle = '#f2c94c'; ctx.stroke();
-  ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = '#fff'; ctx.strokeStyle = '#0a1a4a'; ctx.lineWidth = 3;
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = '#fff'; ctx.strokeStyle = '#1a0a30'; ctx.lineWidth = 3;
   ctx.font = '900 12px -apple-system,system-ui,sans-serif'; ctx.strokeText('LV', cx, cy - 8); ctx.fillText('LV', cx, cy - 8);
   ctx.font = '900 17px "Trebuchet MS",-apple-system,system-ui,sans-serif'; ctx.strokeText(G.level, cx, cy + 6); ctx.fillText(G.level, cx, cy + 6);
   const ht = Math.ceil(P.hp) + '/' + Math.round(P.maxHp); ctx.textAlign = 'right'; ctx.font = '900 16px "Trebuchet MS",-apple-system,system-ui,sans-serif'; ctx.lineWidth = 3.5;
@@ -12018,7 +12130,7 @@ function drawCooldowns() {
   for (let i = 0; i < n; i++) {
     const w = ws[i], d = WDEF[w.id], x = x0 + i * gap, cont = !WFIRE[w.id];
     const f = cont ? 1 : (w.wait || !w.cdMax) ? 1 : clamp(1 - w.t / w.cdMax, 0, 1), ready = f >= 1;
-    ctx.fillStyle = 'rgba(8,3,16,.72)'; ctx.beginPath(); ctx.arc(x, y, R, 0, TAU); ctx.fill();
+    ctx.fillStyle = 'rgba(8,3,16,.72)'; ctx.beginPath(); ctx.arc(x, y, R, 0, TAU); ctx.fill(); ctx.lineWidth = 1.2; ctx.strokeStyle = 'rgba(226,184,90,.55)'; ctx.beginPath(); ctx.arc(x, y, R + 2.6, 0, TAU); ctx.stroke();
     ctx.lineWidth = 4; ctx.strokeStyle = 'rgba(190,140,255,.22)'; ctx.beginPath(); ctx.arc(x, y, R, 0, TAU); ctx.stroke();
     ctx.strokeStyle = cont ? 'rgba(111,243,208,.75)' : ready ? '#ffd24a' : '#b77cff';
     ctx.beginPath(); ctx.arc(x, y, R, -Math.PI / 2, -Math.PI / 2 + TAU * f); ctx.stroke();

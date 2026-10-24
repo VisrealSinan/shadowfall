@@ -1,20 +1,19 @@
 {
- "version": "37",
+ "version": "38",
  "date": "2026-10-24",
  "minLauncher": "2.0.0",
  "notes": [
-  "Every zone now has exactly 5 bosses. Heartfall Belfry gets its 5th boss: Nocturna, the Moonveil Moth.",
-  "Nocturna is a huge shadow moth with glowing yellow eyes, feathery antennae and four stained-glass wings. Her upper wings have heart-shaped eyespots and her lower wings have crescent moons.",
-  "Wing Gust: she spreads her wings and blows a fan of wind lanes at you. The lanes are marked before they hit.",
-  "Heart-Moon Eclipse: a glowing heart-moon falls where you stand. Get out of the marked circle before it lands, then dodge the ring of moonlight it sends out.",
-  "Lullaby: a music-box tune plays while she sends out slow rings of moonlight. Each ring is offset from the last, so look for the gaps.",
-  "Moonveil: she breaks apart into a swarm of moths and comes back together near you. Where she will land is marked first, and she sends out a ring of moonlight when she does.",
-  "Below half health her wings flare with moonlight. She attacks more often, her attacks get bigger, and moondust drops in small marked circles around you.",
-  "When she dies, her body fades into the dark and she breaks apart into a cloud of small glowing moths that fly away.",
-  "She has her own sounds: fluttering wings, a music-box lullaby and the rising swell of the eclipse.",
-  "Heartfall Belfry bosses: the Grand Clockwarden, Heartmaw, the Stainglass Seraph, the Keybearer Shade and Nocturna, the Moonveil Moth. She is part of the Belfry's shuffled rotation, so you meet all 5 before any boss repeats.",
-  "Nocturna is as tough as the other Belfry bosses.",
-  "No class, gear or save data has changed."
+  "The whole game's UI has a new polished look in the dark painted fantasy style, from the title screen to the in-run HUD.",
+  "Every screen keeps its own theme. The class-coloured talent screens, the vendor menus (Pell, Lady Vex, Brunhild, the Stranger), the race homelands, the town and tree-themed level-up cards, and Pip's jester cards all keep their own colours and art. The new polish is added on top of each theme.",
+  "Plain menus now use dark painted panels with a gold and violet trim: Hero Hall, Armory, gear, Stash, Wardrobe, settings, controls, achievements, How to Play, the Codex and the pause, death and victory screens.",
+  "Buttons have a painted leather look, glow when you hover, press down when tapped, and look greyed out when disabled.",
+  "Screen titles have a gold scroll-work underline. Pop-ups, confirm boxes, achievement banners and toasts use matching painted frames and fade in smoothly.",
+  "When you play with a gamepad or keyboard, the selected button has a clear gold focus ring.",
+  "In a run, the XP bar has a gilded frame with a violet-to-gold fill. The timer sits on a gold plaque. The boss health bar has a gilded crimson frame with quarter marks. Skill cooldowns have gold rims. On-screen banners now use painted panels.",
+  "All text is at least 12px, including talent tier locks, loadout level badges and buff timers. Every button is at least 44px for easy tapping.",
+  "Every screen fits or scrolls on phones (portrait and landscape) and on PC.",
+  "If your device is set to reduce motion, the screen fade-ins are turned off.",
+  "No gameplay, balance, class, gear or save data has changed."
  ],
  "files": [
   {
@@ -39,8 +38,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "6cb6d54ff1485d7616e5e535ce8b7cdc269812247f93a40735bbf8376a384e80",
-   "size": 1940547
+   "sha256": "5bbe49579a6b921dcac1fbdc78574d4d0826ce796a9749b81825bb0d7476298d",
+   "size": 1955588
   },
   {
    "name": "manifest.webmanifest",
@@ -49,7 +48,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "2241b6168d693954eb0b5e894570c9fb27304b6713545e4ad66ad17cfd6399ab",
+   "sha256": "50cb9aecaa5f176f879f26c618e047c2004c5342b4e8b9fe3c0f0591d31c5e5d",
    "size": 1466
   }
  ]
