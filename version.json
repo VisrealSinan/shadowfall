@@ -1,18 +1,26 @@
 {
- "version": "35",
+ "version": "36",
  "date": "2026-10-24",
  "minLauncher": "2.0.0",
  "notes": [
-  "New class: the Gunslinger. A dust-caked drifter with a fast revolver in each hand. Unlock him in the Hero Hall for 1200 Shards.",
-  "His main attack is Twin Six-Shooters. Both pistols fire at the nearest enemy in quick alternating shots (left, right, left), and every 6th shot is a guaranteed critical hit.",
-  "His six skills: Fan the Hammer fires six shots in a tight fan. Ricochet Shot bounces from enemy to enemy and hits harder with each bounce. Smoke Roll drops a smoke bomb and dives you away from enemies, never through them, and you can't be hurt while you roll. Deadeye marks the 3 toughest enemies and shoots each one. Trick Shot flips a coin and splits your bullet into critical ricochets. Explosive Rounds makes your next shots explode on impact.",
-  "His signature move, High Noon, marks up to 12 enemies on screen and puts one perfect critical shot into each. Enemies that were already marked take double. It needs at least 3 enemies nearby to fire.",
-  "His ultimate, Dead Man's Hand, unlocks when all six skills are maxed. He spins and empties both revolvers into every enemy on screen, then throws four flaming cards. It does not shake the screen.",
-  "His class meter is Grit. Hits and kills fill it, and kills on marked enemies fill it 3 times as fast. At 100 Grit he goes on a 5-second Hot Streak: both pistols fire much faster, every shot is doubled and he deals 15% more damage. Marked enemies take 25% more damage from him.",
-  "Every Gunslinger skill can evolve: Peacemakers, Hellfire Fan, Bank Job, Ghost of the Plains, Dead Aim, Silver Dollar Show, Nitro Express, and the signature evolution, Sundown.",
-  "He has three talent trees with a dusty saloon talent scene: Quickdraw (pistols and Hot Streak, capstone Gunsmoke Frenzy), Deadeye (marks and crits, capstone Dead to Rights) and Desperado (ricochets, smoke and dynamite, capstone Wild Bunch). His level-up cards match those trees.",
-  "He has his own gunshot and ricochet sounds, five armour sets, five achievements, and painted looks for all 8 races, with male and female versions.",
-  "No other class, enemy or save data has changed."
+  "Every zone now has its own town. When the portal opens you go to the town that belongs to the zone you are fighting in. Vendors stay in the same spots and work the same way.",
+  "Gloomwood → Mosshollow Camp: a mossy forest camp with tree huts, a rope bridge, hanging lanterns, glowing mushrooms, fireflies and a warm campfire.",
+  "Ashen Citadel → Cinderkeep Bastion: a torchlit fortress yard with stone walls, a gatehouse, braziers, banners, forge glow and drifting embers.",
+  "Heartfall Belfry → Vesper Clocktown: a stained-glass rosette floating over the dark, with a clock tower, a bell, a key monument and drifting glass motes.",
+  "Each town has themed stalls and signs for all four vendors, its own ground, lighting and particles, its own ambient sounds (crickets and owls, forge clangs and crackling fire, chimes and ticking clocks) and its own town music.",
+  "Vendor menus have been redesigned around each vendor. Pell, Lady Vex, Brunhild and the Stranger each get their own frame, colours, portrait, greeting and flavour lines, with the town's sign and name at the top. Menus fit on phone and PC.",
+  "New zone: Heartfall Belfry. Stained-glass platforms float over the darkness under a heart-shaped moon, around a twilight belfry of bells, clocks and giant keys.",
+  "How to unlock it: survive 15:00 in a single run in the Ashen Citadel. The unlock is saved for good. Until then, map select shows a locked card that says \"Survive 15:00 in the Ashen Citadel to unlock\", and you get an alert the moment you unlock it.",
+  "The Belfry has its own monsters, the Hushborn: Hushlings, Hushmites, Skitterhush, Gloamwings, Knell Bombs, Gilded Sentinels, Bellshades, Heart Thieves, Hollow Brutes, Lanternwardens, Dusk Knights, Skitter Swarms, Chime Wisps and Twilight Wraiths. Its mini-boss is the Sentinel Prime. They sink into shadow when they die and release a glowing heart.",
+  "Each zone now has its own set of bosses, and each boss has its own attacks with warning zones, a rage phase below half health, and its own death.",
+  "Gloomwood: Mother of Shades, the Thorn Queen, the Hollow Stag King, the Rotwood Elder and the Mire Hag.",
+  "Ashen Citadel: the Molten Tyrant, the Ashen Warden, the Cursed Colossus, Forgemaster Ignar and the Brass Inquisitor.",
+  "Heartfall Belfry: the Grand Clockwarden, Heartmaw, the Stainglass Seraph and the Keybearer Shade.",
+  "Boss rotation: bosses come from a shuffled set for each zone. You meet every boss in that zone before any of them repeats, the same boss never appears twice in a row, and a new run never opens with the same boss as your last run on that map. From 20:00, two bosses come at once.",
+  "Bosses still get tougher the longer the run goes. Boss slams shake the screen only a little, and class abilities still never shake the screen.",
+  "The Belfry has its own original battle, night and boss music.",
+  "Fix: map achievements now show what they unlock instead of \"Reward: undefined\".",
+  "No class, gear or save data has changed."
  ],
  "files": [
   {
@@ -37,8 +45,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "6d49aea9283ea3e75dc57a0d56387117c5ff5fe59114f7d9a72d311df55521a3",
-   "size": 1789260
+   "sha256": "cac512733c0374d3b0844506167c9a6a70e07d6c9c5e9218f2d962d00879c33a",
+   "size": 1933838
   },
   {
    "name": "manifest.webmanifest",
@@ -47,7 +55,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "322bc1ef1654cb3bf3a3e0872577bb777eb03da02690d02134171e612cbef308",
+   "sha256": "9f6ca608e8f70ede56933a9df6b0b9e4a55986ef1e4cfa5d1047ce53da43e411",
    "size": 1466
   }
  ]
