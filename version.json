@@ -1,17 +1,18 @@
 {
- "version": "34",
+ "version": "35",
  "date": "2026-10-24",
  "minLauncher": "2.0.0",
  "notes": [
-  "Neural Maestro's Glitch Step blink is gone. It could teleport you straight into a crowd. In its place is Hologram Decoy, on the same button with about the same cooldown (5 seconds).",
-  "Hologram Decoy projects a glowing hologram copy of your hero just behind you. You stay exactly where you are. For 3.5 seconds, nearby enemies are drawn toward the decoy and attack it instead of you. Bosses ignore it.",
-  "The decoy can take 4 hits. When it breaks or runs out, it explodes in a neon blast that damages every nearby enemy and Glitches them. The blast scales with the skill's level and your damage bonuses.",
-  "Hologram Decoy upgrades: level 3 makes it last 1 second longer and take 2 more hits, level 5 gives it a bigger pull radius, and level 6 gives it a bigger explosion that hits 50% harder. Levels 2 and 4 add damage, and level 4 also lowers the cooldown.",
-  "The Lag Spike talent is now Persistent Projection. Each rank makes the decoy last 0.3 seconds longer and its blast hit 10% harder. Your existing ranks carry over.",
-  "The evolution is now Buffer Overflow. The decoy lasts 1 second longer and pulls enemies from farther away, and its explosion goes off a second time a beat later. No part of the Neural Maestro's kit teleports you anymore.",
-  "Soul Lure now also pulls in every experience gem on the map, not just treasure.",
-  "Class signature skills and ultimates no longer shake the screen. Their flashes and effects are unchanged. Signature skills affected: Paladin's Wrath of Dawn, Alchemist's Magnum Opus, Bard's Grand Finale, Blood Knight's Crimson Wave and Blood Moon, Chronomancer's Zero Hour, the Unraveler's Unravel, and the Druid's Tree Form Boulder. Ultimates affected: Rogue, Warlock, Ranger, Rift Dancer, Druid (all forms), Eclipse Paragon, Paladin, Engineer, Alchemist, Chronomancer and Unraveler. The new decoy explosion doesn't shake the screen either. Shake from taking big hits and from boss slams is unchanged.",
-  "Rogue, Ranger and Mage now deal 10% more damage with all of their skills and ultimates. Other classes are unchanged."
+  "New class: the Gunslinger. A dust-caked drifter with a fast revolver in each hand. Unlock him in the Hero Hall for 1200 Shards.",
+  "His main attack is Twin Six-Shooters. Both pistols fire at the nearest enemy in quick alternating shots (left, right, left), and every 6th shot is a guaranteed critical hit.",
+  "His six skills: Fan the Hammer fires six shots in a tight fan. Ricochet Shot bounces from enemy to enemy and hits harder with each bounce. Smoke Roll drops a smoke bomb and dives you away from enemies, never through them, and you can't be hurt while you roll. Deadeye marks the 3 toughest enemies and shoots each one. Trick Shot flips a coin and splits your bullet into critical ricochets. Explosive Rounds makes your next shots explode on impact.",
+  "His signature move, High Noon, marks up to 12 enemies on screen and puts one perfect critical shot into each. Enemies that were already marked take double. It needs at least 3 enemies nearby to fire.",
+  "His ultimate, Dead Man's Hand, unlocks when all six skills are maxed. He spins and empties both revolvers into every enemy on screen, then throws four flaming cards. It does not shake the screen.",
+  "His class meter is Grit. Hits and kills fill it, and kills on marked enemies fill it 3 times as fast. At 100 Grit he goes on a 5-second Hot Streak: both pistols fire much faster, every shot is doubled and he deals 15% more damage. Marked enemies take 25% more damage from him.",
+  "Every Gunslinger skill can evolve: Peacemakers, Hellfire Fan, Bank Job, Ghost of the Plains, Dead Aim, Silver Dollar Show, Nitro Express, and the signature evolution, Sundown.",
+  "He has three talent trees with a dusty saloon talent scene: Quickdraw (pistols and Hot Streak, capstone Gunsmoke Frenzy), Deadeye (marks and crits, capstone Dead to Rights) and Desperado (ricochets, smoke and dynamite, capstone Wild Bunch). His level-up cards match those trees.",
+  "He has his own gunshot and ricochet sounds, five armour sets, five achievements, and painted looks for all 8 races, with male and female versions.",
+  "No other class, enemy or save data has changed."
  ],
  "files": [
   {
@@ -36,8 +37,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "261a4b6caa4a3fb20e53d1e6d18841fb6b9ef6d32a442f559485e5e36aa83fc8",
-   "size": 1752195
+   "sha256": "6d49aea9283ea3e75dc57a0d56387117c5ff5fe59114f7d9a72d311df55521a3",
+   "size": 1789260
   },
   {
    "name": "manifest.webmanifest",
@@ -46,7 +47,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "ddf049d8884040917e5b0327aa702199f90216bbe9225f8d55b41c11ea47cb2b",
+   "sha256": "322bc1ef1654cb3bf3a3e0872577bb777eb03da02690d02134171e612cbef308",
    "size": 1466
   }
  ]

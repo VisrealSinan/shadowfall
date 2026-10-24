@@ -1605,6 +1605,8 @@ const SND32 = (() => {
     scratch(c, o, t, p) { N(c, o, t, 0.12, 0.09 * p.v, 900 * p.f, 3, 'bandpass', 2600 * p.f, 0.01); N(c, o, t + 0.12, 0.12, 0.09 * p.v, 2600 * p.f, 3, 'bandpass', 700 * p.f, 0.01); T(c, o, t + 0.24, 60 * p.f, 0.2, 'sine', 0.16 * p.v, 40); },
     thread(c, o, t, p) { const f = 880 * p.f; T(c, o, t, f, 0.3, 'triangle', 0.04 * p.v, f * 1.002); T(c, o, t, f * 2.01, 0.2, 'sine', 0.02 * p.v); N(c, o, t + 0.18 * p.k, 0.02, 0.07 * p.v, 5000, 4); T(c, o, t + 0.02, f * 0.5, 0.24, 'sine', 0.02 * p.v, f * 0.62); },
     summon(c, o, t, p) { N(c, o, t, 0.3, 0.07 * p.v, 500 * p.f, 0.9, 'bandpass', 2600 * p.f, 0.12); T(c, o, t + 0.05, 360 * p.f, 0.28, 'sine', 0.045 * p.v, 820 * p.f); T(c, o, t + 0.12, 720 * p.f, 0.2, 'triangle', 0.02 * p.v, 1300 * p.f); },
+    gun(c, o, t, p) { const f = p.f; N(c, o, t, 0.05, 0.13 * p.v, 2200 * f, 1.4, 'bandpass', 900 * f, 0.002); T(c, o, t, 140 * f, 0.11, 'sine', 0.07 * p.v, 55); N(c, o, t + 0.02, 0.16, 0.035 * p.v, 900 * f, 0.7, 'lowpass', 300); T(c, o, t + 0.12 * p.k + 0.05, 4200 * f, 0.05, 'sine', 0.012 * p.v, 3900 * f); },
+    ric(c, o, t, p) { const f = p.f; T(c, o, t, 2400 * f, 0.22, 'sine', 0.035 * p.v, 900 * f); T(c, o, t + 0.01, 3600 * f, 0.16, 'triangle', 0.014 * p.v, 1800 * f); N(c, o, t, 0.04, 0.05 * p.v, 5200 * f, 3, 'bandpass', 3000 * f, 0.002); },
   };
   const FAMS = Object.keys(F);
   const SIG = { '@summonbolt': ['summoner', 'shadow:summon'] }; // class signature attacks that are not WDEF skills
@@ -1628,11 +1630,12 @@ const SND32 = (() => {
     clockhand: 'time:blade', rewind: 'time:wind', stasis: 'time:ice', echoself: 'time:arcane', sands: 'time:nature', paradox: 'time:void', entropy: 'time:shadow', quicken: 'time:shock', zerohour: 'time:boom',
     beatpulse: 'synth', holoneko: 'synth:beast', subwoofer: 'synth:boom', glitchstep: 'synth:holy', promptstorm: 'glitch:shock', neuralnet: 'synth:arcane', vinyl: 'scratch', autotune: 'synth:wind', thedrop: 'synth:earth',
     fraybolt: 'thread', plaguebloom: 'thread:poison', hexfire: 'thread:fire', withering: 'thread:shadow', threadsnare: 'thread:chain', snap: 'thread:blade', spindle: 'thread:time', blackpall: 'thread:void', unravel: 'thread:boom',
+    sixguns: 'gun', fanhammer: 'gun:metal', ricochet: 'gun:ric', smokeroll: 'wind:ric', deadeye: 'ric:gun', trickshot: 'ric:glass', explosive: 'gun:boom', highnoon: 'ric:boom',
   };
   // very frequent casts: quieter, throttled harder
-  const FREQ = { fangs: 1, knives: 1, bow: 1, rivetgun: 1, orbs: 1, familiars: 1, hounds: 1, lute: 1, fraybolt: 1, clockhand: 1, seedbolt: 1, mbolt: 1, flask: 1, bloodblade: 1, shieldbash: 1, chakram: 1, blightbolt: 1, beatpulse: 1, archers: 1, imps: 1, catform: 1, shred: 1, px_dagger: 1, turret: 1, drone: 1, eclipse: 1 };
+  const FREQ = { sixguns: 1, fangs: 1, knives: 1, bow: 1, rivetgun: 1, orbs: 1, familiars: 1, hounds: 1, lute: 1, fraybolt: 1, clockhand: 1, seedbolt: 1, mbolt: 1, flask: 1, bloodblade: 1, shieldbash: 1, chakram: 1, blightbolt: 1, beatpulse: 1, archers: 1, imps: 1, catform: 1, shred: 1, px_dagger: 1, turret: 1, drone: 1, eclipse: 1 };
   const ULF = { rogue: 'blade:shadow:0', warlock: 'shadow:poison:0', summoner: 'summon:bone:0', ranger: 'bow:hawk:1', reaper: 'shadow:blade:0', rift: 'void:arcane:1', druid: 'nature:earth:1', druid_cat: 'beast:blade:0', druid_tree: 'earth:nature:1',
-    mage: 'arcane:fire:1', paragon: 'holy:void:1', paladin: 'holy:metal:1', engineer: 'boom:metal:1', alchemist: 'glass:fire:1', bard: 'horn:lute:1', bloodknight: 'blood:boom:0', chrono: 'time:void:1', maestro: 'synth:glitch:0', unraveler: 'thread:void:0' };
+    mage: 'arcane:fire:1', paragon: 'holy:void:1', paladin: 'holy:metal:1', engineer: 'boom:metal:1', alchemist: 'glass:fire:1', bard: 'horn:lute:1', bloodknight: 'blood:boom:0', chrono: 'time:void:1', maestro: 'synth:glitch:0', unraveler: 'thread:void:0', gunslinger: 'gun:boom:0' };
   const spec = id => SK[id] || (SIG[id] && SIG[id][1]) || FAMS[(hsh(id) * FAMS.length) | 0] + ':' + FAMS[(hsh(id + '#') * FAMS.length) | 0];
   const par = id => { const a = hsh(id), b = hsh(id + '~'); return { f: 0.8 + a * 0.5, k: b, v: 1 }; };
   function skillRec(id, evo) { const [f1, f2] = spec(id).split(':'), p = par(id);
@@ -2094,6 +2097,8 @@ const TALENTS = {
     passive: 'On the Beat', pdesc: 'A 128 BPM beat drives everything: hits that land on the beat deal +20% damage and build Hype. At 100 Hype the Hype Train starts — 6s of a faster beat and +10% damage. Hits can Glitch foes (+15% damage taken for 3s)', stats: { maxHp: 92, armor: 0, speed: 1.04 }, chips: ['♥ 92', '⏚ Beat', '⚇ Cat Humans'] },
   unraveler: { name: 'Visreal the Unraveler', role: 'Afflictions · Plague, Fire & Curses', flavor: '“Every thread comes loose. I simply pull.”', desc: 'Visreal’s own class: an elegant violet sorcerer who never kills quickly — he unravels. Plague, violet fire and shadow curses stack on every foe, threads of fate fray off them, and with one pull every affliction spreads to everything nearby.', weapon: 'fraybolt', wname: 'Fraying Bolt', art: 'staff', tint: '#b05aff', cost: 2000,
     passive: 'Loose Threads', pdesc: 'Plague, Burning and Curses stack on foes and tick for visible damage. Each distinct affliction on a foe makes it take +10% damage, and every Curse stack amplifies the other afflictions by 8%. Afflicted foes pass on part of their stacks when they die (Contagion). Afflicted kills wind the Loom: when it is full, a wave of every affliction rolls out', stats: { maxHp: 90, armor: 0, speed: 1.02 }, chips: ['♥ 90', '⚸ Afflictions', '⚵ Contagion'] },
+  gunslinger: { name: 'Gunslinger', role: 'Rapid Fire · Dual Pistols & Trick Shots', flavor: '“Two guns, twelve shots, no second chances.”', desc: 'A dust-caked drifter with a revolver in each hand and a wanted poster in every town. Both guns bark in a rapid left-right rhythm, bullets ricochet from foe to foe, fanned volleys and explosive rounds clear the road, and when the sun hits High Noon every marked outlaw on screen falls at once.', weapon: 'sixguns', wname: 'Twin Six-Shooters', tint: '#ffc85a', cost: 1200,
+    passive: 'True Grit', pdesc: 'Every hit builds Grit; kills build more (triple on marked foes). At 100 Grit you go on a Hot Streak for 5s: both revolvers fire much faster, every shot is doubled and you deal +15% damage. Every 6th pistol shot is a guaranteed crit, and foes Marked by Deadeye or High Noon take +25% damage from you', stats: { maxHp: 95, armor: 0, crit: 0.05, speed: 1.06 }, chips: ['♥ 95', '✵ High Noon', '⊕ Deadeye Marks'] },
 }); CLASSES.paragon = _pg; }
 Object.assign(CLS_COL, { paladin: '#d8b04a',
  engineer: '#e08a2a',
@@ -2102,7 +2107,7 @@ Object.assign(CLS_COL, { paladin: '#d8b04a',
  bloodknight: '#e0203a',
  chrono: '#5ab0ff',
  maestro: '#3af0ff',
- unraveler: '#b05aff',});
+ unraveler: '#b05aff', gunslinger: '#ff9a3a',});
 Object.assign(TALENTS, {
   paladin: [ // v30 Knight (Paladin): Bulwark (defence) · Zeal (charge & smite) · Radiance (holy light)
     TTREE('Bulwark', '⛊', '#c9d4ea', [
@@ -2304,6 +2309,31 @@ Object.assign(TALENTS, {
       ['uv_dr', 'Warded Seams', '⛨', { dr: 0.008 }], ['uv_arm2', 'Woven Mail', '⛊', { armor: 0.3 }],
       ['uv_dmg4', 'Unmaking', '✦', { dmg: 0.015 }], ['uv_ls2', 'Soul Thread', '❣', { lifesteal: 0.004 }],
       ['uv_weave', 'The Great Unweaving', '✺', {}, { f: 'uWeave', d: 'CAPSTONE: Unravel pulls twice — a second unweaving follows 1s later' }]])],
+  gunslinger: [ // v35 Gunslinger: Quickdraw (pistols & Hot Streak) · Deadeye (marks & crits) · Desperado (ricochets, smoke & dynamite)
+    TTREE('Quickdraw', '✶', '#ffc85a', [
+      ['gs_six', 'Hair Trigger', '✶', { sd_sixguns: 0.06 }], ['gs_hp', 'Tough Hide', '♥', { maxHp: 5 }],
+      ['gs_fan', 'Slip the Hammer', '✺', {}, { f: 'gFan', d: 'Fan the Hammer fires {1} more shots' }], ['gs_cd', 'Fast Hands', '↯', { cd: 0.015 }], ['gs_fan2', 'Hot Barrels', '✺', { sd_fanhammer: 0.08 }],
+      ['gs_grit', 'Sand in the Teeth', '❣', {}, { f: 'gGrit', d: 'You build Grit {10}% faster' }], ['gs_sixth', 'Lucky Sixth', '◈', {}, { f: 'gSix', d: 'Your guaranteed 6th-shot crits deal {25}% more damage' }], ['gs_spd', 'Spurs', '»', { speed: 0.02 }],
+      ['gs_hot', 'Burning Streak', '♨', {}, { f: 'gHot', d: 'Hot Streak lasts {20}% longer' }], ['gs_dmg', 'Gun Oil', '✦', { dmg: 0.012 }], ['gs_crit', 'Steady Wrist', '◈', { crit: 0.01 }],
+      ['gs_arm', 'Leather Vest', '⛊', { armor: 0.4 }], ['gs_twin', 'Two-Gun Kid', '✸', {}, { f: 'gTwin', d: 'Your pistols have a {20}% chance to fire a second shot' }],
+      ['gs_fan3', 'Fanning Fury', '✺', { sd_fanhammer: 0.06 }], ['gs_reg', 'Canteen', '✚', { regen: 0.2 }],
+      ['gs_storm', 'Gunsmoke Frenzy', '✹', {}, { f: 'gStorm', d: 'CAPSTONE: while on a Hot Streak every pistol shot ricochets, and starting a Hot Streak takes 2s off all your skill cooldowns' }]]),
+    TTREE('Deadeye', '◎', '#ff4a3a', [
+      ['gs_eye', 'Squint', '◈', { crit: 0.01 }], ['gs_cm', 'Hollow Points', '◈', { critMul: 0.03 }],
+      ['gs_hunt', 'Bounty Hunter', '☠', {}, { f: 'gHunt', d: 'Marked foes take {5}% more damage from you' }], ['gs_dead', 'Steady Aim', '◎', { sd_deadeye: 0.1 }], ['gs_long', 'Long Memory', '◔', {}, { f: 'gLong', d: 'Your Marks last {25}% longer' }],
+      ['gs_trick', 'Showman', '◉', { sd_trickshot: 0.08 }], ['gs_coin', 'Silver Dollars', '◉', {}, { f: 'gCoin', d: 'Trick Shot bounces {2} more times' }], ['gs_elite', 'Big Bounty', '♛', { eliteDmg: 0.04 }],
+      ['gs_noon', 'Blazing Sun', '☀', { sd_highnoon: 0.08 }], ['gs_hp2', 'Thick Skin', '♥', { maxHp: 4 }], ['gs_dodge', 'Duck and Weave', '»', { dodge: 0.008 }],
+      ['gs_want', 'Most Wanted', '☠', {}, { f: 'gWanted', d: 'Deadeye marks {1} more foe' }], ['gs_sun', 'Sun in Their Eyes', '☀', {}, { f: 'gSun', d: 'High Noon stuns the foes it hits for {1}s' }],
+      ['gs_cm2', 'Between the Eyes', '◈', { critMul: 0.03 }], ['gs_reg2', 'Second Wind', '✚', { regen: 0.2 }],
+      ['gs_dtr', 'Dead to Rights', '☠', {}, { f: 'gDTR', d: 'CAPSTONE: killing a Marked foe fires 2 ricochet bullets from its body that Mark whatever they hit' }]]),
+    TTREE('Desperado', '✹', '#ff8a2a', [
+      ['gs_ex', 'Black Powder', '✹', { sd_explosive: 0.08 }], ['gs_hp3', 'Rawhide', '♥', { maxHp: 5 }],
+      ['gs_bank', 'Bank Shot', '↯', {}, { f: 'gBank', d: 'Ricochet Shot bounces {1} more time' }], ['gs_ric', 'Ricochet Rounds', '↯', { sd_ricochet: 0.1 }], ['gs_smoke', 'Thick Smoke', '☁', {}, { f: 'gSmoke', d: 'Smoke Roll clouds are {20}% bigger' }],
+      ['gs_arm2', 'Chaps', '⛊', { armor: 0.4 }], ['gs_tnt', 'Extra Powder', '✹', {}, { f: 'gTNT', d: 'Explosive Rounds loads {3} more rounds' }], ['gs_dr', 'Hard-Bitten', '⛨', { dr: 0.008 }],
+      ['gs_roll', 'Tumbleweed', '☁', { sd_smokeroll: 0.1 }], ['gs_area', 'Wide Blast', '◍', { area: 0.015 }], ['gs_spd2', 'Fast Horse', '»', { speed: 0.02 }],
+      ['gs_keg', 'Powder Keg', '✸', {}, { f: 'gKeg', d: 'Explosive Rounds blasts are {12}% bigger' }], ['gs_ghost', 'Ghost in the Smoke', '☁', {}, { f: 'gGhost', d: 'After a Smoke Roll your next {3} shots are guaranteed crits' }],
+      ['gs_ex2', 'Nitro', '✹', { sd_explosive: 0.06 }], ['gs_reg3', 'Whiskey', '✚', { regen: 0.2 }],
+      ['gs_wild', 'Wild Bunch', '✺', {}, { f: 'gWild', d: 'CAPSTONE: explosive blasts throw out 3 burning shrapnel bullets that ricochet into nearby foes' }]])],
 });
 const TAL_BY_ID = {}; for (const c in TALENTS) TALENTS[c].forEach((tr, bi) => tr.nodes.forEach(n => { TAL_BY_ID[c + ':' + n.id] = n; n.bi = bi; }));
 const cxpNeed = l => l <= 20 ? 120 + 90 * (l - 1) : 1830 + 45 * (l - 20);            // class XP for level l -> l+1 (v19: same curve, cap raised 42 -> 51)
@@ -2364,6 +2394,9 @@ Object.assign(ARMOR_SETS, {
   unraveler: [AS('uv_regal', 'Unravelled Regalia', '#3a1a5a', '#140628', '#d8b0ff', 'filigree', '#9a5aff'), AS('uv_plague', 'Plaguewoven Robe', '#2a3a1a', '#0e1606', '#9ae05a', 'runes', '#b05aff'),
     AS('uv_ember', 'Emberthread Mantle', '#4a1a2a', '#1a0610', '#ff7a4a', 'stars', '#b05aff'), AS('uv_hexv', 'Hexbound Vestments', '#1a0a2a', '#08020e', '#b05aff', 'runes', '#ff5ad8'),
     AS('uv_void', 'Voidsilk of the Unraveler', '#f0e0ff', '#4a2a7a', '#b05aff', 'filigree', '#ffd0ff', '#9ae05a')],
+  gunslinger: [AS('gs_duster', 'Dust-Road Duster', '#6a4a2a', '#2a1a0e', '#e8b050', 'studs', '#a8282a'), AS('gs_bounty', 'Bounty Hunter Leathers', '#3a2a1a', '#140c06', '#cfc6b8', 'studs', '#ff8a2a'),
+    AS('gs_noon', 'High Noon Poncho', '#c87a3a', '#4a2410', '#ffe0a0', 'stars', '#2a4a8a'), AS('gs_outlaw', 'Outlaw Blacks', '#1a1418', '#08060a', '#ff4a3a', 'runes', '#c8c0b0'),
+    AS('gs_legend', 'Legend of the West', '#f0e0c0', '#6a4a2a', '#ffc85a', 'filigree', '#a8282a', '#ffd890')],
 });
 const ARMOR_BY_ID = {}; for (const c in ARMOR_SETS) for (const s of ARMOR_SETS[c]) { s.cls = c; ARMOR_BY_ID[s.id] = s; }
 const RC = (id, name, slot, v) => ({ id, name, slot, v });
@@ -2461,6 +2494,7 @@ Object.assign(ACH_NAMES, {
   chrono: ['Borrowed Hours', 'Time Thief', 'Paradox Resolved', 'Keeper of Clocks', 'Lord of Eternity'],
   maestro: ['Prompt Accepted', 'Nya Squad', 'Bass Face', 'Hype Train Conductor', 'Neural Maestro'],
   unraveler: ['Loose Threads', 'Pandemic', 'Triple Affliction', 'Unravelled', 'Visreal the Unraveler'],
+  gunslinger: ['Quick on the Draw', 'Bounty Collector', 'Showdown at Sundown', 'Fastest Gun in the West', 'Legend of the Dust Road'],
 });
 const RACE_ACH = {
   cat: { k: 'r_cat_dodge', goal: 250, name: 'Can\'t Touch This', desc: 'Evade 250 hits as a Cat Human', ic: '≋' },
@@ -5492,6 +5526,43 @@ const HAWK32 = (() => {
       if (hot) { PX.glow(b, hx, hy, 6, VIO); PX.sparkle(b, hx, hy - 7, VIO, 1); } },
     front(c) { const { b, hipX, hipY } = c, ph = PX.phase(c); // three motes — plague, fire, curse — circling the hand
       for (let i = 0; i < 3; i++) { const a = ph * 0.9 + i * TAU / 3; b.set(hipX + 10 + Math.cos(a) * 4, hipY - 16 + Math.sin(a) * 2.4, [GEM, EMB, VIO][i][3]); } }
+  }; }
+  /* ======================= GUNSLINGER (v35): long duster, wide-brim hat, bandana, bandolier, twin revolvers ======================= */
+  { const HAT = R(['#140a04', '#2e1c0e', '#4e3218', '#72502c', '#9a7448']), GUN = R(['#121318', '#262a32', '#3e434e', '#646c7a', '#a4acb8']), GRIP = R(['#2a1208', '#4a2410', '#6e3a1a', '#9a5a2a', '#c88a4a']),
+    BRS = R(['#4a2a08', '#8a5a18', '#c8902a', '#f0c860', '#fff0b0']), FLASH = R(['#6a2a00', '#c85a0a', '#ff9a2a', '#ffd86a', '#fff8e0'], 1), BELT = R(['#1a0e06', '#341e0e', '#4e2e16', '#6a4222', '#8a5a32']);
+  // a revolver in the hand H, barrel along the forearm, grip hanging below; a muzzle flash when hot
+  const gun = (b, H, hot, back) => { const dx = Math.sin(H.fa), dy = Math.cos(H.fa); let gx = -dy, gy = dx; if (gy < 0) { gx = -gx; gy = -gy; }
+    const mx = H.hx + dx * 7.5, my = H.hy + dy * 7.5;
+    b.cap(H.hx - dx * 1.6 + gx * 3.6, H.hy - dy * 1.6 + gy * 3.6, H.hx - dx * 0.4, H.hy - dy * 0.4, 1.2, 1.05, GRIP, back ? 1 : 2);
+    b.cap(H.hx - dx * 1, H.hy - dy * 1, mx, my, 1.05, 0.8, GUN, back ? 1 : 2); b.line(H.hx + dx * 2.4 - gx * 0.7, H.hy + dy * 2.4 - gy * 0.7, mx - gx * 0.7, my - gy * 0.7, GUN[back ? 3 : 4]);
+    b.ell(H.hx + dx * 1.8, H.hy + dy * 1.8, 1.6, 1.4, GUN, back ? 2 : 3, 1); b.set(H.hx - dx * 2 - gx * 0.6, H.hy - dy * 2 - gy * 0.6, GUN[3]); b.set(mx + dx * 0.6, my + dy * 0.6, GUN[0]);
+    if (hot) { PX.glow(b, mx + dx * 2.6, my + dy * 2.6, 3.4, FLASH); PX.sparkle(b, mx + dx * 3.4, my + dy * 3.4, FLASH, 1); } };
+  PXA.kits.gunslinger = {
+    look(L) { L.cape = false; },
+    cape: false,
+    pose(P, an, f) { if (an === 'atk') { // 0 front gun fires · 1 front recoil · 2 back gun fires · 3 back recoil
+        P.af = [{ u: 1.58, e: 0.02 }, { u: 1.74, e: -0.32 }, { u: 1.5, e: 0.04 }, { u: 1.55, e: 0 }][f]; P.ab = [{ u: 1.36, e: 0.06 }, { u: 1.42, e: 0.02 }, { u: 1.5, e: 0.02 }, { u: 1.66, e: -0.32 }][f];
+        P.lean = [0.04, -0.03, 0.05, -0.02][f]; P.lf = { a: 0.35, b: 0.25 }; P.lb = { a: -0.35, b: 0.25 }; } },
+    back(c) { const { b, Rm, hipX, hipY } = c, ph = PX.phase(c), sw = Math.sin(ph) * 1.4 + (c.an === 'walk' ? 1.4 : 0); // the duster's long tails flapping behind the legs
+      b.poly([hipX - 4.6, hipY - 7, hipX + 3.4, hipY - 7, hipX + 2.4 - sw * 0.3, hipY + 15, hipX - 3 - sw, hipY + 16.6, hipX - 8 - sw * 1.5, hipY + 14.4], Rm.lea, 1, 1);
+      b.line(hipX - 1.4, hipY + 1, hipX - 2.4 - sw * 0.6, hipY + 15.6, Rm.lea[0]); b.line(hipX - 7.4 - sw * 1.4, hipY + 13.6, hipX - 3 - sw, hipY + 15.8, Rm.lea2[2]); },
+    backHand(c) { gun(c.b, c.AB, c.an === 'atk' && c.f === 2, 1); },
+    torso(c) { const { b, Rm, up } = c; PX.torso(c, Rm.lea2); // vest under an open duster, red bandana, bandolier of brass rounds, gun belt
+      b.poly([...up(-4.6, -20), ...up(-1.6, -20), ...up(-2, -3), ...up(-4.4, -3)], Rm.lea, 2, 1); b.poly([...up(2.2, -20.2), ...up(3.8, -20.2), ...up(4.6, -14), ...up(3.8, -3), ...up(2.2, -3)], Rm.lea, 3, 1);
+      b.line(...up(-1.6, -20), ...up(0.2, -14), Rm.lea[4]); b.line(...up(2.2, -20.2), ...up(0.9, -14), Rm.lea[4]); b.set(...up(0.5, -11), Rm.trim[3]); b.set(...up(0.5, -8), Rm.trim[3]);
+      b.cap(...up(-4, -19), ...up(3.8, -5.5), 0.9, 0.9, BELT, 2); for (let i = 0; i < 5; i++) { const k = 0.14 + i * 0.17; b.set(...up(-4 + 7.8 * k, -19.6 + 13.5 * k), BRS[3 + (i % 2)]); }
+      b.poly([...up(-3.6, -21.6), ...up(3.4, -21.8), ...up(1.6, -17.6), ...up(0, -16.2), ...up(-1.2, -18)], Rm.acc, 2, 1); b.set(...up(-1.6, -20.4), Rm.acc[4]); b.set(...up(1.4, -20.6), Rm.acc[4]);
+      PX.belt(c, BELT, BRS[4]); b.ell(...up(-3.8, -4.4), 1.4, 2, BELT, 2, 1); },
+    skirt(c) { const { Rm } = c; PX.skirt(c, Rm.lea, { flare: 0.92, len: 10.5, zig: 4, trim: Rm.lea2 }); },
+    headFront(c, hx, hy) { const { b, Rm } = c; // wide-brimmed leather hat with a pinched crown and a band
+      b.poly([hx - 5.2, hy - 5, hx + 5.6, hy - 5, hx + 4.8, hy - 10.6, hx + 2.6, hy - 11.8, hx + 0.6, hy - 10.4, hx - 1.4, hy - 11.8, hx - 4, hy - 10.8], HAT, 2, 1);
+      b.tint((x, y) => x < hx - 1.5 && y < hy - 5, ch => HAT.includes(ch) ? PXA.step(ch, -1) : 0); b.set(hx + 3, hy - 10.6, HAT[4]); b.set(hx - 1, hy - 10.6, HAT[3]);
+      b.line(hx - 5, hy - 6.6, hx + 5.4, hy - 6.6, Rm.acc[2]); b.line(hx - 5, hy - 5.8, hx + 5.4, hy - 5.8, Rm.acc[1]); b.set(hx + 4.4, hy - 6.2, Rm.trim[4]);
+      b.poly([hx - 11, hy - 6.8, hx - 9, hy - 4.6, hx - 4, hy - 3.8, hx + 6, hy - 3.8, hx + 10.6, hy - 4.8, hx + 12.2, hy - 7, hx + 9.6, hy - 5.8, hx + 4, hy - 5.4, hx - 4, hy - 5.4, hx - 9, hy - 5.8], HAT, 3, 1);
+      b.line(hx - 8, hy - 4.2, hx + 9, hy - 4.2, HAT[1]); },
+    weapon(c) { gun(c.b, c.AF, c.an === 'atk' && c.f === 0, 0); },
+    front(c) { const { b, an, f, hipX, hipY } = c; if (an !== 'atk') return; const k = f / 3; // spent brass flicking out of the cylinders
+      b.set(hipX + 6 - k * 4, hipY - 20 + k * 12, BRS[4]); b.set(hipX + 6.6 - k * 4, hipY - 19.4 + k * 12, BRS[2]); if (f >= 2) { b.set(hipX + 2 + (f - 2) * 2, hipY - 22 + (f - 2) * 9, BRS[3]); } }
   }; }
 })();
 /* ---- v23 pixel Druid forms: Shadowcat and Treant. Same frame names as the hero (idle 4 · walk 8 · atk 4 · jump 4 · hurt 1);
@@ -8635,6 +8706,135 @@ evo30('spindle', 'might', 'Loom of the Fates', '#b05aff', 1.4, 0.9, 1, 'leech', 
 evo30('blackpall', 'renewal', 'Shroud of the Last Plague', '#9ae05a', 1.3, 0.8, 1.15, 'echo', '+30% damage; the pall pulses much faster');
 evo30('unravel', 'ward', 'Unmaking', '#b46aff', 1.3, 0.85, 1.15, 'execute', 'SIGNATURE EVO: +30% damage, faster, wider; unravelled foes that are weakened are executed outright');
 
+/* ================= v35 GUNSLINGER: twin six-shooters, Grit & Hot Streaks, marks, ricochets and trick shots ================= */
+Object.assign(GCLS, { gunslinger: ['crit', 'critMul', 'cd', 'speed'] }); Object.assign(GCLSN, { gunslinger: 'Desperado' }); Object.assign(GPAL, { gunslinger: ['#4a2a12', '#ffc85a', '#ff4a3a'] });
+Object.assign(CLASS_PAL, { gunslinger: { cloak: '#6a4a2a', cloak2: '#2a1a0e', trim: '#e8b050', acc: '#a8282a', acc2: '#4a0e10', eye: '#ffd890', name: 'Dust-Road Duster' } });
+Object.assign(CLASS_LOOK, { gunslinger: { acc: '#a8282a', acc2: '#4a0e10', body: 'tunic', hood: 'none' } });
+const GS = { g: '#ffc85a', o: '#ff8a2a', r: '#ff4a3a', s: '#cfc6b8', w: '#fff4d8', d: '#6a4422', k: '#9a9088' };
+const gsLv = id => { const w = G.weapons.find(q => q.id === id); return w ? w.lvl : 0; };
+const gsMk = e => !!e && e.gm35 > gtime;
+/* mark a foe for t seconds (Deadeye): marked foes take extra damage from every gun and show a red crosshair */
+function gsMark(e, t) { if (!e || e.dead) return; const S = v30S(), was = gsMk(e); e.gm35 = Math.max(e.gm35 || 0, gtime + t * (1 + 0.25 * tf30('gLong'))); if (!was) { S.mk = S.mk || []; if (S.mk.length < 60) S.mk.push(e); } }
+function gsGrit(S, n) { if (!S || S.hotT > 0) return; S.grit = (S.grit || 0) + n * (1 + 0.1 * tf30('gGrit')); if (S.grit >= 100) gsHot(S); }
+function gsHot(S) { S.grit = 0; S.hotMax = 5 * (1 + 0.2 * tf30('gHot')); S.hotT = S.hotMax; S.hots = (S.hots || 0) + 1;
+  if (tf30('gStorm')) for (const w of G.weapons) if (w.id !== 'sixguns' && w.t > 0) w.t = Math.max(0, w.t - 2);
+  ring30(P.x, P.y, 90, GS.o, 0.5, { w: 4 }); ring30(P.x, P.y, 60, GS.g, 0.4, { w: 2 }); txt30(P.x, P.y - 44, 'HOT STREAK', GS.o, { sz: 12 }); Snd.play('fire'); }
+/* a pistol round: a fast, thin gold tracer */
+function gsShot(x, y, a, d, o) { return bolt30(x, y, a, 660, d, Object.assign({ col: GS.g, r: 4, life: 0.62, src: 'sixguns' }, o)); }
+/* re-aim a live bullet from the foe it just hit to the next foe it has not hit yet (pierce = bounces left) */
+function gsBounce(e, p, k, R) { const t = nearestN(e.x, e.y, 6, R || 230).find(q => q !== e && !q.dead && !p.hit.has(q)); if (!t) { p.life = 0; return null; }
+  const a = Math.atan2(t.y - e.y, t.x - e.x), sp = Math.hypot(p.vx, p.vy) || 600; p.x = e.x; p.y = e.y; p.vx = Math.cos(a) * sp; p.vy = Math.sin(a) * sp; p.a = a; p.dmg *= k || 1; p.life = Math.max(p.life, 0.55);
+  if (parts.length < 340) burst(e.x, e.y - 4, GS.w, 3, 90, 1.8, 0.2, true); if (Math.random() < 0.35) Snd.play('knife'); return t; }
+/* a fresh ricochet off a foe toward another (used by sixth shots, Hot Streak capstone and Dead to Rights) */
+function gsRic(e, d, src, col, mark) { const t = nearestN(e.x, e.y, 5, 240).find(q => q !== e && !q.dead); if (!t) return null; const a = Math.atan2(t.y - e.y, t.x - e.x);
+  const p = gsShot(e.x, e.y, a, d, { src, col: col || GS.s, r: 3.5, life: 0.5 }); p.hit.add(e); if (mark) gsMark(t, mark); return p; }
+/* explosive round: a small blast where the bullet lands */
+function gsBoom(e, S) { const L = Math.max(1, gsLv('explosive')), r = (L >= 3 ? 58 : 46) * (1 + 0.12 * tf30('gKeg')) * Math.sqrt(P.area), old = G.srcW; G.srcW = 'explosive';
+  area30(e.x, e.y, r, 11 * dm30(L), 40, L >= 5 ? q => applyBurn(q, 3 * dm30(L), 2) : null, { src: 'explosive', col: GS.o }); boom30(e.x, e.y, r, GS.o); S.booms = (S.booms || 0) + 1;
+  if (tf30('gWild')) for (let i = 0; i < 3; i++) gsShot(e.x, e.y, Math.random() * TAU, 5 * dm30(L), { src: 'explosive', col: GS.o, r: 3, life: 0.3 }).hit.add(e);
+  if (S.booms % 3 === 0) Snd.play('boom'); G.srcW = old; }
+/* Smoke Roll direction: of 16 headings pick the one whose whole path stays farthest from every foe. Never returns a heading
+   whose path passes within a body-width of any foe (so the roll can never carry you into enemies) */
+function gsRollDir(dist) { const foes = nearestN(P.x, P.y, 40, dist + 140); if (!foes.length) return null; let ax = 0, ay = 0, cur = 1e9;
+  for (const e of foes) { const dx = P.x - e.x, dy = P.y - e.y, d = Math.hypot(dx, dy) || 1; ax += dx / d / d; ay += dy / d / d; cur = Math.min(cur, d - (e.r || 10)); }
+  const away = Math.atan2(ay, ax); let best = null, bs = -1e9;
+  for (let i = 0; i < 16; i++) { const a = away + (i < 8 ? i : i - 16) * TAU / 16, cx = Math.cos(a), cy = Math.sin(a); let clr = 1e9;
+    for (const s of [0.25, 0.5, 0.75, 1]) { const x = P.x + cx * dist * s, y = P.y + cy * dist * s; for (const e of foes) clr = Math.min(clr, Math.hypot(x - e.x, y - e.y) - (e.r || 10)); }
+    if (typeof obHit === 'function' && obHit(P.x + cx * dist, P.y + cy * dist, P.r || 10)) clr -= 30;
+    const sc = Math.min(clr, 120) + 18 * Math.cos(a - away); if (clr >= Math.min(cur, P.r + 14) && clr >= P.r + 4 && sc > bs) { bs = sc; best = a; } }
+  return best; }
+function gsSmoke(x, y, L) { const r = (L >= 3 ? 84 : 68) * (1 + 0.2 * tf30('gSmoke')) * Math.sqrt(P.area), life = (3 + tf30('gSmoke') * 0.5) * P.dur;
+  u30('gsmoke', { x, y, r, L, tk: 0, life, max: life, src: 'smokeroll', sd: Math.random() * 9 }); if (L >= 6) { G.srcW = 'smokeroll'; area30(x, y, r, 4 * dm30(L), 0, e => stun30(e, 0.7), { src: 'smokeroll' }); } }
+/* ---- units ---- */
+UK30.gsmoke = { gr: 1, upd(u, dt) { if ((u.tk -= dt) > 0) return; u.tk = 0.5; area30(u.x, u.y, u.r, 4.5 * dm30(u.L), 0, e => slow30(e, 0.45, 0.7), { src: 'smokeroll', dot: 1, col: GS.s }); },
+  draw(u) { const a = Math.min(1, u.life / 0.8, u.t / 0.2); ctx.save(); for (let i = 0; i < 9; i++) { const q = u.sd + i * 0.7, rr = u.r * (0.35 + 0.18 * (i % 3)), x = u.x + Math.cos(q + u.t * 0.4) * u.r * 0.5, y = u.y + Math.sin(q * 1.3 + u.t * 0.3) * u.r * 0.32 - u.t * 3;
+      ctx.fillStyle = `rgba(${i % 2 ? '206,198,184' : '150,142,132'},${(0.16 * a).toFixed(3)})`; ctx.beginPath(); ctx.ellipse(x, y, rr, rr * 0.7, 0, 0, TAU); ctx.fill(); }
+    ctx.strokeStyle = hexA(GS.s, 0.5 * a); ctx.lineWidth = 1.5; ctx.setLineDash([6, 6]); ctx.lineDashOffset = -gtime * 10; ctx.beginPath(); ctx.arc(u.x, u.y, u.r, 0, TAU); ctx.stroke(); ctx.setLineDash([]); ctx.restore(); } };
+UK30.gcoin = { top: 1, upd(u, dt) { u.y += u.vy * dt; u.vy += 420 * dt; }, draw(u) { const s = Math.abs(Math.sin(u.t * 22)); ctx.save(); ctx.globalCompositeOperation = 'lighter'; glowAt(GS.w, u.x, u.y, 16, 0.6); ctx.restore();
+  ctx.fillStyle = '#e8e4dc'; ctx.beginPath(); ctx.ellipse(u.x, u.y, 4.2 * s + 0.6, 4.2, 0, 0, TAU); ctx.fill(); ctx.fillStyle = '#9a948a'; ctx.fillRect(u.x - 0.6, u.y - 2, 1.2, 4); } };
+UK30.gtrace = { top: 1, upd() {}, draw(u) { const a = Math.max(0, u.life / u.max); ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.lineCap = 'round'; ctx.strokeStyle = hexA(u.col, 0.6 * a); ctx.lineWidth = (u.w || 3) * (0.5 + a);
+  ctx.beginPath(); ctx.moveTo(u.x0, u.y0); ctx.lineTo(u.x, u.y); ctx.stroke(); ctx.strokeStyle = hexA('#ffffff', 0.85 * a); ctx.lineWidth = 1; ctx.stroke(); glowAt(u.col, u.x, u.y, 18, a); ctx.restore(); } };
+function gsTrace(x0, y0, x, y, col, w) { if (V30U.length > 135) return; u30('gtrace', { x, y, x0, y0, col, w, life: 0.22, max: 0.22 }); }
+/* High Noon / Deadeye: a crosshair snaps onto every target, then one perfect shot each */
+function gsVolley(tg, d, src, col, L, o) { o = o || {}; tg.forEach((e, i) => G.later.push({ t: (o.t0 || 0) + i * (o.dt || 0.04), src, f: () => { if (e.dead) return; G.srcW = src; const S = v30S(); S.side = -(S.side || 1);
+  const hx = P.x + S.side * 5, hy = P.y - 13; gsTrace(hx, hy, e.x, e.y - 6, col, o.w || 3); let k = d * P.critMul * (gsMk(e) ? (o.mk || 1) : 1); damage(e, k, { src, col: GS.w, kb: 40, kx: Math.sign(e.x - P.x) || 1, ky: 0 });
+  if (o.on) o.on(e); if (parts.length < 330) burst(e.x, e.y - 6, col, 4, 110, 2, 0.25, true); P.atk = 1; if (i % 2 === 0) Snd.play('knife'); } })); }
+V30.gunslinger = { dm: 2.05, cols: [GS.g, GS.o, GS.r, GS.s, GS.w],
+  start(S) { S.grit = 0; S.hotT = 0; S.hotMax = 5; S.hots = 0; S.shots = 0; S.side = 1; S.ex = 0; S.mk = []; S.rolls = 0; S.ghost = 0; S.booms = 0; S.noons = 0; S.ricB = 0; S.roll = null; S.noonT = 0; },
+  dmg(e, o, sk) { const S = G.v30 || {}; let m = 1; if (gsMk(e)) m *= 1.25 + 0.05 * tf30('gHunt'); if (S.hotT > 0) m *= 1.15; if (!(o && o.dot) && sk !== ULT_SRC) gsGrit(S, 0.55); return m; },
+  kill(e, S) { const mk = gsMk(e); gsGrit(S, mk ? 3 : 1); if (!mk) return; S.mkK = (S.mkK || 0) + 1;
+    if (gsLv('deadeye') >= 6) { const w = G.weapons.find(q => q.id === 'deadeye'); if (w && w.t > 0) w.t = Math.max(0, w.t - 1); }
+    if (tf30('gDTR')) { const L = Math.max(1, gsLv('deadeye')); for (const q of nearestN(e.x, e.y, 3, 240).filter(q => q !== e && !q.dead).slice(0, 2)) { const a = Math.atan2(q.y - e.y, q.x - e.x); gsShot(e.x, e.y, a, 14 * dm30(L), { src: 'deadeye', col: GS.r, r: 4, life: 0.5 }).hit.add(e); gsMark(q, 3); } } },
+  tick(dt, S) { if (S.hotT > 0) { S.hotT -= dt; if (S.hotT <= 0) { S.hotT = 0; S.grit = 0; } }
+    if (S.noonT > 0) S.noonT -= dt;
+    const R = S.roll; if (R) { const nx = P.x + R.vx * dt, ny = P.y + R.vy * dt, q = nearestN(nx, ny, 1, 60)[0];
+      if (q && Math.hypot(q.x - nx, q.y - ny) < (q.r || 10) + P.r + 4 && Math.hypot(q.x - nx, q.y - ny) < Math.hypot(q.x - P.x, q.y - P.y)) R.t = 0; // a foe stepped into the path: stop short, never into it
+      else { P.x = nx; P.y = ny; if (typeof obFree === 'function') obFree(P, P.r); }
+      if (parts.length < 360) burst(P.x, P.y + 4, GS.s, 2, 40, 3, 0.4, false); R.t -= dt; if (R.t <= 0) { S.roll = null; if (R.end) gsSmoke(P.x, P.y, R.L); } }
+    if (S.mk && S.mk.length && (S.mkT = (S.mkT || 0) - dt) <= 0) { S.mkT = 0.25; S.mk = S.mk.filter(e => !e.dead && gsMk(e)); } },
+  over(S) { ctx.save(); let n = 0; for (const e of S.mk || []) { if (n >= 30) break; if (e.dead || !gsMk(e) || !inView(e.x, e.y, 20)) continue; n++; const r = (e.r || 10) + 6, sp = gtime * 2;
+      ctx.strokeStyle = hexA(GS.r, 0.85); ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(e.x, e.y - 4, r, 0, TAU); ctx.stroke();
+      for (let i = 0; i < 4; i++) { const a = sp + i * Math.PI / 2; ctx.beginPath(); ctx.moveTo(e.x + Math.cos(a) * (r - 4), e.y - 4 + Math.sin(a) * (r - 4)); ctx.lineTo(e.x + Math.cos(a) * (r + 4), e.y - 4 + Math.sin(a) * (r + 4)); ctx.stroke(); } }
+    if (S.hotT > 0) { ctx.globalCompositeOperation = 'lighter'; glowAt(GS.o, P.x, P.y - 12, 34, 0.35 + 0.15 * Math.sin(gtime * 12)); }
+    if (S.noonT > 0) { ctx.globalCompositeOperation = 'lighter'; glowAt(GS.g, P.x, P.y - 70, 46, Math.min(1, S.noonT * 2)); }
+    ctx.restore(); },
+  hud(S) { if (S.noonT > 0) { ctx.fillStyle = `rgba(255,190,90,${(0.1 * Math.min(1, S.noonT * 2)).toFixed(3)})`; ctx.fillRect(0, 0, W, H); } },
+  meter: S => S.hotT > 0 ? { v: S.hotT, max: S.hotMax || 5, col: GS.o } : { v: S.grit || 0, max: 100, col: GS.g } };
+/* ---- skills ---- */
+sk30('sixguns', { name: 'Twin Six-Shooters', ic: '⁑', cls: 'gunslinger', desc: ['Fire both revolvers at the nearest foe in rapid alternating shots — left, right, left — and every sixth shot is a guaranteed critical hit', '+20% damage', 'Bullets pierce one foe', '+20% damage, 12% faster', 'Every other shot fires both revolvers at once', 'Sixth shots ricochet into a second foe'] }, w => {
+  const L = w.lvl, S = v30S(), { t, a } = aim30(400); if (!t) return -1; S.side = -(S.side || 1); S.shots = (S.shots || 0) + 1;
+  const six = S.shots % 6 === 0, hot = S.hotT > 0, wild = tf30('gWild') && S.shots % 10 === 0, ghost = S.ghost > 0; if (ghost) S.ghost--;
+  const fire = sd => { const ex = S.ex > 0 || wild; if (S.ex > 0) S.ex--; const ox = P.x - Math.sin(a) * 4 * sd, oy = P.y - 12 + Math.cos(a) * 3 * sd, cr = six || ghost; let d = 8.5 * dm30(L); if (cr) d *= P.critMul * (six ? 1 + 0.25 * tf30('gSix') : 1);
+    gsShot(ox, oy, a + (Math.random() - 0.5) * 0.07, d, { pierce: L >= 3 ? 1 : 0, col: cr ? GS.w : ex ? GS.o : GS.g, r: cr ? 5.5 : 4, on: e => { if (ex) gsBoom(e, S); if ((six && L >= 6) || (hot && tf30('gStorm'))) gsRic(e, d * 0.6, 'sixguns'); } }); };
+  fire(S.side); if (hot || (L >= 5 && S.shots % 2 === 0) || (tf30('gTwin') && Math.random() < 0.2)) fire(-S.side);
+  P.atk = 1; return (hot ? 0.62 : 1) * 0.2 * cd30(L); });
+sk30('fanhammer', { name: 'Fan the Hammer', ic: '✱', cls: 'gunslinger', desc: ['Slap the hammer back again and again: six shots spray in a tight fan at the nearest foe in half a second', '+20% damage', '+2 shots', '+20% damage, 12% faster', 'A wider fan of piercing shots', 'Empty both revolvers: the fan fires twice'] }, w => {
+  const L = w.lvl, { t, a } = aim30(340); if (!t) return -1; const n = 6 + (L >= 3 ? 2 : 0) + tf30('gFan'), d = 13 * dm30(L), sp = L >= 5 ? 0.75 : 0.45, reps = L >= 6 ? 2 : 1, S = v30S();
+  for (let r = 0; r < reps; r++) for (let i = 0; i < n; i++) G.later.push({ t: r * 0.5 + i * 0.055, src: 'fanhammer', f: () => { G.srcW = 'fanhammer'; S.side = -(S.side || 1);
+    const q = (aim30(340).t ? aim30(340).a : a) + (i / (n - 1) - 0.5) * sp + (Math.random() - 0.5) * 0.06; gsShot(P.x + S.side * 4, P.y - 12, q, d, { src: 'fanhammer', pierce: L >= 5 ? 1 : 0, col: GS.o, life: 0.55 }); P.atk = 1; if (i % 2 === 0) Snd.play('knife'); } });
+  return 3.4 * cd30(L); });
+sk30('ricochet', { name: 'Ricochet Shot', ic: '⚞', cls: 'gunslinger', desc: ['Fire a bullet that ricochets from foe to foe 3 times, hitting 15% harder with every bounce', '+20% damage', '+2 bounces', '+20% damage, 12% faster', 'Fire two ricochet bullets', 'Every foe a ricochet hits is marked for 3s'] }, w => {
+  const L = w.lvl, { t, a } = aim30(380); if (!t) return -1; const n = L >= 5 ? 2 : 1, b = 3 + (L >= 3 ? 2 : 0) + tf30('gBank'), d = 15 * dm30(L), S = v30S();
+  for (let i = 0; i < n; i++) gsShot(P.x, P.y - 12, a + (i - (n - 1) / 2) * 0.3, d, { src: 'ricochet', pierce: b, col: GS.s, r: 5, life: 0.7, on: (e, p) => { if (L >= 6) gsMark(e, 3); S.ricB = (S.ricB || 0) + 1; if (p.pierce > 0) gsBounce(e, p, 1.15); } });
+  P.atk = 1; return 1.9 * cd30(L); });
+sk30('smokeroll', { name: 'Smoke Roll', ic: '≈', cls: 'gunslinger', desc: ['When foes close in, drop a smoke bomb and dive-roll away from them — never through them — invulnerable while you roll. The smoke slows and chokes foes inside', '+20% damage', 'A longer roll and a bigger cloud', '+20% damage, 12% faster', 'Leave a second cloud where you land', 'The smoke stuns foes when it bursts'] }, w => {
+  const L = w.lvl, S = v30S(), q = nearestN(P.x, P.y, 1, 120)[0]; if (!q || Math.hypot(q.x - P.x, q.y - P.y) > (q.r || 10) + 70) return -1;
+  const dist = (L >= 3 ? 135 : 110), a = gsRollDir(dist); gsSmoke(P.x, P.y, L); S.rolls = (S.rolls || 0) + 1; const extra = tf30('gGhost') ? 0.5 : 0;
+  if (a !== null) { S.roll = { vx: Math.cos(a) * dist / 0.26, vy: Math.sin(a) * dist / 0.26, t: 0.26, end: L >= 5, L }; S.rollA = a; P.inv = Math.max(P.inv, 0.26 + 0.35 + extra); }
+  else P.inv = Math.max(P.inv, 0.6 + extra); if (tf30('gGhost')) S.ghost = 3; txt30(P.x, P.y - 34, 'ROLL', GS.s, { sz: 10 }); Snd.play('whoosh'); return 6 * cd30(L); });
+sk30('deadeye', { name: 'Deadeye', ic: '⊕', cls: 'gunslinger', desc: ['Mark the 3 toughest foes in sight for 5s — marked foes take +25% damage from all your guns — then put a heavy deadeye shot into each', '+20% damage', '+2 targets', '+20% damage, 12% faster', 'Deadeye shots strike twice', 'Marked foes that die cut 1s off the Deadeye cooldown'] }, w => {
+  const L = w.lvl, tg = nearestN(P.x, P.y, 30, 400); if (!tg.length) return -1; const n = 3 + (L >= 3 ? 2 : 0) + tf30('gWanted'), d = 17 * dm30(L);
+  const top = tg.slice().sort((p, q) => q.hp - p.hp).slice(0, n); for (const e of top) gsMark(e, 5); ring30(P.x, P.y - 8, 30, GS.r, 0.3, { w: 2 });
+  gsVolley(top, d, 'deadeye', GS.r, L, { t0: 0.35, dt: 0.07 }); if (L >= 5) gsVolley(top, d * 0.6, 'deadeye', GS.r, L, { t0: 0.75, dt: 0.05, w: 2 }); return 4.2 * cd30(L); });
+sk30('trickshot', { name: 'Trick Shot', ic: '⊙', cls: 'gunslinger', desc: ['Flip a silver coin and shoot it out of the air: the bullet splits off the coin into 4 ricochets that strike different foes as critical hits', '+20% damage', '+2 ricochets', '+20% damage, 12% faster', 'Flip two coins', 'Each ricochet bounces on to one more foe'] }, w => {
+  const L = w.lvl, { t } = aim30(360); if (!t) return -1; const S = v30S(), n = 4 + (L >= 3 ? 2 : 0) + 2 * tf30('gCoin'), d = 12 * dm30(L), coins = L >= 5 ? 2 : 1;
+  for (let c = 0; c < coins; c++) { const cx = P.x + (c ? -26 : 26) * (P.facing || 1) * (coins > 1 ? 1 : 0.4), cy = P.y - 26; u30('gcoin', { x: cx, y: cy, vy: -260, life: 0.42, src: 'trickshot' });
+    G.later.push({ t: 0.42 + c * 0.12, src: 'trickshot', f: () => { G.srcW = 'trickshot'; const x = cx, y = cy - 260 * 0.42 + 210 * 0.42 * 0.42; gsTrace(P.x, P.y - 13, x, y, GS.w, 2); if (parts.length < 330) burst(x, y, GS.w, 8, 140, 2, 0.3, true);
+      const tg = nearestN(x, y, n, 360); tg.forEach(e => { const a = Math.atan2(e.y - y, e.x - x); gsShot(x, y, a, d * P.critMul, { src: 'trickshot', col: GS.w, r: 4.5, life: 0.75, pierce: L >= 6 ? 1 : 0, on: (q, p) => { if (p.pierce > 0) gsBounce(q, p, 1); } }); });
+      Snd.play('knife'); S.coins = (S.coins || 0) + 1; } }); }
+  P.atk = 1; return 3.6 * cd30(L); });
+sk30('explosive', { name: 'Explosive Rounds', ic: '✳', cls: 'gunslinger', desc: ['Load explosive rounds: your next 6 pistol shots burst on impact, blasting every foe nearby', '+20% damage', '+4 rounds and bigger blasts', '+20% damage, 12% faster', 'Blasts set foes Burning', 'Light a stick of dynamite as you load: it blows up the nearest pack'] }, w => {
+  const L = w.lvl, S = v30S(), { t } = aim30(380); if (!t || S.ex > 4) return -1; S.ex = (S.ex || 0) + 6 + (L >= 3 ? 4 : 0) + 3 * tf30('gTNT'); txt30(P.x, P.y - 34, 'LOADED', GS.o, { sz: 10 }); ring30(P.x, P.y - 10, 24, GS.o, 0.3, { w: 2 });
+  if (L >= 6) { const x = t.x, y = t.y; zap30(P.x, P.y - 12, x, y, GS.o); G.later.push({ t: 0.55, src: 'explosive', f: () => { G.srcW = 'explosive'; const r = 95 * Math.sqrt(P.area); area30(x, y, r, 30 * dm30(L), 90, e => applyBurn(e, 3 * dm30(L), 2), { src: 'explosive', col: GS.o }); boom30(x, y, r, GS.o); ring30(x, y, r, GS.r, 0.4, { w: 4 }); Snd.play('boom'); } }); }
+  return 4.8 * cd30(L); });
+sk30('highnoon', { name: 'High Noon', ic: '✵', cls: 'gunslinger', desc: ['SIGNATURE: “It’s high noon.” — the sun flares, up to 12 foes on screen are marked with a red crosshair, then you draw and put one perfect critical shot into each, twice as hard into foes already marked', '+20% damage', '+6 targets', '+20% damage, 12% faster', 'Every shot also explodes', 'Fills your Grit: a Hot Streak starts at once'] }, w => {
+  const L = w.lvl, S = v30S(), tg = uScr(0).filter(e => !e.dead).sort((p, q) => Math.hypot(p.x - P.x, p.y - P.y) - Math.hypot(q.x - P.x, q.y - P.y)).slice(0, 12 + (L >= 3 ? 6 : 0)); if (tg.length < 3) return -1;
+  const pre = new Set(tg.filter(gsMk)); for (const e of tg) { gsMark(e, 3); if (tf30('gSun')) stun30(e, 1); } S.noonT = 0.9; S.noons = (S.noons || 0) + 1; txt30(P.x, P.y - 50, 'HIGH NOON', GS.g, { sz: 12 });
+  u30('pillar', { x: P.x, y: P.y, col: GS.g, life: 0.8, max: 0.8, h: 200, w: 26 }); Snd.play('shimmer');
+  G.later.push({ t: 0.75, src: 'highnoon', f: () => { const d = 90 * dm30(L); tg.forEach((e, i) => G.later.push({ t: i * 0.035, src: 'highnoon', f: () => { if (e.dead) return; G.srcW = 'highnoon'; S.side = -(S.side || 1);
+      gsTrace(P.x + S.side * 5, P.y - 13, e.x, e.y - 6, GS.g, 3); damage(e, d * P.critMul * (pre.has(e) ? 2 : 1), { src: 'highnoon', col: GS.w, kb: 50, kx: Math.sign(e.x - P.x) || 1, ky: 0 }); if (L >= 5) gsBoom(e, S);
+      if (parts.length < 330) burst(e.x, e.y - 6, GS.g, 5, 120, 2, 0.3, true); P.atk = 1; if (i % 2 === 0) Snd.play('knife'); } }));
+    if (L >= 6 && !(S.hotT > 0)) gsHot(S); } });
+  return 18 * cd30(L); });
+pas30('quickdraw', { name: 'Quick Draw', ic: '⌁', desc: '+1.5% crit chance and +2% damage', max: 5, cls: ['gunslinger'] }, { crit: 0.015, dmg: 0.02 }, ['c', { dmg: 0.03 }]);
+evo30('sixguns', 'haste', 'Peacemakers', '#fff4d8', 1.35, 0.85, 1, 'crit', 'EVOLVED: +35% damage, faster fire, +20% crit chance on every pistol shot');
+evo30('fanhammer', 'might', 'Hellfire Fan', '#ff8a2a', 1.4, 0.85, 1.1, 'burst', '+40% damage; every fanned bullet bursts on the foe it strikes');
+evo30('ricochet', 'reach', 'Bank Job', '#cfc6b8', 1.4, 0.85, 1.1, 'chain', '+40% damage; ricochets leap even farther');
+evo30('smokeroll', 'swift', 'Ghost of the Plains', '#cfc6b8', 1.4, 0.8, 1.2, 'slow', '+40% damage; the smoke holds foes in place');
+evo30('deadeye', 'insight', 'Dead Aim', '#ff4a3a', 1.4, 0.85, 1.1, 'execute', '+40% damage; deadeye shots execute weakened foes');
+evo30('trickshot', 'expanse', 'Silver Dollar Show', '#fff4d8', 1.4, 0.85, 1.15, 'crit', '+40% damage; +20% crit chance');
+evo30('explosive', 'vigor', 'Nitro Express', '#ff8a2a', 1.4, 0.85, 1.2, 'nova', '+40% damage; every blast rings out a shockwave');
+evo30('highnoon', 'ward', 'Sundown', '#ffc85a', 1.3, 0.85, 1.15, 'execute', 'SIGNATURE EVO: +30% damage, faster; High Noon executes weakened foes outright');
 /* ================= v30 ULTIMATES: every class gets one top-tier move, unlocked mid-run once all six skills are maxed ================= */
 /* Rule: hold SKILL_SLOTS (6) skills, every one at its max level (evolutions not required). Then a big alert, and the ✹ Ultimate
    button appears: R on PC, Y on a gamepad, tap on phone (64px). If you don't fire it, it fires itself after 6s with a foe near.
@@ -8763,6 +8963,15 @@ const ULTS = {
     cast() { const tg = uScr(0).slice(0, 50); uFlash('#3a0a5a', 0.5, 0.45); tg.forEach((e, i) => uLater(0.03 * i, () => { if (e.dead) return; uBeam(P.x, P.y - 14, e.x, e.y - 8, 2, '#d8a8ff', 2); if (typeof uvAff === 'function') { uvAff(e, 'p', 6, uD(0.2), ULT_SRC); uvAff(e, 'b', 6, uD(0.2), ULT_SRC); uvAff(e, 'c', 6, uD(0.2), ULT_SRC); } else applyBurn(e, uD(0.5), 3); }));
       uFx(2.2, (f, k, a) => uLit(() => { glowAt('#b05aff', P.x, P.y - 20, 160, a); for (let i = 0; i < 8; i++) { const an = gtime * 2 + i * TAU / 8; ctx.strokeStyle = hexA('#d8a8ff', 0.6 * a); ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(P.x, P.y - 20, 30 + 50 * k, an, an + 1); ctx.stroke(); } }));
       uLater(2.2, () => { for (const e of tg) { if (e.dead) continue; uHit(e, uD(6.2), { col: '#d8a8ff' }); uSpark(e.x, e.y, '#b05aff', 8, 140); } uRing(P.x, P.y, uR(380), '#d8a8ff', 0.7, 9); uGlyph(P.x, P.y - 90, 'UNRAVEL', 30, '#f4e8ff', 1.3, { grow: 1 }); Snd.play('hexnova'); }); } },
+  gunslinger: { n: 'Dead Man’s Hand', ic: '♠', col: '#ffc85a', d: 'Aces and eights: you spin on the spot emptying both revolvers into every foe on screen in a storm of gold tracers, then four flaming cards fan out and cut through everything in sight',
+    cast() { uFlash('#4a2408', 0.4, 0.35); P.inv = Math.max(P.inv, 4.6); const S = v30S(); let k = 0;
+      for (let i = 0; i < 64; i++) uLater(0.25 + i * 0.055, () => { const tg = uScr(0); if (!tg.length) return; const e = tg[(Math.random() * tg.length) | 0]; S.side = -(S.side || 1); const a = Math.atan2(e.y - P.y, e.x - P.x);
+        const p = bolt30(P.x + S.side * 5, P.y - 12, a, 820, uD(0.6), { col: k++ % 3 ? '#ffc85a' : '#fff4d8', r: 4.5, life: 0.8, src: ULT_SRC, pierce: 1 }); P.atk = 1; if (i % 3 === 0) Snd.play('knife'); });
+      uFx(3.9, (f, kk, a) => uLit(() => { glowAt('#ff8a2a', P.x, P.y - 14, 110, 0.5 * a); ctx.strokeStyle = hexA('#ffc85a', 0.6 * a); ctx.lineWidth = 2; for (let i = 0; i < 6; i++) { const an = gtime * 5 + i * TAU / 6; ctx.beginPath(); ctx.arc(P.x, P.y - 14, 34, an, an + 0.5); ctx.stroke(); } }));
+      uGlyph(P.x, P.y - 80, 'A♠ A♣ 8♠ 8♣', 22, '#fff4d8', 1.6, { rise: 1 });
+      uLater(3.9, () => { const tg = uScr(30); for (let c = 0; c < 4; c++) { const an = -Math.PI / 2 + (c - 1.5) * 0.9, x1 = P.x + Math.cos(an) * 900, y1 = P.y + Math.sin(an) * 900; uBeam(P.x, P.y - 14, x1, y1, 10, c % 2 ? '#ff4a3a' : '#ffc85a', 0.7); }
+        for (const e of tg) { uHit(e, uD(5.2), { col: '#fff4d8' }); uSpark(e.x, e.y, '#ffc85a', 6, 130); }
+        uRing(P.x, P.y, uR(380), '#ffc85a', 0.7, 8); uGlyph(P.x, P.y - 90, 'DEAD MAN’S HAND', 26, '#ffc85a', 1.3, { grow: 1 }); Snd.play('boom'); }); } },
 };
 /* ---- state, unlock & casting ---- */
 function ultKey() { if (G.cls === 'druid') { const f = druidForm(); if (f === 'cat' || f === 'tree') return 'druid_' + f; } return ULTS[G.cls] ? G.cls : null; }
@@ -11098,7 +11307,7 @@ addEventListener('freeze', () => saveRun());
 let dmExp = false, dmSig = '', dmUiT = 0, dmHist = [], dmHistG = null;
 const DM_LBL = { '@fox': ['✺', 'Fox-fire', '#ff9a3c'], '@g_ember': ['✹', 'Ember (gear)', '#ff8a3c'], '@g_storm': ['↯', 'Storm (gear)', '#9fdcff'], '@g_thorns': ['✸', 'Thorns (gear)', '#9de07a'],
   '@bark': ['♣', 'Bark reflect', '#9de07a'], '@ult': ['✷', 'Ultimates', '#ffe23a'], '@apex': ['✹', 'Ultimate move', '#ffffff'], '@talent': ['✦', 'Talent procs', '#e0b0ff'], '@grave': ['✹', 'Grave Burst', '#b56bff'], '@other': ['•', 'Other', '#a593c4'] };
-const DM_CC = { rogue: '#ff6a8a', warlock: '#b98aff', summoner: '#5ff0d0', ranger: '#9dff6a', reaper: '#d8d0e8', rift: '#6fc8ff', druid: '#9dff6a', mage: '#8fb4ff', paragon: '#ffd36a', paladin: '#ffe08a', engineer: '#ffc860', alchemist: '#9af07a', bard: '#ffc0e8', bloodknight: '#ff5a6a', chrono: '#8ad0ff', maestro: '#3af0ff', unraveler: '#b05aff' };
+const DM_CC = { rogue: '#ff6a8a', warlock: '#b98aff', summoner: '#5ff0d0', ranger: '#9dff6a', reaper: '#d8d0e8', rift: '#6fc8ff', druid: '#9dff6a', mage: '#8fb4ff', paragon: '#ffd36a', paladin: '#ffe08a', engineer: '#ffc860', alchemist: '#9af07a', bard: '#ffc0e8', bloodknight: '#ff5a6a', chrono: '#8ad0ff', maestro: '#3af0ff', unraveler: '#b05aff', gunslinger: '#ff9a3a' };
 function dmLabel(k) { const d = WDEF[k]; if (d) { const ev = G && G.evo && G.evo[k] && EVO[k]; return [d.ic, ev ? ev.n : d.name, ev ? ev.col : d.dir === 'feral' || d.form === 'cat' ? '#ff7a96' : (DM_CC[d.cls] || '#b56bff'), !!ev]; } return DM_LBL[k] || ['•', k, '#a593c4', false]; }
 function fmtK(n) { n = +n || 0; return n >= 1e6 ? (n / 1e6).toFixed(n >= 1e7 ? 0 : 1) + 'M' : n >= 1e4 ? Math.round(n / 1e3) + 'k' : n >= 1e3 ? (n / 1e3).toFixed(1) + 'k' : String(Math.round(n)); }
 function dmSorted() { const D = (G && G.dm) || {}; return Object.keys(D).filter(k => D[k][0] >= 1).sort((a, b) => D[b][0] - D[a][0]); }
@@ -11933,7 +12142,7 @@ const TI = (() => {
     archers: 'bow', wraiths: 'ghost', corpse: 'tomb', brute: 'fist', grasp: 'hand', bow: 'bow', ballista: 'arrow', traps: 'trap', hawk: 'feather', volley: 'arrows', arrowrain: 'arrowdown', reap: 'scythe', scythethrow: 'scythe', chains: 'chain',
     skulls: 'skull', wail: 'bell', nova: 'burst', chakram: 'trap', orbs: 'orb', spiral: 'vortex', lance: 'beam', blink: 'gem', singularity: 'vortex', talons: 'claw', pounce: 'paw', shred: 'moon', seedbolt: 'leaf', starseed: 'star', stampede: 'antler',
     briars: 'thorn', tempest: 'cloud', quake: 'mountain', boulder: 'rock', mcinder: 'flame', mwake: 'flame', mcomet: 'comet', mmeteor: 'comet', mshards: 'crystal', mnova: 'snow', mward: 'shield', morbs: 'orb', mbeam: 'beam', mblink: 'gem', mbolt: 'star',
-    eclipse: 'moon', px_dagger: 'dagger', px_hex: 'vine', px_thrall: 'ghost', px_volley: 'arrows', px_scythe: 'scythe', px_rift: 'gem', px_gale: 'cloud', px_spell: 'flame', px_conv: 'star8' };
+    eclipse: 'moon', px_dagger: 'dagger', px_hex: 'vine', px_thrall: 'ghost', px_volley: 'arrows', px_scythe: 'scythe', px_rift: 'gem', px_gale: 'cloud', px_spell: 'flame', px_conv: 'star8', sixguns: 'crosshair', fanhammer: 'fan', ricochet: 'trap', smokeroll: 'cloud', deadeye: 'eye', trickshot: 'gem', explosive: 'burst', highnoon: 'sun' };
   const EMB = ['skull', 'sword', 'mask', 'flask', 'spores', 'drop', 'bone', 'link', 'crown', 'eye', 'wing', 'arrows', 'scythe', 'tomb', 'bell', 'vortex', 'pulse', 'crosshair', 'claw', 'leaf', 'tree', 'flame', 'snow', 'star', 'moon', 'rose', 'sun'];
   function cands(n) { const nm = n.n.toLowerCase(), out = []; const add = m => { if (m && M[m] && !out.includes(m)) out.push(m); };
     for (const [re, m] of KW) if (re.test(nm)) add(m);
@@ -12191,6 +12400,24 @@ const BGA = (() => {
       for (const [x, c] of [[16, th], [28, '#d8a0ff'], [W - 22, '#ff6ad8'], [W - 34, th]]) { K.r(x - 4, 128, 9, 2, '#6a4428'); K.r(x - 3, 120, 7, 8, c); K.r(x - 4, 118, 9, 2, '#6a4428'); for (let y = 121; y < 128; y += 2) K.r(x - 3, y, 7, 1, sh(c, -0.25)); }
       for (let i = 0; i < 5; i++) { const x = 20 + K.R() * (W - 40), y = 14 + K.R() * 30; K.line(x, y, x + 6, y - 6, '#e8e0f0'); K.px(x + 6, y - 6, '#fff'); K.line(x + 6, y - 6, x + 14, y + 4, K.rgba(th, 0.6)); }
       K.vig(0.5); K.frame('thread', '#3a2050', '#8a60b0', th); },
+    /* Gunslinger (v35): dusk on the dust road: burning sky, mesas, a saloon front with lit windows and swinging doors, wanted posters, cactus, drifting dust */
+    gunslinger(K, tc, bi) { const { W, H } = K, cx = W / 2, th = P3(bi, '#ffc85a', '#ff4a3a', '#ff8a2a');
+      K.sky(P3(bi, ['#2a0e1a', '#8a3a2a', '#e8904a', '#3a1a12'], ['#140818', '#5a1a2a', '#c8503a', '#2a1010'], ['#1a0a10', '#7a2a1a', '#ff9a3a', '#3a1608']));
+      K.glow(cx + 30, 70, 46, P3(bi, '#ffd86a', '#ff6a4a', '#ffb04a'), 0.55); K.circ(cx + 30, 70, 9, P3(bi, '#ffe8a0', '#ffb090', '#ffd890'));
+      K.poly([0, 96, 10, 76, 34, 74, 40, 96], '#3a1a14'); K.poly([W - 46, 96, W - 40, 70, W - 14, 68, W - 8, 82, W, 84, W, 96], '#341612'); K.r(10, 76, 24, 1, '#6a2e1e'); K.r(W - 40, 70, 26, 1, '#5a2a1a');
+      K.hills(104, 3, '#4a2416', 0.06); K.haze('#ff9a5a', 0.12, 60, 110);
+      const sx = 8, sy = 46, sw = W - 16; K.box(sx, sy + 10, sw, 76, '#4a2c16'); for (let y = sy + 12; y < sy + 86; y += 5) K.r(sx, y, sw, 1, '#2e1a0c'); K.box(sx - 2, sy, sw + 4, 12, '#5e3a1e'); K.r(sx, sy + 3, sw, 5, '#2a160a');
+      for (let i = 0; i < 9; i++) K.px(sx + 6 + i * ((sw - 12) / 8), sy + 5, th); K.r(sx - 2, sy + 11, sw + 4, 2, '#7a5028');
+      for (const wx of [sx + 6, sx + sw - 28]) { K.box(wx, sy + 22, 22, 22, '#2a1608'); K.r(wx + 2, sy + 24, 18, 18, P3(bi, '#ffb04a', '#ff7a4a', '#ffc060')); K.r(wx + 10, sy + 24, 2, 18, '#2a1608'); K.r(wx + 2, sy + 32, 18, 2, '#2a1608'); K.glow(wx + 11, sy + 33, 18, th, 0.35); }
+      const dx = cx - 12; K.r(dx, sy + 30, 24, 52, '#140a04'); K.glow(cx, sy + 50, 16, '#ffb04a', 0.3); for (const ox of [0, 13]) { K.box(dx + ox, sy + 46, 11, 18, '#7a4a22'); for (let y = sy + 48; y < sy + 62; y += 3) K.r(dx + ox + 2, y, 7, 1, '#5a3418'); }
+      K.lantern(sx + 4, sy + 16, th); K.lantern(sx + sw - 4, sy + 16, th);
+      for (const [px, py] of [[sx + 34, sy + 18], [sx + sw - 44, sy + 50]]) { K.box(px, py, 10, 13, '#e8d8a8'); K.r(px + 1, py + 1, 8, 2, '#5a2a14'); K.skull(px + 5, py + 7, '#5a3a22'); K.r(px + 2, py + 11, 6, 1, '#a8282a'); }
+      for (const x of [sx + 2, sx + sw - 4, cx - 16, cx + 14]) K.r(x, sy + 12, 2, 74, '#2a160a');
+      K.floor(132, '#7a4a26', '#3a1e0e', cx, '#a8743a'); K.r(0, 130, W, 3, '#5e3a1e');
+      const cc = '#2a4a22'; for (const [x, s] of [[14, 1], [W - 16, -1]]) { K.r(x - 2, 104, 5, 30, cc); K.r(x + s * 3, 112, 5 * s, 2, cc); K.r(x + s * 7 - (s < 0 ? 1 : 0), 104, 2, 10, cc); K.r(x - s * 4, 118, -4 * s, 2, cc); K.r(x - s * 7, 110, 2, 10, cc); K.px(x, 102, '#ff6a8a'); }
+      for (let i = 0; i < 6; i++) { const x = 20 + K.R() * (W - 40), y = 134 + K.R() * 18; K.ring(x, y, 2 + K.R() * 2, K.rgba('#c8a070', 0.35)); }
+      K.dots(26, K.rgba('#e8c090', 0.55), 0, 100, W, 158, 1); K.glow(cx, 150, 30, th, 0.18);
+      K.vig(0.5); K.frame('wood', '#5a3418', '#a8743a', th); },
     /* Druid: deep grove: misty far trees, great trunks, stone circle, shafts through canopy, ferns */
     druid(K, tc, bi) { const { W, H } = K, cx = W / 2;
       K.sky(['#0e2a1a', '#1e4a2a', '#0a1a0e']); K.glow(cx, 10, 60, '#e8ffb0', 0.4);
@@ -12303,8 +12530,8 @@ const BGA = (() => {
       K.vig(0.5); K.frame('gold', '#1e1a30', '#ffd36a', tc); },
   };
   /* themed node frames + connectors (CSS reads data-th) */
-  const TH = { paladin: 'stone', engineer: 'brass', alchemist: 'wood', bard: 'gold', bloodknight: 'iron', chrono: 'brass', maestro: 'neon', unraveler: 'thread', druid: 'vine', reaper: 'bone', rogue: 'iron', warlock: 'bone', summoner: 'crystal', ranger: 'wood', rift: 'crystal', mage: 'gold', paragon: 'gold' };
-  const AMB = { rogue: 'mote', warlock: 'ember', summoner: 'wisp', ranger: 'leaf', reaper: 'mote', rift: 'star', druid: 'wisp', mage: 'ember', paragon: 'star', paladin: 'mote', engineer: 'ember', alchemist: 'bub', bard: 'star', bloodknight: 'ember', chrono: 'star', maestro: 'bub', unraveler: 'wisp', mt0: 'ember', mt1: 'mote', mt2: 'star', mt3: 'mote' };
+  const TH = { paladin: 'stone', engineer: 'brass', alchemist: 'wood', bard: 'gold', bloodknight: 'iron', chrono: 'brass', maestro: 'neon', unraveler: 'thread', gunslinger: 'wood', druid: 'vine', reaper: 'bone', rogue: 'iron', warlock: 'bone', summoner: 'crystal', ranger: 'wood', rift: 'crystal', mage: 'gold', paragon: 'gold' };
+  const AMB = { rogue: 'mote', warlock: 'ember', summoner: 'wisp', ranger: 'leaf', reaper: 'mote', rift: 'star', druid: 'wisp', mage: 'ember', paragon: 'star', paladin: 'mote', engineer: 'ember', alchemist: 'bub', bard: 'star', bloodknight: 'ember', chrono: 'star', maestro: 'bub', unraveler: 'wisp', gunslinger: 'ember', mt0: 'ember', mt1: 'mote', mt2: 'star', mt3: 'mote' };
   /* ---------- Armory: stone wall, weapon racks, shields, banners, torches, forge ---------- */
   const ARM = [
     (K) => { K.bricks(0, K.H, '#3a2a24', '#22160f', 12, 6); const cx = K.W / 2, cy = K.H - 40; K.r(cx - 22, cy - 10, 44, 50, '#1a1210'); K.circ(cx, cy - 10, 22, '#1a1210'); K.glow(cx, cy + 10, 36, '#ff7a2a', 0.85); K.r(cx - 16, cy + 18, 32, 6, '#ffb03a'); for (let i = 0; i < 8; i++) K.r(cx - 14 + i * 4, cy + 10 + (i % 3) * 2, 2, 8, i % 2 ? '#ff5a1a' : '#ffd23a');
@@ -12340,7 +12567,7 @@ const BGA = (() => {
   function armory() { const s = typeof $ === 'function' && $('shop'); if (!s || s.dataset.bga) return; const url = paint('armory', 240, 150, wall); if (!url) return; s.dataset.bga = 1; s.classList.add('armory'); s.style.setProperty('--abg', `url(${url})`); }
   /* ---------- v32: race homeland vignettes + class-select hero hall (painted once per key, cached as dataURL) ---------- */
   const ACC = { rogue: '#ff4a6a', warlock: '#b05aff', summoner: '#3ae0d0', ranger: '#8ad85a', reaper: '#cfc6e6', rift: '#6a7aff', druid: '#9ae04a', mage: '#4aa8ff',
-    paladin: '#ffd76a', engineer: '#ffa040', alchemist: '#6aff9a', bard: '#ffcf4a', bloodknight: '#ff3a4a', chrono: '#e8c070', maestro: '#ff4ae0', unraveler: '#c890ff', paragon: '#fff0a0' };
+    paladin: '#ffd76a', engineer: '#ffa040', alchemist: '#6aff9a', bard: '#ffcf4a', bloodknight: '#ff3a4a', chrono: '#e8c070', maestro: '#ff4ae0', unraveler: '#c890ff', gunslinger: '#ffc85a', paragon: '#fff0a0' };
   const RC = { cat: '#ffb0d8', elf: '#7affc0', ogre: '#d8b048', dwarf: '#ffb040', troll: '#6ad8ff', kitsune: '#ff8a3a', scale: '#4ae0b0', shade: '#b07aff', human: '#ffd890' };
   const RPT = { cat: 'fly', elf: 'fly', ogre: 'ember', dwarf: 'ember', troll: 'fly', kitsune: 'petal', scale: 'fly', shade: 'void', human: 'fly' };
   const dims = () => (innerWidth < innerHeight ? [135, 240] : [240, 150]);
@@ -12510,7 +12737,7 @@ const BGA = (() => {
     paladin: ['#ffd76a', '#8a7650', '#2a2418', '#120f0a', '#fff4d0'], engineer: ['#ffb050', '#a8641e', '#2a1a0c', '#120a04', '#e8c890'],
     alchemist: ['#9aff8a', '#b07a2a', '#1a2410', '#0a1006', '#ffc65a'], bard: ['#ffcf4a', '#8a2a3a', '#2a1210', '#120806', '#ffb0c0'],
     bloodknight: ['#ff5a6a', '#8a1020', '#2a060c', '#120204', '#ffb0a0'], chrono: ['#e8c070', '#2a8a8a', '#0e2424', '#061010', '#ffe0a0'],
-    maestro: ['#ff4ae0', '#7a1a8a', '#1a0626', '#08020e', '#4ae0ff'], unraveler: ['#c890ff', '#6a3aa8', '#1e0e34', '#0c0618', '#ff9ad8'],
+    maestro: ['#ff4ae0', '#7a1a8a', '#1a0626', '#08020e', '#4ae0ff'], unraveler: ['#c890ff', '#6a3aa8', '#1e0e34', '#0c0618', '#ff9ad8'], gunslinger: ['#ffc85a', '#a8582a', '#2a160a', '#120a06', '#ff4a3a'],
     paragon: ['#fff0a0', '#8a5a7a', '#261a24', '#0e0a0e', '#ffffff'] };
   function talPage(cls, spec) { const s = typeof $ === 'function' && $('talents'); if (!s) return; const P = TPAL[cls] || TPAL.rogue;
     ['--t1', '--t2', '--t3', '--t4', '--t5'].forEach((k, i) => s.style.setProperty(k, P[i])); s.classList.add('tp32'); s.dataset.tcls = cls;
