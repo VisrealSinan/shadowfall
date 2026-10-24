@@ -1,18 +1,22 @@
 {
- "version": "32",
- "date": "2026-10-23",
+ "version": "33",
+ "date": "2026-10-24",
  "minLauncher": "2.0.0",
  "notes": [
-  "Every race and class combination now has its own look. Each race has its own pixel body: build, ears, horns or tusks, face, hair, tails and markings. Each class's gear picks up race-flavoured metals and trims, like Dwarf pauldrons and braided beards, Elf filigree and Orc iron. The new look shows in every pose, facing, menu portrait, armour set and with the gear toggle.",
-  "The Shade is now a proper pixel hero: a smoky, see-through body with glowing soul-eyes, wisps and legs that fade into mist.",
-  "The Ranger's Shadow Hawk is a real bird now instead of a green blob. It swoops in, flaps, folds its wings and dives onto its target with a violet smoke trail. The evolved Stormwing Roc gets blue storm plumage, and falling stars now twinkle like stars.",
-  "Talent trees get full scenes. They have depth, props and lighting: a cathedral with stained glass and pews for the Knight, a gear-filled workshop for the Engineer, a bubbling lab for the Alchemist, a tavern stage for the Bard, a gothic altar under a blood moon for the Blood Knight, a clocktower for the Chronomancer, a neon studio for the Maestro, a loom sanctum for the Unraveler, a grove for the Druid, a graveyard and crypt for the Reaper, and a scene for every other class too. Each scene has soft torchlight.",
-  "Talent nodes and connector lines now match each class, with stone, brass, wood, gold, iron, neon, thread, vine, bone and crystal frames. Locked, available and owned nodes still show their usual colours.",
-  "Every skill now has its own sound. All 165 skills get a unique cast sound and a deeper evolved version, and all 19 ultimates have their own sound. Each enemy type has its own death sound, bosses get big signature death sounds, and your hero's death sound fits their race. Sounds are made on the fly when you pick a class, so loading stays fast. Rapid-fire sounds are throttled so they never turn into noise. Your volume and mute settings still apply.",
-  "The race and class select screens are no longer bland. Each race shows its homeland behind the cards: Elf forest arches, a Dwarf forge hall, the Shade's void vortex, moonlit Cat Girl rooftops, an Ogre swamp bonfire, a Troll river bridge, Kitsune torii under sakura and a Scaleborn jungle ziggurat. The scene crossfades as you pick a race. Class select is now a hero hall: a campfire camp in Gloomwood or the Citadel's stained-glass great hall. Your hero stands on a lit pedestal, and the colours shift to match the class you hover or pick. Cards get framed borders, nameplates, iron locks and crystal Shard badges. Text stays readable, and taps and gamepad focus work as before. Before and after screenshots are in playtest-v32.",
-  "Level-up and reroll cards now match the talent tree they belong to. Every class skill and evolution card takes that tree's look: its frame material (Knight stone, Engineer brass, Unraveler woven thread, Rogue iron, Warlock bone and more), its colours, its sigil on the card back, and its talent scene as the card art, such as the Knight's stained glass, the Engineer's blueprints or the Unraveler's purple threads. A tree badge shows which spec the card feeds. Skills that don't belong to one tree use their class's look. Rarity is still easy to read from the gem, the glowing border and the gold foil on evolutions.",
-  "Neutral cards now come from Pip's travelling jester stall. Shared passives, potions and Shard caches get a candy-striped frame, a harlequin backdrop, bunting, twinkling sparkles, a wobbling icon and Pip, a cheeky mimic chest in a jester hat. Before and after card screenshots for phone and PC are in playtest-v32.",
-  "The talent screen is no longer a wall of blue. The whole page now takes on your class's colours, including the background, header, class and tree tabs, info box, and the Reset, Apply and Back buttons. Behind it sits a soft, blurred glow of the class scene. Each class has its own look, like warm gold and stone for the Knight, brass and copper for the Engineer, green and amber for the Alchemist, neon magenta and cyan for the Neural Maestro, crimson for the Blood Knight, bronze and teal for the Chronomancer, forest green for the Druid and fel green for the Warlock. Text stays easy to read and the Back button always stands out."
+  "The whole game has a new art style. The pixel look is gone. Everything is now drawn in a smooth, dark, hand-painted fantasy style, like the concept art you picked, with soft painted shading, warm torchlight against cool shadows, glowing magic and a moody vignette.",
+  "Every hero is repainted at full screen resolution, including every race and class combination (each one still looks unique), Druid forms, all facings, poses, dodges and deaths. Heroes get soft form shading, rim light and soft shadows under their feet.",
+  "All enemies, elites and bosses are repainted too, including the Hollow Stag and the Molten Tyrant with their wind-ups and deaths. They now load in the background as you need them, so the game starts faster.",
+  "Both maps have painted ground. Gloomwood has mossy, brush-textured earth and dirt roads. The Ashen Citadel has worn flagstones and carpets. Trees, rocks, ruins, tombs, landmarks, campfires, caches, shrines, puddles, bones and other ground details have soft painted edges instead of pixel blocks. Safe Haven town is repainted as well.",
+  "The world is darker and moodier. A cool ambient shadow is always on, torches, campfires and braziers cast warm glowing pools of light, spells glow, and a deeper vignette frames the screen.",
+  "Menu art is repainted: race homelands, the class hall, the talent tree scenes, the Armory, level-up and reroll cards (they keep their tree themes and Pip's jester stall) and portraits are all smooth and painterly now.",
+  "Gameplay, hitboxes and your saves are unchanged. Balance is the same except for the XP change below. Performance stays smooth on phones.",
+  "Talent trees always fit now. On small phones and in landscape the tree scrolls by itself (drag or mouse wheel, with a small \"more talents\" hint), and the tabs, info box and Reset, Apply and Back buttons stay on screen. This works for every class, the Druid and the Armory's four trees.",
+  "The health bar under your hero and your class bar (Blood, Inspiration, Hype and the rest) are now stacked with a small gap instead of drawn on top of each other. On landscape phones the Ultimate button moved so it no longer covers the DPS button, and its label is bigger.",
+  "Neural Maestro's ultimate no longer shakes the screen, and neither do its bass drop or The Drop beat pulses. It still hits hard with neon flashes, rings and glow.",
+  "Levelling is faster late in a run. XP no longer drops off after minute 8, so every gem gives the same XP all run, and levels past 20 no longer need 25% extra XP.",
+  "Visreal the Unraveler's fog is much easier to see. Black Pall and Plague Bloom, including their evolved and boosted versions, now have a glowing purple ring with drifting threads and runes that marks exactly where they deal damage, plus a slightly stronger tint. Enemies and gems still show through it on both maps.",
+  "Neural Maestro's holograms are now called Cat Humans everywhere, and they come as cat-eared young women or young men in the same hologram glow, with the same stats. They match your hero's chosen body, or you can pick Auto, Female or Male under Outfit when Neural Maestro is selected. The Cat Girl race is now called Cat Human.",
+  "You can now choose a Male or Female body for every race on the race select screen. Male is the classic look, so existing saves look the same. Your choice is saved for each race and changes your hero's face and hair in every class, pose and portrait. It does not change any stats."
  ],
  "files": [
   {
@@ -37,8 +41,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "3e4ec8615e81304bda6d3ad830e98d194ddc51da084d52a0493a24c188606ba2",
-   "size": 1709348
+   "sha256": "be825aff4faaceee14a88af2d1b336ca76fddfdd9fd07f68a4d700c40dcab787",
+   "size": 1746266
   },
   {
    "name": "manifest.webmanifest",
@@ -47,7 +51,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "2980338f99725efe707c47795ea1ff4399876ad86756b4dd3ae712d5e4806234",
+   "sha256": "dcd02dd4a986538bc45b3a8855924d7c3ec6684941a0396696fb0ba38f0af917",
    "size": 1466
   }
  ]

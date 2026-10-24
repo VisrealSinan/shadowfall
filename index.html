@@ -304,6 +304,13 @@ h3,.lbl,.branch .bn{color:#ffe08a}
 .wprev{display:flex;flex-direction:column;align-items:center;margin:2px 0 4px}
 .wprev canvas{width:150px;height:150px;border-radius:24px;background:radial-gradient(circle at 50% 38%,#8fd0ff,#2a5cc0 70%,#14306e);border:3px solid #f2c94c;box-shadow:0 0 18px rgba(255,210,80,.35)}
 .wprev .wname{font-size:12px;color:#dfe8ff;margin-top:3px;font-weight:700}
+.swatches .chsx{min-height:44px;min-width:118px;font-size:12px;padding:6px 10px;border-radius:14px;border:2px solid #c45ab0;background:linear-gradient(180deg,#3a1440,#1e0a26);color:#ffd9f4;box-shadow:0 0 12px rgba(255,90,200,.35);align-self:center}.swatches .chsx b{display:block;font-size:20px;line-height:24px;color:#ff8ad8}
+.rsex{display:flex;align-items:center;justify-content:center;gap:8px;margin:6px auto 0;width:100%;max-width:560px}
+.rsex .lb{font-size:13px;color:#cfe0ff;font-weight:700;letter-spacing:.04em;margin-right:2px}
+.rsex .sxb{min-height:44px;min-width:104px;padding:6px 14px;border-radius:12px;border:2px solid #5a4a7a;background:linear-gradient(#2a2140,#1a1428);color:#e8e0ff;font:700 15px/1.1 inherit;font-family:inherit;cursor:pointer}
+.rsex .sxb small{display:block;font-size:12px;font-weight:600;color:#a898c8}
+.rsex .sxb.on{border-color:#7ce0b0;background:linear-gradient(#24483c,#142a24);color:#fff;box-shadow:0 0 10px rgba(124,224,176,.35)}
+@media (orientation:landscape) and (max-height:560px){.wprev{display:flex;align-items:center;justify-content:center;gap:12px;padding:2px 0}.wprev canvas{width:84px;height:84px;border-radius:16px}.wprev .wname{margin-top:0}}
 .wsec{width:min(92vw,380px);margin:8px 0 2px;font-size:12px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:#ffe08a}
 .wrow{display:flex;gap:6px;overflow-x:auto;width:min(92vw,380px);padding:2px 0 4px;-webkit-overflow-scrolling:touch}
 .wsw{flex:0 0 66px;font:inherit;font-size:9.5px;font-weight:700;line-height:1.1;color:#dfe8ff;background:none;border:none;padding:0;text-align:center;touch-action:manipulation;position:relative}
@@ -531,6 +538,8 @@ body:not(.desktopapp) .apponly{display:none!important}
 #ultBtn.rdy{animation:ultPulse 1s ease-in-out infinite}@keyframes ultPulse{50%{box-shadow:0 0 22px var(--uc),0 3px 12px rgba(0,0,0,.55);transform:scale(1.06)}}#ultBtn:active{transform:scale(.92)}
 #ultBtn kbd.kh{position:absolute;top:-8px;left:-6px;margin:0}#ultBtn .gpg{position:absolute;top:-8px;right:-6px}
 body.pc #ultBtn{bottom:calc(env(safe-area-inset-bottom,0px) + 110px);right:22px}
+@media (max-height:560px){body:not(.pc) #ultBtn{bottom:calc(env(safe-area-inset-bottom,0px) + 30px);right:calc(env(safe-area-inset-right,0px) + 178px)}}
+#ultBtn small{font-size:12px!important;letter-spacing:.04em!important;margin-top:1px!important}
 #jumpBtn.on{display:flex}#jumpBtn span{font-size:22px;line-height:1}#jumpBtn small{font-size:9px;letter-spacing:.08em;font-weight:800}#jumpBtn.pressed,#jumpBtn:active{transform:scale(.92);opacity:1}
 #jumpHint{position:absolute;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 64px);transform:translateX(-50%);z-index:5;pointer-events:none;opacity:0;transition:opacity .5s;
  font-size:13px;color:#f3e6c8;background:rgba(14,8,22,.6);border:1px solid rgba(255,226,140,.3);border-radius:10px;padding:4px 10px;white-space:nowrap}
@@ -643,6 +652,28 @@ body:not(.pc) #talents .talfoot .taltip{font-size:12.5px;line-height:1.32;paddin
 #talents .talfoot .row{width:min(92vw,380px)}
 #talents .talfoot .row .btn{flex:1}
 #btnTalApply:disabled{filter:saturate(.3) brightness(.7)}
+/* v33 fit: phone = header/tabs on top, footer (info + Reset/Apply/Back) pinned at the bottom, only the tree area scrolls */
+body:not(.pc) #talents.on{overflow:hidden;padding-bottom:0}
+body:not(.pc) #talView{flex:0 1 auto;min-height:96px;overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+body:not(.pc) #talView::-webkit-scrollbar{display:none}
+body:not(.pc) #talents>.selfoot{position:relative;bottom:auto;flex:0 0 auto;margin-top:6px;padding-top:6px;z-index:3}
+body:not(.pc) #talents>.spacer{flex:1 1 0;min-height:0}
+#talSH{position:fixed;z-index:30;display:none;pointer-events:none;transform:translateX(-50%);font:900 12px -apple-system,system-ui,sans-serif;letter-spacing:.06em;color:#1a1000;
+ background:linear-gradient(180deg,#fff3b0,#f2c94c);border:2px solid #2a0a14;border-radius:999px;padding:3px 12px;box-shadow:0 3px 10px rgba(0,0,0,.55);opacity:.9;animation:bob 1.2s infinite ease-in-out}
+#talSH.on{display:block}
+#talView.shd{-webkit-mask-image:linear-gradient(180deg,#000 calc(100% - 26px),rgba(0,0,0,.35));mask-image:linear-gradient(180deg,#000 calc(100% - 26px),rgba(0,0,0,.35))}
+@media (orientation:landscape) and (max-height:560px){
+ body:not(.pc) #talents.on{display:grid;grid-template-columns:minmax(290px,1fr) minmax(250px,1.12fr);grid-template-rows:auto auto auto minmax(0,1fr);column-gap:12px;align-items:start;align-content:stretch}
+ body:not(.pc) #talents>.spacer{display:none}
+ body:not(.pc) #talView{grid-column:1;grid-row:1/5;width:100%;max-width:420px;justify-self:center;align-self:stretch;max-height:100%;min-height:0}
+ body:not(.pc) #talTabs{grid-column:2;grid-row:1;width:100%;margin:0 0 4px}
+ body:not(.pc) #talents .talhead{grid-column:2;grid-row:2;width:100%;margin:0 0 4px}
+ body:not(.pc) #talSpecs{grid-column:2;grid-row:3;width:100%;margin:0 0 4px}
+ body:not(.pc) #talents>.selfoot{grid-column:2;grid-row:4;align-self:stretch;min-height:0;margin:0!important;padding:0 0 calc(env(safe-area-inset-bottom) + 8px);background:none;justify-content:flex-end}
+ body:not(.pc) #talents .talfoot .taltip{width:100%;box-sizing:border-box;flex:0 1 auto;min-height:0;max-height:none;overflow-y:auto;box-shadow:none}
+ body:not(.pc) #talents .talfoot .row{width:100%;flex:0 0 auto}
+ body:not(.pc) #talents .talfoot .row .btn{min-height:44px;padding:8px 6px}
+}
 /* PC: the three trees side by side, floating tooltip */
 .pc #talents{--ns:48px;--rp:62px;--gut:20px;--pad:8px}
 .pc #talents.on{display:flex;padding-top:10px}
@@ -906,7 +937,7 @@ canvas.hop{animation:hopk .55s ease-in-out;transform-origin:50% 90%}canvas.hopbi
 /* v32: race homeland + class hall scenes */
 .screen.scn{isolation:isolate;background:#07060c}
 .scn32{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;background:#07060c;--pc:var(--rc,#ffd890)}
-.scn32 i{position:absolute;inset:0;background:center top/cover no-repeat;image-rendering:pixelated;opacity:0;transition:opacity .6s ease}
+.scn32 i{position:absolute;inset:0;background:center top/cover no-repeat;image-rendering:auto;opacity:0;transition:opacity .6s ease}
 .scn32 i.on{opacity:1}
 .scn32::before{content:"";position:absolute;inset:0;z-index:2;background:radial-gradient(ellipse 60% 34% at 50% 30%,color-mix(in srgb,var(--acc,var(--rc,#ffd890)) 30%,transparent),transparent 70%),radial-gradient(ellipse 70% 30% at 50% 100%,rgba(255,120,40,.16),transparent 70%);animation:s32flk 2.6s ease-in-out infinite alternate}
 .scn32::after{content:"";position:absolute;inset:0;z-index:3;background:linear-gradient(180deg,rgba(6,4,12,.25),rgba(6,4,12,.05) 26%,rgba(6,4,12,.35) 62%,rgba(6,4,12,.78))}
@@ -959,7 +990,7 @@ canvas.hop{animation:hopk .55s ease-in-out;transform-origin:50% 90%}canvas.hopbi
 
 /* ===== v32: class/tree-themed level-up cards (.ct + data-th) and jester-merchant neutral cards (.nt) ===== */
 :is(#choices,#tcFx) .card.tc.ct{--tcl:#8aa0ff}
-:is(#choices,#tcFx) .card.tc:is(.ct,.nt) .art{background:radial-gradient(ellipse at 50% 70%,var(--rg) 0,transparent 58%),linear-gradient(180deg,rgba(0,0,0,0) 40%,rgba(4,4,16,.55) 100%),var(--abg,none) center 38%/cover no-repeat,#0b1030;image-rendering:pixelated;box-shadow:0 0 0 1px var(--tcl,var(--fr)),inset 0 -14px 18px rgba(0,0,0,.35)}
+:is(#choices,#tcFx) .card.tc:is(.ct,.nt) .art{background:radial-gradient(ellipse at 50% 70%,var(--rg) 0,transparent 58%),linear-gradient(180deg,rgba(0,0,0,0) 40%,rgba(4,4,16,.55) 100%),var(--abg,none) center 38%/cover no-repeat,#0b1030;image-rendering:auto;box-shadow:0 0 0 1px var(--tcl,var(--fr)),inset 0 -14px 18px rgba(0,0,0,.35)}
 :is(#choices,#tcFx) .card.tc.evo:is(.ct,.nt) .art{background:radial-gradient(ellipse at 50% 62%,rgba(255,240,170,.85) 0,transparent 55%),repeating-conic-gradient(from 0deg at 50% 62%,rgba(255,220,120,.2) 0 10deg,transparent 10deg 20deg),var(--abg,none) center 38%/cover no-repeat,#2a0a40}
 :is(#choices,#tcFx) .card.tc:is(.ct,.nt) .art::before{opacity:.5}
 :is(#choices,#tcFx) .card.tc .art .spec{position:absolute;left:3px;top:3px;max-width:calc(100% - 6px);box-sizing:border-box;padding:1px 5px;border-radius:6px;font:900 12px/1.2 -apple-system,system-ui,sans-serif;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
@@ -1064,6 +1095,7 @@ canvas.hop{animation:hopk .55s ease-in-out;transform-origin:50% 90%}canvas.hopbi
  <div class="topbar"><span style="color:#cfe0ff;font-size:13px">Every race works with every class</span><span class="shard" id="raceShards"></span></div>
  <div id="raceList"></div>
  <div id="raceDetail" class="rdet"></div>
+ <div id="raceSex" class="rsex" role="group" aria-label="Body"></div>
  <div class="spacer" style="min-height:0"></div>
  <div class="selfoot">
   <button class="btn primary" id="btnRaceNext" style="margin-top:0" data-kh="Enter">Choose Class ›</button>
@@ -1100,6 +1132,7 @@ canvas.hop{animation:hopk .55s ease-in-out;transform-origin:50% 90%}canvas.hopbi
  <div class="tspecs" id="talSpecs"></div>
  <div id="talView"><div id="talTree"></div><div class="talhov" id="talHov"></div></div>
  <div class="spacer" style="min-height:0"></div>
+ <div id="talSH" aria-hidden="true">▾ more talents</div>
  <div class="selfoot talfoot"><div class="taltip" id="talTip"></div>
  <div class="row"><button class="btn small" id="btnTalReset" data-kh="R">Reset</button><button class="btn small primary" id="btnTalApply">✔ Apply</button><button class="btn small" id="btnTalBack" data-kh="Esc">Back</button></div></div>
 </div>
@@ -1301,7 +1334,7 @@ const SAVE_KEY = 'visreal_shadowfall_save_v1';
 const OLD_CLASS = { daggers: 'rogue', staff: 'warlock', scythe: 'reaper', chakram: 'rift' };
 const START_CLASSES = { rogue: 1, warlock: 1, summoner: 1, ranger: 1, druid: 1, mage: 1 }; // v9: Druid is free for everyone · v13: Mage too
 const migClass = id => OLD_CLASS[id] || id;
-const defSave = () => ({ v: 2, stash: {}, autoEquip: true, gearOver: false, shards: 0, best: 0, bestKills: 0, bestLevel: 0, runs: 0, totalKills: 0, meta: {},
+const defSave = () => ({ sex: {}, v: 2, stash: {}, autoEquip: true, gearOver: false, shards: 0, best: 0, bestKills: 0, bestLevel: 0, runs: 0, totalKills: 0, meta: {},
   classes: Object.assign({}, START_CLASSES), outfits: { crimson: 1 }, outfit: 'crimson', lastClass: 'rogue', race: 'elf', muted: false, cxp: {}, talents: {}, ach: null, cos: { armor: {}, race: {}, eye: '', aura: '' }, audio: { music: 0.6, sfx: 0.7, musicOn: true, sfxOn: true } });
 function loadSave() { try { const s = JSON.parse(localStorage.getItem(SAVE_KEY)); const d = defSave(); if (s && typeof s === 'object') { Object.assign(d, s); d.meta = s.meta || {};
     const cl = Object.assign({}, START_CLASSES); for (const k in (s.classes || {})) if (s.classes[k]) cl[migClass(k)] = 1; d.classes = cl;
@@ -1756,7 +1789,7 @@ const OUTFITS = {
 };
 /* ---- Races: look + racial buffs (green) & debuffs (red). All free from the start. ---- */
 const RACES = {
-  cat: { name: 'Cat Girl', role: 'Nimble · Lucky', flavor: '“Nine lives? I only need this one.”', ic: '🐾',
+  cat: { name: 'Cat Human', role: 'Nimble · Lucky', flavor: '“Nine lives? I only need this one.”', ic: '🐾',
     look: { w: 0.97, h: 1, hs: 1.03, skin: '#ffe2cf', fur: '#f0a35c' },
     st: { speedMul: 0.10, dodge: 0.05, crit: 0.05, hpMul: -0.15 },
     buffs: ['+10% move speed', '+5% evasion', '+5% crit chance'], debuffs: ['−15% max HP'] },
@@ -2057,8 +2090,8 @@ const TALENTS = {
     passive: 'Blood Price', pdesc: 'Some skills cost health (never below 1). Spent health fills your Blood meter — at 100 your next cleave becomes a huge Crimson Wave. You deal up to +40% damage as your health drops, and your cleaves heal you for every foe they hit', stats: { maxHp: 120, armor: 2, speed: 0.98 }, chips: ['♥ 120', '❣ Lifesteal', '☨ Melee'] },
   chrono: { name: 'Chronomancer', role: 'Controller · Time Magic', flavor: '“You are already too late. I made sure of it.”', desc: 'Bends time itself: slows and freezes foes, sends echoes of his past self to fight beside him, rewinds his own wounds — and can stop the clock for everything but himself.', weapon: 'clockhand', wname: 'Clockhand Bolts', art: 'staff', tint: '#5ab0ff', cost: 1400,
     passive: 'Borrowed Time', pdesc: 'Your hits fill the Sand meter. When it is full, Time Warp rewinds every skill cooldown by 65%. Slowed foes take +8% damage and frozen foes take +25%', stats: { maxHp: 95, armor: 0, speed: 1.02 }, chips: ['♥ 95', '◷ Control', '⌛ Cooldowns'] },
-  maestro: { name: 'Neural Maestro', role: 'AI DJ · Beats & Holograms', flavor: '“Prompt accepted. Dropping the bass.”', desc: 'Ghalrym’s class: an AI DJ who conducts every fight at 128 BPM. His attacks pulse to the beat, anime Holo-Neko cat-girl holograms dance and fight beside him, glitches corrupt his foes — and when the build-up ends, he drops the bass.', weapon: 'beatpulse', wname: 'Beat Pulse', art: 'staff', tint: '#3af0ff', cost: 1800,
-    passive: 'On the Beat', pdesc: 'A 128 BPM beat drives everything: hits that land on the beat deal +20% damage and build Hype. At 100 Hype the Hype Train starts — 6s of a faster beat and +10% damage. Hits can Glitch foes (+15% damage taken for 3s)', stats: { maxHp: 92, armor: 0, speed: 1.04 }, chips: ['♥ 92', '⏚ Beat', '⚇ Holo-Nekos'] },
+  maestro: { name: 'Neural Maestro', role: 'AI DJ · Beats & Holograms', flavor: '“Prompt accepted. Dropping the bass.”', desc: 'Ghalrym’s class: an AI DJ who conducts every fight at 128 BPM. His attacks pulse to the beat, anime Cat Human holograms (cat-eared young women and men) dance and fight beside him, glitches corrupt his foes — and when the build-up ends, he drops the bass.', weapon: 'beatpulse', wname: 'Beat Pulse', art: 'staff', tint: '#3af0ff', cost: 1800,
+    passive: 'On the Beat', pdesc: 'A 128 BPM beat drives everything: hits that land on the beat deal +20% damage and build Hype. At 100 Hype the Hype Train starts — 6s of a faster beat and +10% damage. Hits can Glitch foes (+15% damage taken for 3s)', stats: { maxHp: 92, armor: 0, speed: 1.04 }, chips: ['♥ 92', '⏚ Beat', '⚇ Cat Humans'] },
   unraveler: { name: 'Visreal the Unraveler', role: 'Afflictions · Plague, Fire & Curses', flavor: '“Every thread comes loose. I simply pull.”', desc: 'Visreal’s own class: an elegant violet sorcerer who never kills quickly — he unravels. Plague, violet fire and shadow curses stack on every foe, threads of fate fray off them, and with one pull every affliction spreads to everything nearby.', weapon: 'fraybolt', wname: 'Fraying Bolt', art: 'staff', tint: '#b05aff', cost: 2000,
     passive: 'Loose Threads', pdesc: 'Plague, Burning and Curses stack on foes and tick for visible damage. Each distinct affliction on a foe makes it take +10% damage, and every Curse stack amplifies the other afflictions by 8%. Afflicted foes pass on part of their stacks when they die (Contagion). Afflicted kills wind the Loom: when it is full, a wave of every affliction rolls out', stats: { maxHp: 90, armor: 0, speed: 1.02 }, chips: ['♥ 90', '⚸ Afflictions', '⚵ Contagion'] },
 }); CLASSES.paragon = _pg; }
@@ -2221,7 +2254,7 @@ Object.assign(TALENTS, {
       ['ch_hp3', 'Endurance', '♥', { maxHp: 6 }], ['ch_elite', 'Kingslayer Hour', '♛', { eliteDmg: 0.03 }],
       ['ch_reg2', 'Eternal Spring', '✚', { regen: 0.2 }], ['ch_arm2', 'Star-Woven Robes', '⛊', { armor: 0.4 }],
       ['ch_eternal', 'Master of Hours', '⌛', {}, { f: 'cEternal', d: 'CAPSTONE: Zero Hour recharges 30% faster and resets every other cooldown' }]])],
-  maestro: [ // v30 Neural Maestro (Ghalrym's class): Bassline (beat & drop) · Holo-Nekos (cat-girl holograms) · Neural Net (glitches & prompts)
+  maestro: [ // v30 Neural Maestro (Ghalrym's class): Bassline (beat & drop) · Cat Humans (cat-eared holograms) · Neural Net (glitches & prompts)
     TTREE('Bassline', '⏚', '#3af0ff', [
       ['mx_pulse', 'Fat Bass', '⏚', { sd_beatpulse: 0.07 }], ['mx_hp', 'Sound Check', '♥', { maxHp: 5 }],
       ['mx_heavy', 'Heavy Downbeat', '⏚', {}, { f: 'mHeavy', d: 'On-beat hits deal {35}% more damage (instead of 20%)' }], ['mx_cd', 'Tight Timing', '↯', { cd: 0.012 }], ['mx_sub', 'Bass Bins', '⛃', { sd_subwoofer: 0.08 }],
@@ -2230,14 +2263,14 @@ Object.assign(TALENTS, {
       ['mx_drop', 'Bigger Drop', '✇', { sd_thedrop: 0.1 }], ['mx_spd', 'Dance Floor', '»', { speed: 0.015 }],
       ['mx_reg', 'Chill Lofi', '✚', { regen: 0.2 }], ['mx_dmg2', 'Loudness War', '✦', { dmg: 0.015 }],
       ['mx_double', 'Double Drop', '✇', {}, { f: 'mDouble', d: 'CAPSTONE: The Drop drops twice — a second, bigger shockwave hits one beat later' }]]),
-    TTREE('Holo-Nekos', '⚇', '#ff8ad8', [
+    TTREE('Cat Humans', '⚇', '#ff8ad8', [
       ['mx_neko', 'Render Quality', '⚇', { sd_holoneko: 0.08 }], ['mx_hp2', 'Cozy Hoodie', '♥', { maxHp: 5 }],
-      ['mx_purr', 'One More Neko', '⚇', {}, { f: 'mPurr', d: '+1 Holo-Neko' }], ['mx_crit', 'Cat Reflexes', '◈', { crit: 0.01 }], ['mx_neko2', 'Kawaii Overdrive', '⚇', { sd_holoneko: 0.07 }],
-      ['mx_pounce', 'Pounce!', '⚆', {}, { f: 'mPounce', d: 'Holo-Nekos pounce on a foe every 4 beats' }], ['mx_dodge', 'Light Paws', '≋', { dodge: 0.008 }], ['mx_cm', 'Sharp Claws', '◈', { critMul: 0.05 }],
-      ['mx_nya', 'Nya~', '♥', {}, { f: 'mNya', d: 'Holo-Neko shots have a {25}% chance to Glitch' }], ['mx_dmg3', 'Fan Service', '✦', { dmg: 0.015 }], ['mx_ls', 'Headpats', '❣', { lifesteal: 0.004 }],
+      ['mx_purr', 'One More Cat Human', '⚇', {}, { f: 'mPurr', d: '+1 Cat Human' }], ['mx_crit', 'Cat Reflexes', '◈', { crit: 0.01 }], ['mx_neko2', 'Kawaii Overdrive', '⚇', { sd_holoneko: 0.07 }],
+      ['mx_pounce', 'Pounce!', '⚆', {}, { f: 'mPounce', d: 'Cat Humans pounce on a foe every 4 beats' }], ['mx_dodge', 'Light Paws', '≋', { dodge: 0.008 }], ['mx_cm', 'Sharp Claws', '◈', { critMul: 0.05 }],
+      ['mx_nya', 'Nya~', '♥', {}, { f: 'mNya', d: 'Cat Human shots have a {25}% chance to Glitch' }], ['mx_dmg3', 'Fan Favourite', '✦', { dmg: 0.015 }], ['mx_ls', 'Headpats', '❣', { lifesteal: 0.004 }],
       ['mx_tune', 'Pitch Correct', '⎈', { sd_autotune: 0.08 }], ['mx_elite', 'Boss Fight Mix', '♛', { eliteDmg: 0.03 }],
       ['mx_reg2', 'Purring', '✚', { regen: 0.15 }], ['mx_cd2', 'Quantized', '↯', { cd: 0.01 }],
-      ['mx_catjam', 'Cat Jam', '⚈', {}, { f: 'mCatJam', d: 'CAPSTONE: during the Hype Train every Holo-Neko fires twice per beat, and The Drop summons 2 extra Holo-Nekos for 8s' }]]),
+      ['mx_catjam', 'Cat Jam', '⚈', {}, { f: 'mCatJam', d: 'CAPSTONE: during the Hype Train every Cat Human fires twice per beat, and The Drop summons 2 extra Cat Humans for 8s' }]]),
     TTREE('Neural Net', '⏣', '#9aff6a', [
       ['mx_net', 'Wider Layers', '⏣', { sd_neuralnet: 0.08 }], ['mx_cd3', 'Fast Inference', '↯', { cd: 0.012 }],
       ['mx_glitch', 'Corrupted Data', '⌘', {}, { f: 'mGlitch', d: 'Hits Glitch foes {3}% more often' }], ['mx_prompt', 'Better Prompts', '⍟', { sd_promptstorm: 0.08 }], ['mx_step', 'Lag Spike', '⌘', { sd_glitchstep: 0.08 }],
@@ -2327,7 +2360,7 @@ Object.assign(ARMOR_SETS, {
     AS('ch_eternal', 'Eternity Regalia', '#3a6ad0', '#0a1a4a', '#fff0b0', 'stars', '#1a1a3a', '#ffd25a')],
   maestro: [AS('mx_hoodie', 'Neon Hoodie', '#1a2a4a', '#0a0e1e', '#3af0ff', 'runes', '#ff4ad8'), AS('mx_studio', 'Studio Session', '#2a2a32', '#0e0e14', '#ff8ad8', 'studs', '#3af0ff'),
     AS('mx_synth', 'Synthwave Jacket', '#5a1a7a', '#1a0628', '#ff4ad8', 'stars', '#3af0ff'), AS('mx_matrix', 'Training Data', '#0a2a1a', '#020a06', '#9aff6a', 'runes', '#1a5a2a'),
-    AS('mx_idol', 'Neko Idol Stage Coat', '#f0e8ff', '#5a3a8a', '#ff8ad8', 'filigree', '#3af0ff', '#ffb0f0')],
+    AS('mx_idol', 'Cat Human Idol Coat', '#f0e8ff', '#5a3a8a', '#ff8ad8', 'filigree', '#3af0ff', '#ffb0f0')],
   unraveler: [AS('uv_regal', 'Unravelled Regalia', '#3a1a5a', '#140628', '#d8b0ff', 'filigree', '#9a5aff'), AS('uv_plague', 'Plaguewoven Robe', '#2a3a1a', '#0e1606', '#9ae05a', 'runes', '#b05aff'),
     AS('uv_ember', 'Emberthread Mantle', '#4a1a2a', '#1a0610', '#ff7a4a', 'stars', '#b05aff'), AS('uv_hexv', 'Hexbound Vestments', '#1a0a2a', '#08020e', '#b05aff', 'runes', '#ff5ad8'),
     AS('uv_void', 'Voidsilk of the Unraveler', '#f0e0ff', '#4a2a7a', '#b05aff', 'filigree', '#ffd0ff', '#9ae05a')],
@@ -2430,7 +2463,7 @@ Object.assign(ACH_NAMES, {
   unraveler: ['Loose Threads', 'Pandemic', 'Triple Affliction', 'Unravelled', 'Visreal the Unraveler'],
 });
 const RACE_ACH = {
-  cat: { k: 'r_cat_dodge', goal: 250, name: 'Can\'t Touch This', desc: 'Evade 250 hits as a Cat Girl', ic: '≋' },
+  cat: { k: 'r_cat_dodge', goal: 250, name: 'Can\'t Touch This', desc: 'Evade 250 hits as a Cat Human', ic: '≋' },
   elf: { k: 'r_elf_fast', goal: 15, name: 'Swift Study', desc: 'Reach level 15 before 6:00 as an Elf', ic: '✧' },
   ogre: { k: 'r_ogre_kb', goal: 2500, name: 'Bowling Night', desc: 'Knock back foes 2,500 times as an Ogre', ic: '✊' },
   dwarf: { k: 'r_dwarf_sh', goal: 600, name: 'Deep Pockets', desc: 'Earn 600 Shards as a Dwarf', ic: '◆' },
@@ -4393,6 +4426,8 @@ function flashOf(src) { const c = mkCanvas(src.width, src.height), g = c.getCont
 const SPR = { enemy: {}, minion: {}, gem: [], pick: {}, prop: {}, glow: {}, npc: {}, npcP: {}, shadow: null, smoke: null, light: null };
 let groundTile = null;
 const TILE = 256;
+// v33: device pixels per art pixel (1 art px = 1 world unit; the camera shows ZOOM px per unit at DPR)
+function artK() { const d = typeof DPR !== 'undefined' ? DPR : 2, z = typeof ZOOM !== 'undefined' ? ZOOM : 1; return clamp(Math.round(d * z * 1.1), 2, PC ? 4 : 3); }
 /* v15: creature frame bake. 4-step walk/flap cycle + wind-up pose (+ shared hit-flash, shadow silhouette for the death dissolve).
    Ground creatures get a baked contact shadow. Rim light follows the time-of-day key light; on a phase change frames are re-lit
    incrementally (~3 ms budget per frame) so there is never a hitch and memory stays flat. */
@@ -4413,7 +4448,7 @@ function applyEnemyFrame(k, i, f) { const A = SPR.enemy[k];
   if (i < 4) A[i].img = f.img; else A.wind.img = f.img;
   if (f.flash) { for (let j = 0; j < 4; j++) A[j].flash = f.flash; A.wind.flash = f.flash; A.dark = f.dark; } }
 function bakeEnemy(k) { const A = [0, 1, 2, 3].map(() => ({ img: null, flash: null })); A.wind = { img: null, flash: null }; SPR.enemy[k] = A; for (let i = 0; i < 5; i++) applyEnemyFrame(k, i, bakeEnemyFrame(k, i)); }
-function relightEnemies(ph) { SPR.keyPh = ph; SPR.rq = []; for (const k in ETYPES) for (let i = 0; i < 5; i++) SPR.rq.push([k, i]); }
+function relightEnemies(ph) { SPR.keyPh = ph; SPR.rq = []; for (const k in ETYPES) { const d = Object.getOwnPropertyDescriptor(SPR.enemy, k); if (d && d.get) continue; for (let i = 0; i < 5; i++) SPR.rq.push([k, i]); } } // v33: types not baked yet stay lazy
 function tickRelight(ms = 3) { const t0 = performance.now(); while (SPR.rq.length && performance.now() - t0 < ms) { const [k, i] = SPR.rq.shift(); applyEnemyFrame(k, i, bakeEnemyFrame(k, i)); } }
 const WIND_ST = { tele: 1, slam: 1, fuse: 1, rise: 1, blink: 1 };
 const WIND_AI = { seer: 330, spitter: 340, healer: 1e4, caller: 1e4, sprite: 330, wolf: 230, thornqueen: 1e4, mother: 1e4, colossus: 1e4 };
@@ -4424,9 +4459,12 @@ function eWind(e, def) { if (WIND_ST[e.st]) return true; if (e.st) return false;
 let corpses = [];
 function buildArt() { PXA.glue.sync();
   RS = clamp(Math.ceil(DPR * ZOOM * 1.0), 1, 3);
+  { const k = artK(); if (k !== PXA_K) { PXA_K = k; PXA.cache.clear(); } } // v33: painted sprites are baked at device resolution
   const OLW = Math.max(1, RS * 0.8);
   SPR.olw = OLW; SPR.keyPh = typeof G !== 'undefined' && G && G.t ? phaseName(G.t) : 'Day'; SPR.rq = []; const _bt = performance.now();
-  for (const k in ETYPES) bakeEnemy(k);
+  SPR.enemy = {}; const _lz = Object.keys(ETYPES); // v33: painted enemies bake on first use, the rest trickle in a few ms at a time
+  for (const k of _lz) Object.defineProperty(SPR.enemy, k, { configurable: true, enumerable: true, get() { delete SPR.enemy[k]; bakeEnemy(k); return SPR.enemy[k]; } });
+  const _gen = SPR.lzGen = (SPR.lzGen | 0) + 1, _step = () => { if (SPR.lzGen !== _gen) return; const k = _lz.shift(); if (!k) return; void SPR.enemy[k]; setTimeout(_step, typeof G !== 'undefined' && G && !G.paused ? 160 : 30); }; setTimeout(_step, 400);
   SPR.bakeMs = performance.now() - _bt;
   for (const k in MDRAW) { const sz = MDEF[k].size; SPR.minion[k] = [0, 1, 2].map(f => { const c = outlineSprite(paintSprite(makeSprite(g => MDRAW[k](g, f), sz), '#e8fff6', 0.4), OLW); return { img: c, flash: flashOf(c) }; }); }
   SPR.gem = GEM_COL.map((c, i) => makeSprite(g => drawGem(g, c, 3.2 + i * 0.9), 26));
@@ -4467,7 +4505,7 @@ function buildArt() { PXA.glue.sync();
   groundTile = c;
   if (PXA.on) PXA.glue.art();
 }
-let PXA_RID = null, PXA_STEP = null;
+let PXA_RID = null, PXA_STEP = null, PXA_K = 3; // v33: device pixels per art pixel for baked sprites
 /* ================= v23 ANIME PIXEL ART (preview, behind Settings → Art style) =================
    Every sprite is still drawn by code (so it animates and recolours like before), but straight into a tiny pixel buffer at
    1 art pixel = 1 world unit: shaded primitives pick colours from short hue-shifted ramps, then a pass adds the 1px dark outline
@@ -4490,13 +4528,17 @@ const PXA = (() => {
     const d = h2r(cols[0]); R.ol = (() => { PAL.push(r2h(d[0] * 0.45 + 8, d[1] * 0.4 + 4, d[2] * 0.45 + 14)); RGB.push(h2r(PAL[PAL.length - 1])); RID.push(id); LV.push(-1); EMI.push(0); return PAL.length - 1; })();
     R.id = id; RAMPS.push(R); RC.set(key, R); return R; }
   const OLD = ramp(['#0b0612', '#140c1e', '#20142c', '#2c1c3a', '#382448']);
-  // pixel buffer. Coordinates are local (origin ox, oy); pixel (x, y) covers [x, x+1)
-  class PB { constructor(w, h, ox = 0, oy = 0) { this.w = w; this.h = h; this.ox = ox; this.oy = oy; this.a = new Uint16Array(w * h); this.fx = 0; }
-    set(x, y, c) { x = Math.floor(x + this.ox); y = Math.floor(y + this.oy); if (x < 0 || y < 0 || x >= this.w || y >= this.h || !c) return; this.a[y * this.w + x] = c; }
-    get(x, y) { x = Math.floor(x + this.ox); y = Math.floor(y + this.oy); return x < 0 || y < 0 || x >= this.w || y >= this.h ? 0 : this.a[y * this.w + x]; }
-    // iterate pixel centres in a local bbox
-    box(x0, y0, x1, y1, f) { const ox = this.ox, oy = this.oy, X0 = Math.max(0, Math.floor(x0 + ox)), X1 = Math.min(this.w - 1, Math.ceil(x1 + ox)), Y0 = Math.max(0, Math.floor(y0 + oy)), Y1 = Math.min(this.h - 1, Math.ceil(y1 + oy));
-      for (let Y = Y0; Y <= Y1; Y++) for (let X = X0; X <= X1; X++) { const c = f(X + 0.5 - ox, Y + 0.5 - oy); if (c) this.a[Y * this.w + X] = c; } }
+  /* v33 painted art: the buffer is rendered at K device pixels per art pixel (K≈3 on phones), so every primitive (ellipses, capsules,
+     polygons, bezier strokes) is evaluated at full resolution and silhouettes come out smooth instead of stair-stepped. Coordinates stay in
+     art pixels; this.w/this.h are buffer dims, this.lw/this.lh the logical size. finish() then paints the buffer (see render). */
+  class PB { constructor(w, h, ox = 0, oy = 0, K) { K = K || PXA_K; this.K = K; this.lw = w; this.lh = h; this.w = Math.round(w * K); this.h = Math.round(h * K); this.ox = ox; this.oy = oy; this.a = new Uint16Array(this.w * this.h); this.fx = 0; }
+    // single art pixels become soft dots on the old pixel-cell centre (r 0.72 so neighbouring dots close up into solid runs)
+    set(x, y, c) { if (!c) return; const K = this.K; if (K === 1) { x = Math.floor(x + this.ox); y = Math.floor(y + this.oy); if (x < 0 || y < 0 || x >= this.w || y >= this.h) return; this.a[y * this.w + x] = c; return; }
+      const cx = Math.floor(x + this.ox) + 0.5 - this.ox, cy = Math.floor(y + this.oy) + 0.5 - this.oy; this.box(cx - 0.75, cy - 0.75, cx + 0.75, cy + 0.75, (px, py) => (px - cx) * (px - cx) + (py - cy) * (py - cy) <= 0.52 ? c : 0); }
+    get(x, y) { const K = this.K, X = Math.floor((Math.floor(x + this.ox) + 0.5) * K), Y = Math.floor((Math.floor(y + this.oy) + 0.5) * K); return X < 0 || Y < 0 || X >= this.w || Y >= this.h ? 0 : this.a[Y * this.w + X]; }
+    // iterate (hi-res) pixel centres in a local bbox
+    box(x0, y0, x1, y1, f) { const K = this.K, ox = this.ox, oy = this.oy, X0 = Math.max(0, Math.floor((x0 + ox) * K)), X1 = Math.min(this.w - 1, Math.ceil((x1 + ox) * K)), Y0 = Math.max(0, Math.floor((y0 + oy) * K)), Y1 = Math.min(this.h - 1, Math.ceil((y1 + oy) * K));
+      for (let Y = Y0; Y <= Y1; Y++) { const py = (Y + 0.5) / K - oy; for (let X = X0; X <= X1; X++) { const c = f((X + 0.5) / K - ox, py); if (c) this.a[Y * this.w + X] = c; } } }
     rect(x, y, w, h, c) { this.box(x, y, x + w - 0.01, y + h - 0.01, (px, py) => px >= x && px < x + w && py >= y && py < y + h ? c : 0); }
     // shaded ellipse: ramp R, base level b; light from upper-left
     ell(cx, cy, rx, ry, R, b = 2, sh = 1, rot = 0) { const cs = Math.cos(rot), sn = Math.sin(rot);
@@ -4514,48 +4556,127 @@ const PXA = (() => {
       const n = P.length / 2; this.box(x0, y0, x1, y1, (x, y) => { let ins = false; for (let i = 0, j = n - 1; i < n; j = i++) { const xi = P[i * 2], yi = P[i * 2 + 1], xj = P[j * 2], yj = P[j * 2 + 1];
           if ((yi > y) !== (yj > y) && x < (xj - xi) * (y - yi) / (yj - yi) + xi) ins = !ins; } if (!ins) return 0;
         if (!Array.isArray(R)) return R; const f = vg ? (y - y0) / Math.max(1, y1 - y0) : 0.5; return R[clamp(b + (vg ? (f < 0.22 ? 1 : f > 0.72 ? -1 : 0) * Math.sign(vg) : 0), 0, 4)]; }); }
-    line(x0, y0, x1, y1, c) { const n = Math.max(1, Math.ceil(Math.max(Math.abs(x1 - x0), Math.abs(y1 - y0)))); for (let i = 0; i <= n; i++) this.set(x0 + (x1 - x0) * i / n, y0 + (y1 - y0) * i / n, c); }
+    // 1-art-pixel line: a smooth stroke between the old pixel centres at hi-res
+    line(x0, y0, x1, y1, c) { if (this.K === 1) { const n = Math.max(1, Math.ceil(Math.max(Math.abs(x1 - x0), Math.abs(y1 - y0)))); for (let i = 0; i <= n; i++) this.set(x0 + (x1 - x0) * i / n, y0 + (y1 - y0) * i / n, c); return; }
+      if (!c) return; const s = v => Math.floor(v) + 0.5; const ox = this.ox, oy = this.oy; this.cap(s(x0 + ox) - ox, s(y0 + oy) - oy, s(x1 + ox) - ox, s(y1 + oy) - oy, 0.56, 0.56, c); }
     // quadratic bezier stroke with taper (hair locks, cape folds, tails)
-    curve(x0, y0, cx, cy, x1, y1, r0, r1, R, b = 2, sh = 1) { const n = 6; let px = x0, py = y0;
+    curve(x0, y0, cx, cy, x1, y1, r0, r1, R, b = 2, sh = 1) { const n = this.K > 1 ? 10 : 6; let px = x0, py = y0;
       for (let i = 1; i <= n; i++) { const t = i / n, u = 1 - t, x = u * u * x0 + 2 * u * t * cx + t * t * x1, y = u * u * y0 + 2 * u * t * cy + t * t * y1; this.cap(px, py, x, y, r0 + (r1 - r0) * (i - 1) / n, r0 + (r1 - r0) * i / n, R, b, sh); px = x; py = y; } }
-    // recolour existing pixels of a ramp inside a shape (folds, panels)
     // internal line art: pixels of ramp A touching ramp B (on the given sides) step darker — hair over face, armour plates, etc.
-    seam(A, B, d = -1, dirs = 15) { const w = this.w, a = this.a, ia = A.id, ib = B.id, rid = PXA_RID, out = a.slice();
-      for (let i = w; i < a.length - w; i++) { const c = a[i]; if (!c || rid[c] !== ia) continue;
-        if (((dirs & 1) && a[i + w] && rid[a[i + w]] === ib) || ((dirs & 2) && a[i - w] && rid[a[i - w]] === ib) || ((dirs & 4) && a[i + 1] && rid[a[i + 1]] === ib) || ((dirs & 8) && a[i - 1] && rid[a[i - 1]] === ib)) out[i] = PXA_STEP(c, d); }
+    seam(A, B, d = -1, dirs = 15) { const w = this.w, h = this.h, a = this.a, ia = A.id, ib = B.id, rid = PXA_RID, out = a.slice(), s = Math.max(1, Math.round(this.K * 0.7));
+      const hit = j => { const q = a[j]; return q && rid[q] === ib; };
+      for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) { const i = y * w + x, c = a[i]; if (!c || rid[c] !== ia) continue; let on = false;
+        for (let k = 1; k <= s && !on; k++) on = ((dirs & 1) && y + k < h && hit(i + k * w)) || ((dirs & 2) && y - k >= 0 && hit(i - k * w)) || ((dirs & 4) && x + k < w && hit(i + k)) || ((dirs & 8) && x - k >= 0 && hit(i - k));
+        if (on) out[i] = PXA_STEP(c, d); }
       this.a = out; }
-    tint(fn, map) { for (let Y = 0; Y < this.h; Y++) for (let X = 0; X < this.w; X++) { const i = Y * this.w + X, c = this.a[i]; if (!c) continue; const x = X + 0.5 - this.ox, y = Y + 0.5 - this.oy; if (fn(x, y)) { const n = map(c); if (n) this.a[i] = n; } } }
+    tint(fn, map) { const K = this.K; for (let Y = 0; Y < this.h; Y++) for (let X = 0; X < this.w; X++) { const i = Y * this.w + X, c = this.a[i]; if (!c) continue; const x = (X + 0.5) / K - this.ox, y = (Y + 0.5) / K - this.oy; if (fn(x, y)) { const n = map(c); if (n) this.a[i] = n; } } }
   }
   PXA_RID = RID;
   const step = (c, d) => { if (!c || LV[c] < 0) return c; const R = RAMPS[RID[c]]; return R[clamp(LV[c] + d, 0, 4)]; };
-  /* finish: 1px outline (tinted to the neighbour's ramp), selective top highlight, bloom layer from emissive pixels.
-     opts: { ol: 1 (outline), rim: 0..1 (back-light on the right edges), glow: alpha, pad: extra canvas border for bloom } */
-  function finish(pb, o = {}) { const w = pb.w, h = pb.h, a = pb.a, out = new Uint16Array(a);
-    if (o.rim) for (let y = 1; y < h - 1; y++) for (let x = 1; x < w - 1; x++) { const i = y * w + x, c = a[i]; if (!c || EMI[c]) continue; if (!a[i + 1] && !a[i - w]) out[i] = step(c, 2); else if (!a[i + 1] || (!a[i - w] && o.rim > 0.5)) out[i] = step(c, 1); }
-    if (o.ol !== 0) for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) { const i = y * w + x; if (a[i]) continue; let n = 0;
-      if (x > 0 && a[i - 1]) n = a[i - 1]; else if (x < w - 1 && a[i + 1]) n = a[i + 1]; else if (y > 0 && a[i - w]) n = a[i - w]; else if (y < h - 1 && a[i + w]) n = a[i + w];
-      if (n && !(EMI[n] && o.emiOl === 0)) out[i] = o.olc || (EMI[n] ? RAMPS[RID[n]][0] : RAMPS[RID[n]].ol); }
-    const c = mkCanvas(w, h), g = c.getContext('2d'), id = g.createImageData(w, h), D = id.data; let ne = 0;
-    for (let i = 0; i < w * h; i++) { const v = out[i]; if (!v) continue; const q = RGB[v]; D[i * 4] = q[0]; D[i * 4 + 1] = q[1]; D[i * 4 + 2] = q[2]; D[i * 4 + 3] = o.alpha && o.alpha[v] !== undefined ? o.alpha[v] : 255; if (EMI[v]) ne++; }
-    g.putImageData(id, 0, 0); c.px = 1; const S = { img: c, ax: pb.ox, ay: pb.oy, w, h, glow: null, buf: out };
-    if (ne && o.glow !== 0) { const pad = o.pad || 6, gc = mkCanvas(w + pad * 2, h + pad * 2), gg = gc.getContext('2d'), e = mkCanvas(w, h), eg = e.getContext('2d'), ed = eg.createImageData(w, h);
-      for (let i = 0; i < w * h; i++) { const v = out[i]; if (!v || !EMI[v]) continue; const q = RGB[v]; ed.data[i * 4] = q[0]; ed.data[i * 4 + 1] = q[1]; ed.data[i * 4 + 2] = q[2]; ed.data[i * 4 + 3] = 255; }
-      eg.putImageData(ed, 0, 0); // cheap portable blur: stamp rings of offset copies (no ctx.filter needed, works on every phone browser)
-      for (const [r, al] of [[pad * 0.85, 0.07], [pad * 0.5, 0.12], [pad * 0.22, 0.2]]) for (let k = 0; k < 12; k++) { const an = k / 12 * TAU; gg.globalAlpha = al; gg.drawImage(e, pad + Math.cos(an) * r, pad + Math.sin(an) * r); }
-      gg.globalAlpha = 0.35; gg.drawImage(e, pad, pad); S.glow = gc; S.gpad = pad; }
+  function boxb(a, W, H, r) { const t = new Float32Array(W * H), o = new Float32Array(W * H), n = r * 2 + 1;
+    for (let y = 0; y < H; y++) { const R = y * W; let s = 0; for (let x = -r; x <= r; x++) s += a[R + clamp(x, 0, W - 1)]; for (let x = 0; x < W; x++) { t[R + x] = s / n; s += a[R + Math.min(W - 1, x + r + 1)] - a[R + Math.max(0, x - r)]; } }
+    for (let x = 0; x < W; x++) { let s = 0; for (let y = -r; y <= r; y++) s += t[clamp(y, 0, H - 1) * W + x]; for (let y = 0; y < H; y++) { o[y * W + x] = s / n; s += t[Math.min(H - 1, y + r + 1) * W + x] - t[Math.max(0, y - r) * W + x]; } }
+    return o; }
+  let GR = null; const grain = (X, Y) => { if (!GR) { GR = new Float32Array(64 * 64); let s = 7; for (let i = 0; i < GR.length; i++) { s = (s * 16807) % 2147483647; GR[i] = s / 2147483647 - 0.5; } GR = boxb(GR, 64, 64, 1); } return GR[(Y & 63) * 64 + (X & 63)]; };
+  /* finish: rim light + soft outline (dilated K*0.8 px, tinted to the neighbour's ramp), then the painter. Returns the sprite record
+     (img = hi-res canvas, w/h/ax/ay in art pixels, glow layer at art resolution). opts: { ol, olc, emiOl, rim, glow, pad, alpha, light } */
+  function finish(pb, o = {}) { const w = pb.w, h = pb.h, a = pb.a, K = pb.K || 1, out = new Uint16Array(a);
+    if (o.rim) { const r = Math.max(1, Math.round(K * 0.75)); for (let y = r; y < h - r; y++) for (let x = r; x < w - r; x++) { const i = y * w + x, c = a[i]; if (!c || EMI[c]) continue; const rt = a[i + r], up = a[i - r * w]; if (!rt && !up) out[i] = step(c, 2); else if (!rt || (!up && o.rim > 0.5)) out[i] = step(c, 1); } }
+    if (o.ol !== 0) { const np = K === 1 ? 1 : Math.max(1, Math.round(K * 0.8)); let src = new Uint16Array(out);
+      for (let p = 0; p < np; p++) { const dg = p & 1;
+        for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) { const i = y * w + x; if (src[i]) continue; let n = 0;
+          if (x > 0 && src[i - 1]) n = src[i - 1]; else if (x < w - 1 && src[i + 1]) n = src[i + 1]; else if (y > 0 && src[i - w]) n = src[i - w]; else if (y < h - 1 && src[i + w]) n = src[i + w];
+          else if (dg) { if (x > 0 && y > 0 && src[i - w - 1]) n = src[i - w - 1]; else if (x < w - 1 && y < h - 1 && src[i + w + 1]) n = src[i + w + 1]; else if (x < w - 1 && y > 0 && src[i - w + 1]) n = src[i - w + 1]; else if (x > 0 && y < h - 1 && src[i + w - 1]) n = src[i + w - 1]; }
+          if (n && !(EMI[n] && o.emiOl === 0)) out[i] = o.olc || (EMI[n] ? RAMPS[RID[n]][0] : RAMPS[RID[n]].ol); }
+        if (p < np - 1) src = new Uint16Array(out); } }
+    const R = render(out, w, h, K, o), S = { img: R.img, ax: pb.ox, ay: pb.oy, w: pb.lw || w, h: pb.lh || h, glow: R.glow, gpad: R.gpad, buf: out, K, o };
     return S; }
-  // white hit-flash / red hurt / dark death silhouettes of a baked sprite
-  function sil(S, col, a = 1) { const c = mkCanvas(S.w, S.h), g = c.getContext('2d'); g.drawImage(S.img, 0, 0); g.globalCompositeOperation = 'source-atop'; g.globalAlpha = a; g.fillStyle = col; g.fillRect(0, 0, S.w, S.h); c.px = 1; return c; }
-  // stamp a baked sprite: crisp pixels (nearest), bloom smooth + additive. sc = world units per art pixel
-  function blit(g, S, x, y, flip = 1, sc = 1, ga = 1, img) { const sm = g.imageSmoothingEnabled; g.imageSmoothingEnabled = false;
+  /* the painter: buf (palette indices, w×h at K px per art pixel) → smooth painted canvas.
+     1) material-aware smoothing of the shading level (bands of a ramp become soft gradients; materials never bleed into each other)
+     2) painted light: soft form shading from blurred height fields, warm key light from the upper left, cool shadow + cool rim on the
+        lower right, ground occlusion towards the feet, faint brush grain. Emissive pixels stay unlit and get a hot core.
+     3) anti-aliased silhouette (coverage of the 3×3 neighbourhood). al: optional per-pixel alpha (Shade transparency). */
+  const soft = v => v < 170 ? v : 170 + 85 * (1 - Math.exp(-(v - 170) / 85));
+  function render(buf, w, h, K, o = {}, al) { const n = w * h, lit = o.light === undefined ? 1 : o.light, L = new Float32Array(n), T = new Float32Array(n);
+    const ok = new Uint8Array(n); for (let i = 0; i < n; i++) { const v = buf[i]; if (v && LV[v] >= 0 && !EMI[v]) ok[i] = 1; }
+    if (K > 1) { const rr = Math.max(1, Math.round(K * 1.35)), wt = []; for (let d = -rr; d <= rr; d++) wt.push(1 - Math.abs(d) / (rr + 1));
+      for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) { const i = y * w + x; if (!ok[i]) continue; const rid = RID[buf[i]]; let s = 0, ws = 0;
+        for (let d = -rr; d <= rr; d++) { const xx = x + d; if (xx < 0 || xx >= w) continue; const j = i + d; if (!ok[j] || RID[buf[j]] !== rid) continue; s += LV[buf[j]] * wt[d + rr]; ws += wt[d + rr]; } T[i] = s / ws; }
+      for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) { const i = y * w + x; if (!ok[i]) continue; const rid = RID[buf[i]]; let s = 0, ws = 0;
+        for (let d = -rr; d <= rr; d++) { const yy = y + d; if (yy < 0 || yy >= h) continue; const j = i + d * w; if (!ok[j] || RID[buf[j]] !== rid) continue; s += T[j] * wt[d + rr]; ws += wt[d + rr]; } L[i] = LV[buf[i]] * 0.22 + (s / ws) * 0.78; } }
+    else for (let i = 0; i < n; i++) if (ok[i]) L[i] = LV[buf[i]];
+    const A = new Float32Array(n); for (let i = 0; i < n; i++) if (buf[i]) A[i] = 1;
+    const c = mkCanvas(w, h), g = c.getContext('2d'), id = g.createImageData(w, h), D = id.data, lx = -0.62, ly = -0.78;
+    let h1 = null, h2 = null, h3 = null, cv = null; if (K > 1) { cv = boxb(A, w, h, 1); if (lit > 0) { const r1 = Math.max(1, K >> 1), r2 = Math.max(2, Math.round(K * 1.7)); h1 = boxb(boxb(A, w, h, r1), w, h, r1); h2 = boxb(boxb(A, w, h, r2), w, h, r2); h3 = boxb(boxb(boxb(A, w, h, K * 3), w, h, K * 3), w, h, K * 2); } }
+    let y0 = h, y1 = 0; for (let Y = 0; Y < h; Y++) for (let X = 0; X < w; X++) if (buf[Y * w + X]) { if (Y < y0) y0 = Y; y1 = Y; } const span = Math.max(1, y1 - y0);
+    let ne = 0;
+    for (let Y = 0; Y < h; Y++) for (let X = 0; X < w; X++) { const i = Y * w + X, v = buf[i]; if (!v) continue; let r, gg, b; const em = EMI[v]; if (em) ne++;
+      if (ok[i] && K > 1) { const Rm = RAMPS[RID[v]], lv = clamp(L[i], 0, 4), l0 = Math.min(3, Math.floor(lv)), f = lv - l0, P = RGB[Rm[l0]], Q = RGB[Rm[l0 + 1]]; r = P[0] + (Q[0] - P[0]) * f; gg = P[1] + (Q[1] - P[1]) * f; b = P[2] + (Q[2] - P[2]) * f; }
+      else { const q = RGB[v]; r = q[0]; gg = q[1]; b = q[2]; }
+      if (h1 && !em) { const xm = X > 0 ? X - 1 : X, xp = X < w - 1 ? X + 1 : X, ym = Y > 0 ? Y - 1 : Y, yp = Y < h - 1 ? Y + 1 : Y;
+        const gx1 = (h1[Y * w + xp] - h1[Y * w + xm]) * K, gy1 = (h1[yp * w + X] - h1[ym * w + X]) * K, gx2 = (h2[Y * w + xp] - h2[Y * w + xm]) * K * 2.4, gy2 = (h2[yp * w + X] - h2[ym * w + X]) * K * 2.4;
+        const gx3 = (h3[Y * w + xp] - h3[Y * w + xm]) * K * 7, gy3 = (h3[yp * w + X] - h3[ym * w + X]) * K * 7, d3 = clamp(-(gx3 * lx + gy3 * ly), -1, 1), core = h3[i]; const m1 = Math.hypot(gx1, gy1), e1 = Math.min(1, m1), d1 = m1 > 1e-3 ? -(gx1 * lx + gy1 * ly) / m1 : 0, d2 = clamp(-(gx2 * lx + gy2 * ly), -1, 1);
+        const vy = (Y - y0) / span, sh = (0.26 * d3 + 0.1 * (core - 0.55) + 0.16 * d2 + 0.12 * d1 * e1 - 0.2 * Math.max(0, vy - 0.6) + 0.06 * (0.4 - vy) + grain(X / K * 2.5 | 0, Y / K * 2.5 | 0) * 0.09) * lit;
+        const k = 1 + sh * 0.85, warm = Math.max(0, sh) * 55, cool = Math.max(0, -sh) * 70;
+        r = r * k + warm * 0.95 - cool * 0.3; gg = gg * k + warm * 0.5 - cool * 0.08; b = b * k - warm * 0.3 + cool * 0.6;
+        if (d1 < -0.3 && e1 > 0.3) { const rm = (-d1 - 0.3) * (e1 - 0.3) * lit; r += (110 - r) * rm * 0.3; gg += (150 - gg) * rm * 0.32; b += (225 - b) * rm * 0.45; } }
+      else if (em && K > 1) { r += (255 - r) * 0.16; gg += (255 - gg) * 0.12; b += (255 - b) * 0.08; }
+      let aa = o.alpha && o.alpha[v] !== undefined ? o.alpha[v] / 255 : 1; if (al) aa *= al[i] / 255; if (cv) aa *= Math.min(1, cv[i] * 1.3);
+      if (!em) { r = soft(r); gg = soft(gg); b = soft(b); } const q = i * 4; D[q] = r; D[q + 1] = gg; D[q + 2] = b; D[q + 3] = aa * 255; }
+    g.putImageData(id, 0, 0); c.k = K; c.px = K === 1 ? 1 : 0; let glow = null, gpad = 0;
+    if (ne && o.glow !== 0) { const lw = Math.round(w / K), lh = Math.round(h / K), pad = o.pad || 6; gpad = pad; glow = mkCanvas(lw + pad * 2, lh + pad * 2); const gg2 = glow.getContext('2d'), e = mkCanvas(w, h), eg = e.getContext('2d'), ed = eg.createImageData(w, h);
+      for (let i = 0; i < n; i++) { const v = buf[i]; if (!v || !EMI[v]) continue; const q = RGB[v]; ed.data[i * 4] = q[0]; ed.data[i * 4 + 1] = q[1]; ed.data[i * 4 + 2] = q[2]; ed.data[i * 4 + 3] = 255; }
+      eg.putImageData(ed, 0, 0); let es = e; if (K > 1) { es = mkCanvas(lw, lh); const sg = es.getContext('2d'); sg.imageSmoothingEnabled = true; sg.drawImage(e, 0, 0, lw, lh); }
+      for (const [r, a2] of [[pad * 0.85, 0.08], [pad * 0.5, 0.13], [pad * 0.22, 0.2]]) for (let k = 0; k < 12; k++) { const an = k / 12 * TAU; gg2.globalAlpha = a2; gg2.drawImage(es, pad + Math.cos(an) * r, pad + Math.sin(an) * r); }
+      gg2.globalAlpha = 0.4; gg2.drawImage(es, pad, pad); }
+    return { img: c, glow, gpad }; }
+  // white hit-flash / red hurt / dark death silhouettes of a baked sprite (same resolution as the sprite)
+  function sil(S, col, a = 1) { const W = S.img.width, H = S.img.height, c = mkCanvas(W, H), g = c.getContext('2d'); g.drawImage(S.img, 0, 0); g.globalCompositeOperation = 'source-atop'; g.globalAlpha = a; g.fillStyle = col; g.fillRect(0, 0, W, H); c.k = S.img.k; c.px = S.img.px; return c; }
+  // stamp a baked sprite (smooth, it is painted at device resolution). sc = world units per art pixel
+  function blit(g, S, x, y, flip = 1, sc = 1, ga = 1, img) { const sm = g.imageSmoothingEnabled; g.imageSmoothingEnabled = !(img || S.img).px;
     if (flip < 0) { g.save(); g.translate(x, y); g.scale(-1, 1); g.drawImage(img || S.img, -S.ax * sc, -S.ay * sc, S.w * sc, S.h * sc); g.restore(); }
     else g.drawImage(img || S.img, x - S.ax * sc, y - S.ay * sc, S.w * sc, S.h * sc);
     g.imageSmoothingEnabled = sm; }
+  /* v33: painterly up-res for big flat art (ground tiles, road chunks, town floor). The palette art is built at 1 px per world
+     unit, then re-painted at k device px per unit: smooth bilinear base, a soft brush blur blended back in, low-frequency
+     warm/cool colour drift, and a fine directional brush grain, so no pixel grid survives. tile = wrap-around seamless. */
+  function phh(a, b, Px, Py, s) { a = ((a % Px) + Px) % Px; b = ((b % Py) + Py) % Py; let q = (a * 374761393 + b * 668265263 + s * 2246822519) | 0; q = Math.imul(q ^ (q >>> 13), 1274126177); return ((q ^ (q >>> 16)) >>> 0) / 4294967296; }
+  function pnoise(x, y, Px, Py, s) { const xi = Math.floor(x), yi = Math.floor(y), fx = x - xi, fy = y - yi, u = fx * fx * (3 - 2 * fx), v = fy * fy * (3 - 2 * fy);
+    const a = phh(xi, yi, Px, Py, s), b = phh(xi + 1, yi, Px, Py, s), c = phh(xi, yi + 1, Px, Py, s), d = phh(xi + 1, yi + 1, Px, Py, s); return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v; }
+  let GRT = null; function grainT() { if (GRT) return GRT; const t = new Float32Array(65536); // shared periodic brush-grain table (quarter-unit cells, wraps at 64 units)
+    for (let y = 0; y < 256; y++) for (let x = 0; x < 256; x++) { const ux = x / 4, uy = y / 4; t[y * 256 + x] = (pnoise(ux * 1.5, uy * 0.5, 96, 32, 12) - 0.5) * 0.16 + (pnoise(ux * 3, uy * 3, 192, 192, 13) - 0.5) * 0.07; } return (GRT = t); }
+  function paintUp(img, k, o = {}) { const w = img.width, h = img.height, p = 4, W2 = w * k, H2 = h * k, tile = !!o.tile;
+    const pad = mkCanvas(w + p * 2, h + p * 2), pg = pad.getContext('2d');
+    if (tile) { for (const dx of [-w, 0, w]) for (const dy of [-h, 0, h]) pg.drawImage(img, p + dx, p + dy); } else pg.drawImage(img, p, p);
+    const c = mkCanvas(W2, H2), g = c.getContext('2d'); g.imageSmoothingEnabled = true; g.imageSmoothingQuality = 'high'; g.drawImage(pad, -p * k, -p * k, pad.width * k, pad.height * k);
+    if (o.fast) { c.px = 0; c.k = k; return c; }
+    const id = g.getImageData(0, 0, W2, H2), D = id.data, n = W2 * H2, r = Math.max(1, Math.round(k * (o.soft || 0.9)));
+    // soft brush layer: separable box blur on the small padded source (the pad already wraps when tiled), then smooth up-res
+    const pw = pad.width, ph = pad.height, sid = pg.getImageData(0, 0, pw, ph), S = sid.data, rs = Math.max(1, Math.round(r / k)), T = new Float32Array(pw * ph * 4), dv = 2 * rs + 1;
+    for (let y = 0; y < ph; y++) { const row = y * pw; for (let ch = 0; ch < 4; ch++) { let sm = 0; for (let d = -rs; d <= rs; d++) sm += S[(row + clamp(d, 0, pw - 1)) * 4 + ch];
+      for (let x = 0; x < pw; x++) { T[(row + x) * 4 + ch] = sm / dv; sm += S[(row + Math.min(pw - 1, x + rs + 1)) * 4 + ch] - S[(row + Math.max(0, x - rs)) * 4 + ch]; } } }
+    for (let x = 0; x < pw; x++) for (let ch = 0; ch < 4; ch++) { let sm = 0; for (let d = -rs; d <= rs; d++) sm += T[(clamp(d, 0, ph - 1) * pw + x) * 4 + ch];
+      for (let y = 0; y < ph; y++) { S[(y * pw + x) * 4 + ch] = sm / dv; sm += T[(Math.min(ph - 1, y + rs + 1) * pw + x) * 4 + ch] - T[(Math.max(0, y - rs) * pw + x) * 4 + ch]; } }
+    pg.putImageData(sid, 0, 0); const c2 = mkCanvas(W2, H2), g2 = c2.getContext('2d'); g2.imageSmoothingEnabled = true; g2.imageSmoothingQuality = 'high'; g2.drawImage(pad, -p * k, -p * k, pad.width * k, pad.height * k);
+    const B = g2.getImageData(0, 0, W2, H2).data;
+    const mix = o.mix === undefined ? 0.5 : o.mix, sd = o.seed || 5, dr = o.drift === undefined ? 1 : o.drift, gr = o.grain === undefined ? 1 : o.grain, BIG = 1 << 20;
+    const P = (sc, L) => tile ? Math.max(1, Math.round(L * sc)) : BIG, ax = P(1 / 64, w), ay = P(1 / 64, h), bx = P(1 / 32, w), by = P(1 / 32, h), cx = P(1.5, w), cy = P(0.5, h), dx = P(3, w), dy = P(3, h);
+    const GT = tile ? null : grainT(); let lf = 0.5, tc = 0, opq = 1; const ox = o.ox || 0, oy = o.oy || 0;
+    for (let y = 0; y < H2; y++) for (let x = 0; x < W2; x++) { const i = y * W2 + x, q = i * 4; if (!tile) { D[q + 3] = B[i * 4 + 3]; if (D[q + 3] < 255) opq = 0; } if (!D[q + 3]) continue;
+      const ux = x / k + ox, uy = y / k + oy; let R = D[q] + (B[i * 4] - D[q]) * mix, G2 = D[q + 1] + (B[i * 4 + 1] - D[q + 1]) * mix, Bb = D[q + 2] + (B[i * 4 + 2] - D[q + 2]) * mix;
+      if (!(x & 3) || x === 0) { lf = pnoise(ux / 64, uy / 64, ax, ay, sd) * 0.65 + pnoise(ux / 32, uy / 32, bx, by, sd + 1) * 0.35; tc = pnoise(ux / 64 + 7, uy / 64 + 3, ax, ay, sd + 2) - 0.5; } // low-freq drift: once per 4 px
+      const lm = 1 + (lf - 0.5) * 0.34 * dr; R = R * lm + tc * 26 * dr; G2 = G2 * lm + tc * 6 * dr; Bb = Bb * lm - tc * 20 * dr;
+      let gm; if (GT) gm = 1 + GT[(((uy * 4) | 0) & 255) * 256 + (((ux * 4) | 0) & 255)] * gr; else { const st = pnoise(ux * 1.5, uy * 0.5, cx, cy, sd + 3) - 0.5, fg = pnoise(ux * 3, uy * 3, dx, dy, sd + 4) - 0.5; gm = 1 + (st * 0.16 + fg * 0.07) * gr; }
+      D[q] = R * gm; D[q + 1] = G2 * gm; D[q + 2] = Bb * gm; }
+    g.putImageData(id, 0, 0); c.px = 0; c.k = k; c.opaque = !!opq; return c; }
+
+  const gK = () => clamp(Math.round(DPR * ZOOM), 2, 3);
   function bloom(g, S, x, y, flip = 1, sc = 1, a = 0.8) { if (!S.glow) return; const p = S.gpad, op = g.globalCompositeOperation, ga = g.globalAlpha; g.globalCompositeOperation = 'lighter'; g.globalAlpha = ga * a;
     const gx = flip < 0 ? x + (S.ax + p) * sc - (S.w + 2 * p) * sc : x - (S.ax + p) * sc; g.save(); g.translate(gx + (flip < 0 ? (S.w + 2 * p) * sc : 0), y - (S.ay + p) * sc); if (flip < 0) g.scale(-1, 1);
     g.drawImage(S.glow, 0, 0, (S.w + 2 * p) * sc, (S.h + 2 * p) * sc); g.restore(); g.globalCompositeOperation = op; g.globalAlpha = ga; }
   PXA_STEP = step;
-  return { PAL, ramp, PB, finish, sil, blit, bloom, step, h2r, r2h, OLD, EMI, RAMPS, on: false, cache: new Map() };
+  function paintSpr(c, o = {}) { if (!c || !c.width) return c; const K = c.k || 1, r = paintUp(c, 2, Object.assign({ mix: 0.5, soft: 0.8, drift: 0.25, grain: 0.7 }, o)); r.k = K * 2; r.px = 0; return r; }
+  return { PAL, ramp, PB, finish, render, paintUp, paintSpr, gK, sil, blit, bloom, step, h2r, r2h, OLD, EMI, RAMPS, on: false, cache: new Map(), boxb };
 })();
 
 /* ---- v23 pixel heroes: Rogue + Eclipse Paragon. Joint skeleton (separate legs / upper body), one baked frame per pose ---- */
@@ -4567,7 +4688,8 @@ const PXA = (() => {
   const SCARF = '#b0203a';
   function look0(o) { const cls = o.cls === 'paragon' || PXA.kits[o.cls] ? o.cls : 'rogue', race = raceOf(o.race || save.race), C = o.cos || heroCos(cls, race), RL = raceLook(race, C), of = classOutfit(o.outfit || 'crimson', cls, C.armor, C.eye);
     const sig = (o.outfit || 'crimson') === 'crimson' && !of.set;
-    return { cls, race, RL, of, key: [cls, race, o.outfit, C.armor, C.eye, C.tone, C.hair, C.frill].join('|'),
+    const sex = o.sex === 'f' || o.sex === 'm' ? o.sex : heroSex(race);
+    return { cls, race, sex, RL, of, key: [cls, race, o.outfit, C.armor, C.eye, C.tone, C.hair, C.frill, sex].join('|'),
       skin: R(RL.skin || '#fbe8da'), fur: RL.fur ? R(RL.fur) : null,
       hair: RL.hair ? R(RL.hair) : race === 'cat' || race === 'kitsune' ? R(RL.fur) : cls === 'paragon' ? HAIRM : HAIRW,
       lea: R(of.cloak), lea2: R(of.cloak2), trim: R(of.trim), cape: R(cls === 'paragon' ? of.cloak : sig ? SCARF : of.set ? of.acc : mixHex(SCARF, OUTFITS[o.outfit] ? OUTFITS[o.outfit].cloak : SCARF, 0.55)),
@@ -4628,7 +4750,7 @@ const PXA = (() => {
     // face: soft 3/4 anime shape with a pointed chin
     b.poly([hx - 3.6, hy - 3.5, hx + 4.4, hy - 3.5, hx + 5, hy + 0.5, hx + 4.4, hy + 3.2, hx + 2.6, hy + 5.6, hx + 1.2, hy + 5.6, hx - 2.4, hy + 3.4, hx - 3.8, hy + 0.5], S, 3);
     b.tint((x, y) => x < hx - 1.2 && y < hy + 6, c => c === S[3] ? S[2] : 0); b.tint((x, y) => y > hy + 4.4, c => c === S[3] ? S[2] : 0);
-    if (race === 'dwarf') { b.poly([hx - 2, hy + 2, hx + 5, hy + 1.5, hx + 3.5, hy + 8, hx + 0.5, hy + 9.5, hx - 1.5, hy + 6], H, 2, 1); }
+    if (race === 'dwarf' && Rm.sex !== 'f') { b.poly([hx - 2, hy + 2, hx + 5, hy + 1.5, hx + 3.5, hy + 8, hx + 0.5, hy + 9.5, hx - 1.5, hy + 6], H, 2, 1); }
     if (race === 'ogre' || race === 'troll') { b.set(hx + 2.5, hy + 4, STEEL[4]); b.set(hx + 4.2, hy + 3.4, STEEL[4]); }
     // eyes (closed > < when hurt)
     const ex = hx + 2.1, ey = hy + 0.6, E = Rm.eye;
@@ -4749,7 +4871,7 @@ const PXA = (() => {
       if (n === undefined) { n = 0; const id = RID[v], k = skip.has(id) ? 0 : kind(id); if (k) { const Rr = PXA.RAMPS[id], to = T[k - 1]; if (to !== Rr) { const lv = Rr.indexOf(v); n = lv < 0 ? to.ol : to[lv]; } } memo.set(v, n); }
       if (n) a[i] = n; } }
   // draw behind whatever is already there (tails, long hair, smoke)
-  function under(b, fn) { const t = new PB(b.w, b.h, b.ox, b.oy); fn(t); const a = b.a, ta = t.a; for (let i = 0; i < a.length; i++) if (!a[i] && ta[i]) a[i] = ta[i]; }
+  function under(b, fn) { const t = new PB(b.lw, b.lh, b.ox, b.oy, b.K); fn(t); const a = b.a, ta = t.a; for (let i = 0; i < a.length; i++) if (!a[i] && ta[i]) a[i] = ta[i]; }
   // only recolour pixels that are already painted (filigree, scale mail)
   const onBody = (b, x, y, c) => { if (b.get(x, y)) b.set(x, y, c); };
 
@@ -4759,9 +4881,25 @@ const PXA = (() => {
     if (X.trim && L.trim) L.trim = R(mixHex(PXA.PAL[L.trim[2]], X.trim[0], X.trim[1]));
     return L; }
 
+  /* v33 female body: long hair falling behind the shoulders (only fills empty pixels, so it sits behind body and cloak), a longer front lock
+     framing the face, lashes, a soft lip tint and blush. Works for every race on both head paths (rogue/paragon head() and the kit PX.face). */
+  function femFace(b, hx, hy, Rm, P) { const H = Rm.hair, S = Rm.skin, race = Rm.race, wv = P.hair || 0, ex = hx + 2.1, ey = hy + 0.6;
+    if (race !== 'dwarf') { const L = race === 'scale' ? 0.75 : 1;
+      // main fall of hair down the back (drawn over the cloak like real hair), plus extra volume tucked behind
+      b.curve(hx - 2.8, hy - 3.4, hx - 8.6 - wv * 0.6, hy + 4, hx - 6.4 - wv, hy + 17 * L, 3.6, 1.3, H, 2);
+      b.curve(hx - 1.2, hy - 1.6, hx - 5.6 - wv * 0.4, hy + 6, hx - 3.8 - wv * 0.8, hy + 15 * L, 2.6, 1, H, 3);
+      under(b, t => { t.curve(hx - 3.6, hy - 4.6, hx - 10.4 - wv * 0.5, hy, hx - 9 - wv, hy + 12 * L, 2.8, 1, H, 1); });
+      b.tint((x, y) => y > hy + 10 * L && x < hx - 2, c => H.includes(c) && c !== H[0] ? PXA.step(c, -1) : 0); }
+    if (race !== 'dwarf' && race !== 'scale') { b.cap(hx + 4.9, hy - 1.4, hx + 6 + wv * 0.2, hy + 10, 1.5, 0.7, H, 3); b.cap(hx + 4.2, hy - 1, hx + 4.6, hy + 6.4, 0.9, 0.6, H, 2); }
+    if (!P.face && race !== 'shade') { b.set(ex + 2.6, ey - 1.6, INK[0]); b.set(ex + 3, ey - 0.8, INK[0]); b.set(ex + 3.2, ey - 2, INK[0]); b.set(hx - 1.7, ey - 1.6, INK[0]); b.set(hx - 2.2, ey - 2.1, INK[0]); }
+    if (race !== 'shade') { b.set(hx + 2.6, hy + 4.2, PINK[2]); b.set(hx + 0.4, hy + 2.6, PINK[3]); b.set(hx + 4.4, hy + 2.6, PINK[3]); } }
   /* --- face: drawn right after the face (under hats and hoods) --- */
   function face(b, hx, hy, Rm, P) { const S = Rm.skin, H = Rm.hair, E = Rm.eye, race = Rm.race, ex = hx + 2.1, ey = hy + 0.6;
-    if (race === 'dwarf') { // full beard to the chest, two braids with gold rings, moustache, bushy brows, broad nose
+    if (Rm.sex === 'f') femFace(b, hx, hy, Rm, P);
+    if (race === 'dwarf' && Rm.sex === 'f') { // female dwarf: no beard; two thick braids with gold rings, bushy brows, broad nose
+      for (const [bx, by, tx] of [[hx - 3.2, hy + 1, hx - 4.4], [hx + 4.8, hy + 0.6, hx + 5.2]]) { b.cap(bx, by, tx, hy + 11, 1.2, 0.8, H, 2); b.set(tx + 0.2, hy + 8.2, GOLD[3]); b.set(tx, hy + 11.2, GOLD[2]); }
+      b.line(hx + 1, hy - 1.3, hx + 4.2, hy - 1.5, H[1]); b.set(hx + 5.2, hy + 1.4, S[2]); b.set(hx + 5.6, hy + 2.2, S[1]); }
+    else if (race === 'dwarf') { // full beard to the chest, two braids with gold rings, moustache, bushy brows, broad nose
       b.poly([hx - 2.8, hy + 1.4, hx + 5.4, hy + 1.2, hx + 5.2, hy + 6, hx + 3.4, hy + 10.5, hx + 0.6, hy + 11.6, hx - 2.4, hy + 8], H, 2, 1);
       for (const bx of [hx + 0.4, hx + 3.6]) { b.cap(bx, hy + 9, bx - 0.4, hy + 15, 1.05, 0.75, H, 2); b.set(bx - 0.2, hy + 12.4, GOLD[3]); b.set(bx - 0.4, hy + 15.2, GOLD[2]); }
       b.cap(hx + 0.8, hy + 3.4, hx + 4.8, hy + 3.2, 0.75, 0.6, H, 3); b.line(hx + 1, hy - 1.3, hx + 4.2, hy - 1.5, H[1]); b.line(hx - 1.8, hy - 1.2, hx - 0.2, hy - 1.3, H[1]);
@@ -4845,19 +4983,19 @@ const PXA = (() => {
 
   /* --- build: resample the buffer (neck-to-feet height, width, head size), anchored at the feet --- */
   function build(b, X, k) { const bw = X.bw, bh = X.bh, hs = X.hs; if (bw === 1 && bh === 1 && hs === 1) return;
-    const w = b.w, h = b.h, a = b.a, out = new Uint16Array(a.length), F = b.oy + k.hipY + 18, N = b.oy + k.nk[1] - 0.5, N2 = F - (F - N) * bh, cx = b.ox + k.hipX + 0.3, hx = b.ox + k.hdx;
-    for (let Y = 0; Y < h; Y++) { const yc = Y + 0.5, hd = yc < N2, sy = hd ? N - (N2 - yc) / hs : F - (F - yc) / bh, SY = Math.floor(sy); if (SY < 0 || SY >= h) continue;
+    const w = b.w, h = b.h, K = b.K || 1, a = b.a, out = new Uint16Array(a.length), F = b.oy + k.hipY + 18, N = b.oy + k.nk[1] - 0.5, N2 = F - (F - N) * bh, cx = b.ox + k.hipX + 0.3, hx = b.ox + k.hdx;
+    for (let Y = 0; Y < h; Y++) { const yc = (Y + 0.5) / K, hd = yc < N2, sy = hd ? N - (N2 - yc) / hs : F - (F - yc) / bh, SY = Math.floor(sy * K); if (SY < 0 || SY >= h) continue;
       const c0 = hd ? hx : cx, sc = hd ? hs : bw, row = SY * w;
-      for (let x = 0; x < w; x++) { const SX = Math.floor(c0 + (x + 0.5 - c0) / sc); if (SX >= 0 && SX < w) out[Y * w + x] = a[row + SX]; } }
+      for (let x = 0; x < w; x++) { const SX = Math.floor((c0 + ((x + 0.5) / K - c0) / sc) * K); if (SX >= 0 && SX < w) out[Y * w + x] = a[row + SX]; } }
     b.a = out; return F; }
 
   /* --- Shade: smoky translucent edges, legs dissolving into mist --- */
-  function ghost(S, F, oy) { const w = S.w, h = S.h, buf = S.buf, al = new Uint8Array(buf.length), EMI = PXA.EMI, f0 = (F || oy + 15) - 13;
+  function ghost(S, F, oy) { const K = S.K || 1, w = S.img.width, h = S.img.height, buf = S.buf, al = new Uint8Array(buf.length), EMI = PXA.EMI, f0 = (F || oy + 15) - 13, e = Math.max(1, Math.round(K * 0.9));
     for (let i = 0; i < buf.length; i++) { const v = buf[i]; if (!v) continue; const x = i % w, y = (i / w) | 0; if (EMI[v]) { al[i] = 255; continue; }
-      let a = 238; const edge = !(x > 0 && buf[i - 1]) || !(x < w - 1 && buf[i + 1]) || !(y > 0 && buf[i - w]) || !(y < h - 1 && buf[i + w]); if (edge) a = 150;
-      if (y > f0) { const t = Math.min(1, (y - f0) / 14); a *= 1 - 0.78 * t; if (((x + y) & 1) && t > 0.45) a *= 0.55; }
+      let a = 238; const edge = !(x >= e && buf[i - e]) || !(x < w - e && buf[i + e]) || !(y >= e && buf[i - e * w]) || !(y < h - e && buf[i + e * w]); if (edge) a = 160;
+      const yl = y / K; if (yl > f0) { const t = Math.min(1, (yl - f0) / 14); a *= 1 - 0.8 * t * (0.85 + 0.3 * Math.sin(x / K * 1.3 + yl * 0.7)); }
       al[i] = Math.max(22, a | 0); }
-    const g = S.img.getContext('2d'), id = g.getImageData(0, 0, w, h); for (let i = 0; i < buf.length; i++) if (buf[i]) id.data[i * 4 + 3] = al[i]; g.putImageData(id, 0, 0); S.al = al; return S; }
+    const g = S.img.getContext('2d'), id = g.getImageData(0, 0, w, h); for (let i = 0; i < buf.length; i++) if (buf[i]) id.data[i * 4 + 3] = id.data[i * 4 + 3] * al[i] / 255; g.putImageData(id, 0, 0); S.al = al; return S; }
 
   function fin(b, Rm, o, P, k) { const X = RACE[Rm.race]; if (!X) return PXA.finish(b, { rim: 0.6, pad: 7 });
     pieces(b, Rm, o, P, k);
@@ -4947,7 +5085,7 @@ const HAWK32 = (() => {
     if (race === 'cat' || race === 'kitsune') { const F = Rm.fur; for (const [ex, s] of [[-3.5, 1], [2.2, 0]]) { b.poly([hx + ex - 2.5, hy - 4.5, hx + ex - 0.5 - s, hy - 11.5, hx + ex + 2.6, hy - 5], F, 2); b.poly([hx + ex - 1.2, hy - 5.2, hx + ex - 0.4 - s, hy - 9.4, hx + ex + 1.2, hy - 5.4], R('#ffb8c8'), 2); } }
     b.poly([hx - 3.6, hy - 3.5, hx + 4.4, hy - 3.5, hx + 5, hy + 0.5, hx + 4.4, hy + 3.2, hx + 2.6, hy + 5.6, hx + 1.2, hy + 5.6, hx - 2.4, hy + 3.4, hx - 3.8, hy + 0.5], S, 3);
     b.tint((x, y) => x < hx - 1.2 && y < hy + 6, c => c === S[3] ? S[2] : 0); b.tint((x, y) => y > hy + 4.4, c => c === S[3] ? S[2] : 0);
-    if (race === 'dwarf') b.poly([hx - 2, hy + 2, hx + 5, hy + 1.5, hx + 3.5, hy + 8, hx + 0.5, hy + 9.5, hx - 1.5, hy + 6], Rm.hair, 2, 1);
+    if (race === 'dwarf' && Rm.sex !== 'f') b.poly([hx - 2, hy + 2, hx + 5, hy + 1.5, hx + 3.5, hy + 8, hx + 0.5, hy + 9.5, hx - 1.5, hy + 6], Rm.hair, 2, 1);
     if (race === 'ogre' || race === 'troll') { b.set(hx + 2.5, hy + 4, STEEL[4]); b.set(hx + 4.2, hy + 3.4, STEEL[4]); }
     const ex = hx + 2.1, ey = hy + 0.6, E = Rm.eye;
     if (P.face) { b.set(ex, ey, INK[0]); b.set(ex + 1, ey + 1, INK[0]); b.set(ex + 2, ey, INK[0]); b.set(hx - 0.8, ey + 0.5, INK[0]); }
@@ -5542,12 +5680,13 @@ const HAWK32 = (() => {
   // one pixel creature frame in the game's sprite box (sz×sz world units, feet at 0.94·sz) + hit-flash + death silhouette
   function frame(k, i) { const ck = 'M' + k + i; let F = PXA.cache.get(ck); if (F) return F;
     const sz = eSz(k), n = Math.round(sz), b = new PB(n, n, n / 2, Math.round(n * 0.94)); D[k](SCALE[k] ? SC(b, SCALE[k]) : b, i < 4 ? i : 0, i === 4);
-    const S = finish(b, { rim: 0.5, pad: 4 }), c = S.img, g = c.getContext('2d');
-    if (S.glow) { g.globalCompositeOperation = 'destination-over'; g.globalAlpha = 0.9; g.drawImage(S.glow, -S.gpad, -S.gpad); g.globalAlpha = 1; } // halo baked in: still one draw per enemy
-    if (!FLOAT[k]) { const rx = Math.max(5, (CSHW[k] || 22) * sz / 100 * 1.05), ry = Math.max(2, rx * 0.28), cy = Math.round(n * 0.94) - 1; g.globalCompositeOperation = 'destination-over'; g.fillStyle = 'rgba(12,6,20,.55)';
-      for (let y = -Math.ceil(ry); y <= Math.ceil(ry); y++) { const hw = Math.round(rx * Math.sqrt(Math.max(0, 1 - (y / ry) ** 2))); if (hw > 0) g.fillRect(Math.round(n / 2 - hw), cy + y, hw * 2, 1); } }
-    g.globalCompositeOperation = 'source-over'; c.px = 1;
-    F = { img: c, flash: i === 0 ? sil(S, '#ffffff') : null, dark: i === 0 ? sil(S, '#140a1e') : null }; if (F.flash) { F.flash.getContext('2d').drawImage(c, 0, 0); const fg = F.flash.getContext('2d'); fg.globalCompositeOperation = 'source-atop'; fg.fillStyle = '#fff'; fg.fillRect(0, 0, n, n); }
+    const S = finish(b, { rim: 0.5, pad: 4 }), c = S.img, g = c.getContext('2d'), Kc = S.K || 1;
+    if (S.glow) { g.globalCompositeOperation = 'destination-over'; g.globalAlpha = 0.9; g.drawImage(S.glow, -S.gpad * Kc, -S.gpad * Kc, S.glow.width * Kc, S.glow.height * Kc); g.globalAlpha = 1; } // halo baked in: still one draw per enemy
+    if (!FLOAT[k]) { const rx = Math.max(5, (CSHW[k] || 22) * sz / 100 * 1.05), ry = Math.max(2, rx * 0.28), cy = Math.round(n * 0.94) - 1; g.save(); g.globalCompositeOperation = 'destination-over'; // v33: soft painted ambient-occlusion pool under the feet
+      g.translate(n / 2 * Kc, cy * Kc); g.scale(1, ry / rx); const gr = g.createRadialGradient(0, 0, 0, 0, 0, rx * 1.2 * Kc); gr.addColorStop(0, 'rgba(6,3,12,.72)'); gr.addColorStop(0.45, 'rgba(8,4,14,.5)'); gr.addColorStop(1, 'rgba(8,4,14,0)');
+      g.fillStyle = gr; g.beginPath(); g.arc(0, 0, rx * 1.2 * Kc, 0, TAU); g.fill(); g.restore(); }
+    g.globalCompositeOperation = 'source-over'; c.px = 0;
+    F = { img: c, flash: i === 0 ? sil(S, '#ffffff') : null, dark: i === 0 ? sil(S, '#140a1e') : null }; if (F.flash) { F.flash.getContext('2d').drawImage(c, 0, 0); const fg = F.flash.getContext('2d'); fg.globalCompositeOperation = 'source-atop'; fg.fillStyle = '#fff'; fg.fillRect(0, 0, c.width, c.height); }
     PXA.cache.set(ck, F); return F; }
   PXA.mobs = { has: k => PXA.on && !!D[k], frame, D, FLOAT, SCALE, SC };
 })();
@@ -5895,7 +6034,7 @@ const HAWK32 = (() => {
   // tileable value noise on a P-periodic lattice
   function vn(x, y, P, s) { const xi = Math.floor(x), yi = Math.floor(y), fx = x - xi, fy = y - yi, u = fx * fx * (3 - 2 * fx), v = fy * fy * (3 - 2 * fy), m = a => ((a % P) + P) % P;
     const a = hsh(m(xi), m(yi), s), b = hsh(m(xi + 1), m(yi), s), c = hsh(m(xi), m(yi + 1), s), d = hsh(m(xi + 1), m(yi + 1), s); return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v; }
-  function ground() { const T = TILE, b = new PB(T, T, 0, 0);
+  function ground() { const T = TILE, b = new PB(T, T, 0, 0, 1);
     for (let y = 0; y < T; y++) for (let x = 0; x < T; x++) { const n = vn(x / 32, y / 32, T / 32, 1) * 0.6 + vn(x / 12, y / 12, T / 12 | 0 || 1, 2) * 0.3 + vn(x / 4, y / 4, T / 4, 3) * 0.1, d = (BAY[(y & 3) * 4 + (x & 3)] / 16 - 0.5) * 0.12, q = n + d;
       b.a[y * T + x] = q < 0.34 ? GR[1] : q < 0.5 ? GR[2] : q < 0.66 ? GR[3] : q < 0.76 ? MOSS[1] : MOSS[2]; }
     const W = (f) => { for (const ox of [-T, 0, T]) for (const oy of [-T, 0, T]) { b.ox = ox; b.oy = oy; f(); } b.ox = 0; b.oy = 0; };
@@ -5907,13 +6046,13 @@ const HAWK32 = (() => {
     for (let i = 0; i < 1; i++) { const cx = rnd() * T, cy = rnd() * T, Rr = 18 + rnd() * 6; // sunken flagstones of an old ruin floor
       W(() => { for (let gy = -Rr; gy < Rr; gy += 7) for (let gx = -Rr; gx < Rr; gx += 9) { const ox = (Math.floor(gy / 7) & 1) * 4.5; if (Math.hypot(gx + ox, gy * 1.25) > Rr * (0.7 + rnd() * 0.5) || rnd() < 0.3) continue;
         const x0 = cx + gx + ox, y0 = cy + gy; b.rect(x0, y0, 8, 6, STONE[1]); b.rect(x0, y0, 8, 1, STONE[2]); b.rect(x0 + 1, y0 + 1, 6, 4, rnd() < 0.5 ? STONE[1] : STONE[2]); if (rnd() < 0.4) b.rect(x0 + 5, y0 + 4, 3, 2, MOSS[2]); } }); }
-    const S = finish(b, { ol: 0, glow: 0 }); return S.img; }
-  // pixel dirt road chunk (1 px = 1 unit), same path as the classic road
-  function road(x0, RCH, ya, yb, jr) { const w = RCH, h = yb - ya, b = new PB(w, h, -x0, -ya);
+    const S = finish(b, { ol: 0, glow: 0 }); return PXA.paintUp(S.img, PXA.gK(), { tile: 1, seed: 11, mix: 0.55 }); }
+  // painted dirt road chunk (1 px = 1 unit), same path as the classic road
+  function road(x0, RCH, ya, yb, jr) { const w = RCH, h = yb - ya, b = new PB(w, h, -x0, -ya, 1);
     for (let x = x0; x < x0 + w; x++) { const cy = roadY(jr, x + 0.5); for (let y = ya; y < yb; y++) { const d = Math.abs(y + 0.5 - cy), n = hsh(x, y, 7), dt = BAY[((y & 3) * 4 + (x & 3))] / 16;
         let c = 0; if (d < 6.5) c = DIRT[n < 0.12 ? 4 : 3]; else if (d < 11) c = DIRT[(d - 6.5) / 4.5 < dt ? 3 : 2]; else if (d < 15) c = DIRT[(d - 11) / 4 < dt ? 2 : 1]; else if (d < 19) c = (d - 15) / 4 < dt ? DIRT[0] : 0;
         if (c && d > 4 && d < 6 && n > 0.7) c = DIRT[1]; if (c && n > 0.985) c = STONE[3]; if (c) b.set(x, y, c); } }
-    const S = finish(b, { ol: 0, glow: 0 }); return S.img; }
+    const S = finish(b, { ol: 0, glow: 0 }); return PXA.paintUp(S.img, PXA.gK(), { ox: x0, oy: ya, mix: 0.6, soft: 1.4 }); }
   /* props: same box layout as the classic sprites (res S, foot at S/2 + f·S/64), facing doesn't matter */
   const PD = {
     tree(b, S) { // twisted dark tree: gnarled trunk, layered teal-violet canopy
@@ -5945,13 +6084,13 @@ const HAWK32 = (() => {
   let _bone = null; const BONE = () => _bone || (_bone = R(['#4a3f52', '#857a88', '#bdb4b4', '#e2dccf', '#fbf7ec']));
   const DECO = { grave: 46, crystal: 52, mushrooms: 52 };
   function prop(k) { const ck = 'P' + k; let S = PXA.cache.get(ck); if (S) return S; const T = OBT[k], n = T ? T.S : DECO[k], f = T ? T.f : 14, b = new PB(n, n, n / 2, Math.round(n / 2 + f * n / 64));
-    PD[k](b, n); S = finish(b, { rim: 0.4, pad: 5 }); const c = S.img; if (S.glow) { const g = c.getContext('2d'); g.globalCompositeOperation = 'destination-over'; g.globalAlpha = 0.85; g.drawImage(S.glow, -S.gpad, -S.gpad); g.globalCompositeOperation = 'source-over'; g.globalAlpha = 1; }
-    c.px = 1; PXA.cache.set(ck, c); return c; }
+    PD[k](b, n); S = finish(b, { rim: 0.4, pad: 5 }); const c = S.img, Kc = S.K || 1; if (S.glow) { const g = c.getContext('2d'); g.globalCompositeOperation = 'destination-over'; g.globalAlpha = 0.85; g.drawImage(S.glow, -S.gpad * Kc, -S.gpad * Kc, S.glow.width * Kc, S.glow.height * Kc); g.globalCompositeOperation = 'source-over'; g.globalAlpha = 1; }
+    const cp = PXA.paintSpr(c, { seed: (k.length * 37) & 255 }); PXA.cache.set(ck, cp); return cp; }
   // XP gems: faceted crystal + baked halo, drawn at 13 + 2·tier units
   const GEMR = () => GEM_COL.map(c => R(c, 1));
   function gem(t) { const n = 13 + t * 2, b = new PB(n, n, n / 2, n / 2), C = GEMR()[t], h = 3.4 + t * 0.6, w = 2.4 + t * 0.4;
     b.poly([0, -h, w, 0, 0, h, -w, 0], C, 2); b.poly([0, -h, w, 0, 0, 0.4], C, 3); b.poly([-w, 0, 0, h, 0, 0], C, 1); b.set(-0.6, -h + 1.4, C[4]); b.set(0.2, -h + 0.6, C[4]);
-    const S = finish(b, { pad: 3, emiOl: 1 }), c = S.img, g = c.getContext('2d'); if (S.glow) { g.globalCompositeOperation = 'destination-over'; g.drawImage(S.glow, -S.gpad, -S.gpad); g.globalCompositeOperation = 'source-over'; } c.px = 1; return c; }
+    const S = finish(b, { pad: 3, emiOl: 1 }), c = S.img, g = c.getContext('2d'), Kc = S.K || 1; if (S.glow) { g.globalCompositeOperation = 'destination-over'; g.drawImage(S.glow, -S.gpad * Kc, -S.gpad * Kc, S.glow.width * Kc, S.glow.height * Kc); g.globalCompositeOperation = 'source-over'; } return c; }
   const GOLD = () => R(['#6a3a0c', '#b8741a', '#f2b33a', '#ffe27a', '#fffbe0']);
   function coin() { const n = 24, b = new PB(n, n, 12, 12), C = GOLD(); b.ell(0, 0, 8, 8, C, 2); b.ell(0, 0, 5.6, 5.6, C, 3, 0); b.rect(-1, -3.5, 2, 7, C[1]); b.set(-2.4, -3, C[4]); b.set(-3, -2, C[4]);
     return finish(b, { pad: 2 }).img; }
@@ -5974,7 +6113,7 @@ const HAWK32 = (() => {
 PXA.glue = {
   sync() { PXA.on = true; return true; },
   art() { // called at the end of buildArt() when pixel mode is on: overwrite only the converted sprites
-    const W = PXA.world; SPR.gem = [0, 1, 2, 3].map(t => W.gem(t)); SPR.pick.gold = W.coin(); if (SPR.npc) SPR.npc.merchant = [W.pell(0), W.pell(1)].map(c => (c.px = 1, c));
+    const W = PXA.world; SPR.gem = [0, 1, 2, 3].map(t => W.gem(t)); SPR.pick.gold = W.coin(); if (SPR.npc) SPR.npc.merchant = [W.pell(0), W.pell(1)];
     for (const k of ['tree', 'oldtree', 'rock', 'pillar', 'stump', 'tomb', 'wall', 'grave', 'crystal', 'mushrooms']) SPR.prop[k] = W.prop(k);
     SPR.prop.px_boulder = W.prop('boulder'); groundTile = mapOn() ? W.groundC() : W.ground(); if (mapOn()) W.castleProps(); },
   jumpPhase() { const e = G.t - P.jAt; return e < JUMP_A ? 0 : e < JUMP_L ? ((e - JUMP_A) / (JUMP_L - JUMP_A) < 0.5 ? 1 : 2) : 3; },
@@ -6233,6 +6372,9 @@ const AI28 = {
     b.poly([hx - 6, hh + 6, hx + 14, hh + 6, hx + 10, hh + 12, hx - 2, hh + 12], OBS, 2, 1); for (let i = 0; i < 4; i++) b.set(hx - 2 + i * 4, hh + 8, EMB[3]);
     fist(24, 0); };
 })();
+/* v33: hero body choice. save.sex[race] = 'm' | 'f'. The classic (pre-v33) look is the Male body, so old saves look exactly as before. Cosmetic only. */
+function heroSex(race) { const m = save && save.sex; return m && m[race] === 'f' ? 'f' : 'm'; }
+function heroSexChosen(race) { const m = save && save.sex; return !!(m && (m[race] === 'f' || m[race] === 'm')); }
 function heroPortrait(canvas, cls, outfit, scale = 1.35, race, gear) {
   const r = Math.min(3, window.devicePixelRatio || 1), w = canvas.clientWidth || 64, h = canvas.clientHeight || 64;
   canvas.width = w * r; canvas.height = h * r; const g = canvas.getContext('2d'); g.scale(r, r);
@@ -6243,7 +6385,7 @@ function heroPortrait(canvas, cls, outfit, scale = 1.35, race, gear) {
 let state = 'title', G = null, P = null, gtime = 0;
 let minions = [], enemies = [], gems = [], picks = [], projs = [], eprojs = [], effects = [], parts = [], nums = [], toasts = [];
 let eid = 0;
-const xpNeed = l => Math.floor((5 + (l - 1) * 6 + Math.pow(l - 1, 1.65)) * (l >= 20 ? 1.25 : 1)); // v29: base curve again (XP is a gem you pick up; sim pace matches v28). Levels 21+ (l -> l+1 for l >= 20) need 25% more XP = about 20% slower levelling after 20
+const xpNeed = l => Math.floor((5 + (l - 1) * 6 + Math.pow(l - 1, 1.65))); // v33: no level-20+ penalty any more. v29: base curve again (XP is a gem you pick up; sim pace matches v28). (v29-v32 levels 21+ needed 25% more XP; removed in v33)
 
 function pxInit() { if (WFIRE.eclipse) return; /* v21: Paragon echoes run the original skill engines under their own ids */
   for (const id in PX_BASE) { const b = PX_BASE[id]; if (WTICK[b]) WTICK[id] = (w, dt) => WTICK[b](w, dt); else WFIRE[id] = w => WFIRE[b](w); if (WSND[b]) WSND[id] = WSND[b]; }
@@ -7346,7 +7488,7 @@ function updateMinions(dt) {
 /* ================= v25: +1 skill slot, 2 new skills per class (+2 per Druid form), 3 new Summoner minions, Summoner auto-attack,
    12 new passives, softer XP. Built from a few reusable skill shapes (bolt / ring / strike / zone / chain / claw). ================= */
 const XP_PICKUP = 0.85;                      // v25: every XP pickup is worth 15% less
-function xpMul() { const t = (G && G.t) || 0; return XP_PICKUP * (t < 480 ? 1 : Math.max(0.5, 0.78 - (t - 480) / 2400)); } // v25: after minute 8 XP shrinks further (-22%, sliding to -50%)
+function xpMul() { return XP_PICKUP; } // v33: the v25 minute-8 XP falloff is gone; XP per gem is the same all run
 const SK25 = [
   // ---- rogue
   { id: 'viper', name: 'Viper Fangs', ic: '⚚', cls: 'rogue', t: 'bolt', dmg: 8, n: 1, sp: 460, range: 360, pierce: 0, cd: 0.8, col: '#7dff5a', el: 'bleed', st: 4, snd: 'knife', unit: 'fang', base: 'Venom-tipped fangs that make foes bleed', cap: 'Fangs pierce 2 foes and bleed harder' },
@@ -7496,9 +7638,10 @@ function v30Tick(dt) { if (G.tstopT > 0) G.tstopT = Math.max(0, G.tstopT - dt); 
 function v30Ground() { if (!V30[G.cls]) return; for (const u of V30U) { const K = UK30[u.ut]; if (K && K.gr && K.draw && inView(u.x, u.y, (u.r || 20) + 40)) K.draw(u); } }
 function v30Draw(u) { const K = UK30[u.ut]; if (K && K.draw && inView(u.x, u.y, 60)) K.draw(u); }
 function v30Top() { if (!V30[G.cls]) return; for (const u of V30U) { const K = UK30[u.ut]; if (K && K.top && K.draw && inView(u.x, u.y, 60)) K.draw(u); } }
+const HBR = { hp: null, m: null }; // v33: last-drawn rects of the bars under the hero (world units; tests check they never intersect)
 function v30Over() { const h = V30[G.cls]; if (!h) return; const S = v30S(); if (h.over) h.over(S);
-  if (h.meter) { const m = h.meter(S); if (!m) return; const w = 34, x = P.x - w / 2, y = P.y + 21, f = clamp(m.v / m.max, 0, 1);
-    ctx.fillStyle = 'rgba(8,3,16,.8)'; ctx.fillRect(x - 1, y - 1, w + 2, 5); ctx.fillStyle = m.col; ctx.fillRect(x, y, w * f, 3); if (f >= 1) { ctx.globalAlpha = 0.5 + 0.5 * Math.sin(gtime * 10); ctx.fillStyle = '#ffffff'; ctx.fillRect(x, y, w, 1); ctx.globalAlpha = 1; } } }
+  if (h.meter) { const m = h.meter(S); if (!m) return; const w = 31, x = P.x - w / 2, y = P.y + 29, f = clamp(m.v / m.max, 0, 1); // v33: stacked 2px under the HP bar (was drawn on top of it)
+    ctx.fillStyle = 'rgba(8,3,16,.8)'; ctx.fillRect(x - 0.5, y - 0.5, w + 1, 4.5); HBR.m = [x - 0.5, y - 0.5, w + 1, 4.5]; ctx.fillStyle = m.col; ctx.fillRect(x, y, w * f, 3.5); if (f >= 1) { ctx.globalAlpha = 0.5 + 0.5 * Math.sin(gtime * 10); ctx.fillStyle = '#ffffff'; ctx.fillRect(x, y, w, 1); ctx.globalAlpha = 1; } } }
 function v30HUD() { const h = V30[G.cls]; if (!h) return; if (G.tstopT > 0) { ctx.fillStyle = `rgba(150,190,255,${0.12 + 0.05 * Math.sin(gtime * 6)})`; ctx.fillRect(0, 0, W, H); }
   if (h.hud) h.hud(v30S()); }
 /* the hero's own dash (charge / leap): moves P over a few frames, i-frames while it lasts */
@@ -8132,12 +8275,12 @@ evo30('entropy', 'reach', 'Heat Death', '#5ab0ff', 1.4, 0.85, 1.1, 'leech', '+40
 evo30('quicken', 'swift', 'Lightspeed', '#ffd25a', 1.3, 0.8, 1, 'burst', '+30% damage; recharges much faster');
 evo30('zerohour', 'insight', 'End of Days', '#7ae8ff', 1.3, 0.85, 1.15, 'execute', 'SIGNATURE EVO: +30% damage, faster, wider; the reset executes weakened foes');
 
-/* ======================= v30 NEURAL MAESTRO (Ghalrym's class): an AI DJ — beats, Holo-Nekos, glitches & The Drop ======================= */
+/* ======================= v30 NEURAL MAESTRO (Ghalrym's class): an AI DJ — beats, Cat Humans, glitches & The Drop ======================= */
 Object.assign(GCLS, { maestro: ['dmg', 'cd', 'crit', 'area'] }); Object.assign(GCLSN, { maestro: 'Remixed' }); Object.assign(GPAL, { maestro: ['#1a2a4a', '#3af0ff', '#ff4ad8'] });
 Object.assign(CLASS_PAL, { maestro: { cloak: '#1a2a4a', cloak2: '#0a0e1e', trim: '#3af0ff', acc: '#ff4ad8', acc2: '#5a1050', eye: '#3af0ff', name: 'Neon Hoodie' } });
 Object.assign(CLASS_LOOK, { maestro: { acc: '#ff4ad8', acc2: '#5a1050', body: 'tunic', hood: 'none' } });
 const MX = { c: '#3af0ff', p: '#ff4ad8', k: '#ff8ad8', g: '#9aff6a', v: '#8a5aff', w: '#e8fcff' };
-const MX_WORDS = ['nya~', '128 BPM', 'prompt accepted', '/imagine neko DJ', 'add more bass', 'lofi beats to slay to', 'temperature=1.2', 'cat ears: ON', 'hyperpop', 'synthwave', 'generating…', '[MASTERED]', 'drop the bass', 'Ghalrym.exe', 'seed: 42', 'bass++', '♥ nya ♥', 'neko mode', 'remix it', 'more glitter'];
+const MX_WORDS = ['nya~', '128 BPM', 'prompt accepted', '/imagine cat human DJ', 'add more bass', 'lofi beats to slay to', 'temperature=1.2', 'cat ears: ON', 'hyperpop', 'synthwave', 'generating…', '[MASTERED]', 'drop the bass', 'Ghalrym.exe', 'seed: 42', 'bass++', '♥ nya ♥', 'neko mode', 'remix it', 'more glitter'];
 const mxLv = id => { const w = G.weapons.find(q => q.id === id); return w ? w.lvl : 0; };
 const mxPer = S => 60 / 128 / ((S && S.htT > 0) ? 1.5 : 1);           // seconds per beat (faster on the Hype Train)
 const mxOn = S => !!S && (gtime - (S.lbT || -9) < 0.12 || S.atT > 0); // inside the on-beat window (Auto-Tune: always)
@@ -8150,43 +8293,68 @@ function mxNeko(S, tmp) { const ns = units30('neko'); return u30('neko', { x: P.
 /* ---- units ---- */
 UK30.pword = { top: 1, upd(u, dt) { u.y += u.vy * dt; }, draw(u) { const a = Math.min(1, u.life / u.max * 2.5); ctx.save(); ctx.globalAlpha = 0.85 * a; ctx.font = '700 8px ui-monospace,Menlo,Consolas,monospace'; ctx.textAlign = 'center';
   ctx.fillStyle = 'rgba(4,8,16,.55)'; const w = ctx.measureText(u.s).width + 6; ctx.fillRect(u.x - w / 2, u.y - 8, w, 11); ctx.fillStyle = u.col; ctx.fillText(u.s, u.x, u.y); if (Math.random() < 0.15) { ctx.fillStyle = MX.p; ctx.fillText(u.s, u.x + 1.5, u.y); } ctx.restore(); } };
-/* a holo-neko: an anime-style human girl hologram with cat ears and a tail (fully clothed: cropped idol jacket over a
+/* v33: a Cat Human hologram (female by default, or male): painted vector figure with cat ears and a tail. v30 notes: an anime-style hologram with cat ears and a tail (fully clothed: cropped idol jacket over a
    long-sleeve top, pleated skirt, thigh-high leggings, boots, DJ headphones round her neck) — pixel art with scanlines */
 const MX_HAIR = [['#ff8ad8', '#c04aa0'], ['#8ad0ff', '#3a7ac0'], ['#c0a0ff', '#6a4ac0'], ['#ffe08a', '#c08a2a'], ['#ffffff', '#a0b0d0']];
 const MX_TOP = ['#3af0ff', '#ff8ad8', '#9aff6a', '#ffb04a', '#b08aff'];
-function mxDrawNeko(x, y, hue, flash, face, ph) { const H = MX_HAIR[hue % 5], hair = H[0], hd = H[1], top = MX_TOP[hue % 5], s = face < 0 ? -1 : 1, atk = flash > 0.35;
-  const t = gtime * 6 + (ph || 0), st = atk ? 0 : Math.round(Math.sin(t) * 1), sway = Math.sin(t * 0.5) * 1.5, skin = '#ffe6d8', sk2 = '#f0c0b0', leg = '#4e4a80', boot = '#33264f';
-  ctx.save(); ctx.globalCompositeOperation = 'lighter'; glowAt(top, x, y - 16, 22, 0.32 + 0.3 * flash); ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 0.9;
-  const R = (dx, dy, w, h, c) => { ctx.fillStyle = c; ctx.fillRect(Math.round(x + dx * s - (s < 0 ? w : 0)), Math.round(y + dy), w, h); };
-  // tail (behind): curls up from under the skirt, swaying
-  for (let i = 0; i < 9; i++) { const k = i / 8, tx = -5 - k * 6, ty = -12 - k * 9 + Math.sin(t * 0.8 + k * 3) * 2 * k; R(tx, ty, 2, 2, i > 6 ? '#ffffff' : hair); }
-  // long back hair (behind the body)
-  R(-5, -28, 10, 10, hd); R(-5, -19, 3, 2, hd); R(2, -19, 3, 2, hd);
-  // legs: thigh-high leggings + boots, idle step / attack stance
+function mxSex() { const o = save.chSex; if (o === 'f' || o === 'm') return o; const r = raceOf((G && G.race) || save.race); return heroSexChosen(r) ? heroSex(r) : 'f'; }
+const MXD = { last: null };
+function mxDrawNeko(x, y, hue, flash, face, ph, sex) { sex = sex === 'm' || sex === 'f' ? sex : mxSex(); MXD.last = sex; const M = sex === 'm';
+  const H = MX_HAIR[hue % 5], hair = H[0], hd = H[1], top = MX_TOP[hue % 5], s = face < 0 ? -1 : 1, atk = flash > 0.35;
+  const t = gtime * 6 + (ph || 0), st = atk ? 0 : Math.sin(t), sway = Math.sin(t * 0.5) * 1.5, skin = '#ffe6d8', sk2 = '#eebcae', leg = M ? '#3a3870' : '#4e4a80', boot = '#2c2148', tw = Math.sin(t * 0.8);
+  ctx.save(); ctx.globalCompositeOperation = 'lighter'; glowAt(top, x, y - 16, 24, 0.32 + 0.3 * flash); ctx.globalCompositeOperation = 'source-over';
+  ctx.translate(x, y); ctx.scale(s, 1); ctx.globalAlpha = 0.92; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  const F = (c, f) => { ctx.fillStyle = c; ctx.beginPath(); f(); ctx.fill(); }, L = (c, w, f) => { ctx.strokeStyle = c; ctx.lineWidth = w; ctx.beginPath(); f(); ctx.stroke(); };
+  const E = (cx, cy, rx, ry) => { ctx.moveTo(cx + rx, cy); ctx.ellipse(cx, cy, rx, ry, 0, 0, TAU); };
+  // tail (behind), swaying, white tip
+  L(hair, 2.6, () => { ctx.moveTo(-2.5, -11); ctx.bezierCurveTo(-10, -11.5, -12 + tw * 1.5, -19, -9 + tw * 2, -25); }); F('#ffffff', () => E(-9 + tw * 2, -25, 1.5, 1.5));
+  // long back hair (female)
+  if (!M) F(hd, () => { ctx.moveTo(-5.4, -30); ctx.quadraticCurveTo(-7.8, -21, -6 + sway * 0.4, -15.5); ctx.quadraticCurveTo(0, -14, 6 + sway * 0.4, -15.5); ctx.quadraticCurveTo(7.8, -21, 5.4, -30); ctx.closePath(); });
+  // legs + boots
   const lf = atk ? 2 : st, lb = atk ? -1 : -st;
-  R(-3 + lb, -11, 2, 9, leg); R(1 + lf, -11, 2, 9, leg); R(-3 + lb, -11, 2, 2, skin); R(1 + lf, -11, 2, 2, skin);
-  R(-4 + lb, -2, 3, 2, boot); R(1 + lf, -2, 3, 2, boot); R(-4 + lb, -2, 3, 1, top);
-  // pleated skirt
-  R(-5, -14, 10, 3, hd); R(-6, -12, 12, 2, hd); for (let i = -5; i < 6; i += 2) R(i, -12, 1, 2, hair); R(-6, -11, 12, 1, '#ffffff');
-  // torso: long-sleeve top + cropped idol jacket with a heart badge
-  R(-4, -21, 8, 7, '#f4f0ff'); R(-4, -21, 2, 6, top); R(2, -21, 2, 6, top); R(-4, -16, 8, 1, top); R(-1, -19, 2, 2, '#ff5a9a');
-  // back arm (sleeve + hand)
-  if (atk) { R(-6, -21, 2, 5, top); R(-6, -16, 2, 2, skin); } else { R(-6, -21 - 0, 2, 6, top); R(-6, -15 + st, 2, 2, skin); }
-  // front arm: idle swing / attack = arm thrust forward making a finger-heart that glows
-  if (atk) { R(4, -21, 7, 2, top); R(11, -22, 2, 3, skin); ctx.globalCompositeOperation = 'lighter'; glowAt('#ff5a9a', x + 14 * s, y - 21, 6, 0.9 * flash); ctx.globalCompositeOperation = 'source-over'; R(13, -23, 1, 1, '#ff8ad8'); R(15, -23, 1, 1, '#ff8ad8'); R(13, -22, 3, 1, '#ff8ad8'); R(14, -21, 1, 1, '#ff8ad8'); }
-  else { R(4, -21, 2, 6, top); R(4, -15 - st, 2, 2, skin); }
-  // neck + DJ headphones resting round it
-  R(-1, -23, 2, 2, skin); R(-3, -23, 6, 1, '#2a2a4a'); R(-4, -24, 2, 2, top); R(2, -24, 2, 2, top);
-  // head: anime face (big eyes, blush, small smile)
-  R(-4, -31, 8, 8, skin); R(-4, -24, 8, 1, sk2);
-  R(-3, -28, 2, 3, '#2a1a4a'); R(1, -28, 2, 3, '#2a1a4a'); R(-3, -28, 1, 1, '#ffffff'); R(1, -28, 1, 1, '#ffffff'); R(-3, -26, 2, 1, top); R(1, -26, 2, 1, top);
-  R(-4, -25, 1, 1, '#ff9ab0'); R(3, -25, 1, 1, '#ff9ab0'); if (atk) R(0, -24, 1, 1, '#c03a6a'); else R(-1, -24, 2, 1, '#e06a8a');
-  // hair: crown, choppy bangs, side locks
-  R(-5, -33, 10, 3, hair); R(-5, -30, 2, 2, hair); R(-2, -30, 1, 2, hair); R(0, -30, 2, 1, hair); R(3, -30, 2, 3, hair); R(-1, -33, 3, 1, '#ffffff');
-  R(-5, -30, 1, 9, hair); R(4, -30, 1, 9, hair); R(-6, -24 + Math.round(sway * 0.5), 1, 3, hd);
-  // cat ears on top of the head (outer hair colour, pink inner)
-  R(-5, -35, 3, 2, hair); R(-4, -37, 2, 2, hair); R(-4, -35, 1, 1, '#ffc0e0'); R(2, -35, 3, 2, hair); R(2, -37, 2, 2, hair); R(3, -35, 1, 1, '#ffc0e0');
-  ctx.globalAlpha = 0.09; ctx.fillStyle = '#ffffff'; for (let i = -37; i < 1; i += 3) ctx.fillRect(x - 8, y + i + ((gtime * 20) % 3), 16, 1);      // hologram scanlines
+  L(leg, M ? 3.1 : 2.4, () => { ctx.moveTo(-2, -12.5); ctx.lineTo(-2 + lb, -2); ctx.moveTo(2, -12.5); ctx.lineTo(2 + lf, -2); });
+  if (!M) L(skin, 2.4, () => { ctx.moveTo(-2, -12.5); ctx.lineTo(-2 + lb * 0.15, -10.6); ctx.moveTo(2, -12.5); ctx.lineTo(2 + lf * 0.15, -10.6); });
+  F(boot, () => { E(-1.6 + lb, -1.2, 2.3, 1.4); E(2.6 + lf, -1.2, 2.3, 1.4); }); L(top, 0.8, () => { ctx.moveTo(-3.6 + lb, -2.3); ctx.lineTo(0.2 + lb, -2.3); ctx.moveTo(0.6 + lf, -2.3); ctx.lineTo(4.4 + lf, -2.3); });
+  // pleated skirt (female) / belt + jacket hem (male)
+  if (!M) { F(hd, () => { ctx.moveTo(-4.6, -15.5); ctx.lineTo(4.6, -15.5); ctx.lineTo(6.6, -10.6); ctx.lineTo(-6.6, -10.6); ctx.closePath(); });
+    L(hair, 0.6, () => { for (let i = -4; i <= 4; i += 2) { ctx.moveTo(i * 0.8, -15); ctx.lineTo(i * 1.25, -10.9); } }); L('#ffffff', 0.8, () => { ctx.moveTo(-6.4, -10.8); ctx.lineTo(6.4, -10.8); }); }
+  else { F('#2a2a4a', () => ctx.rect(-4.4, -14.6, 8.8, 2)); F('#ffe08a', () => ctx.rect(-0.8, -14.4, 1.6, 1.6)); }
+  // torso: white top + idol jacket (male: broader shoulders, open jacket, hoodie collar)
+  const sh = M ? 5.2 : 4.3;
+  F('#f4f0ff', () => { ctx.moveTo(-sh, -22); ctx.lineTo(sh, -22); ctx.lineTo(M ? 4.2 : 3.6, M ? -12.6 : -15.2); ctx.lineTo(M ? -4.2 : -3.6, M ? -12.6 : -15.2); ctx.closePath(); });
+  F(top, () => { ctx.moveTo(-sh, -22); ctx.lineTo(-1.8, -22); ctx.lineTo(-2, M ? -12.6 : -16); ctx.lineTo(M ? -4.4 : -3.8, M ? -12.6 : -16); ctx.closePath(); ctx.moveTo(sh, -22); ctx.lineTo(1.8, -22); ctx.lineTo(2, M ? -12.6 : -16); ctx.lineTo(M ? 4.4 : 3.8, M ? -12.6 : -16); ctx.closePath(); });
+  if (M) L(hd, 1.2, () => { ctx.moveTo(-2.6, -22.2); ctx.quadraticCurveTo(0, -20.6, 2.6, -22.2); });
+  F('#ff5a9a', () => { ctx.moveTo(0, -17.6); ctx.bezierCurveTo(-1.6, -18.6, -1.2, -20.2, 0, -19.4); ctx.bezierCurveTo(1.2, -20.2, 1.6, -18.6, 0, -17.6); });
+  // back arm
+  L(top, M ? 2.5 : 2.2, () => { ctx.moveTo(-sh + 0.4, -21.2); ctx.lineTo(-sh - 0.8, atk ? -17 : -16.4 + st); }); F(skin, () => E(-sh - 0.8, atk ? -16 : -15.4 + st, 1.15, 1.15));
+  // front arm: idle swing / attack = arm thrust forward making a glowing finger-heart
+  if (atk) { L(top, M ? 2.5 : 2.2, () => { ctx.moveTo(sh - 0.4, -21.2); ctx.lineTo(11, -21.6); }); F(skin, () => E(12, -21.6, 1.3, 1.2));
+    ctx.globalCompositeOperation = 'lighter'; glowAt('#ff5a9a', 14.4, -22, 6, 0.9 * flash); ctx.globalCompositeOperation = 'source-over';
+    F('#ff8ad8', () => { ctx.moveTo(14.4, -20.4); ctx.bezierCurveTo(12.6, -21.6, 13.2, -23.6, 14.4, -22.6); ctx.bezierCurveTo(15.6, -23.6, 16.2, -21.6, 14.4, -20.4); }); }
+  else { L(top, M ? 2.5 : 2.2, () => { ctx.moveTo(sh - 0.4, -21.2); ctx.lineTo(sh + 0.7, -16.4 - st); }); F(skin, () => E(sh + 0.7, -15.4 - st, 1.15, 1.15)); }
+  // neck + DJ headphones round it
+  F(skin, () => ctx.rect(-1, -24.4, 2, 2.8)); L('#2a2a4a', 1, () => { ctx.moveTo(-3.2, -23.4); ctx.quadraticCurveTo(0, -21.8, 3.2, -23.4); }); F(top, () => { E(-3.3, -23.4, 1.3, 1.3); E(3.3, -23.4, 1.3, 1.3); });
+  // head: soft shaded anime face
+  const g = ctx.createLinearGradient(0, -32, 0, -23); g.addColorStop(0, skin); g.addColorStop(1, sk2);
+  F(g, () => { ctx.moveTo(-4.3, -28); ctx.quadraticCurveTo(-4.4, -32.2, 0, -32.2); ctx.quadraticCurveTo(4.4, -32.2, 4.3, -28); ctx.quadraticCurveTo(M ? 4 : 3.8, -24.4, 0, M ? -23.2 : -23.6); ctx.quadraticCurveTo(M ? -4 : -3.8, -24.4, -4.3, -28); });
+  const ery = M ? 1.25 : 1.6, erx = M ? 1 : 1.1;
+  F('#2a1a4a', () => { E(-1.8, -27.2, erx, ery); E(1.9, -27.2, erx, ery); }); F(top, () => { E(-1.8, -26.5, erx * 0.75, ery * 0.5); E(1.9, -26.5, erx * 0.75, ery * 0.5); }); F('#ffffff', () => { E(-2.1, -27.8, 0.45, 0.45); E(1.6, -27.8, 0.45, 0.45); });
+  if (!M) { L('#1a0e30', 0.7, () => { ctx.moveTo(-3.1, -28.8); ctx.lineTo(-0.6, -29); ctx.moveTo(0.7, -29); ctx.lineTo(3.2, -28.8); }); ctx.globalAlpha = 0.5; F('#ff9ab0', () => { E(-3, -25.4, 0.9, 0.5); E(3.1, -25.4, 0.9, 0.5); }); ctx.globalAlpha = 0.92; }
+  else L(hd, 0.7, () => { ctx.moveTo(-3, -29.6); ctx.lineTo(-0.8, -29.2); ctx.moveTo(0.8, -29.2); ctx.lineTo(3, -29.6); });
+  if (atk) F('#c03a6a', () => E(0, -24.6, 0.6, 0.5)); else L('#d0607e', 0.6, () => { ctx.moveTo(-0.8, -24.8); ctx.quadraticCurveTo(0, -24.2, 0.8, -24.8); });
+  // hair: female = rounded crown, choppy bangs, long side locks; male = spiky crown, short sides
+  if (!M) { F(hair, () => { ctx.moveTo(-5.1, -27.2); ctx.quadraticCurveTo(-5.6, -33.8, 0, -33.8); ctx.quadraticCurveTo(5.6, -33.8, 5.1, -27.2); ctx.lineTo(4, -29.4); ctx.lineTo(2.7, -28.3); ctx.lineTo(1.6, -30); ctx.lineTo(0, -28.7); ctx.lineTo(-1.6, -30); ctx.lineTo(-2.8, -28.3); ctx.lineTo(-4, -29.4); ctx.closePath(); });
+    L(hair, 1.7, () => { ctx.moveTo(-4.7, -29); ctx.quadraticCurveTo(-5.6, -25, -5.4 + sway * 0.3, -20.6); ctx.moveTo(4.7, -29); ctx.quadraticCurveTo(5.6, -25, 5.4 + sway * 0.3, -20.6); }); }
+  else { F(hair, () => { ctx.moveTo(-4.8, -27); ctx.lineTo(-5.8, -31); ctx.lineTo(-4.6, -31.3); ctx.lineTo(-4.9, -34.1); ctx.lineTo(-2.2, -32.9); ctx.lineTo(-0.6, -35.3); ctx.lineTo(1.3, -33.1); ctx.lineTo(4, -34.5); ctx.lineTo(4.3, -31.7); ctx.lineTo(5.8, -31); ctx.lineTo(4.8, -27);
+      ctx.lineTo(3.6, -29.5); ctx.lineTo(2.2, -28.5); ctx.lineTo(1, -30.1); ctx.lineTo(-0.6, -28.7); ctx.lineTo(-2.2, -29.9); ctx.lineTo(-3.4, -28.5); ctx.lineTo(-4.2, -29.5); ctx.closePath(); });
+    L(hair, 1.3, () => { ctx.moveTo(-4.6, -28.4); ctx.lineTo(-4.7, -25.8); ctx.moveTo(4.6, -28.4); ctx.lineTo(4.7, -25.8); }); }
+  ctx.globalAlpha = 0.55; L('#ffffff', 0.7, () => { ctx.moveTo(-2.6, -32.6); ctx.quadraticCurveTo(0, -33.6, 2.4, -32.8); }); ctx.globalAlpha = 0.92;
+  // cat ears (hair colour outside, pink inside)
+  F(hair, () => { ctx.moveTo(-4.9, -31.2); ctx.lineTo(-4.5, -37.4); ctx.lineTo(-1.4, -33.4); ctx.closePath(); ctx.moveTo(4.9, -31.2); ctx.lineTo(4.5, -37.4); ctx.lineTo(1.4, -33.4); ctx.closePath(); });
+  F('#ffc0e0', () => { ctx.moveTo(-4.3, -32.4); ctx.lineTo(-4.1, -35.8); ctx.lineTo(-2.4, -33.6); ctx.closePath(); ctx.moveTo(4.3, -32.4); ctx.lineTo(4.1, -35.8); ctx.lineTo(2.4, -33.6); ctx.closePath(); });
+  // hologram: cyan rim light + drifting scanlines
+  ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = 0.18; L(MX.c, 0.8, () => { ctx.moveTo(-sh - 0.6, -22); ctx.lineTo(-sh - 1.4, -15); });
+  ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 0.08; ctx.fillStyle = '#ffffff'; for (let i = -38; i < 1; i += 3) ctx.fillRect(-8, i + ((gtime * 20) % 3), 16, 1);
   ctx.restore(); }
 UK30.neko = { top: 1, upd(u, dt, S) { const L = mxLv('holoneko') || 1, ns = units30('neko'), i = ns.indexOf(u), n = ns.length || 1;
     if (u.pn > 0) { u.pn -= dt; const t = u.pt; if (t && !t.dead) { u.x += (t.x - u.x) * Math.min(1, dt * 12); u.y += (t.y - u.y) * Math.min(1, dt * 12); } if (u.pn <= 0 && t) { G.srcW = 'holoneko'; area30(u.x, u.y, 50 * Math.sqrt(P.area), 16 * dm30(L), 60); boom30(u.x, u.y, 36, MX.k); } return; }
@@ -8219,7 +8387,7 @@ UK30.pwb = { top: 1, upd(u, dt) { const k = Math.min(1, u.t / u.ft); u.x = u.x0 
     ctx.globalCompositeOperation = 'lighter'; glowAt(u.col, u.x, u.y - 3, 18, 0.3); ctx.restore(); } };
 function mxDrop(S, L, k) { const r = 280 * Math.sqrt(P.area), d = (60 + 0.8 * (S.hype || 0)) * dm30(L) * (k || 1); G.srcW = 'thedrop';
   nova30(P.x, P.y, r, d, MX.c, { src: 'thedrop', on: e => { stun30(e, 0.8); mxGlitch(e); } }); for (let i = 0; i < 3; i++) ring30(P.x, P.y, r * (0.6 + i * 0.25), [MX.c, MX.p, MX.g][i], 0.5 + i * 0.15, { w: 6 - i });
-  u30('pillar', { x: P.x, y: P.y, col: MX.p, life: 0.9, max: 0.9, h: 220, w: 34 }); G.shake = Math.max(G.shake || 0, 9); Snd.play('boom'); Snd.play('nova'); txt30(P.x, P.y - 44, 'DROPPING THE BASS', MX.p, { sz: 11 }); }
+  u30('pillar', { x: P.x, y: P.y, col: MX.p, life: 0.9, max: 0.9, h: 220, w: 34 }); ultS(); uFlash(MX.p, 0.28, 0.32); Snd.play('boom'); Snd.play('nova'); txt30(P.x, P.y - 44, 'DROPPING THE BASS', MX.p, { sz: 11 }); }
 V30.maestro = { dm: 1, cols: [MX.c, MX.p, MX.k, MX.g, MX.v],
   start(S) { S.bt = 0; S.bn = 0; S.lbT = -9; S.hype = 0; S.htT = 0; S.atT = 0; S.dropB = 0; S.drops = 0; S.trains = 0; S.gl = 0; S.wk = 0; },
   recalc(s, n, S) { if (S.atT > 0) s.crit += 0.1; },
@@ -8243,7 +8411,7 @@ sk30('beatpulse', { name: 'Beat Pulse', ic: '⏚', cls: 'maestro', desc: ['Fire 
   const L = w.lvl, S = v30S(); if (!mxOn(S)) return -1; const { t, a } = aim30(380); if (!t) return -1; const n = L >= 5 ? 2 : 1, d = 17 * dm30(L);
   for (let i = 0; i < n; i++) bolt30(P.x, P.y - 12, a + (i - (n - 1) / 2) * 0.18, 440, d, { col: i ? MX.p : MX.c, r: 8, life: 0.85, pierce: L >= 3 ? 2 : 1, src: 'beatpulse', on: L >= 6 ? (e => { if (Math.random() < 0.25) mxGlitch(e); }) : null });
   ring30(P.x, P.y - 12, 22, MX.c, 0.2, { w: 2 }); P.atk = 1; Snd.play('knife'); return 0.75 * cd30(L); });
-sk30('holoneko', { name: 'Holo-Nekos', ic: '⚇', cls: 'maestro', desc: ['Two anime cat-girl holograms dance around you and fire heart-notes on every other beat', '+20% damage', 'Shots pierce one foe', '+20% damage', '+1 Holo-Neko', 'Each Holo-Neko fires two shots'] }, null, (w, dt) => {
+sk30('holoneko', { name: 'Cat Humans', ic: '⚇', cls: 'maestro', desc: ['Two anime Cat Human holograms dance around you and fire heart-notes on every other beat', '+20% damage', 'Shots pierce one foe', '+20% damage', '+1 Cat Human', 'Each Cat Human fires two shots'] }, null, (w, dt) => {
   const L = w.lvl, S = v30S(), n = 2 + (L >= 5) + tf30('mPurr'); if (units30('neko').filter(u => !u.tmp).length < n) mxNeko(S, 0); });
 sk30('subwoofer', { name: 'Subwoofer', ic: '⛃', cls: 'maestro', desc: ['Drop a speaker that thumps a bass ring on every beat for 8s', '+20% damage', 'Bigger rings', '+20% damage, 12% faster', 'Drop two speakers', 'The bass slows foes'] }, w => {
   const L = w.lvl, S = v30S(), { t } = aim30(200); if (!t) return -1; const n = (L >= 5 ? 2 : 1) + tf30('mSub');
@@ -8265,7 +8433,7 @@ sk30('neuralnet', { name: 'Neural Net', ic: '⏣', cls: 'maestro', desc: ['A lat
   fire(1); G.later.push({ t: 0.35, src: 'neuralnet', f: () => fire(L >= 5 ? 1 : 0.6) }); Snd.play('zap'); return 2.6 * cd30(L); });
 sk30('vinyl', { name: 'Vinyl Scratch', ic: '⛁', cls: 'maestro', desc: ['Two spinning records orbit you and slice through foes', '+20% damage', 'Spin faster', '+20% damage', '+1 record, and records are bigger', 'Every 8 beats the records fly out at a foe and back'] }, null, (w, dt) => {
   const L = w.lvl, n = 2 + (L >= 5); if (units30('vinyl').length < n) u30('vinyl', { x: P.x, y: P.y, a: 0, lb: -1, src: 'vinyl' }); });
-sk30('autotune', { name: 'Auto-Tune', ic: '⎈', cls: 'maestro', desc: ['Lock to the grid for 5s: every hit counts as on the beat, Holo-Nekos fire on every beat, and you gain +10% crit chance', '+20% damage', 'Lasts 7s', '+20% damage, 12% faster', 'Casting heals 8% of your health', 'Casting fills 30 Hype'] }, w => {
+sk30('autotune', { name: 'Auto-Tune', ic: '⎈', cls: 'maestro', desc: ['Lock to the grid for 5s: every hit counts as on the beat, Cat Humans fire on every beat, and you gain +10% crit chance', '+20% damage', 'Lasts 7s', '+20% damage, 12% faster', 'Casting heals 8% of your health', 'Casting fills 30 Hype'] }, w => {
   const L = w.lvl, S = v30S(); if (S.atT > 0 || !nearestN(P.x, P.y, 1, 280).length) return -1; S.atT = (L >= 3 ? 7 : 5) * P.dur; recalc(); if (L >= 5) heal(P.maxHp * 0.08); if (L >= 6) mxHype(S, 30);
   G.later.push({ t: S.atT + 0.05, src: 'autotune', f: () => recalc() }); ring30(P.x, P.y - 10, 70, MX.g, 0.4, { w: 3 }); txt30(P.x, P.y - 34, 'AUTO-TUNE', MX.g, { sz: 9 }); Snd.play('pick'); return 15 * cd30(L); });
 sk30('thedrop', { name: 'The Drop', ic: '✇', cls: 'maestro', desc: ['SIGNATURE: “Prompt accepted. Dropping the bass.” — a two-beat build-up, then a colossal bass shockwave that stuns and Glitches everything around you; stored Hype makes it hit harder', '+20% damage', '+20% damage', '+20% damage, 12% faster', 'A second, smaller shockwave follows', 'The Drop starts the Hype Train'] }, w => {
@@ -8277,7 +8445,7 @@ sk30('thedrop', { name: 'The Drop', ic: '✇', cls: 'maestro', desc: ['SIGNATURE
   toast('✇ THE DROP', MX.c, 1.2); return 22 * cd30(L); });
 pas30('latent', { name: 'Latent Space', ic: '⚮', desc: '+2% crit chance and +2% area', max: 5, cls: ['maestro'] }, { crit: 0.02, area: 0.02 }, ['c', { dmg: 0.03 }]);
 evo30('beatpulse', 'haste', 'Infinite BPM', '#3af0ff', 1.4, 0.85, 1.1, 'chain', '+40% damage; pulses chain to another foe');
-evo30('holoneko', 'vigor', 'Neko Idol Concert', '#ff8ad8', 1.4, 0.9, 1, 'burst', '+40% damage; heart-notes burst on impact');
+evo30('holoneko', 'vigor', 'Cat Human Idol Concert', '#ff8ad8', 1.4, 0.9, 1, 'burst', '+40% damage; heart-notes burst on impact');
 evo30('subwoofer', 'expanse', 'Wall of Sound', '#3af0ff', 1.4, 0.85, 1.2, 'slow', '+40% damage; the bass pins foes in place');
 evo30('glitchstep', 'swift', 'Buffer Overflow', '#9aff6a', 1.35, 0.8, 1.15, 'nova', '+35% damage; every blink rings out a shockwave');
 evo30('promptstorm', 'insight', 'Hallucination Engine', '#9aff6a', 1.4, 0.85, 1.15, 'crit', '+40% damage; +20% crit chance');
@@ -8310,10 +8478,28 @@ function uvPop(e, secs, keep) { const A = e.u30; if (!A || e.dead) return 0; con
 /* ---- units ---- */
 UK30.thr = { top: 1, upd() {}, draw(u) { const a = Math.max(0, u.life / u.max), mx = (u.x0 + u.x) / 2 + Math.sin(u.t * 30) * 8, my = (u.y0 + u.y) / 2 - 18; ctx.save(); ctx.globalCompositeOperation = 'lighter';
   ctx.strokeStyle = hexA(u.col, 0.85 * a); ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(u.x0, u.y0); ctx.quadraticCurveTo(mx, my, u.x, u.y); ctx.stroke(); ctx.strokeStyle = hexA(UV.w, 0.5 * a); ctx.lineWidth = 0.6; ctx.stroke(); ctx.restore(); } };
+/* v33: shared painted "fog field" look for the Unraveler's damage-over-time areas. The bright ring is drawn at exactly the radius the area deals damage in
+   (area30 r). Soft purple fill that is clearest in the middle and strongest at the edge (enemies and gems stay readable), a dark under-edge for contrast on
+   the bright forest ground, a pulsing glow ring, a counter-rotating thread and small runes riding the edge. Drawn on the ground layer under everything. */
+const UVFOG = { last: {} };
+function uvFog(x, y, r, a, col, ph, src) { if (!(r > 0) || a <= 0) return; UVFOG.last[src || 'fog'] = r; if (UVFOG.rec) UVFOG.rec.push([src || 'fog', x, y, r]); const pu = 0.78 + 0.22 * Math.sin(gtime * 3.2 + ph); ctx.save();
+  const g = ctx.createRadialGradient(x, y, r * 0.2, x, y, r); g.addColorStop(0, hexA(col, 0.05 * a)); g.addColorStop(0.7, hexA(col, 0.13 * a)); g.addColorStop(0.96, hexA(col, 0.24 * a)); g.addColorStop(1, hexA(col, 0));
+  ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, r, 0, TAU); ctx.fill();
+  ctx.strokeStyle = `rgba(16,3,30,${(0.5 * a).toFixed(3)})`; ctx.lineWidth = 4.5; ctx.beginPath(); ctx.arc(x, y, r, 0, TAU); ctx.stroke();
+  ctx.globalCompositeOperation = 'lighter';
+  ctx.strokeStyle = hexA(col, 0.26 * a * pu); ctx.lineWidth = 8; ctx.stroke();
+  ctx.strokeStyle = hexA('#ead2ff', 0.8 * a * pu); ctx.lineWidth = 1.8; ctx.stroke();
+  ctx.setLineDash([9, 7]); ctx.lineDashOffset = -gtime * 14; ctx.strokeStyle = hexA(col, 0.42 * a); ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(x, y, r * 0.9, 0, TAU); ctx.stroke(); ctx.setLineDash([]);
+  const n = Math.max(6, Math.min(16, Math.round(r / 14))); ctx.fillStyle = hexA('#f6ecff', 0.85 * a * pu);
+  for (let i = 0; i < n; i++) { const an = i / n * TAU + gtime * 0.35 + ph; ctx.save(); ctx.translate(x + Math.cos(an) * r, y + Math.sin(an) * r); ctx.rotate(an);
+    if (i % 2) { ctx.fillRect(-0.8, -3.4, 1.6, 6.8); ctx.fillRect(-2.6, -0.8, 5.2, 1.6); } else { ctx.beginPath(); ctx.moveTo(0, -3.4); ctx.lineTo(2.2, 0); ctx.lineTo(0, 3.4); ctx.lineTo(-2.2, 0); ctx.closePath(); ctx.fill(); } ctx.restore(); }
+  ctx.restore(); }
+UK30.pall = { gr: 1, upd(u) { u.x = P.x; u.y = P.y; const S = G.v30 || {}; if (!G.weapons.some(w => w.id === 'blackpall') || gtime - (S.pallT || 0) > 2.5) u.dead = true; },
+  draw(u) { const S = G.v30 || {}, a = Math.min(1, u.t / 0.4); uvFog(P.x, P.y, S.pallR || u.r, a, UV.c, 0, 'blackpall'); } };
 UK30.bloom = { gr: 1, upd(u, dt) { const L = u.L; if (L >= 6) { const t = nearestN(u.x, u.y, 1, 200)[0]; if (t) { u.x += (t.x - u.x) * dt * 0.6; u.y += (t.y - u.y) * dt * 0.6; } }
     if ((u.tk -= dt) > 0) return; u.tk = 0.5; G.srcW = 'plaguebloom'; area30(u.x, u.y, u.r, 2.5 * dm30(L), 0, e => uvAff(e, 'p', 1, 2.2 * dm30(L), 'plaguebloom')); },
   draw(u) { const a = Math.min(1, u.life / 0.6, u.t / 0.3); ctx.save(); ctx.globalCompositeOperation = 'lighter'; for (let i = 0; i < 5; i++) { const q = gtime * 0.7 + i * 1.3, x = u.x + Math.cos(q) * u.r * 0.45, y = u.y + Math.sin(q * 1.3) * u.r * 0.25;
-    glowAt(i % 2 ? UV.p : UV.c, x, y, u.r * 1.1, 0.22 * a); } ctx.globalCompositeOperation = 'source-over'; ctx.strokeStyle = hexA(UV.p, 0.35 * a); ctx.lineWidth = 1.5; ctx.beginPath(); ctx.ellipse(u.x, u.y, u.r, u.r * 0.6, 0, 0, TAU); ctx.stroke(); ctx.restore(); } };
+    glowAt(i % 2 ? UV.p : UV.c, x, y, u.r * 1.05, 0.2 * a); } ctx.restore(); uvFog(u.x, u.y, u.r, a, UV.c, u.r * 0.37 + (u.max || 0), 'plaguebloom'); } }; // v33: was a faint ellipse (squashed vs the round hit area)
 UK30.spin = { top: 1, upd(u, dt, S) { const L = uvLv('spindle') || 1, sp = units30('spin'), i = sp.indexOf(u), n = sp.length || 1, q = gtime * 1.6 + i / n * TAU;
     u.x += (P.x + Math.cos(q) * 34 - u.x) * Math.min(1, dt * 8); u.y += (P.y - 22 + Math.sin(q) * 12 - u.y) * Math.min(1, dt * 8); if ((u.cd -= dt) > 0) return; u.cd = (L >= 3 ? 0.8 : 1.05) * cd30(L);
     const t = nearestN(u.x, u.y, 3, 320)[Math.floor(Math.random() * 3)] || nearestN(u.x, u.y, 1, 320)[0]; if (!t) return; const k = UVK[(u.k = (u.k || 0) + 1) % 3], a = Math.atan2(t.y - 8 - u.y, t.x - u.x);
@@ -8392,6 +8578,7 @@ sk30('spindle', { name: 'Wraith Spindle', ic: '⚲', cls: 'unraveler', desc: ['A
   const L = w.lvl, n = 1 + (L >= 5); if (units30('spin').length < n) u30('spin', { x: P.x, y: P.y, cd: 0.5, src: 'spindle' }); });
 sk30('blackpall', { name: 'Black Pall', ic: '☋', cls: 'unraveler', desc: ['A shroud of rot hangs around you: every second, foes inside gain a Plague stack, and every third second a Curse', '+20% damage', 'A wider pall', '+20% damage, 12% faster', 'The pall also sets foes Burning', 'You heal a little for every afflicted foe inside'] }, null, (w, dt) => {
   const L = w.lvl, S = v30S(); if ((w.t30 = (w.t30 || 0) - dt) > 0) return; w.t30 = 1 * cd30(L); const r = (L >= 3 ? 110 : 90) * Math.sqrt(P.area); S.pall = (S.pall || 0) + 1; G.srcW = 'blackpall'; let n = 0;
+  S.pallR = r; S.pallT = gtime; if (!units30('pall').length) u30('pall', { x: P.x, y: P.y, r, src: 'blackpall' }); // v33: the pall is now always visible (painted fog field at its exact radius)
   area30(P.x, P.y, r, 4 * dm30(L), 0, e => { uvAff(e, 'p', 1, 2.2 * dm30(L), 'blackpall'); if (S.pall % 3 === 0) uvAff(e, 'c', 1, 2 * dm30(L), 'blackpall'); if (L >= 5) uvAff(e, 'b', 1, 3.6 * dm30(L), 'blackpall'); n++; }, { col: UV.p });
   if (L >= 6 && n) heal(Math.min(5, n) * 0.6); ring30(P.x, P.y, r, UV.d, 0.5, { w: 2 }); });
 sk30('unravel', { name: 'Unravel', ic: '⚵', cls: 'unraveler', desc: ['SIGNATURE: “Every thread comes loose.” — pull every thread around you at once: each afflicted foe takes 3s of all its afflictions instantly, then every stack it carries spreads to the foes around it', '+20% damage', 'Longer reach', '+20% damage, 12% faster', 'Everything it touches is Cursed', 'Afflictions spread much farther'] }, w => {
@@ -8525,13 +8712,13 @@ const ULTS = {
         const hn = -Math.PI / 2 + k * TAU * 3; ctx.strokeStyle = hexA('#ffffff', 0.9); ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(P.x, P.y - 10); ctx.lineTo(P.x + Math.cos(hn) * (R - 12), P.y - 10 + Math.sin(hn) * (R - 12)); ctx.stroke(); }));
       for (let s = 0; s < 6; s++) uLater(0.45 * s, () => { for (const e of tg) { if (e.dead) continue; acc.set(e, (acc.get(e) || 0) + 1); uGlyph(e.x + (Math.random() - 0.5) * 14, e.y - 20 - acc.get(e) * 5, '✧', 12, '#bfe8ff', 3.2 - 0.45 * s); } Snd.play('tele'); });
       uLater(3.05, () => { for (const [e, n] of acc) { if (!e.dead) { uHit(e, uD(1.7) * n); uSpark(e.x, e.y, '#bfe8ff', 6, 160); } } uRing(P.x, P.y, uR(360), '#8ad8ff', 0.6, 8); G.shake = 11; Snd.play('boom'); }); } },
-  maestro: { n: 'Neko Idol World Tour', ic: '♛', col: '#ff8ad8', d: 'Drop the beat: a holographic stage lights up with six idol cat-girls who fire heart-beams on every beat for 6s, then the bass drop shakes the screen',
-    cast() { const cx = P.x, cy = P.y, t0 = gtime; uFlash('#ff8ad8', 0.3, 0.3);
+  maestro: { n: 'Cat Human World Tour', ic: '♛', col: '#ff8ad8', d: 'Drop the beat: a holographic stage lights up with six idol Cat Humans who fire heart-beams on every beat for 6s, then the bass drop floods the screen with neon light',
+    cast() { const cx = P.x, cy = P.y, t0 = gtime; uFlash('#ff8ad8', 0.3, 0.3); G.mxNS = gtime + 7.5; G.shake = 0;
       uFx(6.4, (f, k, a) => { uLit(() => { for (let i = 0; i < 6; i++) { const an = gtime * 1.2 + i * TAU / 6, col = MX_TOP[i % 5]; ctx.fillStyle = hexA(col, 0.18 * a); ctx.beginPath(); ctx.moveTo(cx, cy - 260); ctx.lineTo(cx + Math.cos(an) * 220 - 30, cy + Math.sin(an) * 130); ctx.lineTo(cx + Math.cos(an) * 220 + 30, cy + Math.sin(an) * 130); ctx.closePath(); ctx.fill(); }
           ctx.strokeStyle = hexA('#3af0ff', 0.6 * a); ctx.lineWidth = 3; ctx.beginPath(); ctx.ellipse(cx, cy, 150, 90, 0, 0, TAU); ctx.stroke(); });
         const bt = (gtime - t0) * 128 / 60, hop = Math.abs(Math.sin(bt * Math.PI)) * 5; for (let i = 0; i < 6; i++) { const an = i * TAU / 6 + (gtime - t0) * 0.6, x = cx + Math.cos(an) * 150, y = cy + Math.sin(an) * 90; mxDrawNeko(x, y - hop, i % 5, (bt % 1) < 0.3 ? 1 : 0, Math.cos(an) > 0 ? -1 : 1, i * 1.3); } });
       for (let b = 0; b < 12; b++) uLater(b * 60 / 128 + 0.1, () => { for (let i = 0; i < 6; i++) { const an = i * TAU / 6 + (b * 60 / 128 + 0.1) * 0.6, x = cx + Math.cos(an) * 150, y = cy + Math.sin(an) * 90 - 20, t = nearestN(x, y, 1, 460)[0]; if (!t) continue; uBeam(x, y, t.x, t.y - 6, 5, MX_TOP[i % 5], 0.18); uHit(t, uD(1.1)); uArea(t.x, t.y, uR(36), uD(0.5), 30); } Snd.play('nzap'); });
-      uLater(6.1, () => { uRing(cx, cy, uR(380), '#ff8ad8', 0.6, 10); uRing(cx, cy, uR(300), '#3af0ff', 0.7, 6); for (const e of uScr(0)) uHit(e, uD(4.5), { kb: 160, kx: Math.sign(e.x - cx) || 1, ky: 0 }); uGlyph(cx, cy - 120, 'THE BASS DROP', 24, '#ffffff', 1.4, { grow: 1 }); uFlash('#ff8ad8', 0.4, 0.45); G.shake = 12; Snd.play('boom'); }); } },
+      uLater(6.1, () => { uRing(cx, cy, uR(380), '#ff8ad8', 0.6, 10); uRing(cx, cy, uR(300), '#3af0ff', 0.7, 6); for (const e of uScr(0)) uHit(e, uD(4.5), { kb: 160, kx: Math.sign(e.x - cx) || 1, ky: 0 }); uGlyph(cx, cy - 120, 'THE BASS DROP', 24, '#ffffff', 1.4, { grow: 1 }); uFlash('#ff8ad8', 0.5, 0.55); uRing(cx, cy, uR(460), '#ffffff', 0.45, 4); uLater(0.12, () => uRing(cx, cy, uR(240), '#ff4ad8', 0.5, 8)); Snd.play('boom'); }); } },
   unraveler: { n: 'The Great Unweaving', ic: '✵', col: '#b05aff', d: 'Pull every thread at once: violet threads bind the whole screen, stacking poison, burning and curses on every foe, then the whole tapestry unravels',
     cast() { const tg = uScr(0).slice(0, 50); uFlash('#3a0a5a', 0.5, 0.45); tg.forEach((e, i) => uLater(0.03 * i, () => { if (e.dead) return; uBeam(P.x, P.y - 14, e.x, e.y - 8, 2, '#d8a8ff', 2); if (typeof uvAff === 'function') { uvAff(e, 'p', 6, uD(0.2), ULT_SRC); uvAff(e, 'b', 6, uD(0.2), ULT_SRC); uvAff(e, 'c', 6, uD(0.2), ULT_SRC); } else applyBurn(e, uD(0.5), 3); }));
       uFx(2.2, (f, k, a) => uLit(() => { glowAt('#b05aff', P.x, P.y - 20, 160, a); for (let i = 0; i < 8; i++) { const an = gtime * 2 + i * TAU / 8; ctx.strokeStyle = hexA('#d8a8ff', 0.6 * a); ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(P.x, P.y - 20, 30 + 50 * k, an, an + 1); ctx.stroke(); } }));
@@ -8556,7 +8743,7 @@ function ultHUD() { const U = G && G.ult; if (!U) return; if (U.fl) { ctx.save()
     ctx.lineWidth = 5; ctx.strokeStyle = 'rgba(8,3,16,.85)'; const y = H * 0.24 - (1.8 - c.t) * 8; ctx.strokeText('✹ ' + c.n.toUpperCase() + ' ✹', W / 2, y); ctx.fillStyle = c.col; ctx.shadowColor = c.col; ctx.shadowBlur = 18; ctx.fillText('✹ ' + c.n.toUpperCase() + ' ✹', W / 2, y); ctx.restore(); } }
 function ultUI() { const b = $('ultBtn'); if (!b) return; const U = G && G.ult, D = G && ultDef(), on = !!(U && U.on && D && !G.ended && (state === 'play' || state === 'countdown') && topScreen() === null);
   if (b.classList.contains('on') !== on) b.classList.toggle('on', on); if (!on) return; const rdy = U.cd <= 0; if (b.classList.contains('rdy') !== rdy) b.classList.toggle('rdy', rdy);
-  const sig = D.ic + '|' + Math.ceil(U.cd); if (b.dataset.sig !== sig) { b.dataset.sig = sig; b.querySelector('.ui').textContent = D.ic; b.querySelector('small').textContent = rdy ? 'ULTIMATE' : Math.ceil(U.cd) + 's'; b.style.setProperty('--uc', D.col); b.setAttribute('aria-label', 'Ultimate: ' + D.n); b.title = D.n + ' — ' + D.d; }
+  const sig = D.ic + '|' + Math.ceil(U.cd); if (b.dataset.sig !== sig) { b.dataset.sig = sig; b.querySelector('.ui').textContent = D.ic; b.querySelector('small').textContent = rdy ? 'ULT' : Math.ceil(U.cd) + 's'; b.style.setProperty('--uc', D.col); b.setAttribute('aria-label', 'Ultimate: ' + D.n); b.title = D.n + ' — ' + D.d; }
   b.style.setProperty('--p', rdy ? 1 : (1 - U.cd / ULT_CD).toFixed(3)); }
 
 /* ---- Summoner: auto-attack + 3 new minions ---- */
@@ -8729,10 +8916,32 @@ function townTick(dt) {
   const dx = P.x - T.cx, dy = (P.y - T.cy) * 1.0, d = Math.hypot(dx, dy), lim = TOWN_R - 16; if (d > lim) { P.x = T.cx + dx / d * lim; P.y = T.cy + dy / d * lim; }
   if (Math.hypot(P.x - T.cx, P.y - (T.cy + TOWN_R - 40)) < 24 && T.age > 1.5) { exitTown(); return; }
   if (T.t <= 0) exitTown(); }
-let _townPat = null;
-function townPattern() { if (_townPat) return _townPat; const c = document.createElement('canvas'); c.width = c.height = 64; const g = c.getContext('2d'); g.fillStyle = '#2a2638'; g.fillRect(0, 0, 64, 64);
-  for (let y = 0; y < 64; y += 16) for (let x = 0; x < 64; x += 16) { const o = (y / 16 & 1) * 8, xx = (x + o) % 64; g.fillStyle = ((x + y) / 16 & 1) ? '#34304a' : '#2e2a42'; g.fillRect(xx + 1, y + 1, 14, 14); g.fillStyle = '#403b58'; g.fillRect(xx + 1, y + 1, 14, 1); g.fillStyle = '#1d1a2a'; g.fillRect(xx + 1, y + 14, 14, 1); }
-  return _townPat = ctx.createPattern(c, 'repeat'); }
+let _townPat = null; // v33: painted cobblestone court (hi-res, seamless) instead of the flat brick pattern
+function rrp(g, x, y, w, h, r) { g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r); g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath(); }
+function townPattern() { if (_townPat) return _townPat; const k = 2, T = 128, c = mkCanvas(T * k, T * k), g = c.getContext('2d'); g.scale(k, k);
+  g.fillStyle = '#15121c'; g.fillRect(0, 0, T, T); let s = 77; const rnd = () => (s = (s * 16807) % 2147483647) / 2147483647, N = 6, cs = T / N;
+  for (let r = 0; r < N; r++) for (let q = 0; q < N; q++) { const cx = (q + 0.5 + (r & 1) * 0.5) * cs + (rnd() - 0.5) * 2.5, cy = (r + 0.5) * cs + (rnd() - 0.5) * 2.5, rw = cs * (0.41 + rnd() * 0.07), rh = cs * (0.39 + rnd() * 0.07), hue = rnd(), tone = 0.6 + rnd() * 0.32, b = v => Math.round(v * tone);
+    for (const ox of [-T, 0, T]) for (const oy of [-T, 0, T]) { const x = cx + ox, y = cy + oy; if (x < -cs || y < -cs || x > T + cs || y > T + cs) continue;
+      g.fillStyle = 'rgba(0,0,0,.5)'; rrp(g, x - rw + 0.8, y - rh + 1.5, rw * 2, rh * 2, rw * 0.6); g.fill();
+      const gr = g.createLinearGradient(x - rw, y - rh, x + rw * 0.6, y + rh); gr.addColorStop(0, `rgb(${b(hue < 0.3 ? 112 : 96)},${b(100)},${b(hue < 0.3 ? 100 : 120)})`); gr.addColorStop(0.55, `rgb(${b(64)},${b(60)},${b(80)})`); gr.addColorStop(1, `rgb(${b(34)},${b(31)},${b(46)})`);
+      g.fillStyle = gr; rrp(g, x - rw, y - rh, rw * 2, rh * 2, rw * 0.6); g.fill();
+      g.fillStyle = 'rgba(255,225,190,.08)'; g.beginPath(); g.ellipse(x - rw * 0.3, y - rh * 0.42, rw * 0.5, rh * 0.26, -0.3, 0, TAU); g.fill();
+      if (hue > 0.84) { g.fillStyle = 'rgba(70,112,62,.38)'; g.beginPath(); g.ellipse(x + rw * 0.55, y + rh * 0.7, rw * 0.55, rh * 0.22, 0, 0, TAU); g.fill(); } } }
+  for (let i = 0; i < 1100; i++) { g.fillStyle = rnd() < 0.55 ? 'rgba(0,0,0,.13)' : 'rgba(255,240,220,.05)'; g.fillRect(rnd() * T, rnd() * T, 0.5 + rnd() * 0.9, 0.5 + rnd() * 0.9); }
+  const p = ctx.createPattern(c, 'repeat'); if (p && p.setTransform && typeof DOMMatrix !== 'undefined') p.setTransform(new DOMMatrix().scale(1 / k)); return _townPat = p; }
+const _merl = [];
+function townMerlon(v) { if (_merl[v]) return _merl[v]; const k = 3, w = 22, h = 34, c = mkCanvas(w * k, h * k), g = c.getContext('2d'); g.scale(k, k);
+  g.fillStyle = 'rgba(0,0,0,.45)'; g.beginPath(); g.ellipse(11, 31, 11, 3, 0, 0, TAU); g.fill();
+  const gr = g.createLinearGradient(2, 0, 20, 0); gr.addColorStop(0, '#6e6886'); gr.addColorStop(0.45, '#4c4762'); gr.addColorStop(1, '#25223a'); g.fillStyle = gr; rrp(g, 2, 10, 18, 22, 2.5); g.fill();
+  g.fillStyle = 'rgba(0,0,0,.28)'; for (const y of [17, 24]) g.fillRect(2, y, 18, 0.8); g.fillRect(10.5, 10, 0.8, 7); g.fillRect(6, 17, 0.8, 7); g.fillRect(14, 24, 0.8, 8);
+  const tg = g.createLinearGradient(0, 8, 0, 13); tg.addColorStop(0, '#8a84a6'); tg.addColorStop(1, '#4c4762'); g.fillStyle = tg; rrp(g, 1, 8, 20, 4, 1.5); g.fill();
+  if (v) { const cg = g.createLinearGradient(7, 0, 15, 0); cg.addColorStop(0, '#6e6886'); cg.addColorStop(1, '#2a2640'); g.fillStyle = cg; rrp(g, 7, 2, 8, 7, 1.5); g.fill(); }
+  g.fillStyle = 'rgba(90,140,80,.4)'; g.beginPath(); g.ellipse(5, 31, 4, 1.4, 0, 0, TAU); g.fill(); return _merl[v] = c; }
+function townFountain(cx, cy) { const rim = ctx.createRadialGradient(cx - 6, cy - 8, 4, cx, cy, 28); rim.addColorStop(0, '#8a86a8'); rim.addColorStop(0.7, '#4a4866'); rim.addColorStop(1, '#22203a');
+  ctx.fillStyle = 'rgba(0,0,0,.45)'; ctx.beginPath(); ctx.ellipse(cx + 2, cy + 4, 29, 27, 0, 0, TAU); ctx.fill(); ctx.fillStyle = rim; ctx.beginPath(); ctx.arc(cx, cy, 26, 0, TAU); ctx.fill();
+  const wa = ctx.createRadialGradient(cx - 5, cy - 6, 2, cx, cy, 21); wa.addColorStop(0, '#bff0ff'); wa.addColorStop(0.35, '#4ab4ec'); wa.addColorStop(1, '#123a6a'); ctx.fillStyle = wa; ctx.beginPath(); ctx.arc(cx, cy, 20, 0, TAU); ctx.fill();
+  ctx.strokeStyle = 'rgba(220,250,255,.35)'; ctx.lineWidth = 1; for (let i = 0; i < 2; i++) { const r = ((gtime * 7 + i * 10) % 20); ctx.globalAlpha = 1 - r / 20; ctx.beginPath(); ctx.arc(cx, cy, r, 0, TAU); ctx.stroke(); } ctx.globalAlpha = 1;
+  ctx.globalCompositeOperation = 'lighter'; glowAt('#5ac8ff', cx, cy, 46, 0.3 + 0.1 * Math.sin(gtime * 2)); ctx.globalCompositeOperation = 'source-over'; }
 function drawPortalFx(x, y, t, sc, a) { ctx.save(); ctx.translate(x, y); ctx.globalAlpha = a; ctx.globalCompositeOperation = 'lighter'; glowAt('#4fd4ff', 0, -4, 46 * sc, 0.55);
   for (let i = 0; i < 3; i++) { ctx.strokeStyle = i === 1 ? '#c8f4ff' : '#4fa8ff'; ctx.lineWidth = 3 - i * 0.7; ctx.beginPath(); ctx.ellipse(0, -4, (15 + i * 4) * sc, (24 + i * 4) * sc, t * (0.8 + i * 0.5) * (i & 1 ? -1 : 1) * 0.3, t * 2 + i, t * 2 + i + 4.4); ctx.stroke(); }
   for (let i = 0; i < 7; i++) { const an = t * 1.6 + i * 0.9, rr = (10 + (i * 5) % 14) * sc; ctx.fillStyle = '#e6fbff'; ctx.fillRect(Math.cos(an) * rr * 0.7 - 1, -4 + Math.sin(an) * rr * 1.1 - 1, 2, 2); }
@@ -8744,9 +8953,9 @@ function drawTownWorld(cx, cy) { const T = G.town; if (!T) return; const vw = W 
   ctx.save(); ctx.beginPath(); ctx.arc(T.cx, T.cy, TOWN_R, 0, TAU); ctx.clip(); ctx.fillStyle = townPattern(); ctx.fillRect(T.cx - TOWN_R, T.cy - TOWN_R, TOWN_R * 2, TOWN_R * 2);
   const gr = ctx.createRadialGradient(T.cx, T.cy, 20, T.cx, T.cy, TOWN_R); gr.addColorStop(0, 'rgba(255,214,140,.16)'); gr.addColorStop(1, 'rgba(0,0,10,.35)'); ctx.fillStyle = gr; ctx.fillRect(T.cx - TOWN_R, T.cy - TOWN_R, TOWN_R * 2, TOWN_R * 2);
   ctx.strokeStyle = 'rgba(255,200,120,.35)'; ctx.lineWidth = 2; for (const r of [34, 62]) { ctx.beginPath(); ctx.arc(T.cx, T.cy, r, 0, TAU); ctx.stroke(); }
-  ctx.fillStyle = '#3a4a6a'; ctx.beginPath(); ctx.arc(T.cx, T.cy, 26, 0, TAU); ctx.fill(); ctx.fillStyle = '#5ac8ff'; ctx.globalAlpha = 0.5 + 0.2 * Math.sin(gtime * 2); ctx.beginPath(); ctx.arc(T.cx, T.cy, 20, 0, TAU); ctx.fill(); ctx.globalAlpha = 1; // fountain
+  townFountain(T.cx, T.cy); // v33 painted fountain
   ctx.restore();
-  for (let i = 0; i < 28; i++) { const a = i / 28 * TAU, x = T.cx + Math.cos(a) * TOWN_R, y = T.cy + Math.sin(a) * TOWN_R; ctx.fillStyle = '#4a4660'; ctx.fillRect(x - 9, y - 14, 18, 22); ctx.fillStyle = '#5c5878'; ctx.fillRect(x - 9, y - 14, 18, 4); if (i & 1) { ctx.fillStyle = '#2a2640'; ctx.fillRect(x - 3, y - 20, 6, 6); } }
+  for (let i = 0; i < 28; i++) { const a = i / 28 * TAU, x = T.cx + Math.cos(a) * TOWN_R, y = T.cy + Math.sin(a) * TOWN_R; ctx.imageSmoothingEnabled = true; ctx.drawImage(townMerlon(i & 1), x - 11, y - 22, 22, 34); }
   for (let i = 0; i < 8; i++) { const a = i / 8 * TAU + 0.2, x = T.cx + Math.cos(a) * (TOWN_R - 22), y = T.cy + Math.sin(a) * (TOWN_R - 22) * 0.92; ctx.fillStyle = '#2a1e16'; ctx.fillRect(x - 2, y - 14, 4, 16); ctx.globalCompositeOperation = 'lighter'; glowAt('#ffae4a', x, y - 18, 22, 0.55 + 0.2 * Math.sin(gtime * 9 + i)); ctx.fillStyle = '#ffd27a'; ctx.fillRect(x - 2, y - 20, 4, 5); ctx.globalCompositeOperation = 'source-over'; }
   for (const n of G.npcs || []) { const D = NPCS[n.nt]; ctx.fillStyle = hexA(D.col, 0.55); ctx.fillRect(n.x - 26, n.y - 44, 52, 7); ctx.fillStyle = 'rgba(0,0,0,.35)'; ctx.fillRect(n.x - 26, n.y - 37, 52, 3); ctx.fillStyle = '#3a2a1c'; ctx.fillRect(n.x - 25, n.y - 37, 3, 40); ctx.fillRect(n.x + 22, n.y - 37, 3, 40); }
   drawPortalFx(T.cx, T.cy + TOWN_R - 40, gtime, 1.1, 1); ctx.fillStyle = '#bfefff'; ctx.font = '700 10px sans-serif'; ctx.textAlign = 'center'; ctx.fillText('EXIT', T.cx, T.cy + TOWN_R - 8); }
@@ -8971,7 +9180,7 @@ function update(dt, dying) {
       if (tc && Math.random() < dt * 14) parts.push({ x: P.x + rand(-9, 9), y: P.y + rand(-4, 14), vx: -mx * 30 + rand(-8, 8), vy: -my * 30 - 18, life: 0.7, max: 0.7, s: 2.2, c: tc, glow: true }); }
     if (Math.random() < dt * 9) parts.push({ x: P.x + rand(-6, 6), y: P.y + 16, vx: -mx * 18 + rand(-8, 8), vy: -my * 14 - 6, life: 0.55, max: 0.55, s: 5, c: '#cdb88c', smoke: 1 }); }
   obGrid(); obResolve(P, P.r); // v18 solid obstacles: slide along them
-  P.inv -= dt; P.atk = Math.max(0, P.atk - dt * 5); G.hurtFlash -= dt; G.shake = Math.max(0, G.shake - dt);
+  P.inv -= dt; P.atk = Math.max(0, P.atk - dt * 5); G.hurtFlash -= dt; G.shake = Math.max(0, G.shake - dt); if (G.cls === 'maestro' && G.mxNS > gtime) G.shake = 0; // v33: no camera shake while the Maestro ult plays
   if (!dying) { const tf = G.tf;
     if (tf.deathless && P.hp < P.maxHp * 0.5) heal(P.regen * 2 * dt, true);
     if (tf.toll && (G.tollT = (G.tollT === undefined ? 12 : G.tollT) - dt) <= 0) { G.tollT = 12; effects.push({ k: 'reap', r: Math.hypot(W, H) / ZOOM / 2, life: 0.45, max: 0.45, dir: 1, follow: true }); Snd.play('reap'); G.shake = 0.25;
@@ -9379,20 +9588,23 @@ function skyAt(t) { const p = dayPhase(t); let i = 0; while (i < SKY.length - 2 
   return { p, dc: A[1].map((v, k) => Math.round(L(v, B[1][k]))), da: L(A[2], B[2]), wc: A[3].map((v, k) => Math.round(L(v, B[3][k]))), wa: L(A[4], B[4]) }; }
 const isNight = t => { const p = dayPhase(t); return p > 0.62 && p < 0.96; };
 function phaseName(t) { const p = dayPhase(t); return p < 0.1 ? 'Dawn' : p < 0.5 ? 'Day' : p < 0.62 ? 'Dusk' : p < 0.96 ? 'Night' : 'Dawn'; }
-let LM = null;
+let LM = null, WL = null;
+function warmLight() { if (WL) return WL; const c = mkCanvas(128, 128), g = c.getContext('2d'), gr = g.createRadialGradient(64, 64, 0, 64, 64, 64);
+  gr.addColorStop(0, 'rgba(255,190,110,1)'); gr.addColorStop(0.35, 'rgba(255,140,60,.45)'); gr.addColorStop(0.7, 'rgba(180,70,30,.12)'); gr.addColorStop(1, 'rgba(120,40,20,0)'); g.fillStyle = gr; g.fillRect(0, 0, 128, 128); return WL = c; }
 function drawSky(t, cx, cy) {
-  const k = w28Sky(skyAt(t));
-  if (k.da > 0.005) { // v13 light map: moonlit darkness with light pools punched out by the hero, spells, fires and glowing foes
+  const k = w28Sky(skyAt(t)), MOOD = G && G.town ? 0.2 : mapOn() ? 0.36 : 0.3, kd = Math.max(k.da, MOOD), kc = k.da >= MOOD ? k.dc : [10, 14, 34], WARM = []; // v33: the painted look is lit, never flat
+  if (kd > 0.005) { // v13 light map: moonlit darkness with light pools punched out by the hero, spells, fires and glowing foes
     const lw = Math.max(2, Math.ceil(W / 3)), lh = Math.max(2, Math.ceil(H / 3)); if (!LM || LM.width !== lw || LM.height !== lh) LM = mkCanvas(lw, lh);
-    const g = LM.getContext('2d'), s = lw / W, zz = ZOOM * s; g.globalCompositeOperation = 'copy'; g.fillStyle = `rgba(${k.dc},${Math.min(0.66, k.da * 1.1)})`; g.fillRect(0, 0, lw, lh);
+    const g = LM.getContext('2d'), s = lw / W, zz = ZOOM * s; g.globalCompositeOperation = 'copy'; g.fillStyle = `rgba(${kc},${Math.min(0.66, kd * 1.1)})`; g.fillRect(0, 0, lw, lh);
     g.globalCompositeOperation = 'destination-out';
-    const L = (x, y, r, a = 1) => { const sx = ((x - cx) * ZOOM + W / 2) * s, sy = ((y - cy) * ZOOM + H / 2) * s, rr = r * zz; if (sx < -rr || sy < -rr || sx > lw + rr || sy > lh + rr) return; g.globalAlpha = a; g.drawImage(SPR.light, sx - rr, sy - rr, rr * 2, rr * 2); };
+    const L = (x, y, r, a = 1) => { const sx = ((x - cx) * ZOOM + W / 2) * s, sy = ((y - cy) * ZOOM + H / 2) * s, rr = r * zz; if (sx < -rr || sy < -rr || sx > lw + rr || sy > lh + rr) return; g.globalAlpha = a; g.drawImage(SPR.light, sx - rr, sy - rr, rr * 2, rr * 2); if (WARM.length < (PC ? 40 : 20) && r >= (PC ? 40 : 56)) WARM.push(sx / s, sy / s, rr / s, a); };
     if (cx !== undefined && P) { L(P.x, P.y - 6, 190, 0.95); let n = 0;
       for (const p of projs) { if (++n > 60) break; L(p.x, p.y, p.k === 'morb' ? 70 : 36, 0.7); }
       for (const f of effects) { if (f.k === 'boom' || f.k === 'nova') L(f.x, f.y, (f.maxR || f.r || 40) * 1.6, 0.9 * Math.min(1, f.life / (f.max || 1) + 0.3)); else if (f.k === 'zone' && (f.fire || f.pull)) L(f.x, f.y, f.r * 2.2, 0.75); else if (f.k === 'star' && f.life < 0.25) L(f.x, f.y, f.r * 1.5, 0.6); }
       for (const e of enemies) if (!e.dead && (e.elite || e.boss || e.mini || e.bnT > 0) && inView(e.x, e.y, 60)) L(e.x, e.y, e.boss ? 120 : 50, 0.55);
       for (const w of G.weapons) if (w.id === 'mbeam' && w.tg && !w.tg.dead) L(w.tg.x, w.tg.y, 70, 0.8); if (G) { questLights(L); npcLights(L); w28Lights(L); } }
-    g.globalAlpha = 1; g.globalCompositeOperation = 'source-over'; ctx.drawImage(LM, 0, 0, W, H); }
+    g.globalAlpha = 1; g.globalCompositeOperation = 'source-over'; ctx.imageSmoothingEnabled = true; ctx.drawImage(LM, 0, 0, W, H);
+    if (WARM.length) { const wl = warmLight(); ctx.globalCompositeOperation = 'lighter'; for (let i = 0; i < WARM.length; i += 4) { const r = WARM[i + 2] * 0.8; ctx.globalAlpha = 0.24 * WARM[i + 3]; ctx.drawImage(wl, WARM[i] - r, WARM[i + 1] - r, r * 2, r * 2); } ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; } }
   if (k.wa > 0.005) { ctx.globalCompositeOperation = 'lighter'; ctx.fillStyle = `rgba(${k.wc},${k.wa})`; ctx.fillRect(0, 0, W, H); ctx.globalCompositeOperation = 'source-over'; }
   return k;
 }
@@ -9413,7 +9625,7 @@ function buildVignette() {
 
   const c = mkCanvas(Math.max(2, W / 2), Math.max(2, H / 2)), g = c.getContext('2d'), w = c.width, h = c.height;
   const gr = g.createRadialGradient(w / 2, h / 2, Math.min(w, h) * 0.32, w / 2, h / 2, Math.hypot(w, h) * 0.55);
-  gr.addColorStop(0, 'rgba(0,0,0,0)'); gr.addColorStop(1, 'rgba(8,2,18,0.6)'); g.fillStyle = gr; g.fillRect(0, 0, w, h);
+  gr.addColorStop(0, 'rgba(0,0,0,0)'); gr.addColorStop(0.55, 'rgba(6,3,14,0.28)'); gr.addColorStop(1, 'rgba(4,1,10,0.82)'); g.fillStyle = gr; g.fillRect(0, 0, w, h);
   const sg = g.createLinearGradient(0, 0, w * 0.8, h); sg.addColorStop(0, 'rgba(255,222,150,.13)'); sg.addColorStop(0.45, 'rgba(255,222,150,0)'); sg.addColorStop(1, 'rgba(36,18,70,.1)'); g.fillStyle = sg; g.fillRect(0, 0, w, h); vignette = c; // v13: soft key-light grade baked in (no extra full-screen pass)
 }
 function rr(x, y, w, h, r) { ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); }
@@ -9538,7 +9750,7 @@ function drawOb(o) { const T = OBT[o.k], img = (PXA.on && SPR.prop['px_' + o.k])
   ctx.drawImage(img, 0, ih * cut, iw, ih * (1 - cut), o.x - S / 2, top + S * cut, S, S * (1 - cut)); ctx.globalAlpha = 0.5; ctx.drawImage(img, 0, 0, iw, ih * cut, o.x - S / 2, top, S, S * cut); ctx.globalAlpha = 1; ctx.imageSmoothingEnabled = true; }
 function drawWorldBg(cx, cy) {
   const vw = W / ZOOM, vh = H / ZOOM, x0 = Math.floor((cx - vw / 2) / TILE) * TILE, y0 = Math.floor((cy - vh / 2) / TILE) * TILE;
-  if (PXA.on) ctx.imageSmoothingEnabled = false;
+  const gr = TILE * ZOOM * DPR / (groundTile.width || 1); ctx.imageSmoothingEnabled = !(gr > 0.7 && gr < 1.35); // v33 perf: ~1:1 blit of a pre-painted tile needs no filter
   for (let x = x0; x < cx + vw / 2; x += TILE) for (let y = y0; y < cy + vh / 2; y += TILE) ctx.drawImage(groundTile, x, y, TILE + 0.6, TILE + 0.6);
   drawRoads(cx, cy, vw, vh);
   const C = 230, c0 = Math.floor((cx - vw / 2 - 40) / C), c1 = Math.floor((cx + vw / 2 + 40) / C), r0 = Math.floor((cy - vh / 2 - 40) / C), r1 = Math.floor((cy + vh / 2 + 40) / C);
@@ -9602,30 +9814,29 @@ function jumpPose() { /* {h, sx, sy, k}: anticipation squash → rise → apex �
 const V31P = (() => {
   let _dk = 0; const V31P_DK = () => _dk || (_dk = (() => { const R = PXA.RAMPS[0], l = v => { const q = PXA.h2r(PXA.PAL[v]); return q[0] + q[1] + q[2]; }; return l(R[0]) < l(R[R.length - 1]) ? -1 : 1; })()); // which way along a ramp is darker
   const RGBC = [], rgbOf = v => RGBC[v] || (RGBC[v] = PXA.h2r(PXA.PAL[v]));
-  function rebake(S, buf) { const c = mkCanvas(S.w, S.h), g = c.getContext('2d'), id = g.createImageData(S.w, S.h), D = id.data;
-    for (let i = 0; i < buf.length; i++) { const v = buf[i]; if (!v) continue; const q = rgbOf(v); D[i * 4] = q[0]; D[i * 4 + 1] = q[1]; D[i * 4 + 2] = q[2]; D[i * 4 + 3] = S.al ? S.al[i] : 255; }
-    g.putImageData(id, 0, 0); c.px = 1; return { img: c, ax: S.ax, ay: S.ay, w: S.w, h: S.h, glow: S.glow, gpad: S.gpad, buf, al: S.al }; }
+  function rebake(S, buf) { const K = S.K || 1, R = PXA.render(buf, S.img.width, S.img.height, K, S.o || {}, S.al);
+    return { img: R.img, ax: S.ax, ay: S.ay, w: S.w, h: S.h, glow: S.glow, gpad: S.gpad, buf, al: S.al, K, o: S.o }; }
   // back view (vf < 0): the face becomes the back of the head (hair), the body falls into shade; front view (vf > 0): both eyes to camera
   function view(S, Lf, vf, form) { const k = vf < 0 ? 'vU' : 'vD'; if (S[k]) return S[k]; if (!S.buf) return (S[k] = S);
-    const w = S.w, h = S.h, b = S.buf.slice(), EMI = PXA.EMI, st = PXA.step, DK = V31P_DK();
+    const KK = S.K || 1, w = S.img.width, h = S.img.height, b = S.buf.slice(), EMI = PXA.EMI, st = PXA.step, DK = V31P_DK();
     if (form) { if (vf < 0) for (let i = 0; i < b.length; i++) { const v = b[i]; if (v && !EMI[v]) b[i] = st(v, DK); } return (S[k] = vf < 0 ? rebake(S, b) : S); }
     const L = Lf(); if (!L || !L.skin) return (S[k] = S);
-    const ax = Math.round(S.ax), ay = Math.round(S.ay), SK = L.skin, EY = L.eye || [], HK = PXA.hk || {}, isInk = v => (HK.INK && HK.INK.includes(v)) || (HK.WHITE && HK.WHITE.includes(v));
+    const ax = Math.round(S.ax * KK), ay = Math.round(S.ay * KK), SK = L.skin, EY = L.eye || [], HK = PXA.hk || {}, isInk = v => (HK.INK && HK.INK.includes(v)) || (HK.WHITE && HK.WHITE.includes(v));
     // find the face: topmost skin pixels (works for both the kit rig and the legacy rig)
-    let ty = -1; for (let y = 0; y < Math.min(h, ay - 8) && ty < 0; y++) for (let x = 0; x < w; x++) if (SK.includes(b[y * w + x])) { ty = y; break; }
+    let ty = -1; for (let y = 0; y < Math.min(h, ay - 8 * KK) && ty < 0; y++) for (let x = 0; x < w; x++) if (SK.includes(b[y * w + x])) { ty = y; break; }
     if (ty < 0) return (S[k] = S);
-    let fx0 = w, fx1 = -1; for (let y = ty; y < Math.min(h, ty + 8); y++) for (let x = 0; x < w; x++) if (SK.includes(b[y * w + x])) { if (x < fx0) fx0 = x; if (x > fx1) fx1 = x; }
-    const x0 = Math.max(0, fx0 - 3), x1 = Math.min(w - 1, fx1 + 3), y0 = Math.max(0, ty - 7), y1 = Math.min(h - 1, ty + 9), HR = hairRamp(S, x0, x1, y0, ty + 2, L) || L.hair || L.lea;
+    let fx0 = w, fx1 = -1; for (let y = ty; y < Math.min(h, ty + 8 * KK); y++) for (let x = 0; x < w; x++) if (SK.includes(b[y * w + x])) { if (x < fx0) fx0 = x; if (x > fx1) fx1 = x; }
+    const x0 = Math.max(0, fx0 - 3 * KK), x1 = Math.min(w - 1, fx1 + 3 * KK), y0 = Math.max(0, ty - 7 * KK), y1 = Math.min(h - 1, ty + 9 * KK), HR = hairRamp(S, x0, x1, y0, ty + 2 * KK, L) || L.hair || L.lea;
     if (vf < 0) { for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) { const i = y * w + x, v = b[i]; if (!v) continue;
         if (SK.includes(v)) b[i] = HR[Math.max(0, Math.min(HR.length - 1, SK.indexOf(v) + DK))]; else if (v === SK.ol) b[i] = HR.ol || HR[0]; else if (EY.includes(v) || isInk(v)) b[i] = HR[1]; }
-      const cx = (fx0 + fx1) >> 1; for (let y = y1 + 1; y < Math.min(h, ay + 12); y++) for (let x = cx + 1; x < w - 1; x++) { const i = y * w + x, v = b[i]; if (v && !EMI[v] && b[i + 1]) b[i] = st(v, DK); } } // the side away from the light
+      const cx = (fx0 + fx1) >> 1; for (let y = y1 + 1; y < Math.min(h, ay + 12 * KK); y++) for (let x = cx + 1; x < w - 1; x++) { const i = y * w + x, v = b[i]; if (v && !EMI[v] && b[i + 1]) b[i] = st(v, DK); } } // the side away from the light
     else { // front view: mirror the face's near half onto the far half so both eyes look at the camera
-      const cx = (fx0 + fx1) / 2; for (let y = ty; y <= Math.min(h - 1, ty + 9); y++) for (let x = fx0; x < cx; x++) { const sx = Math.round(2 * cx - x); if (sx < 0 || sx >= w) continue; const sv = b[y * w + sx], i = y * w + x, tv = b[i];
+      const cx = (fx0 + fx1) / 2; for (let y = ty; y <= Math.min(h - 1, ty + 9 * KK); y++) for (let x = fx0; x < cx; x++) { const sx = Math.round(2 * cx - x); if (sx < 0 || sx >= w) continue; const sv = b[y * w + sx], i = y * w + x, tv = b[i];
         if (sv && tv && (SK.includes(tv) || EY.includes(tv) || isInk(tv)) && (SK.includes(sv) || EY.includes(sv) || isInk(sv))) b[i] = sv; } }
     return (S[k] = rebake(S, b)); }
   // the hair actually drawn on this sprite: most common non-skin, non-eye colour in the crown rows
   const lum = v => { const q = rgbOf(v); return q[0] + q[1] + q[2]; };
-  function hairRamp(S, x0, x1, y0, y1, L) { const w = S.w, n = new Map(), SK = L.skin, EY = L.eye || [];
+  function hairRamp(S, x0, x1, y0, y1, L) { const w = S.img.width, n = new Map(), SK = L.skin, EY = L.eye || [];
     for (let y = y0; y < y1; y++) for (let x = x0; x <= x1; x++) { const v = S.buf[y * w + x]; if (v && !SK.includes(v) && v !== SK.ol && !EY.includes(v) && !PXA.EMI[v] && lum(v) > 150) n.set(v, (n.get(v) || 0) + 1); }
     let best = 0, bv = 0; for (const [v, c] of n) if (c > best) { best = c; bv = v; } if (!bv) return null; const R = PXA.RAMPS.find(R => R && R.includes && R.includes(bv)); if (!R) return null;
     return R.ol ? R : Object.assign(R.slice(), { ol: PXA.step(R[0], V31P_DK()) }); }
@@ -9705,7 +9916,7 @@ function drawPlayerBlock() {
     if (jp) ctx.restore();
     ctx.globalAlpha = 1;
     { const ek = Object.keys(G.evo); if (ek.length) { ctx.globalCompositeOperation = 'lighter'; ek.forEach((id, i) => { const an = gtime * 1.7 + i / ek.length * TAU, x = P.x + Math.cos(an) * 24, y = P.y - 4 + Math.sin(an) * 9; glowAt(EVO[id] ? EVO[id].col : '#ffffff', x, y, 16, 0.9); glowAt('#ffffff', x, y, 5, 0.9); }); ctx.globalCompositeOperation = 'source-over'; } } // v18: one mote per evolution
-    ctx.fillStyle = 'rgba(0,0,0,.65)'; ctx.fillRect(P.x - 16, P.y + 22, 32, 4.5);
+    ctx.fillStyle = 'rgba(0,0,0,.65)'; ctx.fillRect(P.x - 16, P.y + 22, 32, 4.5); HBR.hp = [P.x - 16, P.y + 22, 32, 4.5]; HBR.m = null;
     ctx.fillStyle = P.hp / P.maxHp < 0.3 ? '#ff3d4e' : '#5be05a'; ctx.fillRect(P.x - 15.5, P.y + 22.5, 31 * clamp(P.hp / P.maxHp, 0, 1), 3.5);
     if (G.cls === 'mage' && G.weapons.some(w => WDEF[w.id].dir === 'arcane')) { const m = arcMax(), a = G.arc || 0; for (let i = 0; i < m; i++) { const x = P.x + (i - (m - 1) / 2) * 6, y = P.y + 31; ctx.fillStyle = 'rgba(10,4,24,.8)'; ctx.beginPath(); ctx.arc(x, y, 2.4, 0, TAU); ctx.fill(); if (i < a) { ctx.fillStyle = a >= m ? '#ffffff' : '#d29bff'; ctx.beginPath(); ctx.arc(x, y, 1.7, 0, TAU); ctx.fill(); } } }
   }
@@ -9723,7 +9934,7 @@ const CASTLE_KINDS = ['cpillar', 'cwall', 'brazier', 'statue', 'banner', 'crate'
   const CARP = R(['#240510', '#44091a', '#6c1228', '#9a2040', '#c43c5a']), GOLD = R(['#4a3008', '#8a5a14', '#d09a2a', '#f6cf5a', '#fff0a8']), MARB = R(['#26243a', '#403d5c', '#5f5b82', '#8782a8', '#b6b2d2']);
   const IRON = R(['#0a0a10', '#1a1a24', '#2a2a38', '#42425a', '#64647c']), WOOD = R(['#1a0e08', '#331c10', '#4e2e1a', '#6e4628', '#92623a']), RUNE = R(['#1a2a7a', '#2e5ad0', '#4fa0ff', '#9ad6ff', '#eefaff'], 1);
   const hsh = (x, y, s = 0) => { let h = (x * 374761393 + y * 668265263 + s * 2246822519) | 0; h = (h ^ (h >>> 13)) * 1274126177; return ((h ^ (h >>> 16)) >>> 0) / 4294967296; };
-  W.groundC = function () { const T = TILE, b = new PB(T, T, 0, 0), SW = 32, SH = 16;
+  W.groundC = function () { const T = TILE, b = new PB(T, T, 0, 0, 1), SW = 32, SH = 16;
     for (let r = 0; r < T / SH; r++) for (let c = 0; c < T / SW + 1; c++) { const x0 = c * SW + (r & 1) * (SW / 2) - SW / 2, y0 = r * SH, n = hsh(c, r, 5), P = hsh(c, r, 9) < 0.25 ? FLAGW : FLAG, lv = n < 0.3 ? 1 : n < 0.85 ? 2 : 3;
       for (let y = 0; y < SH; y++) for (let x = 0; x < SW; x++) { let X = x0 + x; X = ((X % T) + T) % T; let c2 = P[Math.min(4, lv + (hsh(X, y0 + y, 3) < 0.14 ? 1 : 0))];
         if (x === 0 || y === SH - 1) c2 = FLAG[0]; else if (y === 0 || x === 1) c2 = P[Math.min(4, lv)]; b.a[(y0 + y) * T + X] = c2; } }
@@ -9732,13 +9943,13 @@ const CASTLE_KINDS = ['cpillar', 'cwall', 'brazier', 'statue', 'banner', 'crate'
     for (let i = 0; i < 40; i++) { const x = Math.floor(rnd() * T), y = Math.floor(rnd() * T); wrapSet(x, y, FLAG[3]); }                // dust glints
     for (let i = 0; i < 9; i++) { const x = Math.floor(rnd() * T), y = Math.floor(rnd() * T); wrapSet(x, y, EMB[2]); wrapSet(x, y - 1, EMB[3]); }                                      // embers
     for (let i = 0; i < 5; i++) { const x = Math.floor(rnd() * T), y = Math.floor(rnd() * T); for (let k = 0; k < 4; k++) { wrapSet(x + k, y, RUNE[1]); wrapSet(x + k, y + 1, RUNE[1]); } wrapSet(x + 1, y, RUNE[3]); } // faint blue rune scratches
-    return finish(b, { ol: 0, glow: 0 }).img; };
-  W.roadC = function (x0, RCH, ya, yb, jr) { const w = RCH, h = yb - ya, b = new PB(w, h, -x0, -ya);
+    return PXA.paintUp(finish(b, { ol: 0, glow: 0 }).img, PXA.gK(), { tile: 1, seed: 31, mix: 0.4 }); };
+  W.roadC = function (x0, RCH, ya, yb, jr) { const w = RCH, h = yb - ya, b = new PB(w, h, -x0, -ya, 1);
     for (let x = x0; x < x0 + w; x++) { const cy = roadY(jr, x + 0.5); for (let y = ya; y < yb; y++) { const d = Math.abs(y + 0.5 - cy), n = hsh(x, y, 7); let c = 0;
         if (d < 5.2) c = CARP[(x + ((y >> 1) & 1) * 2) % 8 < 1 ? 1 : n < 0.1 ? 3 : 2]; else if (d < 6.6) c = GOLD[d < 5.8 ? 3 : 2]; else if (d < 8.2) c = FLAG[(x >> 2 & 1) ? 0 : 1]; else if (d < 9 && n < 0.5) c = FLAG[1];
         if (c) b.set(x, y, c); } }
     for (let x = x0; x < x0 + w; x += 24) { const cy = roadY(jr, x + 0.5); for (const sg of [-1, 1]) { const yy = Math.round(cy + sg * 6); b.set(x, yy, GOLD[4]); b.set(x + 1, yy, GOLD[3]); } }  // gold studs on the carpet edge
-    return finish(b, { ol: 0, glow: 0 }).img; };
+    return PXA.paintUp(finish(b, { ol: 0, glow: 0 }).img, PXA.gK(), { ox: x0, oy: ya, mix: 0.45, soft: 1.1 }); };
   const PD = W.PD;
   PD.cpillar = (b) => { b.rect(-11, -4, 22, 5, MARB[1]); b.rect(-11, -4, 22, 1, MARB[3]); b.rect(-8, -8, 16, 5, MARB[2]); b.rect(-6, -48, 12, 41, MARB[3]); b.rect(-6, -48, 3, 41, MARB[4]); b.rect(3, -48, 3, 41, MARB[2]);
     for (let y = -44; y < -8; y += 9) b.line(-6, y, 5, y, MARB[2]); b.rect(-9, -54, 18, 6, MARB[2]); b.rect(-9, -54, 18, 1, MARB[4]); b.rect(-11, -57, 22, 3, MARB[3]); b.line(-3, -30, 1, -22, MARB[0]); b.line(1, -22, -1, -14, MARB[0]);
@@ -9866,11 +10077,11 @@ let W28ART = null;
     magma: b => { dith(b, 0, 0, 64, 26, IRN, 0, 151, 1.4); let x = -52, y = 0; for (let k = 0; k < 110; k++) { b.set(x, y, MAG[2]); b.set(x, y + 1, MAG[1]); if (k % 9 === 0) b.set(x, y - 1, MAG[3]); x += 1; y += hh(k, 1, 152) < 0.3 ? -1 : hh(k, 2, 152) < 0.45 ? 1 : 0; y = clamp(y, -14, 14); }
       for (let i = 0; i < 3; i++) dith(b, -30 + i * 30, -6 + i * 4, 7, 3, MAG, 2, 153 + i, 2); },
   };
-  const bake = (n, fn) => { const b = new PB(n, Math.round(n * 0.6), n / 2, Math.round(n * 0.3)); fn(b); const c = finish(b, { ol: 0, rim: 0, glow: 0 }).img; c.px = 1; c.n = n; return c; };
+  const bake = (n, fn) => { const b = new PB(n, Math.round(n * 0.6), n / 2, Math.round(n * 0.3)); fn(b); const c = finish(b, { ol: 0, rim: 0, glow: 0, light: 0.35 }).img; c.n = n; return c; };
   PW.w28Bake = () => { const c = mapOn(), out = { m: c, dec: [], pat: [] };
     const D = c ? [['crack', 5], ['scorch', 3], ['grate', 1.4, 1], ['runes', 1.2, 1], ['tiles', 3], ['chains', 1.4], ['blood', 1.2], ['bones', 1]] : [['moss', 5], ['flowers', 3], ['puddle', 1.6], ['leaves', 2.2], ['fairy', 0.9, 1], ['bones', 1], ['roots', 2.4]];
     const Pt = c ? [['carpet', 1], ['ash', 2], ['magma', 1.2, 1]] : [['clear', 2], ['bog', 1.2], ['blue', 1.3]];
-    for (const [k, w, e] of D) out.dec.push({ k, w, img: bake(44, F[k]), e }); for (const [k, w, e] of Pt) out.pat.push({ k, w, img: bake(150, PT[k]), e });
+    for (const [k, w, e] of D) out.dec.push({ k, w, img: PXA.paintSpr(bake(44, F[k]), { mix: 0.6, soft: 1.1 }), e }); for (const [k, w, e] of Pt) out.pat.push({ k, w, img: PXA.paintSpr(bake(150, PT[k]), { mix: 0.75, soft: 1.6, drift: 0.4 }), e });
     W28ART = out; return out; };
 })();
 /* the Spirit Shrine (a fixed NPC: free blessings, one per visit) */
@@ -9997,10 +10208,10 @@ function w28Chunk(i, j) { const key = (i + 30000) * 60000 + (j + 30000); let c =
     const n = (cas ? 2 : 3) + Math.floor(rnd() * 4); for (let q = 0; q < n; q++) { const t = wi(A.dec, rnd()), x = x0 + rnd() * OBC, y = y0 + rnd() * OBC, s = 1.1 + rnd() * 0.4; if (!obRoadNear(x, y, 22)) c.d.push({ t, x, y, s }); } }
   if (Math.hypot(x0 + OBC / 2, y0 + OBC / 2) > 450 && rnd() < 0.075) { const x = x0 + 40 + rnd() * (OBC - 80), y = y0 + 40 + rnd() * (OBC - 80); if (!obRoadNear(x, y, 40) && !obChunk(i, j).some(o => Math.hypot(o.x - x, o.y - y) < o.r + 28)) c.g = { x, y, id: key }; }
   W28C.set(key, c); if (W28C.size > 900) W28C.delete(W28C.keys().next().value); return c; }
-function w28Ground(cx, cy, vw, vh) { if (G && G.town) return; const A = w28Art(); if (!A) return; ctx.imageSmoothingEnabled = false;
+function w28Ground(cx, cy, vw, vh) { if (G && G.town) return; const A = w28Art(); if (!A) return; ctx.imageSmoothingEnabled = true;
   const i0 = Math.floor((cx - vw / 2 - 110) / OBC), i1 = Math.floor((cx + vw / 2 + 110) / OBC), j0 = Math.floor((cy - vh / 2 - 80) / OBC), j1 = Math.floor((cy + vh / 2 + 80) / OBC), w = G && G.w28, ch = mr('cachehunt');
-  for (let i = i0; i <= i1; i++) for (let j = j0; j <= j1; j++) for (const p of w28Chunk(i, j).p) { const im = A.pat[p.t].img, ww = im.width * p.s, hh = im.height * p.s; ctx.drawImage(im, p.x - ww / 2, p.y - hh / 2, ww, hh); }
-  for (let i = i0; i <= i1; i++) for (let j = j0; j <= j1; j++) { const c = w28Chunk(i, j); for (const d of c.d) { const im = A.dec[d.t].img, ww = im.width * d.s, hh = im.height * d.s; ctx.drawImage(im, d.x - ww / 2, d.y - hh / 2, ww, hh); } }
+  for (let i = i0; i <= i1; i++) for (let j = j0; j <= j1; j++) for (const p of w28Chunk(i, j).p) { const im = A.pat[p.t].img, ww = im.width / (im.k || 1) * p.s, hh = im.height / (im.k || 1) * p.s; ctx.drawImage(im, p.x - ww / 2, p.y - hh / 2, ww, hh); }
+  for (let i = i0; i <= i1; i++) for (let j = j0; j <= j1; j++) { const c = w28Chunk(i, j); for (const d of c.d) { const im = A.dec[d.t].img, ww = im.width / (im.k || 1) * d.s, hh = im.height / (im.k || 1) * d.s; ctx.drawImage(im, d.x - ww / 2, d.y - hh / 2, ww, hh); } }
   ctx.imageSmoothingEnabled = true;
   if (!w) return;
   for (let i = i0; i <= i1; i++) for (let j = j0; j <= j1; j++) { const g = w28Chunk(i, j).g; if (!g || w.dug[g.id]) continue; const tw = Math.sin(gtime * 4 + g.id) * 0.5 + 0.5;
@@ -10215,7 +10426,7 @@ function render(dt) {
   if (G.town) drawTownWorld(cx, cy); else { drawWorldBg(cx, cy); drawPortals(); }
   // aura (ground)
   // gems & pickups
-  if (PXA.on) ctx.imageSmoothingEnabled = false;
+  ctx.imageSmoothingEnabled = true;
   for (const g of gems) { if (!inView(g.x, g.y, 30)) continue; const s = g.big ? 30 : 14 + g.tier * 3, z = g.pop > 0 ? Math.sin(Math.min(1, 1 - g.pop / 0.38) * Math.PI) * 11 : 0, by = g.y - z + Math.sin(gtime * 4 + g.x) * 1.2; // v29 XP gems: pop arc + bob
     if (g.big || g.tier >= 2) { ctx.globalCompositeOperation = 'lighter'; glowAt(g.big ? '#5dffa8' : '#ff3d6e', g.x, by, g.big ? 40 + 6 * Math.sin(gtime * 6) : 20, g.big ? 0.55 : 0.3); ctx.globalCompositeOperation = 'source-over'; }
     ctx.drawImage(SPR.gem[g.tier], g.x - s / 2, by - s / 2, s, s);
@@ -10925,6 +11136,11 @@ function renderRace() {
   D.innerHTML = `<canvas></canvas><div class="tx"><div class="nm">${r.ic} ${r.name}<span class="role">${r.role}</span></div><div class="fl">${r.flavor}</div>` +
     `<div class="rchips">${r.buffs.map(x => `<i class="bf">▲ ${x}</i>`).join('')}${r.debuffs.map(x => `<i class="df">▼ ${x}</i>`).join('')}</div></div>`;
   heroPortrait(D.querySelector('canvas'), selClass, save.outfit, 1.42, raceOf(selRace)); if (MENU_HOP) { MENU_HOP = 0; menuHop(D.querySelector('canvas')); }
+  { const X = $('raceSex'), rid = raceOf(selRace), cur = heroSex(rid); X.innerHTML = '<span class="lb">Body</span>';
+    for (const [sx, lab] of [['m', '♂ Male <small>classic</small>'], ['f', '♀ Female']]) { const b = document.createElement('button'); b.className = 'sxb' + (cur === sx ? ' on' : ''); b.dataset.sex = sx;
+      b.setAttribute('aria-pressed', cur === sx ? 'true' : 'false'); b.innerHTML = lab;
+      b.onclick = () => { Snd.init(); if (heroSex(rid) === sx && heroSexChosen(rid)) return; save.sex = Object.assign({}, save.sex || {}); save.sex[rid] = sx; persist(); Snd.play('click'); MENU_HOP = 1; renderRace(); };
+      X.appendChild(b); } }
 }
 let MENU_HOP = 0;
 function menuHop(el, big) { if (!el) return; el.classList.remove('hop', 'hopbig'); void el.offsetWidth; el.classList.add(big ? 'hopbig' : 'hop'); setTimeout(() => el.classList.remove('hop', 'hopbig'), 700); }
@@ -10962,6 +11178,9 @@ function renderSelect() {
     const b = document.createElement('button'); b.className = 'sw' + (save.outfit === id ? ' on' : ''); b.innerHTML = `<canvas></canvas>${o.name}`;
     b.onclick = () => { save.outfit = id; persist(); Snd.play('click'); renderSelect(); }; O.appendChild(b); heroPortrait(b.querySelector('canvas'), selClass, id, 1.25); }
   if (Object.keys(save.outfits).length < 2) O.insertAdjacentHTML('beforeend', '<div style="font-size:12px;color:#8f7fb0;align-self:center">More outfits in the Armory</div>');
+  if (selClass === 'maestro') { const b = document.createElement('button'), o = save.chSex, cur = mxSex(); b.className = 'sw chsx'; b.id = 'btnChSex';
+    b.innerHTML = `<b>${cur === 'm' ? '♂' : '♀'}</b>Cat Humans: ${o === 'f' ? 'Female' : o === 'm' ? 'Male' : 'Auto'}<br><small style="font-size:12px;opacity:.75">tap to change</small>`; b.title = 'Hologram body: Auto matches your hero (Female by default)';
+    b.onclick = () => { save.chSex = !o ? 'f' : o === 'f' ? 'm' : undefined; if (!save.chSex) delete save.chSex; persist(); Snd.play('click'); renderSelect(); }; O.appendChild(b); }
 }
 let shopTab = 'up', shopFrom = 'title';
 function goShop(from) { shopFrom = from || 'title'; state = 'shop'; BGA.armory(); show('shop'); renderShop(); }
@@ -11753,20 +11972,19 @@ const BGA = (() => {
   function kit(g, W, H, R) {
     const K = {
       W, H, R, g,
-      r(x, y, w, h, c) { g.fillStyle = c; g.fillRect(Math.round(x), Math.round(y), Math.round(w), Math.round(h)); },
-      px(x, y, c) { g.fillStyle = c; g.fillRect(Math.round(x), Math.round(y), 1, 1); },
+      r(x, y, w, h, c) { g.fillStyle = c; g.fillRect(x, y, w, h); },
+      px(x, y, c) { g.fillStyle = c; g.beginPath(); g.arc(x + 0.5, y + 0.5, 0.62, 0, 6.283); g.fill(); },
       sky(stops) { const gr = g.createLinearGradient(0, 0, 0, H); stops.forEach((c, i) => gr.addColorStop(i / (stops.length - 1), c)); g.fillStyle = gr; g.fillRect(0, 0, W, H);
-        // pixel dither bands
-        for (let y = 0; y < H; y += 2) for (let x = (y >> 1) & 1; x < W; x += 4) if (R() < 0.25) K.px(x, y, 'rgba(0,0,0,.12)'); },
-      circ(cx, cy, rad, c) { g.fillStyle = c; for (let y = -rad; y <= rad; y++) { const w = Math.round(Math.sqrt(Math.max(0, rad * rad - y * y))); g.fillRect(Math.round(cx - w), Math.round(cy + y), w * 2 + 1, 1); } },
-      ring(cx, cy, rad, c, th = 1) { for (let a = 0; a < 6.283; a += 0.5 / Math.max(rad, 1)) for (let t = 0; t < th; t++) K.px(cx + Math.cos(a) * (rad - t), cy + Math.sin(a) * (rad - t), c); },
-      line(x0, y0, x1, y1, c) { const n = Math.max(Math.abs(x1 - x0), Math.abs(y1 - y0), 1); for (let i = 0; i <= n; i++) K.px(x0 + (x1 - x0) * i / n, y0 + (y1 - y0) * i / n, c); },
+      },
+      circ(cx, cy, rad, c) { g.fillStyle = c; g.beginPath(); g.arc(cx + 0.5, cy + 0.5, Math.max(0.5, rad + 0.5), 0, 6.283); g.fill(); },
+      ring(cx, cy, rad, c, th = 1) { g.strokeStyle = c; g.lineWidth = th; g.beginPath(); g.arc(cx + 0.5, cy + 0.5, Math.max(0.3, rad - th / 2 + 0.5), 0, 6.283); g.stroke(); },
+      line(x0, y0, x1, y1, c) { g.strokeStyle = c; g.lineWidth = 1.1; g.lineCap = 'round'; g.beginPath(); g.moveTo(x0 + 0.5, y0 + 0.5); g.lineTo(x1 + 0.5, y1 + 0.5); g.stroke(); },
       stars(n, c, y1 = H) { for (let i = 0; i < n; i++) { const x = R() * W, y = R() * y1; K.px(x, y, c); if (R() < 0.15) { K.px(x + 1, y, c); K.px(x - 1, y, c); K.px(x, y + 1, c); K.px(x, y - 1, c); } } },
       glow(cx, cy, rad, c, a = 0.5) { const gr = g.createRadialGradient(cx, cy, 0, cx, cy, rad), [r, gg, b] = hex(c); gr.addColorStop(0, `rgba(${r},${gg},${b},${a})`); gr.addColorStop(1, `rgba(${r},${gg},${b},0)`); g.fillStyle = gr; g.fillRect(cx - rad, cy - rad, rad * 2, rad * 2); },
-      hills(base, amp, c, f = 0.08, ph = 0) { g.fillStyle = c; for (let x = 0; x < W; x++) { const y = base + Math.sin(x * f + ph) * amp + Math.sin(x * f * 2.7 + ph * 3) * amp * 0.4; g.fillRect(x, Math.round(y), 1, H); } },
+      hills(base, amp, c, f = 0.08, ph = 0) { g.fillStyle = c; g.beginPath(); g.moveTo(0, H); for (let x = 0; x <= W; x += 0.5) g.lineTo(x, base + Math.sin(x * f + ph) * amp + Math.sin(x * f * 2.7 + ph * 3) * amp * 0.4); g.lineTo(W, H); g.closePath(); g.fill(); },
       bricks(y0, y1, c1, c2, bw = 10, bh = 5) { K.r(0, y0, W, y1 - y0, c1); for (let y = y0, row = 0; y < y1; y += bh, row++) { K.r(0, y, W, 1, c2); for (let x = (row & 1) * (bw >> 1); x < W; x += bw) K.r(x, y, 1, bh, c2); } },
       planks(y0, y1, c1, c2) { K.r(0, y0, W, y1 - y0, c1); for (let y = y0; y < y1; y += 4) K.r(0, y, W, 1, c2); for (let i = 0; i < W / 6; i++) K.px(R() * W, y0 + R() * (y1 - y0), c2); },
-      tri(x, y, w, h, c) { for (let i = 0; i < h; i++) { const ww = w * i / h; K.r(x - ww / 2, y + i, Math.max(1, ww), 1, c); } },
+      tri(x, y, w, h, c) { g.fillStyle = c; g.beginPath(); g.moveTo(x - 0.5, y); g.lineTo(x + 0.5, y); g.lineTo(x + w / 2, y + h); g.lineTo(x - w / 2, y + h); g.closePath(); g.fill(); },
       pine(x, y, h, c) { for (let i = 0; i < 3; i++) K.tri(x, y - h + i * h / 4, h * 0.55 + i * 3, h * 0.45, c); K.r(x - 1, y - 3, 2, 4, sh(c, -0.4)); },
       gear(cx, cy, rad, c, teeth = 8, rot = 0) { for (let i = 0; i < teeth; i++) { const a = rot + i / teeth * 6.283; K.r(cx + Math.cos(a) * (rad + 1) - 1.5, cy + Math.sin(a) * (rad + 1) - 1.5, 3, 3, c); } K.circ(cx, cy, rad, c); K.ring(cx, cy, rad, sh(c, 0.25)); K.ring(cx, cy, Math.max(2, rad * 0.55), sh(c, -0.35)); K.circ(cx, cy, Math.max(1, rad * 0.25), 'rgba(0,0,0,.6)'); },
       ogear(cx, cy, rad, c, teeth = 10, rot = 0) { K.ring(cx, cy, rad, c); K.ring(cx, cy, rad * 0.4, c); for (let i = 0; i < teeth; i++) { const a = rot + i / teeth * 6.283, b = a + 0.18; K.line(cx + Math.cos(a) * rad, cy + Math.sin(a) * rad, cx + Math.cos(a) * (rad + 3), cy + Math.sin(a) * (rad + 3), c); K.line(cx + Math.cos(a) * (rad + 3), cy + Math.sin(a) * (rad + 3), cx + Math.cos(b) * (rad + 3), cy + Math.sin(b) * (rad + 3), c); K.line(cx + Math.cos(b) * (rad + 3), cy + Math.sin(b) * (rad + 3), cx + Math.cos(b) * rad, cy + Math.sin(b) * rad, c); } for (let i = 0; i < 4; i++) { const a = rot + i * 1.571; K.line(cx + Math.cos(a) * rad * 0.4, cy + Math.sin(a) * rad * 0.4, cx + Math.cos(a) * rad, cy + Math.sin(a) * rad, c); } },
@@ -12070,8 +12288,11 @@ const BGA = (() => {
     const ax = K.W / 2, ay = K.H - 30; K.glow(ax, ay - 4, 46, '#ff6a1a', 0.35); K.r(ax - 16, ay - 12, 32, 6, '#4a4a56'); K.r(ax - 22, ay - 12, 8, 3, '#4a4a56'); K.r(ax - 8, ay - 6, 16, 8, '#3a3a46'); K.r(ax - 12, ay + 2, 24, 3, '#2a2a34'); K.r(ax - 14, ay - 12, 26, 1, '#7a7a8a');
   }
   function paint(key, w, h, fn) { if (cache[key]) return cache[key]; let url = '';
-    try { const c = document.createElement('canvas'); c.width = w; c.height = h; const g = c.getContext('2d'); fn(kit2(kit(g, w, h, rng(hash(key)))));
-      const o = document.createElement('canvas'); o.width = w * SC; o.height = h * SC; const og = o.getContext('2d'); og.imageSmoothingEnabled = false; og.drawImage(c, 0, 0, o.width, o.height); url = o.toDataURL('image/png'); } catch (e) { url = ''; }
+    try { const S0 = SC / 2, c = document.createElement('canvas'); c.width = w * S0; c.height = h * S0; const g = c.getContext('2d'); g.scale(S0, S0); fn(kit2(kit(g, w, h, rng(hash(key))))); // v33: vector-smooth at 2x, then painted up to 4x
+      { const cx = w / 2, cy = h * 0.42, gr = g.createRadialGradient(cx, cy, Math.min(w, h) * 0.12, cx, cy, Math.hypot(w, h) * 0.62); gr.addColorStop(0, '#f2e6d6'); gr.addColorStop(0.55, '#b8acb8'); gr.addColorStop(1, '#4a4466'); // painted grade: warm-lit centre, cool falloff
+        g.globalCompositeOperation = 'multiply'; g.fillStyle = gr; g.fillRect(0, 0, w, h); g.globalCompositeOperation = 'source-over'; }
+      let o = c; try { o = PXA.paintUp(c, 2, { mix: 0.42, drift: 0.55, grain: 0.8, soft: 1.0, seed: hash(key) & 255 }); } catch (e) { o = document.createElement('canvas'); o.width = w * SC; o.height = h * SC; const og = o.getContext('2d'); og.imageSmoothingEnabled = true; og.drawImage(c, 0, 0, o.width, o.height); }
+      url = o.opaque ? o.toDataURL('image/jpeg', 0.9) : o.toDataURL('image/png'); } catch (e) { url = ''; }
     return (cache[key] = url); }
   function tree(el, cls, bi, tc) { if (!el) return; const mt = cls === 'mt', key = (mt ? 'mt' : cls) + ':' + bi;
     const f = mt ? ARM[bi] : T[cls]; if (!f) return; const url = paint(mt ? key : key + ':v32', mt ? 110 : 120, mt ? 160 : 176, K => f(K, tc || '#888', bi));
@@ -12188,7 +12409,7 @@ const BGA = (() => {
       K.vig(0.55); }
   };
   function tapestry(K, cls, acc, cx, y, w) { const h = Math.round(w * 1.46), x = Math.round(cx - w / 2); K.r(x - 4, y - 3, w + 8, 3, '#5a3a1e'); K.r(x - 2, y, w + 4, h + 4, '#d8b04a');
-    try { const c = document.createElement('canvas'); c.width = 120; c.height = 176; const f = T[cls]; if (f) { f(kit2(kit(c.getContext('2d'), 120, 176, rng(hash('tap' + cls)))), acc, 0); K.g.imageSmoothingEnabled = false; K.g.drawImage(c, x, y + 2, w, h); } else K.r(x, y + 2, w, h, sh(acc, -0.5)); } catch (e) {}
+    try { const c = document.createElement('canvas'); c.width = 240; c.height = 352; const f = T[cls]; if (f) { const cg = c.getContext('2d'); cg.scale(2, 2); f(kit2(kit(cg, 120, 176, rng(hash('tap' + cls)))), acc, 0); K.g.imageSmoothingEnabled = true; K.g.drawImage(c, x, y + 2, w, h); } else K.r(x, y + 2, w, h, sh(acc, -0.5)); } catch (e) {}
     K.r(x - 2, y + h + 2, w + 4, 2, sh(acc, -0.2)); for (let i = 0; i < w + 4; i += 3) K.r(x - 2 + i, y + h + 4, 1, 3, acc); K.glow(cx, y + h / 2, w, acc, 0.18); }
   function layer(scr, url, cls) { let L = scr.querySelector(':scope>.scn32'); if (!L) { L = document.createElement('div'); L.className = 'scn32'; L.setAttribute('aria-hidden', 'true'); L.innerHTML = '<i></i><i></i><b class="pt"></b><b class="pt pt2"></b>'; scr.prepend(L); scr.classList.add('scn'); }
     const [a, b] = L.querySelectorAll('i'), on = a.classList.contains('on') ? a : (b.classList.contains('on') ? b : null);
@@ -12287,7 +12508,19 @@ function renderTalents() {
   $('btnTalApply').textContent = pend.any ? `Apply ${pend.add ? '+' + pend.add : ''}${pend.add && pend.rem ? '/' : ''}${pend.rem ? '−' + pend.rem : ''}` : '✔ Apply';
   $('btnTalApply').disabled = !pend.any; $('btnTalReset').disabled = !tp.spent;
   if (PC && GF.el && GF.el.classList && GF.el.classList.contains('tnode')) talHover(GF.el.dataset.node); else talHover(PC && talPick);
+  talFit();
 }
+function talFit() { // v33: squeeze row pitch (taps stay >=44px) so the tree fits; if it still doesn't, the tree area scrolls with a hint
+  const sc = $('talents'), view = $('talView'), track = $('talTree'); if (!sc || !view) return;
+  if (PC || talOv) { sc.style.removeProperty('--rp'); sc.style.removeProperty('--ns'); talSHUpd(); return; }
+  sc.style.removeProperty('--rp'); sc.style.removeProperty('--ns');
+  const over = track.offsetHeight - view.clientHeight;
+  if (over > 0) { const rp = Math.max(52, 55 - Math.ceil(over / 6)); sc.style.setProperty('--rp', rp + 'px'); if (rp < 54) sc.style.setProperty('--ns', '44px'); }
+  talSHUpd(); }
+function talSHUpd() { const h = $('talSH'), v = $('talView'); if (!h || !v) return; const more = !PC && $('talents').classList.contains('on') && v.scrollHeight - v.clientHeight - v.scrollTop > 6;
+  v.classList.toggle('shd', more); h.classList.toggle('on', more); if (!more) return; const r = v.getBoundingClientRect(); h.style.left = (r.left + r.width / 2) + 'px'; h.style.top = (r.bottom - 30) + 'px'; }
+$('talView').addEventListener('scroll', talSHUpd, { passive: true });
+addEventListener('resize', () => { if (state === 'talents') setTimeout(talFit, 60); });
 function talMoveSel(dx, dy) { // keyboard: arrows walk the grid (and across trees on PC)
   const T = TALENTS[talCls]; let n = talPick && TAL_BY_ID[talCls + ':' + talPick]; if (!n) { talPick = T[talSpec].nodes[0].id; renderTalents(); return; }
   let bi = n.bi, best = null, bs = 1e9; const pool = PC ? T.flatMap(t => t.nodes) : T[bi].nodes, gx = m => m.bi * 5 + m.c;
