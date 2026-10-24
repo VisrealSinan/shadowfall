@@ -1,25 +1,19 @@
 {
- "version": "36",
+ "version": "37",
  "date": "2026-10-24",
  "minLauncher": "2.0.0",
  "notes": [
-  "Every zone now has its own town. When the portal opens you go to the town that belongs to the zone you are fighting in. Vendors stay in the same spots and work the same way.",
-  "Gloomwood → Mosshollow Camp: a mossy forest camp with tree huts, a rope bridge, hanging lanterns, glowing mushrooms, fireflies and a warm campfire.",
-  "Ashen Citadel → Cinderkeep Bastion: a torchlit fortress yard with stone walls, a gatehouse, braziers, banners, forge glow and drifting embers.",
-  "Heartfall Belfry → Vesper Clocktown: a stained-glass rosette floating over the dark, with a clock tower, a bell, a key monument and drifting glass motes.",
-  "Each town has themed stalls and signs for all four vendors, its own ground, lighting and particles, its own ambient sounds (crickets and owls, forge clangs and crackling fire, chimes and ticking clocks) and its own town music.",
-  "Vendor menus have been redesigned around each vendor. Pell, Lady Vex, Brunhild and the Stranger each get their own frame, colours, portrait, greeting and flavour lines, with the town's sign and name at the top. Menus fit on phone and PC.",
-  "New zone: Heartfall Belfry. Stained-glass platforms float over the darkness under a heart-shaped moon, around a twilight belfry of bells, clocks and giant keys.",
-  "How to unlock it: survive 15:00 in a single run in the Ashen Citadel. The unlock is saved for good. Until then, map select shows a locked card that says \"Survive 15:00 in the Ashen Citadel to unlock\", and you get an alert the moment you unlock it.",
-  "The Belfry has its own monsters, the Hushborn: Hushlings, Hushmites, Skitterhush, Gloamwings, Knell Bombs, Gilded Sentinels, Bellshades, Heart Thieves, Hollow Brutes, Lanternwardens, Dusk Knights, Skitter Swarms, Chime Wisps and Twilight Wraiths. Its mini-boss is the Sentinel Prime. They sink into shadow when they die and release a glowing heart.",
-  "Each zone now has its own set of bosses, and each boss has its own attacks with warning zones, a rage phase below half health, and its own death.",
-  "Gloomwood: Mother of Shades, the Thorn Queen, the Hollow Stag King, the Rotwood Elder and the Mire Hag.",
-  "Ashen Citadel: the Molten Tyrant, the Ashen Warden, the Cursed Colossus, Forgemaster Ignar and the Brass Inquisitor.",
-  "Heartfall Belfry: the Grand Clockwarden, Heartmaw, the Stainglass Seraph and the Keybearer Shade.",
-  "Boss rotation: bosses come from a shuffled set for each zone. You meet every boss in that zone before any of them repeats, the same boss never appears twice in a row, and a new run never opens with the same boss as your last run on that map. From 20:00, two bosses come at once.",
-  "Bosses still get tougher the longer the run goes. Boss slams shake the screen only a little, and class abilities still never shake the screen.",
-  "The Belfry has its own original battle, night and boss music.",
-  "Fix: map achievements now show what they unlock instead of \"Reward: undefined\".",
+  "Every zone now has exactly 5 bosses. Heartfall Belfry gets its 5th boss: Nocturna, the Moonveil Moth.",
+  "Nocturna is a huge shadow moth with glowing yellow eyes, feathery antennae and four stained-glass wings. Her upper wings have heart-shaped eyespots and her lower wings have crescent moons.",
+  "Wing Gust: she spreads her wings and blows a fan of wind lanes at you. The lanes are marked before they hit.",
+  "Heart-Moon Eclipse: a glowing heart-moon falls where you stand. Get out of the marked circle before it lands, then dodge the ring of moonlight it sends out.",
+  "Lullaby: a music-box tune plays while she sends out slow rings of moonlight. Each ring is offset from the last, so look for the gaps.",
+  "Moonveil: she breaks apart into a swarm of moths and comes back together near you. Where she will land is marked first, and she sends out a ring of moonlight when she does.",
+  "Below half health her wings flare with moonlight. She attacks more often, her attacks get bigger, and moondust drops in small marked circles around you.",
+  "When she dies, her body fades into the dark and she breaks apart into a cloud of small glowing moths that fly away.",
+  "She has her own sounds: fluttering wings, a music-box lullaby and the rising swell of the eclipse.",
+  "Heartfall Belfry bosses: the Grand Clockwarden, Heartmaw, the Stainglass Seraph, the Keybearer Shade and Nocturna, the Moonveil Moth. She is part of the Belfry's shuffled rotation, so you meet all 5 before any boss repeats.",
+  "Nocturna is as tough as the other Belfry bosses.",
   "No class, gear or save data has changed."
  ],
  "files": [
@@ -45,8 +39,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "cac512733c0374d3b0844506167c9a6a70e07d6c9c5e9218f2d962d00879c33a",
-   "size": 1933838
+   "sha256": "6cb6d54ff1485d7616e5e535ce8b7cdc269812247f93a40735bbf8376a384e80",
+   "size": 1940547
   },
   {
    "name": "manifest.webmanifest",
@@ -55,7 +49,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "9f6ca608e8f70ede56933a9df6b0b9e4a55986ef1e4cfa5d1047ce53da43e411",
+   "sha256": "2241b6168d693954eb0b5e894570c9fb27304b6713545e4ad66ad17cfd6399ab",
    "size": 1466
   }
  ]

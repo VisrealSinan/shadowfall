@@ -1484,6 +1484,10 @@ const SFX = { // [duration, variants, recipe]
   owl: [1.1, 2, (c, o) => { const f = R_(360, 420); _tone(c, o, 0, f, 0.28, 'sine', 0.05, f * 0.92); _tone(c, o, 0.42, f * 0.96, 0.5, 'sine', 0.05, f * 0.84); _nz(c, o, 0, 0.9, 0.006, f * 2, 3); }],
   clang: [0.9, 3, (c, o) => { const f = R_(820, 980); _tone(c, o, 0, f, 0.8, 'triangle', 0.035, f * 0.99); _tone(c, o, 0, f * 2.76, 0.5, 'sine', 0.018); _tone(c, o, 0, f * 5.4, 0.25, 'sine', 0.01); _nz(c, o, 0, 0.05, 0.04, 3600, 1.4); }],
   chime: [1.4, 3, (c, o) => { const b = 84 + [0, 2, 4, 7][Math.floor(Math.random() * 4)]; [0, 7, 12].forEach((m, i) => _tone(c, o, i * 0.16, mtof(b + m), 1.0, 'sine', 0.03)); }],
+  // v37: Nocturna, the Moonveil Moth (wing flutter, music-box lullaby, heart-moon eclipse swell)
+  flutter: [0.5, 2, (c, o) => { for (let i = 0; i < 7; i++) _nz(c, o, i * 0.055, 0.05, 0.05 - i * 0.005, R_(500, 800), 1.2, 'lowpass'); }],
+  lull: [1.0, 3, (c, o) => { const b = 81 + [0, 3, 5][Math.floor(Math.random() * 3)]; [0, -5, -9].forEach((m, i) => { _tone(c, o, i * 0.14, mtof(b + m), 0.7, 'sine', 0.035); _tone(c, o, i * 0.14, mtof(b + m + 12), 0.3, 'triangle', 0.01); }); }],
+  eclipse: [1.3, 1, (c, o) => { _tone(c, o, 0, 110, 1.2, 'sawtooth', 0.03, 220); _tone(c, o, 0, 165, 1.2, 'sine', 0.04, 330); _nz(c, o, 0.1, 1.1, 0.02, 900, 2, 'bandpass', 2400); }],
   tick: [0.5, 1, (c, o) => { for (let i = 0; i < 4; i++) { _nz(c, o, i * 0.11, 0.02, 0.03, i & 1 ? 2600 : 3400, 6); } }],
 
   claw: [0.2, 4, (c, o) => { const f = R_(2400, 3400); for (let i = 0; i < 3; i++) _nz(c, o, i * 0.028, 0.07, 0.045, f - i * 300, 2.4, 'bandpass', f * 0.45); _tone(c, o, 0, R_(260, 320), 0.07, 'triangle', 0.03, 150); }],
@@ -1721,7 +1725,7 @@ const SND32 = (() => {
     wolf: 'beast', bat: 'beast', charger: 'beast', hstag: 'beast', cinderhound: 'fire', imp: 'fire', bomber: 'fire', spitter: 'slime', splitter: 'slime', oozelet: 'slime', slag: 'slime', slaglet: 'slime',
     armor: 'metal', shield: 'metal', juggernaut: 'metal', automaton: 'metal', golem: 'stone', gargoyle: 'stone', burrower: 'stone', hornet: 'bug', thief: 'caster',
     hushling: 'spirit', hushmite: 'spirit', skitter: 'bug', skitterpack: 'bug', gloamwing: 'beast', knellbomb: 'metal', hsentinel: 'metal', hprime: 'metal', bellshade: 'spirit', chimewisp: 'spirit', heartthief: 'spirit', hbrute: 'beast', hbrute2: 'beast', lantern: 'caster', hknight: 'metal', hwraith: 'spirit',
-    stagking: 'beast', rotwood: 'wood', mirehag: 'caster', ignar: 'metal', inquisitor: 'metal', clockwarden: 'metal', heartmaw: 'spirit', seraph: 'spirit', keybearer: 'spirit' };
+    stagking: 'beast', rotwood: 'wood', mirehag: 'caster', ignar: 'metal', inquisitor: 'metal', clockwarden: 'metal', heartmaw: 'spirit', seraph: 'spirit', keybearer: 'spirit', moth: 'spirit' };
   const DX = {
     spirit: [0.4, (c, o) => { const f = R_(700, 900); T(c, o, 0, f, 0.35, 'sine', 0.05, f * 0.4); N(c, o, 0, 0.3, 0.035, 2400, 3, 'bandpass', 600, 0.02); T(c, o, 0.02, f * 1.5, 0.25, 'sine', 0.02, f * 0.6); }],
     caster: [0.4, (c, o) => { T(c, o, 0, R_(320, 380), 0.3, 'triangle', 0.05, 160); N(c, o, 0, 0.12, 0.05, 1400, 1.4); T(c, o, 0.05, 1200, 0.2, 'sine', 0.02, 2400); }],
@@ -6543,6 +6547,7 @@ Object.assign(ETYPES, {
   clockwarden: { name: 'The Grand Clockwarden', hp: 1400, spd: 28, dmg: 26, r: 34, xp: 90, size: 124, ai: 'boss36', boss: true, heavy: true, puff: '#ffd23a' },
   heartmaw: { name: 'Heartmaw', hp: 1350, spd: 36, dmg: 26, r: 34, xp: 90, size: 124, ai: 'boss36', boss: true, heavy: true, puff: '#ff5a8a' },
   seraph: { name: 'The Stainglass Seraph', hp: 1100, spd: 40, dmg: 22, r: 28, xp: 85, size: 116, ai: 'boss36', boss: true, heavy: true, puff: '#8ac0ff', fly: 1 },
+  moth: { name: 'Nocturna, the Moonveil Moth', hp: 1000, spd: 46, dmg: 28, r: 28, xp: 85, size: 124, ai: 'boss36', boss: true, heavy: true, puff: '#c8a0ff', fly: 1 }, /* v37: the Belfry's 5th boss */
   keybearer: { name: 'The Keybearer Shade', hp: 1050, spd: 44, dmg: 24, r: 26, xp: 85, size: 108, ai: 'boss36', boss: true, heavy: true, puff: '#ffd23a' },
 });
 /* the Belfry swaps every shared / Gloomwood monster for its Hushborn counterpart (same stats tier, own look + behaviour) */
@@ -6551,11 +6556,11 @@ const HEARTSUB = { wisp: 'hushling', bone: 'skitter', bat: 'gloamwing', imp: 'hu
 const heart36 = () => !!(G && G.map === 'heart');
 Object.assign(EVS, { hushling: 1.1, hushmite: 1.1, skitter: 1.05, skitterpack: 1.05 });
 Object.assign(CSHW, { hushling: 26, hushmite: 26, skitter: 34, skitterpack: 34, knellbomb: 20, hsentinel: 26, bellshade: 20, chimewisp: 20, heartthief: 30, hbrute: 32, hbrute2: 32, lantern: 20, hknight: 26, hprime: 28,
-  stagking: 30, rotwood: 34, mirehag: 26, ignar: 30, inquisitor: 28, clockwarden: 30, heartmaw: 34, keybearer: 24 });
+  stagking: 30, rotwood: 34, mirehag: 26, ignar: 30, inquisitor: 28, clockwarden: 30, heartmaw: 34, keybearer: 24, moth: 30 });
 Object.assign(WIND_AI, { bellshade: 330, lantern: 1e4, boss36: 1e4 });
 Object.assign(WIND_MELEE, { hush: 1, skitter: 1 });
 Object.assign(W28NAMES, { hushling: 'The Hushborn rise!', skitter: 'Skittering in the dark!', skitterpack: 'Skittering in the dark!', gloamwing: 'Wings in the gloaming!', bellshade: 'The bells toll for you!', chimewisp: 'The bells toll for you!', heartthief: 'They want your heart!', hsentinel: 'The gilded guard marches!', hbrute: 'Hollow brutes stampede!', hwraith: 'Twilight wraiths descend!' });
-const BOSSSET36 = { forest: ['mother', 'thornqueen', 'stagking', 'rotwood', 'mirehag'], castle: ['tyrant', 'warden', 'colossus', 'ignar', 'inquisitor'], heart: ['clockwarden', 'heartmaw', 'seraph', 'keybearer'] };
+const BOSSSET36 = { forest: ['mother', 'thornqueen', 'stagking', 'rotwood', 'mirehag'], castle: ['tyrant', 'warden', 'colossus', 'ignar', 'inquisitor'], heart: ['clockwarden', 'heartmaw', 'seraph', 'keybearer', 'moth'] };
 /* rotation: each run draws bosses from a shuffled bag of its zone's set (all of them appear before any repeats), never the same boss twice in a row
    (bag refills avoid the last boss), and the run's first boss is never the previous run's first boss on that map. Twin waves draw two from the bag. */
 function bossNext36() { const m = mapKey36(), set = BOSSSET36[m] || BOSSSET36.forest;
@@ -6574,6 +6579,9 @@ const BOSS36 = {
   heartmaw: { col: '#ff5a8a', c2: '#ffd23a', moves: ['charge', 'summon', 'rain', 'spiral'], add: 'wisp', cd: 3.0, death: 'heart', enr: 'Heartmaw hungers!' },
   seraph: { col: '#8ac0ff', c2: '#ff8aaa', moves: ['cross', 'fan', 'blink', 'ring'], cd: 2.9, death: 'shatter', enr: 'The Seraph\'s glass wings blaze!' },
   keybearer: { col: '#ffd23a', c2: '#b08aff', moves: ['blink', 'beam', 'charge', 'fan'], cd: 2.7, death: 'heart', enr: 'The Keybearer Shade turns its blade!' },
+  moth: { col: '#c8a0ff', c2: '#ff8ab0', moves: ['gust', 'eclipse', 'lullaby', 'veil'], cd: 2.5, death: 'moth', snd: 'eclipse', enr: 'Nocturna\'s wings flare with moonlight!',
+    rage(e, dt) { if ((e.rgT = (e.rgT || 1.2) - dt) > 0 || e.st) return; e.rgT = 2.3; for (let i = 0; i < 3; i++) { const q = rand(TAU), r0 = rand(50, 140), x = P.x + Math.cos(q) * r0, y = P.y + Math.sin(q) * r0, L = 1.0 + i * 0.15;
+      effects.push({ k: 'warn', x, y, r: 30, life: L, max: L, dmg: e.dmg * 0.4, col: '#ffd0f0', boom: 1 }); effects.push({ k: 'lob', x: e.x, y: e.y - 60, x2: x, y2: y, life: L, max: L, col: '#c8a0ff' }); } Snd.play('flutter'); } },
 };
 function b36Move(e, B, m, d, dx, dy) { const en = e.enr ? 1 : 0, C = B.col, C2 = B.c2, a = Math.atan2(dy, dx), dm = e.dmg;
   const shake = t => G.later.push({ t, f: () => { if (!e.dead) G.shake = Math.max(G.shake || 0, 0.22); } });
@@ -6593,11 +6601,20 @@ function b36Move(e, B, m, d, dx, dy) { const en = e.enr ? 1 : 0, C = B.col, C2 =
     case 'spiral': e.st = 'tele'; e.stT = 0.5; effects.push({ k: 'warn', x: e.x, y: e.y, r: 54, life: 0.5, max: 0.5, dmg: 0, col: C }); { const o = rand(TAU), n = 20 + en * 8; for (let i = 0; i < n; i++) G.later.push({ t: 0.5 + i * 0.06, f: () => { if (e.dead) return; fireEOrb(e.x, e.y - 24, o + i * 0.62, 100, dm * 0.4, i % 2 ? C2 : C); } }); } Snd.play('cast'); break;
     case 'beam': { e.st = 'tele'; e.stT = 1.0; const n = 3 + en * 2; for (let i = 0; i < n; i++) effects.push({ k: 'warn', line: 1, x: e.x, y: e.y, ang: a + (i - (n - 1) / 2) * 0.42, len: 440, w: 30, life: 1.0, max: 1.0, dmg: dm * 1.0, col: i % 2 ? C2 : C }); Snd.play('tele'); break; }
     case 'cross': { e.st = 'tele'; e.stT = 0.95; const n = 4 + en * 4, o = rand(TAU); for (let i = 0; i < n; i++) effects.push({ k: 'warn', line: 1, x: e.x, y: e.y, ang: o + i / n * TAU, len: 420, w: 30, life: 0.95, max: 0.95, dmg: dm * 1.0, col: i % 2 ? C2 : C }); Snd.play('tele'); break; }
+    case 'gust': { e.st = 'tele'; e.stT = 0.85; const n = 5 + en * 2; for (let i = 0; i < n; i++) effects.push({ k: 'warn', line: 1, x: e.x, y: e.y, ang: a + (i - (n - 1) / 2) * 0.24, len: 380, w: 30, life: 0.85, max: 0.85, dmg: dm * 0.8, col: i % 2 ? C2 : C });
+      for (let i = 0; i < 10; i++) G.later.push({ t: 0.85 + i * 0.03, f: () => { if (!e.dead) burst(e.x + Math.cos(a) * (40 + i * 30), e.y - 20 + Math.sin(a) * (40 + i * 30), i % 2 ? C2 : C, 3, 90, 2.5, 0.5, true); } }); Snd.play('flutter'); break; }
+    case 'eclipse': { const tx = P.x, ty = P.y, R0 = 100 + en * 20; e.st = 'tele'; e.stT = 0.6; effects.push({ k: 'warn', x: tx, y: ty, r: R0, life: 1.25, max: 1.25, dmg: dm * 1.15, col: C2, boom: 1 }); effects.push({ k: 'lob', x: e.x, y: e.y - 70, x2: tx, y2: ty, life: 1.25, max: 1.25, col: '#ffd0e0' }); Snd.play('eclipse');
+      G.later.push({ t: 1.25, f: () => { if (e.dead) return; const o = rand(TAU), n = 10 + en * 4; for (let i = 0; i < n; i++) fireEOrb(tx, ty, o + i / n * TAU, 110, dm * 0.55, i % 2 ? C2 : C); burst(tx, ty, '#ffd0e0', 18, 160, 3, 0.6, true); } }); break; }
+    case 'lullaby': { e.st = 'tele'; e.stT = 0.6; effects.push({ k: 'warn', x: e.x, y: e.y, r: 60, life: 0.6, max: 0.6, dmg: 0, col: C }); const n = 10, o = rand(TAU);
+      for (let k = 0; k < 3 + en; k++) G.later.push({ t: 0.6 + k * 0.55, f: () => { if (e.dead) return; for (let i = 0; i < n; i++) fireEOrb(e.x, e.y - 30, o + (i + (k % 2) * 0.5) / n * TAU, 92, dm * 0.5, k % 2 ? C2 : C); Snd.play('lull'); } }); break; }
+    case 'veil': { const q = rand(TAU), tx = P.x + Math.cos(q) * 150, ty = P.y + Math.sin(q) * 150; e.st = 'tele'; e.stT = 1.0; effects.push({ k: 'warn', x: tx, y: ty, r: 64, life: 1.0, max: 1.0, dmg: dm * 0.9, col: C, boom: 1 });
+      burst(e.x, e.y - 40, C2, 22, 150, 3, 0.7, true); Snd.play('flutter'); G.later.push({ t: 0.95, f: () => { if (e.dead) return; e.x = tx; e.y = ty; burst(e.x, e.y - 40, C, 22, 160, 3, 0.6, true); const n = 8 + en * 4, o = rand(TAU); for (let i = 0; i < n; i++) fireEOrb(e.x, e.y - 30, o + i / n * TAU, 115, dm * 0.5, C2); } }); break; }
     case 'dial': { e.st = 'tele'; e.stT = 1.1; const o = rand(TAU); for (let i = 0; i < 6; i++) { const L = 0.75 + i * 0.12 + en * 0; effects.push({ k: 'warn', line: 1, x: e.x, y: e.y, ang: o + i * TAU / 12 * (1 + en), len: 400, w: 26, life: L, max: L, dmg: dm * 0.9, col: i % 2 ? C2 : C }); }
       for (let i = 0; i < 12; i++) G.later.push({ t: 0.2 + i * 0.07, f: () => { if (!e.dead) burst(e.x + Math.cos(i / 12 * TAU) * 60, e.y - 40 + Math.sin(i / 12 * TAU) * 60, C, 2, 40, 2.5, 0.4, true); } }); Snd.play('tele'); break; }
   } return true; }
 AI28.boss36 = function (e, def, d, dx, dy, sp, dt, dying) { const B = BOSS36[e.type]; if (!B) return null;
-  if (!e.enr && e.hp < e.maxHp * 0.5) { e.enr = 1; e.spd *= 1.2; toast(B.enr, B.col, 2.4); G.shake = Math.max(G.shake || 0, 0.3); burst(e.x, e.y - 40, B.col, 24, 200, 3.4, 0.6, true); }
+  if (!e.enr && e.hp < e.maxHp * 0.5) { e.enr = 1; e.spd *= 1.2; toast(B.enr, B.col, 2.4); if (B.snd) Snd.play(B.snd); G.shake = Math.max(G.shake || 0, 0.3); burst(e.x, e.y - 40, B.col, 24, 200, 3.4, 0.6, true); }
+  if (e.enr && B.rage && !dying) B.rage(e, dt);
   if (e.st === 'tele') { e.stT -= dt; if (e.stT <= 0) { if (e.nx === 'charge') { e.st = 'charge'; e.stT = 0.8; Snd.play('swish'); } else e.st = null; e.nx = null; } return ao(e.dx || dx, e.dy || dy, 0); }
   if (e.st === 'charge') { e.stT -= dt; if (Math.random() < 0.5) burst(e.x, e.y + 14, B.col, 1, 40, 3, 0.4, true); if (B.emb && (e.emT = (e.emT || 0) - dt) <= 0) { e.emT = 0.12; w28Emb(e.x, e.y, 18, 2, e.dmg * 0.2); } if (e.stT <= 0) { e.st = null; e.ai = 1.2; } return ao(e.dx, e.dy, e.spd * 5.6); }
   if (e.ai <= 0 && !dying) { e.ai = B.cd * (e.enr ? 0.8 : 1); const opts = B.moves.filter(m => m !== e.lm); let m = opts[(Math.random() * opts.length) | 0]; if (!b36Move(e, B, m, d, dx, dy)) { m = opts.find(q => q !== m && q !== 'charge') || 'ring'; b36Move(e, B, m, d, dx, dy); } e.lm = m; e.dx = dx; e.dy = dy; return ao(dx, dy, 0); }
@@ -6625,7 +6642,7 @@ function w36Mini() { const w = G.w28 || {}, n = w.mini = (w.mini || 0) + 1, p = 
 /* ---- Hushborn + new boss sprites (pixel painters, same rules as px_mobs: feet at y = 0, facing +x, f 0-3 walk, w = wind-up) ---- */
 (() => {
   const { ramp: R } = PXA, M = PXA.mobs, D = M.D;
-  Object.assign(M.FLOAT, { gloamwing: 1, knellbomb: 1, hwraith: 1, seraph: 1 });
+  Object.assign(M.FLOAT, { gloamwing: 1, knellbomb: 1, hwraith: 1, seraph: 1, moth: 1 });
   Object.assign(M.SCALE, { hushmite: 0.8, skitterpack: 1.05, hbrute2: 1, hprime: 1.55, stagking: 1.05, chimewisp: 0.9 });
   const HU = R(['#000000', '#04030a', '#0b0918', '#17132c', '#2a2446']), YEL = R(['#6a4a08', '#c08a1c', '#ffd23a', '#fff0a8', '#ffffff'], 1);
   const GILD = R(['#3a2608', '#7a5418', '#c08a2c', '#e8c060', '#fff0b0']), HRT = R(['#4a0418', '#a0103a', '#ff3a6a', '#ff9ab4', '#fff0f4'], 1);
@@ -6782,6 +6799,25 @@ function w36Mini() { const w = G.w28 || {}, n = w.mini = (w.mini || 0) + 1, p = 
     b.ell(1, cy - 18, 7, 7.4, FACE, 2, 1); b.rect(2, cy - 19, 6, 1.6, GB[2]); b.ell(1, cy - 30, 10, 3, GG, 3, 0); b.ell(1, cy - 30, 7, 1.6, HU, 0, 0);
     const sx = w ? 4 : 14, sy = w ? cy - 40 : cy + 6; b.cap(6, cy - 6, sx, sy + 6, 2, 1.6, GV, 3); b.line(sx, sy + 6, sx + (w ? 2 : 12), sy + (w ? -22 : -16), GB[4]); b.line(sx + 1, sy + 6, sx + (w ? 3 : 13), sy + (w ? -22 : -16), GB[3]); };
   /* The Keybearer Shade: a shadow-mirror swordsman, ragged scarf, yellow eyes, wielding an ornate key-shaped blade (original design: crown-ring bow, notched bit) */
+  /* v37 Nocturna, the Moonveil Moth: a great Hushborn moth - furry shadow body, glowing yellow eyes, feathered antennae,
+     four leaded stained-glass wings with heart-shaped eyespots and crescent moons (original design) */
+  D.moth = (b, f, w) => { const cy = -64 + bob(f) * 3, up = w ? 1.5 : [1, 0.3, -0.6, 0.3][f], PAN = [GV, GR, GB, GV];
+    const lerp = (P2, cx, cy2, k) => P2.map((v, i) => i % 2 ? cy2 + (v - cy2) * k : cx + (v - cx) * k);
+    for (const s of [-1, 1]) { const x0 = s * 5, y0 = cy - 4, lv = s < 0 ? 1 : 2;
+      const lo = [x0, y0 + 4, x0 + s * 30, y0 + 8 - up * 3, x0 + s * 38, y0 + 26 - up * 2, x0 + s * 24, y0 + 38 - up, x0 + s * 8, y0 + 24];
+      b.poly(lo, HU, lv, 1); b.poly(lerp(lo, x0 + s * 22, y0 + 20, 0.72), PAN[s < 0 ? 2 : 3], lv + 1, 0); b.line(x0, y0 + 6, x0 + s * 34, y0 + 18 - up * 2, HU[1]); b.line(x0 + s * 4, y0 + 12, x0 + s * 22, y0 + 34 - up, HU[1]);
+      b.ell(x0 + s * 24, y0 + 22 - up * 1.5, 5, 5, GG, 3, 0); b.ell(x0 + s * 26, y0 + 20 - up * 1.5, 4.2, 4.2, HU, 1, 0);
+      const hi = [x0, y0 - 2, x0 + s * 18, y0 - 30 - up * 10, x0 + s * 44, y0 - 36 - up * 14, x0 + s * 54, y0 - 20 - up * 9, x0 + s * 40, y0 + 2 - up * 2, x0 + s * 8, y0 + 6];
+      b.poly(hi, HU, lv, 1); const hc = [x0 + s * 30, y0 - 14 - up * 7]; b.poly(lerp(hi, hc[0], hc[1], 0.8), PAN[s < 0 ? 0 : 1], lv + 1, 0);
+      b.poly(lerp(hi, hc[0], hc[1], 0.42), PAN[s < 0 ? 1 : 0], lv + 1, 0);
+      for (let k = 2; k < hi.length; k += 2) b.line(x0, y0, x0 + (hi[k] - x0) * 0.92, y0 + (hi[k + 1] - y0) * 0.92, HU[1]);
+      HEART(b, hc[0], hc[1] - 2, 5.5, HRT, 3); HEART(b, hc[0], hc[1] - 2, 2.6, YEL, 3); }
+    for (let i = 0; i < 4; i++) b.ell(0, cy + 8 + i * 6, 7 - i * 1.4, 4.2, HU, i % 2 ? 2 : 3, 1);
+    b.ell(0, cy, 9, 10, HU, 3, 1); for (let i = -2; i <= 2; i++) b.line(i * 3, cy - 8, i * 3.6, cy - 12, HU[3]);
+    b.ell(0, cy - 13, 8, 7, HU, 3, 1); EYE(b, -3.4, cy - 13, 2.4); EYE(b, 3.4, cy - 13, 2.4);
+    for (const s of [-1, 1]) { const t0 = bob(f) * 1.5 * s, ex = s * 16 + t0, ey = cy - 36; b.curve(s * 2, cy - 18, s * 8, cy - 32, ex, ey, 1, 0.6, HU, 3, 0);
+      for (let k = 1; k < 6; k++) { const u = k / 6, px = s * 2 + (ex - s * 2) * u, py = cy - 18 + (ey - cy + 18) * u; b.line(px, py, px + s * 3, py + 1.5, HU[3]); } }
+    for (const s of [-1, 1]) for (let i = 0; i < 2; i++) b.cap(s * 4, cy + 4 + i * 4, s * 9, cy + 14 + i * 4, 1, 0.8, HU, 2); };
   D.keybearer = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t * 2)) * 1.2, hy = -66 + by, s = bob(f) * 3;
     for (const [x, ph, lv] of [[-6, t + Math.PI, 1], [6, t, 2]]) { const q = Math.sin(ph) * 5; b.cap(x, -32 + by, x + q * 0.6, -16 + by, 3.4, 3, HU, lv); b.cap(x + q * 0.6, -16 + by, x + q, -1, 3, 2.6, HU, lv); b.ell(x + q + 2, -1, 4.6, 2, HU, lv + 1, 1); }
     b.curve(-4, -56 + by, -18, -54 + by + s, -30, -60 + by - s, 3, 1.5, GR, 1); b.poly([-10, -58 + by, 10, -58 + by, 8, -30 + by, -8, -30 + by], HU, 2, 1); b.ell(0, -31 + by, 9, 3, HU, 3, 1); b.ell(0, -58 + by, 9, 3.2, GR, 2, 1);
@@ -10815,10 +10851,12 @@ function d36Corpse(c, def, sz, A, img, iw, ih, u, flt) { const B = c.s === 'b36'
     const sy = ash ? ih * (1 - keep) : 0; ctx.drawImage(img, 0, sy, iw, ih * keep, -sz / 2, -sz * keep, sz, sz * keep); ctx.globalAlpha *= Math.min(1, u * 2.5); ctx.drawImage(A.dark, 0, sy, iw, ih * keep, -sz / 2, -sz * keep, sz, sz * keep); ctx.restore(); }
   const pr = Math.min(1, u * 2.2) * (1 - Math.max(0, (u - 0.72) / 0.28));
   if (!ash && pr > 0) { ctx.globalAlpha = 0.7 * pr; ctx.fillStyle = dk === 'bubble' ? '#12301a' : dk === 'sink' ? '#1c1408' : '#0a0618'; ctx.beginPath(); ctx.ellipse(c.x, by - 1, sz * (0.16 + 0.2 * pr), sz * (0.05 + 0.06 * pr), 0, 0, TAU); ctx.fill(); }
-  ctx.globalCompositeOperation = 'lighter'; const n = B ? 22 : c.el ? 10 : 6, top = by - sz * keep;
+  ctx.globalCompositeOperation = 'lighter'; const n = dk === 'moth' ? 34 : B ? 22 : c.el ? 10 : 6, top = by - sz * keep;
   for (let i = 0; i < n; i++) { const h1 = (c.sd + i * 0.618) % 1, h2 = (c.sd * 3.7 + i * 0.414) % 1, rise = u * sz * (0.2 + 0.6 * h2); ctx.globalAlpha = (1 - u) * (0.6 + 0.4 * h2);
     const x = c.x + (h1 - 0.5) * sz * (B ? 0.8 : 0.6) + Math.sin(u * 7 + i) * 2, y = (ash ? top : by - 3) - rise;
-    if (dk === 'bubble') { ctx.strokeStyle = pc; ctx.lineWidth = 1.4; ctx.beginPath(); ctx.arc(x, by - 4 - rise * 0.4, 1.5 + h2 * 3, 0, TAU); ctx.stroke(); }
+    if (dk === 'moth') { const mx = x + Math.sin(u * 9 + i * 2) * sz * 0.12 * u + (h1 - 0.5) * u * sz * 0.9, my = by - sz * (0.25 + 0.5 * h2) - rise * 1.3, ws = (2.5 + h2 * 3) * (1 + (B ? 0.4 : 0)), fl = Math.abs(Math.sin(u * 40 + i * 1.7));
+      ctx.fillStyle = ['#c8a0ff', '#ff8ab0', '#8ac0ff', '#ffd870'][i % 4]; ctx.beginPath(); ctx.moveTo(mx, my); ctx.lineTo(mx - ws, my - ws * fl); ctx.lineTo(mx - ws * 0.6, my + ws * 0.5); ctx.closePath(); ctx.moveTo(mx, my); ctx.lineTo(mx + ws, my - ws * fl); ctx.lineTo(mx + ws * 0.6, my + ws * 0.5); ctx.closePath(); ctx.fill(); }
+    else if (dk === 'bubble') { ctx.strokeStyle = pc; ctx.lineWidth = 1.4; ctx.beginPath(); ctx.arc(x, by - 4 - rise * 0.4, 1.5 + h2 * 3, 0, TAU); ctx.stroke(); }
     else { ctx.fillStyle = ash ? (i % 3 ? '#ff7a1e' : '#ffc05a') : dk === 'sink' ? (i % 2 ? '#7ad428' : '#c8ff8a') : i % 3 ? pc : '#ffffff'; const s = 2 + (h2 > 0.6 ? 1 : 0) + (B ? 1 : 0); ctx.fillRect(Math.round(x), Math.round(y), s, s); } }
   if (dk === 'heart') { const hu = Math.min(1, u * 1.4), s = (B ? 11 : c.el ? 6 : 4) * (0.5 + 0.5 * Math.min(1, u * 4)), hx = c.x + Math.sin(u * 6 + c.sd * 9) * 4, hy = by - sz * 0.45 - hu * sz * (B ? 0.7 : 0.9), a = u < 0.75 ? Math.min(1, u * 5) : (1 - u) / 0.25;
     d36Heart(hx, hy, s * 1.7, a * 0.25, '#ff5a8a'); d36Heart(hx, hy, s, a, '#ff5a8a'); d36Heart(hx - s * 0.25, hy - s * 0.2, s * 0.4, a * 0.8, '#ffd0e0'); }
