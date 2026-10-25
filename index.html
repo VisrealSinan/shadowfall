@@ -6849,7 +6849,7 @@ function w39GladeMini() { const w = G.w28 || {}, n = w.mini = (w.mini || 0) + 1,
    An original dark-comedy setting; nothing here comes from any other show. ================= */
 Object.assign(ETYPES, {
   bellimp: { name: 'Bellhop Imp', fam: 'fae', hp: 10, spd: 52, dmg: 6, r: 11, xp: 1, t0: 1e9, size: 34, ai: 'chase', puff: '#ff4a8a', map: 'inferno' },
-  moth: { name: 'Neon Moth', fam: 'beast', hp: 7, spd: 94, dmg: 5, r: 9, xp: 1, t0: 1e9, size: 32, ai: 'bat', puff: '#ff8af0', fly: 1, cap: 2, map: 'inferno' },
+  neonmoth: { name: 'Neon Moth', fam: 'beast', hp: 7, spd: 94, dmg: 5, r: 9, xp: 1, t0: 1e9, size: 32, ai: 'bat', puff: '#ff8af0', fly: 1, cap: 2, map: 'inferno' },
   croonshade: { name: 'Lounge Crooner', fam: 'undead', hp: 34, spd: 38, dmg: 9, r: 13, xp: 4, t0: 1e9, size: 46, ai: 'seer', puff: '#ffb04a', cap: 1.1, map: 'inferno' },
   gremlin: { name: 'Maintenance Gremlin', fam: 'construct', hp: 14, spd: 66, dmg: 7, r: 11, xp: 2, t0: 1e9, size: 36, ai: 'bomber', puff: '#ffd060', cap: 1.3, map: 'inferno' },
   bouncer: { name: 'Velvet Bouncer', fam: 'armor', hp: 95, spd: 30, dmg: 17, r: 16, xp: 5, t0: 1e9, size: 56, ai: 'chase', heavy: true, puff: '#ff4a4a', map: 'inferno' },
@@ -6871,12 +6871,12 @@ Object.assign(ETYPES, {
   auditor: { name: 'Auditor Halo, the Collector', hp: 1200, spd: 42, dmg: 25, r: 28, xp: 90, size: 120, ai: 'boss36', boss: true, heavy: true, puff: '#fff0a0', fly: 1 },
   lucre: { name: 'Lord Lucre, Master of the Penthouse', hp: 1500, spd: 34, dmg: 28, r: 34, xp: 100, size: 132, ai: 'boss36', boss: true, heavy: true, puff: '#ff3a5a' },
 });
-const INFERNOSUB = { wisp: 'bellimp', bone: 'statichead', bat: 'moth', imp: 'bellimp', oozelet: 'crystalbit', bomber: 'gremlin', armor: 'bouncer', seer: 'croonshade', splitter: 'chandeli', charger: 'roomcart', healer: 'dancer', caller: 'dancer', shield: 'ropeguard',
-  wolf: 'hellhound', spitter: 'confetti', burrower: 'slotmimic', sprite: 'signghost', puffcap: 'bellimp', hornet: 'moth', shaman: 'croonshade', lurker: 'slotmimic', slag: 'chandeli', slaglet: 'crystalbit', cinderhound: 'hellhound', pyromancer: 'confetti', automaton: 'bouncer', gargoyle: 'signghost' };
+const INFERNOSUB = { wisp: 'bellimp', bone: 'statichead', bat: 'neonmoth', imp: 'bellimp', oozelet: 'crystalbit', bomber: 'gremlin', armor: 'bouncer', seer: 'croonshade', splitter: 'chandeli', charger: 'roomcart', healer: 'dancer', caller: 'dancer', shield: 'ropeguard',
+  wolf: 'hellhound', spitter: 'confetti', burrower: 'slotmimic', sprite: 'signghost', puffcap: 'bellimp', hornet: 'neonmoth', shaman: 'croonshade', lurker: 'slotmimic', slag: 'chandeli', slaglet: 'crystalbit', cinderhound: 'hellhound', pyromancer: 'confetti', automaton: 'bouncer', gargoyle: 'signghost' };
 Object.assign(EVS, { bellimp: 1.1, statichead: 1.05, hellhound: 1.05 });
-Object.assign(CSHW, { bellimp: 26, moth: 20, croonshade: 20, gremlin: 22, bouncer: 32, statichead: 28, chandeli: 28, crystalbit: 22, roomcart: 32, dancer: 20, ropeguard: 28, hellhound: 34, confetti: 20, slotmimic: 32, signghost: 22, gatecrasher: 30,
+Object.assign(CSHW, { bellimp: 26, neonmoth: 20, croonshade: 20, gremlin: 22, bouncer: 32, statichead: 28, chandeli: 28, crystalbit: 22, roomcart: 32, dancer: 20, ropeguard: 28, hellhound: 34, confetti: 20, slotmimic: 32, signghost: 22, gatecrasher: 30,
   madame: 28, deadair: 22, pitboss: 36, auditor: 24, lucre: 34 });
-Object.assign(W28NAMES, { bellimp: 'Bellhop imps at your service!', moth: 'Neon moths flutter in!', croonshade: 'The lounge band plays on!', gremlin: 'Gremlins with matches!', bouncer: 'Bouncers on the door!', statichead: 'Static on every channel!', chandeli: 'The chandelier is moving!', roomcart: 'Room service is here. Dodge it!',
+Object.assign(W28NAMES, { bellimp: 'Bellhop imps at your service!', neonmoth: 'Neon moths flutter in!', croonshade: 'The lounge band plays on!', gremlin: 'Gremlins with matches!', bouncer: 'Bouncers on the door!', statichead: 'Static on every channel!', chandeli: 'The chandelier is moving!', roomcart: 'Room service is here. Dodge it!',
   dancer: 'The cabaret keeps them healed!', ropeguard: 'The velvet rope holds the line!', hellhound: 'The doormen let the hounds out!', confetti: 'Confetti cannons armed!', slotmimic: 'That slot machine bites!', signghost: 'The VACANCY sign has teeth!' });
 BOSSSET36.inferno = ['madame', 'deadair', 'pitboss', 'auditor', 'lucre'];
 Object.assign(BOSS36, {
@@ -7408,8 +7408,8 @@ const ZP = (() => { const TAU2 = Math.PI * 2, bob = f => Math.sin(f / 4 * TAU2),
 /* ---- v39: Neon Perdition sprites (original designs) ---- */
 (() => {
   const { ramp: R } = PXA, M = PXA.mobs, D = M.D, TAU2 = Math.PI * 2, bob = f => Math.sin(f / 4 * TAU2), Z = ZP;
-  Object.assign(M.FLOAT, { moth: 1, croonshade: 1, chandeli: 1, dancer: 1, signghost: 1, deadair: 1, madame: 1, auditor: 1, crystalbit: 1 });
-  Object.assign(M.SCALE, { bellimp: 1, moth: 1, croonshade: 1, gremlin: 1, bouncer: 1.2, statichead: 1.05, chandeli: 1.05, crystalbit: 0.8, roomcart: 1.1, dancer: 1, ropeguard: 1.15, hellhound: 1.05, confetti: 1, slotmimic: 1.1, signghost: 1.05, gatecrasher: 1.6 });
+  Object.assign(M.FLOAT, { neonmoth: 1, croonshade: 1, chandeli: 1, dancer: 1, signghost: 1, deadair: 1, madame: 1, auditor: 1, crystalbit: 1 });
+  Object.assign(M.SCALE, { bellimp: 1, neonmoth: 1, croonshade: 1, gremlin: 1, bouncer: 1.2, statichead: 1.05, chandeli: 1.05, crystalbit: 0.8, roomcart: 1.1, dancer: 1, ropeguard: 1.15, hellhound: 1.05, confetti: 1, slotmimic: 1.1, signghost: 1.05, gatecrasher: 1.6 });
   const PNK = R(['#4a0a30', '#b01870', '#ff3a9a', '#ff8ac8', '#ffe0f0'], 1), RED = R(['#2a0408', '#7a0e1a', '#c01c30', '#ff4a56', '#ffb0b0'], 1), GLD = R(['#4a3408', '#a07a14', '#e8b830', '#ffe060', '#fffbc0'], 1), BLK = R(['#06060a', '#12121a', '#22222e', '#383848', '#58586a']);
   const CYN = R(['#08283a', '#1a7a9a', '#40c8e8', '#a0f0ff', '#f0ffff'], 1), SLV = R(['#2a2c34', '#5a5e6a', '#9298a8', '#c8cedc', '#f4f8ff']), PRP = R(['#241044', '#5a2a9a', '#9858e0', '#c898ff', '#f0e0ff'], 1), SKN = R(['#4a0a14', '#a02430', '#d84a4a', '#f07a70', '#ffb8b0']);
   const glow = (b, x, y, r, C) => { b.ell(x, y, r, r, C, 4, 0); b.ell(x, y, r * 0.5, r * 0.5, C, 4, 0); };
@@ -7419,7 +7419,7 @@ const ZP = (() => { const TAU2 = Math.PI * 2, bob = f => Math.sin(f / 4 * TAU2),
   D.bellimp = (b, f, w) => Z.hum(b, f, w, { k: 0.95, sk: SKN, cl: PNK, cl2: GLD, lg: BLK, wp: 'none', hat: (b, x, y) => { b.rect(x - 4, y - 8, 9, 5, PNK[2]); b.rect(x - 4, y - 8, 9, 1.4, GLD[3]); b.set(Math.round(x + 4), Math.round(y - 1), '#ffe060'); horns(b, x, y - 3, 0.6); b.poly([x - 6, y + 1, x - 12, y + 3, x - 6, y + 4], SKN, 3, 1); },
     ex: (b, f, w, by) => { const bx = w ? 18 : 14, bY = w ? -34 + by : -16 + by; b.ell(bx, bY, 4, 2.6, GLD, 3, 1); b.rect(bx - 1, bY - 4, 2, 2, GLD[4]); b.rect(bx - 4, bY + 1, 8, 1.4, BLK[3]); if (w) { b.set(bx + 6, bY - 4, '#fff'); b.set(bx - 6, bY - 5, '#fff'); } } });
   /* Neon Moth: glowing cyan-and-pink wings with circuit-like patterns */
-  D.moth = (b, f, w) => Z.fly(b, f, w, { wc: CYN, c: PNK, c2: PNK, k: 1, eye: '#ffffff', ex: (b, f, w, cy) => { for (let i = 0; i < 3; i++) { b.line(-10 - i * 4, cy - 4 + i * 2, -14 - i * 4, cy - 2 + i * 2, PNK[3]); b.line(10 + i * 4, cy - 4 + i * 2, 14 + i * 4, cy - 2 + i * 2, PNK[3]); } b.cap(9, cy - 6, 14, cy - 15, 0.7, 0.5, PNK, 3); b.cap(7, cy - 6, 8, cy - 16, 0.7, 0.5, PNK, 3); glow(b, 0, cy + 1, 7, CYN); } });
+  D.neonmoth = (b, f, w) => Z.fly(b, f, w, { wc: CYN, c: PNK, c2: PNK, k: 1, eye: '#ffffff', ex: (b, f, w, cy) => { for (let i = 0; i < 3; i++) { b.line(-10 - i * 4, cy - 4 + i * 2, -14 - i * 4, cy - 2 + i * 2, PNK[3]); b.line(10 + i * 4, cy - 4 + i * 2, 14 + i * 4, cy - 2 + i * 2, PNK[3]); } b.cap(9, cy - 6, 14, cy - 15, 0.7, 0.5, PNK, 3); b.cap(7, cy - 6, 8, cy - 16, 0.7, 0.5, PNK, 3); glow(b, 0, cy + 1, 7, CYN); } });
   /* Lounge Crooner: a floating shade in a tuxedo jacket with a microphone and a little spotlight */
   D.croonshade = (b, f, w) => { const t = f / 4 * TAU2, cy = -26 + bob(f) * 2; b.poly([-8, cy + 14 + bob(f + 1), 8, cy + 14 + bob(f + 2), 6, cy - 4, -6, cy - 4], BLK, 2, 1); b.poly([-3, cy - 4, 3, cy - 4, 0, cy + 8], SLV, 4, 0); b.poly([-3, cy - 2, 3, cy - 2, 1, cy + 1, -1, cy + 1], RED, 3, 0);
     b.ell(1, cy - 10, 6, 6.6, PRP, 3, 1); b.rect(-2, cy - 12, 8, 2.4, BLK[0]); b.set(5, Math.round(cy - 10), '#fff'); b.ell(1, cy - 6, 2.2, 1.4, BLK, 0, 0); b.ell(0, cy - 17, 7, 2, BLK, 2, 1); b.rect(-4, cy - 21, 8, 5, BLK[2]);
@@ -7935,6 +7935,7 @@ function recalc() {
   if (G.ancientT > 0) s.dr += 0.5;
   s.dr = Math.min(0.7, s.dr);
   s.cd = Math.max(0.35, s.cd); s.dodge = Math.min(0.6, s.dodge); s.crit = Math.min(1, s.crit);
+  s.maxHp += G.npcHp || 0; /* v44: +max HP bought from traders lasts the whole run */
   const old = P.maxHp; Object.assign(P, s);
   P.spdPx = 118 * s.speed; P.pickR = 95 * s.pickup; // v29: base pickup radius 62 -> 95 now that XP is a gem you collect
   if (old) P.hp = Math.min(P.maxHp, P.hp + Math.max(0, P.maxHp - old));
@@ -7961,7 +7962,7 @@ const RUN_STATES = { play: 1, paused: 1, levelup: 1, gear: 1, countdown: 1, equi
 const r1 = v => Math.round(v * 10) / 10;
 function serializeRun() {
   const g = {}; for (const k of ['cls', 'race', 'outfit', 't', 'kills', 'level', 'xp', 'xpNext', 'passives', 'gear', 'pending', 'shardsPicked', 'salvage', 'bossKills', 'elites', 'nextElite', 'nextBoss',
-    'map', 'w28', 'bossIdx', 'bossBag', 'bossLast', 'nextSurge', 'spawnAcc', 'revived', 'wasNight', 'healPool', 'bondPool', 'critBuffT', 'minionKills', 'moved', 'pendingChest', 'nextLoot', 'rushT', 'aegisT', 'kept', 'luChoices', 'tal', 'undyingUsed', 'tollT', 'rwT', 'sgT', 'achRun', 'achNew', 'dv', 'ancCd', 'frzCd', 'wsT', 'mcT', 'mwT', 'mvT', 'arc', 'stage', 'nextMini', 'surgeN', 'quests', 'qNext', 'qStats', 'qN', 'qLast', 'evo', 'dm', 'catPool', 'catRefund', 'obSeed', 'obGone', 'rerolls', 'gold', 'goldEarned', 'goldSpent', 'npcs', 'npcNext', 'npcN', 'npcLast', 'npcBuys', 'npcVisits', 'npcSeen', 'bufE', 'bufH', 'bufA', 'deathward', 'goldBud', 'portal', 'portalNext', 'townVisits']) g[k] = G[k];
+    'map', 'w28', 'bossIdx', 'bossBag', 'bossLast', 'nextSurge', 'spawnAcc', 'revived', 'wasNight', 'healPool', 'bondPool', 'critBuffT', 'minionKills', 'moved', 'pendingChest', 'nextLoot', 'rushT', 'aegisT', 'kept', 'luChoices', 'tal', 'undyingUsed', 'tollT', 'rwT', 'sgT', 'achRun', 'achNew', 'dv', 'ancCd', 'frzCd', 'wsT', 'mcT', 'mwT', 'mvT', 'arc', 'stage', 'nextMini', 'surgeN', 'quests', 'qNext', 'qStats', 'qN', 'qLast', 'evo', 'dm', 'catPool', 'catRefund', 'obSeed', 'obGone', 'rerolls', 'gold', 'goldEarned', 'goldSpent', 'npcs', 'npcNext', 'npcN', 'npcLast', 'npcBuys', 'npcVisits', 'npcSeen', 'bufE', 'bufH', 'bufA', 'deathward', 'goldBud', 'portal', 'portalNext', 'townVisits', 'npcHp']) g[k] = G[k];
   g.weapons = G.weapons.map(w => [w.id, w.lvl]);
   /* v27: inside the Safe Haven the real battlefield is stashed in G.town.st - save that world (and where you left it) plus the town itself */
   const TW = G.town, st = TW && TW.st, EN = st ? st.enemies : enemies, BOSS = st ? st.boss : G.boss, PK = st ? st.picks : picks; if (st) g.npcs = st.npcs;
@@ -8003,7 +8004,7 @@ function restoreRun(r) {
   if (!G.evo || typeof G.evo !== 'object' || Array.isArray(G.evo)) G.evo = {}; if (!G.dm || typeof G.dm !== 'object' || Array.isArray(G.dm)) G.dm = {};
   for (const k in G.dm) if (!Array.isArray(G.dm[k]) || G.dm[k].length < 3) delete G.dm[k]; G.dmTot = Object.values(G.dm).reduce((a, r) => a + (+r[0] || 0), 0);
   G.catPool = +G.catPool || 0;
-  /* v22: gold & traders (absent in v21 saves) */ for (const k of ['gold', 'goldEarned', 'goldSpent', 'npcN', 'npcBuys', 'npcVisits', 'npcSeen', 'bufE', 'bufH', 'bufA']) G[k] = Math.max(0, +G[k] || 0);
+  /* v22: gold & traders (absent in v21 saves) */ for (const k of ['gold', 'goldEarned', 'goldSpent', 'npcN', 'npcBuys', 'npcVisits', 'npcSeen', 'bufE', 'bufH', 'bufA', 'npcHp']) G[k] = Math.max(0, +G[k] || 0);
   if (!Array.isArray(G.npcs)) G.npcs = []; G.npcs = G.npcs.filter(n => n && NPCS[n.nt] && Array.isArray(n.offers) && typeof n.x === 'number'); for (const n of G.npcs) { n.cool = 1; n.near = 0; }
   if (typeof G.npcNext !== 'number') G.npcNext = Math.max(90, (G.t || 0) + 45); G.passives = G.passives && typeof G.passives === 'object' ? G.passives : {};
 
@@ -8014,7 +8015,7 @@ function restoreRun(r) {
   for (const k in G.evo) if (!EVO[k] || !G.weapons.some(w => w.id === k)) delete G.evo[k];
   if (Array.isArray(G.luChoices) && G.luChoices.some(o => o && o.k === 'w' && WDEF[o.id] && ((WDEF[o.id].cat && druidForm() !== 'cat') || (WDEF[o.id].tree && druidForm() !== 'tree') || (druidForm() === 'cat' && catBan(o.id))))) G.luChoices = null;
   recalc(); P.hp = clamp(r.P.hp, 1, P.maxHp);
-  for (const a of (r.en || [])) { if (!ETYPES[a[0]]) continue;
+  for (const a of (r.en || [])) { if (a[0] === 'moth' && !(a[10] & 2)) a[0] = 'neonmoth'; /* v44: v42/v43 saves named the Neon Perdition moth 'moth' */ if (!ETYPES[a[0]]) continue;
     const e = spawnEnemy(a[0], { x: a[1], y: a[2], elite: !!(a[10] & 1), aff: Array.isArray(a[12]) ? a[12] : [] });
     Object.assign(e, { hp: a[3], maxHp: a[4], spd: a[5], dmg: a[6], r: a[7], sc: a[8], xp: a[9], boss: !!(a[10] & 2) });
     if (a[14]) e.qid = a[14]; // v14 quest target / totem
@@ -11852,7 +11853,7 @@ function npcApply(o, price, n) { const by = n.nt;
     case 'shrinechest': { const q = Math.random(); if (q < 0.3) { const g0 = 45 + Math.floor(Math.random() * 70); G.gold = (G.gold || 0) + g0; return { t: '▣ Old coins inside: +' + g0 + ' gold' }; }
       if (q < 0.55) { heal(P.maxHp * 0.9); burst(P.x, P.y, '#80ffe0', 12, 80, 2.5, 0.5, true); return { t: '▣ A heart-shaped charm: ' + Math.ceil(P.hp) + ' / ' + Math.round(P.maxHp) + ' HP', snd: 'heal' }; }
       if (q < 0.8) { const a = npcLevelAny(null); return { t: '▣ An old scroll: ' + (a || 'a skill') + ' levels up' }; }
-      P.maxHp += 8; heal(8); return { t: '▣ A heart container: +8 max HP' }; }
+      G.npcHp = (G.npcHp || 0) + 8; recalc(); return { t: '▣ A heart container: +8 max HP' }; }
     case 'nightcap': heal(P.maxHp * 0.5); npcBuff('bufE', 75); burst(P.x, P.y, '#ff6ad0', 10, 70, 2.5, 0.5, true); return { t: '♨ Smooth. ' + Math.ceil(P.hp) + ' / ' + Math.round(P.maxHp) + ' HP and +20% damage for 75s', snd: 'heal' };
     case 'minibar': { const q = Math.random(); if (q < 0.25) { const g0 = 60 + Math.floor(Math.random() * 90); G.gold = (G.gold || 0) + g0; return { t: '♠ A roll of casino chips: +' + g0 + ' gold' }; }
       if (q < 0.5) { heal(P.maxHp); burst(P.x, P.y, '#ffe060', 14, 90, 2.5, 0.5, true); return { t: '♠ Champagne! Fully healed: ' + Math.ceil(P.hp) + ' / ' + Math.round(P.maxHp) + ' HP', snd: 'heal' }; }
@@ -11862,7 +11863,7 @@ function npcApply(o, price, n) { const by = n.nt;
     case 'giftbox': { const q = Math.random(); if (q < 0.3) { const g0 = 50 + Math.floor(Math.random() * 80); G.gold = (G.gold || 0) + g0; return { t: '🎁 Gold coins in a stocking: +' + g0 + ' gold' }; }
       if (q < 0.55) { heal(P.maxHp * 0.9); burst(P.x, P.y, '#ffe060', 12, 80, 2.5, 0.5, true); return { t: '🎁 A warm scarf: ' + Math.ceil(P.hp) + ' / ' + Math.round(P.maxHp) + ' HP', snd: 'heal' }; }
       if (q < 0.8) { const a = npcLevelAny(null); return { t: '🎁 A book of tricks: ' + (a || 'a skill') + ' levels up' }; }
-      P.maxHp += 8; heal(8); return { t: '🎁 A lucky charm: +8 max HP' }; }
+      G.npcHp = (G.npcHp || 0) + 8; recalc(); return { t: '🎁 A lucky charm: +8 max HP' }; }
     case 'stew': heal(P.maxHp * 0.6); npcBuff('bufE', 60); burst(P.x, P.y, '#f4d060', 10, 70, 2.5, 0.5, true); return { t: '♨ Hearty! ' + Math.ceil(P.hp) + ' / ' + Math.round(P.maxHp) + ' HP and +20% damage for 60s', snd: 'heal' };
     case 'crate': { const q = Math.random(); if (q < 0.3) { const g0 = 40 + Math.floor(Math.random() * 70); G.gold = (G.gold || 0) + g0; return { t: '▣ Gold coins inside: +' + g0 + ' gold' }; }
       if (q < 0.55) { heal(P.maxHp * 0.9); burst(P.x, P.y, '#ffd890', 12, 80, 2.5, 0.5, true); return { t: '▣ A healing draught: ' + Math.ceil(P.hp) + ' / ' + Math.round(P.maxHp) + ' HP', snd: 'heal' }; }
@@ -13426,7 +13427,7 @@ TRACKS.t_inferno = { bpm: 92, root: 57, sc: 'harm', lead: 'sax', pad: 'softpad',
   bars: [B(0, '9---b---9-7-----'), B(3, '8---a---8-6-----'), B(4, '9---b---d-b-9---'), B(0, 'b-------9-------'), B(5, 'a---9---8-6-----'), B(3, '8---a---c-a-8---'), B(4, 'b-9-b-d-b-9-7---'), B(0, '9---------------')] };
 w39Reg('inferno', { name: 'The Neon Perdition', ic: '★', col: '#ff6ad0', sub: INFERNOSUB, mus: 'n_', ground: 'groundN', road: 'roadN', props: 'infernoProps', chunk: infernoChunk, mood: 0.42, kc: [34, 8, 40], smoke: '#ff8ac8', base: 'nspark', brazier: 'nnlamp',
   dec: [['tiles', 4], ['crack', 1.6], ['scorch', 1.2], ['blood', 0.8], ['runes', 1.4, 1], ['grate', 1.2, 1], ['chains', 0.6], ['puddle', 0.8]], pat: [['carpet', 2], ['clear', 1.2], ['magma', 0.6, 1]],
-  pool(t, pool) { if (t >= 300 && t < 480) pool.push('moth'); if (t >= 720) pool.push('slotmimic'); }, mini: () => w39InfernoMini(),
+  pool(t, pool) { if (t >= 300 && t < 480) pool.push('neonmoth'); if (t >= 720) pool.push('slotmimic'); }, mini: () => w39InfernoMini(),
   prev: 'glade', prevName: 'the Mossreach Shrines', achName: 'Check In, Never Check Out', prog: 'x15', ach: 'm_x15',
   info: { bg: 'linear-gradient(180deg,#2a0a28,#ff3a9a)', bl: 'A neon hotel in the underworld: velvet ropes, jazz and bad bargains.', mobs: 'Bellhop imps, moths, bouncers, chandeliers, slot mimics', boss: '5 bosses · Madame Mirage, Lord Lucre…', town: 'The Last Resort Lobby' }, need: 'Survive 15:00 in the Mossreach Shrines', open: () => infernoOpen(), lockHint: 'A neon sign flickers: VACANCY',
   seed: 707, signY: 100, bg: '#07020a', sign: ['#ff3a9a', '#2a0618', '#ffffff', '#ffe060'], amb: ['crackle', 'tick', 'chime'], healK: 'nightcap', extraK: 'minibar', menu: {

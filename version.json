@@ -1,12 +1,12 @@
 {
- "version": "43",
+ "version": "44",
  "date": "2026-10-25",
  "minLauncher": "2.0.0",
  "notes": [
-  "A new map! It unlocks after surviving 15 minutes in The Neon Perdition",
-  "Gourdmas Hollow: a crooked spiral hill where autumn nightmares and midwinter cheer got tangled together. Grinning lanterns, candy stripes, snow on pumpkins",
-  "Its own monsters (Lanternlings, Stitchlings, Gingerbones, Gift Mimics, Sleigh Hearses and more), a mini-boss, 5 bosses, music and village (Wreathwick Square)",
-  "A tonal nod to a certain spooky holiday movie; everything is original to this game"
+  "Fix: Nocturna, the Moonveil Moth is back as the Heartfall Belfry's 5th boss (since v42 she was spawning as a tiny Neon Moth)",
+  "Fix: Neon Moths in The Neon Perdition use their own look again, and runs saved there on v42/v43 resume with Neon Moths instead of Nocturna lookalikes",
+  "Fix: the \"+8 max HP\" from a Shrine Chest or Mystery Gift now lasts the whole run (it used to vanish at your next level-up)",
+  "QA pass over all 8 zones, the map page, the new classes and save loading from older versions"
  ],
  "files": [
   {
@@ -31,8 +31,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "db58e74a4521b83e5df00e77c0f643a8939732a7dbed8427ecc41bf1b9a71167",
-   "size": 2275276
+   "sha256": "9443ddeaea4e1ea5eec589ef0bc4e195644f0d5c06b75b3d377dcf82a8f90a61",
+   "size": 2275568
   },
   {
    "name": "manifest.webmanifest",
@@ -41,7 +41,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "8072227ce62f1836e92a06c02f4d477fa5bce44e1f5f3c166806f798d9c2d5b2",
+   "sha256": "8649d3f24a520492a3a029abb646b14890614134629f57ff6a3e450e49bb3e06",
    "size": 1466
   }
  ]
