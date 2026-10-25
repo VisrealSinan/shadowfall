@@ -1,14 +1,11 @@
 {
- "version": "40",
+ "version": "41",
  "date": "2026-10-24",
  "minLauncher": "2.0.0",
  "notes": [
-  "New map page. After you pick your hero and press Enter the Dark, you now see all four maps: Gloomwood, Ashen Citadel, Heartfall Belfry and The Weeping Cellar.",
-  "Each map card shows what it is like, the foes you will meet, its bosses and its safe-haven town.",
-  "Maps you have not unlocked yet are greyed out and say exactly what to do to unlock them. Tap one to see the goal.",
-  "Tap an open map to choose it, then Enter the Dark to start. Back takes you to your hero.",
-  "The map button on the hero page still works as a quick way to switch maps.",
-  "Works with touch, mouse, keyboard (Enter and Esc) and gamepad."
+  "The map page now shows a little painted preview of each map",
+  "New map: The Valorfields: a sunny battlefield between two rival armies, with its own monsters, 5 bosses, music and shop town (Wayfarer's Rest)",
+  "Unlock it by surviving 15 minutes in the Weeping Cellar"
  ],
  "files": [
   {
@@ -33,8 +30,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "fdf52610953c264b9283781067729b34422bf1046cd89ef088fd9abd04cfcbe9",
-   "size": 2026742
+   "sha256": "205fc596f6bc9020af27bf33e5a48ac8a1941c634f79004d0c121f66dffab6aa",
+   "size": 2089730
   },
   {
    "name": "manifest.webmanifest",
@@ -43,7 +40,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "cfa1d00939ca67c64331d7824948aded1fe01ff2826f59e6e0351727121498f3",
+   "sha256": "88bed930bcfeee3d4f6cb31490a96b1635f14c486aaf9ba7ca63edb74b56dbb6",
    "size": 1466
   }
  ]
