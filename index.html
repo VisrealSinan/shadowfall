@@ -6801,6 +6801,93 @@ Object.assign(BOSS36, {
 });
 function w39ValorMini() { const w = G.w28 || {}, n = w.mini = (w.mini || 0) + 1, p = n % 2 === 1, k = p ? 'gnarlhide' : 'juggernaut'; spawnEnemy(k);
   announce(p ? '☠ RARE ELITE: Gnarlhide, the Rare Boar' : '♜ MINI-BOSS: Grave Juggernaut', p ? 'A rare boar with a bad temper: dodge its charge' : 'Dodge its charge and ground slam', p ? '#e0c060' : '#c56bff', 'boss'); }
+/* ================= v39: THE MOSSREACH SHRINES (zone 6): green hills, ruined shrine doors, clay pots and treasure chests, a quiet puzzle-adventure mood.
+   An original fantasy overworld; nothing here comes from any other game. ================= */
+Object.assign(ETYPES, {
+  dewblob: { name: 'Dewblob', fam: 'beast', hp: 10, spd: 44, dmg: 6, r: 11, xp: 1, t0: 1e9, size: 34, ai: 'chase', puff: '#7fe8b0', map: 'glade' },
+  flitter: { name: 'Dusk Flitter', fam: 'beast', hp: 7, spd: 96, dmg: 5, r: 9, xp: 1, t0: 1e9, size: 32, ai: 'bat', puff: '#8a6ac8', fly: 1, cap: 2, map: 'glade' },
+  rattler: { name: 'Rattlebone Knight', fam: 'undead', hp: 24, spd: 46, dmg: 9, r: 12, xp: 2, t0: 1e9, size: 42, ai: 'chase', puff: '#e8e0c0', map: 'glade' },
+  sproutling: { name: 'Sproutling', fam: 'fae', hp: 6, spd: 70, dmg: 5, r: 9, xp: 1, t0: 1e9, size: 28, ai: 'chase', puff: '#8ad050', pack: 4, cap: 1.2, map: 'glade' },
+  podbomber: { name: 'Burst Pod', fam: 'construct', hp: 14, spd: 58, dmg: 7, r: 11, xp: 2, t0: 1e9, size: 36, ai: 'bomber', puff: '#f0b0e0', cap: 1.3, map: 'glade' },
+  tuskguard: { name: 'Tuskguard', fam: 'beast', hp: 90, spd: 30, dmg: 16, r: 16, xp: 5, t0: 1e9, size: 54, ai: 'chase', heavy: true, puff: '#a08060', map: 'glade' },
+  conjurer: { name: 'Hooded Conjurer', fam: 'fae', hp: 34, spd: 38, dmg: 9, r: 13, xp: 4, t0: 1e9, size: 46, ai: 'seer', puff: '#6ad0c8', cap: 1.1, map: 'glade' },
+  slimegrub: { name: 'Mossmaw', fam: 'beast', hp: 40, spd: 34, dmg: 10, r: 14, xp: 3, t0: 1e9, size: 44, ai: 'chase', puff: '#8ac060', split: 'mosslet', cap: 1.5, map: 'glade' },
+  mosslet: { name: 'Mosslet', fam: 'beast', hp: 10, spd: 64, dmg: 6, r: 9, xp: 1, t0: 1e9, size: 28, ai: 'chase', puff: '#8ac060', map: 'glade' },
+  boarrider: { name: 'Gorse Rammer', fam: 'beast', hp: 72, spd: 40, dmg: 15, r: 15, xp: 5, t0: 1e9, size: 52, ai: 'charger', heavy: true, puff: '#c0a060', cap: 1.4, map: 'glade' },
+  glimmer: { name: 'Glimmer Sprite', fam: 'fae', hp: 46, spd: 34, dmg: 8, r: 13, xp: 5, t0: 1e9, size: 44, ai: 'healer', puff: '#ffb0e8', cap: 0.7, map: 'glade' },
+  statuewaker: { name: 'Statue Waker', fam: 'construct', hp: 125, spd: 28, dmg: 17, r: 17, xp: 7, t0: 1e9, size: 56, ai: 'golem', heavy: true, shield: 0.6, puff: '#a0b0a0', cap: 1.2, map: 'glade' },
+  marshlizard: { name: 'Marsh Lizard Pack', fam: 'beast', hp: 30, spd: 80, dmg: 11, r: 13, xp: 3, t0: 120, size: 46, ai: 'wolf', puff: '#58b070', map: 'glade' },
+  rockspitter: { name: 'Rock Spitter', fam: 'beast', hp: 30, spd: 38, dmg: 9, r: 13, xp: 3, t0: 200, size: 40, ai: 'spitter', puff: '#c04a3a', cap: 1.2, map: 'glade' },
+  bushpeeker: { name: 'Bush Peeker', fam: 'fae', hp: 90, spd: 40, dmg: 18, r: 15, xp: 7, t0: 720, size: 48, ai: 'burrower', heavy: true, puff: '#58a040', cap: 1.1, map: 'glade' },
+  hollowlantern: { name: 'Hollow Lantern', fam: 'undead', hp: 46, spd: 68, dmg: 11, r: 11, xp: 6, t0: 900, size: 44, ai: 'sprite', puff: '#60ffd0', fly: 1, cap: 1.3, map: 'glade' },
+  oldtusk: { name: 'Old Thornback, the Wandering Boar', fam: 'beast', hp: 920, spd: 36, dmg: 26, r: 26, xp: 40, t0: 1e9, size: 92, ai: 'juggernaut', heavy: true, mini: true, puff: '#a08060' },
+  /* ---- the Mossreach's 5 shrine bosses ---- */
+  grovewarden: { name: 'The Grove Warden', hp: 1300, spd: 30, dmg: 26, r: 34, xp: 90, size: 128, ai: 'boss36', boss: true, heavy: true, puff: '#8ad050' },
+  dimweaver: { name: 'Weaver of the Dim', hp: 1150, spd: 40, dmg: 24, r: 28, xp: 90, size: 124, ai: 'boss36', boss: true, heavy: true, puff: '#b080e8' },
+  brinejaw: { name: 'Brinejaw, the Drowned Eel', hp: 1250, spd: 34, dmg: 26, r: 32, xp: 90, size: 132, ai: 'boss36', boss: true, heavy: true, puff: '#4ab8c8' },
+  skyhawk: { name: 'Galewing, the Ridge Hawk', hp: 1050, spd: 44, dmg: 24, r: 28, xp: 85, size: 126, ai: 'boss36', boss: true, heavy: true, puff: '#e8d890', fly: 1 },
+  hollowking: { name: 'Gloomhorn, the Hollow King', hp: 1450, spd: 34, dmg: 28, r: 34, xp: 95, size: 130, ai: 'boss36', boss: true, heavy: true, puff: '#a04a70' },
+});
+const GLADESUB = { wisp: 'dewblob', bone: 'rattler', bat: 'flitter', imp: 'sproutling', oozelet: 'sproutling', bomber: 'podbomber', armor: 'tuskguard', seer: 'conjurer', splitter: 'slimegrub', charger: 'boarrider', healer: 'glimmer', caller: 'glimmer', shield: 'statuewaker',
+  wolf: 'marshlizard', spitter: 'rockspitter', burrower: 'bushpeeker', sprite: 'hollowlantern', puffcap: 'dewblob', hornet: 'flitter', shaman: 'conjurer', lurker: 'bushpeeker', slag: 'slimegrub', slaglet: 'mosslet', cinderhound: 'marshlizard', pyromancer: 'rockspitter', automaton: 'statuewaker', gargoyle: 'hollowlantern' };
+Object.assign(EVS, { dewblob: 1.1, sproutling: 1.1, rattler: 1.05, marshlizard: 1.05 });
+Object.assign(CSHW, { dewblob: 26, sproutling: 24, rattler: 34, marshlizard: 34, flitter: 20, podbomber: 22, tuskguard: 30, conjurer: 20, slimegrub: 30, boarrider: 32, glimmer: 20, statuewaker: 30, rockspitter: 20, bushpeeker: 30, hollowlantern: 22, oldtusk: 30,
+  grovewarden: 36, dimweaver: 30, brinejaw: 34, skyhawk: 24, hollowking: 34 });
+Object.assign(W28NAMES, { dewblob: 'Dewblobs wobble in!', flitter: 'Flitters swarm from the dark!', rattler: 'Rattlebone knights rise!', sproutling: 'Sproutlings scurry!', podbomber: 'Burst pods pop!', tuskguard: 'Tuskguards march!', conjurer: 'Conjurers weave magic!', slimegrub: 'Mossmaws creep!', boarrider: 'Gorse Rammers charge!',
+  glimmer: 'Glimmer sprites mend the line!', statuewaker: 'The old statues wake!', marshlizard: 'Marsh lizards hiss!', rockspitter: 'Rock spitters take aim!', bushpeeker: 'That bush is moving!', hollowlantern: 'Hollow lanterns drift in!' });
+BOSSSET36.glade = ['grovewarden', 'dimweaver', 'brinejaw', 'skyhawk', 'hollowking'];
+Object.assign(BOSS36, {
+  grovewarden: { col: '#8ad050', c2: '#e8ffb0', moves: ['roots', 'slam', 'summon', 'rain'], add: 'sproutling', cd: 3.1, death: 'sink', enr: 'The Grove Warden roars — the leaves swirl!' },
+  dimweaver: { col: '#b080e8', c2: '#f0d8ff', moves: ['cross', 'summon', 'blink', 'fan'], add: 'flitter', cd: 2.8, death: 'moth', enr: 'The Weaver spins faster!' },
+  brinejaw: { col: '#4ab8c8', c2: '#c8f4ff', moves: ['charge', 'ring', 'rain', 'spiral'], cd: 3.0, death: 'bubble', enr: 'Brinejaw thrashes in a wild frenzy!' },
+  skyhawk: { col: '#e8d890', c2: '#ffffff', moves: ['gust', 'blink', 'beam', 'ring'], cd: 2.6, death: 'shatter', enr: 'Galewing screams — the wind howls!' },
+  hollowking: { col: '#a04a70', c2: '#ffb0d0', moves: ['slam', 'fan', 'charge', 'summon'], add: 'rattler', cd: 2.9, death: 'ash', emb: 1, enr: 'Gloomhorn rises, blazing with hollow flame!' },
+});
+function w39GladeMini() { const w = G.w28 || {}, n = w.mini = (w.mini || 0) + 1, p = n % 2 === 1, k = p ? 'oldtusk' : 'juggernaut'; spawnEnemy(k);
+  announce(p ? '☠ WANDERER: Old Thornback' : '♜ MINI-BOSS: Grave Juggernaut', p ? 'An ancient boar. Watch the charge!' : 'Dodge its charge and ground slam', p ? '#8ad050' : '#c56bff', 'boss'); }
+/* ================= v39: THE NEON PERDITION (zone 7): a garish, glamorous hotel in the underworld: neon signs, velvet and brass, jazz, cabaret and bad bargains.
+   An original dark-comedy setting; nothing here comes from any other show. ================= */
+Object.assign(ETYPES, {
+  bellimp: { name: 'Bellhop Imp', fam: 'fae', hp: 10, spd: 52, dmg: 6, r: 11, xp: 1, t0: 1e9, size: 34, ai: 'chase', puff: '#ff4a8a', map: 'inferno' },
+  moth: { name: 'Neon Moth', fam: 'beast', hp: 7, spd: 94, dmg: 5, r: 9, xp: 1, t0: 1e9, size: 32, ai: 'bat', puff: '#ff8af0', fly: 1, cap: 2, map: 'inferno' },
+  croonshade: { name: 'Lounge Crooner', fam: 'undead', hp: 34, spd: 38, dmg: 9, r: 13, xp: 4, t0: 1e9, size: 46, ai: 'seer', puff: '#ffb04a', cap: 1.1, map: 'inferno' },
+  gremlin: { name: 'Maintenance Gremlin', fam: 'construct', hp: 14, spd: 66, dmg: 7, r: 11, xp: 2, t0: 1e9, size: 36, ai: 'bomber', puff: '#ffd060', cap: 1.3, map: 'inferno' },
+  bouncer: { name: 'Velvet Bouncer', fam: 'armor', hp: 95, spd: 30, dmg: 17, r: 16, xp: 5, t0: 1e9, size: 56, ai: 'chase', heavy: true, puff: '#ff4a4a', map: 'inferno' },
+  statichead: { name: 'Static Sinner', fam: 'construct', hp: 22, spd: 48, dmg: 9, r: 12, xp: 2, t0: 1e9, size: 42, ai: 'blinker', puff: '#a0f0ff', map: 'inferno' },
+  chandeli: { name: 'Chandelier Bat', fam: 'beast', hp: 40, spd: 36, dmg: 10, r: 14, xp: 3, t0: 1e9, size: 44, ai: 'chase', puff: '#ffe090', split: 'crystalbit', cap: 1.5, map: 'inferno' },
+  crystalbit: { name: 'Crystal Bit', fam: 'construct', hp: 10, spd: 66, dmg: 6, r: 9, xp: 1, t0: 1e9, size: 26, ai: 'chase', puff: '#ffe090', map: 'inferno' },
+  roomcart: { name: 'Room-Service Cart', fam: 'construct', hp: 70, spd: 40, dmg: 15, r: 15, xp: 5, t0: 1e9, size: 52, ai: 'charger', heavy: true, puff: '#e8e8f0', cap: 1.4, map: 'inferno' },
+  dancer: { name: 'Cabaret Dancer', fam: 'fae', hp: 46, spd: 36, dmg: 8, r: 13, xp: 5, t0: 1e9, size: 46, ai: 'healer', puff: '#ff6ad0', cap: 0.7, map: 'inferno' },
+  ropeguard: { name: 'Rope-and-Stanchion Guard', fam: 'armor', hp: 118, spd: 30, dmg: 16, r: 16, xp: 7, t0: 1e9, size: 52, ai: 'chase', heavy: true, shield: 0.6, puff: '#ff4a4a', cap: 1.4, map: 'inferno' },
+  hellhound: { name: 'Doorman Hounds', fam: 'beast', hp: 28, spd: 82, dmg: 11, r: 13, xp: 3, t0: 120, size: 46, ai: 'wolf', puff: '#ff3a2a', map: 'inferno' },
+  confetti: { name: 'Confetti Cannoneer', fam: 'fae', hp: 30, spd: 40, dmg: 9, r: 13, xp: 3, t0: 200, size: 44, ai: 'spitter', puff: '#ff6ad0', cap: 1.2, map: 'inferno' },
+  slotmimic: { name: 'Slot-Machine Mimic', fam: 'construct', hp: 95, spd: 40, dmg: 18, r: 15, xp: 7, t0: 720, size: 52, ai: 'burrower', heavy: true, puff: '#ffd060', cap: 1.1, map: 'inferno' },
+  signghost: { name: 'Vacancy Phantom', fam: 'undead', hp: 46, spd: 70, dmg: 11, r: 11, xp: 6, t0: 900, size: 44, ai: 'sprite', puff: '#80ffd0', fly: 1, cap: 1.3, map: 'inferno' },
+  gatecrasher: { name: 'The Wrecking Doorman', fam: 'armor', hp: 940, spd: 36, dmg: 26, r: 26, xp: 40, t0: 1e9, size: 94, ai: 'juggernaut', heavy: true, mini: true, puff: '#ff4a4a' },
+  /* ---- the Neon Perdition's 5 bosses ---- */
+  madame: { name: 'Madame Mirage, the Hostess', hp: 1250, spd: 38, dmg: 25, r: 28, xp: 90, size: 124, ai: 'boss36', boss: true, heavy: true, puff: '#ff6ad0' },
+  deadair: { name: 'Signal Jack, the Dead-Air Emcee', hp: 1100, spd: 40, dmg: 24, r: 28, xp: 90, size: 122, ai: 'boss36', boss: true, heavy: true, puff: '#a0f0ff', fly: 1 },
+  pitboss: { name: 'The Pit Boss', hp: 1450, spd: 30, dmg: 28, r: 36, xp: 95, size: 134, ai: 'boss36', boss: true, heavy: true, puff: '#ffd060' },
+  auditor: { name: 'Auditor Halo, the Collector', hp: 1200, spd: 42, dmg: 25, r: 28, xp: 90, size: 120, ai: 'boss36', boss: true, heavy: true, puff: '#fff0a0', fly: 1 },
+  lucre: { name: 'Lord Lucre, Master of the Penthouse', hp: 1500, spd: 34, dmg: 28, r: 34, xp: 100, size: 132, ai: 'boss36', boss: true, heavy: true, puff: '#ff3a5a' },
+});
+const INFERNOSUB = { wisp: 'bellimp', bone: 'statichead', bat: 'moth', imp: 'bellimp', oozelet: 'crystalbit', bomber: 'gremlin', armor: 'bouncer', seer: 'croonshade', splitter: 'chandeli', charger: 'roomcart', healer: 'dancer', caller: 'dancer', shield: 'ropeguard',
+  wolf: 'hellhound', spitter: 'confetti', burrower: 'slotmimic', sprite: 'signghost', puffcap: 'bellimp', hornet: 'moth', shaman: 'croonshade', lurker: 'slotmimic', slag: 'chandeli', slaglet: 'crystalbit', cinderhound: 'hellhound', pyromancer: 'confetti', automaton: 'bouncer', gargoyle: 'signghost' };
+Object.assign(EVS, { bellimp: 1.1, statichead: 1.05, hellhound: 1.05 });
+Object.assign(CSHW, { bellimp: 26, moth: 20, croonshade: 20, gremlin: 22, bouncer: 32, statichead: 28, chandeli: 28, crystalbit: 22, roomcart: 32, dancer: 20, ropeguard: 28, hellhound: 34, confetti: 20, slotmimic: 32, signghost: 22, gatecrasher: 30,
+  madame: 28, deadair: 22, pitboss: 36, auditor: 24, lucre: 34 });
+Object.assign(W28NAMES, { bellimp: 'Bellhop imps at your service!', moth: 'Neon moths flutter in!', croonshade: 'The lounge band plays on!', gremlin: 'Gremlins with matches!', bouncer: 'Bouncers on the door!', statichead: 'Static on every channel!', chandeli: 'The chandelier is moving!', roomcart: 'Room service is here. Dodge it!',
+  dancer: 'The cabaret keeps them healed!', ropeguard: 'The velvet rope holds the line!', hellhound: 'The doormen let the hounds out!', confetti: 'Confetti cannons armed!', slotmimic: 'That slot machine bites!', signghost: 'The VACANCY sign has teeth!' });
+BOSSSET36.inferno = ['madame', 'deadair', 'pitboss', 'auditor', 'lucre'];
+Object.assign(BOSS36, {
+  madame: { col: '#ff6ad0', c2: '#ffe0f4', moves: ['fan', 'veil', 'summon', 'ring'], add: 'dancer', cd: 2.9, death: 'heart', enr: 'Madame Mirage takes the stage!' },
+  deadair: { col: '#a0f0ff', c2: '#ffffff', moves: ['beam', 'cross', 'blink', 'spiral'], cd: 2.6, death: 'shatter', enr: 'Signal Jack cranks the volume!' },
+  pitboss: { col: '#ffd060', c2: '#fff0b0', moves: ['slam', 'charge', 'rain', 'summon'], add: 'gremlin', cd: 3.1, death: 'gears', enr: 'The Pit Boss doubles the stakes!' },
+  auditor: { col: '#fff0a0', c2: '#ffffff', moves: ['dial', 'ring', 'beam', 'blink'], cd: 2.7, death: 'col', enr: 'Auditor Halo calls in the debt!' },
+  lucre: { col: '#ff3a5a', c2: '#ffb0c0', moves: ['slam', 'fan', 'charge', 'rain'], cd: 2.8, death: 'ash', emb: 1, enr: 'Lord Lucre throws the penthouse doors wide!' },
+});
+function w39InfernoMini() { const w = G.w28 || {}, n = w.mini = (w.mini || 0) + 1, p = n % 2 === 1, k = p ? 'gatecrasher' : 'juggernaut'; spawnEnemy(k);
+  announce(p ? '☠ HEAD OF SECURITY: The Wrecking Doorman' : '♜ MINI-BOSS: Grave Juggernaut', p ? 'He does not let anyone in. Or out.' : 'Dodge its charge and ground slam', p ? '#ff4a4a' : '#c56bff', 'boss'); }
 function b36Move(e, B, m, d, dx, dy) { const en = e.enr ? 1 : 0, C = B.col, C2 = B.c2, a = Math.atan2(dy, dx), dm = e.dmg;
   const shake = t => G.later.push({ t, f: () => { if (!e.dead) G.shake = Math.max(G.shake || 0, 0.22); } });
   switch (m) {
@@ -7114,6 +7201,269 @@ function w36Mini() { const w = G.w28 || {}, n = w.mini = (w.mini || 0) + 1, p = 
     b.ell(7, -72 + by, 12, 11, GRN, 3, 1); b.ell(14, -70 + by, 6, 5, GRN, 4, 1); b.ell(9, -75 + by, 3.4, 3.4, GLD, 4, 0); b.ell(2, -75 + by, 2.6, 2.6, GLD, 4, 0); b.poly([-2, -80 + by, 2, -90 + by, 6, -80 + by], GLD, 3, 0); b.poly([8, -82 + by, 12, -92 + by, 15, -80 + by], GLD, 3, 0);
     const lift = w ? -18 : 0; b.cap(-18, -50 + by, -30, -34 + by + lift, 6, 5, GRN, 1); b.cap(18, -50 + by, 32, -34 + by + lift, 6, 5, GRN, 3); b.ell(34, -33 + by + lift, 6, 5, GLD, 4, 1); b.ell(-32, -33 + by + lift, 6, 5, GLD, 3, 1);
     if (w) for (let i = 0; i < 5; i++) b.ell(38 + i * 3, -38 + lift - (i % 2) * 4, 1.8, 1.8, GLD, 4, 0); };
+})();
+/* ---- v39: shared painters for the later zones (original designs; feet at y = 0, facing +x, f 0-3 walk, w = wind-up) ---- */
+const ZP = (() => { const TAU2 = Math.PI * 2, bob = f => Math.sin(f / 4 * TAU2), Z = {};
+  const legs = (b, xs, y, t, L, Rm, lv) => xs.forEach((lx, i) => { const ph = t + (i % 2 ? Math.PI : 0), sw = Math.sin(ph) * L * 0.35; b.cap(lx, y, lx + sw, -0.5, 1.8, 1.3, Rm, lv); });
+  Z.legs = legs; Z.bob = bob;
+  /* humanoid: o = { k scale, sk skin ramp, cl clothes ramp, cl2 trim ramp, lg leg ramp, hat(b,x,y,by), wp:'sword'|'staff'|'bow'|'club'|'axe'|'none', wc weapon ramp, ex(b,f,w,by,hy), eye color } */
+  Z.hum = (b, f, w, o) => { const t = f / 4 * TAU2, k = o.k || 1, by = -Math.abs(Math.sin(t * 2)) * 1.2 + (w ? 1.5 : 0), hy = -24 * k + by, tw = (o.tw || 7) * k;
+    if (!o.fl) legs(b, [-3 * k, 3 * k], -8 * k + by, t, 8 * k, o.lg || o.cl, 1);
+    b.poly([-tw, -8 * k + by + (o.fl ? 6 : 0), tw, -8 * k + by + (o.fl ? 6 : 0), tw * 0.85, -20 * k + by, -tw * 0.85, -20 * k + by], o.cl, 2, 1); if (o.cl2) b.rect(-1, -20 * k + by, 2, 12 * k, o.cl2[3]);
+    if (o.cape) b.poly([-tw, -20 * k + by, -tw - 5 * k, -6 * k + by, -tw + 1, -8 * k + by], o.cape, 1, 1);
+    b.ell(1 * k, hy, 6 * k, 6.2 * k, o.sk, 3, 1); b.set(Math.round(4 * k), Math.round(hy), o.eye || '#0a0a10'); if (o.hat) o.hat(b, 1 * k, hy, by);
+    const wp = o.wp || 'none', ax = (w ? 15 : 11) * k, ay = (w ? -32 : -14) * k + by; b.cap(5 * k, -18 * k + by, ax, ay, 1.6 * k, 1.4 * k, o.sk, 3);
+    if (wp === 'sword') { b.line(ax, ay, ax + 3 * k, ay - 14 * k, (o.wc || [0, 0, 0, 0, '#e8eef8'])[4]); b.line(ax + 1, ay, ax + 4 * k, ay - 14 * k, (o.wc || [0, 0, 0, '#b4bece'])[3]); b.rect(ax - 3, ay - 1, 6, 1.6, '#d8a830'); }
+    else if (wp === 'staff') { b.line(ax + 1, ay - 18 * k, ax + 1, ay + 12 * k, '#7a5a34'); b.ell(ax + 1, ay - 20 * k, 3.4 * k, 3.4 * k, o.wc || o.cl2 || o.cl, 4, 0); }
+    else if (wp === 'bow') { b.curve(ax, ay - 20 * k, ax + 8, ay - 6 * k, ax, ay + 8 * k, 1.6, 1.2, o.wc || o.cl, 2); b.line(ax, ay - 20 * k, ax, ay + 8 * k, '#f0e8d0'); }
+    else if (wp === 'club') { b.cap(ax, ay, ax + 3, ay - 12 * k, 2, 4.4 * k, o.wc || o.cl, 3); }
+    else if (wp === 'axe') { b.line(ax, ay - 10 * k, ax, ay + 8 * k, '#7a5a34'); b.poly([ax, ay - 10 * k, ax + 9 * k, ay - 8 * k, ax + 8 * k, ay - 1, ax, ay - 3], o.wc || [0, 0, '#7a8496', '#b4bece'], 3, 1); }
+    if (o.ex) o.ex(b, f, w, by, hy); };
+  /* four-legged: o = { c body ramp, c2 belly ramp, hn horns ramp, ear, tail, k, sn snout len, ex } */
+  Z.quad = (b, f, w, o) => { const t = f / 4 * TAU2, k = o.k || 1, by = -Math.abs(Math.sin(t * 2)) * 1.4 + (w ? 1.5 : 0);
+    legs(b, [-11 * k, -6 * k, 6 * k, 11 * k], -9 * k + by, t, 10 * k, o.c, 1); if (o.tail !== 0) b.curve(-14 * k, -17 * k + by, -24 * k, -15 * k, -27 * k, -24 * k + by, 3 * k, 0.8, o.c, 1);
+    b.ell(-1 * k, -17 * k + by, 15 * k, 9.5 * k, o.c, 2, 1); b.ell(0, -13 * k + by, 11 * k, 5 * k, o.c2 || o.c, 3, 0); b.ell(14 * k, -19 * k + by, 7.6 * k, 6.6 * k, o.c, 3, 1);
+    b.poly([17 * k, -21 * k + by, (22 + (o.sn || 0)) * k, -18 * k + by, 17 * k, -15 * k + by - (w ? 3 : 0)], o.c, 4, 0); b.set(Math.round(14 * k), Math.round(-21 * k + by), o.eye || '#0a0a10');
+    if (o.hn) { b.poly([10 * k, -24 * k + by, 12 * k, -33 * k + by, 15 * k, -24 * k + by], o.hn, 4, 1); b.poly([14 * k, -24 * k + by, 18 * k, -32 * k + by, 18 * k, -23 * k + by], o.hn, 3, 1); } else b.poly([10 * k, -25 * k + by, 12 * k, -31 * k + by, 15 * k, -25 * k + by], o.c, 2, 0);
+    if (o.ex) o.ex(b, f, w, by); };
+  /* flier: o = { wc wing ramp, c body, c2, k, ex, tail } */
+  Z.fly = (b, f, w, o) => { const t = f / 4 * TAU2, k = o.k || 1, fl = Math.sin(t * 2) * 7 * k, cy = -20 * k + bob(f) * 2;
+    b.poly([-3, cy, -22 * k, cy - 10 * k - fl, -24 * k, cy + 3 * k - fl * 0.5, -4, cy + 6 * k], o.wc, 1, 1); b.poly([3, cy, 22 * k, cy - 11 * k + fl, 24 * k, cy + 3 * k + fl * 0.5, 4, cy + 6 * k], o.wc, 3, 1);
+    if (o.tail) b.curve(-6 * k, cy + 4 * k, -16 * k, cy + 10 * k, -24 * k, cy + 5 * k, 2.4 * k, 0.8, o.c, 2);
+    b.ell(0, cy + 2 * k, 7 * k, 6 * k, o.c, 2, 1); b.ell(0, cy + 4 * k, 5 * k, 3 * k, o.c2 || o.c, 3, 0); b.ell(7 * k, cy - 3 * k, 4.6 * k, 4.2 * k, o.c, 3, 1); b.poly([10 * k, cy - 4 * k, 16 * k, cy - 2 * k, 10 * k, cy], o.beak || o.c, 4, 0); b.set(Math.round(8 * k), Math.round(cy - 4 * k), o.eye || '#0a0a10');
+    if (w) b.line(15 * k, cy - 2 * k, 22 * k, cy + 2 * k, '#fff4c0'); if (o.ex) o.ex(b, f, w, cy); };
+  /* blob / mound: o = { c ramp, k, eyes:[[x,y,r]], ex } */
+  Z.blob = (b, f, w, o) => { const t = f / 4 * TAU2, k = o.k || 1, sq = Math.sin(t) * 0.1, by = -Math.abs(Math.sin(t)) * 1.2 + (w ? 2 : 0);
+    b.ell(0, -10 * k + by, (13 + sq * 20) * k, (10 - sq * 12) * k, o.c, 2, 1); b.ell(-3 * k, -13 * k + by, 6 * k, 4 * k, o.c, 4, 0); b.ell(0, -2, 13 * k, 2.4, o.c, 1, 0);
+    for (const [x, y, r] of (o.eyes || [[4, -11, 2.2], [-2, -11, 2]])) { b.ell(x * k, y * k + by, r * k, r * k * 1.1, o.eye || ['#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff'], 3, 0); b.set(Math.round(x * k + 1), Math.round(y * k + by), '#0a0a10'); }
+    if (o.ex) o.ex(b, f, w, by); };
+  /* boss body: o = { k, cl, cl2, sk, lg, hat(b,x,y,by), arm ramp, held(b,ax,ay,by,w), ex(b,f,w,by,hy), fl:floating, wide, hd head radius } */
+  Z.big = (b, f, w, o) => { const t = f / 4 * TAU2, k = o.k || 1, by = (o.fl ? bob(f) * 3 - 30 * k * 0 : -Math.abs(Math.sin(t)) * 1.4) + (w ? 3 : 0), W2 = (o.wide || 20) * k, hy = -76 * k + by;
+    if (!o.fl) for (const [x, ph, lv] of [[-11 * k, t + Math.PI, 1], [10 * k, t, 2]]) { const s = Math.sin(ph) * 4; b.cap(x, -30 * k + by, x + s, -2, 7 * k, 6 * k, o.lg || o.cl, lv); b.ell(x + s + 2, -1, 7 * k, 3, o.lg || o.cl, lv, 0); }
+    if (o.back) o.back(b, f, w, by);
+    b.poly([-W2, -70 * k + by, W2 * 0.9, -70 * k + by, W2 * 0.78, -22 * k + by, -W2 * 0.8, -22 * k + by], o.cl, 2, 1); if (o.cl2) b.poly([-W2 * 0.6, -66 * k + by, W2 * 0.6, -66 * k + by, W2 * 0.5, -28 * k + by, -W2 * 0.5, -28 * k + by], o.cl2, 2, 1);
+    b.ell(1, hy, (o.hd || 11) * k, (o.hd || 11) * 1.04 * k, o.sk, 3, 1); b.set(Math.round(5 * k), Math.round(hy + 1), o.eye || '#ff5a3a'); b.set(Math.round(1 * k), Math.round(hy + 1), o.eye || '#ff5a3a'); if (o.hat) o.hat(b, 1, hy, by);
+    const lift = w ? -22 * k : 0; b.cap(-W2 + 2, -64 * k + by, -W2 - 10 * k, -40 * k + by + lift * 0.6, 6 * k, 5 * k, o.arm || o.sk, 1); b.cap(W2 - 2, -64 * k + by, W2 + 10 * k, -40 * k + by + lift, 6 * k, 5 * k, o.arm || o.sk, 3);
+    b.ell(W2 + 11 * k, -39 * k + by + lift, 5.4 * k, 4.6 * k, o.arm || o.sk, 3, 1); b.ell(-W2 - 11 * k, -39 * k + by + lift * 0.6, 5.4 * k, 4.6 * k, o.arm || o.sk, 2, 1);
+    if (o.held) o.held(b, W2 + 11 * k, -39 * k + by + lift, by, w); if (o.ex) o.ex(b, f, w, by, hy); };
+  return Z; })();
+/* ---- v39: Mossreach sprites (original designs) ---- */
+(() => {
+  const { ramp: R } = PXA, M = PXA.mobs, D = M.D, TAU2 = Math.PI * 2, bob = f => Math.sin(f / 4 * TAU2), Z = ZP;
+  Object.assign(M.FLOAT, { flitter: 1, conjurer: 1, glimmer: 1, hollowlantern: 1, skyhawk: 1 });
+  Object.assign(M.SCALE, { dewblob: 1, flitter: 1, rattler: 1.05, sproutling: 0.9, podbomber: 1, tuskguard: 1.15, conjurer: 1, slimegrub: 1.05, mosslet: 0.8, boarrider: 1.1, glimmer: 0.95, statuewaker: 1.15, marshlizard: 1.05, rockspitter: 1, bushpeeker: 1.1, hollowlantern: 1, oldtusk: 1.5 });
+  const LF = R(['#0e3010', '#1e6a22', '#3aa83a', '#78d85a', '#c8f8a0']), TEA = R(['#08323a', '#0e6a74', '#2ab0b8', '#80e8e0', '#e0fffa'], 1), BON = R(['#4a4434', '#8a7e64', '#c0b494', '#e4dcc0', '#fffaec']), PNK = R(['#5a1a44', '#b0407a', '#e878b0', '#ffb0d8', '#fff0f8'], 1);
+  const EAR = R(['#3a2a10', '#6a4c20', '#9a7434', '#c8a050', '#f0d890']), STN = R(['#2a302c', '#56635a', '#869488', '#b4c4b4', '#e8f4e8']), PRP = R(['#241044', '#503090', '#8060c8', '#b090f0', '#ece0ff']), RED = R(['#400c08', '#8a2418', '#c04a32', '#e8806a', '#ffc8b8']);
+  const MSH = R(['#4a1a10', '#a03a2a', '#e06a50', '#ffb090', '#fff0e0']), OCH = R(['#4a3410', '#9a7420', '#d8a830', '#f4d060', '#fff4b0'], 1), WTR = R(['#041a2a', '#0a3a5a', '#1a6a98', '#4ab0d8', '#b8ecff']), DRK = R(['#08040c', '#1c1020', '#34203c', '#503060', '#80508c']);
+  const leaf = (b, x, y, a = 0, s = 1) => { b.poly([x, y, x + 3 * s, y - 5 * s - a, x + 7 * s, y - 2 * s], LF, 3, 1); b.line(x, y, x + 5 * s, y - 3 * s, LF[1]); };
+  const glow = (b, x, y, r, C) => { b.ell(x, y, r, r, C, 4, 0); b.ell(x, y, r * 0.5, r * 0.5, C, 4, 0); };
+  /* Dewblob: wobbling teal jelly with a sleepy face and a leaf on its head */
+  D.dewblob = (b, f, w) => Z.blob(b, f, w, { c: TEA, k: 1, eyes: [[3, -11, 2.4], [-3, -11, 2.4]], ex: (b, f, w, by) => { b.rect(-1, -7 + by, 4, 1.2, TEA[0]); leaf(b, 0, -20 + by, 1); b.ell(-5, -15 + by, 2, 1.4, TEA, 4, 0); if (w) b.ell(10, -12 + by, 3, 3, TEA, 3, 0); } });
+  /* Dusk Flitter: big-eared purple bat-creature with a pale belly and glowing eyes */
+  D.flitter = (b, f, w) => Z.fly(b, f, w, { wc: PRP, c: DRK, c2: PRP, k: 1, eye: '#ffe060', ex: (b, f, w, cy) => { b.poly([4, cy - 6, 3, cy - 15, 9, cy - 8], DRK, 3, 1); b.poly([8, cy - 6, 12, cy - 14, 13, cy - 6], DRK, 3, 1); b.ell(8, cy - 4, 1.4, 1.4, EAR, 4, 0); } });
+  /* Rattlebone Knight: bone-white skeleton in a rusted helm, round wooden shield */
+  D.rattler = (b, f, w) => Z.hum(b, f, w, { sk: BON, cl: BON, lg: BON, cl2: RED, wp: 'sword', wc: [0, 0, 0, '#c8b890', '#f0e8d0'], hat: (b, x, y) => { b.ell(x, y - 2, 6.6, 5, RED, 2, 1); b.rect(x - 1, y - 1, 7, 1.4, DRK[0]); b.set(Math.round(x + 4), Math.round(y + 2), '#60ffd0'); },
+    ex: (b, f, w, by) => { b.ell(-9, -16 + by, 6, 7, EAR, 2, 1); b.ell(-9, -16 + by, 2, 2, EAR, 4, 0); for (let i = 0; i < 3; i++) b.line(-5, -18 + by + i * 3, 5, -18 + by + i * 3, BON[1]); } });
+  /* Sproutling: a walking bulb with a leaf crown and root-feet, fast and small */
+  D.sproutling = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t * 2)) * 2;
+    for (const [x, ph] of [[-3, 0], [3, Math.PI]]) { b.cap(x, -6 + by, x + Math.sin(t + ph) * 3, -0.5, 1.4, 0.8, EAR, 1); b.set(Math.round(x + Math.sin(t + ph) * 3), 0, EAR[0]); }
+    b.ell(0, -13 + by, 8, 8.4, PNK, 3, 1); b.ell(-2, -16 + by, 3, 2.4, PNK, 4, 0); b.ell(3, -13 + by, 1.6, 1.8, '#fff', 4, 0); b.set(4, Math.round(-13 + by), '#0a0a10'); b.ell(-2, -13 + by, 1.4, 1.6, '#fff', 4, 0);
+    leaf(b, -2, -20 + by, 2, 1.2); leaf(b, 2, -20 + by, 3, -1.2); b.cap(5, -9 + by, w ? 11 : 9, w ? -17 + by : -6 + by, 1.2, 1, LF, 3); };
+  /* Burst Pod: round pink seed-pod with stubby spikes and a smoking fuse flower */
+  D.podbomber = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t * 2)) * 1.4, sw = w ? 1.2 : 1 + Math.sin(t) * 0.05;
+    legs2(b, t, by); b.ell(0, -15 + by, 11 * sw, 11 * sw, PNK, 2, 1); b.ell(-3, -18 + by, 4, 3.4, PNK, 4, 0);
+    for (let i = 0; i < 7; i++) { const q = i / 7 * TAU2; b.poly([Math.cos(q) * 10 * sw - 1, -15 + by + Math.sin(q) * 10 * sw, Math.cos(q) * 15 * sw, -15 + by + Math.sin(q) * 15 * sw, Math.cos(q) * 10 * sw + 1, -15 + by + Math.sin(q) * 10 * sw], LF, 2, 0); }
+    b.ell(3, -15 + by, 2, 2.4, '#fff', 4, 0); b.set(4, Math.round(-15 + by), '#0a0a10'); b.line(0, -26 + by, 1, -31 + by, LF[1]); b.set(1, Math.round(-32 + by - (f % 2)), '#ffd060'); b.set(2, Math.round(-33 + by), '#fff4b0'); };
+  const legs2 = (b, t, by) => { for (const [x, ph] of [[-4, 0], [4, Math.PI]]) b.cap(x, -6 + by, x + Math.sin(t + ph) * 3, -0.5, 1.6, 1.2, LF, 1); };
+  /* Tuskguard: heavy boar-headed warrior in leather and a wooden tower shield */
+  D.tuskguard = (b, f, w) => Z.hum(b, f, w, { k: 1.2, sk: EAR, cl: R(['#3a2410', '#6a4824', '#946a38', '#c09a58', '#e8c888']), lg: EAR, cl2: OCH, wp: 'club', wc: EAR, tw: 8,
+    hat: (b, x, y) => { b.ell(x + 5, y + 2, 5, 3.6, EAR, 3, 1); b.poly([x + 7, y + 4, x + 12, y + 8, x + 7, y + 7], BON, 4, 0); b.poly([x + 2, y + 4, x + 5, y + 10, x + 1, y + 7], BON, 4, 0); b.poly([x - 3, y - 4, x - 2, y - 11, x + 2, y - 4], EAR, 2, 1); b.set(Math.round(x + 4), Math.round(y - 1), RED[3]); },
+    ex: (b, f, w, by) => { b.poly([-18, -34 + by, -8, -34 + by, -8, -12 + by, -13, -8 + by, -18, -12 + by], EAR, 2, 1); b.rect(-13, -32 + by, 1.4, 22, OCH[3]); b.rect(-18, -26 + by, 10, 1.4, OCH[3]); } });
+  /* Hooded Conjurer: a floating teal robe, a pale mask and three orbiting rune-stones */
+  D.conjurer = (b, f, w) => { const t = f / 4 * TAU2, cy = -26 + bob(f) * 2;
+    b.poly([-9, cy + 14 + bob(f + 1), 9, cy + 14 + bob(f + 2), 6, cy - 6, -6, cy - 6], TEA, 1, 1); b.poly([-7, cy - 4, 7, cy - 4, 5, cy + 10, -5, cy + 10], TEA, 2, 0);
+    b.poly([-7, cy - 8, 0, cy - 22, 9, cy - 8, 6, cy - 4, -4, cy - 4], TEA, 1, 1); b.ell(2, cy - 10, 4.6, 5.4, BON, 4, 1); b.set(4, Math.round(cy - 11), '#0a0a10'); b.set(1, Math.round(cy - 11), '#0a0a10'); b.line(2, cy - 8, 4, cy - 7, '#0a0a10');
+    for (let i = 0; i < 3; i++) { const q = t * 2 + i * TAU2 / 3; b.poly([Math.cos(q) * 16 - 2, cy - 2 + Math.sin(q) * 6, Math.cos(q) * 16, cy - 6 + Math.sin(q) * 6, Math.cos(q) * 16 + 2, cy - 2 + Math.sin(q) * 6, Math.cos(q) * 16, cy + 2 + Math.sin(q) * 6], STN, 3, 1); b.set(Math.round(Math.cos(q) * 16), Math.round(cy - 2 + Math.sin(q) * 6), '#80ffe8'); }
+    b.cap(5, cy, w ? 14 : 10, w ? cy - 12 : cy + 2, 1.6, 1.2, BON, 3); if (w) glow(b, 16, cy - 14, 4, TEA); };
+  /* Mossmaw / Mosslet: a mossy lump with a wide toothy grin and mushrooms on its back */
+  const mossB = (b, f, w, big) => Z.blob(b, f, w, { c: LF, k: big ? 1.05 : 0.75, eyes: [[4, -12, 1.8], [-1, -12, 1.8]], ex: (b, f, w, by) => { const k = big ? 1.05 : 0.75;
+      b.poly([-5 * k, -6 * k + by, 7 * k, -6 * k + by, 6 * k, -3 * k + by, -4 * k, -3 * k + by], DRK, 0, 0); for (let i = 0; i < 4; i++) b.set(Math.round((-3 + i * 3) * k), Math.round(-6 * k + by), '#fff'); if (big) for (const [x, y] of [[-8, -20], [-2, -22], [6, -18]]) { b.rect(x, y + by, 1.6, 5, BON[3]); b.ell(x + 0.8, y + by, 3.4, 2, MSH, 3, 1); b.set(x + 1, y + by - 1, '#fff'); } } });
+  D.slimegrub = (b, f, w) => mossB(b, f, w, 1); D.mosslet = (b, f, w) => mossB(b, f, w, 0);
+  /* Gorse Rammer: an ox-sized ram-boar with huge curled horns and a mossy hump */
+  D.boarrider = (b, f, w) => Z.quad(b, f, w, { c: EAR, c2: OCH, k: 1.1, sn: 2, hn: BON, tail: 0, ex: (b, f, w, by) => { b.ell(-5, -29 + by, 9, 4.4, LF, 3, 1); b.curve(14, -26 + by, 22, -32 + by, 18, -20 + by, 3, 1.4, BON, 3); b.set(23, Math.round(-17 + by), BON[4]); b.rect(-12, -22 + by, 14, 2, RED[2]); } });
+  /* Glimmer Sprite: a tiny glowing pixie with a pink halo and shimmering wings */
+  D.glimmer = (b, f, w) => { const t = f / 4 * TAU2, cy = -24 + bob(f) * 2.5, fl = Math.sin(t * 2.4) * 5;
+    glow(b, 0, cy, 14 + (w ? 4 : 0), PNK); b.poly([-2, cy, -14, cy - 12 - fl, -12, cy + 2, -2, cy + 4], TEA, 4, 1); b.poly([2, cy, 14, cy - 12 + fl, 12, cy + 2, 2, cy + 4], TEA, 4, 1);
+    b.ell(0, cy + 3, 3.4, 5, PNK, 3, 1); b.ell(1, cy - 5, 3.6, 3.8, '#ffe0d0', 4, 1); b.poly([-3, cy - 8, 1, cy - 11, 5, cy - 7, 1, cy - 6], OCH, 4, 0); b.set(3, Math.round(cy - 5), '#0a0a10'); b.cap(0, cy + 7, -1, cy + 13, 1, 0.6, PNK, 3);
+    for (let i = 0; i < 3; i++) b.set(Math.round(-8 + i * 8 + Math.sin(t + i) * 2), Math.round(cy + 10 + ((f + i) % 3) * 2), PNK[4]); };
+  /* Statue Waker: a heavy carved stone figure with a glowing teal rune in its chest, moss in the cracks */
+  D.statuewaker = (b, f, w) => Z.hum(b, f, w, { k: 1.25, sk: STN, cl: STN, lg: STN, tw: 9, wp: 'club', wc: STN, eye: '#60ffd0', hat: (b, x, y) => { b.rect(x - 5, y - 5, 12, 3, STN[3]); b.poly([x - 5, y - 6, x - 2, y - 12, x + 2, y - 6], STN, 3, 1); },
+    ex: (b, f, w, by) => { b.poly([-2, -26 + by, 4, -22 + by, 1, -14 + by, -4, -20 + by], TEA, 4, 1); glow(b, 0, -21 + by, 3, TEA); b.line(-8, -30 + by, -3, -22 + by, STN[0]); b.line(5, -18 + by, 8, -12 + by, STN[0]); b.ell(-7, -12 + by, 3, 1.6, LF, 3, 0); b.ell(7, -28 + by, 3, 1.6, LF, 3, 0); } });
+  /* Marsh Lizard: long, low, green with a frilled neck and a thick tail */
+  D.marshlizard = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t * 2)) * 1;
+    for (const [x, ph] of [[-12, 0], [-6, Math.PI], [7, Math.PI], [13, 0]]) b.cap(x, -7 + by, x + Math.sin(t + ph) * 5, -0.5, 1.6, 1.1, LF, 1);
+    b.curve(-14, -10 + by, -28, -6, -34, -12 + by + Math.sin(t) * 3, 4, 1, LF, 1); b.ell(-1, -11 + by, 16, 6.4, LF, 2, 1); b.ell(0, -8 + by, 12, 3.4, OCH, 3, 0); b.ell(15, -13 + by, 6.4, 4.4, LF, 3, 1); b.poly([19, -14 + by, 26, -12 + by, 19, -10 + by - (w ? 3 : 0)], LF, 4, 0);
+    b.set(16, Math.round(-15 + by), '#ffe060'); b.poly([8, -16 + by, 12, -25 + by, 15, -16 + by], PNK, 2, 1); b.poly([10, -16 + by, 13, -22 + by, 14, -16 + by], PNK, 4, 0); for (let i = 0; i < 4; i++) b.set(-8 + i * 5, Math.round(-17 + by), LF[4]); if (w) b.set(27, Math.round(-12 + by), PNK[3]); };
+  /* Rock Spitter: a squat red walker with a trunk-like snout that lobs pebbles */
+  D.rockspitter = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t * 2)) * 1.2;
+    for (const [x, ph] of [[-8, 0], [-3, Math.PI], [3, 0], [8, Math.PI]]) b.cap(x, -6 + by, x + Math.sin(t + ph) * 2.6, -0.5, 1.8, 1.2, RED, 1);
+    b.ell(0, -15 + by, 13, 10, RED, 2, 1); b.ell(-3, -19 + by, 5, 3.4, RED, 4, 0); for (const [x, y] of [[-6, -13], [2, -19], [6, -12]]) b.set(x, Math.round(y + by), RED[4]);
+    b.cap(10, -15 + by, w ? 20 : 16, w ? -20 + by : -13 + by, 3.4, 2.6, RED, 3); b.ell(w ? 21 : 17, w ? -20 + by : -13 + by, 2.4, 2.4, DRK, 0, 0); b.ell(5, -19 + by, 2.6, 2.8, '#fff', 4, 0); b.set(6, Math.round(-19 + by), '#0a0a10');
+    if (w) b.ell(25, -22 + by, 3, 3, STN, 3, 1); };
+  /* Bush Peeker: it looks exactly like a leafy bush, until two eyes and a pair of leaf-hands pop out */
+  D.bushpeeker = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t)) * 1.4 + (w ? 2 : 0);
+    for (const [x, ph] of [[-5, 0], [5, Math.PI]]) b.cap(x, -8 + by, x + Math.sin(t + ph) * 2, -0.5, 2.4, 1.6, EAR, 1);
+    for (const [x, y, r, lv] of [[-9, -14, 9, 1], [9, -14, 9, 2], [0, -20, 11, 3], [-4, -10, 9, 2], [5, -9, 8, 3]]) b.ell(x, y + by, r, r * 0.9, LF, lv, 1);
+    for (let i = 0; i < 6; i++) leaf(b, -12 + i * 5, -24 + by + (i % 2) * 3, i % 3, 0.8); b.ell(3, -16 + by, 2.6, 3, '#fff', 4, 0); b.ell(-3, -16 + by, 2.2, 2.6, '#fff', 4, 0); b.set(4, Math.round(-16 + by), '#0a0a10'); b.set(-2, Math.round(-16 + by), '#0a0a10');
+    const fx = w ? 17 : 13, fy = w ? -30 : -10; b.cap(8, -14 + by, fx, fy + by, 3, 3.4, LF, 3); leaf(b, fx, fy + by - 2, 2, 1.4); for (let i = 0; i < 4; i++) b.set(-12 + i * 8, Math.round(-3 + ((f + i) % 2)), LF[2]); };
+  /* Hollow Lantern: a ghostly cloth around a swinging teal lantern, a grin cut in its glass */
+  D.hollowlantern = (b, f, w) => { const t = f / 4 * TAU2, cy = -22 + bob(f) * 2, s = bob(f + 1) * 3;
+    b.poly([-9, cy + 10 + s, -4, cy + 15, 0, cy + 9, 5, cy + 16, 10, cy + 10 - s, 8, cy - 6, -8, cy - 6], BON, 3, 1); b.ell(0, cy - 8, 8, 6, BON, 3, 1); b.ell(-3, cy - 9, 1.8, 2.4, DRK, 0, 0); b.ell(3, cy - 9, 1.8, 2.4, DRK, 0, 0);
+    b.line(8, cy - 2, 12, cy - 8, STN[1]); const lx = w ? 16 : 12, ly = w ? cy - 14 : cy + 4; b.cap(7, cy - 3, lx, ly, 1.4, 1.2, BON, 4); b.rect(lx - 4, ly - 2, 8, 9, STN, 1); b.rect(lx - 3, ly - 1, 6, 7, TEA[4]); glow(b, lx, ly + 3, 9 + (w ? 3 : 0), TEA);
+    b.set(lx - 1, ly + 2, DRK[0]); b.set(lx + 1, ly + 2, DRK[0]); b.line(lx - 2, ly + 5, lx + 2, ly + 5, DRK[0]); };
+  /* Old Thornback (mini-boss): a huge moss-backed boar with a ridge of thorn-trees and cracked tusks */
+  D.oldtusk = (b, f, w) => { Z.quad(b, f, w, { c: EAR, c2: OCH, k: 1.1, sn: 3, tail: 0, ex: (b, f, w, by) => { for (let i = 0; i < 5; i++) { const x = -14 + i * 6; b.poly([x - 2, -26 + by, x, -36 - (i % 2) * 5 + by, x + 2, -26 + by], LF, 3, 1); } b.ell(-2, -27 + by, 12, 4, LF, 2, 1);
+      b.poly([20, -14 + by, 28, -19 + by, 23, -12 + by], BON, 4, 1); b.poly([17, -13 + by, 21, -8 + by, 16, -10 + by], BON, 4, 1); b.set(15, Math.round(-22 + by), '#ff5a3a'); b.line(-6, -22 + by, 2, -12 + by, EAR[0]); b.line(-9, -18 + by, -3, -10 + by, EAR[0]); } }); };
+  /* ======== the Mossreach's 5 shrine bosses ======== */
+  /* The Grove Warden: a towering living tree-giant, bark face, branch arms, a crown of glowing blossoms */
+  D.grovewarden = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t)) * 1.4 + (w ? 2 : 0);
+    for (const [x, ph] of [[-12, t + Math.PI], [11, t]]) { const s = Math.sin(ph) * 4; b.cap(x, -26 + by, x + s - 2, -2, 8, 6, EAR, 1); for (let j = 0; j < 3; j++) b.line(x + s - 8 + j * 4, -1, x + s - 10 + j * 5, 3, EAR[0]); }
+    b.poly([-20, -22 + by, 18, -22 + by, 14, -80 + by, -16, -80 + by], EAR, 2, 1); for (let y = -76; y < -26; y += 8) b.line(-12, y + by, 10, y + 5 + by, EAR[0]); b.ell(-8, -48 + by, 5, 8, EAR, 3, 0); b.rect(-18, -70 + by, 3, 44, EAR[3]);
+    b.ell(1, -66 + by, 11, 10, EAR, 3, 1); b.rect(-5, -69 + by, 4, 2.4, TEA[4], 0); b.rect(4, -69 + by, 4, 2.4, TEA[4], 0); b.set(-3, Math.round(-68 + by), DRK[0]); b.set(6, Math.round(-68 + by), DRK[0]); b.line(-3, -60 + by, 6, -61 + by, DRK[0]); b.poly([-2, -63 + by, 2, -58 + by, 4, -63 + by], EAR, 1, 0);
+    for (const [x, y, r] of [[-16, -92, 12], [4, -100, 14], [20, -90, 11], [-4, -88, 12]]) b.ell(x, y + by, r, r * 0.8, LF, 2 + (x > 0 ? 1 : 0), 1);
+    for (const [x, y] of [[-14, -94], [8, -102], [18, -90], [-6, -86], [0, -96]]) { glow(b, x, y + by, 2.6, PNK); b.set(x, Math.round(y + by), '#fff'); }
+    const lift = w ? -26 : 0; b.cap(-18, -60 + by, -40, -44 + by + lift * 0.5, 7, 4, EAR, 1); b.cap(16, -60 + by, 40, -46 + by + lift, 7, 4, EAR, 3); for (let i = 0; i < 4; i++) { b.line(40, -46 + by + lift, 46 + i * 2, -58 + by + lift - i * 3, EAR[2]); b.line(-40, -44 + by + lift * 0.5, -46 - i * 2, -54 + by + lift * 0.5 - i * 3, EAR[2]); leaf(b, 45 + i * 2, -58 + by + lift - i * 3, 1); } };
+  /* Weaver of the Dim: a huge violet cave-spider with a many-eyed face and a silk-wrapped abdomen */
+  D.dimweaver = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t * 2)) * 1.6 + (w ? 3 : 0);
+    for (let i = 0; i < 4; i++) for (const s of [-1, 1]) { const ph = t + i * 1.2 + (s > 0 ? Math.PI : 0), x0 = -16 + i * 11, sw = Math.sin(ph) * 5; b.curve(x0, -28 + by, x0 + s * 8 + sw, -50 + by - i * 3, x0 + s * 24 + sw * 1.5, -2, 3.2, 1.4, DRK, s > 0 ? 3 : 1); b.set(Math.round(x0 + s * 24 + sw * 1.5), 0, PRP[3]); }
+    b.ell(-14, -30 + by, 22, 20, DRK, 2, 1); b.ell(-18, -34 + by, 12, 10, DRK, 3, 0); for (let i = 0; i < 6; i++) b.line(-30 + i * 5, -44 + by, -28 + i * 5, -18 + by, PRP[3]); b.ell(-14, -26 + by, 5, 7, PRP, 3, 0); b.poly([-17, -30 + by, -12, -30 + by, -14.5, -22 + by], RED, 3, 0);
+    b.ell(14, -34 + by, 13, 12, DRK, 3, 1); for (const [x, y, r] of [[19, -38, 3], [14, -41, 2.4], [9, -38, 2.4], [19, -33, 2], [11, -33, 1.6], [16, -43, 1.6]]) { b.ell(x, y + by, r, r, PRP, 4, 0); b.set(Math.round(x), Math.round(y + by), '#ffffff'); }
+    b.poly([20, -28 + by, 26, -22 + by - (w ? 6 : 0), 22, -26 + by], BON, 4, 1); b.poly([15, -27 + by, 16, -20 + by - (w ? 6 : 0), 19, -27 + by], BON, 4, 1);
+    for (let i = 0; i < 4; i++) b.line(-30 + i * 2, -50 - i * 6 + by, -34 - i * 6, -80 + by, PRP[2]); if (w) for (let i = 0; i < 4; i++) b.line(26, -24 + by, 50 + i * 8, -24 + by + (i - 1.5) * 8, '#f0e8ff'); };
+  /* Brinejaw: a coiled sea-eel reared out of the water, huge jaw of teeth, finned crest */
+  D.brinejaw = (b, f, w) => { const t = f / 4 * TAU2, sw = Math.sin(t) * 3, up = w ? -8 : 0;
+    b.ell(0, 0, 38, 7, WTR, 1, 0); for (let i = 0; i < 3; i++) b.ell(-28 + i * 28, -1 + (i % 2), 12, 3, WTR, 3, 0);
+    b.curve(-30, -4, -44, -34, -16 + sw, -56, 14, 12, WTR, 2); b.curve(-16 + sw, -56, 6, -80, 16, -72 + up, 12, 12, WTR, 3);
+    for (let i = 0; i < 6; i++) b.poly([-34 + i * 3, -20 - i * 6, -40 + i * 3, -26 - i * 6, -32 + i * 3, -26 - i * 6], TEA, 3, 1);
+    b.ell(24, -74 + up, 15, 12, WTR, 3, 1); b.poly([32, -78 + up, 50, -68 + up, 32, -62 + up + (w ? 6 : 0)], WTR, 3, 1); for (let i = 0; i < 6; i++) { b.poly([32 + i * 3, -64 + up + (w ? 6 : 0), 34 + i * 3, -58 + up + (w ? 8 : 2), 36 + i * 3, -64 + up + (w ? 6 : 0)], BON, 4, 0); }
+    b.ell(22, -78 + up, 3.4, 3.4, '#fff4a0', 4, 0); b.set(23, Math.round(-78 + up), DRK[0]); b.poly([14, -82 + up, 8, -96 + up, 22, -84 + up], TEA, 3, 1); for (let i = 0; i < 4; i++) b.set(-6 + i * 8, Math.round(-3 + ((f + i) % 3)), WTR[4]); };
+  /* Galewing: a giant ridge hawk, wings flared, golden crest, hooked beak */
+  D.skyhawk = (b, f, w) => { const t = f / 4 * TAU2, fl = Math.sin(t) * 10, cy = -60 + bob(f) * 3;
+    b.poly([-4, cy, -50, cy - 26 - fl, -62, cy + 2 - fl * 0.6, -36, cy + 14, -4, cy + 12], R(['#3a3018', '#6a5a2c', '#a08a44', '#d8c070', '#f4e8b0']), 1, 1); b.poly([4, cy, 50, cy - 28 + fl, 62, cy + 2 + fl * 0.6, 36, cy + 14, 4, cy + 12], R(['#3a3018', '#6a5a2c', '#a08a44', '#d8c070', '#f4e8b0']), 3, 1);
+    for (let i = 0; i < 5; i++) { b.line(-16 - i * 9, cy + 2, -22 - i * 9, cy + 12 - fl * 0.4, EAR[0]); b.line(16 + i * 9, cy + 2, 22 + i * 9, cy + 12 + fl * 0.4, EAR[0]); }
+    b.poly([-8, cy + 8, 8, cy + 8, 6, cy + 34, -6, cy + 34], R(['#3a3018', '#6a5a2c', '#a08a44', '#d8c070', '#f4e8b0']), 2, 1); b.ell(0, cy + 2, 12, 14, R(['#3a3018', '#6a5a2c', '#a08a44', '#d8c070', '#f4e8b0']), 3, 1); b.ell(0, cy + 6, 8, 9, BON, 4, 0);
+    b.ell(9, cy - 14, 8, 8, BON, 4, 1); b.poly([14, cy - 16, 28, cy - 10, 15, cy - 7 + (w ? 5 : 0)], OCH, 3, 1); b.ell(11, cy - 16, 2.2, 2.2, RED, 3, 0); b.set(11, Math.round(cy - 16), DRK[0]); for (let i = 0; i < 4; i++) b.poly([2 - i * 3, cy - 20, 0 - i * 4, cy - 30 - i * 2, 6 - i * 3, cy - 21], OCH, 3 + (i & 1), 0);
+    b.cap(-3, cy + 30, -6, cy + 42, 2.4, 1.6, OCH, 3); b.cap(3, cy + 30, 6, cy + 42, 2.4, 1.6, OCH, 3); if (w) for (let i = 0; i < 5; i++) b.set(20 + i * 5, Math.round(cy - 4 + (i - 2) * 3), '#fff'); };
+  /* Gloomhorn, the Hollow King: a horned dark knight in cracked armour, a pink flame inside the empty helm, huge sword */
+  D.hollowking = (b, f, w) => Z.big(b, f, w, { k: 1.1, sk: DRK, cl: DRK, cl2: R(['#1c1020', '#34203c', '#503060', '#6a4080', '#8a60a0']), lg: DRK, arm: DRK, wide: 22, hd: 11, eye: '#ff8ad0',
+    hat: (b, x, y, by) => { b.poly([x - 9, y - 4, x - 14, y - 22, x - 5, y - 10], BON, 3, 1); b.poly([x + 9, y - 4, x + 14, y - 22, x + 5, y - 10], BON, 3, 1); b.ell(x, y + 1, 5, 5.4, PNK, 4, 0); b.ell(x, y + 1, 2.6, 3, '#fff', 4, 0); b.rect(x - 8, y - 6, 18, 2, DRK[4]); },
+    back: (b, f, w, by) => { b.poly([-20, -76 + by, -34, -16, -18, -22], R(['#1c1020', '#34203c', '#503060', '#6a4080', '#8a60a0']), 1, 1); },
+    held: (b, ax, ay, by, w) => { b.line(ax, ay - 6, ax + 4, ay - 52, STN[4]); b.line(ax + 2, ay - 6, ax + 6, ay - 52, STN[3]); b.rect(ax - 6, ay - 8, 14, 3, OCH[3]); glow(b, ax + 5, ay - 30, 3, PNK); },
+    ex: (b, f, w, by, hy) => { for (const x of [-14, 14]) glow(b, x, -66 + by, 2.4, PNK); for (let i = 0; i < 3; i++) b.line(-6 + i * 6, -62 + by, -6 + i * 6, -34 + by, PNK[2]); } });
+})();
+/* ---- v39: Neon Perdition sprites (original designs) ---- */
+(() => {
+  const { ramp: R } = PXA, M = PXA.mobs, D = M.D, TAU2 = Math.PI * 2, bob = f => Math.sin(f / 4 * TAU2), Z = ZP;
+  Object.assign(M.FLOAT, { moth: 1, croonshade: 1, chandeli: 1, dancer: 1, signghost: 1, deadair: 1, madame: 1, auditor: 1, crystalbit: 1 });
+  Object.assign(M.SCALE, { bellimp: 1, moth: 1, croonshade: 1, gremlin: 1, bouncer: 1.2, statichead: 1.05, chandeli: 1.05, crystalbit: 0.8, roomcart: 1.1, dancer: 1, ropeguard: 1.15, hellhound: 1.05, confetti: 1, slotmimic: 1.1, signghost: 1.05, gatecrasher: 1.6 });
+  const PNK = R(['#4a0a30', '#b01870', '#ff3a9a', '#ff8ac8', '#ffe0f0'], 1), RED = R(['#2a0408', '#7a0e1a', '#c01c30', '#ff4a56', '#ffb0b0'], 1), GLD = R(['#4a3408', '#a07a14', '#e8b830', '#ffe060', '#fffbc0'], 1), BLK = R(['#06060a', '#12121a', '#22222e', '#383848', '#58586a']);
+  const CYN = R(['#08283a', '#1a7a9a', '#40c8e8', '#a0f0ff', '#f0ffff'], 1), SLV = R(['#2a2c34', '#5a5e6a', '#9298a8', '#c8cedc', '#f4f8ff']), PRP = R(['#241044', '#5a2a9a', '#9858e0', '#c898ff', '#f0e0ff'], 1), SKN = R(['#4a0a14', '#a02430', '#d84a4a', '#f07a70', '#ffb8b0']);
+  const glow = (b, x, y, r, C) => { b.ell(x, y, r, r, C, 4, 0); b.ell(x, y, r * 0.5, r * 0.5, C, 4, 0); };
+  const horns = (b, x, y, s = 1) => { b.poly([x - 4 * s, y, x - 6 * s, y - 8 * s, x - 1 * s, y - 1 * s], GLD, 3, 1); b.poly([x + 4 * s, y, x + 7 * s, y - 8 * s, x + 1 * s, y - 1 * s], GLD, 3, 1); };
+  const suit = (C = BLK) => ({ cl: C, cl2: R(['#4a0a30', '#b01870', '#ff3a9a', '#ff8ac8', '#ffe0f0'], 1), lg: BLK });
+  /* Bellhop Imp: a small red imp in a pink pillbox hat, ringing a desk bell */
+  D.bellimp = (b, f, w) => Z.hum(b, f, w, { k: 0.95, sk: SKN, cl: PNK, cl2: GLD, lg: BLK, wp: 'none', hat: (b, x, y) => { b.rect(x - 4, y - 8, 9, 5, PNK[2]); b.rect(x - 4, y - 8, 9, 1.4, GLD[3]); b.set(Math.round(x + 4), Math.round(y - 1), '#ffe060'); horns(b, x, y - 3, 0.6); b.poly([x - 6, y + 1, x - 12, y + 3, x - 6, y + 4], SKN, 3, 1); },
+    ex: (b, f, w, by) => { const bx = w ? 18 : 14, bY = w ? -34 + by : -16 + by; b.ell(bx, bY, 4, 2.6, GLD, 3, 1); b.rect(bx - 1, bY - 4, 2, 2, GLD[4]); b.rect(bx - 4, bY + 1, 8, 1.4, BLK[3]); if (w) { b.set(bx + 6, bY - 4, '#fff'); b.set(bx - 6, bY - 5, '#fff'); } } });
+  /* Neon Moth: glowing cyan-and-pink wings with circuit-like patterns */
+  D.moth = (b, f, w) => Z.fly(b, f, w, { wc: CYN, c: PNK, c2: PNK, k: 1, eye: '#ffffff', ex: (b, f, w, cy) => { for (let i = 0; i < 3; i++) { b.line(-10 - i * 4, cy - 4 + i * 2, -14 - i * 4, cy - 2 + i * 2, PNK[3]); b.line(10 + i * 4, cy - 4 + i * 2, 14 + i * 4, cy - 2 + i * 2, PNK[3]); } b.cap(9, cy - 6, 14, cy - 15, 0.7, 0.5, PNK, 3); b.cap(7, cy - 6, 8, cy - 16, 0.7, 0.5, PNK, 3); glow(b, 0, cy + 1, 7, CYN); } });
+  /* Lounge Crooner: a floating shade in a tuxedo jacket with a microphone and a little spotlight */
+  D.croonshade = (b, f, w) => { const t = f / 4 * TAU2, cy = -26 + bob(f) * 2; b.poly([-8, cy + 14 + bob(f + 1), 8, cy + 14 + bob(f + 2), 6, cy - 4, -6, cy - 4], BLK, 2, 1); b.poly([-3, cy - 4, 3, cy - 4, 0, cy + 8], SLV, 4, 0); b.poly([-3, cy - 2, 3, cy - 2, 1, cy + 1, -1, cy + 1], RED, 3, 0);
+    b.ell(1, cy - 10, 6, 6.6, PRP, 3, 1); b.rect(-2, cy - 12, 8, 2.4, BLK[0]); b.set(5, Math.round(cy - 10), '#fff'); b.ell(1, cy - 6, 2.2, 1.4, BLK, 0, 0); b.ell(0, cy - 17, 7, 2, BLK, 2, 1); b.rect(-4, cy - 21, 8, 5, BLK[2]);
+    const mx = w ? 16 : 12, my = w ? cy - 16 : cy - 4; b.cap(4, cy, mx, my, 1.6, 1.2, PRP, 3); b.line(mx, my, mx + 1, my - 6, SLV[2]); b.ell(mx + 1, my - 8, 2.4, 2.4, SLV, 4, 1); if (w) for (let i = 0; i < 3; i++) b.cap(mx + 5 + i * 3, my - 10 - i, mx + 8 + i * 3, my - 10 - i, 1, 1, GLD, 4); };
+  /* Maintenance Gremlin: a gold goggle-eyed gremlin with a wrench and a box of matches */
+  D.gremlin = (b, f, w) => Z.hum(b, f, w, { k: 0.95, sk: GLD, cl: R(['#1c1c28', '#3a3a50', '#5a5a78', '#7a7aa0', '#a0a0c8']), lg: GLD, tw: 6, wp: 'club', wc: SLV, hat: (b, x, y) => { b.ell(x + 3, y - 1, 3, 3, SLV, 3, 1); b.ell(x + 3, y - 1, 1.4, 1.4, CYN, 4, 0); b.ell(x - 2, y - 1, 2.6, 2.6, SLV, 3, 1); b.ell(x - 2, y - 1, 1.2, 1.2, CYN, 4, 0); b.poly([x - 5, y - 4, x - 10, y - 10, x - 2, y - 6], GLD, 3, 1); b.poly([x + 4, y - 4, x + 9, y - 10, x + 7, y - 4], GLD, 3, 1); },
+    ex: (b, f, w, by) => { b.rect(-9, -16 + by, 5, 5, SLV[2]); b.rect(-9, -16 + by, 5, 1.4, RED[3]); b.set(-7, Math.round(-18 + by - (f % 2)), '#ffa040'); } });
+  /* Velvet Bouncer: a huge red demon in a black suit and shades, arms crossed */
+  D.bouncer = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t)) * 1 + (w ? 2 : 0), hy = -40 + by;
+    Z.legs(b, [-5, 5], -14 + by, t, 11, BLK, 1); b.poly([-12, -12 + by, 11, -12 + by, 9, -36 + by, -9, -36 + by], BLK, 2, 1); b.poly([-4, -36 + by, 4, -36 + by, 1, -18 + by], SLV, 4, 0); b.poly([-1, -34 + by, 3, -34 + by, 2, -20 + by], RED, 2, 0);
+    b.ell(-10, -36 + by, 5, 4.4, BLK, 2, 1); b.ell(10, -36 + by, 5, 4.4, BLK, 3, 1); b.ell(1, hy, 8, 8.4, SKN, 3, 1); b.rect(-5, hy - 2, 13, 3, BLK[0]); b.rect(-5, hy - 2, 13, 0.8, BLK[4]); horns(b, 1, hy - 6, 1.1);
+    const lift = w ? -16 : 0; b.cap(-9, -32 + by, 5, -26 + by + lift, 3.6, 3, SKN, 1); b.cap(9, -32 + by, -2, -24 + by + lift, 3.6, 3, SKN, 3); b.ell(6, -26 + by + lift, 4, 3.4, SKN, 3, 1); b.ell(-3, -24 + by + lift, 4, 3.4, SKN, 2, 1); b.rect(-1, -26 + by + lift, 6, 1.4, GLD[3]); };
+  /* Static Sinner: a suited figure whose head is a chunky TV hissing with static */
+  D.statichead = (b, f, w) => Z.hum(b, f, w, { k: 1, sk: SLV, cl: BLK, cl2: SLV, lg: BLK, wp: 'none', hat: (b, x, y) => { b.rect(x - 8, y - 8, 17, 15, SLV[2]); b.rect(x - 6, y - 6, 13, 11, BLK[0]); for (let i = 0; i < 14; i++) b.set(Math.round(x - 5 + ((i * 7 + f * 3) % 12)), Math.round(y - 5 + ((i * 5 + f * 2) % 9)), i % 2 ? '#fff' : CYN[3]); b.line(x - 4, y - 8, x - 9, y - 16, SLV[3]); b.line(x + 4, y - 8, x + 9, y - 16, SLV[3]); },
+    ex: (b, f, w, by) => { if (w) for (let i = 0; i < 4; i++) b.line(12, -26 + by + i * 3, 22, -26 + by + i * 3 + (i % 2 ? 2 : -2), CYN[3]); } });
+  /* Chandelier Bat / Crystal Bit: a little crystal chandelier with bat wings; splits into glittering shards */
+  D.chandeli = (b, f, w) => { const t = f / 4 * TAU2, cy = -24 + bob(f) * 2, fl = Math.sin(t * 2) * 6;
+    b.poly([-4, cy - 2, -22, cy - 12 - fl, -18, cy + 4, -4, cy + 4], BLK, 2, 1); b.poly([4, cy - 2, 22, cy - 12 + fl, 18, cy + 4, 4, cy + 4], BLK, 3, 1); b.line(0, cy - 14, 0, cy - 22, GLD[2]);
+    b.poly([-8, cy - 2, 8, cy - 2, 5, cy - 12, -5, cy - 12], GLD, 3, 1); b.poly([-10, cy + 4, 10, cy + 4, 8, cy - 2, -8, cy - 2], GLD, 2, 1); for (let i = -2; i <= 2; i++) { b.poly([i * 4 - 1, cy + 4, i * 4 + 1, cy + 4, i * 4, cy + 11 + (i & 1) * 3], CYN, 4, 0); }
+    for (const x of [-6, 0, 6]) { b.rect(x - 0.6, cy - 16, 1.2, 4, SLV[4]); b.set(x, Math.round(cy - 17), '#ffe060'); } b.set(3, Math.round(cy - 6), RED[3]); b.set(-3, Math.round(cy - 6), RED[3]); if (w) glow(b, 0, cy, 12, GLD); };
+  D.crystalbit = (b, f, w) => { const t = f / 4 * TAU2, cy = -16 + bob(f) * 3, s = 1 + Math.sin(t * 2) * 0.1; b.poly([0, cy - 10 * s, 6, cy, 0, cy + 10 * s, -6, cy], CYN, 3, 1); b.poly([0, cy - 10 * s, 6, cy, 0, cy], CYN, 4, 0); b.set(2, Math.round(cy - 3), '#fff'); b.set(0, Math.round(cy + 1), BLK[0]); glow(b, 0, cy, 5, CYN); };
+  /* Room-Service Cart: a shiny silver trolley with a cloche; two glowing eyes glare from under the lid */
+  D.roomcart = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t * 2)) * 1.2 + (w ? 2 : 0);
+    for (const x of [-12, 12]) { b.ell(x, -5, 5, 5, BLK, 2, 1); b.ell(x, -5, 2, 2, SLV, 3, 0); b.set(Math.round(x + Math.cos(t * 2) * 3), Math.round(-5 + Math.sin(t * 2) * 3), SLV[4]); }
+    b.rect(-18, -20 + by, 36, 4, SLV[3]); b.rect(-18, -20 + by, 36, 1, SLV[4]); b.rect(-16, -16 + by, 3, 11, SLV[2]); b.rect(13, -16 + by, 3, 11, SLV[2]); b.rect(-16, -8 + by, 32, 2, SLV[2]);
+    b.ell(0, -22 + by, 15, 13, SLV, 3, 1); b.ell(-4, -27 + by, 6, 4, SLV, 4, 0); b.rect(-16, -23 + by, 32, 2, SLV[2]); glow(b, 0, -29 + by, 3, GLD); b.ell(5, -21 + by, 2.2, 2.6, RED, 4, 0); b.ell(-3, -21 + by, 2.2, 2.6, RED, 4, 0); b.poly([-3, -17 + by, 7, -17 + by, 4, -14 + by, 0, -14 + by], BLK, 0, 0);
+    b.line(18, -20 + by, 26, -30 + by, SLV[3]); b.line(26, -30 + by, 26, -34 + by, SLV[3]); if (w) for (let i = 0; i < 4; i++) b.set(20 + i * 3, Math.round(-12 + by - i * 2), SLV[4]); };
+  /* Cabaret Dancer: a pink feather-fan dancer; ostrich plumes swirl around her */
+  D.dancer = (b, f, w) => { const t = f / 4 * TAU2, cy = -26 + bob(f) * 2, sw = Math.sin(t) * 3;
+    for (let i = 0; i < 5; i++) { const q = -1 + i * 0.5; b.poly([0, cy - 2, Math.cos(q - 1.57) * 22 - 2 + sw, cy - 14 + Math.sin(q - 1.57) * 16, Math.cos(q - 1.57) * 22 + 3 + sw, cy - 12 + Math.sin(q - 1.57) * 16], i % 2 ? PNK : PRP, 2 + (i & 1), 1); }
+    b.poly([-7, cy + 14, 7, cy + 14, 5, cy - 4, -5, cy - 4], PNK, 2, 1); for (let i = 0; i < 4; i++) b.set(-4 + i * 3, Math.round(cy + 4 + (i % 2) * 3), GLD[4]); b.ell(1, cy - 9, 5, 5.4, SKN, 4, 1); b.set(3, Math.round(cy - 9), BLK[0]); b.ell(0, cy - 15, 6, 3, PNK, 3, 1); b.poly([-3, cy - 16, 0, cy - 26, 3, cy - 16], PNK, 4, 1);
+    b.cap(5, cy, w ? 14 : 11, w ? cy - 16 : cy - 8, 1.4, 1, SKN, 4); if (w) for (let i = 0; i < 4; i++) b.set(14 + i * 3, Math.round(cy - 18 - (i % 2) * 3), PNK[4]); };
+  /* Rope Guard: a hulking brass-stanchion body, a thick red velvet rope strung across its arms like a shield */
+  D.ropeguard = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t)) * 0.8 + (w ? 1 : 0);
+    Z.legs(b, [-5, 5], -12 + by, t, 9, GLD, 2); b.rect(-5, -36 + by, 10, 26, GLD[3]); b.rect(-5, -36 + by, 3, 26, GLD[4]); b.ell(0, -12 + by, 11, 3.4, GLD, 2, 1); b.ell(1, -42 + by, 8, 7.4, GLD, 3, 1); b.rect(-5, -44 + by, 12, 3, BLK[0]); b.set(5, Math.round(-40 + by), RED[4]);
+    b.curve(-20, -30 + by, -6, -16 + by, 20, -30 + by, 3.4, 3.4, RED, 2); b.ell(-20, -30 + by, 3.6, 3.6, GLD, 4, 1); b.ell(20, -30 + by, 3.6, 3.6, GLD, 4, 1); b.rect(-24, -34 + by, 4, 20, GLD[3]); b.rect(20, -34 + by, 4, 20, GLD[3]); if (w) for (let i = 0; i < 3; i++) b.line(26, -28 + by + i * 6, 32, -28 + by + i * 6, RED[4]); };
+  /* Doorman Hounds: sleek black hounds with a tiny bow tie and glowing red eyes */
+  D.hellhound = (b, f, w) => Z.quad(b, f, w, { c: BLK, c2: R(['#1c0008', '#4a0a14', '#7a1020', '#a82030', '#d84050']), k: 1, sn: 1, eye: '#ff3a3a', tail: 1, ex: (b, f, w, by) => { b.poly([11, -13 + by, 15, -11 + by, 11, -9 + by], RED, 3, 1); b.poly([15, -13 + by, 19, -11 + by, 15, -9 + by], RED, 3, 1); b.set(14, Math.round(-11 + by), GLD[4]); for (let i = 0; i < 3; i++) b.set(-10 + i * 6, Math.round(-27 + by - (f + i) % 2), '#ff6a2a'); if (w) b.line(20, -15 + by, 24, -12 + by, '#fff'); } });
+  /* Confetti Cannoneer: a party-hatted imp hauling a cannon striped like a celebration */
+  D.confetti = (b, f, w) => Z.hum(b, f, w, { k: 1, sk: PNK, cl: PRP, cl2: GLD, lg: BLK, wp: 'none', hat: (b, x, y) => { b.poly([x - 4, y - 4, x, y - 16, x + 5, y - 4], GLD, 3, 1); b.set(Math.round(x), Math.round(y - 17), PNK[4]); b.ell(x, y - 17, 2, 2, PNK, 4, 0); b.set(Math.round(x + 4), Math.round(y), BLK[0]); },
+    ex: (b, f, w, by) => { b.poly([5, -20 + by, 22, -26 + by, 22, -14 + by, 5, -12 + by], SLV, 2, 1); b.poly([22, -29 + by, 28, -31 + by, 28, -11 + by, 22, -13 + by], GLD, 3, 1); for (let i = 0; i < 3; i++) b.rect(8 + i * 5, -19 + by + i * 0.4, 2, 6, [PNK, CYN, GLD][i][3]); if (w) for (let i = 0; i < 8; i++) b.set(30 + i * 2, Math.round(-30 + by + Math.sin(i * 2) * 6), [PNK[3], CYN[3], GLD[3], '#fff'][i % 4]); } });
+  /* Slot-Machine Mimic: a one-armed bandit on stubby legs; the reels are eyes, the coin tray a toothy mouth */
+  D.slotmimic = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t)) * 1.4 + (w ? 2 : 0);
+    Z.legs(b, [-8, 8], -9 + by, t, 8, BLK, 1); b.rect(-14, -40 + by, 28, 32, RED, 2); b.rect(-14, -40 + by, 28, 3, GLD[3]); b.rect(-14, -40 + by, 3, 32, RED[3]); b.rect(-11, -34 + by, 22, 13, BLK[0]);
+    for (let i = 0; i < 3; i++) { b.ell(-7 + i * 7, -28 + by, 3.2, 4, '#ffffff', 4, 0); b.set(Math.round(-7 + i * 7), Math.round(-28 + by + (i === 1 ? 1 : 0)), i === 1 ? BLK[0] : RED[2]); } b.rect(-9, -16 + by, 18, 6, BLK[0]); for (let i = 0; i < 5; i++) b.poly([-8 + i * 4, -16 + by, -6 + i * 4, -16 + by, -7 + i * 4, -11 + by], '#ffffff', 4, 0);
+    const lx = w ? 20 : 17, ly = w ? -52 : -34; b.cap(14, -30 + by, 17, -34 + by, 1.6, 1.6, SLV, 3); b.line(17, -34 + by, lx, ly + by, SLV[3]); b.ell(lx, ly + by, 3.4, 3.4, RED, 3, 1); for (let i = 0; i < 3; i++) b.set(-6 + i * 6, Math.round(-5 + ((f + i) % 2)), GLD[3]); };
+  /* Vacancy Phantom: a floating neon "VACANCY" sign haunted by a fanged smile */
+  D.signghost = (b, f, w) => { const t = f / 4 * TAU2, cy = -24 + bob(f) * 2, fl = (f % 2) ? 1 : 0;
+    b.rect(-15, cy - 9, 30, 18, BLK, 2); b.rect(-14, cy - 8, 28, 16, fl ? '#1a3a2a' : '#0e2a1c'); b.rect(-14, cy - 8, 28, 1.4, '#60ffc0'); b.rect(-14, cy + 6.6, 28, 1.4, '#60ffc0'); b.rect(-14, cy - 8, 1.4, 16, '#60ffc0'); b.rect(13, cy - 8, 1.4, 16, '#60ffc0');
+    for (let i = 0; i < 4; i++) b.rect(-10 + i * 6, cy - 2, 1.6, 6, '#60ffc0'); b.ell(-6, cy - 4, 1.8, 2.4, '#fff', 4, 0); b.ell(6, cy - 4, 1.8, 2.4, '#fff', 4, 0); b.set(-6, Math.round(cy - 4), BLK[0]); b.set(6, Math.round(cy - 4), BLK[0]);
+    for (let i = 0; i < 5; i++) b.poly([-6 + i * 3, cy + 2, -4.5 + i * 3, cy + 2, -5 + i * 3, cy + 5], '#ffffff', 4, 0); b.line(0, cy - 9, 0, cy - 18, SLV[2]); b.line(-8, cy + 9, -10, cy + 16 + bob(f) * 3, '#60ffc0'); b.line(8, cy + 9, 10, cy + 16 - bob(f) * 3, '#60ffc0'); glow(b, 0, cy, 14 + (w ? 4 : 0), CYN); };
+  /* The Wrecking Doorman (mini-boss): the biggest bouncer, a whole door for a shield */
+  D.gatecrasher = (b, f, w) => { D.bouncer(b, f, w); b.rect(-30, -38, 14, 34, GLD[2]); b.rect(-30, -38, 14, 2, GLD[4]); b.rect(-28, -34, 10, 12, BLK[1]); b.ell(-19, -20, 1.6, 1.6, GLD, 4, 0); b.set(-24, -34, RED[3]); b.ell(12, -50, 3, 3, GLD, 4, 0); };
+  /* ======== the Neon Perdition's 5 bosses ======== */
+  /* Madame Mirage: a floating diva in a sweeping gown, a huge feather fan, a ring of mirror shards */
+  D.madame = (b, f, w) => { const t = f / 4 * TAU2, cy = -56 + bob(f) * 3, up = w ? -12 : 0;
+    for (let i = 0; i < 7; i++) { const q = -2.2 + i * 0.52; b.poly([-2, cy - 12, Math.cos(q - 1.57) * 44 - 5, cy - 22 + Math.sin(q - 1.57) * 34, Math.cos(q - 1.57) * 44 + 5, cy - 20 + Math.sin(q - 1.57) * 34], i % 2 ? PNK : PRP, 2 + (i & 1), 1); b.ell(Math.cos(q - 1.57) * 44, cy - 21 + Math.sin(q - 1.57) * 34, 3, 3, GLD, 4, 0); }
+    b.poly([-26 + bob(f + 1) * 3, cy + 46, 26 + bob(f + 2) * 3, cy + 46, 14, cy - 8, -14, cy - 8], PNK, 1, 1); b.poly([-18, cy + 40, 18, cy + 40, 10, cy - 4, -10, cy - 4], PNK, 3, 0); for (let i = 0; i < 8; i++) b.set(Math.round(-12 + i * 3.4), Math.round(cy + 6 + (i * 5) % 30), GLD[4]);
+    b.ell(1, cy - 18, 10, 10.6, SKN, 4, 1); b.ell(0, cy - 28, 12, 5, PNK, 3, 1); b.poly([-7, cy - 28, 0, cy - 44, 7, cy - 28], PNK, 4, 1); b.set(5, Math.round(cy - 18), BLK[0]); b.set(0, Math.round(cy - 18), BLK[0]); b.line(1, cy - 12, 5, cy - 11, RED[3]);
+    b.cap(10, cy - 4, 26, cy - 12 + up, 4, 3, SKN, 4); b.cap(-10, cy - 4, -24, cy - 8, 4, 3, SKN, 2); b.ell(27, cy - 13 + up, 4, 4, SKN, 4, 1);
+    for (let i = 0; i < 5; i++) { const q = t + i * TAU2 / 5; b.poly([Math.cos(q) * 38 - 2, cy + 6 + Math.sin(q) * 12, Math.cos(q) * 38, cy + 1 + Math.sin(q) * 12, Math.cos(q) * 38 + 2, cy + 6 + Math.sin(q) * 12], CYN, 4, 1); } };
+  /* Signal Jack: a tall suited figure with a giant retro microphone for a head, cables for hands, a halo of static */
+  D.deadair = (b, f, w) => { const t = f / 4 * TAU2, cy = -54 + bob(f) * 3;
+    for (let i = 0; i < 18; i++) b.set(Math.round(-26 + ((i * 11 + f * 5) % 52)), Math.round(cy - 50 + ((i * 7 + f * 3) % 100)), i % 2 ? '#fff' : CYN[3]);
+    b.poly([-18 + bob(f + 1) * 2, cy + 56, 18 + bob(f + 2) * 2, cy + 56, 12, cy - 6, -12, cy - 6], BLK, 2, 1); b.poly([-5, cy - 6, 5, cy - 6, 0, cy + 24], SLV, 4, 0); b.poly([-2, cy - 4, 3, cy - 4, 1, cy + 10], RED, 3, 0);
+    b.rect(-3, cy - 16, 6, 10, SLV[2]); b.ell(1, cy - 28, 13, 15, SLV, 3, 1); for (let y = -38; y < -18; y += 3) b.line(-10, cy + y, 12, cy + y, BLK[1]); for (let x = -8; x < 12; x += 4) b.line(x, cy - 40, x, cy - 16, BLK[1]); b.ell(-4, cy - 34, 4, 3, SLV, 4, 0); glow(b, 1, cy - 28, 20, CYN); b.ell(-4, cy - 28, 2, 2, RED, 4, 0); b.ell(5, cy - 28, 2, 2, RED, 4, 0);
+    const lift = w ? -22 : 0; b.curve(10, cy - 2, 24, cy + 10, 34, cy + 6 + lift, 3, 3, BLK, 3); b.curve(-10, cy - 2, -26, cy + 12, -36, cy + 4, 3, 3, BLK, 1); b.ell(35, cy + 6 + lift, 5, 5, SLV, 4, 1); b.ell(-37, cy + 4, 5, 5, SLV, 3, 1);
+    for (let i = 0; i < 3; i++) b.curve(-12, cy + 50, -20 - i * 6, cy + 56, -34 - i * 8, cy + 54 + (i % 2) * 4, 1.2, 1.2, BLK, 2); if (w) for (let i = 0; i < 6; i++) b.line(40 + i * 3, cy + lift + (i - 3) * 4, 50 + i * 3, cy + lift + (i - 3) * 7, CYN[4]); };
+  /* The Pit Boss: a vast hulking casino brute with a roulette wheel strapped to his back and a chip-stack fist */
+  D.pitboss = (b, f, w) => Z.big(b, f, w, { k: 1.15, sk: SKN, cl: BLK, cl2: R(['#1c0008', '#4a0a14', '#7a1020', '#a82030', '#d84050']), lg: BLK, arm: SKN, wide: 24, hd: 12, eye: '#ffd060',
+    hat: (b, x, y) => { horns(b, x, y - 6, 1.4); b.rect(x - 6, y - 4, 14, 3, BLK[0]); b.rect(x - 6, y - 4, 14, 0.8, GLD[3]); b.poly([x - 4, y + 5, x + 6, y + 5, x + 2, y + 10, x - 2, y + 10], BON3(), 4, 0); },
+    back: (b, f, w, by) => { b.ell(-8, -62 + by, 26, 26, GLD, 1, 1); b.ell(-8, -62 + by, 21, 21, BLK, 1, 0); for (let i = 0; i < 12; i++) { const q = i / 12 * TAU2 + f * 0.1; b.poly([-8, -62 + by, -8 + Math.cos(q) * 20, -62 + by + Math.sin(q) * 20, -8 + Math.cos(q + 0.5) * 20, -62 + by + Math.sin(q + 0.5) * 20], i % 2 ? RED : SLV, 2, 0); } b.ell(-8, -62 + by, 4, 4, GLD, 4, 1); },
+    held: (b, ax, ay, by, w) => { for (let i = 0; i < 4; i++) { b.ell(ax + 2, ay - 4 - i * 3.4, 6, 2.4, [RED, PNK, CYN, GLD][i], 3, 1); b.rect(ax - 4, ay - 4 - i * 3.4, 12, 1, SLV[4]); } },
+    ex: (b, f, w, by, hy) => { b.rect(-12, -66 + by, 24, 3, GLD[3]); for (const x of [-10, 0, 10]) b.ell(x, -50 + by, 2.4, 2.4, GLD, 4, 1); } });
+  function BON3() { return R(['#4a4434', '#8a7e64', '#c0b494', '#e4dcc0', '#fffaec']); }
+  /* Auditor Halo: a floating pale angel-clerk with a bright ring, folded wings and an enormous ledger */
+  D.auditor = (b, f, w) => { const t = f / 4 * TAU2, cy = -58 + bob(f) * 3, fl = Math.sin(t) * 4;
+    b.poly([-4, cy - 4, -42, cy - 30 - fl, -50, cy + 6 - fl * 0.5, -10, cy + 18], SLV, 3, 1); b.poly([4, cy - 4, 42, cy - 30 + fl, 50, cy + 6 + fl * 0.5, 10, cy + 18], SLV, 4, 1); for (let i = 0; i < 5; i++) { b.line(-10 - i * 8, cy, -16 - i * 8, cy + 10 - fl * 0.3, SLV[1]); b.line(10 + i * 8, cy, 16 + i * 8, cy + 10 + fl * 0.3, SLV[1]); }
+    b.poly([-12, cy + 50, 12, cy + 50, 10, cy - 8, -10, cy - 8], '#f4f0e0', 3, 1); b.rect(-1, cy - 8, 2, 56, GLD[2]); b.poly([-8, cy - 8, 8, cy - 8, 4, cy + 4, -4, cy + 4], GLD, 3, 1);
+    b.ell(1, cy - 18, 8, 8.6, '#f8e8d8', 4, 1); b.rect(-4, cy - 20, 5, 2.6, GLD[3]); b.rect(3, cy - 20, 5, 2.6, GLD[3]); b.set(0, Math.round(cy - 19), BLK[0]); b.set(5, Math.round(cy - 19), BLK[0]); b.ell(1, cy - 34, 12, 3.6, GLD, 3, 0); b.ell(1, cy - 34, 8, 1.6, GLD, 4, 0); glow(b, 1, cy - 34, 16 + (w ? 4 : 0), GLD);
+    const lx = w ? 20 : 14; b.cap(8, cy - 2, lx, cy + 6, 2.6, 2.2, '#f8e8d8', 4); b.rect(lx - 4, cy - 8, 20, 26, RED[1]); b.rect(lx - 2, cy - 6, 16, 22, '#f4ecd0'); b.line(lx + 6, cy - 6, lx + 6, cy + 16, RED[1]); for (let i = 0; i < 5; i++) b.line(lx - 1, cy - 2 + i * 4, lx + 4, cy - 2 + i * 4, BLK[2]); for (let i = 0; i < 5; i++) b.line(lx + 8, cy - 2 + i * 4, lx + 12, cy - 2 + i * 4, BLK[2]);
+    b.cap(-8, cy - 2, -22, cy + 2, 2.6, 2.2, '#f8e8d8', 2); b.line(-22, cy + 2, -30, cy - 14, GLD[3]); b.poly([-30, cy - 14, -34, cy - 24, -27, cy - 16], '#fff', 4, 0); };
+  /* Lord Lucre: a gigantic red lord of the penthouse in a gold-trimmed black suit and cape, a crown of horns and a diamond-topped cane */
+  D.lucre = (b, f, w) => Z.big(b, f, w, { k: 1.18, sk: SKN, cl: BLK, cl2: GLD, lg: BLK, arm: SKN, wide: 22, hd: 11, eye: '#ffe060', cape: 1,
+    hat: (b, x, y) => { horns(b, x, y - 6, 1.8); for (let i = 0; i < 5; i++) b.poly([x - 8 + i * 4, y - 8, x - 6 + i * 4, y - 15 - (i % 2) * 4, x - 4 + i * 4, y - 8], GLD, 3 + (i & 1), 1); b.rect(x - 8, y - 9, 18, 2.4, GLD[2]); b.rect(x - 4, y + 4, 11, 2, BLK[0]); b.line(x - 2, y + 7, x + 5, y + 7, '#fff'); },
+    back: (b, f, w, by) => { b.poly([-22, -72 + by, -44, -8, -10, -14, 4, -66 + by], RED, 1, 1); b.poly([-20, -66 + by, -36, -12, -14, -16], RED, 2, 0); },
+    held: (b, ax, ay, by, w) => { b.line(ax + 2, ay + 10, ax + 4, ay - 56, GLD[3]); b.line(ax + 3, ay + 10, ax + 5, ay - 56, GLD[2]); b.poly([ax + 4, ay - 70, ax + 11, ay - 60, ax + 4, ay - 52, ax - 3, ay - 60], CYN, 3, 1); b.set(ax + 3, ay - 62, '#fff'); glow(b, ax + 4, ay - 60, 9, CYN); },
+    ex: (b, f, w, by, hy) => { b.poly([-4, -66 + by, 4, -66 + by, 1, -30 + by], '#f4f0e0', 4, 0); b.poly([-1, -64 + by, 3, -64 + by, 2, -36 + by], RED, 2, 0); b.ell(-9, -58 + by, 3, 3, GLD, 4, 1); for (let i = 0; i < 3; i++) b.rect(-12 + i * 12, -44 + by, 3, 3, GLD[3]); } });
 })();
 /* ---- Hushborn + new boss sprites (pixel painters, same rules as px_mobs: feet at y = 0, facing +x, f 0-3 walk, w = wind-up) ---- */
 (() => {
@@ -7607,6 +7957,7 @@ function spawnEnemy(type, o = {}) {
 const RANGED = { seer: 22, spitter: 22, healer: 10, caller: 8, sprite: 26, bellshade: 22, chimewisp: 22, lantern: 10, hwraith: 26 }; // ranged/support types hold back; capped so they can't clog the enemy cap
 Object.assign(RANGED, { sobber: 22, sobwisp: 22, wickling: 10, drowned: 26 }); /* v39: Cellarborn */
 Object.assign(RANGED, { apprentice: 22, archer: 22, cleric: 10 }); /* v39: Valorfields */
+Object.assign(RANGED, { conjurer: 22, rockspitter: 22, glimmer: 10, croonshade: 22, confetti: 22, dancer: 10 }); /* v39: Mossreach + Neon Perdition */
 function pickType(t) {
   const rc = G.typeN || {}, av = Object.keys(ETYPES).filter(k => !ETYPES[k].boss && ETYPES[k].t0 <= t && onMap28(k) && !(RANGED[k] && (rc[(heart36() && HEARTSUB[k]) || (zn39() && zn39().sub[k]) || k] || 0) >= RANGED[k]));
   return wpick(av, k => { const d = ETYPES[k]; if (k === 'wisp') return Math.max(0.35, 3 - t / 80) * (t > 600 ? 0.5 : 1); // older, weaker types fade out of the mix late so new threats dominate
@@ -10600,6 +10951,106 @@ ZFOLK39.questgiver = (d, t) => { const x = d.x, y = d.y, ctx_ = ctx; ctx_.save()
   ctx_.strokeStyle = '#a0a8b8'; ctx_.lineWidth = 2; ctx_.beginPath(); ctx_.moveTo(9, -14); ctx_.lineTo(9, 2); ctx_.stroke();
   ctx_.globalCompositeOperation = 'lighter'; ctx_.fillStyle = 'rgba(255,220,80,.35)'; ctx_.beginPath(); ctx_.arc(0, -44 + b, 9, 0, TAU); ctx_.fill(); ctx_.globalCompositeOperation = 'source-over';
   ctx_.fillStyle = '#ffd24a'; ctx_.font = 'bold 18px Georgia,serif'; ctx_.textAlign = 'center'; ctx_.fillText('!', 0, -38 + b); ctx_.restore(); };
+/* ---------- v39: Lanternwick (the Mossreach's town): a hillside village under a great shrine tree, round doors, lanterns, clay pots and flower beds ---------- */
+TOWNS36.glade = { name: 'Lanternwick', ic: '❦', col: '#9af0b0', edge: 'rgba(154,240,176,.7)', bg: 'rgba(10,28,26,.84)', kc: [10, 30, 40], music: 't_glade',
+  pk: { vx: [-6, 6], vy: [-10, -3], life: [3, 6], c: ['#ffb0e8', '#80ffe0', '#fff6c8'], shape: 'glow', gs: 7, ga: 0.6, rate: 16 },
+  sub: 'A sleepy village under the great shrine tree. Shop in peace!', signs: { merchant: 'Pot & Pantry', gambler: 'Chest Game Corner', smith: 'Whetstone Cottage', stranger: "Sage's Hollow" } };
+TOWN_GROUND.glade = function (g, R, r, G_) {
+  g.fillStyle = '#3a8a3a'; g.fillRect(-TOWN_GR, -TOWN_GR, TOWN_GR * 2, TOWN_GR * 2);
+  for (let i = 0; i < 800; i++) { const x = (r() - 0.5) * TOWN_GR * 2, y = (r() - 0.5) * TOWN_GR * 2, v = r(); G_.el(g, x, y, 8 + r() * 16, 4 + r() * 8, v < 0.4 ? 'rgba(130,220,110,.4)' : v < 0.8 ? 'rgba(30,110,50,.4)' : 'rgba(190,255,160,.28)', r() * 3); }
+  g.save(); g.beginPath(); g.arc(0, 0, R + 8, 0, TAU); g.clip(); g.fillStyle = '#4a9a44'; g.fillRect(-R - 10, -R - 10, R * 2 + 20, R * 2 + 20);
+  for (let i = 0; i < 400; i++) { const a = r() * TAU, d = Math.sqrt(r()) * R; G_.el(g, Math.cos(a) * d, Math.sin(a) * d, 4 + r() * 8, 2 + r() * 4, r() < 0.5 ? 'rgba(150,235,120,.4)' : 'rgba(40,120,50,.35)', r() * 3); }
+  // winding flagstone path: spiral of round stepping stones from the great tree to the exit
+  for (let i = 0; i < 22; i++) { const a = -1.5 + i * 0.07, d = 36 + i * (R - 40) / 22, x = Math.cos(a * 2 + 1.5) * d * 0.5, y = -R * 0.5 + i * (R * 1.4) / 22; G_.el(g, x + Math.sin(i * 0.8) * 24, y, 17, 11, '#8a8470'); G_.el(g, x + Math.sin(i * 0.8) * 24, y - 1.5, 15, 9, '#b8b090'); G_.el(g, x + Math.sin(i * 0.8) * 24 - 3, y - 3, 5, 2.6, 'rgba(255,255,230,.3)'); }
+  // a ring of flowers around the middle, and a glowing teal rune circle
+  for (let i = 0; i < 70; i++) { const a = i / 70 * TAU, d = 74 + Math.sin(i * 1.7) * 6, c = ['#ffb0d8', '#fff0f8', '#f4d060', '#c0b0ff'][i % 4]; G_.el(g, Math.cos(a) * d, Math.sin(a) * d * 0.9, 3.6, 3.6, c); G_.el(g, Math.cos(a) * d, Math.sin(a) * d * 0.9, 1.4, 1.4, '#f4d060'); }
+  g.beginPath(); g.arc(0, 0, 52, 0, TAU); g.strokeStyle = 'rgba(128,232,224,.7)'; g.lineWidth = 3; g.stroke(); g.beginPath(); g.arc(0, 0, 40, 0, TAU); g.strokeStyle = 'rgba(128,232,224,.4)'; g.lineWidth = 1.6; g.stroke();
+  for (let i = 0; i < 8; i++) { const a = i / 8 * TAU; G_.po(g, [Math.cos(a) * 44, Math.sin(a) * 44, Math.cos(a + 0.2) * 52, Math.sin(a + 0.2) * 52, Math.cos(a - 0.2) * 52, Math.sin(a - 0.2) * 52], 'rgba(160,255,240,.7)'); }
+  g.globalCompositeOperation = 'lighter'; G_.el(g, 0, 0, 50, 50, G_.rg(g, 0, 0, 2, 50, 'rgba(120,255,230,.28)', 'rgba(120,255,230,0)')); g.globalCompositeOperation = 'source-over';
+  g.restore();
+  for (const [w, c] of [[14, '#244a24'], [9, '#7a9a5a'], [4, '#c0d890']]) { g.beginPath(); g.arc(0, 0, R + 4, 0, TAU); g.strokeStyle = c; g.lineWidth = w; g.stroke(); }
+};
+T36STALL.glade = function (g, nt, r, G_) { const cl = { merchant: ['#2a8a4a', '#78d85a'], gambler: ['#2a8a98', '#80e8e0'], smith: ['#8a5a2a', '#d8a850'], stranger: ['#6a4aa8', '#b090f0'] }[nt];
+  // a little timber cottage front with a round door and a leafy thatch
+  G_.rr(g, -50, -66, 100, 66, 3, G_.lg(g, -50, 0, 50, 0, '#c8b48a', '#e4d4aa', '#b8a47a')); for (let x = -40; x <= 40; x += 20) G_.rr(g, x - 2, -66, 4, 66, 1, '#7a5230'); G_.rr(g, -50, -36, 100, 4, 1, '#7a5230');
+  g.beginPath(); g.moveTo(-18, 0); g.lineTo(-18, -26); g.arc(0, -26, 18, Math.PI, 0); g.lineTo(18, 0); g.closePath(); g.fillStyle = '#4a2e18'; g.fill(); g.strokeStyle = '#7a5230'; g.lineWidth = 3; g.stroke(); G_.el(g, 9, -16, 2, 2, '#f4d060');
+  if (nt === 'merchant') { for (let i = 0; i < 3; i++) { const x = -38 + i * 38; G_.el(g, x, -10, 9, 10, '#c0643a'); G_.rr(g, x - 5, -23, 10, 4, 1, '#e08a58'); } for (let i = 0; i < 4; i++) { G_.ln(g, [-34 + i * 22, -62, -34 + i * 22, -52], '#5a3a1e', 1); G_.el(g, -34 + i * 22, -48, 4, 5, i % 2 ? '#e8806a' : '#8ad050'); } }
+  else if (nt === 'gambler') { for (const [x, c] of [[-34, '#2ab0b8'], [0, '#c0643a'], [34, '#8060c8']]) { G_.rr(g, x - 9, -12, 18, 10, 2, c); G_.po(g, [x - 9, -12, x - 7, -19, x + 7, -19, x + 9, -12], c); G_.rr(g, x - 9, -12, 18, 2, 1, '#f4d060'); G_.rr(g, x - 1.5, -13, 3, 4, 1, '#f4d060'); } G_.glow(g, 0, -18, 40, '#80ffe0', 0.15); }
+  else if (nt === 'smith') { G_.rr(g, -20, -22, 40, 10, 2, '#4a4a56'); G_.po(g, [-26, -22, 26, -22, 20, -30, -20, -30], '#7a7a88'); G_.rr(g, -8, -12, 16, 12, 2, '#3a3a46'); for (let i = 0; i < 3; i++) { G_.ln(g, [-40 + i * 8, -60, -40 + i * 8, -46], '#a0a8b8', 1.6); G_.po(g, [-43 + i * 8, -46, -37 + i * 8, -46, -40 + i * 8, -38], '#c8d0e0'); } G_.glow(g, 0, -28, 20, '#ff9a4a', 0.2); }
+  else { G_.el(g, 0, -28, 20, 20, '#2a1a4a'); G_.el(g, 0, -28, 14, 14, G_.rg(g, 0, -28, 1, 14, '#e0d0ff', '#8060c8', '#3a2478')); for (let i = 0; i < 6; i++) { const a = i / 6 * TAU; G_.el(g, Math.cos(a) * 30, -28 + Math.sin(a) * 18, 2.4, 2.4, '#b090f0'); } G_.glow(g, 0, -28, 40, '#b090f0', 0.3); }
+  // leafy thatch with hanging fringe
+  G_.po(g, [-62, -66, -44, -92, 44, -92, 62, -66], G_.lg(g, 0, -92, 0, -66, cl[1], cl[0])); for (let i = 0; i < 12; i++) { const x = -56 + i * 10; G_.po(g, [x, -66, x + 5, -58, x + 10, -66], cl[0]); } for (let i = 0; i < 9; i++) G_.ln(g, [-40 + i * 10, -90, -44 + i * 10, -68], 'rgba(0,0,0,.18)', 1);
+};
+Object.assign(T36W, {
+  glhut() { return t36S('glhutT', 290, 250, 145, 240, (g, r) => { const G_ = T36G; G_.el(g, 0, 0, 120, 12, 'rgba(0,0,0,.4)'); G_.rr(g, -100, -110, 200, 110, 6, G_.lg(g, -100, 0, 100, 0, '#d4c298', '#f0e2b8', '#c0ae84')); for (const x of [-80, -40, 0, 40, 80]) G_.rr(g, x - 3, -110, 6, 110, 1, '#7a5230'); G_.rr(g, -100, -56, 200, 5, 1, '#7a5230');
+      g.beginPath(); g.moveTo(-34, 0); g.lineTo(-34, -58); g.arc(0, -58, 34, Math.PI, 0); g.lineTo(34, 0); g.closePath(); g.fillStyle = '#4a2e18'; g.fill(); g.strokeStyle = '#7a5230'; g.lineWidth = 5; g.stroke(); G_.ln(g, [0, -90, 0, 0], '#2a1a0c', 1.6); G_.el(g, 20, -34, 3.4, 3.4, '#f4d060');
+      for (const x of [-72, 68]) { G_.el(g, x, -76, 16, 16, '#2a1a0c'); G_.el(g, x, -76, 13, 13, G_.rg(g, x, -76, 1, 13, '#fff2c0', '#e0a850')); G_.ln(g, [x - 13, -76, x + 13, -76], '#5a3a1e', 2); G_.ln(g, [x, -89, x, -63], '#5a3a1e', 2); G_.glow(g, x, -76, 34, '#ffd890', 0.25); }
+      G_.po(g, [-120, -108, -76, -176, 76, -176, 120, -108], G_.lg(g, 0, -176, 0, -108, '#78d85a', '#2a8a3a')); for (let i = 0; i < 16; i++) { const x = -114 + i * 15; G_.po(g, [x, -108, x + 7.5, -98, x + 15, -108], '#1e6a22'); } for (let i = 0; i < 12; i++) G_.ln(g, [-70 + i * 12.5, -172, -90 + i * 15, -112], 'rgba(0,0,0,.15)', 1);
+      G_.rr(g, 40, -226, 30, 70, 4, '#b8a47a'); G_.po(g, [34, -226, 55, -258, 76, -226], '#2a8a3a'); T36P.lantern(g, 55, -196, '#80ffe0', 1.6); G_.ln(g, [55, -258, 55, -270], '#5a3a1e', 1.6); G_.po(g, [55, -270, 70, -265, 55, -260], '#f4d060'); }); },
+  gltreeT() { return t36S('gltreeTT', 240, 260, 120, 250, (g, r) => { const G_ = T36G; G_.el(g, 0, 0, 70, 10, 'rgba(0,0,0,.4)'); G_.po(g, [-34, 0, -22, -60, -12, -150, 12, -150, 22, -60, 34, 0], G_.lg(g, -34, 0, 34, 0, '#5a3a1e', '#8a5e30', '#4a2e18'));
+      for (let y = -140; y < -10; y += 12) G_.ln(g, [-14, y, 12, y + 6], 'rgba(0,0,0,.25)', 1.4); g.beginPath(); g.moveTo(-12, 0); g.lineTo(-12, -34); g.arc(0, -34, 12, Math.PI, 0); g.lineTo(12, 0); g.closePath(); g.fillStyle = '#0e3a40'; g.fill(); G_.rr(g, -8, -30, 16, 30, 3, '#2ab0b8'); G_.glow(g, 0, -20, 30, '#80ffe0', 0.4);
+      for (const [x, y, rr, c] of [[-60, -170, 54, '#2a8a3a'], [56, -176, 56, '#3aa84a'], [0, -210, 62, '#4ac05a'], [-24, -154, 52, '#2a8a3a'], [34, -150, 46, '#3aa84a']]) G_.el(g, x, y, rr, rr * 0.82, G_.rg(g, x - 12, y - 14, 4, rr, c, '#1e6a22'));
+      for (let i = 0; i < 40; i++) { const x = (r() - 0.5) * 190, y = -150 - r() * 90; G_.el(g, x, y, 3.6, 3.6, i % 2 ? '#ffb0d8' : '#fff0f8'); } G_.glow(g, 0, -190, 90, '#ffb0e8', 0.12); }); },
+  gllantern() { return t36S('gllanternT', 40, 110, 20, 100, g => { const G_ = T36G; G_.el(g, 0, 0, 10, 3, 'rgba(0,0,0,.45)'); G_.rr(g, -2.4, -84, 4.8, 84, 1.5, '#6a4824'); G_.ln(g, [0, -80, 12, -80], '#6a4824', 2.6); T36P.lantern(g, 12, -72, '#80ffe0', 1.4); G_.el(g, 0, -8, 7, 3, '#4a9a44'); }); },
+  glfence() { return t36S('glfenceT', 80, 60, 40, 52, g => { const G_ = T36G; G_.el(g, 0, 0, 36, 4, 'rgba(0,0,0,.35)'); for (let i = 0; i < 5; i++) { const x = -30 + i * 15; G_.rr(g, x - 4, -36, 8, 36, 3, G_.lg(g, x - 4, 0, x + 4, 0, '#a07a44', '#d8b878', '#8a6634')); } G_.rr(g, -36, -26, 72, 5, 2, '#7a5230'); G_.el(g, -14, -38, 3, 3, '#ffb0d8'); G_.el(g, 22, -38, 3, 3, '#f4d060'); }); },
+  glpotS() { return t36S('glpotSt', 50, 44, 25, 38, g => { const G_ = T36G; for (const [x, s] of [[-12, 1], [10, 0.9], [-1, 0.8]]) { G_.el(g, x, -1, 9 * s, 2.4, 'rgba(0,0,0,.4)'); G_.el(g, x, -11 * s, 9 * s, 11 * s, G_.lg(g, x - 9, 0, x + 9, 0, '#8a3a1e', '#e08a58', '#8a3a1e')); G_.rr(g, x - 5 * s, -24 * s, 10 * s, 5 * s, 1.5, '#e08a58'); } }); },
+  glbed() { return t36S('glbedT', 70, 44, 35, 36, (g, r) => { const G_ = T36G; G_.el(g, 0, -4, 32, 12, '#5a3a1e'); G_.el(g, 0, -6, 29, 10, '#3a2412'); for (let i = 0; i < 16; i++) { const x = (r() - 0.5) * 50, y = -6 + (r() - 0.5) * 12; G_.ln(g, [x, y, x, y - 8 - r() * 8], '#3a9a3a', 1.2); G_.el(g, x, y - 12 - r() * 6, 3, 3, ['#ffb0d8', '#fff0f8', '#f4d060', '#c0b0ff'][i % 4]); } }); },
+});
+ZFOLK39.sprout = (d, t) => { const x = d.x, y = d.y; ctx.save(); ctx.translate(x, y); const b = Math.sin(t * 2.4) * 1.4; ctx.fillStyle = 'rgba(0,0,0,.4)'; ctx.beginPath(); ctx.ellipse(0, 1, 10, 3, 0, 0, TAU); ctx.fill();
+  ctx.fillStyle = '#e878b0'; ctx.beginPath(); ctx.ellipse(0, -9 + b * 0.4, 8, 9, 0, 0, TAU); ctx.fill(); ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(-2.6, -11 + b * 0.4, 1.8, 0, TAU); ctx.arc(2.6, -11 + b * 0.4, 1.8, 0, TAU); ctx.fill(); ctx.fillStyle = '#0a0a10'; ctx.beginPath(); ctx.arc(-2.2, -11 + b * 0.4, 0.9, 0, TAU); ctx.arc(3, -11 + b * 0.4, 0.9, 0, TAU); ctx.fill();
+  ctx.fillStyle = '#58b858'; for (const s of [-1, 1]) { ctx.beginPath(); ctx.ellipse(s * 4, -20 + b, 3.2, 6, s * 0.7, 0, TAU); ctx.fill(); } ctx.strokeStyle = '#58b858'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(0, -17); ctx.lineTo(0, -21 + b); ctx.stroke();
+  ctx.globalCompositeOperation = 'lighter'; ctx.fillStyle = 'rgba(255,200,240,.3)'; ctx.beginPath(); ctx.arc(0, -10, 14, 0, TAU); ctx.fill(); ctx.restore(); };
+/* ---------- v39: The Last Resort Lobby (the Neon Perdition's town): a grand hotel lobby with a front desk, elevator doors, neon signs and a jazz stage ---------- */
+TOWNS36.inferno = { name: 'The Last Resort Lobby', ic: '★', col: '#ff6ad0', edge: 'rgba(255,106,208,.7)', bg: 'rgba(24,6,22,.84)', kc: [34, 8, 36], music: 't_inferno',
+  pk: { vx: [-10, 10], vy: [-22, -8], life: [2, 4], c: ['#ff6ad0', '#80f0ff', '#ffe060'], shape: 'glow', gs: 7, ga: 0.7, rate: 18 },
+  sub: 'The one lobby in hell with a no-fighting policy. Shop in peace!', signs: { merchant: 'Gift Shop of Regrets', gambler: 'High Stakes Table', smith: 'The Tailor Shop', stranger: 'Front Desk' } };
+TOWN_GROUND.inferno = function (g, R, r, G_) {
+  g.fillStyle = '#0a0410'; g.fillRect(-TOWN_GR, -TOWN_GR, TOWN_GR * 2, TOWN_GR * 2);
+  for (let y = -TOWN_GR; y < TOWN_GR; y += 32) for (let x = -TOWN_GR; x < TOWN_GR; x += 32) { if (Math.hypot(x, y) < R) continue; G_.rr(g, x + 1, y + 1, 30, 30, 1, ((x + y) / 32 & 1) ? '#180a20' : '#10061a'); }
+  g.save(); g.beginPath(); g.arc(0, 0, R + 8, 0, TAU); g.clip();
+  for (let y = -R - 16; y < R + 16; y += 36) for (let x = -R - 16; x < R + 16; x += 36) { const k = ((x + y) / 36 | 0) & 1; G_.rr(g, x + 1, y + 1, 34, 34, 1, k ? '#3a0c24' : '#140a1e'); g.fillStyle = 'rgba(255,200,255,.05)'; g.fillRect(x + 3, y + 3, 30, 1.4); g.strokeStyle = 'rgba(232,184,48,.5)'; g.lineWidth = 1; g.strokeRect(x + 0.5, y + 0.5, 35, 35); }
+  // a grand red carpet to the exit with gold edging
+  G_.rr(g, -26, 40, 52, R, 0, '#8a1024'); G_.rr(g, -22, 40, 44, R, 0, '#b01a34'); g.fillStyle = '#e8b830'; g.fillRect(-27, 40, 2.4, R); g.fillRect(24.6, 40, 2.4, R); for (let y = 52; y < R; y += 16) { G_.po(g, [-6, y, 0, y - 5, 6, y, 0, y + 5], 'rgba(232,184,48,.55)'); }
+  // a huge neon star-medallion on the floor
+  g.beginPath(); g.arc(0, 0, 74, 0, TAU); g.strokeStyle = '#e8b830'; g.lineWidth = 5; g.stroke(); g.beginPath(); g.arc(0, 0, 66, 0, TAU); g.strokeStyle = '#ff3a9a'; g.lineWidth = 3; g.stroke(); g.beginPath(); g.arc(0, 0, 56, 0, TAU); g.fillStyle = '#1a0818'; g.fill();
+  const pts = []; for (let i = 0; i < 10; i++) { const q = -Math.PI / 2 + i * Math.PI / 5, rr = i % 2 ? 22 : 50; pts.push(Math.cos(q) * rr, Math.sin(q) * rr); } G_.po(g, pts, '#e8b830', '#fff0a0', 1.4); G_.po(g, pts.map(v => v * 0.6), '#b01870');
+  g.globalCompositeOperation = 'lighter'; G_.el(g, 0, 0, 80, 80, G_.rg(g, 0, 0, 4, 80, 'rgba(255,60,160,.32)', 'rgba(255,60,160,0)')); for (const [x, y, c] of [[-160, -40, 'rgba(255,60,200,.12)'], [160, 40, 'rgba(60,220,255,.12)'], [0, 150, 'rgba(255,200,60,.1)']]) G_.el(g, x, y, 90, 90, G_.rg(g, x, y, 4, 90, c, 'rgba(0,0,0,0)')); g.globalCompositeOperation = 'source-over';
+  for (let i = 0; i < 40; i++) { const a = r() * TAU, d = r() * R; G_.el(g, Math.cos(a) * d, Math.sin(a) * d, 2.4, 1.2, ['#ff6ad0', '#80f0ff', '#ffe060'][i % 3], r() * 3); }   // confetti
+  g.restore();
+  for (const [w, c] of [[16, '#06020a'], [11, '#3a0c24'], [5, '#e8b830']]) { g.beginPath(); g.arc(0, 0, R + 4, 0, TAU); g.strokeStyle = c; g.lineWidth = w; g.stroke(); }
+  for (let i = 0; i < 40; i++) { const a = i / 40 * TAU; G_.el(g, Math.cos(a) * (R + 4), Math.sin(a) * (R + 4), 2.4, 2.4, i % 2 ? '#ff6ad0' : '#80f0ff'); }
+};
+T36STALL.inferno = function (g, nt, r, G_) { const cl = { merchant: '#ff3a9a', gambler: '#40c8e8', smith: '#e8b830', stranger: '#c898ff' }[nt];
+  // a velvet-curtained alcove framed in gold with a neon-edged sign
+  G_.rr(g, -52, -70, 104, 70, 3, '#12060e'); G_.rr(g, -48, -66, 96, 66, 2, G_.lg(g, -48, 0, 48, 0, '#3a0c24', '#5a1236', '#3a0c24')); for (const s_ of [-1, 1]) { G_.po(g, [s_ * 48, -66, s_ * 24, -66, s_ * 30, 0, s_ * 48, 0], G_.lg(g, 0, -66, 0, 0, '#a81e4e', '#4a0c24')); for (let i = 0; i < 4; i++) G_.ln(g, [s_ * (46 - i * 5), -64, s_ * (46 - i * 5) + s_ * 2, 0], 'rgba(0,0,0,.25)', 1); }
+  if (nt === 'merchant') { for (const [x, c] of [[-26, '#ff3a9a'], [-8, '#40c8e8'], [10, '#e8b830'], [28, '#c898ff']]) { G_.rr(g, x - 6, -44, 12, 18, 3, c); G_.rr(g, x - 3, -50, 6, 6, 2, '#f4f4f4'); G_.el(g, x, -36, 2, 3, 'rgba(255,255,255,.5)'); } G_.rr(g, -36, -26, 72, 4, 1, '#e8b830'); T36P.crate(g, 36, 0, 0.8, ['#4a0c24', '#2a0614', '#10040a']); }
+  else if (nt === 'gambler') { G_.el(g, 0, -18, 38, 14, '#0e5a38'); G_.el(g, 0, -20, 34, 11, '#14804a'); for (const [x, y, c] of [[-14, -20, '#c01c30'], [-8, -22, '#e8b830'], [10, -19, '#40c8e8'], [16, -22, '#c01c30']]) { G_.el(g, x, y, 4, 2, c); G_.el(g, x, y - 1, 3, 1.4, '#fff'); } for (const [x, y] of [[0, -20], [-3, -17]]) { G_.rr(g, x - 3, y - 3, 6, 6, 1, '#fff'); G_.el(g, x, y, 0.8, 0.8, '#000'); } G_.glow(g, 0, -30, 40, '#40ff90', 0.18); }
+  else if (nt === 'smith') { for (let i = 0; i < 4; i++) { const x = -34 + i * 22; G_.ln(g, [x, -62, x, -50], '#c8cedc', 1.4); G_.po(g, [x - 8, -50, x + 8, -50, x + 6, -22, x, -14, x - 6, -22], i % 2 ? '#1a1a24' : '#5a0a2a'); G_.rr(g, x - 1, -50, 2, 34, 0, '#e8b830'); G_.el(g, x, -46, 3, 3, '#e8b830'); } G_.rr(g, -40, -12, 80, 4, 1, '#e8b830'); G_.el(g, 32, -4, 6, 4, '#c8cedc'); }
+  else { G_.rr(g, -34, -30, 68, 22, 3, G_.lg(g, -34, 0, 34, 0, '#6a4a28', '#a07a44', '#6a4a28')); G_.rr(g, -34, -32, 68, 5, 2, '#e8b830'); G_.el(g, -14, -38, 5, 5, '#e8b830'); G_.rr(g, -16, -42, 4, 6, 1, '#e8b830'); G_.el(g, -14, -44, 2, 2, '#fff'); for (let i = 0; i < 3; i++) { G_.rr(g, 4 + i * 9, -40, 7, 9, 1, '#f4ecd0'); } for (let i = 0; i < 6; i++) G_.el(g, -28 + i * 5, -14, 1.6, 1.6, '#e8b830'); G_.glow(g, 0, -34, 36, '#ffe060', 0.2); }
+  // neon-edged marquee
+  G_.rr(g, -58, -90, 116, 22, 4, '#0a0410'); g.strokeStyle = cl; g.lineWidth = 2.6; rrp(g, -56, -88, 112, 18, 3); g.stroke(); g.strokeStyle = 'rgba(255,255,255,.6)'; g.lineWidth = 0.8; rrp(g, -56, -88, 112, 18, 3); g.stroke(); G_.glow(g, 0, -79, 58, cl, 0.3);
+  for (let i = 0; i < 12; i++) G_.el(g, -50 + i * 9, -92, 1.8, 1.8, i % 2 ? '#ffe060' : '#fff');
+};
+Object.assign(T36W, {
+  nnhotel() { return t36S('nnhotelT', 300, 290, 150, 280, (g, r) => { const G_ = T36G; G_.el(g, 0, 0, 130, 12, 'rgba(0,0,0,.5)'); G_.rr(g, -126, -150, 252, 150, 4, G_.lg(g, -126, 0, 126, 0, '#2a0c20', '#4a1634', '#220a1a'));
+      for (let y = -144; y < -6; y += 14) for (let x = -120; x < 120; x += 24) { if (r() < 0.55) { G_.rr(g, x, y, 14, 8, 1, r() < 0.5 ? '#ffd890' : '#ff8ac8'); G_.glow(g, x + 7, y + 4, 12, r() < 0.5 ? '#ffd890' : '#ff8ac8', 0.15); } }
+      g.beginPath(); g.moveTo(-44, 0); g.lineTo(-44, -66); g.arc(0, -66, 44, Math.PI, 0); g.lineTo(44, 0); g.closePath(); g.fillStyle = '#e8b830'; g.fill(); g.beginPath(); g.moveTo(-36, 0); g.lineTo(-36, -64); g.arc(0, -64, 36, Math.PI, 0); g.lineTo(36, 0); g.closePath(); g.fillStyle = '#140614'; g.fill();
+      G_.ln(g, [0, -98, 0, 0], '#e8b830', 2.4); G_.glow(g, 0, -50, 70, '#ff3a9a', 0.25); for (const s_ of [-1, 1]) { G_.rr(g, s_ * 70 - 9, -62, 18, 62, 2, G_.lg(g, s_ * 70 - 9, 0, s_ * 70 + 9, 0, '#e8b830', '#fff0a0', '#a07a14')); }
+      G_.rr(g, -134, -158, 268, 10, 2, '#e8b830'); G_.rr(g, -80, -214, 160, 56, 5, '#0a0410'); g.strokeStyle = '#ff3a9a'; g.lineWidth = 4; rrp(g, -76, -210, 152, 48, 4); g.stroke(); g.strokeStyle = '#fff'; g.lineWidth = 1; rrp(g, -76, -210, 152, 48, 4); g.stroke();
+      g.font = 'bold 24px Georgia,serif'; g.textAlign = 'center'; g.fillStyle = '#80f0ff'; g.shadowColor = '#40c8e8'; g.shadowBlur = 8; g.fillText('LAST RESORT', 0, -178); g.shadowBlur = 0; G_.glow(g, 0, -186, 100, '#ff3a9a', 0.22);
+      for (let i = 0; i < 14; i++) G_.el(g, -66 + i * 10, -216, 2.2, 2.2, i % 2 ? '#ffe060' : '#fff'); }); },
+  nnpillar() { return t36S('nnpillarT', 60, 150, 30, 140, g => { const G_ = T36G; G_.el(g, 0, 0, 22, 5, 'rgba(0,0,0,.5)'); G_.rr(g, -16, -8, 32, 8, 2, '#e8b830'); G_.rr(g, -11, -122, 22, 116, 2, G_.lg(g, -11, 0, 11, 0, '#2a0c20', '#7a2050', '#2a0c20')); G_.rr(g, -16, -130, 32, 8, 2, '#e8b830'); for (let y = -112; y < -10; y += 12) G_.ln(g, [-9, y, 9, y], 'rgba(255,200,255,.18)', 1); G_.rr(g, 2, -118, 4, 100, 2, 'rgba(255,60,160,.5)'); G_.glow(g, 0, -64, 40, '#ff3a9a', 0.2); }); },
+  nnneon() { return t36S('nnneonT', 70, 110, 35, 100, (g, r) => { const G_ = T36G; G_.el(g, 0, 0, 14, 4, 'rgba(0,0,0,.45)'); G_.rr(g, -2, -60, 4, 60, 1.5, '#5a5e6a'); const cs = ['#ff3a9a', '#40c8e8', '#ffe060']; for (let i = 0; i < 3; i++) { G_.rr(g, -26, -98 + i * 12, 52, 9, 3, '#0a0410'); g.strokeStyle = cs[i]; g.lineWidth = 2; rrp(g, -25, -97 + i * 12, 50, 7, 2); g.stroke(); G_.glow(g, 0, -93 + i * 12, 32, cs[i], 0.22); } }); },
+  nnlampT() { return t36S('nnlampTT', 40, 110, 20, 100, g => { const G_ = T36G; G_.el(g, 0, 0, 10, 3, 'rgba(0,0,0,.45)'); G_.rr(g, -2.4, -80, 4.8, 80, 1.5, '#e8b830'); G_.ln(g, [0, -78, 12, -78], '#e8b830', 2.6); T36P.lantern(g, 12, -70, '#ff6ad0', 1.4); G_.rr(g, -5, -6, 10, 6, 1.5, '#a07a14'); }); },
+  nnsofaT() { return t36S('nnsofaTT', 80, 50, 40, 44, g => { const G_ = T36G; G_.el(g, 0, 0, 36, 5, 'rgba(0,0,0,.45)'); G_.rr(g, -34, -32, 68, 18, 5, '#a81e4e'); G_.rr(g, -36, -26, 10, 22, 4, '#7a1438'); G_.rr(g, 26, -26, 10, 22, 4, '#7a1438'); G_.rr(g, -28, -22, 56, 14, 4, '#c0305e'); for (const x of [-26, 26]) G_.rr(g, x - 2, -4, 4, 5, 1, '#e8b830'); for (let i = 0; i < 6; i++) G_.el(g, -22 + i * 9, -28, 1.2, 1.2, '#e8b830'); }); },
+  nnstage() { return t36S('nnstageT', 120, 90, 60, 82, g => { const G_ = T36G; G_.el(g, 0, 0, 56, 8, 'rgba(0,0,0,.5)'); G_.rr(g, -52, -24, 104, 24, 3, '#3a0c24'); G_.rr(g, -52, -26, 104, 6, 2, '#e8b830'); G_.po(g, [-40, -26, -30, -64, 30, -64, 40, -26], '#12060e'); G_.po(g, [-30, -26, -22, -58, 22, -58, 30, -26], 'rgba(255,230,160,.25)');
+      G_.el(g, -14, -34, 6, 6, '#e8b830'); G_.rr(g, -17, -34, 6, 16, 2, '#e8b830'); G_.el(g, 10, -30, 2, 2, '#fff'); G_.ln(g, [10, -50, 10, -30], '#5a5e6a', 1.4); G_.el(g, 10, -52, 3.4, 3.4, '#c8cedc'); G_.glow(g, 0, -40, 60, '#ffe060', 0.25); }); },
+});
+ZFOLK39.crooner = (d, t) => { const x = d.x, y = d.y; ctx.save(); ctx.translate(x, y); const b = Math.sin(t * 3) * 1.4; ctx.fillStyle = 'rgba(0,0,0,.4)'; ctx.beginPath(); ctx.ellipse(0, 1, 10, 3, 0, 0, TAU); ctx.fill();
+  ctx.fillStyle = '#12121a'; ctx.beginPath(); ctx.moveTo(-8, 0); ctx.lineTo(-6, -20 + b * 0.4); ctx.lineTo(6, -20 + b * 0.4); ctx.lineTo(8, 0); ctx.closePath(); ctx.fill(); ctx.fillStyle = '#f4f4f4'; ctx.fillRect(-2, -20 + b * 0.4, 4, 12); ctx.fillStyle = '#ff3a9a'; ctx.fillRect(-1.2, -19 + b * 0.4, 2.4, 4);
+  ctx.fillStyle = '#d84a4a'; ctx.beginPath(); ctx.arc(0, -25 + b * 0.4, 6, 0, TAU); ctx.fill(); ctx.fillStyle = '#e8b830'; ctx.beginPath(); ctx.moveTo(-5, -29 + b * 0.4); ctx.lineTo(-3, -36 + b * 0.4); ctx.lineTo(-1, -30 + b * 0.4); ctx.lineTo(1, -37 + b * 0.4); ctx.lineTo(3, -30 + b * 0.4); ctx.lineTo(5, -29 + b * 0.4); ctx.fill();
+  ctx.fillStyle = '#0a0a10'; ctx.fillRect(-1, -25 + b * 0.4, 2, 1.4); ctx.fillRect(3, -25 + b * 0.4, 2, 1.4); ctx.strokeStyle = '#c8cedc'; ctx.lineWidth = 1.6; ctx.beginPath(); ctx.moveTo(8, -16); ctx.lineTo(11, -26 + b); ctx.stroke(); ctx.fillStyle = '#c8cedc'; ctx.beginPath(); ctx.arc(11, -28 + b, 2.6, 0, TAU); ctx.fill();
+  ctx.globalCompositeOperation = 'lighter'; ctx.fillStyle = 'rgba(255,224,96,.2)'; ctx.beginPath(); ctx.moveTo(0, -60); ctx.lineTo(-18, 0); ctx.lineTo(18, 0); ctx.closePath(); ctx.fill(); ctx.restore(); };
 function townPrebuild(th) { try { t36Ground(th); const T = { theme: th, cx: 0, cy: 0 }; const n0 = G.npcs; G.npcs = []; t36Layout(T); G.npcs = n0; for (const nt of ['merchant', 'gambler', 'smith', 'stranger']) t36Stall(th, nt); } catch (e) {} }
 
 /* ================= v26: evolutions for the v25 skills (same rules as v18: max the skill + own its paired passive) ================= */
@@ -11052,6 +11503,10 @@ const NOFF = {
   bet2: { ic: '⚅', n: () => 'High Stakes', d: () => 'Bigger prizes (even an evolution!), bigger risks', base: 45, rep: 2 },
   evo: { ic: '⇪', n: () => 'Pact of Ascension', d: o => 'Evolve ' + (WDEF[o.a] ? WDEF[o.a].name : 'a ready skill') + ' right now', base: 100 },
   horde: { ic: '☄', n: () => 'Banish the Horde', d: () => 'Banish every ordinary foe on screen and hold back the swarm for 6s (elites & bosses lose 20% HP)', base: 55 },
+  glimjar: { ic: '❦', n: () => 'Bottled Glimmer', d: () => 'Restore 65% of your HP and move faster for 60s', base: 26 },
+  shrinechest: { ic: '▣', n: () => 'Shrine Chest', d: () => 'Open an old chest: gold, a heal, a skill level or a little extra max HP', base: 60 },
+  nightcap: { ic: '♨', n: () => 'Midnight Nightcap', d: () => 'Restore 50% of your HP and +20% damage for 75s', base: 26 },
+  minibar: { ic: '♠', n: () => 'Penthouse Minibar', d: () => 'Raid the minibar for a fabulous random prize. Prices are, of course, outrageous', base: 70 },
   stew: { ic: '♨', n: () => 'Hearty Stew', d: () => 'Restore 60% of your HP and +20% damage for 60s', base: 26 },
   crate: { ic: '▣', n: () => 'Mystery Loot Crate', d: () => 'Pry it open for a random prize: gold, a big heal, a skill level or a damage surge', base: 60 },
   broth: { ic: '♨', n: () => 'Weeping Broth', d: () => 'Restore 70% of your HP and +3 armor for 60s', base: 22 },
@@ -11160,6 +11615,16 @@ function npcApply(o, price, n) { const by = n.nt;
     case 'heal': if (P.hp >= P.maxHp - 0.5) return { fail: 'You are already at full health. Keep your coin!' }; heal(P.maxHp * 0.5); burst(P.x, P.y, '#ff3d6e', 10, 70, 2.5, 0.5, true); return { t: '✚ Healed! ' + Math.ceil(P.hp) + ' / ' + Math.round(P.maxHp) + ' HP', snd: 'heal' };
     case 'lvl': { const r = npcLevelAny(o.a); return r ? { t: '⇧ ' + r + (by === 'smith' ? '. Good as new!' : '. Lesson learned!') } : { fail: 'Your skills are all maxed, there is nothing left to teach!', gone: 1 }; }
     case 'lvl2': { const a = npcLevelAny(o.a); if (!a) return { fail: 'Your power is already complete.', gone: 1 }; const b = npcLevelAny(o.a); return { t: '⇧ ' + a + (b && b !== a ? ' · ' + b : '') }; }
+    case 'glimjar': heal(P.maxHp * 0.65); npcBuff('bufH', 60); burst(P.x, P.y, '#ffb0e8', 12, 80, 2.5, 0.5, true); return { t: '❦ A warm glimmer: ' + Math.ceil(P.hp) + ' / ' + Math.round(P.maxHp) + ' HP and faster for 60s', snd: 'heal' };
+    case 'shrinechest': { const q = Math.random(); if (q < 0.3) { const g0 = 45 + Math.floor(Math.random() * 70); G.gold = (G.gold || 0) + g0; return { t: '▣ Old coins inside: +' + g0 + ' gold' }; }
+      if (q < 0.55) { heal(P.maxHp * 0.9); burst(P.x, P.y, '#80ffe0', 12, 80, 2.5, 0.5, true); return { t: '▣ A heart-shaped charm: ' + Math.ceil(P.hp) + ' / ' + Math.round(P.maxHp) + ' HP', snd: 'heal' }; }
+      if (q < 0.8) { const a = npcLevelAny(null); return { t: '▣ An old scroll: ' + (a || 'a skill') + ' levels up' }; }
+      P.maxHp += 8; heal(8); return { t: '▣ A heart container: +8 max HP' }; }
+    case 'nightcap': heal(P.maxHp * 0.5); npcBuff('bufE', 75); burst(P.x, P.y, '#ff6ad0', 10, 70, 2.5, 0.5, true); return { t: '♨ Smooth. ' + Math.ceil(P.hp) + ' / ' + Math.round(P.maxHp) + ' HP and +20% damage for 75s', snd: 'heal' };
+    case 'minibar': { const q = Math.random(); if (q < 0.25) { const g0 = 60 + Math.floor(Math.random() * 90); G.gold = (G.gold || 0) + g0; return { t: '♠ A roll of casino chips: +' + g0 + ' gold' }; }
+      if (q < 0.5) { heal(P.maxHp); burst(P.x, P.y, '#ffe060', 14, 90, 2.5, 0.5, true); return { t: '♠ Champagne! Fully healed: ' + Math.ceil(P.hp) + ' / ' + Math.round(P.maxHp) + ' HP', snd: 'heal' }; }
+      if (q < 0.75) { const a = npcLevelAny(null), b2 = npcLevelAny(null); return { t: '♠ The VIP package: ' + (a || 'a skill') + (b2 && b2 !== a ? ' · ' + b2 : '') }; }
+      npcBuff('bufE', 120); npcBuff('bufH', 120); return { t: '♠ Showtime! +25% damage and faster skills for 2 minutes' }; }
     case 'stew': heal(P.maxHp * 0.6); npcBuff('bufE', 60); burst(P.x, P.y, '#f4d060', 10, 70, 2.5, 0.5, true); return { t: '♨ Hearty! ' + Math.ceil(P.hp) + ' / ' + Math.round(P.maxHp) + ' HP and +20% damage for 60s', snd: 'heal' };
     case 'crate': { const q = Math.random(); if (q < 0.3) { const g0 = 40 + Math.floor(Math.random() * 70); G.gold = (G.gold || 0) + g0; return { t: '▣ Gold coins inside: +' + g0 + ' gold' }; }
       if (q < 0.55) { heal(P.maxHp * 0.9); burst(P.x, P.y, '#ffd890', 12, 80, 2.5, 0.5, true); return { t: '▣ A healing draught: ' + Math.ceil(P.hp) + ' / ' + Math.round(P.maxHp) + ' HP', snd: 'heal' }; }
@@ -11972,6 +12437,113 @@ function valorChunk(i, j, key, a, rnd, add, x0, y0) {
   else if (u < 0.88) { add('vtent', cx, cy); add('vcrate', cx - 52, cy + 24); add('vcrate', cx + 52, cy + 20); add('vquest', cx + 72, cy - 8); }                                          // a field camp
   else { add('vobel', cx, cy); add('vchest', cx - 40, cy + 22); add('vchest', cx + 40, cy + 22); add('vbanner', cx + 70, cy - 6); }                                                       // old war-stone with spoils
 }
+/* ================= v39 THE MOSSREACH SHRINES: the sixth zone. Rolling meadows, mossy shrine doors, smashable clay pots, treasure chests and ancient statues.
+   Unlocks after surviving 15:00 in the Valorfields. Everything here (art, names, creatures, bosses, music) is original to this game. ================= */
+Object.assign(OBT, { glpot: { S: 40, f: 14, r: 7, small: 1, low: 1, brk: 1 }, glbush: { S: 52, f: 12, r: 12, small: 1 }, glstatue: { S: 92, f: 14, r: 10, tall: 1, small: 1 }, gldoor: { S: 104, f: 16, r: 18, tall: 1 },
+  glstump: { S: 48, f: 12, r: 10, small: 1 }, gltree: { S: 120, f: 14, r: 12, tall: 1 }, glchest: { S: 46, f: 10, r: 9, small: 1, low: 1 }, glcairn: { S: 54, f: 10, r: 10, small: 1, low: 1 } });
+const GLADE_KINDS = ['glpot', 'glbush', 'glstatue', 'gldoor', 'glstump', 'gltree', 'glchest', 'glcairn'];
+const GLADE_SINGLE = [['glpot', 22], ['glbush', 14], ['glstatue', 8], ['gldoor', 5], ['glstump', 10], ['gltree', 14], ['glchest', 6], ['glcairn', 10]];
+const gladeOpen = () => !!(save && save.ach && save.ach.done && save.ach.done.m_w15);
+(() => {
+  const { ramp: R, PB, finish } = PXA, W = PXA.world, PD = W.PD;
+  const G1 = R(['#2c6a24', '#44902f', '#62b042', '#86d05a', '#b4f088']), G2 = R(['#2a7a38', '#3e9e4c', '#5cc060', '#86e08a', '#c0ffc0']), PTH = R(['#6a6450', '#8c8468', '#b0a888', '#d4ccac', '#f0ead0']);
+  const STN = R(['#2a302c', '#56635a', '#869488', '#b4c4b4', '#e8f4e8']), LF = R(['#0e3010', '#1e6a22', '#3aa83a', '#78d85a', '#c8f8a0']), WOD = R(['#2a1808', '#4e3016', '#745022', '#9a7234', '#c29a50']), CLY = R(['#4a1c0e', '#8a3a1e', '#c0643a', '#e08a58', '#ffc090']);
+  const TEA = R(['#08323a', '#0e6a74', '#2ab0b8', '#80e8e0', '#e0fffa'], 1), PNK = R(['#5a1a44', '#b0407a', '#e878b0', '#ffb0d8', '#fff0f8'], 1), GLD = R(['#4a3410', '#9a7420', '#d8a830', '#f4d060', '#fff4b0'], 1), IRN = R(['#0c0c12', '#22242c', '#3e424e', '#6a707e', '#a0a8b8']);
+  const hsh = (x, y, s = 0) => { let h = (x * 374761393 + y * 668265263 + s * 2246822519) | 0; h = (h ^ (h >>> 13)) * 1274126177; return ((h ^ (h >>> 16)) >>> 0) / 4294967296; };
+  // ground: soft rolling meadow in two greens, clover, white and pink blossoms, old paving stones half-buried
+  W.groundG = function () { const T = TILE, b = new PB(T, T, 0, 0, 1);
+    for (let y = 0; y < T; y++) for (let x = 0; x < T; x++) { const n = hsh(x, y, 9), sw = Math.sin(x * 0.045) + Math.sin(y * 0.05 + x * 0.02), P = sw > 0.2 ? G2 : G1; b.a[y * T + x] = P[n < 0.07 ? 1 : n > 0.95 ? 4 : n > 0.82 ? 3 : 2]; }
+    let s = 113; const rnd = () => (s = (s * 16807) % 2147483647) / 2147483647, ws = (x, y, c) => b.set(((x % T) + T) % T, ((y % T) + T) % T, c);
+    for (let k = 0; k < 7; k++) { const cx = Math.floor(rnd() * T), cy = Math.floor(rnd() * T), r = 4 + rnd() * 5;   // half-buried flagstones
+      for (let y = -r * 0.6; y <= r * 0.6; y++) for (let x = -r; x <= r; x++) { const d = Math.hypot(x / r, y / (r * 0.6)); if (d < 1) ws(cx + Math.round(x), cy + Math.round(y), PTH[d > 0.8 ? 1 : (x + y) < 0 ? 3 : 2]); } }
+    for (let k = 0; k < 50; k++) { const cx = Math.floor(rnd() * T), cy = Math.floor(rnd() * T), c = k % 3 === 0 ? PNK : k % 3 === 1 ? R(['#d8d8d8', '#e8e8e8', '#f4f4f4', '#fff', '#fff']) : GLD; ws(cx, cy, c[3]); ws(cx + 1, cy, c[2]); ws(cx, cy - 1, c[4]); }
+    for (let i = 0; i < 80; i++) { const x = Math.floor(rnd() * T), y = Math.floor(rnd() * T); ws(x, y, G1[0]); ws(x, y - 1, G2[4]); ws(x + 1, y, G1[1]); }
+    return PXA.paintUp(finish(b, { ol: 0, glow: 0 }).img, PXA.gK(), { tile: 1, seed: 113, mix: 0.3 }); };
+  // road: a stone-paved pilgrim path with moss in the seams
+  W.roadG = function (x0, RCH, ya, yb, jr) { const w = RCH, h = yb - ya, b = new PB(w, h, -x0, -ya, 1);
+    for (let x = x0; x < x0 + w; x++) { const cy = roadY(jr, x + 0.5); for (let y = ya; y < yb; y++) { const d = Math.abs(y + 0.5 - cy), n = hsh(x, y, 23); let c = 0;
+        if (d < 5.2) { const seam = ((x + (((y >> 3) & 1) * 4)) & 7) === 0 || (y & 7) === 0; c = seam ? (n < 0.5 ? LF[1] : PTH[0]) : PTH[n < 0.12 ? 1 : n > 0.9 ? 4 : 3]; }
+        else if (d < 6.6) c = LF[n < 0.5 ? 2 : 3]; else if (d < 8.4 && n < 0.4) c = G1[0];
+        if (c) b.set(x, y, c); } }
+    return PXA.paintUp(finish(b, { ol: 0, glow: 0 }).img, PXA.gK(), { ox: x0, oy: ya, mix: 0.4, soft: 1.1 }); };
+  // ---- props ----
+  PD.glpot = (b) => { b.ell(0, -1, 10, 2.4, G1, 0, 0); b.ell(0, -10, 9, 10, CLY, 2, 1); b.rect(-5, -21, 10, 4, CLY[2]); b.rect(-6, -22, 12, 2, CLY[3]); b.ell(0, -22, 5, 1.6, CLY, 0, 0); b.line(-6, -12, 6, -12, CLY[1]); b.line(-7, -8, 7, -8, CLY[1]); b.set(-4, -14, CLY[4]); b.set(-3, -15, CLY[4]); b.ell(3, -6, 1.6, 1, CLY, 1, 0); };
+  PD.glbush = (b) => { b.ell(0, -1, 18, 3.4, G1, 0, 0); for (const [x, y, r, lv] of [[-9, -10, 9, 1], [9, -10, 9, 2], [0, -16, 10, 3], [-3, -7, 8, 2], [5, -6, 7, 3]]) b.ell(x, y, r, r * 0.9, LF, lv, 1); for (const [x, y] of [[-8, -14], [6, -20], [10, -9], [-2, -22]]) { b.set(x, y, PNK[3]); b.set(x + 1, y, PNK[2]); b.set(x, y - 1, PNK[4]); } };
+  PD.glstatue = (b) => { b.ell(0, -1, 14, 3, G1, 0, 0); b.rect(-11, -8, 22, 8, STN[2]); b.rect(-11, -8, 22, 1.4, STN[4]); b.poly([-7, -8, -8, -40, -4, -62, 4, -62, 8, -40, 7, -8], STN, 2, 1); b.ell(0, -68, 7, 7.4, STN, 3, 1); b.poly([-9, -66, -13, -58, -8, -56], STN, 2, 1); b.poly([9, -66, 13, -58, 8, -56], STN, 2, 1);
+    b.rect(-3, -70, 2, 2, TEA[3]); b.rect(2, -70, 2, 2, TEA[3]); b.line(-5, -40, 5, -34, STN[0]); b.ell(-6, -10, 4, 2, LF, 3, 0); b.ell(5, -48, 3, 1.6, LF, 3, 0); b.poly([-2, -52, 2, -52, 0, -44], TEA, 3, 1); b.cap(-7, -50, -14, -30, 2.4, 2, STN, 1); b.cap(7, -50, 13, -30, 2.4, 2, STN, 3); };
+  PD.gldoor = (b) => { b.ell(0, -1, 26, 4, G1, 0, 0); b.rect(-24, -64, 48, 64, STN[2]); b.rect(-24, -64, 6, 64, STN[3]); b.rect(18, -64, 6, 64, STN[1]); b.poly([-28, -64, -20, -80, 20, -80, 28, -64], STN, 3, 1); b.rect(-14, -50, 28, 50, TEA[0]); b.rect(-12, -48, 24, 48, TEA[1]);
+    b.line(0, -48, 0, -2, TEA[0]); for (const [x, y] of [[-6, -38], [6, -38], [-6, -24], [6, -24]]) { b.rect(x - 1, y - 3, 2, 6, TEA[4]); b.rect(x - 3, y, 6, 1, TEA[3]); } b.poly([-5, -76, 0, -86, 5, -76, 0, -70], TEA, 4, 1); b.ell(-18, -6, 4, 2, LF, 3, 0); b.ell(16, -60, 5, 2, LF, 3, 0); for (let i = 0; i < 6; i++) b.line(-22 + i * 4, -64, -22 + i * 4 + (i % 2), -56 + (i % 3) * 3, LF[2]); };
+  PD.glstump = (b) => { b.ell(0, -1, 14, 3, G1, 0, 0); b.rect(-10, -22, 20, 21, WOD[2]); b.rect(-10, -22, 4, 21, WOD[3]); b.ell(0, -22, 10, 4, WOD, 4, 1); b.ell(0, -22, 6, 2.4, WOD, 3, 0); b.ell(0, -22, 3, 1.2, WOD, 2, 0); b.ell(-9, -3, 5, 2, LF, 3, 0); b.cap(8, -22, 12, -30, 1.4, 0.8, LF, 3); b.set(13, -31, PNK[3]); b.ell(-3, -24, 2, 2.6, BON2(), 4, 1); };
+  function BON2() { return R(['#4a4434', '#8a7e64', '#c0b494', '#e4dcc0', '#fffaec']); }
+  PD.gltree = (b) => { b.ell(0, -1, 22, 4, G1, 0, 0); b.rect(-5, -48, 10, 46, WOD[2]); b.rect(-5, -48, 3, 46, WOD[3]); for (const [x, y, r, lv] of [[-14, -62, 17, 1], [14, -64, 18, 2], [0, -82, 21, 3], [-6, -56, 17, 2], [8, -52, 14, 3]]) b.ell(x, y, r, r * 0.88, LF, lv, 1);
+    for (const [x, y] of [[-12, -70], [10, -80], [18, -62], [-4, -90], [0, -64]]) { b.set(x, y, PNK[3]); b.set(x + 1, y, PNK[2]); b.set(x, y - 1, PNK[4]); } };
+  PD.glchest = (b) => { b.ell(0, -1, 14, 3, G1, 0, 0); b.rect(-11, -13, 22, 12, TEA[1]); b.poly([-11, -13, -9, -22, 9, -22, 11, -13], TEA, 2, 1); b.rect(-11, -13, 22, 2, GLD[3]); b.rect(-11, -3, 22, 2, GLD[2]); b.rect(-2, -15, 4, 6, GLD[3]); b.set(0, -12, IRN[0]); b.rect(-11, -13, 2, 12, GLD[2]); b.rect(9, -13, 2, 12, GLD[2]); b.set(-4, -19, TEA[4]); b.set(3, -18, TEA[4]); };
+  PD.glcairn = (b) => { b.ell(0, -1, 14, 3, G1, 0, 0); b.ell(0, -6, 11, 6, STN, 2, 1); b.ell(0, -13, 8, 5, STN, 3, 1); b.ell(-1, -19, 5, 3.6, STN, 3, 1); b.ell(-6, -4, 3, 1.6, LF, 3, 0); b.set(3, -20, TEA[3]); b.set(2, -7, STN[4]); };
+  W.gladeProps = () => { for (const k of GLADE_KINDS) { const c = W.prop(k); SPR.prop[k] = c; SPR.prop['px_' + k] = c; } };
+})();
+function gladeChunk(i, j, key, a, rnd, add, x0, y0) {
+  const u = rnd(), cx = x0 + 30 + rnd() * (OBC - 60), cy = y0 + 30 + rnd() * (OBC - 60);
+  if (u < 0.3 || w28Pick(key)) w28Open(key, a, rnd, add, cx, cy, 2);
+  else if (u < 0.5) add(obPick(GLADE_SINGLE, rnd()), cx, cy, 0.95 + rnd() * 0.15);
+  else if (u < 0.64) { const m = 4 + Math.floor(rnd() * 3); for (let q = 0; q < m; q++) add('glpot', cx + (rnd() - 0.5) * 90, cy + (rnd() - 0.5) * 60); }                                          // a cluster of clay pots
+  else if (u < 0.76) { add('gldoor', cx, cy); add('glstatue', cx - 58, cy + 12); add('glstatue', cx + 58, cy + 12); add('glcairn', cx, cy + 44); }                                                    // a shrine door guarded by statues
+  else if (u < 0.88) { const m = 3 + Math.floor(rnd() * 2); for (let q = 0; q < m; q++) add(q & 1 ? 'gltree' : 'glbush', cx + (q - (m - 1) / 2) * 52, cy + (q & 1) * 14); }                          // a little grove
+  else { add('glchest', cx, cy); add('glpot', cx - 36, cy + 14); add('glpot', cx + 36, cy + 12); add('glstump', cx, cy + 44); }                                                                       // a hidden treasure nook
+}
+/* ================= v39 THE NEON PERDITION: the seventh zone. A garish underworld hotel: checkerboard marble and red carpet, neon signs, velvet ropes, slot machines, champagne towers.
+   Unlocks after surviving 15:00 in the Mossreach Shrines. Everything here (art, names, creatures, bosses, music) is original to this game. ================= */
+Object.assign(OBT, { nnsign: { S: 100, f: 12, r: 8, tall: 1, small: 1 }, nnlamp: { S: 96, f: 12, r: 7, tall: 1, small: 1 }, nnsofa: { S: 52, f: 12, r: 16, small: 1 }, nncart: { S: 54, f: 12, r: 12, small: 1 },
+  nnslot: { S: 78, f: 12, r: 11, small: 1 }, nnrope: { S: 52, f: 12, r: 14, small: 1, low: 1 }, nnbottle: { S: 88, f: 14, r: 10, tall: 1, small: 1 }, nncoin: { S: 46, f: 10, r: 9, small: 1, low: 1 } });
+const INFERNO_KINDS = ['nnsign', 'nnlamp', 'nnsofa', 'nncart', 'nnslot', 'nnrope', 'nnbottle', 'nncoin'];
+const INFERNO_SINGLE = [['nnsign', 12], ['nnlamp', 12], ['nnsofa', 10], ['nncart', 12], ['nnslot', 14], ['nnrope', 12], ['nnbottle', 8], ['nncoin', 8]];
+const infernoOpen = () => !!(save && save.ach && save.ach.done && save.ach.done.m_x15);
+(() => {
+  const { ramp: R, PB, finish } = PXA, W = PXA.world, PD = W.PD;
+  const MB1 = R(['#0a0610', '#14101c', '#22182c', '#34283e', '#4a3c58']), MB2 = R(['#200610', '#3a0c1c', '#561430', '#7a2046', '#a03060']), CRP = R(['#2a0408', '#5a0a14', '#8a1024', '#b01a34', '#d8304e']);
+  const PNK = R(['#4a0a30', '#b01870', '#ff3a9a', '#ff8ac8', '#ffe0f0'], 1), CYN = R(['#08283a', '#1a7a9a', '#40c8e8', '#a0f0ff', '#f0ffff'], 1), GLD = R(['#4a3408', '#a07a14', '#e8b830', '#ffe060', '#fffbc0'], 1), RED = R(['#2a0408', '#7a0e1a', '#c01c30', '#ff4a56', '#ffb0b0'], 1);
+  const BLK = R(['#06060a', '#12121a', '#22222e', '#383848', '#58586a']), SLV = R(['#2a2c34', '#5a5e6a', '#9298a8', '#c8cedc', '#f4f8ff']), VEL = R(['#200610', '#4a0c24', '#7a1438', '#a81e4e', '#d83c70']), GRN = R(['#082a18', '#14603a', '#28a064', '#60e8a0', '#d0ffe8'], 1);
+  const hsh = (x, y, s = 0) => { let h = (x * 374761393 + y * 668265263 + s * 2246822519) | 0; h = (h ^ (h >>> 13)) * 1274126177; return ((h ^ (h >>> 16)) >>> 0) / 4294967296; };
+  // ground: glossy black-and-burgundy checkerboard marble with gold seams and a little neon bleed
+  W.groundN = function () { const T = TILE, b = new PB(T, T, 0, 0, 1), C = 32;
+    for (let y = 0; y < T; y++) for (let x = 0; x < T; x++) { const chk = ((x / C | 0) + (y / C | 0)) & 1, n = hsh(x, y, 11), vein = Math.sin((x + y * 0.6) * 0.13 + hsh(x / C | 0, y / C | 0, 4) * 6) > 0.93, P = chk ? MB2 : MB1;
+      let c = P[n < 0.08 ? 1 : n > 0.97 ? 4 : vein ? 3 : 2]; if (x % C === 0 || y % C === 0) c = GLD[1]; else if (x % C === 1 || y % C === 1) c = GLD[0]; b.a[y * T + x] = c; }
+    let s = 131; const rnd = () => (s = (s * 16807) % 2147483647) / 2147483647, ws = (x, y, c) => b.set(((x % T) + T) % T, ((y % T) + T) % T, c);
+    for (let k = 0; k < 8; k++) { const cx = Math.floor(rnd() * T), cy = Math.floor(rnd() * T), r = 5 + rnd() * 8, c = [PNK, CYN][k & 1];   // neon puddle-glints
+      for (let y = -r * 0.5; y <= r * 0.5; y++) for (let x = -r; x <= r; x++) if ((x * x) / (r * r) + (y * y) / (r * r * 0.25) < 1) ws(Math.round(cx + x), Math.round(cy + y), c[0]); ws(cx - 1, cy - 1, c[3]); }
+    for (let i = 0; i < 40; i++) ws(Math.floor(rnd() * T), Math.floor(rnd() * T), GLD[3]);
+    return PXA.paintUp(finish(b, { ol: 0, glow: 0 }).img, PXA.gK(), { tile: 1, seed: 131, mix: 0.3 }); };
+  // road: a red carpet runner with gold borders
+  W.roadN = function (x0, RCH, ya, yb, jr) { const w = RCH, h = yb - ya, b = new PB(w, h, -x0, -ya, 1);
+    for (let x = x0; x < x0 + w; x++) { const cy = roadY(jr, x + 0.5); for (let y = ya; y < yb; y++) { const d = Math.abs(y + 0.5 - cy), n = hsh(x, y, 24); let c = 0;
+        if (d < 4.4) c = CRP[n < 0.1 ? 1 : n > 0.93 ? 4 : ((x >> 3) + (y >> 3)) & 1 ? 2 : 3]; else if (d < 5.6) c = GLD[d < 5 ? 3 : 2]; else if (d < 6.6) c = BLK[1]; else if (d < 7.6 && n < 0.3) c = PNK[0];
+        if (c) b.set(x, y, c); } }
+    return PXA.paintUp(finish(b, { ol: 0, glow: 0 }).img, PXA.gK(), { ox: x0, oy: ya, mix: 0.4, soft: 1.1 }); };
+  // ---- props ----
+  PD.nnsign = (b) => { b.ell(0, -1, 12, 3, MB1, 0, 0); b.rect(-2, -60, 4, 59, SLV[2]); b.rect(-2, -60, 1.4, 59, SLV[4]); b.rect(-20, -92, 40, 28, BLK[1]); b.rect(-18, -90, 36, 24, BLK[0]); b.rect(-18, -90, 36, 1.6, PNK[3]); b.rect(-18, -68, 36, 1.6, PNK[3]); b.rect(-18, -90, 1.6, 24, PNK[3]); b.rect(16, -90, 1.6, 24, PNK[3]);
+    for (let i = 0; i < 4; i++) { b.rect(-13 + i * 7, -84, 2, 12, CYN[3]); b.rect(-13 + i * 7, -84, 5, 2, CYN[3]); } b.ell(0, -64, 22, 3, PNK, 2, 0); };
+  PD.nnlamp = (b) => { b.ell(0, -1, 10, 2.6, MB1, 0, 0); b.rect(-2, -64, 4, 63, GLD[2]); b.rect(-2, -64, 1.4, 63, GLD[4]); b.ell(0, -4, 6, 3, GLD, 2, 1); b.cap(0, -64, 10, -72, 1.6, 1.6, GLD, 3); b.cap(0, -64, -10, -72, 1.6, 1.6, GLD, 3);
+    for (const x of [-12, 12]) { b.poly([x - 5, -72, x + 5, -72, x + 3, -82, x - 3, -82], PNK, 3, 1); b.ell(x, -76, 3, 3, PNK, 4, 0); } };
+  PD.nnsofa = (b) => { b.ell(0, -1, 22, 3.6, MB1, 0, 0); b.rect(-20, -26, 40, 14, VEL[2]); b.rect(-20, -26, 40, 3, VEL[4]); b.rect(-22, -22, 6, 14, VEL[1]); b.rect(16, -22, 6, 14, VEL[1]); b.rect(-18, -14, 36, 10, VEL[3]); b.ell(-9, -10, 8, 4, VEL[4], 3, 0); b.ell(9, -10, 8, 4, VEL[4], 3, 0);
+    for (const x of [-16, 16]) { b.rect(x - 1, -4, 2, 4, GLD[3]); } for (let i = 0; i < 5; i++) b.set(-14 + i * 7, -20, GLD[4]); };
+  PD.nncart = (b) => { b.ell(0, -1, 18, 3, MB1, 0, 0); for (const x of [-12, 12]) { b.ell(x, -4, 4, 4, BLK, 1, 1); b.ell(x, -4, 1.6, 1.6, SLV, 3, 0); } b.rect(-16, -18, 32, 3, SLV[3]); b.rect(-14, -15, 2, 10, SLV[2]); b.rect(12, -15, 2, 10, SLV[2]); b.rect(-14, -8, 28, 2, SLV[2]);
+    b.ell(0, -20, 12, 10, SLV, 3, 1); b.ell(-3, -24, 5, 3, SLV, 4, 0); b.ell(0, -30, 2, 2, GLD, 4, 0); b.line(16, -18, 22, -28, SLV[3]); b.set(-8, -10, RED[3]); b.rect(4, -13, 6, 4, PNK[3]); };
+  PD.nnslot = (b) => { b.ell(0, -1, 14, 3, MB1, 0, 0); b.rect(-13, -62, 26, 60, RED[2]); b.rect(-13, -62, 3, 60, RED[3]); b.rect(-13, -62, 26, 5, GLD[3]); b.rect(-10, -52, 20, 14, BLK[0]); for (let i = 0; i < 3; i++) { b.rect(-9 + i * 6.4, -50, 5, 10, '#f4f4f4'); b.set(-7 + i * 6, -46, i === 1 ? RED[3] : GLD[3]); b.set(-6 + i * 6, -45, i === 1 ? RED[3] : GLD[3]); }
+    b.rect(-8, -32, 16, 10, BLK[1]); b.rect(-6, -29, 12, 3, GLD[2]); b.rect(-5, -16, 10, 4, BLK[0]); b.cap(13, -46, 19, -52, 1.4, 1.4, SLV, 3); b.ell(19, -54, 3.4, 3.4, RED, 3, 1); for (let i = 0; i < 4; i++) b.set(-10 + i * 6, -58, [PNK, CYN, GLD, GRN][i][3]); };
+  PD.nnrope = (b) => { b.ell(0, -1, 22, 3.4, MB1, 0, 0); for (const x of [-18, 18]) { b.ell(x, -2, 5, 2.4, GLD, 2, 1); b.rect(x - 2, -26, 4, 24, GLD[3]); b.rect(x - 2, -26, 1.4, 24, GLD[4]); b.ell(x, -27, 3.4, 3.4, GLD, 4, 1); } b.curve(-18, -24, 0, -10, 18, -24, 2.4, 2.4, VEL, 3); b.curve(-18, -24, 0, -12, 18, -24, 0.8, 0.8, VEL, 4); };
+  PD.nnbottle = (b) => { b.ell(0, -1, 16, 3, MB1, 0, 0); b.rect(-14, -6, 28, 5, GLD[2]); for (const [x, y] of [[-8, -12], [0, -12], [8, -12], [-4, -22], [4, -22], [0, -32]]) { b.rect(x - 3, y - 10, 6, 10, GRN[2]); b.rect(x - 3, y - 10, 2, 10, GRN[4]); b.rect(x - 1.4, y - 14, 3, 4, GRN[2]); b.rect(x - 1.6, y - 15, 4, 2, GLD[3]); }
+    b.ell(0, -48, 6, 8, GRN, 3, 1); b.rect(-1.6, -60, 3.6, 6, GRN[2]); b.rect(-2, -62, 4.4, 2.4, GLD[3]); for (const [x, y] of [[-8, -48], [10, -44], [-4, -62], [8, -58]]) b.set(x, y - ((x & 1) ? 1 : 0), GRN[4]); };
+  PD.nncoin = (b) => { b.ell(0, -1, 14, 3, MB1, 0, 0); for (let i = 0; i < 4; i++) { b.ell(-8 + i * 5, -4 - (i & 1), 7, 2.8, GLD, 2, 1); } b.ell(-4, -10, 7, 2.8, GLD, 3, 1); b.ell(4, -10, 7, 2.8, GLD, 2, 1); b.ell(0, -16, 7, 2.8, GLD, 3, 1); b.ell(0, -22, 6, 2.4, GLD, 4, 1); b.set(-2, -23, '#fff'); b.set(8, -7, GLD[4]); b.ell(14, -4, 3.6, 1.6, GLD, 3, 1); };
+  W.infernoProps = () => { for (const k of INFERNO_KINDS) { const c = W.prop(k); SPR.prop[k] = c; SPR.prop['px_' + k] = c; } };
+})();
+function infernoChunk(i, j, key, a, rnd, add, x0, y0) {
+  const u = rnd(), cx = x0 + 30 + rnd() * (OBC - 60), cy = y0 + 30 + rnd() * (OBC - 60), hz = rnd() < 0.5;
+  if (u < 0.3 || w28Pick(key)) w28Open(key, a, rnd, add, cx, cy, 2);
+  else if (u < 0.5) add(obPick(INFERNO_SINGLE, rnd()), cx, cy, 0.95 + rnd() * 0.15);
+  else if (u < 0.64) { const m = 3 + Math.floor(rnd() * 2); for (let q = 0; q < m; q++) add('nnrope', hz ? cx + (q - (m - 1) / 2) * 44 : cx, hz ? cy : cy + (q - (m - 1) / 2) * 44); }                          // a velvet-rope queue
+  else if (u < 0.76) { const m = 3 + Math.floor(rnd() * 2); for (let q = 0; q < m; q++) add('nnslot', cx + (q - (m - 1) / 2) * 34, cy + (q & 1) * 6); }                                                       // a bank of slot machines
+  else if (u < 0.88) { add('nnsign', cx, cy); add('nnsofa', cx - 60, cy + 20); add('nnlamp', cx + 56, cy + 6); add('nncart', cx + 20, cy + 46); }                                                         // a lounge corner
+  else { add('nnbottle', cx, cy); add('nncoin', cx - 44, cy + 20); add('nncoin', cx + 44, cy + 24); add('nnlamp', cx - 70, cy - 4); }                                                                  // a champagne tower with winnings
+}
 function mapApply() { const mp = mapKey36(); if (mp === ARTMAP) return; ARTMAP = mp;  ROADC.clear(); PXA.cache.clear(); HPLAT.clear(); buildArt(); if (mapOn()) PXA.world.castleProps(); if (heartOn()) PXA.world.heartProps(); if (zn39()) PXA.world[zn39().props](); }
 /* ================= v28 LIVING WORLD: art for landmarks, breakables, ground decals and the shrine =================
    Everything is baked once per map into small pixel sprites (PXA), so the per-frame cost is a handful of drawImage calls. */
@@ -12496,6 +13068,92 @@ w39Reg('valor', { name: 'The Valorfields', ic: '⚔', col: '#f4d060', sub: VALOR
     add(0, -140, W_.vdummy());
     add(120, 60, null, { folk: 'questgiver' });
     add(-120, 70, null, { folk: 'questgiver' });
+  } });
+/* ---- v39: Mossreach weather, particles, music, registration ---- */
+Object.assign(PK39, {
+  spore: { vx: [-6, 8], vy: [-16, -6], life: [3, 5], c: ['#ffb0e8', '#80ffe0', '#fff6c8'], s: 6, shape: 'glow', ga: 0.55 },
+  gpetal: { vx: [8, 26], vy: [8, 20], life: [4, 6], c: ['#ffb0d8', '#fff0f8', '#c0b0ff'], s: 2.4, shape: 'rect' },
+  mist: { vx: [4, 14], vy: [-3, 3], life: [4, 6], c: ['#c8fff0', '#e0fff8'], s: 14, shape: 'glow', ga: 0.1 },
+  hearth: { vx: [-4, 4], vy: [-24, -10], life: [1.6, 2.6], c: ['#ffd890', '#ffb060'], s: 5, shape: 'glow', ga: 0.6 },
+});
+WX28.glade = { clear: { n: 'Morning Dew', w: 3 }, spores: { n: 'Drifting Spores', p: 'spore', pr: 9, w: 2 }, blossom: { n: 'Blossom Breeze', p: 'gpetal', pr: 12, w: 2 }, mist: { n: 'Shrine Mist', p: 'mist', pr: 7, fog: 0.45, ov: '120,255,220,.045', w: 1.5 },
+  sunbeam: { n: 'Golden Sunbeams', ov: '255,230,130,.06', gold: 1.1, w: 1.2, d: '+10% gold while it lasts', p: 'hearth', pr: 5 } };
+Object.assign(VOX, {
+  ocarina(c, out, t, f, d, v) { const g = _env(c, out, t, 0.03, 0.12 * v, d * 0.85, 0.16), o = _osc(c, 'sine', f * 2, t, t + d + 0.5), vib = c.createOscillator(), vg = c.createGain(); vib.frequency.value = 4.8; vg.gain.value = f * 0.026; vib.connect(vg); vg.connect(o.frequency); vib.start(t + 0.1); vib.stop(t + d + 0.5); o.connect(g);
+    const g2 = _env(c, out, t, 0.04, 0.02 * v, 0.05, 0.12); _osc(c, 'sine', f * 4, t, t + 0.5).connect(g2); },
+  kalimba(c, out, t, f, d, v) { const g = _env(c, out, t, 0.001, 0.12 * v, 0.008, 0.38); _osc(c, 'sine', f * 2, t, t + 0.6).connect(g); const g2 = _env(c, out, t, 0.001, 0.06 * v, 0.004, 0.12); _osc(c, 'sine', f * 5.4, t, t + 0.2).connect(g2); },
+});
+TRACKS.g_battle = { bpm: 112, root: 60, sc: 'major', lead: 'ocarina', pad: 'softpad', arp: 'kalimba', bass: 'sbass', arpPat: '0.2.4.7.4.2.0.2.', bassPat: 'r.....o.r.....f.', drums: { k: 'x.....x...x.....', s: '....x.......x...', h: 'x.x.x.x.x.x.x.xx' }, vol: 0.78,
+  bars: [B(0, '9---7-9-b---9---'), B(5, 'a---9-7-9---a---'), B(3, '8---a---c-a-8---'), B(4, '7---9-b-d---b-9-'), B(0, 'b---9---7-9-b---'), B(5, 'c---b---a-9-7---'), B(3, 'a-8-a-c-e---c-a-'), B(4, 'b-a-9-7-9---b---'),
+    B(0, 'd---b-d-e---d-b-'), B(2, 'c---a-c-d---c---'), B(5, 'a-c-e-c-a---9---'), B(3, 'c-a-8-a-c-e-d-c-'), B(0, 'b-d-b-9-b-d-e---'), B(4, 'd---b---9-b-d---'), B(3, 'c-b-a-9-8-9-a-b-'), B(0, 'd-------b-------', { fill: 1 })] };
+TRACKS.g_night = Object.assign({}, TRACKS.g_battle, { bpm: 92, vol: 0.68, sc: 'minor', lead: 'fife', arp: 'harp', arpPat: '0...3...5...3...', bassPat: 'r.......o.......', drums: { k: 'x.......x.......', s: '........x.......', h: '....x.......x...' } });
+TRACKS.g_boss = { bpm: 148, root: 57, sc: 'harm', lead: 'lead', pad: 'softpad', arp: 'chug', bass: 'mbass', arpPat: '0.00.0.00.0.0.00', bassPat: 'rr.rorr.rr.rorro', drums: { k: 'x..xx..xx..xx.x.', s: '....x..x....x..x', h: 'x.x.x.x.x.x.x.x.', t: '..............xx' }, vol: 0.8,
+  bars: [B(0, '7---8-7-9---7-6-'), B(5, 'a---9-a-c---b-a-'), B(3, '8---7-8-a---9---'), B(4, '9---a-b-c---a-9-'), B(0, 'c---b-c-e---c-b-'), B(6, 'b---a-b-d---b---'), B(3, 'a-b-c-d-e-d-c-b-', { fill: 1 }), B(4, 'e-------9-------', { fill: 1 })] };
+TRACKS.t_glade = { bpm: 84, root: 60, sc: 'major', lead: 'ocarina', pad: 'softpad', arp: 'kalimba', bass: 'sbass', arpPat: '0.2.4.2.0.2.4.2.', bassPat: 'r.......o.......', drums: null, vol: 0.76,
+  bars: [B(0, '9---b---9-7-----'), B(5, 'a---9---7-9-----'), B(3, '8---a---c-a-8---'), B(4, '7---9---b-9-7---'), B(0, 'b---9---7-------'), B(2, 'c---b---a-9-----'), B(3, 'a-8-a-c-a-8-----'), B(0, '9-------7-------')] };
+w39Reg('glade', { name: 'The Mossreach Shrines', ic: '❦', col: '#9af0b0', sub: GLADESUB, mus: 'g_', ground: 'groundG', road: 'roadG', props: 'gladeProps', chunk: gladeChunk, mood: 0.2, kc: [14, 34, 46], smoke: '#a8e8c0', base: 'spore', brazier: 'glcairn',
+  dec: [['flowers', 5], ['moss', 3], ['leaves', 1], ['fairy', 1.4, 1], ['runes', 1.2, 1], ['roots', 1.6], ['puddle', 0.6]], pat: [['clear', 2.6], ['bog', 0.5], ['blue', 0.9]],
+  pool(t, pool) { if (t >= 300 && t < 480) pool.push('flitter'); if (t >= 720) pool.push('bushpeeker'); }, mini: () => w39GladeMini(),
+  prev: 'valor', prevName: 'the Valorfields', achName: 'Beneath the Shrine Door', prog: 'w15', ach: 'm_w15',
+  info: { bg: 'linear-gradient(180deg,#a8e8c0,#3a9a56)', bl: 'Quiet green hills, clay pots and old shrine doors.', mobs: 'Dewblobs, flitters, rattlebones, mossmaws, statue wakers', boss: '5 bosses · The Grove Warden, Galewing…', town: 'Lanternwick' }, need: 'Survive 15:00 in the Valorfields', open: () => gladeOpen(), lockHint: 'A shrine door hums in the grass',
+  seed: 606, signY: 96, bg: '#07160f', sign: ['#2a8a4a', '#0e3a22', '#e8ffd0', '#9af0b0'], amb: ['chime', 'tick', 'chime'], healK: 'glimjar', extraK: 'shrinechest', menu: {
+    merchant: { ic: '⚱', shop: 'Pot & Pantry', road: 'Pot peddler', fl: ['Every pot is guaranteed to break eventually', 'Fresh jars, glowing sprites included', 'Mind the cat. Mind the pots'] },
+    gambler: { ic: '▣', shop: 'Chest Game Corner', road: 'Chest-game table', fl: ['Pick a chest, any chest!', 'Three chests, one prize. Choose wisely', 'Luck is a shy sprite. Coax it gently'] },
+    smith: { ic: '⚒', shop: 'Whetstone Cottage', road: 'Hillside grinder', fl: ['A good edge for a long road', 'Hammered under the great tree', 'Sharp enough to cut a shadow'] },
+    stranger: { ic: '☾', shop: "Sage's Hollow", road: 'Hollow-tree sage', fl: ['The old doors remember you', 'Listen to the wind. It points the way', 'Courage, wisdom, a bit of luck. Take all three'] },
+  }, names: { heal: 'Bottled Glimmer', lvl: o => o.by === 'smith' ? 'Whetstone Lesson' : "Sage's Lesson", lvl2: 'Old Wisdom', reroll: 'Lucky Acorn', magnet: 'Wind Hook', edge: 'Sharpened Blade', haste: 'Gale Charm', hide: 'Moss Tunic', bet: 'Chest Pick', bet2: 'Grand Chest Wager', evo: 'Shrine Blessing', horde: 'Wake the Statues', ward: 'Kind Fairy' },
+  layout(add, r, W_, R, exitGap) {
+    add(0, -R - 6, W_.glhut(), { tall: 1 }); add(-170, -150, W_.gltreeT(), { tall: 1, lamp: [0, -70], lc: '#80ffe0' });
+    for (let i = 0; i < 28; i++) { const a = i / 28 * TAU; if (exitGap(a) || Math.sin(a) < -0.88) continue; add(Math.cos(a) * (R + 16), Math.sin(a) * (R + 16), W_.glfence(), { tall: 0 }); }
+    for (const s_ of [-1, 1]) { add(s_ * 36, R + 8, W_.gllantern(), { tall: 1, lamp: [12, -72], lc: '#80ffe0' }); add(s_ * 56, R - 14, W_.glbed()); }
+    for (const [x, y] of [[200, -50], [-200, 50], [-150, 150], [150, 140], [40, -176]]) add(x, y, W_.gllantern(), { tall: 1, lamp: [12, -72], lc: '#80ffe0' });
+    for (const [x, y] of [[-124, 190], [128, 196], [-206, -110], [206, -112], [-60, 176]]) add(x, y, W_.glpotS());
+    for (const [x, y] of [[-30, 150], [36, 154], [-182, 80], [186, 86]]) add(x, y, W_.glbed());
+    add(120, 60, null, { folk: 'sprout' }); add(-110, 66, null, { folk: 'sprout' });
+  } });
+/* ---- v39: Neon Perdition weather, particles, music, registration ---- */
+Object.assign(PK39, {
+  nspark: { vx: [-12, 12], vy: [-24, -8], life: [1.4, 2.4], c: ['#ff6ad0', '#80f0ff', '#ffe060'], s: 6, shape: 'glow', ga: 0.7 },
+  confetti: { vx: [-14, 14], vy: [10, 26], life: [3, 5], c: ['#ff3a9a', '#40c8e8', '#ffe060', '#c898ff'], s: 2.4, shape: 'rect' },
+  hiss: { vx: [-30, 30], vy: [-4, 4], life: [0.5, 1.1], c: ['#ffffff', '#a0f0ff', '#202030'], s: 1.8, shape: 'rect' },
+  smoke: { vx: [4, 14], vy: [-8, -2], life: [4, 6], c: ['#ff8ac8', '#c898ff'], s: 16, shape: 'glow', ga: 0.08 },
+});
+WX28.inferno = { clear: { n: 'Neon Haze', w: 3 }, static: { n: 'Static Storm', p: 'hiss', pr: 22, ov: '160,240,255,.04', w: 2 }, confetti: { n: 'Confetti Show', p: 'confetti', pr: 12, w: 2 }, smoke: { n: 'Cigar Smoke', p: 'smoke', pr: 6, fog: 0.4, ov: '255,120,200,.05', w: 1.5 },
+  redalert: { n: 'Red Alert', ov: '255,30,60,.07', gold: 1.1, w: 1.2, d: '+10% gold while it lasts', p: 'nspark', pr: 6 } };
+Object.assign(VOX, {
+  sax(c, out, t, f, d, v) { const lp = c.createBiquadFilter(); lp.type = 'lowpass'; lp.Q.value = 2.4; lp.frequency.setValueAtTime(700, t); lp.frequency.exponentialRampToValueAtTime(2200, t + 0.12); lp.frequency.exponentialRampToValueAtTime(900, t + d); const g = _env(c, out, t, 0.05, 0.12 * v, d * 0.8, 0.16); lp.connect(g);
+    const o = _osc(c, 'sawtooth', f, t, t + d + 0.5, 0), vib = c.createOscillator(), vg = c.createGain(); vib.frequency.value = 5.6; vg.gain.value = f * 0.016; vib.connect(vg); vg.connect(o.frequency); vib.start(t + 0.2); vib.stop(t + d + 0.5); o.connect(lp); _osc(c, 'square', f * 0.5, t, t + d + 0.5, 6).connect(lp); },
+  walk(c, out, t, f, d, v) { const g = _env(c, out, t, 0.005, 0.22 * v, d * 0.7, 0.12); _osc(c, 'triangle', f * 0.5, t, t + d + 0.2).connect(g); const g2 = _env(c, out, t, 0.002, 0.07 * v, 0.01, 0.06); _osc(c, 'square', f * 2.0, t, t + 0.08).connect(g2); },
+  synth(c, out, t, f, d, v) { const lp = c.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 2400; lp.Q.value = 5; const g = _env(c, out, t, 0.006, 0.08 * v, d * 0.6, 0.1); lp.connect(g); _osc(c, 'sawtooth', f, t, t + d + 0.3, -9).connect(lp); _osc(c, 'sawtooth', f, t, t + d + 0.3, 9).connect(lp); },
+});
+TRACKS.n_battle = { bpm: 126, root: 57, sc: 'harm', lead: 'sax', pad: 'softpad', arp: 'synth', bass: 'walk', arpPat: '0.2.4.2.0.2.4.7.', bassPat: 'r.o.r.f.r.o.r.5.', drums: { k: 'x...x...x...x...', s: '....x.......x...', h: 'x.xxx.xxx.xxx.xx' }, vol: 0.8,
+  bars: [B(0, '7---9-7-b---9---'), B(3, '8---7-6-8---7---'), B(4, '9---b-9-d---b---'), B(0, 'b---9-7-9-b-d---'), B(0, 'd---b-d-e---d-b-'), B(5, 'c---a-c-e---c---'), B(3, 'a-b-c-b-a-8-7-9-'), B(4, 'b-d-b-9-7---9-b-', { fill: 1 }),
+    B(0, 'e---d-b-d---e---'), B(6, 'c---b-a-9---b---'), B(5, 'a-c-e-c-a-9-7---'), B(3, 'b-a-9-8-9-b-d-e-'), B(0, 'd-e-d-b-9-7-9-b-'), B(4, 'c-b-a-9-b-d-e---'), B(3, 'e-d-c-b-a-9-8-7-'), B(0, 'b-------9-------', { fill: 1 })] };
+TRACKS.n_night = Object.assign({}, TRACKS.n_battle, { bpm: 96, vol: 0.7, dark: 1, arp: 'drop', arpPat: '0...2...4...2...', bassPat: 'r...o...r...f...', drums: { k: 'x...........x...', s: '........x.......', h: 'x.x.x.x.x.x.x.x.' } });
+TRACKS.n_boss = { bpm: 152, root: 55, sc: 'harm', lead: 'sax', pad: 'softpad', dark: 1, arp: 'chug', bass: 'walk', arpPat: '0.00.0.00.0.0.00', bassPat: 'r.o.r.f.r.o.r.5.', drums: { k: 'x..xx..xx..xx.x.', s: '....x..x....x.xx', h: 'xxxxxxxxxxxxxxxx', t: '..............xx' }, vol: 0.8,
+  bars: [B(0, '7---8-7-a---7-6-'), B(5, '9---8-9-b---a-9-'), B(3, '8---7-8-9---a---'), B(4, 'a---b-c-d---b-a-'), B(0, 'd---c-d-f---d-c-'), B(6, 'b---a-b-d---b---'), B(3, 'a-b-c-d-e-f-e-d-', { fill: 1 }), B(4, 'f-------a-------', { fill: 1 })] };
+TRACKS.t_inferno = { bpm: 92, root: 57, sc: 'harm', lead: 'sax', pad: 'softpad', arp: 'synth', bass: 'walk', arpPat: '0...2...4...2...', bassPat: 'r.o.r.f.r.o.r.5.', drums: { k: 'x.......x.......', s: '........x.......', h: 'x.x.x.x.x.x.x.x.' }, vol: 0.76,
+  bars: [B(0, '9---b---9-7-----'), B(3, '8---a---8-6-----'), B(4, '9---b---d-b-9---'), B(0, 'b-------9-------'), B(5, 'a---9---8-6-----'), B(3, '8---a---c-a-8---'), B(4, 'b-9-b-d-b-9-7---'), B(0, '9---------------')] };
+w39Reg('inferno', { name: 'The Neon Perdition', ic: '★', col: '#ff6ad0', sub: INFERNOSUB, mus: 'n_', ground: 'groundN', road: 'roadN', props: 'infernoProps', chunk: infernoChunk, mood: 0.42, kc: [34, 8, 40], smoke: '#ff8ac8', base: 'nspark', brazier: 'nnlamp',
+  dec: [['tiles', 4], ['crack', 1.6], ['scorch', 1.2], ['blood', 0.8], ['runes', 1.4, 1], ['grate', 1.2, 1], ['chains', 0.6], ['puddle', 0.8]], pat: [['carpet', 2], ['clear', 1.2], ['magma', 0.6, 1]],
+  pool(t, pool) { if (t >= 300 && t < 480) pool.push('moth'); if (t >= 720) pool.push('slotmimic'); }, mini: () => w39InfernoMini(),
+  prev: 'glade', prevName: 'the Mossreach Shrines', achName: 'Check In, Never Check Out', prog: 'x15', ach: 'm_x15',
+  info: { bg: 'linear-gradient(180deg,#2a0a28,#ff3a9a)', bl: 'A neon hotel in the underworld: velvet ropes, jazz and bad bargains.', mobs: 'Bellhop imps, moths, bouncers, chandeliers, slot mimics', boss: '5 bosses · Madame Mirage, Lord Lucre…', town: 'The Last Resort Lobby' }, need: 'Survive 15:00 in the Mossreach Shrines', open: () => infernoOpen(), lockHint: 'A neon sign flickers: VACANCY',
+  seed: 707, signY: 100, bg: '#07020a', sign: ['#ff3a9a', '#2a0618', '#ffffff', '#ffe060'], amb: ['crackle', 'tick', 'chime'], healK: 'nightcap', extraK: 'minibar', menu: {
+    merchant: { ic: '♛', shop: 'Gift Shop of Regrets', road: 'Regret peddler', fl: ['A souvenir from your worst decision', 'Everything is on sale. Nothing is a bargain', 'Please enjoy your stay. Eternally'] },
+    gambler: { ic: '♠', shop: 'High Stakes Table', road: 'Backroom dealer', fl: ['The house always wins. The house is on fire', 'Place your bet, darling', 'Double or nothing. Mostly nothing'] },
+    smith: { ic: '✂', shop: 'The Tailor Shop', road: 'Pop-up tailor', fl: ['Fitted for every occasion, including the last one', 'A little nip here, a little tuck there', 'Nobody dresses to die for like we do'] },
+    stranger: { ic: '☎', shop: 'Front Desk', road: 'Night clerk', fl: ['Checking in? Checking out? Pick one', 'Your room is ready. It has always been ready', 'The elevator only goes down. Enjoy'] },
+  }, names: { heal: 'Midnight Nightcap', lvl: o => o.by === 'smith' ? 'Tailored Technique' : 'Concierge Lesson', lvl2: 'Penthouse Tutelage', reroll: 'Lucky Chip', magnet: 'Coat Check Hook', edge: 'Razor Cut', haste: 'Showtime', hide: 'Velvet Lining', bet: 'Chip Toss', bet2: 'High Roller Wager', evo: 'Devil\'s Bargain', horde: 'Open the Doors', ward: 'Room Key' },
+  layout(add, r, W_, R, exitGap) {
+    add(0, -R - 6, W_.nnhotel(), { tall: 1, lamp: [0, -60], lc: '#ff6ad0' });
+    for (let i = 0; i < 28; i++) { const a = i / 28 * TAU; if (exitGap(a) || Math.sin(a) < -0.88) continue; add(Math.cos(a) * (R + 16), Math.sin(a) * (R + 16), W_.nnpillar(), { tall: 1 }); }
+    for (const s_ of [-1, 1]) { add(s_ * 36, R + 8, W_.nnneon(), { tall: 1, lamp: [0, -80], lc: '#ff3a9a' }); add(s_ * 30, R - 20, W_.nnlampT(), { lamp: [12, -70], lc: '#ff6ad0' }); }
+    for (const [x, y] of [[-200, -50], [200, -50], [-150, 140], [150, 140], [-40, -170], [40, -170]]) add(x, y, W_.nnlampT(), { tall: 1, lamp: [12, -70], lc: '#ff6ad0' });
+    for (const [x, y] of [[-168, -96], [170, -96]]) add(x, y, W_.nnneon(), { tall: 1, lamp: [0, -80], lc: '#40c8e8' });
+    for (const [x, y] of [[-124, 190], [128, 196], [-206, -110], [206, -112]]) add(x, y, W_.nnsofaT());
+    add(0, -130, W_.nnstage(), { lamp: [0, -40], lc: '#ffe060' }); add(-130, 80, W_.nnsofaT()); add(134, 78, W_.nnsofaT());
+    add(60, -120, null, { folk: 'crooner' });
   } });
 let ARTMAP = 'forest';
 function render(dt) {
@@ -14577,7 +15235,29 @@ const BGA = (() => {
         for (let k = 0; k < 3; k++) { const fx = bx + d * (36 + k * 14); K.r(fx - 1, hz - 22 - k * 3, 2, 20 + k * 3, '#6a4824'); K.poly([fx + 1, hz - 22 - k * 3, fx + 10 * d + 1, hz - 19 - k * 3, fx + 1, hz - 15 - k * 3], c1); } }
       K.floor(hz, '#58a83a', '#1e5a1c', cx, '#a88a58');
       const py = hz + (H - hz) * 0.38; K.box(cx - 12, py - 2, 24, 4, '#7a5230'); K.r(cx - 1, py - 26, 2, 24, '#6a4824'); K.poly([cx + 1, py - 26, cx + 16, py - 22, cx + 12, py - 16, cx + 1, py - 14], acc); K.glow(cx, py - 12, H * 0.22, acc, 0.3);
-      K.fog(hz - 3, '#fff8d8', 0.1); K.dots(22, '#ffffff', 0, H * 0.1, W, H * 0.7); K.vig(0.3); }
+      K.fog(hz - 3, '#fff8d8', 0.1); K.dots(22, '#ffffff', 0, H * 0.1, W, H * 0.7); K.vig(0.3); },
+    glade(K, acc, cls) { const { W, H, R } = K, hz = H * 0.6, cx = W / 2;   // v39: the Mossreach - misty green hills, a glowing shrine door, a great tree
+      K.vg(0, 0, W, hz, '#8ad0c0', '#e8fff0'); K.glow(W * 0.2, H * 0.18, H * 0.34, '#fffbd0', 0.5);
+      for (let i = 0; i < 4; i++) { const hx = W * (i * 0.3 - 0.1); K.poly([hx, hz, hx + W * 0.15, hz - H * (0.12 + R() * 0.1), hx + W * 0.4, hz], i % 2 ? '#6ab090' : '#58a07a'); }
+      K.poly([0, hz, 0, hz - H * 0.06, W * 0.3, hz - H * 0.1, W * 0.6, hz - H * 0.05, W, hz - H * 0.09, W, hz], '#3a9a5a');
+      tapestry(K, cls, acc, cx, H * 0.06, Math.min(W * 0.26, 42));
+      K.vg(0, hz, W, H - hz, '#5ac060', '#1e6a38');
+      for (let i = 0; i < 34; i++) { const fx = R() * W, fy = hz + 3 + R() * (H - hz - 4); K.r(fx, fy, 2, 2, ['#ffb0d8', '#fff0f8', '#f4d060', '#c0b0ff'][i % 4]); }
+      const tx = cx - W * 0.3; K.r(tx - 5, hz - H * 0.3, 10, H * 0.3, '#6a4a28'); K.circ(tx, hz - H * 0.34, H * 0.15, '#2a8a3a'); K.circ(tx - 16, hz - H * 0.28, H * 0.1, '#3aa84a'); K.circ(tx + 16, hz - H * 0.3, H * 0.1, '#3aa84a'); for (let i = 0; i < 8; i++) K.r(tx - 24 + R() * 48, hz - H * (0.28 + R() * 0.16), 2, 2, '#ffb0d8');
+      const dx = cx + W * 0.28, dy = hz + 6; K.box(dx - 18, dy - 40, 36, 40, '#869488'); K.r(dx - 10, dy - 32, 20, 32, '#0e6a74'); K.glow(dx, dy - 16, H * 0.2, '#80ffe0', 0.5); K.r(dx - 1, dy - 30, 2, 28, '#80ffe0'); K.tri(dx, dy - 52, 22, 12, '#869488');
+      K.floor(hz, '#5ac060', '#1e6a38', cx, '#b0a888');
+      const py = hz + (H - hz) * 0.4; K.circ(cx, py, 16, 'rgba(128,255,224,.25)'); K.glow(cx, py - 6, H * 0.24, '#80ffe0', 0.4); K.box(cx - 7, py - 12, 14, 12, '#9aa89a'); K.r(cx - 5, py - 20, 10, 8, '#b4c4b4'); K.glow(cx, py - 22, 14, acc, 0.5); K.tri(cx, py - 34, 5, 10, acc);
+      K.fog(hz - 3, '#e8fff0', 0.16); K.dots(26, '#ffb0e8', 0, H * 0.1, W, H * 0.8); K.vig(0.3); },
+    inferno(K, acc, cls) { const { W, H, R } = K, hz = H * 0.62, cx = W / 2;   // v39: the Neon Perdition - a hotel lobby: black and burgundy, gold trim, neon signs, a stage
+      K.vg(0, 0, W, hz, '#1a0618', '#4a1034'); K.dots(40, '#ffd0f0', 0, 0, W, hz);
+      for (let i = 0; i < 4; i++) { const sx = W * (0.14 + i * 0.24), c = ['#ff3a9a', '#40c8e8', '#ffe060', '#c898ff'][i]; K.r(sx - 14, H * 0.12 + (i % 2) * 6, 28, 12, '#0a0410'); K.r(sx - 13, H * 0.12 + 1 + (i % 2) * 6, 26, 1.6, c); K.r(sx - 13, H * 0.12 + 9 + (i % 2) * 6, 26, 1.6, c); K.glow(sx, H * 0.17, 26, c, 0.35); }
+      tapestry(K, cls, acc, cx, H * 0.2, Math.min(W * 0.24, 38));
+      for (const d of [-1, 1]) { const px = cx + d * W * 0.38; K.r(px - 7, H * 0.08, 14, hz - H * 0.08, '#6a1a44'); K.r(px - 9, H * 0.08, 18, 4, '#e8b830'); K.r(px - 9, hz - 4, 18, 4, '#e8b830'); K.r(px - 1, H * 0.1, 2, hz - H * 0.12, '#ff3a9a'); }
+      K.vg(0, hz, W, H - hz, '#2a0a22', '#080208'); for (let i = 0; i < 6; i++) for (let j = 0; j < 4; j++) if ((i + j) & 1) K.r(W * (i / 6), hz + (H - hz) * (j / 4), W / 6, (H - hz) / 4, '#4a0e2c');
+      K.r(cx - 14, hz, 28, H - hz, '#b01a34'); K.r(cx - 16, hz, 2, H - hz, '#e8b830'); K.r(cx + 14, hz, 2, H - hz, '#e8b830');
+      const sy = hz + (H - hz) * 0.3; K.box(cx - 36, sy - 4, 72, 8, '#3a0c24'); K.r(cx - 36, sy - 6, 72, 3, '#e8b830'); K.glow(cx, sy - 20, H * 0.34, '#ffe060', 0.3); K.tri(cx, sy - 40, 22, 38, 'rgba(255,230,160,.18)');
+      K.r(cx - 3, sy - 22, 6, 18, '#12121a'); K.circ(cx, sy - 26, 4.4, '#d84a4a'); K.r(cx + 6, sy - 22, 1, 10, '#c8cedc'); K.circ(cx + 6, sy - 24, 2, '#c8cedc'); K.glow(cx, sy - 6, 22, acc, 0.4);
+      K.fog(hz - 3, '#ff8ac8', 0.12); K.dots(22, '#80f0ff', 0, H * 0.1, W, H * 0.8); K.vig(0.5); }
   };
   let PV = false;
   function tapestry(K, cls, acc, cx, y, w) { if (PV) return; const h = Math.round(w * 1.46), x = Math.round(cx - w / 2); K.r(x - 4, y - 3, w + 8, 3, '#5a3a1e'); K.r(x - 2, y, w + 4, h + 4, '#d8b04a');

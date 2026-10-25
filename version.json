@@ -1,11 +1,12 @@
 {
- "version": "41",
- "date": "2026-10-24",
+ "version": "42",
+ "date": "2026-10-25",
  "minLauncher": "2.0.0",
  "notes": [
-  "The map page now shows a little painted preview of each map",
-  "New map: The Valorfields: a sunny battlefield between two rival armies, with its own monsters, 5 bosses, music and shop town (Wayfarer's Rest)",
-  "Unlock it by surviving 15 minutes in the Weeping Cellar"
+  "Two new maps! Each one unlocks after surviving 15 minutes in the map before it",
+  "The Mossreach Shrines: green hills, smashable clay pots, old shrine doors, its own monsters, 5 bosses, music and village (Lanternwick)",
+  "The Neon Perdition: a glamorous hotel in the underworld, with its own monsters, 5 bosses, jazz music and lobby town (The Last Resort Lobby)",
+  "Unlock order: Valorfields, then Mossreach Shrines, then Neon Perdition"
  ],
  "files": [
   {
@@ -30,8 +31,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "205fc596f6bc9020af27bf33e5a48ac8a1941c634f79004d0c121f66dffab6aa",
-   "size": 2089730
+   "sha256": "cf343c56307dede80603b1eaa1642752a8c1c51c354b8a354071ba228165d258",
+   "size": 2211866
   },
   {
    "name": "manifest.webmanifest",
@@ -40,7 +41,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "88bed930bcfeee3d4f6cb31490a96b1635f14c486aaf9ba7ca63edb74b56dbb6",
+   "sha256": "3e3bed0b76452e303046082d7db6e7971148b701e88498742092ddb120100bf8",
    "size": 1466
   }
  ]
