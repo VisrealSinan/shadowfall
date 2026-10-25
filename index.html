@@ -2749,11 +2749,15 @@ function achMergeRun() { // exactly once per run (called from showGameOver behin
   const r = G.achRun || {}; for (const k in r) save.ach.p[k] = MAX_STATS.test(k) ? Math.max(save.ach.p[k] || 0, r[k]) : (save.ach.p[k] || 0) + r[k]; G.achRun = {}; }
 const _achQ = []; let _achBusy = false;
 function achBanner(a) { _achQ.push(a); if (!_achBusy) _achNext(); }
-function _achNext() { const a = _achQ.shift(), el = $('achBanner'); if (!a) { _achBusy = false; return; } _achBusy = true;
+const POPHOLD45 = { npc: 1, gear: 1, shop: 1 }; let _achCur = null, _achT = 0; function popHold45() { return !!POPHOLD45[state]; } // v45
+function _achNext() { clearTimeout(_achT); if (_achQ.length && popHold45()) { _achBusy = true; _achT = setTimeout(_achNext, 300); return; } const a = _achQ.shift(), el = $('achBanner'); if (!a) { _achBusy = false; return; } _achBusy = true; _achCur = a;
   el.style.top = (state === 'play' || state === 'countdown') && G ? `calc(env(safe-area-inset-top,0px) + ${G.boss && !G.boss.dead ? 150 : 128}px)` : ''; // v11: in-run, sit below the HUD (pause button, danger, boss bar)
   el.innerHTML = `<div class="abic">${a.ic}\uFE0E</div><div class="abtx"><div class="abt">Achievement Unlocked!</div><div class="abn">${a.name}</div><div class="abr">${a.rw ? `Reward: <b>${rewardName(a.rw)}</b>` : a.un ? `Unlocks: <b>${a.un}</b>` : ''}</div></div>`;
   el.classList.remove('on'); void el.offsetWidth; el.classList.add('on'); try { Snd.play('ach'); } catch (e) { }
-  setTimeout(() => { el.classList.remove('on'); setTimeout(_achNext, 380); }, 3000); }
+  _achT = setTimeout(() => { el.classList.remove('on'); _achCur = null; _achT = setTimeout(_achNext, 380); }, 3000); }
+setInterval(() => { if (!popHold45()) return; const el = $('achBanner'), q = $('qBan'); // v45: a window opened under a banner -> the banner steps aside and replays afterwards
+  if (el && _achCur && el.classList.contains('on')) { clearTimeout(_achT); el.classList.remove('on'); _achQ.unshift(_achCur); _achCur = null; _achT = setTimeout(_achNext, 300); }
+  if (q && q._n && q.classList.contains('on')) { clearTimeout(q._t); q.classList.remove('on'); $('qTrack').classList.remove('dim'); _qbQ.unshift(q._n); q._n = null; q._t = setTimeout(_qbNext, 300); } }, 150);
 function previewCos(id) { // the look a reward unlocks, on a fitting hero
   const C = { armor: '', tone: '', hair: '', helm: '', acc: '', paint: '', eye: '', aura: '' };
   if (ARMOR_BY_ID[id]) return { cls: ARMOR_BY_ID[id].cls, race: raceOf(save.race), cos: Object.assign(C, { armor: id }) };
@@ -4764,7 +4768,7 @@ const PXA = (() => {
     // iterate (hi-res) pixel centres in a local bbox
     box(x0, y0, x1, y1, f) { const K = this.K, ox = this.ox, oy = this.oy, X0 = Math.max(0, Math.floor((x0 + ox) * K)), X1 = Math.min(this.w - 1, Math.ceil((x1 + ox) * K)), Y0 = Math.max(0, Math.floor((y0 + oy) * K)), Y1 = Math.min(this.h - 1, Math.ceil((y1 + oy) * K));
       for (let Y = Y0; Y <= Y1; Y++) { const py = (Y + 0.5) / K - oy; for (let X = X0; X <= X1; X++) { const c = f((X + 0.5) / K - ox, py); if (c) this.a[Y * this.w + X] = c; } } }
-    rect(x, y, w, h, c) { this.box(x, y, x + w - 0.01, y + h - 0.01, (px, py) => px >= x && px < x + w && py >= y && py < y + h ? c : 0); }
+    rect(x, y, w, h, c, lv) { if (Array.isArray(c)) c = c[lv === undefined ? 2 : lv]; this.box(x, y, x + w - 0.01, y + h - 0.01, (px, py) => px >= x && px < x + w && py >= y && py < y + h ? c : 0); }
     // shaded ellipse: ramp R, base level b; light from upper-left
     ell(cx, cy, rx, ry, R, b = 2, sh = 1, rot = 0) { const cs = Math.cos(rot), sn = Math.sin(rot);
       this.box(cx - Math.max(rx, ry) - 1, cy - Math.max(rx, ry) - 1, cx + Math.max(rx, ry) + 1, cy + Math.max(rx, ry) + 1, (x, y) => { const dx = x - cx, dy = y - cy, u = (dx * cs + dy * sn) / rx, v = (-dx * sn + dy * cs) / ry, r2 = u * u + v * v; if (r2 > 1) return 0;
@@ -6902,6 +6906,7 @@ Object.assign(ETYPES, {
   snowball: { name: 'Snowball Imp', fam: 'beast', hp: 10, spd: 64, dmg: 6, r: 9, xp: 1, t0: 1e9, size: 28, ai: 'chase', puff: '#e0f4ff', map: 'hollow' },
   sleighhearse: { name: 'Sleigh Hearse', fam: 'construct', hp: 72, spd: 40, dmg: 15, r: 15, xp: 5, t0: 1e9, size: 54, ai: 'charger', heavy: true, puff: '#9a6aff', cap: 1.4, map: 'hollow' },
   elfwitch: { name: 'Cobweb Elf', fam: 'fae', hp: 46, spd: 34, dmg: 8, r: 13, xp: 5, t0: 1e9, size: 44, ai: 'healer', puff: '#a0ff8a', cap: 0.7, map: 'hollow' },
+  surprisemimic: { name: 'Startled Mimic', fam: 'construct', hp: 70, spd: 60, dmg: 9, r: 11, xp: 14, t0: 1e9, size: 40, ai: 'chase', puff: '#c898ff', cap: 1, map: 'hollow' }, /* v45: the Mystery Gift's 'very surprised mimic' - never in spawn pools */
   giftmimic: { name: 'Gift Mimic', fam: 'construct', hp: 120, spd: 30, dmg: 17, r: 16, xp: 7, t0: 1e9, size: 52, ai: 'chase', heavy: true, shield: 0.6, puff: '#ff4a6a', cap: 1.4, map: 'hollow' },
   lanternhound: { name: 'Lantern Hound Pack', fam: 'undead', hp: 28, spd: 82, dmg: 11, r: 13, xp: 3, t0: 120, size: 44, ai: 'wolf', puff: '#ff9a3a', map: 'hollow' },
   cauldron: { name: 'Cauldron Bubbler', fam: 'construct', hp: 30, spd: 38, dmg: 9, r: 13, xp: 3, t0: 200, size: 42, ai: 'spitter', puff: '#7aff5a', cap: 1.2, map: 'hollow' },
@@ -6918,7 +6923,7 @@ Object.assign(ETYPES, {
 const HOLLOWSUB = { wisp: 'lanternling', bone: 'ragdoll', bat: 'snowbat', imp: 'gingerbone', oozelet: 'gingerbone', bomber: 'ornament', armor: 'toysoldier', seer: 'carolghost', splitter: 'snowghoul', charger: 'sleighhearse', healer: 'elfwitch', caller: 'elfwitch', shield: 'giftmimic',
   wolf: 'lanternhound', spitter: 'cauldron', burrower: 'gourdroot', sprite: 'tinselwraith', puffcap: 'lanternling', hornet: 'snowbat', shaman: 'carolghost', lurker: 'gourdroot', slag: 'snowghoul', slaglet: 'snowball', cinderhound: 'lanternhound', pyromancer: 'cauldron', automaton: 'toysoldier', gargoyle: 'tinselwraith' };
 Object.assign(EVS, { lanternling: 1.1, gingerbone: 1.1, ragdoll: 1.05, lanternhound: 1.05 });
-Object.assign(CSHW, { lanternling: 26, snowbat: 20, ragdoll: 32, gingerbone: 24, ornament: 22, toysoldier: 30, carolghost: 20, snowghoul: 28, snowball: 22, sleighhearse: 32, elfwitch: 20, giftmimic: 28, lanternhound: 34, cauldron: 20, gourdroot: 30, tinselwraith: 22, oldsack: 30,
+Object.assign(CSHW, { lanternling: 26, snowbat: 20, ragdoll: 32, gingerbone: 24, ornament: 22, toysoldier: 30, carolghost: 20, snowghoul: 28, snowball: 22, sleighhearse: 32, elfwitch: 20, giftmimic: 28, surprisemimic: 18, lanternhound: 34, cauldron: 20, gourdroot: 30, tinselwraith: 22, oldsack: 30,
   hallowick: 30, motherstitch: 32, greatgift: 36, hollowsleigh: 26, baronicicle: 34 });
 Object.assign(W28NAMES, { lanternling: 'Lantern faces grin in the dark!', snowbat: 'Frost bats flutter in!', ragdoll: 'Stitchlings shamble!', gingerbone: 'Gingerbones crunch past!', ornament: 'Cursed ornaments are ticking!', toysoldier: 'Toy soldiers march!', carolghost: 'A ghostly carol begins!', snowghoul: 'Snowghouls roll in!',
   sleighhearse: 'Sleigh hearses charge!', elfwitch: 'Cobweb elves mend the line!', giftmimic: 'That present is looking at you!', lanternhound: 'Lantern hounds bound in!', cauldron: 'Cauldrons bubble over!', gourdroot: 'The pumpkin patch moves!', tinselwraith: 'Tinsel wraiths shimmer!' });
@@ -7440,7 +7445,7 @@ const ZP = (() => { const TAU2 = Math.PI * 2, bob = f => Math.sin(f / 4 * TAU2),
     b.poly([-4, cy - 2, -22, cy - 12 - fl, -18, cy + 4, -4, cy + 4], BLK, 2, 1); b.poly([4, cy - 2, 22, cy - 12 + fl, 18, cy + 4, 4, cy + 4], BLK, 3, 1); b.line(0, cy - 14, 0, cy - 22, GLD[2]);
     b.poly([-8, cy - 2, 8, cy - 2, 5, cy - 12, -5, cy - 12], GLD, 3, 1); b.poly([-10, cy + 4, 10, cy + 4, 8, cy - 2, -8, cy - 2], GLD, 2, 1); for (let i = -2; i <= 2; i++) { b.poly([i * 4 - 1, cy + 4, i * 4 + 1, cy + 4, i * 4, cy + 11 + (i & 1) * 3], CYN, 4, 0); }
     for (const x of [-6, 0, 6]) { b.rect(x - 0.6, cy - 16, 1.2, 4, SLV[4]); b.set(x, Math.round(cy - 17), '#ffe060'); } b.set(3, Math.round(cy - 6), RED[3]); b.set(-3, Math.round(cy - 6), RED[3]); if (w) glow(b, 0, cy, 12, GLD); };
-  D.crystalbit = (b, f, w) => { const t = f / 4 * TAU2, cy = -16 + bob(f) * 3, s = 1 + Math.sin(t * 2) * 0.1; b.poly([0, cy - 10 * s, 6, cy, 0, cy + 10 * s, -6, cy], CYN, 3, 1); b.poly([0, cy - 10 * s, 6, cy, 0, cy], CYN, 4, 0); b.set(2, Math.round(cy - 3), '#fff'); b.set(0, Math.round(cy + 1), BLK[0]); glow(b, 0, cy, 5, CYN); };
+  D.crystalbit = (b, f, w) => { const t = f / 4 * TAU2, cy = -16 + bob(f) * 3, s = (w ? 1.25 : 1) + Math.sin(t) * 0.12, hw = 6 * (0.55 + 0.45 * Math.abs(Math.cos(t))); /* v45: the crystal spins (facets narrow and widen) and a spark orbits it */ b.poly([0, cy - 10 * s, hw, cy, 0, cy + 10 * s, -hw, cy], CYN, 3, 1); b.poly([0, cy - 10 * s, hw, cy, 0, cy], CYN, 4, 0); b.ell(Math.cos(t) * 9, cy + Math.sin(t) * 4, 1.3, 1.3, '#fff', 4, 0); b.set(2, Math.round(cy - 3), '#fff'); b.set(0, Math.round(cy + 1), BLK[0]); glow(b, 0, cy, 5, CYN); };
   /* Room-Service Cart: a shiny silver trolley with a cloche; two glowing eyes glare from under the lid */
   D.roomcart = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t * 2)) * 1.2 + (w ? 2 : 0);
     for (const x of [-12, 12]) { b.ell(x, -5, 5, 5, BLK, 2, 1); b.ell(x, -5, 2, 2, SLV, 3, 0); b.set(Math.round(x + Math.cos(t * 2) * 3), Math.round(-5 + Math.sin(t * 2) * 3), SLV[4]); }
@@ -7513,7 +7518,7 @@ const ZP = (() => { const TAU2 = Math.PI * 2, bob = f => Math.sin(f / 4 * TAU2),
 (() => {
   const { ramp: R } = PXA, M = PXA.mobs, D = M.D, TAU2 = Math.PI * 2, bob = f => Math.sin(f / 4 * TAU2), Z = ZP;
   Object.assign(M.FLOAT, { snowbat: 1, carolghost: 1, tinselwraith: 1, hollowsleigh: 1 });
-  Object.assign(M.SCALE, { lanternling: 1, snowbat: 1, ragdoll: 1.05, gingerbone: 0.9, ornament: 1, toysoldier: 1.15, carolghost: 1, snowghoul: 1.05, snowball: 0.8, sleighhearse: 1.1, elfwitch: 1, giftmimic: 1.1, lanternhound: 1.05, cauldron: 1, gourdroot: 1.1, tinselwraith: 1.05, oldsack: 1.5 });
+  Object.assign(M.SCALE, { lanternling: 1, snowbat: 1, ragdoll: 1.05, gingerbone: 0.9, ornament: 1, toysoldier: 1.15, carolghost: 1, snowghoul: 1.05, snowball: 0.8, sleighhearse: 1.1, elfwitch: 1, giftmimic: 1.1, surprisemimic: 0.95, lanternhound: 1.05, cauldron: 1, gourdroot: 1.1, tinselwraith: 1.05, oldsack: 1.5 });
   const ORG = R(['#4a1a04', '#a8480c', '#ff8a2a', '#ffc04a', '#fff0b0'], 1), BLK = R(['#06060a', '#12101a', '#221c2e', '#382e48', '#584a70']), PRP = R(['#241044', '#5a2a9a', '#9858e0', '#c898ff', '#f0e0ff']), ICE = R(['#103a5a', '#3a88b8', '#80d0f0', '#c8f0ff', '#ffffff']);
   const CND = R(['#6a0a1a', '#c01c34', '#ff4a5a', '#ff9aa4', '#ffffff']), PCH = R(['#3a2a1c', '#7a5a3a', '#b08a58', '#d8b888', '#f4e0b8']), BON = R(['#4a4434', '#8a7e64', '#c0b494', '#e4dcc0', '#fffaec']), GRN = R(['#0e3a10', '#2a8a2a', '#5ad04a', '#a0ff7a', '#e0ffd0'], 1);
   const GNG = R(['#3a1c08', '#7a4210', '#b0701e', '#d89a3c', '#f4c870']), WHT = R(['#8a90a8', '#b8c0d8', '#dce4f4', '#f0f4ff', '#ffffff']), GLD = R(['#4a3408', '#a07a14', '#e8b830', '#ffe060', '#fffbc0'], 1);
@@ -7556,12 +7561,12 @@ const ZP = (() => { const TAU2 = Math.PI * 2, bob = f => Math.sin(f / 4 * TAU2),
     b.ell(0, -9 + by, 12, 9, WHT, 3, 1); b.ell(1, -22 + by, 9, 8, WHT, 4, 1); b.ell(2, -33 + by, 6.6, 6.2, WHT, 4, 1); b.set(3, Math.round(-34 + by), BLK[0]); b.set(7, Math.round(-34 + by), BLK[0]); b.poly([6, -32 + by, 15, -30 + by, 6, -30 + by], ORG, 3, 1); for (let i = 0; i < 4; i++) b.set(Math.round(2 + i * 1.6), Math.round(-29 + by + (i % 2)), BLK[0]);
     b.rect(-3, -41 + by, 11, 2, BLK[1]); b.rect(-1, -48 + by, 7, 7, BLK[1]); b.rect(-1, -43 + by, 7, 1.4, CND[2]); b.set(-1, Math.round(-8 + by), BLK[0]); b.set(2, Math.round(-12 + by), BLK[0]); b.cap(9, -22 + by, w ? 17 : 15, w ? -34 + by : -16 + by, 1.2, 0.8, FURB(), 3); b.cap(-9, -22 + by, -16, -14 + by, 1.2, 0.8, FURB(), 1); b.line(15, -16 + by, 18, -20 + by, FURB()); };
   function FURB() { return '#7a5230'; }
-  D.snowball = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t * 2)) * 2; b.ell(0, -10 + by, 8, 8, WHT, 4, 1); b.set(2, Math.round(-12 + by), BLK[0]); b.set(5, Math.round(-12 + by), BLK[0]); b.poly([5, -10 + by, 11, -9 + by, 5, -8 + by], ORG, 3, 1); for (let i = 0; i < 3; i++) b.set(Math.round(1 + i * 1.6), Math.round(-7 + by), BLK[0]); for (const x of [-3, 3]) b.cap(x, -3 + by, x + Math.sin(t + x) * 2, -0.5, 1.4, 1, BLK, 1); };
+  D.snowball = (b, f, w) => { const t = f / 4 * TAU2, by = w ? 2 : -Math.abs(Math.sin(t)) * 3; /* v45: hops on alternating feet; crouches before a lunge */ b.ell(0, -10 + by, 8, 8, WHT, 4, 1); b.set(2, Math.round(-12 + by), BLK[0]); b.set(5, Math.round(-12 + by), BLK[0]); b.poly([5, -10 + by, 11, -9 + by, 5, -8 + by], ORG, 3, 1); for (let i = 0; i < 3; i++) b.set(Math.round(1 + i * 1.6), Math.round(-7 + by), BLK[0]); for (const x of [-3, 3]) b.cap(x, -3 + by, x + Math.sin(t) * Math.sign(x) * 3, -0.5 + (Math.sign(x) * Math.sin(t) > 0 ? -1.5 : 0), 1.4, 1, BLK, 1); };
   /* Sleigh Hearse: a black-and-purple sleigh with a coffin-shaped back, bone runners and ghostly lanterns */
-  D.sleighhearse = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t * 2)) * 1 + (w ? 2 : 0);
+  D.sleighhearse = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t)) * 1.6 + (w ? 2 : 0); /* v45: the sleigh rocks over the snow, lanterns swing and the runners kick up snow */ b.ell(-25 - (f % 2) * 3, -4 - (f % 2), 2.4 - (f % 2) * 0.6, 1.6, WHT, 4, 0); b.ell(-21 - ((f + 1) % 2) * 4, -6 + ((f + 1) % 2), 1.6, 1.2, WHT, 3, 0);
     b.curve(-22, -4, -26, -10, -20, -12, 2, 2, BON, 2); b.curve(22, -4, 26, -10, 20, -12, 2, 2, BON, 3); b.rect(-22, -4, 44, 2.4, BON[3]);
     b.poly([-20, -8 + by, 20, -8 + by, 18, -26 + by, -18, -26 + by], PRP, 2, 1); b.poly([-18, -26 + by, 18, -26 + by, 22, -16 + by, -22, -16 + by], BLK, 2, 1); b.rect(-2, -26 + by, 4, 18, GLD[2]); b.rect(-10, -20 + by, 20, 3, GLD[2]);
-    b.poly([18, -22 + by, 28, -18 + by, 28, -10 + by, 18, -8 + by], BLK, 3, 1); b.ell(26, -14 + by, 2.4, 2.4, ORG, 4, 0); glow(b, 26, -14 + by, 6 + (w ? 2 : 0), ORG); for (const x of [-14, 12]) { b.rect(x, -34 + by, 1.4, 8, BLK[3]); glow(b, x + 0.7, -35 + by, 3, ICE); }
+    b.poly([18, -22 + by, 28, -18 + by, 28, -10 + by, 18, -8 + by], BLK, 3, 1); b.ell(26, -14 + by, 2.4, 2.4, ORG, 4, 0); glow(b, 26, -14 + by, 6 + (w ? 2 : 0), ORG); for (const x of [-14, 12]) { b.rect(x, -34 + by, 1.4, 8, BLK[3]); glow(b, x + 0.7 + Math.sin(t) * 2, -35 + by + Math.abs(Math.cos(t)), 3, ICE); }
     b.ell(-8, -12 + by, 1.8, 2.4, '#fff', 4, 0); b.ell(0, -12 + by, 1.8, 2.4, '#fff', 4, 0); b.set(-8, Math.round(-12 + by), RED2()); b.set(0, Math.round(-12 + by), RED2()); };
   function RED2() { return '#ff3a3a'; }
   /* Cobweb Elf: a pointy-eared elf in a web-spun green cloak, mending threads of glittering silk */
@@ -7575,6 +7580,17 @@ const ZP = (() => { const TAU2 = Math.PI * 2, bob = f => Math.sin(f / 4 * TAU2),
     b.poly([-18, -38 - op + by, 18, -38 - op + by, 16, -33 + by, -16, -33 + by], CND, 3, 1); b.rect(-2, -38 - op + by, 4, 6, GLD[3]); b.poly([0, -38 - op + by, -10, -48 - op + by, -5, -38 - op + by], GLD, 3, 1); b.poly([0, -38 - op + by, 10, -48 - op + by, 5, -38 - op + by], GLD, 3, 1);
     b.rect(-11, -26 + by, 22, 10 + op * 0.4, BLK[0]); for (let i = 0; i < 5; i++) { b.poly([-10 + i * 5, -26 + by, -8 + i * 5, -26 + by, -9 + i * 5, -21 + by], '#fff', 4, 0); b.poly([-10 + i * 5, -16 + by, -8 + i * 5, -16 + by, -9 + i * 5, -20 + by], '#fff', 4, 0); }
     b.ell(-7, -30 + by, 2, 2.4, '#fff', 4, 0); b.ell(7, -30 + by, 2, 2.4, '#fff', 4, 0); b.set(-7, Math.round(-30 + by), BLK[0]); b.set(7, Math.round(-30 + by), BLK[0]); b.curve(0, -20 + by, 4, -14 + by, 2, -8 + by, 2, 2.4, CND, 4); };
+  /* v45 Startled Mimic: a little violet-wrapped present on stubby feet, frost-ribbon streamers, huge round shocked eyes and an 'O' mouth;
+     the wind-up flings the lid wide to show a ring of tiny teeth */
+  D.surprisemimic = (b, f, w) => { const t = f / 4 * TAU2, hop = Math.abs(Math.sin(t)), by = -hop * 3.5 + (w ? 1.5 : 0), op = w ? 9 : 1.5 + hop * 2.5, fx = Math.cos(t) * 2.2;
+    b.ell(-6 + fx, -2.5 + (Math.sin(t) > 0.3 ? -1.5 : 0), 3.4, 2.2, BLK, 2, 1); b.ell(6 - fx, -2.5 + (Math.sin(t) < -0.3 ? -1.5 : 0), 3.4, 2.2, BLK, 2, 1);
+    b.rect(-11, -21 + by, 22, 17, PRP, 2); b.rect(-11, -21 + by, 3, 17, PRP[0]); b.rect(-1.6, -21 + by, 3.2, 17, ICE[3]); b.rect(-1.6, -21 + by, 1, 17, ICE[4]);
+    b.ell(-5.5, -14 + by, 3.4, 3.8, '#fff', 4, 0); b.ell(5.5, -14 + by, 3.4, 3.8, '#fff', 4, 0); const px = w ? 0 : Math.sin(t) * 1.2; b.set(Math.round(-5.5 + px), Math.round(-14 + by), BLK[0]); b.set(Math.round(5.5 + px), Math.round(-14 + by), BLK[0]);
+    if (w) { b.ell(0, -7.5 + by, 5, 2.6, BLK[0], 4, 0); for (let i = 0; i < 4; i++) b.poly([-4 + i * 2.6, -9.5 + by, -2.4 + i * 2.6, -9.5 + by, -3.2 + i * 2.6, -7.4 + by], '#fff', 4, 0); }
+    else b.ell(0, -7.5 + by, 1.6, 2 + hop * 0.6, BLK[0], 4, 0);
+    b.poly([-13, -25 - op + by, 13, -24 - op * 0.25 + by, 13, -20.5 + by, -13, -21 - op + by], PRP, 3, 1); b.rect(-1.6, -25 - op * 0.6 + by, 3.2, 4, ICE[3]);
+    b.ell(-3.4, -27 - op * 0.6 + by, 3.2, 2, ICE, 3, 1); b.ell(3.4, -27 - op * 0.6 + by, 3.2, 2, ICE, 3, 1); b.ell(0, -26.6 - op * 0.6 + by, 1.4, 1.4, ICE[4], 4, 0);
+    b.curve(1, -26 - op * 0.6 + by, 9, -30 + by + Math.sin(t) * 3, 15, -24 + by + Math.cos(t) * 3, 1.4, 0.6, ICE, 3); };
   /* Lantern Hound: a spectral pup, translucent white with a glowing orange pumpkin nose and a lantern at the tail tip */
   D.lanternhound = (b, f, w) => Z.quad(b, f, w, { c: WHT, c2: ICE, k: 1, sn: 0, eye: '#ff8a2a', tail: 1, ex: (b, f, w, by) => { glow(b, 22, -18 + by, 3.6 + (w ? 1.6 : 0), ORG); b.ell(22, -18 + by, 2, 2, ORG, 4, 0); b.curve(-14, -17 + by, -24, -15, -28, -25 + by, 2, 0.8, WHT, 3); glow(b, -28, -26 + by, 4, ORG); b.rect(-30, -26 + by, 4, 5, BLK[2]); b.set(-28, Math.round(-27 + by), ORG[4]); b.ell(11, -15 + by, 3, 1.4, CND, 3, 1); } });
   /* Cauldron Bubbler: a squat black cauldron on stubby legs, green goo boiling over, a ladle arm */
@@ -7962,7 +7978,7 @@ const RUN_STATES = { play: 1, paused: 1, levelup: 1, gear: 1, countdown: 1, equi
 const r1 = v => Math.round(v * 10) / 10;
 function serializeRun() {
   const g = {}; for (const k of ['cls', 'race', 'outfit', 't', 'kills', 'level', 'xp', 'xpNext', 'passives', 'gear', 'pending', 'shardsPicked', 'salvage', 'bossKills', 'elites', 'nextElite', 'nextBoss',
-    'map', 'w28', 'bossIdx', 'bossBag', 'bossLast', 'nextSurge', 'spawnAcc', 'revived', 'wasNight', 'healPool', 'bondPool', 'critBuffT', 'minionKills', 'moved', 'pendingChest', 'nextLoot', 'rushT', 'aegisT', 'kept', 'luChoices', 'tal', 'undyingUsed', 'tollT', 'rwT', 'sgT', 'achRun', 'achNew', 'dv', 'ancCd', 'frzCd', 'wsT', 'mcT', 'mwT', 'mvT', 'arc', 'stage', 'nextMini', 'surgeN', 'quests', 'qNext', 'qStats', 'qN', 'qLast', 'evo', 'dm', 'catPool', 'catRefund', 'obSeed', 'obGone', 'rerolls', 'gold', 'goldEarned', 'goldSpent', 'npcs', 'npcNext', 'npcN', 'npcLast', 'npcBuys', 'npcVisits', 'npcSeen', 'bufE', 'bufH', 'bufA', 'deathward', 'goldBud', 'portal', 'portalNext', 'townVisits', 'npcHp']) g[k] = G[k];
+    'map', 'w28', 'bossIdx', 'bossBag', 'bossLast', 'nextSurge', 'spawnAcc', 'revived', 'wasNight', 'healPool', 'bondPool', 'critBuffT', 'minionKills', 'moved', 'pendingChest', 'nextLoot', 'rushT', 'aegisT', 'kept', 'luChoices', 'tal', 'undyingUsed', 'tollT', 'rwT', 'sgT', 'achRun', 'achNew', 'dv', 'ancCd', 'frzCd', 'wsT', 'mcT', 'mwT', 'mvT', 'arc', 'stage', 'nextMini', 'surgeN', 'quests', 'qNext', 'qStats', 'qN', 'qLast', 'evo', 'dm', 'catPool', 'catRefund', 'obSeed', 'obGone', 'rerolls', 'gold', 'goldEarned', 'goldSpent', 'npcs', 'npcNext', 'npcN', 'npcLast', 'npcBuys', 'npcVisits', 'npcSeen', 'bufE', 'bufH', 'bufA', 'deathward', 'goldBud', 'portal', 'portalNext', 'townVisits', 'npcHp', 'mimic45']) g[k] = G[k];
   g.weapons = G.weapons.map(w => [w.id, w.lvl]);
   /* v27: inside the Safe Haven the real battlefield is stashed in G.town.st - save that world (and where you left it) plus the town itself */
   const TW = G.town, st = TW && TW.st, EN = st ? st.enemies : enemies, BOSS = st ? st.boss : G.boss, PK = st ? st.picks : picks; if (st) g.npcs = st.npcs;
@@ -7987,6 +8003,7 @@ function restoreRun(r) {
     revived: false, wasNight: false, outfit: save.outfit, shake: 0, later: [], healPool: 0, bondPool: 0, critBuffT: 0, minionKills: 0, moved: true, dyingT: 0, boss: null, hurtFlash: 0, lowT: 0, achRun: {}, achNew: [], achT: 0, quests: [], qNext: 60, qStats: { done: 0, failed: 0, shards: 0, gear: 0 }, qN: 0 };
   for (const k in g) if (k !== 'weapons' && k !== 'cls' && g[k] !== undefined && g[k] !== null) G[k] = g[k];
   G.gear = migGear(g.gear, G.cls);
+  if ((+G.t || 0) < 1200 && G.nextBoss > 1200) G.nextBoss = 1200; // v45: older run saves keep the 20:00 boss pair
   if (!Array.isArray(G.quests)) G.quests = []; if (!G.qStats || typeof G.qStats !== 'object') G.qStats = { done: 0, failed: 0, shards: 0, gear: 0 }; if (g.qNext == null) G.qNext = Math.max(60, (G.t || 0) + 25); // v13 run saves: no quests yet
   if (!OUTFITS[G.outfit]) G.outfit = save.outfit;
   G.race = raceOf(g.race || save.race); // v4 run saves had no race: use the profile's race
@@ -8004,7 +8021,7 @@ function restoreRun(r) {
   if (!G.evo || typeof G.evo !== 'object' || Array.isArray(G.evo)) G.evo = {}; if (!G.dm || typeof G.dm !== 'object' || Array.isArray(G.dm)) G.dm = {};
   for (const k in G.dm) if (!Array.isArray(G.dm[k]) || G.dm[k].length < 3) delete G.dm[k]; G.dmTot = Object.values(G.dm).reduce((a, r) => a + (+r[0] || 0), 0);
   G.catPool = +G.catPool || 0;
-  /* v22: gold & traders (absent in v21 saves) */ for (const k of ['gold', 'goldEarned', 'goldSpent', 'npcN', 'npcBuys', 'npcVisits', 'npcSeen', 'bufE', 'bufH', 'bufA', 'npcHp']) G[k] = Math.max(0, +G[k] || 0);
+  /* v22: gold & traders (absent in v21 saves) */ for (const k of ['gold', 'goldEarned', 'goldSpent', 'npcN', 'npcBuys', 'npcVisits', 'npcSeen', 'bufE', 'bufH', 'bufA', 'npcHp', 'mimic45']) G[k] = Math.max(0, +G[k] || 0);
   if (!Array.isArray(G.npcs)) G.npcs = []; G.npcs = G.npcs.filter(n => n && NPCS[n.nt] && Array.isArray(n.offers) && typeof n.x === 'number'); for (const n of G.npcs) { n.cool = 1; n.near = 0; }
   if (typeof G.npcNext !== 'number') G.npcNext = Math.max(90, (G.t || 0) + 45); G.passives = G.passives && typeof G.passives === 'object' ? G.passives : {};
 
@@ -8164,7 +8181,7 @@ function spawnDirector(dt) {
   if (t >= G.nextElite) { G.nextElite += Math.max(22, 45 - t / 50); const e = spawnEnemy(pickType(t), { elite: true }); toast('★ Elite monster' + (e.aff.length ? ': ' + e.aff.map(a => EAFF[a].n).join(' ') : ''), '#ffd24a', 3, 'Kill it for a treasure chest'); Snd.play('elite'); }
   if (G.nextMini === undefined) G.nextMini = 480;
   if (t >= G.nextMini) { G.nextMini += 240; w28Mini(); }
-  if (t >= G.nextBoss) { G.nextBoss += 180; const twin = t >= 1200, list = [bossNext36()]; if (twin) list.push(bossNext36());
+  if (t >= G.nextBoss) { G.nextBoss += 180; if (t < 1200 && G.nextBoss > 1200) G.nextBoss = 1200; /* v45: the first boss pair arrives at exactly 20:00 */ const twin = t >= 1200, list = [bossNext36()]; if (twin) list.push(bossNext36());
     for (const type of list) { const b = spawnEnemy(type); if (!G.boss || G.boss.dead) G.boss = b; G.bossIdx++; }
     if (t >= 900) spawnEnemy('juggernaut');
     announce((list.length > 1 ? '☠ BOSSES: ' : '☠ BOSS: ') + list.map(k => ETYPES[k].name).join(' & '), twin ? 'Two bosses at once · dodge the red zones' : 'Dodge the red warning zones', '#ff5a5a', 'boss'); G.shake = 0.5; }
@@ -8456,10 +8473,17 @@ function dropGem(x, y, v, big) {
   const a = Math.random() * TAU, sp = big ? 30 : 35 + Math.random() * 45; // little pop out of the kill
   gems.push({ x, y, v, tier: big ? 3 : gemTier(v), big: !!big, pull: false, sp: 0, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp * 0.7, pop: 0.38 });
 }
+/* v45: Mystery Gift mimic - telegraphed (ring + warning) 1.4s before it pops out, 120px away; owed mimics wait while in town or a menu and survive save/continue */
+function mimicCheck45() { if (!G || G.town || !P) return; while ((G.mimic45 | 0) > (G._mim45 | 0)) { G._mim45 = (G._mim45 | 0) + 1; const a = rand(TAU), x = P.x + Math.cos(a) * 120, y = P.y + Math.sin(a) * 120;
+    effects.push({ k: 'warn', x, y, r: 26, life: 1.4, max: 1.4, dmg: 0, col: '#c898ff' }); toast('🎁 Something in the wrapping is wriggling…', '#c898ff', 1.6); Snd.play('tele');
+    G.later.push({ t: 1.4, f: () => { G._mim45 = Math.max(0, (G._mim45 | 0) - 1); if (G.town || !(G.mimic45 > 0)) return; G.mimic45--; const e = spawnEnemy('surprisemimic', { x, y }); if (e) { obFree(e, e.r); e.gift45 = 1; }
+      for (const c of ['#c898ff', '#80d0f0', '#ffe060']) burst(x, y - 10, c, 6, 130, 2.5, 0.6, true); toast('🎁 SURPRISE! A Startled Mimic!', '#c898ff', 2); Snd.play('shimmer'); } }); } }
+function mimicDie45(e) { for (const c of ['#c898ff', '#80d0f0', '#ffe060', '#ff5ad8']) burst(e.x, e.y - 12, c, 7, 170, 3, 0.9, true);
+  picks.push({ k: 'chest', x: e.x, y: e.y }); dropGold(e.x, e.y + 14, 25 + G.t / 20, 6); toast('🎁 The mimic coughs up its treasure!', '#c898ff', 2.4); }
 function killEnemy(e) {
   if (e.dead) return; e.dead = true; G.kills++; questKill(e); if (P.killRush) G.sclT = 1.5; achAdd('c_' + G.cls + '_k', 1); achAdd('r_' + G.race + '_k', 1); achAdd('g_kills', 1);
-  const def = ETYPES[e.type];
-  if (SPR.enemy[e.type]) { while (corpses.length >= V31P.cap()) corpses.shift(); const ds = V31P.dstyle(e); corpses.push({ k: e.type, x: e.x, y: e.y, f: e.face < 0 ? -1 : 1, sc: e.sc || 1, t: 0, d: (e.boss ? 1.4 : e.elite || e.mini ? 0.9 : 0.55) * (ds === 'dis' ? 1.3 : ds === 'b36' ? 1.45 : 1), el: !!(e.elite || e.boss), s: ds, sd: Math.random() }); }
+  const def = ETYPES[e.type]; if (e.type === 'surprisemimic') mimicDie45(e);
+  if (SPR.enemy[e.type]) { while (corpses.length >= V31P.cap()) corpses.shift(); const ds = V31P.dstyle(e); corpses.push({ k: e.type, x: e.x, y: e.y, f: e.face < 0 ? -1 : 1, sc: e.sc || 1, t: 0, d: (e.boss ? 1.4 : e.elite || e.mini ? 0.9 : 0.55) * (ds === 'dis' ? 1.3 : ds === 'b36' ? 1.45 : ds === 'gift45' ? 1.7 : 1), el: !!(e.elite || e.boss), s: ds, sd: Math.random() }); }
   burst(e.x, e.y, def.puff, e.boss ? 40 : e.elite ? 20 : 7, e.boss ? 220 : 110, e.boss ? 5 : 3, 0.55);
   burst(e.x, e.y, '#120818', 4, 60, 4, 0.6);
   SND32.death(e); w28Kill(e); if (V30[G.cls]) v30Kill(e);
@@ -11324,6 +11348,7 @@ function updateWeapons(dt) {
     for (let i = np; i < projs.length; i++) if (!projs[i].src) projs[i].src = w.id; for (let i = nf; i < effects.length; i++) if (!effects[i].src) effects[i].src = w.id; for (let i = nl; i < G.later.length; i++) if (!G.later[i].src) G.later[i].src = w.id;
   }
   G.srcW = null; gearTick(dt);
+  if ((G.mimic45 | 0) > (G._mim45 | 0) && !G.town) mimicCheck45(); // v45
   for (let i = G.later.length - 1; i >= 0; i--) { const l = G.later[i]; l.t -= dt; if (l.t <= 0) { G.later.splice(i, 1); G.srcW = l.src || null; l.f(); G.srcW = null; } }
 }
 function evoCast(w, ev) { // v18: evolution perks that trigger on each cast
@@ -11625,9 +11650,9 @@ function questFail(q, i, why) {
 /* --- DOM banner / reward toast (never takes input) --- */
 const _qbQ = []; let _qbBusy = false;
 function qBanner(html, kind) { if (kind === 'done') _qbQ.unshift([html, kind]); else _qbQ.push([html, kind]); if (_qbQ.length > 3) _qbQ.splice(0, _qbQ.length - 3); if (!_qbBusy) _qbNext(); }
-function _qbNext() { const n = _qbQ.shift(), el = $('qBan'); if (!n) { _qbBusy = false; return; } _qbBusy = true;
+function _qbNext() { const el = $('qBan'); clearTimeout(el._t); if (_qbQ.length && popHold45()) { _qbBusy = true; el._t = setTimeout(_qbNext, 300); return; } const n = _qbQ.shift(); el._n = n; if (!n) { _qbBusy = false; return; } _qbBusy = true;
   el.className = 'q' + n[1]; el.innerHTML = n[0]; el._lo = $('achBanner').classList.contains('on') ? 1 : 0; el.style.top = `calc(env(safe-area-inset-top,0px) + ${el._lo ? 142 : 70}px)`; void el.offsetWidth; el.classList.add('on'); $('qTrack').classList.add('dim');
-  el._t = setTimeout(() => { el.classList.remove('on'); $('qTrack').classList.remove('dim'); el._t = setTimeout(_qbNext, 320); }, n[1] === 'done' ? 3200 : 2700); }
+  el._t = setTimeout(() => { el.classList.remove('on'); el._n = null; $('qTrack').classList.remove('dim'); el._t = setTimeout(_qbNext, 320); }, n[1] === 'done' ? 3200 : 2700); }
 function qBanClear() { const el = $('qBan'); _qbQ.length = 0; clearTimeout(el._t); el.classList.remove('on'); $('qTrack').classList.remove('dim'); _qbBusy = false; }
 /* --- tracker (DOM, top-left, 44px+ tall, tap to expand) --- */
 function questUI(dt) {
@@ -11740,7 +11765,7 @@ const NOFF = {
   nightcap: { ic: '♨', n: () => 'Midnight Nightcap', d: () => 'Restore 50% of your HP and +20% damage for 75s', base: 26 },
   minibar: { ic: '♠', n: () => 'Penthouse Minibar', d: () => 'Raid the minibar for a fabulous random prize. Prices are, of course, outrageous', base: 70 },
   cocoa: { ic: '☕', n: () => 'Nightmare Cocoa', d: () => 'Restore 60% of your HP and +15% move speed for 60s', base: 26 },
-  giftbox: { ic: '🎁', n: () => 'Mystery Gift', d: () => 'Unwrap a gift: gold, a heal, a skill level, or a very surprised mimic', base: 60 },
+  giftbox: { ic: '🎁', n: () => 'Mystery Gift', d: () => 'Unwrap a gift: gold, a heal, a skill level, +8 max HP — or a very surprised mimic (beat it for treasure)', base: 60 },
   stew: { ic: '♨', n: () => 'Hearty Stew', d: () => 'Restore 60% of your HP and +20% damage for 60s', base: 26 },
   crate: { ic: '▣', n: () => 'Mystery Loot Crate', d: () => 'Pry it open for a random prize: gold, a big heal, a skill level or a damage surge', base: 60 },
   broth: { ic: '♨', n: () => 'Weeping Broth', d: () => 'Restore 70% of your HP and +3 armor for 60s', base: 22 },
@@ -11862,7 +11887,8 @@ function npcApply(o, price, n) { const by = n.nt;
     case 'cocoa': heal(P.maxHp * 0.6); npcBuff('bufH', 60); burst(P.x, P.y, '#ff8a2a', 12, 80, 2.5, 0.5, true); return { t: '☕ Warm and spooky: ' + Math.ceil(P.hp) + ' / ' + Math.round(P.maxHp) + ' HP and faster for 60s', snd: 'heal' };
     case 'giftbox': { const q = Math.random(); if (q < 0.3) { const g0 = 50 + Math.floor(Math.random() * 80); G.gold = (G.gold || 0) + g0; return { t: '🎁 Gold coins in a stocking: +' + g0 + ' gold' }; }
       if (q < 0.55) { heal(P.maxHp * 0.9); burst(P.x, P.y, '#ffe060', 12, 80, 2.5, 0.5, true); return { t: '🎁 A warm scarf: ' + Math.ceil(P.hp) + ' / ' + Math.round(P.maxHp) + ' HP', snd: 'heal' }; }
-      if (q < 0.8) { const a = npcLevelAny(null); return { t: '🎁 A book of tricks: ' + (a || 'a skill') + ' levels up' }; }
+      if (q < 0.75) { const a = npcLevelAny(null); return { t: '🎁 A book of tricks: ' + (a || 'a skill') + ' levels up' }; }
+      if (q < 0.87) { G.mimic45 = (G.mimic45 | 0) + 1; return { t: '🎁 The box blinks at you… and runs! A mimic will pop out in the fight' + (G.town ? ' when you leave town' : '') }; } /* v45: odds gold 30 / heal 25 / skill 20 / mimic 12 / +8 HP 13 */
       G.npcHp = (G.npcHp || 0) + 8; recalc(); return { t: '🎁 A lucky charm: +8 max HP' }; }
     case 'stew': heal(P.maxHp * 0.6); npcBuff('bufE', 60); burst(P.x, P.y, '#f4d060', 10, 70, 2.5, 0.5, true); return { t: '♨ Hearty! ' + Math.ceil(P.hp) + ' / ' + Math.round(P.maxHp) + ' HP and +20% damage for 60s', snd: 'heal' };
     case 'crate': { const q = Math.random(); if (q < 0.3) { const g0 = 40 + Math.floor(Math.random() * 70); G.gold = (G.gold || 0) + g0; return { t: '▣ Gold coins inside: +' + g0 + ' gold' }; }
@@ -12281,7 +12307,7 @@ const V31P = (() => {
   const back = (fr, img) => tinted(fr, img, 'bk', '#120a24', 0.3), red = (fr, img) => tinted(fr, img, 'rd', '#ff2a1e', 1);
   const cap = () => PC ? 48 : 24;
   const POP = { splitter: 1, oozelet: 1, bomber: 1, spitter: 1, sprite: 1, imp: 1, hornet: 1 };
-  function dstyle(e) { if (e.boss) return BOSS36[e.type] && BOSS36[e.type].death !== 'col' ? 'b36' : 'col'; if (ETYPES[e.type] && ETYPES[e.type].hush && !e.mini) return 'hush'; if (eFloats(e.type) || e.type === 'ghost' || e.type === 'wisp') return 'dis'; if (POP[e.type] || e.elite || e.mini) return 'pop'; return (Math.abs(e.x * 0.37 + e.y * 0.71) | 0) % 3 === 0 ? 'dis' : 'col'; }
+  function dstyle(e) { if (e.type === 'surprisemimic') return 'gift45'; if (e.boss) return BOSS36[e.type] && BOSS36[e.type].death !== 'col' ? 'b36' : 'col'; if (ETYPES[e.type] && ETYPES[e.type].hush && !e.mini) return 'hush'; if (eFloats(e.type) || e.type === 'ghost' || e.type === 'wisp') return 'dis'; if (POP[e.type] || e.elite || e.mini) return 'pop'; return (Math.abs(e.x * 0.37 + e.y * 0.71) | 0) % 3 === 0 ? 'dis' : 'col'; }
   function corpse(c) { const def = ETYPES[c.k], sz = eSz(c.k) * c.sc, A = SPR.enemy[c.k]; if (!A || !A.dark || !inView(c.x, c.y, sz)) return; const u = Math.min(1, c.t / c.d), img = A[0].img, iw = img.width, ih = img.height, flt = eFloats(c.k);
     if (img.px) ctx.imageSmoothingEnabled = false;
     if (c.s === 'dis') { const keep = 1 - u, by = c.y + sz / 2 - (flt ? sz * 0.08 : 0);
@@ -12290,6 +12316,11 @@ const V31P = (() => {
       for (let i = 0; i < n; i++) { const h1 = ((c.sd + i * 0.618) % 1), h2 = ((c.sd * 3.7 + i * 0.414) % 1), s = 2 + (h2 > 0.6 ? 1 : 0); ctx.globalAlpha = (1 - u) * 0.9; ctx.fillRect(Math.round(c.x + (h1 - 0.5) * sz * 0.7), Math.round(cut - u * sz * (0.15 + 0.5 * h2) - h2 * 5), s, s); }
       ctx.globalCompositeOperation = 'source-over'; }
     else if (c.s === 'hush' || c.s === 'b36') d36Corpse(c, def, sz, A, img, iw, ih, u, flt);
+    else if (c.s === 'gift45') { const by = c.y + sz / 2, cut = ih * 0.42, k = u * u; /* v45 Startled Mimic: the lid pops off spinning, the box sags flat, ribbon curls flutter down */
+      ctx.save(); ctx.translate(c.x + c.f * u * sz * 0.5, by - sz * 0.62 - Math.sin(u * Math.PI) * sz * 0.7); ctx.rotate(c.f * u * 5); ctx.globalAlpha = 1 - k; ctx.drawImage(img, 0, 0, iw, cut, -sz / 2, -sz * 0.21, sz, sz * 0.42); ctx.restore();
+      ctx.save(); ctx.translate(c.x, by); ctx.scale(c.f * (1 + 0.25 * u), 1 - 0.6 * Math.min(1, u * 1.6)); ctx.globalAlpha = 1 - Math.max(0, (u - 0.45) / 0.55); ctx.drawImage(img, 0, cut, iw, ih - cut, -sz / 2, -sz * 0.58, sz, sz * 0.58); ctx.globalAlpha *= Math.min(1, u * 2); ctx.drawImage(A.dark, 0, cut, iw, ih - cut, -sz / 2, -sz * 0.58, sz, sz * 0.58); ctx.restore();
+      const cols = ['#c898ff', '#80d0f0', '#ffe060', '#ff5ad8']; for (let i = 0; i < 10; i++) { const h1 = (c.sd + i * 0.618) % 1, h2 = (c.sd * 3.7 + i * 0.414) % 1; ctx.globalAlpha = (1 - u) * 0.95; ctx.fillStyle = cols[i % 4];
+        ctx.fillRect(Math.round(c.x + (h1 - 0.5) * sz * 1.4 + Math.sin(u * 9 + i) * 3), Math.round(by - sz * (0.9 - 0.25 * h2) + u * sz * (0.5 + 0.4 * h2)), 2 + (i & 1), 3 - (i & 1)); } }
     else if (c.s === 'pop') { const by = c.y + sz / 2;
       if (u < 0.22) { const k = u / 0.22; ctx.save(); ctx.translate(c.x, by); ctx.scale(c.f * (1 + 0.22 * k), 1 + 0.12 * k); ctx.drawImage(img, -sz / 2, -sz, sz, sz); if (A[0].flash) { ctx.globalAlpha = k * 0.85; ctx.drawImage(A[0].flash, -sz / 2, -sz, sz, sz); } ctx.restore(); }
       else { const k = (u - 0.22) / 0.78; for (let q = 0; q < 4; q++) { const qx = q & 1, qy = q >> 1, sg = qx ? 1 : -1; ctx.save(); ctx.translate(c.x + sg * (sz / 4 + k * sz * 0.5), by - sz * (qy ? 0.25 : 0.75) - (qy ? 0.1 : 0.55) * k * sz + k * k * sz * 0.6); ctx.rotate(sg * k * 2.4);
@@ -13970,7 +14001,7 @@ const visBtn = id => { const b = $(id); return b && !b.classList.contains('hidde
 const KNAV = {
   title: { Enter: () => visBtn('btnCont') || 'btnPlay', Space: () => visBtn('btnCont') || 'btnPlay', KeyH: 'btnKeys', F1: 'btnKeys' },
   race: { Enter: 'btnRaceNext', Escape: 'btnRaceBack' },
-  maps: { Enter: 'btnMapGo', Escape: 'btnMapBack' },
+  maps: { Enter: 'btnMapGo', Escape: 'btnMapBack' }, mapsel: { Enter: 'btnMapGo', Escape: 'btnMapBack' },
   select: { Enter: 'btnGo', Escape: 'btnSelBack', KeyT: 'btnTalents', Tab: 'btnTalents', KeyG: 'btnStash', KeyC: 'btnCodex' }, codex: { Escape: 'btnCodexBack', KeyC: 'btnCodexBack' },
   shop: { Escape: 'btnShopBack' }, talents: { Escape: 'btnTalBack', Tab: 'btnTalBack', KeyT: 'btnTalBack' },
   levelup: { Enter: 'btnPick', Space: 'btnPick', NumpadEnter: 'btnPick', KeyR: 'btnReroll' },

@@ -1,12 +1,14 @@
 {
- "version": "44",
+ "version": "45",
  "date": "2026-10-25",
  "minLauncher": "2.0.0",
  "notes": [
-  "Fix: Nocturna, the Moonveil Moth is back as the Heartfall Belfry's 5th boss (since v42 she was spawning as a tiny Neon Moth)",
-  "Fix: Neon Moths in The Neon Perdition use their own look again, and runs saved there on v42/v43 resume with Neon Moths instead of Nocturna lookalikes",
-  "Fix: the \"+8 max HP\" from a Shrine Chest or Mystery Gift now lasts the whole run (it used to vanish at your next level-up)",
-  "QA pass over all 8 zones, the map page, the new classes and save loading from older versions"
+  "New: the Mystery Gift's \"very surprised mimic\" is real: a Startled Mimic hops out (with a warning first) and drops a treasure chest and gold when beaten",
+  "Change: the first pair of bosses now arrives at exactly 20:00, then pairs keep coming every 3 minutes",
+  "Fix: achievement and \"Event Complete\" pop-ups no longer cover the trader, shop or treasure windows; they wait and show once you close them",
+  "Fix: Crystal Bits, Snowballs and the Sleigh Hearse now visibly walk",
+  "Fix: Gift Mimic, Slot Mimic, Great Gift and a few other monsters were missing parts of their bodies; they now draw in full",
+  "Fix (PC): Enter and Esc work on the map page again"
  ],
  "files": [
   {
@@ -31,8 +33,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "9443ddeaea4e1ea5eec589ef0bc4e195644f0d5c06b75b3d377dcf82a8f90a61",
-   "size": 2275568
+   "sha256": "44d8c8ab9a1f228c6c00e5c00118579184ed11ea04287ccf975618df5bae55df",
+   "size": 2282461
   },
   {
    "name": "manifest.webmanifest",
@@ -41,7 +43,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "8649d3f24a520492a3a029abb646b14890614134629f57ff6a3e450e49bb3e06",
+   "sha256": "2f4b37802d5c036b58e38321eccd8dc1e32bd8b4cd921277fdfb3b51e553ccb5",
    "size": 1466
   }
  ]
