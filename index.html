@@ -6888,6 +6888,50 @@ Object.assign(BOSS36, {
 });
 function w39InfernoMini() { const w = G.w28 || {}, n = w.mini = (w.mini || 0) + 1, p = n % 2 === 1, k = p ? 'gatecrasher' : 'juggernaut'; spawnEnemy(k);
   announce(p ? '☠ HEAD OF SECURITY: The Wrecking Doorman' : '♜ MINI-BOSS: Grave Juggernaut', p ? 'He does not let anyone in. Or out.' : 'Dodge its charge and ground slam', p ? '#ff4a4a' : '#c56bff', 'boss'); }
+/* ================= v39: GOURDMAS HOLLOW (zone 8): crooked spiral hills, grinning lanterns, striped candy and gift boxes with teeth: a spooky-whimsical midwinter-meets-midnight.
+   An original setting; nothing here comes from any other film. ================= */
+Object.assign(ETYPES, {
+  lanternling: { name: 'Lanternling', fam: 'fae', hp: 10, spd: 52, dmg: 6, r: 11, xp: 1, t0: 1e9, size: 34, ai: 'chase', puff: '#ff8a2a', map: 'hollow' },
+  snowbat: { name: 'Frost Bat', fam: 'beast', hp: 7, spd: 96, dmg: 5, r: 9, xp: 1, t0: 1e9, size: 32, ai: 'bat', puff: '#c8f0ff', fly: 1, cap: 2, map: 'hollow' },
+  ragdoll: { name: 'Stitchling', fam: 'construct', hp: 22, spd: 46, dmg: 9, r: 12, xp: 2, t0: 1e9, size: 42, ai: 'chase', puff: '#c8a0ff', map: 'hollow' },
+  gingerbone: { name: 'Gingerbone', fam: 'undead', hp: 6, spd: 74, dmg: 5, r: 9, xp: 1, t0: 1e9, size: 28, ai: 'chase', puff: '#c88a4a', pack: 4, cap: 1.2, map: 'hollow' },
+  ornament: { name: 'Cursed Ornament', fam: 'construct', hp: 14, spd: 60, dmg: 7, r: 11, xp: 2, t0: 1e9, size: 36, ai: 'bomber', puff: '#ff4a6a', cap: 1.3, map: 'hollow' },
+  toysoldier: { name: 'Toy Soldier Skull', fam: 'undead', hp: 88, spd: 30, dmg: 16, r: 16, xp: 5, t0: 1e9, size: 54, ai: 'chase', heavy: true, puff: '#e84a4a', map: 'hollow' },
+  carolghost: { name: 'Carol Wraith', fam: 'undead', hp: 34, spd: 38, dmg: 9, r: 13, xp: 4, t0: 1e9, size: 46, ai: 'seer', puff: '#a0e0ff', cap: 1.1, map: 'hollow' },
+  snowghoul: { name: 'Snowghoul', fam: 'undead', hp: 42, spd: 34, dmg: 10, r: 14, xp: 3, t0: 1e9, size: 46, ai: 'chase', puff: '#e0f4ff', split: 'snowball', cap: 1.5, map: 'hollow' },
+  snowball: { name: 'Snowball Imp', fam: 'beast', hp: 10, spd: 64, dmg: 6, r: 9, xp: 1, t0: 1e9, size: 28, ai: 'chase', puff: '#e0f4ff', map: 'hollow' },
+  sleighhearse: { name: 'Sleigh Hearse', fam: 'construct', hp: 72, spd: 40, dmg: 15, r: 15, xp: 5, t0: 1e9, size: 54, ai: 'charger', heavy: true, puff: '#9a6aff', cap: 1.4, map: 'hollow' },
+  elfwitch: { name: 'Cobweb Elf', fam: 'fae', hp: 46, spd: 34, dmg: 8, r: 13, xp: 5, t0: 1e9, size: 44, ai: 'healer', puff: '#a0ff8a', cap: 0.7, map: 'hollow' },
+  giftmimic: { name: 'Gift Mimic', fam: 'construct', hp: 120, spd: 30, dmg: 17, r: 16, xp: 7, t0: 1e9, size: 52, ai: 'chase', heavy: true, shield: 0.6, puff: '#ff4a6a', cap: 1.4, map: 'hollow' },
+  lanternhound: { name: 'Lantern Hound Pack', fam: 'undead', hp: 28, spd: 82, dmg: 11, r: 13, xp: 3, t0: 120, size: 44, ai: 'wolf', puff: '#ff9a3a', map: 'hollow' },
+  cauldron: { name: 'Cauldron Bubbler', fam: 'construct', hp: 30, spd: 38, dmg: 9, r: 13, xp: 3, t0: 200, size: 42, ai: 'spitter', puff: '#7aff5a', cap: 1.2, map: 'hollow' },
+  gourdroot: { name: 'Gourd Lurker', fam: 'beast', hp: 92, spd: 40, dmg: 18, r: 15, xp: 7, t0: 720, size: 50, ai: 'burrower', heavy: true, puff: '#ff8a2a', cap: 1.1, map: 'hollow' },
+  tinselwraith: { name: 'Tinsel Wraith', fam: 'undead', hp: 46, spd: 70, dmg: 11, r: 11, xp: 6, t0: 900, size: 44, ai: 'sprite', puff: '#e8e8ff', fly: 1, cap: 1.3, map: 'hollow' },
+  oldsack: { name: 'Old Sackweight, the Lumpy Gift Sack', fam: 'construct', hp: 930, spd: 36, dmg: 26, r: 26, xp: 40, t0: 1e9, size: 92, ai: 'juggernaut', heavy: true, mini: true, puff: '#c8a060' },
+  /* ---- Gourdmas Hollow's 5 bosses ---- */
+  hallowick: { name: 'Hallowick, the Lanky Gourd Lord', hp: 1300, spd: 36, dmg: 26, r: 28, xp: 95, size: 134, ai: 'boss36', boss: true, heavy: true, puff: '#ff8a2a' },
+  motherstitch: { name: 'Mother Stitch, the Patchwork Seamstress', hp: 1250, spd: 38, dmg: 25, r: 32, xp: 90, size: 130, ai: 'boss36', boss: true, heavy: true, puff: '#c8a0ff' },
+  greatgift: { name: 'The Great Gift', hp: 1450, spd: 28, dmg: 28, r: 36, xp: 95, size: 132, ai: 'boss36', boss: true, heavy: true, puff: '#ff4a6a' },
+  hollowsleigh: { name: 'The Midnight Sleigh', hp: 1150, spd: 44, dmg: 25, r: 30, xp: 90, size: 136, ai: 'boss36', boss: true, heavy: true, puff: '#9a6aff', fly: 1 },
+  baronicicle: { name: 'Baron Icicle, the Frostbound Duke', hp: 1500, spd: 32, dmg: 28, r: 34, xp: 100, size: 134, ai: 'boss36', boss: true, heavy: true, puff: '#a0e8ff' },
+});
+const HOLLOWSUB = { wisp: 'lanternling', bone: 'ragdoll', bat: 'snowbat', imp: 'gingerbone', oozelet: 'gingerbone', bomber: 'ornament', armor: 'toysoldier', seer: 'carolghost', splitter: 'snowghoul', charger: 'sleighhearse', healer: 'elfwitch', caller: 'elfwitch', shield: 'giftmimic',
+  wolf: 'lanternhound', spitter: 'cauldron', burrower: 'gourdroot', sprite: 'tinselwraith', puffcap: 'lanternling', hornet: 'snowbat', shaman: 'carolghost', lurker: 'gourdroot', slag: 'snowghoul', slaglet: 'snowball', cinderhound: 'lanternhound', pyromancer: 'cauldron', automaton: 'toysoldier', gargoyle: 'tinselwraith' };
+Object.assign(EVS, { lanternling: 1.1, gingerbone: 1.1, ragdoll: 1.05, lanternhound: 1.05 });
+Object.assign(CSHW, { lanternling: 26, snowbat: 20, ragdoll: 32, gingerbone: 24, ornament: 22, toysoldier: 30, carolghost: 20, snowghoul: 28, snowball: 22, sleighhearse: 32, elfwitch: 20, giftmimic: 28, lanternhound: 34, cauldron: 20, gourdroot: 30, tinselwraith: 22, oldsack: 30,
+  hallowick: 30, motherstitch: 32, greatgift: 36, hollowsleigh: 26, baronicicle: 34 });
+Object.assign(W28NAMES, { lanternling: 'Lantern faces grin in the dark!', snowbat: 'Frost bats flutter in!', ragdoll: 'Stitchlings shamble!', gingerbone: 'Gingerbones crunch past!', ornament: 'Cursed ornaments are ticking!', toysoldier: 'Toy soldiers march!', carolghost: 'A ghostly carol begins!', snowghoul: 'Snowghouls roll in!',
+  sleighhearse: 'Sleigh hearses charge!', elfwitch: 'Cobweb elves mend the line!', giftmimic: 'That present is looking at you!', lanternhound: 'Lantern hounds bound in!', cauldron: 'Cauldrons bubble over!', gourdroot: 'The pumpkin patch moves!', tinselwraith: 'Tinsel wraiths shimmer!' });
+BOSSSET36.hollow = ['hallowick', 'motherstitch', 'greatgift', 'hollowsleigh', 'baronicicle'];
+Object.assign(BOSS36, {
+  hallowick: { col: '#ff8a2a', c2: '#ffe0a0', moves: ['slam', 'fan', 'summon', 'cross'], add: 'lanternling', cd: 2.9, death: 'col', emb: 1, enr: 'Hallowick throws back his coat — the lanterns blaze!' },
+  motherstitch: { col: '#c8a0ff', c2: '#fff0ff', moves: ['roots', 'summon', 'blink', 'ring'], add: 'ragdoll', cd: 2.9, death: 'moth', enr: 'Mother Stitch snips the air — the threads tighten!' },
+  greatgift: { col: '#ff4a6a', c2: '#ffe0e8', moves: ['slam', 'rain', 'summon', 'charge'], add: 'giftmimic', cd: 3.1, death: 'bubble', enr: 'The Great Gift bursts open, teeth first!' },
+  hollowsleigh: { col: '#9a6aff', c2: '#e0d0ff', moves: ['charge', 'gust', 'beam', 'spiral'], cd: 2.6, death: 'shatter', enr: 'The Midnight Sleigh takes to the sky!' },
+  baronicicle: { col: '#a0e8ff', c2: '#ffffff', moves: ['slam', 'cross', 'rain', 'ring'], cd: 2.9, death: 'shatter', enr: 'Baron Icicle freezes the whole hollow!' },
+});
+function w39HollowMini() { const w = G.w28 || {}, n = w.mini = (w.mini || 0) + 1, p = n % 2 === 1, k = p ? 'oldsack' : 'juggernaut'; spawnEnemy(k);
+  announce(p ? '☠ LUMPY AND ANGRY: Old Sackweight' : '♜ MINI-BOSS: Grave Juggernaut', p ? 'A very large sack. Something inside is kicking.' : 'Dodge its charge and ground slam', p ? '#ff8a2a' : '#c56bff', 'boss'); }
 function b36Move(e, B, m, d, dx, dy) { const en = e.enr ? 1 : 0, C = B.col, C2 = B.c2, a = Math.atan2(dy, dx), dm = e.dmg;
   const shake = t => G.later.push({ t, f: () => { if (!e.dead) G.shake = Math.max(G.shake || 0, 0.22); } });
   switch (m) {
@@ -7465,6 +7509,139 @@ const ZP = (() => { const TAU2 = Math.PI * 2, bob = f => Math.sin(f / 4 * TAU2),
     held: (b, ax, ay, by, w) => { b.line(ax + 2, ay + 10, ax + 4, ay - 56, GLD[3]); b.line(ax + 3, ay + 10, ax + 5, ay - 56, GLD[2]); b.poly([ax + 4, ay - 70, ax + 11, ay - 60, ax + 4, ay - 52, ax - 3, ay - 60], CYN, 3, 1); b.set(ax + 3, ay - 62, '#fff'); glow(b, ax + 4, ay - 60, 9, CYN); },
     ex: (b, f, w, by, hy) => { b.poly([-4, -66 + by, 4, -66 + by, 1, -30 + by], '#f4f0e0', 4, 0); b.poly([-1, -64 + by, 3, -64 + by, 2, -36 + by], RED, 2, 0); b.ell(-9, -58 + by, 3, 3, GLD, 4, 1); for (let i = 0; i < 3; i++) b.rect(-12 + i * 12, -44 + by, 3, 3, GLD[3]); } });
 })();
+/* ---- v39: Gourdmas Hollow sprites (original designs) ---- */
+(() => {
+  const { ramp: R } = PXA, M = PXA.mobs, D = M.D, TAU2 = Math.PI * 2, bob = f => Math.sin(f / 4 * TAU2), Z = ZP;
+  Object.assign(M.FLOAT, { snowbat: 1, carolghost: 1, tinselwraith: 1, hollowsleigh: 1 });
+  Object.assign(M.SCALE, { lanternling: 1, snowbat: 1, ragdoll: 1.05, gingerbone: 0.9, ornament: 1, toysoldier: 1.15, carolghost: 1, snowghoul: 1.05, snowball: 0.8, sleighhearse: 1.1, elfwitch: 1, giftmimic: 1.1, lanternhound: 1.05, cauldron: 1, gourdroot: 1.1, tinselwraith: 1.05, oldsack: 1.5 });
+  const ORG = R(['#4a1a04', '#a8480c', '#ff8a2a', '#ffc04a', '#fff0b0'], 1), BLK = R(['#06060a', '#12101a', '#221c2e', '#382e48', '#584a70']), PRP = R(['#241044', '#5a2a9a', '#9858e0', '#c898ff', '#f0e0ff']), ICE = R(['#103a5a', '#3a88b8', '#80d0f0', '#c8f0ff', '#ffffff']);
+  const CND = R(['#6a0a1a', '#c01c34', '#ff4a5a', '#ff9aa4', '#ffffff']), PCH = R(['#3a2a1c', '#7a5a3a', '#b08a58', '#d8b888', '#f4e0b8']), BON = R(['#4a4434', '#8a7e64', '#c0b494', '#e4dcc0', '#fffaec']), GRN = R(['#0e3a10', '#2a8a2a', '#5ad04a', '#a0ff7a', '#e0ffd0'], 1);
+  const GNG = R(['#3a1c08', '#7a4210', '#b0701e', '#d89a3c', '#f4c870']), WHT = R(['#8a90a8', '#b8c0d8', '#dce4f4', '#f0f4ff', '#ffffff']), GLD = R(['#4a3408', '#a07a14', '#e8b830', '#ffe060', '#fffbc0'], 1);
+  const glow = (b, x, y, r, C) => { b.ell(x, y, r, r, C, 4, 0); b.ell(x, y, r * 0.5, r * 0.5, C, 4, 0); };
+  const face = (b, x, y, s = 1, mouth = 1) => { b.poly([x - 4 * s, y - 2 * s, x - 1.4 * s, y - 2 * s, x - 2.7 * s, y - 5 * s], BLK, 0, 0); b.poly([x + 1.4 * s, y - 2 * s, x + 4 * s, y - 2 * s, x + 2.7 * s, y - 5 * s], BLK, 0, 0);
+    if (mouth) { b.poly([x - 5 * s, y + 1 * s, x + 5 * s, y + 1 * s, x + 3 * s, y + 5 * s, x + 1 * s, y + 3 * s, x - 1 * s, y + 5 * s, x - 3 * s, y + 3 * s], BLK, 0, 0); } };
+  /* Lanternling: a hopping little pumpkin with a carved grin and a candle glow */
+  D.lanternling = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t * 2)) * 2.4;
+    for (const [x, ph] of [[-4, 0], [4, Math.PI]]) b.cap(x, -6 + by, x + Math.sin(t + ph) * 2.6, -0.5, 1.5, 1, BLK, 1);
+    b.ell(0, -14 + by, 10, 9, ORG, 2, 1); b.ell(-4, -14 + by, 5, 8.6, ORG, 3, 0); b.ell(4, -14 + by, 5, 8.6, ORG, 1, 0); glow(b, 1, -14 + by, 4.6 + (w ? 2 : 0), ORG); face(b, 1, -14 + by, 0.9); b.rect(-1, -24 + by, 3, 4, GRN[1]); b.poly([2, -23 + by, 7, -26 + by, 4, -21 + by], GRN, 2, 1);
+    b.cap(6, -10 + by, w ? 12 : 10, w ? -20 + by : -6 + by, 1.2, 1, BLK, 2); };
+  /* Frost Bat: a pale ice-blue bat with snowflake-patterned wings and a tiny santa-ish scarf */
+  D.snowbat = (b, f, w) => Z.fly(b, f, w, { wc: ICE, c: WHT, c2: ICE, k: 1, eye: '#ff4a6a', ex: (b, f, w, cy) => { b.poly([4, cy - 6, 3, cy - 14, 9, cy - 8], WHT, 3, 1); b.poly([8, cy - 6, 12, cy - 13, 13, cy - 6], WHT, 3, 1); b.rect(-3, cy + 2, 10, 2.4, CND[2]); b.rect(-3, cy + 2, 10, 0.8, '#fff'); for (let i = 0; i < 3; i++) { b.set(-14 - i * 3, Math.round(cy - 4 + i), '#fff'); b.set(14 + i * 3, Math.round(cy - 4 + i), '#fff'); } } });
+  /* Stitchling: a lumpy purple ragdoll with button eyes, mismatched limbs and visible stitches */
+  D.ragdoll = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t * 2)) * 1.4 + (w ? 1.5 : 0), hy = -27 + by;
+    Z.legs(b, [-4, 4], -9 + by, t, 9, PCH, 1); b.poly([-8, -9 + by, 8, -9 + by, 7, -22 + by, -7, -22 + by], PRP, 2, 1); b.poly([-1, -22 + by, 7, -22 + by, 6, -10 + by, -1, -9 + by], PCH, 3, 0); for (let i = 0; i < 5; i++) b.line(-2 + (i & 1) * 1.6, -20 + by + i * 2.4, 2, -20 + by + i * 2.4, BLK[0]);
+    b.ell(1, hy, 7.4, 7.2, PCH, 3, 1); b.ell(4, hy - 1, 2, 2, BLK, 0, 0); b.set(4, Math.round(hy - 1), '#fff'); b.line(-3, hy - 2, -1, hy, BLK[0]); b.line(-3, hy, -1, hy - 2, BLK[0]); b.line(-1, hy + 4, 5, hy + 4, BLK[0]); for (let i = 0; i < 4; i++) b.line(-1 + i * 2, hy + 3, -1 + i * 2, hy + 5, BLK[0]);
+    b.poly([-3, hy - 6, -7, hy - 12, 1, hy - 7], PRP, 2, 1); b.cap(5, -19 + by, w ? 15 : 12, w ? -32 + by : -12 + by, 2, 1.6, PRP, 3); b.cap(-7, -19 + by, -11, -10 + by, 2, 1.6, PCH, 1); if (w) { b.line(15, -32 + by, 15, -42 + by, SLVI()); b.poly([13, -42 + by, 17, -42 + by, 15, -48 + by], SLVI(), 3, 1); } };
+  function SLVI() { return '#c8d0e0'; }
+  /* Gingerbone: a small cookie-skeleton with white icing ribs and a gumdrop nose */
+  D.gingerbone = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t * 2)) * 1.6;
+    for (const [x, ph] of [[-3, 0], [3, Math.PI]]) { b.cap(x, -8 + by, x + Math.sin(t + ph) * 2.8, -0.5, 1.6, 1.2, GNG, 1); b.set(Math.round(x + Math.sin(t + ph) * 2.8), 0, '#fff'); }
+    b.ell(0, -13 + by, 6, 7.4, GNG, 2, 1); for (let i = 0; i < 3; i++) b.line(-4, -16 + by + i * 3, 4, -16 + by + i * 3, '#fff'); b.ell(1, -24 + by, 6.4, 6, GNG, 3, 1); b.set(-1, Math.round(-25 + by), '#fff'); b.set(4, Math.round(-25 + by), '#fff'); b.set(3, Math.round(-23 + by), CND[3]); b.line(-1, -21 + by, 5, -21 + by, '#fff'); b.set(1, Math.round(-27 + by), CND[3]);
+    b.cap(4, -16 + by, w ? 11 : 9, w ? -28 + by : -10 + by, 1.4, 1.2, GNG, 3); b.line(-4, -14 + by, -9, -9 + by, GNG[3]); };
+  /* Cursed Ornament: a glass bauble with a manic face and a lit sparkler fuse */
+  D.ornament = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t * 2)) * 1.4, sw = w ? 1.2 : 1 + Math.sin(t) * 0.05;
+    for (const [x, ph] of [[-4, 0], [4, Math.PI]]) b.cap(x, -6 + by, x + Math.sin(t + ph) * 3, -0.5, 1.4, 1, GLD, 1); b.ell(0, -15 + by, 11 * sw, 11 * sw, CND, 2, 1); b.ell(-3, -19 + by, 4, 3, CND, 4, 0);
+    b.poly([-11 * sw, -17 + by, 11 * sw, -17 + by, 10 * sw, -13 + by, -10 * sw, -13 + by], GLD, 3, 0); for (let i = 0; i < 4; i++) b.set(Math.round(-8 + i * 5), Math.round(-15 + by), '#fff');
+    b.ell(3, -13 + by, 2.4, 2.8, '#fff', 4, 0); b.ell(-3, -13 + by, 2.4, 2.8, '#fff', 4, 0); b.set(4, Math.round(-12 + by), BLK[0]); b.set(-2, Math.round(-12 + by), BLK[0]); b.rect(-1, -28 + by, 3, 3, GLD[3]); b.line(0, -29 + by, 1, -33 + by, BLK[2]); for (let i = 0; i < 4; i++) b.set(Math.round(1 + Math.cos(f + i * 1.6) * 3), Math.round(-34 + by + Math.sin(f + i * 1.6) * 2), i % 2 ? GLD[4] : '#ffa040'); };
+  /* Toy Soldier Skull: a red-coated wooden soldier with a grinning skull face and a bayonet drum */
+  D.toysoldier = (b, f, w) => Z.hum(b, f, w, { k: 1.2, sk: BON, cl: CND, lg: WHT, cl2: GLD, tw: 8, wp: 'sword', wc: [0, 0, 0, '#c8d0e0', '#fff'], hat: (b, x, y) => { b.rect(x - 4, y - 14, 10, 12, BLK[1]); b.rect(x - 4, y - 8, 10, 2, CND[2]); b.rect(x - 5, y - 3, 12, 2, BLK[2]); b.set(Math.round(x), Math.round(y - 10), GLD[3]); b.set(Math.round(x + 4), Math.round(y + 1), BLK[0]); b.set(Math.round(x - 1), Math.round(y + 1), BLK[0]); b.line(x, y + 4, x + 4, y + 4, BLK[0]); },
+    ex: (b, f, w, by) => { for (let i = 0; i < 4; i++) b.rect(-6 + i * 4, -22 + by, 2, 8, GLD[3]); b.ell(-9, -14 + by, 4.4, 5.4, CND, 2, 1); b.rect(-12, -16 + by, 6, 1.6, '#fff'); } });
+  /* Carol Wraith: a floating pale caroler in a long scarf, mouth wide open mid-song, a floating song-sheet */
+  D.carolghost = (b, f, w) => { const t = f / 4 * TAU2, cy = -26 + bob(f) * 2; b.poly([-9, cy + 14 + bob(f + 1) * 1.4, 9, cy + 14 + bob(f + 2) * 1.4, 6, cy - 6, -6, cy - 6], ICE, 1, 1); b.poly([-7, cy + 10, 7, cy + 10, 5, cy - 4, -5, cy - 4], ICE, 3, 0);
+    b.ell(1, cy - 11, 6.4, 7, WHT, 4, 1); b.ell(3, cy - 9, 2, 3, BLK, 0, 0); b.ell(1, cy - 13, 1.2, 1.4, BLK, 0, 0); b.ell(5, cy - 13, 1.2, 1.4, BLK, 0, 0); b.rect(-5, cy - 4, 14, 3, CND[2]); b.rect(-5, cy - 4, 14, 1, '#fff'); b.rect(6, cy - 2, 3, 12, CND[2]);
+    b.ell(0, cy - 19, 7, 3, CND, 3, 1); b.ell(0, cy - 21, 4, 4, CND, 3, 1); b.ell(0, cy - 25, 2, 2, '#fff', 4, 0); const nx = w ? 16 : 12, ny = w ? cy - 12 : cy - 4; b.rect(nx - 5, ny - 6, 11, 14, '#f4f0d8'); for (let i = 0; i < 4; i++) b.line(nx - 3, ny - 3 + i * 3, nx + 3, ny - 3 + i * 3, BLK[2]); b.set(nx + 1, Math.round(ny - 8), BLK[0]); b.set(nx + 3, Math.round(ny - 10), BLK[0]);
+    if (w) for (let i = 0; i < 3; i++) glow(b, nx + 8 + i * 4, ny - 10 - (i % 2) * 4, 2, ICE); };
+  /* Snowghoul / Snowball Imp: a lopsided three-ball snowman with coal eyes and a crooked carrot */
+  D.snowghoul = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t)) * 1.2 + (w ? 1.5 : 0);
+    b.ell(0, -9 + by, 12, 9, WHT, 3, 1); b.ell(1, -22 + by, 9, 8, WHT, 4, 1); b.ell(2, -33 + by, 6.6, 6.2, WHT, 4, 1); b.set(3, Math.round(-34 + by), BLK[0]); b.set(7, Math.round(-34 + by), BLK[0]); b.poly([6, -32 + by, 15, -30 + by, 6, -30 + by], ORG, 3, 1); for (let i = 0; i < 4; i++) b.set(Math.round(2 + i * 1.6), Math.round(-29 + by + (i % 2)), BLK[0]);
+    b.rect(-3, -41 + by, 11, 2, BLK[1]); b.rect(-1, -48 + by, 7, 7, BLK[1]); b.rect(-1, -43 + by, 7, 1.4, CND[2]); b.set(-1, Math.round(-8 + by), BLK[0]); b.set(2, Math.round(-12 + by), BLK[0]); b.cap(9, -22 + by, w ? 17 : 15, w ? -34 + by : -16 + by, 1.2, 0.8, FURB(), 3); b.cap(-9, -22 + by, -16, -14 + by, 1.2, 0.8, FURB(), 1); b.line(15, -16 + by, 18, -20 + by, FURB()); };
+  function FURB() { return '#7a5230'; }
+  D.snowball = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t * 2)) * 2; b.ell(0, -10 + by, 8, 8, WHT, 4, 1); b.set(2, Math.round(-12 + by), BLK[0]); b.set(5, Math.round(-12 + by), BLK[0]); b.poly([5, -10 + by, 11, -9 + by, 5, -8 + by], ORG, 3, 1); for (let i = 0; i < 3; i++) b.set(Math.round(1 + i * 1.6), Math.round(-7 + by), BLK[0]); for (const x of [-3, 3]) b.cap(x, -3 + by, x + Math.sin(t + x) * 2, -0.5, 1.4, 1, BLK, 1); };
+  /* Sleigh Hearse: a black-and-purple sleigh with a coffin-shaped back, bone runners and ghostly lanterns */
+  D.sleighhearse = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t * 2)) * 1 + (w ? 2 : 0);
+    b.curve(-22, -4, -26, -10, -20, -12, 2, 2, BON, 2); b.curve(22, -4, 26, -10, 20, -12, 2, 2, BON, 3); b.rect(-22, -4, 44, 2.4, BON[3]);
+    b.poly([-20, -8 + by, 20, -8 + by, 18, -26 + by, -18, -26 + by], PRP, 2, 1); b.poly([-18, -26 + by, 18, -26 + by, 22, -16 + by, -22, -16 + by], BLK, 2, 1); b.rect(-2, -26 + by, 4, 18, GLD[2]); b.rect(-10, -20 + by, 20, 3, GLD[2]);
+    b.poly([18, -22 + by, 28, -18 + by, 28, -10 + by, 18, -8 + by], BLK, 3, 1); b.ell(26, -14 + by, 2.4, 2.4, ORG, 4, 0); glow(b, 26, -14 + by, 6 + (w ? 2 : 0), ORG); for (const x of [-14, 12]) { b.rect(x, -34 + by, 1.4, 8, BLK[3]); glow(b, x + 0.7, -35 + by, 3, ICE); }
+    b.ell(-8, -12 + by, 1.8, 2.4, '#fff', 4, 0); b.ell(0, -12 + by, 1.8, 2.4, '#fff', 4, 0); b.set(-8, Math.round(-12 + by), RED2()); b.set(0, Math.round(-12 + by), RED2()); };
+  function RED2() { return '#ff3a3a'; }
+  /* Cobweb Elf: a pointy-eared elf in a web-spun green cloak, mending threads of glittering silk */
+  D.elfwitch = (b, f, w) => { const t = f / 4 * TAU2, cy = -24 + bob(f) * 2; b.poly([-8, cy + 12 + bob(f + 1), 8, cy + 12 + bob(f + 2), 5, cy - 6, -5, cy - 6], GRN, 1, 1); b.poly([-6, cy + 8, 6, cy + 8, 4, cy - 4, -4, cy - 4], GRN, 3, 0); for (let i = 0; i < 3; i++) b.line(-5 + i * 5, cy - 4, -3 + i * 5, cy + 10, WHT[3]);
+    b.ell(1, cy - 10, 5.4, 5.8, R(['#4a6a2a', '#8aaa4a', '#b4d072', '#d8f0a0', '#f4ffd8']), 3, 1); b.poly([-4, cy - 10, -11, cy - 14, -4, cy - 7], R(['#4a6a2a', '#8aaa4a', '#b4d072', '#d8f0a0', '#f4ffd8']), 3, 1); b.poly([6, cy - 10, 13, cy - 14, 6, cy - 7], R(['#4a6a2a', '#8aaa4a', '#b4d072', '#d8f0a0', '#f4ffd8']), 3, 1); b.set(3, Math.round(cy - 10), BLK[0]); b.set(0, Math.round(cy - 10), BLK[0]);
+    b.poly([-5, cy - 14, 1, cy - 28, 7, cy - 14], CND, 2, 1); b.ell(1, cy - 28, 1.8, 1.8, '#fff', 4, 0); b.cap(5, cy, w ? 14 : 11, w ? cy - 14 : cy - 6, 1.4, 1, GRN, 3);
+    for (let i = 0; i < 4; i++) { const q = t + i * 1.6; b.line(11, cy - 6, 14 + Math.cos(q) * 6, cy - 6 + Math.sin(q) * 6, WHT[3]); } if (w) glow(b, 18, cy - 16, 4, GRN); };
+  /* Gift Mimic: a bright present that is mostly mouth, ribbon-tongue lolling, little legs underneath */
+  D.giftmimic = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t)) * 1.2 + (w ? 2 : 0), op = w ? 6 : 1.5;
+    Z.legs(b, [-8, 8], -9 + by, t, 8, BLK, 1); b.rect(-16, -34 + by, 32, 22, CND, 2); b.rect(-16, -34 + by, 3, 22, CND[3]); b.rect(-2, -34 + by, 4, 22, GLD[3]); b.rect(-2, -34 + by, 1.4, 22, GLD[4]);
+    b.poly([-18, -38 - op + by, 18, -38 - op + by, 16, -33 + by, -16, -33 + by], CND, 3, 1); b.rect(-2, -38 - op + by, 4, 6, GLD[3]); b.poly([0, -38 - op + by, -10, -48 - op + by, -5, -38 - op + by], GLD, 3, 1); b.poly([0, -38 - op + by, 10, -48 - op + by, 5, -38 - op + by], GLD, 3, 1);
+    b.rect(-11, -26 + by, 22, 10 + op * 0.4, BLK[0]); for (let i = 0; i < 5; i++) { b.poly([-10 + i * 5, -26 + by, -8 + i * 5, -26 + by, -9 + i * 5, -21 + by], '#fff', 4, 0); b.poly([-10 + i * 5, -16 + by, -8 + i * 5, -16 + by, -9 + i * 5, -20 + by], '#fff', 4, 0); }
+    b.ell(-7, -30 + by, 2, 2.4, '#fff', 4, 0); b.ell(7, -30 + by, 2, 2.4, '#fff', 4, 0); b.set(-7, Math.round(-30 + by), BLK[0]); b.set(7, Math.round(-30 + by), BLK[0]); b.curve(0, -20 + by, 4, -14 + by, 2, -8 + by, 2, 2.4, CND, 4); };
+  /* Lantern Hound: a spectral pup, translucent white with a glowing orange pumpkin nose and a lantern at the tail tip */
+  D.lanternhound = (b, f, w) => Z.quad(b, f, w, { c: WHT, c2: ICE, k: 1, sn: 0, eye: '#ff8a2a', tail: 1, ex: (b, f, w, by) => { glow(b, 22, -18 + by, 3.6 + (w ? 1.6 : 0), ORG); b.ell(22, -18 + by, 2, 2, ORG, 4, 0); b.curve(-14, -17 + by, -24, -15, -28, -25 + by, 2, 0.8, WHT, 3); glow(b, -28, -26 + by, 4, ORG); b.rect(-30, -26 + by, 4, 5, BLK[2]); b.set(-28, Math.round(-27 + by), ORG[4]); b.ell(11, -15 + by, 3, 1.4, CND, 3, 1); } });
+  /* Cauldron Bubbler: a squat black cauldron on stubby legs, green goo boiling over, a ladle arm */
+  D.cauldron = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t * 2)) * 1.2;
+    for (const [x, ph] of [[-8, 0], [-3, Math.PI], [3, 0], [8, Math.PI]]) b.cap(x, -6 + by, x + Math.sin(t + ph) * 2.4, -0.5, 1.8, 1.2, BLK, 1);
+    b.ell(0, -16 + by, 14, 11, BLK, 2, 1); b.ell(-4, -20 + by, 5, 3.4, BLK, 4, 0); b.ell(0, -26 + by, 13, 4, BLK, 3, 1); b.ell(0, -26 + by, 10, 2.8, GRN, 3, 0); for (let i = 0; i < 4; i++) { const q = f * 0.8 + i * 1.7; b.ell(-6 + i * 4, -28 + by - Math.abs(Math.sin(q)) * 4, 1.8, 1.8, GRN, 4, 0); }
+    b.ell(5, -16 + by, 2.6, 3, '#fff', 4, 0); b.ell(-3, -16 + by, 2.4, 2.8, '#fff', 4, 0); b.set(6, Math.round(-16 + by), BLK[0]); b.set(-2, Math.round(-16 + by), BLK[0]); b.poly([-4, -9 + by, 6, -9 + by, 4, -7 + by, -2, -7 + by], '#fff', 4, 0);
+    b.cap(11, -18 + by, w ? 20 : 17, w ? -36 + by : -22 + by, 2, 1.4, BLK, 3); b.ell(w ? 21 : 18, w ? -38 + by : -24 + by, 3, 2.4, GRN, 3, 1); if (w) b.ell(26, -42 + by, 2.4, 2.4, GRN, 4, 0); };
+  /* Gourd Lurker: a heap of vines and pumpkins hiding a huge fanged gourd head, two curly vine arms */
+  D.gourdroot = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t)) * 1.4 + (w ? 2 : 0);
+    for (const [x, ph] of [[-5, 0], [5, Math.PI]]) b.cap(x, -8 + by, x + Math.sin(t + ph) * 2, -0.5, 2.4, 1.6, GRN, 1);
+    for (const [x, y, r, lv] of [[-11, -13, 8, 1], [11, -13, 8, 2], [0, -17, 11, 3]]) b.ell(x, y + by, r, r * 0.9, ORG, lv, 1); b.ell(1, -24 + by, 10, 9, ORG, 3, 1); glow(b, 1, -24 + by, 5, ORG); face(b, 1, -24 + by, 1.1); for (let i = 0; i < 5; i++) b.line(-10 + i * 5, -11 + by, -8 + i * 5, -4 + by, GRN[1]); b.poly([1, -33 + by, 6, -38 + by, 8, -31 + by], GRN, 3, 1);
+    const fx = w ? 17 : 14, fy = w ? -34 : -12; b.curve(9, -14 + by, 12, -20 + by, fx, fy + by, 2.4, 2, GRN, 3); b.ell(fx, fy + by, 3, 3, GRN, 4, 1); for (let i = 0; i < 3; i++) b.line(fx - 1, fy + by + 2, fx - 4 + i * 3, fy + by + 8, GRN[2]); };
+  /* Tinsel Wraith: a ghost made of drifting tinsel strands, a glittering star at its heart */
+  D.tinselwraith = (b, f, w) => { const t = f / 4 * TAU2, cy = -22 + bob(f) * 2;
+    for (let i = 0; i < 9; i++) { const x = -12 + i * 3, ph = Math.sin(t + i * 0.7) * 3; b.curve(x, cy - 6, x + ph, cy + 6, x - ph * 0.5, cy + 16 + (i & 1) * 3, 1.6, 0.6, i % 3 ? WHT : GLD, 2 + (i % 3)); }
+    b.ell(0, cy - 4, 9, 11, WHT, 3, 1); b.ell(1, cy - 8, 5.4, 5.4, WHT, 4, 1); b.ell(3, cy - 9, 1.4, 1.8, BLK, 0, 0); b.ell(-1, cy - 9, 1.4, 1.8, BLK, 0, 0); b.ell(1, cy - 5, 1.8, 2.6, BLK, 0, 0);
+    b.poly([0, cy - 2, 1.6, cy + 1, 5, cy + 1, 2, cy + 3, 3, cy + 7, 0, cy + 4.6, -3, cy + 7, -2, cy + 3, -5, cy + 1, -1.6, cy + 1], GLD, 3, 1); b.cap(8, cy - 2, w ? 16 : 13, w ? cy - 14 : cy + 2, 1.4, 1, WHT, 4); for (let i = 0; i < 4; i++) b.set(Math.round(-10 + i * 7 + Math.sin(t + i) * 2), Math.round(cy - 14 + (i % 2) * 4), '#fff'); glow(b, 0, cy, 14, WHT); };
+  /* Old Sackweight (mini-boss): a vast lumpy burlap sack tied with a ribbon, full of unseen kicking things */
+  D.oldsack = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t)) * 1.4 + (w ? 3 : 0);
+    for (const [x, ph] of [[-8, 0], [8, Math.PI]]) b.cap(x, -12 + by, x + Math.sin(t + ph) * 3, -0.5, 4, 3, PCH, 1);
+    b.ell(0, -26 + by, 22, 22, PCH, 2, 1); b.ell(-6, -32 + by, 12, 12, PCH, 3, 1); for (const [x, y, r] of [[-12, -22, 4], [10, -28, 5], [4, -14, 4], [-4, -40, 4]]) { b.ell(x, y + by + Math.sin(t * 2 + x) * 1.4, r, r * 0.8, PCH, 4, 0); } for (let i = 0; i < 5; i++) b.line(-14 + i * 6, -18 + by, -12 + i * 6, -8 + by, PCH[1]);
+    b.poly([-8, -46 + by, 8, -46 + by, 6, -38 + by, -6, -38 + by], PCH, 2, 1); b.rect(-7, -41 + by, 14, 3, CND[2]); b.poly([0, -41 + by, -8, -50 + by, -3, -41 + by], CND, 3, 1); b.poly([0, -41 + by, 8, -50 + by, 3, -41 + by], CND, 3, 1); b.ell(4, -26 + by, 2.6, 3, '#fff', 4, 0); b.ell(-4, -26 + by, 2.2, 2.6, '#fff', 4, 0); b.set(5, Math.round(-26 + by), BLK[0]); b.set(-3, Math.round(-26 + by), BLK[0]); b.line(-3, -17 + by, 6, -17 + by, BLK[0]);
+    const ax = w ? 20 : 17, ay = w ? -46 : -22; b.cap(14, -26 + by, ax, ay + by, 4.4, 3.8, PCH, 3); b.ell(ax, ay + by + 1, 5, 4.4, PCH, 3, 1); };
+  /* ======== Gourdmas Hollow's 5 bosses ======== */
+  /* Hallowick: a towering, absurdly lanky lord in a striped suit, a jack-o'-lantern head burning inside, bat-wing bow tie */
+  D.hallowick = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t)) * 1.4 + (w ? 3 : 0), hy = -118 + by;
+    for (const [x, ph] of [[-8, t + Math.PI], [8, t]]) { const s = Math.sin(ph) * 5; b.cap(x, -50 + by, x + s, -2, 4, 3.4, BLK, ph > 3 ? 1 : 2); b.ell(x + s + 3, -1, 7, 2.6, BLK, 2, 0); }
+    b.poly([-12, -52 + by, 12, -52 + by, 10, -100 + by, -10, -100 + by], BLK, 2, 1); for (let i = 0; i < 7; i++) b.line(-10 + i * 3.4, -52 + by, -8.6 + i * 3.4, -100 + by, WHT[2]); b.poly([-13, -98 + by, 13, -98 + by, 22, -64 + by, -22, -64 + by], BLK, 1, 1); b.line(0, -98 + by, 0, -52 + by, PRP[2]);
+    b.poly([-4, -98 + by, 6, -98 + by, 1, -88 + by], WHT, 3, 0); b.ell(1, -91 + by, 3, 1.8, CND, 3, 1); b.poly([-3, -91 + by, -10, -94 + by, -10, -88 + by], CND, 3, 1); b.poly([5, -91 + by, 12, -94 + by, 12, -88 + by], CND, 3, 1);
+    b.ell(1, hy, 15, 14, ORG, 3, 1); b.ell(-6, hy, 7, 13, ORG, 2, 0); b.ell(8, hy, 7, 13, ORG, 1, 0); glow(b, 1, hy, 8, ORG); face(b, 1, hy + 1, 1.8); b.rect(-1, hy - 17, 4, 5, GRN[1]); b.poly([2, hy - 16, 9, hy - 22, 6, hy - 13], GRN, 3, 1); b.line(-2, hy + 10, 6, hy + 10, BLK[0]);
+    const lift = w ? -36 : 0; b.curve(-10, -90 + by, -30, -78 + by, -36, -54 + by, 2.6, 2, BLK, 1); b.curve(10, -90 + by, 28, -86 + by + lift * 0.5, 42, -70 + by + lift, 2.6, 2, BLK, 3); b.ell(-37, -52 + by, 5, 3.6, WHT, 3, 1); b.ell(43, -69 + by + lift, 5, 3.6, WHT, 4, 1);
+    if (w) for (let i = 0; i < 6; i++) { const q = i * 1.05; glow(b, 43 + Math.cos(q) * 14, -69 + by + lift + Math.sin(q) * 14, 3, ORG); } };
+  /* Mother Stitch: a giant patchwork ragdoll matron, button eyes, a huge pair of scissors, threads trailing from her hands */
+  D.motherstitch = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t)) * 1.2 + (w ? 3 : 0);
+    for (const [x, ph] of [[-13, t + Math.PI], [11, t]]) { const s = Math.sin(ph) * 3; b.cap(x, -30 + by, x + s, -2, 7, 6, PCH, ph > 3 ? 1 : 2); }
+    b.poly([-24, -22 + by, 22, -22 + by, 16, -88 + by, -18, -88 + by], PRP, 2, 1); for (const [pts, c, lv] of [[[-24, -22, -4, -22, -2, -50, -22, -52], PCH, 3], [[-2, -50, 18, -50, 20, -74, 0, -76], CND, 2], [[-4, -22, 22, -22, 18, -48, -2, -48], GRN, 2], [[-20, -54, -2, -52, 0, -78, -16, -86], BLU2(), 3]]) b.poly(pts.map((v, i) => i % 2 ? v + by : v), c, lv, 1);
+    for (let i = 0; i < 10; i++) b.line(-20 + i * 4, -22 + by, -16 + i * 3.4, -86 + by, BLK[0]); for (let i = 0; i < 6; i++) b.line(-22, -30 + by - i * 10, 20, -32 + by - i * 10, BLK[1]);
+    b.ell(0, -102 + by, 15, 15, PCH, 4, 1); b.ell(7, -104 + by, 4.4, 4.4, BLK, 0, 0); b.ell(-4, -104 + by, 4, 4, BLK, 0, 0); b.set(8, Math.round(-105 + by), '#fff'); b.set(-3, Math.round(-105 + by), '#fff'); b.line(7, -102 + by, 7, -104 + by, '#fff'); for (let i = 0; i < 6; i++) b.line(-6 + i * 3, -94 + by, -6 + i * 3, -91 + by, BLK[0]); b.line(-7, -93 + by, 11, -93 + by, BLK[0]);
+    b.poly([-12, -112 + by, -22, -124 + by, -4, -116 + by], PRP, 2, 1); b.poly([4, -114 + by, 14, -126 + by, 14, -112 + by], CND, 3, 1);
+    const lift = w ? -24 : 0; b.cap(16, -80 + by, 38, -62 + by + lift, 6, 5, PCH, 3); b.cap(-18, -80 + by, -34, -60 + by, 6, 5, PCH, 1);
+    b.line(38, -62 + by + lift, 52, -86 + by + lift, '#c8d0e0'); b.line(38, -62 + by + lift, 56, -82 + by + lift, '#e8eef8'); b.ell(37, -58 + by + lift, 3.6, 3.6, GLD, 3, 1); b.ell(41, -56 + by + lift, 3.6, 3.6, GLD, 3, 1); for (let i = 0; i < 4; i++) b.curve(-34, -58 + by, -40, -30 + i * 8, -34 - i * 5, 2, 0.8, 0.6, PRP, 4); };
+  function BLU2() { return R(['#10224a', '#2a4c9a', '#4a80dc', '#8ab8ff', '#e0f0ff']); }
+  /* The Great Gift: a gigantic wrapped box with a ribbon, lid flipping open on a huge toothy maw, skinny arms and a bow antenna */
+  D.greatgift = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t)) * 1.4 + (w ? 2 : 0), op = w ? 22 : 7;
+    for (const [x, ph] of [[-16, t + Math.PI], [14, t]]) { const s = Math.sin(ph) * 4; b.cap(x, -24 + by, x + s, -2, 6, 5, BLK, ph > 3 ? 1 : 2); b.ell(x + s + 2, -1, 8, 3, BLK, 2, 0); }
+    b.rect(-34, -74 + by, 68, 54, CND, 2); b.rect(-34, -74 + by, 8, 54, CND[3]); b.rect(26, -74 + by, 8, 54, CND[1]); b.rect(-5, -74 + by, 10, 54, GLD[3]); b.rect(-5, -74 + by, 3, 54, GLD[4]); for (let i = 0; i < 6; i++) b.set(-28 + i * 11, Math.round(-30 + by - (i % 3) * 10), '#fff');
+    b.rect(-22, -66 + by, 44, 24 + op * 0.3, BLK[0]); for (let i = 0; i < 8; i++) { b.poly([-21 + i * 5.6, -66 + by, -17 + i * 5.6, -66 + by, -19 + i * 5.6, -56 + by], '#fff', 4, 0); b.poly([-21 + i * 5.6, -42 + by + op * 0.3, -17 + i * 5.6, -42 + by + op * 0.3, -19 + i * 5.6, -52 + by + op * 0.3], '#fff', 4, 0); }
+    b.ell(-10, -78 + by + 10, 5, 5.4, '#fff', 4, 0); b.ell(12, -78 + by + 10, 5, 5.4, '#fff', 4, 0); b.set(-10, Math.round(-68 + by), RED3()); b.set(12, Math.round(-68 + by), RED3()); b.ell(0, -48 + by + op * 0.3, 8, 4, CND, 3, 1);
+    b.poly([-38, -76 + by, 38, -76 + by - op * 0.3, 34, -84 + by - op, -34, -84 + by - op], CND, 3, 1); b.rect(-5, -84 + by - op, 10, 8 + op, GLD[3]); b.poly([0, -84 + by - op, -20, -104 + by - op, -6, -84 + by - op], GLD, 3, 1); b.poly([0, -84 + by - op, 20, -104 + by - op, 6, -84 + by - op], GLD, 3, 1); b.ell(0, -84 + by - op, 5, 5, GLD, 4, 1);
+    b.cap(-34, -60 + by, -50, -42 + by, 5, 3.4, BLK, 1); b.cap(34, -60 + by, 50, w ? -62 + by : -42 + by, 5, 3.4, BLK, 3); b.ell(52, w ? -64 + by : -40 + by, 5, 4, WHT, 4, 1); b.ell(-52, -40 + by, 5, 4, WHT, 3, 1); };
+  function RED3() { return '#ff3a3a'; }
+  /* The Midnight Sleigh: a huge floating black sleigh pulled by a spectral skeletal reindeer, a trailing ribbon of stars */
+  D.hollowsleigh = (b, f, w) => { const t = f / 4 * TAU2, cy = -54 + bob(f) * 3, fl = Math.sin(t * 2) * 4;
+    for (let i = 0; i < 8; i++) { const x = -30 - i * 10; glow(b, x, cy + 20 + Math.sin(t + i) * 4, 3 - i * 0.2, i % 2 ? GLD : ICE); }
+    b.curve(-44, cy + 34, -50, cy + 44, -40, cy + 46, 3, 3, BON, 2); b.curve(36, cy + 34, 46, cy + 46, 32, cy + 46, 3, 3, BON, 3); b.rect(-44, cy + 44, 80, 3, BON[3]);
+    b.poly([-42, cy + 36, 36, cy + 36, 30, cy - 12, -38, cy - 12], PRP, 2, 1); b.poly([-38, cy - 12, 30, cy - 12, 38, cy - 24, -46, cy - 24], BLK, 2, 1); for (let i = 0; i < 6; i++) b.rect(-34 + i * 11, cy - 6, 6, 36, PRP[3]); b.rect(-44, cy + 30, 80, 3, GLD[2]); b.rect(-44, cy - 20, 90, 3, GLD[2]);
+    b.ell(-16, cy - 28, 10, 12, BLK, 3, 1); b.ell(-14, cy - 36, 7, 7, WHT, 4, 1); b.ell(-12, cy - 36, 1.6, 2, BLK, 0, 0); b.ell(-17, cy - 36, 1.6, 2, BLK, 0, 0); b.poly([-22, cy - 40, -14, cy - 50, -8, cy - 40], BLK, 3, 1); b.poly([-18, cy - 42, -18, cy - 52, -12, cy - 43], CND, 3, 1);
+    b.line(36, cy + 4, 70, cy - 4, GLD[3]); b.curve(70, cy - 4, 92, cy - 14, 100, cy - 4 + fl, 6, 4, BON, 3); b.ell(104, cy - 8 + fl, 10, 8, BON, 4, 1); b.set(108, Math.round(cy - 10 + fl), '#ff3a3a'); b.poly([106, cy - 14 + fl, 112, cy - 30 + fl, 114, cy - 14 + fl], BON, 3, 1); b.poly([100, cy - 12 + fl, 98, cy - 30 + fl, 106, cy - 14 + fl], BON, 3, 1); b.cap(108, cy - 2 + fl, 116, cy - 6 + fl, 2, 1.4, CND, 4); glow(b, 118, cy - 6 + fl, 5, CND);
+    for (const [x, y] of [[-30, cy - 6], [20, cy - 2]]) { b.rect(x, y - 8, 1.6, 8, BLK[3]); glow(b, x + 0.8, y - 10, 4 + (w ? 2 : 0), ORG); } for (let i = 0; i < 3; i++) b.curve(100, cy + 2 + fl, 90 - i * 8, cy + 18, 82 - i * 8, cy + 28 + i * 3, 2, 1, BON, 2); };
+  /* Baron Icicle: a massive ice-and-iron duke, jagged crown of icicles, a frost-coat and a huge icicle spear */
+  D.baronicicle = (b, f, w) => Z.big(b, f, w, { k: 1.15, sk: ICE, cl: ICE, cl2: WHT, lg: ICE, arm: ICE, wide: 22, hd: 11, eye: '#ff4a6a',
+    hat: (b, x, y) => { for (let i = 0; i < 7; i++) b.poly([x - 11 + i * 3.6, y - 6, x - 9.4 + i * 3.6, y - 14 - (i % 3 === 1 ? 8 : 0) - (i === 3 ? 6 : 0), x - 7.8 + i * 3.6, y - 6], WHT, 4, 1); b.rect(x - 11, y - 7, 24, 3, GLD[2]); for (const q of [-8, 0, 8]) b.set(Math.round(x + q), Math.round(y - 6), CND[3]); b.line(x - 4, y + 4, x + 6, y + 4, ICE[0]); },
+    back: (b, f, w, by) => { b.poly([-20, -76 + by, -40, -10, -12, -14, 4, -70 + by], R(['#0a1a3a', '#1a3a6a', '#2a5a98', '#4a88c8', '#80b8e8']), 1, 1); for (let i = 0; i < 5; i++) b.poly([-36 + i * 6, -12, -34 + i * 6, -2, -32 + i * 6, -12], WHT, 4, 0); },
+    held: (b, ax, ay, by, w) => { b.line(ax, ay + 10, ax + 3, ay - 70, WHT[3]); b.poly([ax - 5, ay - 40, ax + 3, ay - 100, ax + 11, ay - 40], ICE, 4, 1); b.line(ax + 3, ay - 96, ax + 3, ay - 44, '#fff'); glow(b, ax + 3, ay - 60, 7, ICE); },
+    ex: (b, f, w, by, hy) => { for (let i = 0; i < 6; i++) b.poly([-18 + i * 7, -68 + by, -16 + i * 7, -56 - (i & 1) * 5 + by, -14 + i * 7, -68 + by], WHT, 4, 0); for (let i = 0; i < 4; i++) b.set(-8 + i * 6, Math.round(-40 + by), '#fff'); } });
+})();
 /* ---- Hushborn + new boss sprites (pixel painters, same rules as px_mobs: feet at y = 0, facing +x, f 0-3 walk, w = wind-up) ---- */
 (() => {
   const { ramp: R } = PXA, M = PXA.mobs, D = M.D;
@@ -7958,6 +8135,7 @@ const RANGED = { seer: 22, spitter: 22, healer: 10, caller: 8, sprite: 26, bells
 Object.assign(RANGED, { sobber: 22, sobwisp: 22, wickling: 10, drowned: 26 }); /* v39: Cellarborn */
 Object.assign(RANGED, { apprentice: 22, archer: 22, cleric: 10 }); /* v39: Valorfields */
 Object.assign(RANGED, { conjurer: 22, rockspitter: 22, glimmer: 10, croonshade: 22, confetti: 22, dancer: 10 }); /* v39: Mossreach + Neon Perdition */
+Object.assign(RANGED, { carolghost: 22, cauldron: 22, elfwitch: 10 }); /* v39: Gourdmas Hollow */
 function pickType(t) {
   const rc = G.typeN || {}, av = Object.keys(ETYPES).filter(k => !ETYPES[k].boss && ETYPES[k].t0 <= t && onMap28(k) && !(RANGED[k] && (rc[(heart36() && HEARTSUB[k]) || (zn39() && zn39().sub[k]) || k] || 0) >= RANGED[k]));
   return wpick(av, k => { const d = ETYPES[k]; if (k === 'wisp') return Math.max(0.35, 3 - t / 80) * (t > 600 ? 0.5 : 1); // older, weaker types fade out of the mix late so new threats dominate
@@ -11051,6 +11229,59 @@ ZFOLK39.crooner = (d, t) => { const x = d.x, y = d.y; ctx.save(); ctx.translate(
   ctx.fillStyle = '#d84a4a'; ctx.beginPath(); ctx.arc(0, -25 + b * 0.4, 6, 0, TAU); ctx.fill(); ctx.fillStyle = '#e8b830'; ctx.beginPath(); ctx.moveTo(-5, -29 + b * 0.4); ctx.lineTo(-3, -36 + b * 0.4); ctx.lineTo(-1, -30 + b * 0.4); ctx.lineTo(1, -37 + b * 0.4); ctx.lineTo(3, -30 + b * 0.4); ctx.lineTo(5, -29 + b * 0.4); ctx.fill();
   ctx.fillStyle = '#0a0a10'; ctx.fillRect(-1, -25 + b * 0.4, 2, 1.4); ctx.fillRect(3, -25 + b * 0.4, 2, 1.4); ctx.strokeStyle = '#c8cedc'; ctx.lineWidth = 1.6; ctx.beginPath(); ctx.moveTo(8, -16); ctx.lineTo(11, -26 + b); ctx.stroke(); ctx.fillStyle = '#c8cedc'; ctx.beginPath(); ctx.arc(11, -28 + b, 2.6, 0, TAU); ctx.fill();
   ctx.globalCompositeOperation = 'lighter'; ctx.fillStyle = 'rgba(255,224,96,.2)'; ctx.beginPath(); ctx.moveTo(0, -60); ctx.lineTo(-18, 0); ctx.lineTo(18, 0); ctx.closePath(); ctx.fill(); ctx.restore(); };
+/* ---------- v39: Wreathwick Square (Gourdmas Hollow's town): a crooked village square around a big spiral fountain, wreaths on every door ---------- */
+TOWNS36.hollow = { name: 'Wreathwick Square', ic: '🎃', col: '#ff8a2a', edge: 'rgba(255,138,42,.7)', bg: 'rgba(18,8,28,.84)', kc: [20, 10, 34], music: 't_hollow',
+  pk: { vx: [-8, 8], vy: [8, 22], life: [3, 5], c: ['#ffffff', '#d8e4ff', '#ff8a2a'], shape: 'glow', gs: 5, ga: 0.6, rate: 18 },
+  sub: 'A crooked little square where everyone is oddly friendly. Shop in peace!', signs: { merchant: 'Trinkets & Trick-Treats', gambler: 'Gifts or Tricks?', smith: 'The Stitchery', stranger: 'Cocoa Cellar' } };
+TOWN_GROUND.hollow = function (g, R, r, G_) {
+  g.fillStyle = '#0a0616'; g.fillRect(-TOWN_GR, -TOWN_GR, TOWN_GR * 2, TOWN_GR * 2);
+  for (let i = 0; i < 160; i++) { const a = r() * TAU, d = R + 10 + r() * (TOWN_GR - R - 10); G_.el(g, Math.cos(a) * d, Math.sin(a) * d, 4 + r() * 8, 2 + r() * 4, r() < 0.5 ? '#eef2ff' : '#1a1430', r() * 3); }
+  g.save(); g.beginPath(); g.arc(0, 0, R + 8, 0, TAU); g.clip();
+  g.fillStyle = '#1a1230'; g.fillRect(-R - 10, -R - 10, R * 2 + 20, R * 2 + 20);
+  for (let y = -R - 16; y < R + 16; y += 28) for (let x = -R - 16; x < R + 16; x += 28) { const k = ((x + y) / 28 | 0) & 1; G_.rr(g, x + 1, y + 1, 26, 26, 3, k ? '#2a2048' : '#201838'); }
+  // a big swirling spiral laid in the stones
+  g.strokeStyle = '#ff8a2a'; g.lineWidth = 3; g.beginPath(); for (let a = 0; a < 18; a += 0.1) { const d = 4 + a * 5.2, x = Math.cos(a) * d, y = Math.sin(a) * d; a ? g.lineTo(x, y) : g.moveTo(x, y); } g.stroke();
+  g.strokeStyle = '#eef2ff'; g.lineWidth = 1.2; g.beginPath(); for (let a = 0; a < 18; a += 0.1) { const d = 4 + a * 5.2, x = Math.cos(a + 0.4) * d, y = Math.sin(a + 0.4) * d; a ? g.lineTo(x, y) : g.moveTo(x, y); } g.stroke();
+  // candy-striped path to the exit
+  for (let y = 44; y < R; y += 14) { G_.rr(g, -24, y, 48, 14, 0, (y / 14 | 0) & 1 ? '#eef2ff' : '#c01c34'); } G_.rr(g, -26, 44, 2.4, R, 0, '#12101a'); G_.rr(g, 23.6, 44, 2.4, R, 0, '#12101a');
+  g.globalCompositeOperation = 'lighter'; G_.el(g, 0, 0, 80, 80, G_.rg(g, 0, 0, 4, 80, 'rgba(255,138,42,.28)', 'rgba(255,138,42,0)')); for (const [x, y, c] of [[-160, -50, 'rgba(152,88,224,.14)'], [160, 40, 'rgba(255,138,42,.12)'], [0, 150, 'rgba(120,200,255,.1)']]) G_.el(g, x, y, 90, 90, G_.rg(g, x, y, 4, 90, c, 'rgba(0,0,0,0)')); g.globalCompositeOperation = 'source-over';
+  for (let i = 0; i < 44; i++) { const a = r() * TAU, d = r() * R; G_.el(g, Math.cos(a) * d, Math.sin(a) * d, 2.6, 1.3, ['#eef2ff', '#ff8a2a', '#c898ff'][i % 3], r() * 3); }
+  g.restore();
+  for (const [w, c] of [[16, '#06040e'], [11, '#2a2048'], [5, '#ff8a2a']]) { g.beginPath(); g.arc(0, 0, R + 4, 0, TAU); g.strokeStyle = c; g.lineWidth = w; g.stroke(); }
+  for (let i = 0; i < 40; i++) { const a = i / 40 * TAU; G_.el(g, Math.cos(a) * (R + 4), Math.sin(a) * (R + 4), 2.4, 2.4, i % 2 ? '#ff8a2a' : '#eef2ff'); }
+};
+T36STALL.hollow = function (g, nt, r, G_) { const cl = { merchant: '#ff8a2a', gambler: '#c01c34', smith: '#c898ff', stranger: '#80d0f0' }[nt];
+  // a crooked little cottage-stall with a striped awning and a wreath
+  G_.rr(g, -50, -68, 100, 68, 3, '#12101a'); G_.rr(g, -46, -64, 92, 64, 2, G_.lg(g, -46, 0, 46, 0, '#2a2048', '#3e3068', '#2a2048'));
+  G_.po(g, [-58, -68, 58, -68, 50, -84, -50, -84], '#12101a'); for (let i = 0; i < 8; i++) G_.po(g, [-56 + i * 14, -68, -42 + i * 14, -68, -40 + i * 14, -82, -52 + i * 14, -82], i & 1 ? '#eef2ff' : cl);
+  if (nt === 'merchant') { for (const [x, c] of [[-26, '#ff8a2a'], [-8, '#c898ff'], [10, '#80d0f0'], [28, '#ff4a5a']]) { G_.el(g, x, -38, 8, 7, c); G_.rr(g, x - 1, -47, 2, 4, 0, '#5ad04a'); G_.po(g, [x - 3, -40, x - 1, -40, x - 2, -43], '#000'); G_.po(g, [x + 1, -40, x + 3, -40, x + 2, -43], '#000'); } G_.rr(g, -36, -26, 72, 4, 1, '#6a4a28'); T36P.crate(g, 36, 0, 0.8, ['#4a2a18', '#2a160c', '#10080a']); }
+  else if (nt === 'gambler') { for (const [x, y, c] of [[-24, -22, '#c01c34'], [-4, -24, '#e8b830'], [18, -22, '#80d0f0']]) { G_.rr(g, x - 9, y - 12, 18, 14, 1, c); G_.rr(g, x - 1.2, y - 12, 2.4, 14, 0, '#fff0b0'); G_.po(g, [x, y - 12, x - 6, y - 18, x - 2, y - 12], '#fff0b0'); G_.po(g, [x, y - 12, x + 6, y - 18, x + 2, y - 12], '#fff0b0'); } G_.rr(g, -36, -8, 72, 4, 1, '#6a4a28'); G_.glow(g, 0, -30, 40, '#ff4a5a', 0.16); }
+  else if (nt === 'smith') { for (let i = 0; i < 4; i++) { const x = -34 + i * 22; G_.ln(g, [x, -62, x, -50], '#c8d0e0', 1.4); G_.el(g, x, -42, 7, 9, ['#c898ff', '#b08a58', '#ff8a2a', '#5ad04a'][i]); G_.el(g, x - 2, -44, 1.2, 1.2, '#000'); G_.el(g, x + 2, -44, 1.2, 1.2, '#000'); G_.ln(g, [x - 3, -39, x + 3, -39], '#000', 1); for (let q = 0; q < 3; q++) G_.ln(g, [x - 2 + q * 2, -40, x - 2 + q * 2, -38], '#000', 1); } G_.rr(g, -40, -12, 80, 4, 1, '#6a4a28'); G_.el(g, 32, -4, 6, 4, '#c8d0e0'); }
+  else { G_.rr(g, -34, -30, 68, 22, 3, G_.lg(g, -34, 0, 34, 0, '#4a3020', '#7a5230', '#4a3020')); G_.rr(g, -34, -32, 68, 5, 2, '#eef2ff'); for (let i = 0; i < 3; i++) { G_.rr(g, -22 + i * 18, -48, 12, 16, 3, '#f4ecd0'); G_.el(g, -16 + i * 18, -52, 5, 2, '#6a3a18'); G_.ln(g, [-12 + i * 18, -42, -8 + i * 18, -42], '#f4ecd0', 2); } G_.glow(g, 0, -38, 36, '#ff8a2a', 0.2); }
+  // wreath + sign
+  g.strokeStyle = '#2a8a2a'; g.lineWidth = 4; g.beginPath(); g.arc(0, -60, 9, 0, TAU); g.stroke(); for (let i = 0; i < 6; i++) G_.el(g, Math.cos(i) * 9, -60 + Math.sin(i) * 9, 1.6, 1.6, i & 1 ? '#c01c34' : '#ff8a2a'); G_.po(g, [-4, -69, 0, -66, 4, -69, 0, -72], '#c01c34');
+  G_.rr(g, -58, -104, 116, 18, 4, '#0a0616'); g.strokeStyle = cl; g.lineWidth = 2.4; rrp(g, -56, -102, 112, 14, 3); g.stroke(); G_.glow(g, 0, -95, 56, cl, 0.26);
+  for (let i = 0; i < 12; i++) G_.el(g, -50 + i * 9, -106, 1.8, 1.8, i % 2 ? '#ff8a2a' : '#eef2ff');
+};
+Object.assign(T36W, {
+  hwspire() { return t36S('hwspireT', 300, 290, 150, 280, (g, r) => { const G_ = T36G; G_.el(g, 0, 0, 120, 12, 'rgba(0,0,0,.5)');
+      g.fillStyle = '#12101a'; g.beginPath(); g.moveTo(-60, 0); g.bezierCurveTo(-64, -90, -30, -150, -14, -200); g.bezierCurveTo(-6, -224, 18, -230, 24, -258); g.bezierCurveTo(8, -230, 6, -210, 22, -184); g.bezierCurveTo(60, -130, 66, -70, 60, 0); g.closePath(); g.fill();
+      g.strokeStyle = '#ff8a2a'; g.lineWidth = 3; g.beginPath(); for (let a = 0; a < 14; a += 0.1) { const t = a / 14, d = 52 * (1 - t) + 4, x = Math.cos(a) * d * 0.9, y = -t * 220 + Math.sin(a) * 8; a ? g.lineTo(x, y) : g.moveTo(x, y); } g.stroke();
+      for (const [x, y, w, h] of [[-20, -60, 16, 24], [10, -110, 12, 18], [-8, -160, 10, 16]]) { G_.rr(g, x, y, w, h, 2, '#ffd890'); G_.glow(g, x + w / 2, y + h / 2, 24, '#ff8a2a', 0.3); }
+      G_.rr(g, -16, -26, 32, 26, 3, '#2a1a10'); G_.glow(g, 0, -64, 70, '#ff8a2a', 0.22); G_.el(g, 24, -256, 14, 10, '#eef2ff'); G_.glow(g, 24, -262, 40, '#c898ff', 0.25); }); },
+  hwpine() { return t36S('hwpineT', 60, 150, 30, 140, g => { const G_ = T36G; G_.el(g, 0, 0, 22, 5, 'rgba(0,0,0,.5)'); g.strokeStyle = '#12101a'; g.lineWidth = 8; g.beginPath(); g.moveTo(0, 0); g.bezierCurveTo(14, -40, -16, -80, 2, -130); g.stroke(); g.lineWidth = 3; for (const [x, y, c] of [[-14, -60, '#ff8a2a'], [12, -90, '#c898ff'], [4, -126, '#ff4a5a'], [-8, -104, '#ffe060']]) { g.beginPath(); g.moveTo(x * 0.3, y + 6); g.lineTo(x, y); g.stroke(); G_.el(g, x, y, 4, 4, c); G_.glow(g, x, y, 10, c, 0.3); } G_.el(g, 0, -4, 14, 3, '#eef2ff'); }); },
+  hwlight() { return t36S('hwlightT', 70, 110, 35, 100, (g, r) => { const G_ = T36G; G_.el(g, 0, 0, 14, 4, 'rgba(0,0,0,.45)'); G_.rr(g, -2, -60, 4, 60, 1.5, '#382e48'); const cs = ['#ff8a2a', '#c898ff', '#ff4a5a']; for (let i = 0; i < 3; i++) { const x = -18 + i * 18; G_.ln(g, [x, -60, x, -72 - (i & 1) * 6], '#382e48', 1.4); G_.el(g, x, -80 - (i & 1) * 6, 8, 8, cs[i]); G_.po(g, [x - 4, -82 - (i & 1) * 6, x - 1, -82 - (i & 1) * 6, x - 2.5, -86 - (i & 1) * 6], '#000'); G_.po(g, [x + 1, -82 - (i & 1) * 6, x + 4, -82 - (i & 1) * 6, x + 2.5, -86 - (i & 1) * 6], '#000'); G_.glow(g, x, -80 - (i & 1) * 6, 22, cs[i], 0.3); } }); },
+  hwlampT() { return t36S('hwlampTT', 40, 110, 20, 100, g => { const G_ = T36G; G_.el(g, 0, 0, 10, 3, 'rgba(0,0,0,.45)'); G_.rr(g, -2.4, -80, 4.8, 80, 1.5, '#382e48'); G_.ln(g, [0, -78, 12, -78], '#382e48', 2.6); T36P.lantern(g, 12, -70, '#ff8a2a', 1.4); G_.rr(g, -5, -6, 10, 6, 1.5, '#584a70'); }); },
+  hwbench() { return t36S('hwbenchT', 80, 50, 40, 44, g => { const G_ = T36G; G_.el(g, 0, 0, 36, 5, 'rgba(0,0,0,.45)'); G_.rr(g, -34, -30, 68, 6, 3, '#6a4a28'); G_.rr(g, -34, -18, 68, 6, 3, '#7a5a38'); for (const x of [-28, 28]) { g.strokeStyle = '#12101a'; g.lineWidth = 3; g.beginPath(); g.moveTo(x, -30); g.bezierCurveTo(x + 6, -18, x - 6, -8, x, 0); g.stroke(); } G_.el(g, -20, -33, 8, 3, '#eef2ff'); }); },
+  hwfountain() { return t36S('hwfountainT', 120, 90, 60, 82, g => { const G_ = T36G; G_.el(g, 0, 0, 56, 8, 'rgba(0,0,0,.5)'); G_.el(g, 0, -10, 50, 14, '#201838'); G_.el(g, 0, -14, 44, 10, '#3e3068'); G_.el(g, 0, -16, 38, 8, '#6a4aa8');
+      g.strokeStyle = '#eef2ff'; g.lineWidth = 6; g.beginPath(); g.moveTo(0, -16); g.bezierCurveTo(14, -34, -14, -52, 0, -72); g.stroke(); g.strokeStyle = '#c01c34'; g.lineWidth = 2; g.setLineDash([6, 6]); g.stroke(); g.setLineDash([]);
+      G_.el(g, 0, -74, 8, 8, '#ff8a2a'); G_.glow(g, 0, -74, 50, '#ff8a2a', 0.3); for (let i = 0; i < 6; i++) G_.el(g, -22 + i * 9, -14, 1.6, 1.6, '#c898ff'); }); },
+});
+ZFOLK39.carolers = (d, t) => { const x = d.x, y = d.y; ctx.save(); ctx.translate(x, y); const b = Math.sin(t * 3) * 1.4; ctx.fillStyle = 'rgba(0,0,0,.4)'; ctx.beginPath(); ctx.ellipse(0, 1, 11, 3, 0, 0, TAU); ctx.fill();
+  ctx.fillStyle = '#5a2a9a'; ctx.beginPath(); ctx.moveTo(-8, 0); ctx.lineTo(-6, -20 + b * 0.4); ctx.lineTo(6, -20 + b * 0.4); ctx.lineTo(8, 0); ctx.closePath(); ctx.fill(); ctx.fillStyle = '#c01c34'; ctx.fillRect(-6, -19 + b * 0.4, 12, 3); ctx.fillRect(4, -19 + b * 0.4, 3, 12);
+  ctx.fillStyle = '#d8b888'; ctx.beginPath(); ctx.arc(0, -25 + b * 0.4, 6, 0, TAU); ctx.fill(); ctx.fillStyle = '#c01c34'; ctx.beginPath(); ctx.moveTo(-6, -28 + b * 0.4); ctx.lineTo(0, -40 + b * 0.4); ctx.lineTo(6, -28 + b * 0.4); ctx.fill(); ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(0, -40 + b * 0.4, 2, 0, TAU); ctx.fill();
+  ctx.fillStyle = '#0a0a10'; ctx.fillRect(-2.6, -26 + b * 0.4, 1.6, 1.6); ctx.fillRect(1.2, -26 + b * 0.4, 1.6, 1.6); ctx.beginPath(); ctx.ellipse(0, -21 + b * 0.4, 2, 2.6, 0, 0, TAU); ctx.fill();
+  ctx.fillStyle = '#f4f0d8'; ctx.fillRect(7, -22, 9, 11); ctx.fillStyle = '#382e48'; for (let i = 0; i < 3; i++) ctx.fillRect(8.6, -20 + i * 3, 6, 0.8); ctx.restore(); };
 function townPrebuild(th) { try { t36Ground(th); const T = { theme: th, cx: 0, cy: 0 }; const n0 = G.npcs; G.npcs = []; t36Layout(T); G.npcs = n0; for (const nt of ['merchant', 'gambler', 'smith', 'stranger']) t36Stall(th, nt); } catch (e) {} }
 
 /* ================= v26: evolutions for the v25 skills (same rules as v18: max the skill + own its paired passive) ================= */
@@ -11507,6 +11738,8 @@ const NOFF = {
   shrinechest: { ic: '▣', n: () => 'Shrine Chest', d: () => 'Open an old chest: gold, a heal, a skill level or a little extra max HP', base: 60 },
   nightcap: { ic: '♨', n: () => 'Midnight Nightcap', d: () => 'Restore 50% of your HP and +20% damage for 75s', base: 26 },
   minibar: { ic: '♠', n: () => 'Penthouse Minibar', d: () => 'Raid the minibar for a fabulous random prize. Prices are, of course, outrageous', base: 70 },
+  cocoa: { ic: '☕', n: () => 'Nightmare Cocoa', d: () => 'Restore 60% of your HP and +15% move speed for 60s', base: 26 },
+  giftbox: { ic: '🎁', n: () => 'Mystery Gift', d: () => 'Unwrap a gift: gold, a heal, a skill level, or a very surprised mimic', base: 60 },
   stew: { ic: '♨', n: () => 'Hearty Stew', d: () => 'Restore 60% of your HP and +20% damage for 60s', base: 26 },
   crate: { ic: '▣', n: () => 'Mystery Loot Crate', d: () => 'Pry it open for a random prize: gold, a big heal, a skill level or a damage surge', base: 60 },
   broth: { ic: '♨', n: () => 'Weeping Broth', d: () => 'Restore 70% of your HP and +3 armor for 60s', base: 22 },
@@ -11625,6 +11858,11 @@ function npcApply(o, price, n) { const by = n.nt;
       if (q < 0.5) { heal(P.maxHp); burst(P.x, P.y, '#ffe060', 14, 90, 2.5, 0.5, true); return { t: '♠ Champagne! Fully healed: ' + Math.ceil(P.hp) + ' / ' + Math.round(P.maxHp) + ' HP', snd: 'heal' }; }
       if (q < 0.75) { const a = npcLevelAny(null), b2 = npcLevelAny(null); return { t: '♠ The VIP package: ' + (a || 'a skill') + (b2 && b2 !== a ? ' · ' + b2 : '') }; }
       npcBuff('bufE', 120); npcBuff('bufH', 120); return { t: '♠ Showtime! +25% damage and faster skills for 2 minutes' }; }
+    case 'cocoa': heal(P.maxHp * 0.6); npcBuff('bufH', 60); burst(P.x, P.y, '#ff8a2a', 12, 80, 2.5, 0.5, true); return { t: '☕ Warm and spooky: ' + Math.ceil(P.hp) + ' / ' + Math.round(P.maxHp) + ' HP and faster for 60s', snd: 'heal' };
+    case 'giftbox': { const q = Math.random(); if (q < 0.3) { const g0 = 50 + Math.floor(Math.random() * 80); G.gold = (G.gold || 0) + g0; return { t: '🎁 Gold coins in a stocking: +' + g0 + ' gold' }; }
+      if (q < 0.55) { heal(P.maxHp * 0.9); burst(P.x, P.y, '#ffe060', 12, 80, 2.5, 0.5, true); return { t: '🎁 A warm scarf: ' + Math.ceil(P.hp) + ' / ' + Math.round(P.maxHp) + ' HP', snd: 'heal' }; }
+      if (q < 0.8) { const a = npcLevelAny(null); return { t: '🎁 A book of tricks: ' + (a || 'a skill') + ' levels up' }; }
+      P.maxHp += 8; heal(8); return { t: '🎁 A lucky charm: +8 max HP' }; }
     case 'stew': heal(P.maxHp * 0.6); npcBuff('bufE', 60); burst(P.x, P.y, '#f4d060', 10, 70, 2.5, 0.5, true); return { t: '♨ Hearty! ' + Math.ceil(P.hp) + ' / ' + Math.round(P.maxHp) + ' HP and +20% damage for 60s', snd: 'heal' };
     case 'crate': { const q = Math.random(); if (q < 0.3) { const g0 = 40 + Math.floor(Math.random() * 70); G.gold = (G.gold || 0) + g0; return { t: '▣ Gold coins inside: +' + g0 + ' gold' }; }
       if (q < 0.55) { heal(P.maxHp * 0.9); burst(P.x, P.y, '#ffd890', 12, 80, 2.5, 0.5, true); return { t: '▣ A healing draught: ' + Math.ceil(P.hp) + ' / ' + Math.round(P.maxHp) + ' HP', snd: 'heal' }; }
@@ -12544,6 +12782,58 @@ function infernoChunk(i, j, key, a, rnd, add, x0, y0) {
   else if (u < 0.88) { add('nnsign', cx, cy); add('nnsofa', cx - 60, cy + 20); add('nnlamp', cx + 56, cy + 6); add('nncart', cx + 20, cy + 46); }                                                         // a lounge corner
   else { add('nnbottle', cx, cy); add('nncoin', cx - 44, cy + 20); add('nncoin', cx + 44, cy + 24); add('nnlamp', cx - 70, cy - 4); }                                                                  // a champagne tower with winnings
 }
+/* ================= v39 GOURDMAS HOLLOW: the eighth zone. A crooked, whimsical place where autumn nightmares and midwinter cheer got tangled together:
+   spiral hills, grinning lanterns, candy stripes, snow on pumpkins. Unlocks after surviving 15:00 in the Neon Perdition. All original to this game. ================= */
+Object.assign(OBT, { hwlantern: { S: 70, f: 12, r: 10, small: 1 }, hwcane: { S: 92, f: 12, r: 7, tall: 1, small: 1 }, hwgift: { S: 52, f: 12, r: 12, small: 1, brk: 1 }, hwtree: { S: 120, f: 14, r: 10, tall: 1, small: 1 },
+  hwstone: { S: 64, f: 12, r: 11, small: 1 }, hwpile: { S: 56, f: 12, r: 14, small: 1, low: 1 }, hwlamp: { S: 100, f: 12, r: 7, tall: 1, small: 1 }, hwfence: { S: 52, f: 12, r: 14, small: 1, low: 1 } });
+const HOLLOW_KINDS = ['hwlantern', 'hwcane', 'hwgift', 'hwtree', 'hwstone', 'hwpile', 'hwlamp', 'hwfence'];
+const HOLLOW_SINGLE = [['hwlantern', 14], ['hwcane', 10], ['hwgift', 12], ['hwtree', 14], ['hwstone', 10], ['hwpile', 12], ['hwlamp', 10], ['hwfence', 8]];
+const hollowOpen = () => !!(save && save.ach && save.ach.done && save.ach.done.m_p15);
+(() => {
+  const { ramp: R, PB, finish } = PXA, W = PXA.world, PD = W.PD;
+  const NIT = R(['#06040e', '#0e0a1c', '#1a1430', '#2a2048', '#40346a']), ORG = R(['#4a1a04', '#a8480c', '#ff8a2a', '#ffc04a', '#fff0b0'], 1), SNW = R(['#6a74a0', '#a0aad0', '#d0d8f0', '#eef2ff', '#ffffff']), PRP = R(['#241044', '#5a2a9a', '#9858e0', '#c898ff', '#f0e0ff']);
+  const CND = R(['#6a0a1a', '#c01c34', '#ff4a5a', '#ff9aa4', '#ffffff']), BLK = R(['#06060a', '#12101a', '#221c2e', '#382e48', '#584a70']), GRN = R(['#0e3a10', '#2a8a2a', '#5ad04a', '#a0ff7a', '#e0ffd0'], 1), BON = R(['#4a4434', '#8a7e64', '#c0b494', '#e4dcc0', '#fffaec']), GLD = R(['#4a3408', '#a07a14', '#e8b830', '#ffe060', '#fffbc0'], 1);
+  const hsh = (x, y, s = 0) => { let h = (x * 374761393 + y * 668265263 + s * 2246822519) | 0; h = (h ^ (h >>> 13)) * 1274126177; return ((h ^ (h >>> 16)) >>> 0) / 4294967296; };
+  // ground: deep indigo turf with crooked spiral swirls, snow drifts and the odd orange fleck
+  W.groundH = function () { const T = TILE, b = new PB(T, T, 0, 0, 1);
+    for (let y = 0; y < T; y++) for (let x = 0; x < T; x++) { const n = hsh(x, y, 17), sp = Math.sin(Math.hypot(x - T * 0.3, y - T * 0.7) * 0.34 + Math.atan2(y - T * 0.7, x - T * 0.3) * 2) > 0.94, sp2 = Math.sin(Math.hypot(x - T * 0.8, y - T * 0.25) * 0.3 - Math.atan2(y - T * 0.25, x - T * 0.8) * 2) > 0.95; b.a[y * T + x] = NIT[sp || sp2 ? 3 : n < 0.1 ? 1 : n > 0.96 ? 3 : 2]; }
+    let s = 171; const rnd = () => (s = (s * 16807) % 2147483647) / 2147483647, ws = (x, y, c) => b.set(((x % T) + T) % T, ((y % T) + T) % T, c);
+    for (let k = 0; k < 6; k++) { const cx = Math.floor(rnd() * T), cy = Math.floor(rnd() * T), r = 5 + rnd() * 9;   // snow drifts
+      for (let y = -r * 0.5; y <= r * 0.5; y++) for (let x = -r; x <= r; x++) if ((x * x) / (r * r) + (y * y) / (r * r * 0.25) < 1) ws(Math.round(cx + x), Math.round(cy + y), SNW[(x + y) & 1 ? 2 : 3]); ws(cx - 1, cy - 1, SNW[4]); }
+    for (let i = 0; i < 26; i++) ws(Math.floor(rnd() * T), Math.floor(rnd() * T), i % 3 ? ORG[2] : PRP[3]);
+    return PXA.paintUp(finish(b, { ol: 0, glow: 0 }).img, PXA.gK(), { tile: 1, seed: 171, mix: 0.3 }); };
+  // road: a candy-striped lane (white and red bands on dark), crooked
+  W.roadH = function (x0, RCH, ya, yb, jr) { const w = RCH, h = yb - ya, b = new PB(w, h, -x0, -ya, 1);
+    for (let x = x0; x < x0 + w; x++) { const cy = roadY(jr, x + 0.5); for (let y = ya; y < yb; y++) { const d = Math.abs(y + 0.5 - cy), n = hsh(x, y, 29); let c = 0;
+        if (d < 4.2) c = ((x + (y >> 1)) >> 3) & 1 ? SNW[n < 0.1 ? 2 : 3] : SNW[1]; else if (d < 5.6) c = ((x >> 2) & 1) ? CND[2] : SNW[3]; else if (d < 6.6) c = BLK[1]; else if (d < 7.6 && n < 0.3) c = ORG[0];
+        if (c) b.set(x, y, c); } }
+    return PXA.paintUp(finish(b, { ol: 0, glow: 0 }).img, PXA.gK(), { ox: x0, oy: ya, mix: 0.4, soft: 1.1 }); };
+  // ---- props ----
+  PD.hwlantern = (b) => { b.ell(0, -1, 14, 3, NIT, 0, 0); b.ell(0, -18, 13, 12, ORG, 2, 1); b.ell(-5, -18, 6, 11.4, ORG, 3, 0); b.ell(5, -18, 6, 11.4, ORG, 1, 0); b.rect(-1, -31, 3, 5, GRN[1]); b.poly([2, -30, 7, -33, 4, -27], GRN, 2, 1);
+    b.poly([-6, -21, -2, -21, -4, -26], BLK, 0, 0); b.poly([2, -21, 6, -21, 4, -26], BLK, 0, 0); b.poly([-7, -14, 7, -14, 4, -9, 2, -11, 0, -9, -2, -11, -4, -9], BLK, 0, 0); b.ell(0, -17, 5, 5, ORG, 4, 0); b.ell(-9, -3, 4, 2.4, SNW, 4, 1); b.ell(9, -3, 5, 2.4, SNW, 4, 1); };
+  PD.hwcane = (b) => { b.ell(0, -1, 9, 2.6, NIT, 0, 0); b.rect(-2, -74, 5, 73, SNW[4]); for (let y = 0; y < 70; y += 9) b.poly([-2, -2 - y, 3, -8 - y, 3, -3 - y, -2, 3 - y], CND, 2, 0); b.curve(0, -74, 0, -90, 12, -90, 2.4, 2.4, SNW, 4); b.curve(12, -90, 18, -90, 18, -82, 2.4, 2.4, SNW, 4); for (let i = 0; i < 3; i++) b.poly([4 + i * 4, -91, 6 + i * 4, -91, 6 + i * 4, -86], CND, 2, 0); b.ell(0, -3, 6, 2.4, SNW, 4, 1); };
+  PD.hwgift = (b) => { b.ell(0, -1, 16, 3, NIT, 0, 0); b.rect(-14, -26, 28, 25, CND, 2); b.rect(-14, -26, 3, 25, CND[3]); b.rect(-2, -26, 4, 25, GLD[3]); b.rect(-16, -32, 32, 7, CND, 3); b.rect(-2, -32, 4, 7, GLD[3]); b.poly([0, -32, -9, -42, -4, -32], GLD, 3, 1); b.poly([0, -32, 9, -42, 4, -32], GLD, 3, 1); b.ell(0, -32, 3, 3, GLD, 4, 1);
+    b.poly([-8, -16, -4, -16, -6, -12], '#fff', 4, 0); b.poly([2, -16, 6, -16, 4, -12], '#fff', 4, 0); b.poly([-8, -9, -4, -9, -6, -13], '#fff', 4, 0); b.poly([2, -9, 6, -9, 4, -13], '#fff', 4, 0); b.ell(-10, -34, 4, 2, SNW, 4, 1); };
+  PD.hwtree = (b) => { b.ell(0, -1, 12, 3, NIT, 0, 0); b.curve(0, -2, 8, -26, -8, -50, 5, 3.4, BLK, 3); b.curve(-8, -50, -16, -66, 2, -84, 3.4, 2.4, BLK, 3); b.curve(2, -84, 12, -96, 0, -110, 2.4, 1.2, BLK, 4);
+    b.curve(-6, -46, -22, -50, -26, -62, 2, 1, BLK, 3); b.curve(6, -30, 20, -36, 22, -50, 2, 1, BLK, 3); b.curve(0, -80, 14, -78, 16, -90, 1.6, 0.8, BLK, 3);
+    for (const [x, y, c] of [[-26, -62, ORG], [22, -50, PRP], [16, -90, ORG], [0, -110, CND], [-6, -64, PRP]]) { b.ell(x, y, 3, 3, c, 3, 1); b.set(x, y - 1, '#fff'); } b.ell(0, -4, 10, 2.4, SNW, 4, 1); };
+  PD.hwstone = (b) => { b.ell(0, -1, 16, 3, NIT, 0, 0); b.poly([-12, -2, -12, -34, -6, -44, 6, -44, 12, -34, 12, -2], BLK, 3, 1); b.rect(-10, -4, 20, 2, BLK[4]);
+    b.ell(0, -30, 6, 6, BON, 4, 1); b.set(-2, -31, BLK[0]); b.set(2, -31, BLK[0]); b.line(-2, -27, 2, -27, BLK[0]); b.curve(-8, -20, -8, -12, 0, -14, 1.2, 1.2, GRN, 2); for (let i = 0; i < 5; i++) b.ell(-8 + i * 4, -18 + (i & 1) * 3, 1.6, 1.6, i & 1 ? CND : ORG, 3, 0); b.ell(0, -45, 9, 2.4, SNW, 4, 1); };
+  PD.hwpile = (b) => { b.ell(0, -1, 22, 3.4, NIT, 0, 0); for (const [x, y, r, c] of [[-12, -8, 9, ORG], [8, -8, 10, ORG], [-2, -20, 9, ORG], [18, -6, 6, ORG], [-18, -4, 5, GRN]]) { b.ell(x, y, r, r * 0.84, c, 2, 1); b.ell(x - r * 0.3, y - 1, r * 0.4, r * 0.7, c, 3, 0); b.rect(x - 1, y - r * 0.84 - 3, 2, 3, GRN[1]); }
+    b.ell(-6, -26, 10, 3, SNW, 4, 1); b.ell(10, -17, 7, 2.4, SNW, 4, 1); };
+  PD.hwlamp = (b) => { b.ell(0, -1, 10, 2.6, NIT, 0, 0); b.rect(-2, -72, 4, 71, BLK[3]); b.cap(0, -72, 10, -80, 1.6, 1.6, BLK, 3); b.poly([4, -82, 16, -82, 14, -92, 6, -92], ORG, 3, 1); b.ell(10, -86, 3.4, 3.4, ORG, 4, 0); b.poly([8, -92, 12, -92, 10, -97], BLK, 3, 1); b.ell(0, -3, 6, 2.4, SNW, 4, 1); for (let i = 0; i < 3; i++) b.curve(-2, -70 + i * 14, -8, -66 + i * 14, -2, -62 + i * 14, 0.8, 0.8, BLK, 4); };
+  PD.hwfence = (b) => { b.ell(0, -1, 22, 3.4, NIT, 0, 0); for (let i = 0; i < 5; i++) { const x = -18 + i * 9; b.rect(x - 2, -28 - (i % 2) * 4, 4, 28 + (i % 2) * 4, BON[3]); b.poly([x - 2, -28 - (i % 2) * 4, x + 2, -28 - (i % 2) * 4, x, -34 - (i % 2) * 4], BON, 4, 1); } b.rect(-20, -20, 40, 3, BLK[2]); b.rect(-20, -10, 40, 3, BLK[2]); b.ell(0, -30, 5, 2, SNW, 4, 1); };
+  W.hollowProps = () => { for (const k of HOLLOW_KINDS) { const c = W.prop(k); SPR.prop[k] = c; SPR.prop['px_' + k] = c; } };
+})();
+function hollowChunk(i, j, key, a, rnd, add, x0, y0) {
+  const u = rnd(), cx = x0 + 30 + rnd() * (OBC - 60), cy = y0 + 30 + rnd() * (OBC - 60), hz = rnd() < 0.5;
+  if (u < 0.3 || w28Pick(key)) w28Open(key, a, rnd, add, cx, cy, 2);
+  else if (u < 0.5) add(obPick(HOLLOW_SINGLE, rnd()), cx, cy, 0.95 + rnd() * 0.15);
+  else if (u < 0.64) { const m = 3 + Math.floor(rnd() * 3); for (let q = 0; q < m; q++) add('hwfence', hz ? cx + (q - (m - 1) / 2) * 42 : cx, hz ? cy : cy + (q - (m - 1) / 2) * 42); }                  // a crooked bone fence
+  else if (u < 0.76) { add('hwtree', cx, cy); add('hwlantern', cx - 44, cy + 22); add('hwpile', cx + 50, cy + 28); }                                                                               // a bare tree with baubles
+  else if (u < 0.88) { add('hwstone', cx, cy); add('hwstone', cx - 40, cy + 14); add('hwlamp', cx + 46, cy - 6); add('hwcane', cx + 20, cy + 40); }                                                  // a graveyard corner
+  else { add('hwgift', cx, cy); add('hwgift', cx - 36, cy + 18); add('hwcane', cx + 40, cy + 6); add('hwlantern', cx - 66, cy - 6); }                                                                // gifts under a grin
+}
 function mapApply() { const mp = mapKey36(); if (mp === ARTMAP) return; ARTMAP = mp;  ROADC.clear(); PXA.cache.clear(); HPLAT.clear(); buildArt(); if (mapOn()) PXA.world.castleProps(); if (heartOn()) PXA.world.heartProps(); if (zn39()) PXA.world[zn39().props](); }
 /* ================= v28 LIVING WORLD: art for landmarks, breakables, ground decals and the shrine =================
    Everything is baked once per map into small pixel sprites (PXA), so the per-frame cost is a handful of drawImage calls. */
@@ -13154,6 +13444,48 @@ w39Reg('inferno', { name: 'The Neon Perdition', ic: '★', col: '#ff6ad0', sub: 
     for (const [x, y] of [[-124, 190], [128, 196], [-206, -110], [206, -112]]) add(x, y, W_.nnsofaT());
     add(0, -130, W_.nnstage(), { lamp: [0, -40], lc: '#ffe060' }); add(-130, 80, W_.nnsofaT()); add(134, 78, W_.nnsofaT());
     add(60, -120, null, { folk: 'crooner' });
+  } });
+/* ---- v39: Gourdmas Hollow weather, particles, music, registration ---- */
+Object.assign(PK39, {
+  hsnow: { vx: [-10, 10], vy: [14, 30], life: [3, 5], c: ['#ffffff', '#d8e4ff'], s: 2.2, shape: 'rect' },
+  hleaf: { vx: [-30, -8], vy: [8, 20], life: [3, 5], c: ['#ff8a2a', '#c8601a', '#a8480c'], s: 2.6, shape: 'rect' },
+  hbat: { vx: [-40, 40], vy: [-12, 4], life: [1, 2], c: ['#12101a', '#382e48'], s: 2.4, shape: 'rect' },
+  hmist: { vx: [4, 14], vy: [-4, 2], life: [4, 6], c: ['#c898ff', '#80d0f0'], s: 16, shape: 'glow', ga: 0.08 },
+  hglow: { vx: [-8, 8], vy: [-18, -6], life: [1.4, 2.4], c: ['#ff8a2a', '#c898ff', '#ffe060'], s: 6, shape: 'glow', ga: 0.7 },
+});
+WX28.hollow = { clear: { n: 'Crooked Moonlight', w: 3 }, snow: { n: 'Pumpkin Snow', p: 'hsnow', pr: 24, ov: '200,220,255,.05', w: 2.4 }, leaves: { n: 'Autumn Gale', p: 'hleaf', pr: 18, w: 2 }, mist: { n: 'Purple Mist', p: 'hmist', pr: 6, fog: 0.4, ov: '152,88,224,.06', w: 1.6 },
+  midnight: { n: 'Midnight Gourdmas', ov: '255,138,42,.06', gold: 1.1, w: 1.2, d: '+10% gold while it lasts', p: 'hglow', pr: 8 } };
+Object.assign(VOX, {
+  organ(c, out, t, f, d, v) { const lp = c.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 1500; const g = _env(c, out, t, 0.04, 0.1 * v, d * 0.9, 0.2); lp.connect(g); for (const [m, w] of [[1, 'square'], [2, 'triangle'], [0.5, 'sawtooth']]) _osc(c, w, f * m, t, t + d + 0.4, 0).connect(lp); },
+});
+TRACKS.p_battle = { bpm: 132, root: 52, sc: 'minor', lead: 'tinbox', pad: 'softpad', arp: 'kalimba', bass: 'mbass', arpPat: '0.2.4.2.0.2.5.2.', bassPat: 'r.r.o.r.r.r.o.5.', drums: { k: 'x..x..x.x..x..x.', s: '....x.......x...', h: 'x.x.x.x.x.x.x.xx' }, vol: 0.8,
+  bars: [B(0, '7-9-7---b-9-7---'), B(5, '8-a-8---c-a-8---'), B(3, '7-9-b-9-7-6-7---'), B(4, '8-9-a-9-8---7---'), B(0, 'b-d-b-9-7-9-b-d-'), B(6, 'a-c-a-8-6-8-a-c-'), B(3, '9-b-9-7-9-b-d-b-'), B(4, 'a-9-8-7-6-7-8-9-', { fill: 1 }),
+    B(0, 'd---b-d-e---d-b-'), B(5, 'c---a-c-e---c---'), B(3, 'b-d-b-9-b-d-f-d-'), B(4, 'a-9-a-b-c-b-a-9-'), B(0, 'e-d-b-d-e-g-e-d-'), B(6, 'c-b-a-b-c-e-c-a-'), B(3, 'd-b-9-b-d-b-9-7-'), B(0, 'b-------7-------', { fill: 1 })] };
+TRACKS.p_night = Object.assign({}, TRACKS.p_battle, { bpm: 92, vol: 0.7, dark: 1, arp: 'bell', arpPat: '0...2...4...2...', bassPat: 'r...o...r...f...', drums: { k: 'x...........x...', s: '........x.......', h: 'x.x.x.x.x.x.x.x.' } });
+TRACKS.p_boss = { bpm: 156, root: 50, sc: 'minor', lead: 'organ', pad: 'softpad', dark: 1, arp: 'chug', bass: 'mbass', arpPat: '0.00.0.00.0.0.00', bassPat: 'r.r.o.r.r.r.o.5.', drums: { k: 'x..xx..xx..xx.x.', s: '....x..x....x.xx', h: 'xxxxxxxxxxxxxxxx', t: '..............xx' }, vol: 0.8,
+  bars: [B(0, '7---9-7-b---9-7-'), B(5, '8---a-8-c---a-8-'), B(3, '7---9-b-d---b-9-'), B(4, '8---9-a-b---a-9-'), B(0, 'd---b-d-g---e-d-'), B(6, 'c---a-c-e---c-a-'), B(3, 'b-d-f-d-b-9-7-9-', { fill: 1 }), B(4, 'a-------b-------', { fill: 1 })] };
+TRACKS.t_hollow = { bpm: 84, root: 52, sc: 'minor', lead: 'tinbox', pad: 'softpad', arp: 'bell', bass: 'mbass', arpPat: '0...2...4...2...', bassPat: 'r...o...r...f...', drums: { k: 'x.......x.......', s: '........x.......', h: 'x...x...x...x...' }, vol: 0.74,
+  bars: [B(0, '9---b---9-7-----'), B(5, '8---a---8-6-----'), B(3, '9---b---d-b-9---'), B(0, 'b-------9-------'), B(4, 'a---9---8-6-----'), B(5, '8---a---c-a-8---'), B(3, 'b-9-b-d-b-9-7---'), B(0, '9---------------')] };
+w39Reg('hollow', { name: 'Gourdmas Hollow', ic: '🎃', col: '#ff8a2a', sub: HOLLOWSUB, mus: 'p_', ground: 'groundH', road: 'roadH', props: 'hollowProps', chunk: hollowChunk, mood: 0.4, kc: [20, 10, 34], smoke: '#c898ff', base: 'hglow', brazier: 'hwlamp',
+  dec: [['leaves', 2.4], ['bones', 0.8], ['crack', 1.2], ['runes', 1.4, 1], ['puddle', 0.8], ['blood', 0.5], ['chains', 0.5], ['tiles', 1]], pat: [['clear', 2], ['carpet', 0.9], ['magma', 0.4, 1]],
+  pool(t, pool) { if (t >= 300 && t < 480) pool.push('snowbat'); if (t >= 720) pool.push('giftmimic'); }, mini: () => w39HollowMini(),
+  prev: 'inferno', prevName: 'the Neon Perdition', achName: 'Sandy Claws Not Included', prog: 'p15', ach: 'm_p15',
+  info: { bg: 'linear-gradient(180deg,#1a0a3a,#ff8a2a)', bl: 'A crooked hill where autumn nightmares and midwinter cheer got hopelessly tangled.', mobs: 'Lanternlings, stitchlings, gingerbones, mimic gifts, sleigh hearses', boss: '5 bosses · Hallowick, Baron Icicle…', town: 'Wreathwick Square' }, need: 'Survive 15:00 in the Neon Perdition', open: () => hollowOpen(), lockHint: 'A spiral hill glows faintly in the dark',
+  seed: 808, signY: 100, bg: '#07040e', sign: ['#ff8a2a', '#1a0a2a', '#fff0d0', '#c898ff'], amb: ['chime', 'tick', 'crackle'], healK: 'cocoa', extraK: 'giftbox', menu: {
+    merchant: { ic: '🎃', shop: 'Trinkets & Trick-Treats', road: 'Trinket peddler', fl: ['Everything is gift-wrapped. Some of it is also watching you', 'Lovely thing, that. It only bites a little', 'Tricks and treats, half off. Which half is a surprise'] },
+    gambler: { ic: '🎁', shop: 'Gifts or Tricks?', road: 'Wrapping gambler', fl: ['Pick a box. Any box. Do not shake it', 'Two boxes sing. One boxes sneezes', 'The best presents are the ones that blink'] },
+    smith: { ic: '✂', shop: 'The Stitchery', road: 'Travelling seamstress', fl: ['A stitch in time saves nine, and ten, and ten again', 'I can mend anything. Mostly', 'Sit still, dear. The needle is very polite'] },
+    stranger: { ic: '☕', shop: 'Cocoa Cellar', road: 'Cocoa wanderer', fl: ['Warm hands, cold bones. A fair trade', 'Is it Halloween yet? Is it midwinter? Yes!', 'Have a mug. Do not ask what is floating in it'] },
+  }, names: { heal: 'Nightmare Cocoa', lvl: o => o.by === 'smith' ? 'Stitched Technique' : 'Gourd Lesson', lvl2: 'Spiral Hill Tutelage', reroll: 'Lucky Ribbon', magnet: 'Candy Hook', edge: 'Icicle Edge', haste: 'Sleigh Bells', hide: 'Cobweb Cloak', bet: 'Trick or Treat', bet2: 'Double Dare', evo: 'Midnight Wish', horde: 'Ring the Midnight Bell', ward: 'Wreath Charm' },
+  layout(add, r, W_, R, exitGap) {
+    add(0, -R - 6, W_.hwspire(), { tall: 1, lamp: [0, -60], lc: '#ff8a2a' });
+    for (let i = 0; i < 26; i++) { const a = i / 26 * TAU; if (exitGap(a) || Math.sin(a) < -0.88) continue; add(Math.cos(a) * (R + 16), Math.sin(a) * (R + 16), W_.hwpine(), { tall: 1 }); }
+    for (const s_ of [-1, 1]) { add(s_ * 36, R + 8, W_.hwlight(), { tall: 1, lamp: [0, -80], lc: '#ff8a2a' }); add(s_ * 30, R - 20, W_.hwlampT(), { lamp: [12, -70], lc: '#ff8a2a' }); }
+    for (const [x, y] of [[-200, -50], [200, -50], [-150, 140], [150, 140], [-40, -170], [40, -170]]) add(x, y, W_.hwlampT(), { tall: 1, lamp: [12, -70], lc: '#ff8a2a' });
+    for (const [x, y] of [[-168, -96], [170, -96]]) add(x, y, W_.hwlight(), { tall: 1, lamp: [0, -80], lc: '#c898ff' });
+    for (const [x, y] of [[-124, 190], [128, 196], [-206, -110], [206, -112]]) add(x, y, W_.hwbench());
+    add(0, -130, W_.hwfountain(), { lamp: [0, -40], lc: '#ff8a2a' }); add(-130, 80, W_.hwbench()); add(134, 78, W_.hwbench());
+    add(60, -120, null, { folk: 'carolers' });
   } });
 let ARTMAP = 'forest';
 function render(dt) {
@@ -15257,7 +15589,17 @@ const BGA = (() => {
       K.r(cx - 14, hz, 28, H - hz, '#b01a34'); K.r(cx - 16, hz, 2, H - hz, '#e8b830'); K.r(cx + 14, hz, 2, H - hz, '#e8b830');
       const sy = hz + (H - hz) * 0.3; K.box(cx - 36, sy - 4, 72, 8, '#3a0c24'); K.r(cx - 36, sy - 6, 72, 3, '#e8b830'); K.glow(cx, sy - 20, H * 0.34, '#ffe060', 0.3); K.tri(cx, sy - 40, 22, 38, 'rgba(255,230,160,.18)');
       K.r(cx - 3, sy - 22, 6, 18, '#12121a'); K.circ(cx, sy - 26, 4.4, '#d84a4a'); K.r(cx + 6, sy - 22, 1, 10, '#c8cedc'); K.circ(cx + 6, sy - 24, 2, '#c8cedc'); K.glow(cx, sy - 6, 22, acc, 0.4);
-      K.fog(hz - 3, '#ff8ac8', 0.12); K.dots(22, '#80f0ff', 0, H * 0.1, W, H * 0.8); K.vig(0.5); }
+      K.fog(hz - 3, '#ff8ac8', 0.12); K.dots(22, '#80f0ff', 0, H * 0.1, W, H * 0.8); K.vig(0.5); },
+    hollow(K, acc, cls) { const { W, H, R } = K, hz = H * 0.62, cx = W / 2;   // v39: Gourdmas Hollow - a crooked spiral hill under a huge moon, lantern lights, snow on the pumpkins
+      K.vg(0, 0, W, hz, '#0c0620', '#2a1450'); K.dots(46, '#ffffff', 0, 0, W, hz); K.circ(W * 0.7, H * 0.2, Math.min(W, H) * 0.15, '#fff6d8'); K.glow(W * 0.7, H * 0.2, H * 0.34, '#ffe0a0', 0.35);
+      tapestry(K, cls, acc, cx, H * 0.2, Math.min(W * 0.24, 38));
+      K.poly([cx - W * 0.5, hz, cx - W * 0.3, hz - H * 0.1, cx - W * 0.1, hz - H * 0.3, cx + W * 0.02, hz - H * 0.42, cx + W * 0.1, hz - H * 0.3, cx + W * 0.3, hz - H * 0.12, cx + W * 0.5, hz], '#14102a');
+      for (let i = 0; i < 7; i++) { const t = i / 6; K.line(cx - W * 0.28 * (1 - t) - 4, hz - H * 0.08 - t * H * 0.3, cx + W * 0.28 * (1 - t) + 4, hz - H * 0.1 - t * H * 0.3 - 3, i & 1 ? '#eef2ff' : '#ff8a2a'); }
+      K.r(cx - 2, hz - H * 0.55, 4, H * 0.1, '#06040e'); K.glow(cx, hz - H * 0.3, H * 0.2, '#ff8a2a', 0.3);
+      for (let i = 0; i < 5; i++) { const x = W * (0.1 + i * 0.2), y = hz - R() * H * 0.04; K.circ(x, y - 6, 7, '#ff8a2a'); K.r(x - 2, y - 14, 4, 4, '#2a8a2a'); K.r(x - 3, y - 8, 2, 3, '#06040e'); K.r(x + 1, y - 8, 2, 3, '#06040e'); K.glow(x, y - 6, 16, '#ff8a2a', 0.4); }
+      K.vg(0, hz, W, H - hz, '#1a1230', '#06040e'); for (let i = 0; i < 6; i++) for (let j = 0; j < 4; j++) if ((i + j) & 1) K.r(W * (i / 6), hz + (H - hz) * (j / 4), W / 6, (H - hz) / 4, '#241a40');
+      const sy = hz + (H - hz) * 0.3; K.glow(cx, sy - 20, H * 0.3, '#ff8a2a', 0.28); K.r(cx - 3, sy - 24, 6, 20, '#06040e'); K.circ(cx, sy - 28, 5, '#eef2ff'); K.r(cx - 2, sy - 29, 1.4, 1.4, '#06040e'); K.r(cx + 1, sy - 29, 1.4, 1.4, '#06040e'); K.glow(cx, sy - 6, 22, acc, 0.4);
+      K.fog(hz - 3, '#c898ff', 0.12); K.dots(26, '#eef2ff', 0, H * 0.05, W, H * 0.9); K.vig(0.5); }
   };
   let PV = false;
   function tapestry(K, cls, acc, cx, y, w) { if (PV) return; const h = Math.round(w * 1.46), x = Math.round(cx - w / 2); K.r(x - 4, y - 3, w + 8, 3, '#5a3a1e'); K.r(x - 2, y, w + 4, h + 4, '#d8b04a');

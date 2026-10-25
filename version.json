@@ -1,12 +1,12 @@
 {
- "version": "42",
+ "version": "43",
  "date": "2026-10-25",
  "minLauncher": "2.0.0",
  "notes": [
-  "Two new maps! Each one unlocks after surviving 15 minutes in the map before it",
-  "The Mossreach Shrines: green hills, smashable clay pots, old shrine doors, its own monsters, 5 bosses, music and village (Lanternwick)",
-  "The Neon Perdition: a glamorous hotel in the underworld, with its own monsters, 5 bosses, jazz music and lobby town (The Last Resort Lobby)",
-  "Unlock order: Valorfields, then Mossreach Shrines, then Neon Perdition"
+  "A new map! It unlocks after surviving 15 minutes in The Neon Perdition",
+  "Gourdmas Hollow: a crooked spiral hill where autumn nightmares and midwinter cheer got tangled together. Grinning lanterns, candy stripes, snow on pumpkins",
+  "Its own monsters (Lanternlings, Stitchlings, Gingerbones, Gift Mimics, Sleigh Hearses and more), a mini-boss, 5 bosses, music and village (Wreathwick Square)",
+  "A tonal nod to a certain spooky holiday movie; everything is original to this game"
  ],
  "files": [
   {
@@ -31,8 +31,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "cf343c56307dede80603b1eaa1642752a8c1c51c354b8a354071ba228165d258",
-   "size": 2211866
+   "sha256": "db58e74a4521b83e5df00e77c0f643a8939732a7dbed8427ecc41bf1b9a71167",
+   "size": 2275276
   },
   {
    "name": "manifest.webmanifest",
@@ -41,7 +41,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "3e3bed0b76452e303046082d7db6e7971148b701e88498742092ddb120100bf8",
+   "sha256": "8072227ce62f1836e92a06c02f4d477fa5bce44e1f5f3c166806f798d9c2d5b2",
    "size": 1466
   }
  ]
