@@ -847,7 +847,7 @@ canvas.hop{animation:hopk .55s ease-in-out;transform-origin:50% 90%}canvas.hopbi
 .racepill.locked{opacity:.8}.racepill.locked span{color:#ffb070}.racepill.shake{animation:pshake .35s}@keyframes pshake{20%{transform:translateX(-4px)}60%{transform:translateX(4px)}}
 /* v27: class-screen top bar - pills shrink, the shard counter never wraps; a short note explains the locked map */
 #select .seltop{gap:8px;flex-wrap:nowrap}#select .seltop .racepill{flex:0 1 auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#select .seltop .shard{flex:0 0 auto;white-space:nowrap;font-size:clamp(12px,3.8vw,16px)}
-#heartLock36{display:flex;align-items:center;gap:10px;margin:2px auto 6px;min-height:44px;max-width:min(520px,94%);padding:6px 14px;border-radius:12px;border:1px dashed rgba(255,138,176,.55);background:linear-gradient(180deg,rgba(40,26,62,.92),rgba(18,12,30,.94));color:#e8dcff;font:600 13px -apple-system,system-ui,sans-serif;text-align:left;cursor:pointer;box-shadow:inset 0 0 18px rgba(255,90,138,.12)}#heartLock36[hidden]{display:none}#heartLock36 .t{display:flex;flex-direction:column;gap:1px}#heartLock36 b{color:#ffb6cc;font-size:14px;letter-spacing:.3px}#heartLock36 .t span{font-size:12px;color:#cbbbe6}#heartLock36 .hm{flex:0 0 28px;height:28px;border-radius:50%;background:radial-gradient(circle at 60% 40%,#ffd6e4 0 22%,#ff6a96 23% 46%,#3a1838 47%);filter:grayscale(.55) brightness(.75)}#heartLock36.shake{animation:shk36 .3s}@keyframes shk36{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}#btnSelMap.new36{box-shadow:0 0 0 2px #ff8ab0,0 0 16px rgba(255,138,176,.6)}#btnSelMap .ln{display:none}@media(max-width:560px){#btnSelMap .lw{display:none}#btnSelMap .ln{display:inline}#select .seltop .racepill{padding-left:10px;padding-right:10px}#btnSelRace span{display:none}}
+#heartLock36{display:flex;align-items:center;gap:10px;margin:2px auto 6px;min-height:44px;max-width:min(520px,94%);padding:6px 14px;border-radius:12px;border:1px dashed rgba(255,138,176,.55);background:linear-gradient(180deg,rgba(40,26,62,.92),rgba(18,12,30,.94));color:#e8dcff;font:600 13px -apple-system,system-ui,sans-serif;text-align:left;cursor:pointer;box-shadow:inset 0 0 18px rgba(255,90,138,.12)}#heartLock36[hidden]{display:none}#heartLock36 .t{display:flex;flex-direction:column;gap:1px}#heartLock36 b{color:#ffb6cc;font-size:14px;letter-spacing:.3px}#heartLock36 .t span{font-size:12px;color:#cbbbe6}#heartLock36 .hm{flex:0 0 28px;height:28px;border-radius:50%;background:radial-gradient(circle at 60% 40%,#ffd6e4 0 22%,#ff6a96 23% 46%,#3a1838 47%);filter:grayscale(.55) brightness(.75)}#cellarLock39{display:flex;align-items:center;gap:10px;margin:2px auto 6px;min-height:44px;max-width:min(520px,94%);padding:6px 14px;border-radius:12px;border:1px dashed rgba(200,208,112,.5);background:linear-gradient(180deg,rgba(34,26,18,.92),rgba(14,10,8,.94));color:#ece4cc;font:600 13px -apple-system,system-ui,sans-serif;text-align:left;cursor:pointer;box-shadow:inset 0 0 18px rgba(160,40,30,.14)}#cellarLock39[hidden]{display:none}#cellarLock39 .t{display:flex;flex-direction:column;gap:1px}#cellarLock39 b{color:#d8dc8a;font-size:14px;letter-spacing:.3px}#cellarLock39 .t span{font-size:12px;color:#c4b8a0}#cellarLock39 .hm{flex:0 0 28px;height:28px;border-radius:50%;background:radial-gradient(circle at 50% 40%,#e8f4ff 0 14%,#6ab4f0 15% 34%,#c8a898 35% 62%,#2a1a18 63%);filter:grayscale(.5) brightness(.75)}#cellarLock39.shake{animation:shk36 .3s}#btnSelMap.new39{box-shadow:0 0 0 2px #c8d070,0 0 16px rgba(200,208,112,.55)}#heartLock36.shake{animation:shk36 .3s}@keyframes shk36{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}#btnSelMap.new36{box-shadow:0 0 0 2px #ff8ab0,0 0 16px rgba(255,138,176,.6)}#btnSelMap .ln{display:none}@media(max-width:560px){#btnSelMap .lw{display:none}#btnSelMap .ln{display:inline}#select .seltop .racepill{padding-left:10px;padding-right:10px}#btnSelRace span{display:none}}
 .selmapmsg{width:min(92vw,380px);box-sizing:border-box;max-height:0;overflow:hidden;opacity:0;transition:opacity .2s,max-height .2s,margin .2s;text-align:center;font-size:13px;color:#ffe08a;background:rgba(40,20,0,.55);border:1px solid rgba(242,201,76,.5);border-radius:10px}
 .selmapmsg.on{max-height:60px;opacity:1;padding:6px 10px;margin:6px 0 2px}.pc .selmapmsg{width:880px;max-width:100%}
 /* v27: Armory tap targets - every talent and button is at least 44px with 8px gaps. Phones show one branch at a time (tabs); wider screens keep all three side by side */
@@ -1269,7 +1269,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
 
 <div id="select" class="screen panel">
  <h2 style="margin-bottom:4px">Choose Your Class</h2>
- <div class="topbar seltop"><button class="racepill" id="btnSelRace"></button><button class="racepill" id="btnSelMap" aria-describedby="selMapMsg"></button><span class="shard" id="selShards"></span></div><div class="selmapmsg" id="selMapMsg" role="status" aria-live="polite"></div><button class="maplock36" id="heartLock36" hidden><i class="hm" aria-hidden="true"></i><span class="t"><b>Heartfall Belfry</b><span>🔒 Survive 15:00 in the Ashen Citadel to unlock</span></span></button>
+ <div class="topbar seltop"><button class="racepill" id="btnSelRace"></button><button class="racepill" id="btnSelMap" aria-describedby="selMapMsg"></button><span class="shard" id="selShards"></span></div><div class="selmapmsg" id="selMapMsg" role="status" aria-live="polite"></div><button class="maplock36" id="heartLock36" hidden><i class="hm" aria-hidden="true"></i><span class="t"><b>Heartfall Belfry</b><span>🔒 Survive 15:00 in the Ashen Citadel to unlock</span></span></button><button class="maplock36" id="cellarLock39" hidden><i class="hm" aria-hidden="true"></i><span class="t"><b>The Weeping Cellar</b><span>🔒 Survive 15:00 in the Heartfall Belfry to unlock</span></span></button>
  <div id="classList"></div>
  <h3 style="align-self:center;margin-top:8px">Outfit</h3>
  <div class="swatches" id="outfitPick"></div>
@@ -2708,6 +2708,7 @@ const ACH = [];
   ACH.push({ id: 'q_run5', cat: 'gen', name: 'Busy Night', ic: '✪', desc: 'Complete 5 quests in a single run', goal: 5, k: 'q_run_t', rw: 'eye_dawn' });
   ACH.push({ id: 'm_15', cat: 'gen', un: 'Ashen Citadel map', name: 'Dawn Over Gloomwood', ic: '♜', desc: 'Survive 15 minutes in Gloomwood to unlock the Ashen Citadel map', goal: 1, f: () => (save.ach.p.f15 || save.best >= 900) ? 1 : 0 }); // v26: unlocks the castle map
   ACH.push({ id: 'm_c15', cat: 'gen', un: 'Heartfall Belfry map', name: 'Bells Beyond the Ash', ic: '♡', desc: 'Survive 15 minutes in the Ashen Citadel to unlock the Heartfall Belfry map', goal: 1, f: () => save.ach.p.c15 ? 1 : 0 }); // v36: unlocks the third zone
+  ACH.push({ id: 'm_h15', cat: 'gen', un: 'Weeping Cellar map', name: 'Down the Cellar Stairs', ic: '☠', desc: 'Survive 15 minutes in the Heartfall Belfry to unlock the Weeping Cellar map', goal: 1, f: () => save.ach.p.h15 ? 1 : 0 }); // v39: unlocks the fourth zone
   ACH.push({ id: 'e_1', cat: 'gen', name: 'Metamorphosis', ic: '⇪', desc: 'Evolve a skill', goal: 1, f: () => evoCount(), rw: 'aura_prism' }); // v18 evolutions
   ACH.push({ id: 'e_5', cat: 'gen', name: 'Evolutionist', ic: '⇪', desc: 'Evolve 5 different skills', goal: 5, f: () => evoCount(), rw: 'eye_ascend' });
   ACH.push({ id: 'e_15', cat: 'gen', name: 'Living Codex', ic: '✪', desc: 'Evolve 15 different skills', goal: 15, f: () => evoCount(), rw: 'aura_crown' });
@@ -6366,7 +6367,7 @@ PXA.glue = {
   art() { // called at the end of buildArt() when pixel mode is on: overwrite only the converted sprites
     const W = PXA.world; SPR.gem = [0, 1, 2, 3].map(t => W.gem(t)); SPR.pick.gold = W.coin(); if (SPR.npc) SPR.npc.merchant = [W.pell(0), W.pell(1)];
     for (const k of ['tree', 'oldtree', 'rock', 'pillar', 'stump', 'tomb', 'wall', 'grave', 'crystal', 'mushrooms']) SPR.prop[k] = W.prop(k);
-    SPR.prop.px_boulder = W.prop('boulder'); groundTile = heartOn() ? W.groundH() : mapOn() ? W.groundC() : W.ground(); if (mapOn()) W.castleProps(); if (heartOn()) W.heartProps(); },
+    SPR.prop.px_boulder = W.prop('boulder'); groundTile = cellarOn() ? W.groundL() : heartOn() ? W.groundH() : mapOn() ? W.groundC() : W.ground(); if (mapOn()) W.castleProps(); if (heartOn()) W.heartProps(); if (cellarOn()) W.cellarProps(); },
   jumpPhase() { const e = G.t - P.jAt; return e < JUMP_A ? 0 : e < JUMP_L ? ((e - JUMP_A) / (JUMP_L - JUMP_A) < 0.5 ? 1 : 2) : 3; },
 };
 
@@ -6403,10 +6404,11 @@ STAGES[4].sub = 'Bulwark knights · moss shamans · a Hollow Stag stirs'; STAGES
 const W28NAMES = { hornet: 'The hive is angry!', lurker: 'Something stirs in the mire!', puffcap: 'Spores on the wind!', cinderhound: 'The hounds are loose!', pyromancer: 'The pyre-choir sings!', slag: 'Molten slag pours in!', automaton: 'The engines wake!', gargoyle: 'Stone wings above!' };
 const MAPSUB28 = { wolf: 'cinderhound', spitter: 'pyromancer', burrower: 'automaton', sprite: 'gargoyle', splitter: 'slag' };
 function w28Pool(pool, t) { if (mapOn()) { for (let i = 0; i < pool.length; i++) if (MAPSUB28[pool[i]]) pool[i] = MAPSUB28[pool[i]]; }
+  else if (cellarOn()) { for (let i = 0; i < pool.length; i++) if (CELLARSUB[pool[i]]) pool[i] = CELLARSUB[pool[i]]; if (t >= 300 && t < 480) pool.push('gnat'); if (t >= 720) pool.push('cleaver2'); }
   else if (heart36()) { for (let i = 0; i < pool.length; i++) if (HEARTSUB[pool[i]]) pool[i] = HEARTSUB[pool[i]]; if (t >= 300 && t < 480) pool.push('gloamwing'); if (t >= 720) pool.push('hbrute2'); }
   else { if (t >= 300 && t < 480) pool.push('hornet'); if (t >= 720) pool.push('lurker'); if (t >= 160 && t < 300) pool.push('puffcap'); } }
 function bossList28() { return BOSSSET36[mapKey36()] || BOSS_ORDER; } /* v36: per-zone boss sets; the order is drawn by bossNext36() */
-function w28Mini() { if (heart36()) return w36Mini(); const w = G.w28 || {}, n = w.mini = (w.mini || 0) + 1, stag = !mapOn() && n % 2 === 1, k = stag ? 'hstag' : 'juggernaut'; spawnEnemy(k);
+function w28Mini() { if (cellarOn()) return w39Mini(); if (heart36()) return w36Mini(); const w = G.w28 || {}, n = w.mini = (w.mini || 0) + 1, stag = !mapOn() && n % 2 === 1, k = stag ? 'hstag' : 'juggernaut'; spawnEnemy(k);
   announce(stag ? '♞ MINI-BOSS: Hollow Stag' : '♜ MINI-BOSS: Grave Juggernaut', stag ? 'Dodge its charge and glowing orbs' : 'Dodge its charge and ground slam', stag ? '#9dff3b' : '#c56bff', 'boss'); }
 /* fire patches left by cinder hounds, pyromancers and the Molten Tyrant (ticked & drawn by the v28 world layer) */
 let W28E = [];
@@ -6688,6 +6690,54 @@ const BOSS36 = {
     rage(e, dt) { if ((e.rgT = (e.rgT || 1.2) - dt) > 0 || e.st) return; e.rgT = 2.3; for (let i = 0; i < 3; i++) { const q = rand(TAU), r0 = rand(50, 140), x = P.x + Math.cos(q) * r0, y = P.y + Math.sin(q) * r0, L = 1.0 + i * 0.15;
       effects.push({ k: 'warn', x, y, r: 30, life: L, max: L, dmg: e.dmg * 0.4, col: '#ffd0f0', boom: 1 }); effects.push({ k: 'lob', x: e.x, y: e.y - 60, x2: x, y2: y, life: L, max: L, col: '#c8a0ff' }); } Snd.play('flutter'); } },
 };
+/* ================= v39: THE WEEPING CELLAR roster ("the Cellarborn") + its 5 bosses ================= */
+Object.assign(ETYPES, {
+  weeper: { name: 'Weeper', fam: 'undead', hp: 9, spd: 50, dmg: 6, r: 11, xp: 1, t0: 1e9, size: 34, ai: 'hush', puff: '#7fc8ff', map: 'cellar' },
+  gnat: { name: 'Cellar Gnat', fam: 'beast', hp: 7, spd: 92, dmg: 5, r: 9, xp: 1, t0: 1e9, size: 32, ai: 'bat', puff: '#4a4a30', fly: 1, cap: 2, map: 'cellar' },
+  grub: { name: 'Gorge Grub', fam: 'beast', hp: 20, spd: 42, dmg: 9, r: 12, xp: 2, t0: 1e9, size: 40, ai: 'skitter', puff: '#c8d070', map: 'cellar' },
+  grublet: { name: 'Grublet', fam: 'beast', hp: 6, spd: 74, dmg: 5, r: 9, xp: 1, t0: 1e9, size: 30, ai: 'hush', puff: '#c8d070', pack: 4, cap: 1.2, map: 'cellar' },
+  bloater: { name: 'Bloater', fam: 'construct', hp: 14, spd: 62, dmg: 7, r: 11, xp: 2, t0: 1e9, size: 38, ai: 'bomber', puff: '#b8e060', cap: 1.3, map: 'cellar' },
+  muckheap: { name: 'Muckheap', fam: 'construct', hp: 85, spd: 30, dmg: 16, r: 16, xp: 5, t0: 1e9, size: 52, ai: 'automaton', heavy: true, puff: '#7e5a2c', map: 'cellar' },
+  sobber: { name: 'Sobber', fam: 'undead', hp: 34, spd: 38, dmg: 9, r: 13, xp: 4, t0: 1e9, size: 46, ai: 'bellshade', puff: '#7fc8ff', cap: 1.1, map: 'cellar' },
+  gutling: { name: 'Gutling', fam: 'beast', hp: 40, spd: 36, dmg: 10, r: 14, xp: 3, t0: 1e9, size: 44, ai: 'hush', puff: '#d03a3a', split: 'grublet', cap: 1.5, map: 'cellar' },
+  cbutcher: { name: 'Cellar Cleaver', fam: 'beast', hp: 70, spd: 38, dmg: 15, r: 15, xp: 5, t0: 1e9, size: 54, ai: 'charger', heavy: true, puff: '#d03a3a', cap: 1.4, map: 'cellar' },
+  wickling: { name: 'Wickling', fam: 'fae', hp: 46, spd: 34, dmg: 9, r: 13, xp: 5, t0: 1e9, size: 48, ai: 'lantern', puff: '#ffb860', cap: 0.8, map: 'cellar' },
+  penitent: { name: 'Penitent', fam: 'armor', hp: 120, spd: 30, dmg: 16, r: 16, xp: 7, t0: 1e9, size: 54, ai: 'chase', heavy: true, shield: 0.6, puff: '#9a8a6a', cap: 1.4, map: 'cellar' },
+  gnatswarm: { name: 'Gnat Swarm', fam: 'beast', hp: 26, spd: 78, dmg: 11, r: 13, xp: 3, t0: 120, size: 40, ai: 'skitter', puff: '#4a4a30', map: 'cellar', look: 'gnat' },
+  sobwisp: { name: 'Sobwisp', fam: 'undead', hp: 30, spd: 40, dmg: 9, r: 13, xp: 3, t0: 200, size: 46, ai: 'bellshade', puff: '#a0d8ff', cap: 1.2, map: 'cellar', look: 'sobber' },
+  cleaver2: { name: 'Cellar Cleaver', fam: 'beast', hp: 95, spd: 40, dmg: 18, r: 15, xp: 7, t0: 720, size: 54, ai: 'charger', heavy: true, puff: '#d03a3a', cap: 1.1, map: 'cellar', look: 'cbutcher' },
+  drowned: { name: 'Drowned Wraith', fam: 'undead', hp: 48, spd: 70, dmg: 11, r: 11, xp: 6, t0: 900, size: 40, ai: 'sprite', puff: '#7fc8ff', fly: 1, cap: 1.3, map: 'cellar' },
+  cprime: { name: 'The Midden King', fam: 'construct', hp: 900, spd: 36, dmg: 26, r: 26, xp: 40, t0: 1e9, size: 88, ai: 'juggernaut', heavy: true, mini: true, puff: '#7e5a2c' },
+  /* ---- the Cellar's 5 bosses ---- */
+  weepmass: { name: 'The Weeping Mass', hp: 1350, spd: 32, dmg: 26, r: 34, xp: 90, size: 124, ai: 'boss36', boss: true, heavy: true, puff: '#7fc8ff' },
+  gorgeworm: { name: 'The Gorgeworm', hp: 1300, spd: 36, dmg: 26, r: 34, xp: 90, size: 124, ai: 'boss36', boss: true, heavy: true, puff: '#c8d070' },
+  tallow: { name: 'Mistress Tallow', hp: 1100, spd: 36, dmg: 24, r: 28, xp: 85, size: 112, ai: 'boss36', boss: true, heavy: true, puff: '#ffb860' },
+  hogcleaver: { name: 'The Cellar Butcher', hp: 1250, spd: 34, dmg: 28, r: 32, xp: 90, size: 120, ai: 'boss36', boss: true, heavy: true, puff: '#d03a3a' },
+  lidless: { name: 'The Lidless', hp: 1100, spd: 40, dmg: 24, r: 28, xp: 85, size: 116, ai: 'boss36', boss: true, heavy: true, puff: '#e8e0b0', fly: 1 },
+});
+/* the Cellar swaps every shared / Gloomwood / Citadel monster for its Cellarborn counterpart */
+const CELLARSUB = { wisp: 'weeper', bone: 'grub', bat: 'gnat', imp: 'grublet', oozelet: 'grublet', bomber: 'bloater', armor: 'muckheap', seer: 'sobber', splitter: 'gutling', charger: 'cbutcher', healer: 'wickling', caller: 'wickling', shield: 'penitent',
+  wolf: 'gnatswarm', spitter: 'sobwisp', burrower: 'cleaver2', sprite: 'drowned', puffcap: 'weeper', hornet: 'gnat', shaman: 'sobber', lurker: 'cleaver2', slag: 'gutling', slaglet: 'grublet', cinderhound: 'gnatswarm', pyromancer: 'sobwisp', automaton: 'muckheap', gargoyle: 'drowned' };
+Object.assign(EVS, { weeper: 1.1, grublet: 1.1, grub: 1.05, gnatswarm: 1.05 });
+Object.assign(CSHW, { weeper: 26, grublet: 26, grub: 34, gnatswarm: 34, bloater: 20, muckheap: 28, sobber: 20, sobwisp: 20, gutling: 30, cbutcher: 32, cleaver2: 32, wickling: 20, penitent: 26, cprime: 30,
+  weepmass: 34, gorgeworm: 34, tallow: 24, hogcleaver: 32, lidless: 26 });
+Object.assign(W28NAMES, { weeper: 'The Weepers gather!', grub: 'Grubs squirm up from the drains!', grublet: 'Grubs squirm up from the drains!', gnat: 'A cloud of gnats!', gnatswarm: 'A cloud of gnats!', sobber: 'Something is sobbing nearby…', sobwisp: 'Something is sobbing nearby…',
+  gutling: 'Gutlings burst from the walls!', muckheap: 'The muck is moving!', cbutcher: 'The cleavers come out!', cleaver2: 'The cleavers come out!', wickling: 'The candles are watching!', penitent: 'The penitents march!', drowned: 'Drowned things rise!' });
+BOSSSET36.cellar = ['weepmass', 'gorgeworm', 'tallow', 'hogcleaver', 'lidless'];
+Object.assign(BOSS36, {
+  weepmass: { col: '#7fc8ff', c2: '#e8f8ff', moves: ['rain', 'ring', 'summon', 'charge'], add: 'weeper', cd: 3.1, death: 'bubble', enr: 'The Weeping Mass wails!',
+    rage(e, dt) { if ((e.rgT = (e.rgT || 1.4) - dt) > 0 || e.st) return; e.rgT = 2.4; for (let i = 0; i < 3; i++) { const q = rand(TAU), r0 = rand(40, 130), x = P.x + Math.cos(q) * r0, y = P.y + Math.sin(q) * r0, L = 1.0 + i * 0.15;
+      effects.push({ k: 'warn', x, y, r: 30, life: L, max: L, dmg: e.dmg * 0.4, col: '#a0d8ff', boom: 1, goo: 1 }); effects.push({ k: 'lob', x: e.x, y: e.y - 60, x2: x, y2: y, life: L, max: L, col: '#7fc8ff' }); } Snd.play('cast'); } },
+  gorgeworm: { col: '#c8d070', c2: '#7a9a20', moves: ['charge', 'slam', 'spiral', 'summon'], add: 'grub', cd: 3.0, death: 'sink', enr: 'The Gorgeworm thrashes!' },
+  tallow: { col: '#ffb860', c2: '#ffe066', moves: ['beam', 'cross', 'fan', 'blink'], cd: 2.8, death: 'ash', emb: 1, enr: 'Mistress Tallow burns brighter!',
+    rage(e, dt) { if ((e.rgT = (e.rgT || 1.6) - dt) > 0 || e.st) return; e.rgT = 2.6; for (let i = 0; i < 3; i++) { const q = rand(TAU), r0 = rand(40, 130), x = P.x + Math.cos(q) * r0, y = P.y + Math.sin(q) * r0, L = 1.0 + i * 0.15;
+      effects.push({ k: 'warn', x, y, r: 30, life: L, max: L, dmg: e.dmg * 0.4, col: '#ffb860', boom: 1, emb: 1 }); effects.push({ k: 'lob', x: e.x, y: e.y - 60, x2: x, y2: y, life: L, max: L, col: '#ffe066', rock: 1 }); } Snd.play('cast'); } },
+  hogcleaver: { col: '#d03a3a', c2: '#ff8a8a', moves: ['slam', 'charge', 'fan', 'rain'], cd: 3.0, death: 'col', enr: 'The Butcher sharpens his cleavers!' },
+  lidless: { col: '#e8e0b0', c2: '#d03a3a', moves: ['beam', 'ring', 'blink', 'spiral'], cd: 2.7, death: 'shatter', enr: 'The Lidless opens wide!' },
+});
+function w39Mini() { const w = G.w28 || {}, n = w.mini = (w.mini || 0) + 1, p = n % 2 === 1, k = p ? 'cprime' : 'juggernaut'; spawnEnemy(k);
+  announce(p ? '♜ MINI-BOSS: The Midden King' : '♜ MINI-BOSS: Grave Juggernaut', p ? 'Dodge its crushing charge and ground slam' : 'Dodge its charge and ground slam', p ? '#c8a060' : '#c56bff', 'boss'); }
+
 function b36Move(e, B, m, d, dx, dy) { const en = e.enr ? 1 : 0, C = B.col, C2 = B.c2, a = Math.atan2(dy, dx), dm = e.dmg;
   const shake = t => G.later.push({ t, f: () => { if (!e.dead) G.shake = Math.max(G.shake || 0, 0.22); } });
   switch (m) {
@@ -6743,6 +6793,134 @@ Object.assign(AI28, {
 });
 function w36Mini() { const w = G.w28 || {}, n = w.mini = (w.mini || 0) + 1, p = n % 2 === 1, k = p ? 'hprime' : 'juggernaut'; spawnEnemy(k);
   announce(p ? '♜ MINI-BOSS: Sentinel Prime' : '♜ MINI-BOSS: Grave Juggernaut', p ? 'Dodge its gilded charge and ground slam' : 'Dodge its charge and ground slam', p ? '#e8c060' : '#c56bff', 'boss'); }
+
+/* ---- v39: Weeping Cellar sprites (original designs; feet at y = 0, facing +x, f 0-3 walk, w = wind-up) ---- */
+(() => {
+  const { ramp: R } = PXA, M = PXA.mobs, D = M.D, TAU2 = Math.PI * 2, bob = f => Math.sin(f / 4 * TAU2);
+  Object.assign(M.FLOAT, { gnat: 1, gnatswarm: 1, drowned: 1, wickling: 1, lidless: 1, sobwisp: 1 });
+  Object.assign(M.SCALE, { weeper: 0.95, gnat: 0.9, grub: 1, grublet: 0.8, bloater: 1, muckheap: 1.05, sobber: 1, sobwisp: 0.95, gutling: 1, cbutcher: 1.05, cleaver2: 1.05, wickling: 1, penitent: 1.05, drowned: 1, gnatswarm: 1.05, cprime: 1.5 });
+  const SK = R(['#2a1a18', '#7a5a50', '#c8a898', '#ecd2c2', '#fff4ea']), TEA = R(['#0a2a4a', '#2a6aa8', '#6ab4f0', '#b4e0ff', '#f0faff'], 1), GRB = R(['#2a3008', '#68781a', '#a8b83a', '#d0dc6a', '#f2f8b0']);
+  const MCK = R(['#140c06', '#32200e', '#5a3c1c', '#84602e', '#b0904c']), WAX = R(['#3a2a14', '#8a6a34', '#d0aa5c', '#f0d890', '#fff8d8']), FLM = R(['#6a1004', '#c23a0a', '#ff7a1e', '#ffc05a', '#fff2c8'], 1);
+  const BLD = R(['#1a0204', '#5a0a10', '#a01820', '#d84040', '#ff9a8a']), IRN = R(['#0e0e12', '#22242c', '#3e424e', '#6a707e', '#a0a8b8']), GNT = R(['#0c0c06', '#24240e', '#3e3e1c', '#5a5a2c', '#7a7a44']);
+  const CRM = R(['#3a3426', '#807660', '#b8ac8e', '#e4dcc0', '#fffaec']), PNK = R(['#4a1420', '#a03a4a', '#d87a86', '#f4b0b4', '#ffe0dc']);
+  const tear = (b, x, y, h = 5) => { b.poly([x, y - h, x + 1.6, y - h * 0.3, x + 2, y, x, y + 1.6, x - 2, y, x - 1.6, y - h * 0.3], TEA, 3, 1); b.set(Math.round(x - 0.6), Math.round(y - 1), TEA[4]); };
+  const eyeW = (b, x, y, r = 2.2, drop = 0) => { b.ell(x, y, r + 0.6, r, CRM, 3, 0); b.ell(x + 0.4, y + 0.3, r * 0.5, r * 0.5, IRN, 0, 0); if (drop) tear(b, x, y + r + 2, 3); };
+  const legs = (b, xs, y, t, L, Rm, lv) => xs.forEach((lx, i) => { const ph = t + (i % 2 ? Math.PI : 0), sw = Math.sin(ph) * L * 0.35; b.cap(lx, y, lx + sw, -0.5, 1.7, 1.2, Rm, lv); });
+  /* Weeper: pale, bloated little body, two huge streaming eyes */
+  D.weeper = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t * 2)) * 1.2, hy = -12 + by;
+    legs(b, [-3, 3], -4 + by, t, 6, SK, 1);
+    b.ell(0, hy, 9, 9, SK, 3, 1); b.poly([-8, hy - 2, -5, hy + 8, 5, hy + 8, 8, hy - 2], SK, 2, 0);
+    eyeW(b, 3.4, hy - 1.5, 3.1, 1); eyeW(b, -3.4, hy - 1.2, 2.7, 1); b.poly([1, hy + 4, 5, hy + 4, 3, hy + 6.4], SK, 1, 0);
+    for (let i = 0; i < 3; i++) b.set(6 + (f + i * 2) % 5, hy + 5 + i, TEA[3]); if (w) { tear(b, 10, hy + 2, 4); tear(b, 12, hy + 6, 3); } };
+  /* Cellar Gnat: flat black-green fly with big translucent wings */
+  const gnatB = (b, f, w, sc = 1) => { const t = f / 4 * TAU2, fl = Math.sin(t * 2.4) * 5 * sc, cy = -16 + bob(f) * 1.5;
+    b.ell(-2, cy - 8 - fl * 0.3, 8 * sc, 3, TEA, 3, 0); b.ell(2, cy - 8 + fl * 0.3, 7 * sc, 2.6, TEA, 2, 0);
+    b.ell(0, cy, 6 * sc, 5 * sc, GNT, 2, 1); b.ell(6 * sc, cy - 1, 4 * sc, 4 * sc, GNT, 3, 1); b.ell(7.5 * sc, cy - 1.5, 2.4 * sc, 2.4 * sc, BLD, 3, 0);
+    for (let i = -1; i <= 1; i++) b.cap(i * 2.5, cy + 3, i * 3.2 - 1, cy + 8, 0.7, 0.4, GNT, 1); if (w) b.cap(9, cy, 15, cy + 2, 0.8, 0.5, GNT, 3); };
+  D.gnat = (b, f, w) => gnatB(b, f, w, 1);
+  D.gnatswarm = (b, f, w) => { gnatB(b, f, w, 1); b.ell(-8, -9 + bob(f + 2) * 3, 3, 2.4, GNT, 3, 0); b.ell(-10, -20 + bob(f + 1) * 3, 3, 2.4, GNT, 3, 0); b.ell(10, -26 + bob(f + 3) * 2, 3, 2.4, GNT, 2, 0); b.ell(-14, -15 + bob(f) * 2, 2.6, 2, GNT, 3, 0); };
+  /* Gorge Grub: fat yellow-green segmented maggot with a tiny dark mouth */
+  const grubB = (b, f, w, big) => { const t = f / 4 * TAU2, sq = Math.sin(t) * 1.6, sc = big ? 1 : 0.8;
+    for (let i = 0; i < 4; i++) { const x = (-13 + i * 7) * sc, h = (6.6 - Math.abs(i - 1.5) * 0.9) * sc; b.ell(x, -h - 1 + sq * (i % 2 ? 1 : -1) * 0.5, 5.4 * sc, h, GRB, 2 + (i % 2), 1); b.line(x + 2.4 * sc, -h * 2 + 1, x + 2.4 * sc, -1, GRB[1]); }
+    b.ell(12 * sc, -8 * sc + (w ? -2 : 0), 6 * sc, 6 * sc, GRB, 3, 1); b.ell(15 * sc, -7 * sc, 2.2 * sc, 1.6 * sc, GNT, 0, 0); b.set(Math.round(12 * sc), Math.round(-11 * sc), GNT[0]); b.set(Math.round(14 * sc), Math.round(-11 * sc), GNT[0]); if (w) b.set(18 * sc, -7 * sc, GRB[4]); };
+  D.grub = (b, f, w) => grubB(b, f, w, 1); D.grublet = (b, f, w) => grubB(b, f, w, 0);
+  /* Bloater: swollen sickly sac with a stitched mouth that vents green gas */
+  D.bloater = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t * 2)) * 1, sw = w ? 1.18 : 1 + Math.sin(t) * 0.04;
+    legs(b, [-4, 4], -5 + by, t, 7, SK, 1); b.ell(0, -16 + by, 11 * sw, 11 * sw, GRB, 2, 1); b.ell(-3, -19 + by, 4, 3.4, GRB, 4, 0);
+    for (let i = 0; i < 4; i++) b.line(-3 + i * 2.4, -9 + by, -3 + i * 2.4, -5 + by, GNT[0]); b.line(-4, -9 + by, 6, -9 + by, GNT[0]);
+    b.ell(5, -18 + by, 2.4, 2.4, CRM, 3, 0); b.set(6, -18 + by, IRN[0]); b.ell(-4, -17 + by, 1.8, 1.8, CRM, 3, 0);
+    if (w) for (let i = 0; i < 4; i++) b.set(8 + i * 2, -22 + by - i, GRB[4]); };
+  /* Muckheap: lurching mound of cellar sludge, bones and a rusted bucket for a hat */
+  D.muckheap = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t)) * 1.4 + (w ? 2 : 0);
+    b.ell(-1, -18 + by, 17, 16, MCK, 1, 1); b.ell(-3, -22 + by, 12, 11, MCK, 3, 1); for (let i = 0; i < 5; i++) b.ell(-14 + i * 7, -6 + by + (i % 2) * 3, 5, 4, MCK, 2 + (i % 2), 0);
+    b.cap(-8, -26 + by, -6, -14 + by, 0.9, 0.9, CRM, 3); b.cap(6, -20 + by, 10, -28 + by, 0.8, 0.8, CRM, 2); b.ell(-9, -26 + by, 1.8, 1.4, CRM, 4, 0);
+    b.poly([-3, -38 + by, 9, -38 + by, 11, -30 + by, -5, -30 + by], IRN, 2, 1); b.line(-4, -34 + by, 10, -34 + by, IRN[0]);
+    b.ell(4, -24 + by, 2.4, 2.4, WAX, 3, 0); b.ell(-4, -24 + by, 2, 2, WAX, 3, 0);
+    const fx = w ? 18 : 15, fy = w ? -34 : -10; b.cap(11, -22 + by, fx, fy + by, 4, 4.6, MCK, 3); b.ell(fx, fy + by + 2, 5.2, 4.4, MCK, 3, 1);
+    for (let i = 0; i < 3; i++) b.set(-14 + i * 12, -2 + ((f + i) % 2), MCK[3]); };
+  /* Sobber: hooded mourner, face hidden by a stream of tears, a bucket of salt water */
+  const sobB = (b, f, w) => { const t = f / 4 * TAU2, sway = bob(f) * 1.2, hy = -32;
+    b.poly([-9 + sway, -3, 9 + sway, -3, 6, -26, -6, -26], CRM, 2, 1); b.ell(0, hy, 8, 8, CRM, 3, 1); b.ell(1.8, hy + 1, 5, 5.4, TEA, 0, 0);
+    b.ell(3.4, hy - 0.5, 1.8, 1.8, TEA, 4, 0); b.ell(-0.4, hy - 0.6, 1.5, 1.5, TEA, 4, 0);
+    for (let i = 0; i < 5; i++) b.line(3.4 + (i % 2) * 0.8, hy + 2, 3.4 + (i % 2) * 0.8, hy + 8 + ((f + i) % 3), TEA[3]);
+    const bx = w ? 12 : 9, by2 = w ? -40 : -18; b.cap(5, -22, bx, by2 + 4, 1.8, 1.4, CRM, 3); b.poly([bx - 4, by2 - 2, bx + 4, by2 - 2, bx + 3, by2 + 6, bx - 3, by2 + 6], IRN, 2, 1); b.ell(bx, by2 - 2, 4, 1.2, TEA, 3, 0);
+    if (w) { tear(b, bx + 6, by2 + 2, 4); tear(b, bx + 9, by2 + 6, 3); } };
+  D.sobber = sobB; D.sobwisp = sobB;
+  /* Gutling: split-open belly full of little grub faces */
+  D.gutling = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t * 2)) * 1.2, hy = -30 + by;
+    legs(b, [-5, 4], -9 + by, t + Math.PI, 8, PNK, 1); b.ell(-1, -19 + by, 12, 12, PNK, 2, 1); b.poly([-7, -26 + by, 5, -26 + by, 7, -10 + by, -9, -10 + by], BLD, 1, 0);
+    b.ell(-1, -18 + by, 3, 3.4, GRB, 3, 0); b.ell(2, -14 + by, 2, 2, GRB, 3, 0); b.ell(-4, -13 + by, 1.8, 1.8, GRB, 3, 0);
+    b.ell(7, hy, 5.6, 5.2, PNK, 3, 1); b.ell(9, hy - 0.5, 1.5, 1.5, CRM, 4, 0); b.ell(5.4, hy - 0.5, 1.3, 1.3, CRM, 4, 0); b.cap(8, -22 + by, 14 + (w ? 3 : 0), -14 + by - (w ? 6 : 0), 1.7, 1.2, PNK, 3); };
+  /* Cellar Cleaver: bent, headless-looking brute in a bloody apron, cleaver in a long arm */
+  const cleavB = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t * 2)) * 1.4 + (w ? 2 : 0), hy = -38 + by;
+    legs(b, [-5, 4], -13 + by, t + Math.PI, 11, PNK, 1); b.cap(-8, -32 + by, -14, -10 + by, 3.6, 3.2, PNK, 1);
+    b.ell(-1, -24 + by, 11, 13, PNK, 2, 1); b.poly([-8, -32 + by, 6, -32 + by, 8, -12 + by, -9, -12 + by], CRM, 3, 1); b.ell(-2, -20 + by, 3, 2.6, BLD, 2, 0); b.ell(2, -15 + by, 2, 1.8, BLD, 2, 0);
+    b.ell(8, hy, 5.6, 5.2, PNK, 3, 1); b.poly([4, hy - 2, 13, hy - 2, 13, hy + 4, 4, hy + 4], CRM, 3, 0); b.line(4, hy - 1, 13, hy - 1, IRN[0]); b.set(8, hy + 1, BLD[3]); b.set(11, hy + 1, BLD[3]);
+    const ax = w ? 17 : 15, ay = w ? -46 : -14; b.cap(7, -30 + by, ax, ay + by, 3.2, 3.6, PNK, 3); b.poly([ax - 1, ay + by - 10, ax + 9, ay + by - 8, ax + 8, ay + by + 2, ax - 1, ay + by], IRN, 3, 1); b.line(ax + 8, ay + by - 8, ax + 8, ay + by + 2, IRN[4]); b.set(ax + 4, ay + by - 2, BLD[3]); };
+  D.cbutcher = cleavB; D.cleaver2 = cleavB;
+  /* Wickling: little drip-wax candle spirit with a flame head */
+  D.wickling = (b, f, w) => { const t = f / 4 * TAU2, cy = -22 + bob(f) * 1.6;
+    b.poly([-6, cy + 14, 6, cy + 14, 5, cy - 6, -5, cy - 6], WAX, 2, 1); for (let i = 0; i < 4; i++) b.cap(-5 + i * 3.4, cy - 6, -5 + i * 3.4, cy + 4 + (i % 2) * 5, 1.2, 1, WAX, 3); b.ell(0, cy + 15, 7, 2, WAX, 1, 0);
+    b.line(0, cy - 7, 0, cy - 11, IRN[1]); const fl = w ? 1.5 : 1; b.ell(0, cy - 15, 3.4 * fl, 5.6 * fl, FLM, 3, 0); b.ell(0, cy - 14, 1.6 * fl, 3 * fl, FLM, 4, 0);
+    b.set(2, cy, IRN[0]); b.set(-2, cy, IRN[0]); b.set(2, cy + 1, IRN[0]); b.set(-2, cy + 1, IRN[0]); b.line(-1, cy + 5, 2, cy + 5, IRN[0]);
+    if (w) for (let i = 0; i < 4; i++) b.set(-6 + i * 4, cy - 22 - (i % 2) * 3, FLM[3]); };
+  /* Penitent: heavy, iron-masked shuffler dragging a chain of bells, a stone slab on its back */
+  D.penitent = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t)) * 1, hy = -42 + by;
+    legs(b, [-5, 5], -16 + by, t, 12, IRN, 2); b.poly([-12, -40 + by, 11, -40 + by, 13, -12 + by, -13, -12 + by], CRM, 2, 1); b.poly([-15, -50 + by, 4, -50 + by, 4, -34 + by, -15, -34 + by], IRN, 1, 1); b.line(-15, -42 + by, 4, -42 + by, IRN[0]);
+    b.ell(4, hy, 7, 7.2, IRN, 3, 1); b.rect(3, hy - 2, 7, 1.4, IRN[0]); b.set(7, hy + 2, BLD[3]); b.set(5, hy + 4, TEA[3]); b.set(5, hy + 6, TEA[3]);
+    const cx = w ? 17 : 14, cy2 = w ? -44 : -10; b.cap(8, -38 + by, cx, cy2 + by, 3.4, 3.8, CRM, 3); b.ell(cx, cy2 + by + 2, 4.4, 4, IRN, 3, 1);
+    for (let i = 0; i < 4; i++) { b.ell(-14 - i * 3, -6 + (i % 2) * 2, 1.6, 1.6, IRN, 3, 0); } b.poly([-28, -10, -22, -10, -23, -2, -27, -2], IRN, 3, 1); };
+  /* Drowned Wraith: a waterlogged shape drifting in a trail of dripping water */
+  D.drowned = (b, f, w) => { const cy = -22 + bob(f) * 2, s = bob(f + 1) * 3;
+    b.curve(-2, cy + 4, -10, cy + 12 + s, -16, cy + 6 - s, 4, 1, TEA, 1); b.ell(0, cy, 8, 9, TEA, 2); b.poly([-8, cy + 2, 8, cy + 2, 6 + s * 0.3, cy + 15, 2, cy + 11, -2, cy + 16, -6 - s * 0.3, cy + 11], TEA, 2, 0);
+    b.ell(3, cy - 4, 5, 5.4, SK, 3, 1); b.ell(4.6, cy - 5, 1.4, 1.4, IRN, 0, 0); b.ell(1.6, cy - 5, 1.2, 1.2, IRN, 0, 0); b.line(2, cy - 1, 6, cy - 1, IRN[0]);
+    b.cap(6, cy + 2, 12 + (w ? 3 : 0), cy - 2 - (w ? 4 : 0), 1.6, 0.9, TEA, 3); for (let i = 0; i < 4; i++) b.set(-3 - i * 3, cy + 10 + ((f + i) % 3), TEA[4]); };
+  /* Midden King (mini-boss): a crowned pile of everything the cellar ever threw away */
+  D.cprime = (b, f, w) => { D.muckheap(b, f, w); b.poly([-8, -50, -5, -58, -2, -52, 1, -60, 4, -52, 7, -58, 9, -50], WAX, 3, 1); b.ell(0, -49, 8, 2, WAX, 2, 0); b.set(-2, -55, BLD[3]); b.set(4, -55, TEA[3]); };
+
+  /* ======== the Cellar's 5 bosses ======== */
+  /* The Weeping Mass: a vast heap of crying faces in one tear-sodden body, crown of dripping eyes */
+  D.weepmass = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t)) * 1.4 + (w ? 2 : 0);
+    for (const [x, ph, lv] of [[-14, t + Math.PI, 1], [12, t, 2]]) { const s = Math.sin(ph) * 3; b.cap(x, -16 + by, x + s, -2, 7, 6, SK, lv); }
+    b.ell(0, -42 + by, 30, 28, SK, 2, 1); b.ell(-4, -50 + by, 22, 18, SK, 3, 1);
+    for (const [x, y, r] of [[-16, -36, 4], [12, -30, 3.4], [-4, -58, 3.6], [20, -50, 3], [-22, -54, 3], [4, -44, 4.6]]) { eyeW(b, x, y + by, r, 1); }
+    b.poly([-10, -26 + by, 16, -26 + by, 12, -18 + by, -6, -18 + by], BLD, 1, 0); for (let i = 0; i < 5; i++) b.set(-8 + i * 4, -26 + by, CRM[4]);
+    for (let i = 0; i < 7; i++) { const x = -22 + i * 7.4; b.line(x, -20 + by, x, -8 + ((f + i) % 3) * 2, TEA[3]); }
+    const lift = w ? -20 : 0; b.cap(-22, -44 + by, -36, -30 + by + lift, 6, 4, SK, 1); b.cap(22, -44 + by, 36, -30 + by + lift, 6, 4, SK, 3); b.ell(-37, -29 + by + lift, 5, 4, SK, 2, 1); b.ell(37, -29 + by + lift, 5, 4, SK, 3, 1);
+    if (w) for (let i = 0; i < 6; i++) tear(b, -30 + i * 12, -70 - (i % 2) * 6, 5); };
+  /* The Gorgeworm: gigantic segmented grub reared up, ringed maw of teeth, bulging with swallowed things */
+  D.gorgeworm = (b, f, w) => { const t = f / 4 * TAU2, sq = Math.sin(t) * 2, up = w ? -10 : 0;
+    for (let i = 0; i < 5; i++) { const x = -34 + i * 11, h = 14 - Math.abs(i - 1.5) * 1.6; b.ell(x, -h - 1 + (i % 2 ? sq : -sq) * 0.5, 9, h, GRB, 2 + (i % 2), 1); b.line(x + 4, -h * 2, x + 4, -1, GRB[1]); }
+    b.cap(14, -14, 24, -50 + up, 13, 11, GRB, 2); b.cap(24, -50 + up, 20, -74 + up, 11, 10, GRB, 3);
+    b.ell(18, -78 + up, 14, 15, GRB, 3, 1); b.ell(26, -78 + up, 7, 8, BLD, 1, 0);
+    for (let i = 0; i < 8; i++) { const q = i / 8 * TAU2; b.poly([26 + Math.cos(q) * 6 - 1, -78 + up + Math.sin(q) * 7, 26 + Math.cos(q) * 6 + 1, -78 + up + Math.sin(q) * 7, 26 + Math.cos(q) * 2.6, -78 + up + Math.sin(q) * 3], CRM, 4, 0); }
+    b.ell(14, -86 + up, 1.6, 1.6, BLD, 3, 0);
+    for (const [x, y] of [[-22, -18], [-6, -22], [8, -16]]) b.ell(x, y, 3, 3, MCK, 3, 0); b.cap(-14, -24, -8, -30, 0.9, 0.9, CRM, 3);
+    if (w) for (let i = 0; i < 5; i++) b.set(8 + i * 4, -96 + up - (i % 2) * 3, GRB[4]); };
+  /* Mistress Tallow: tall melted-wax matron, a dozen wicks burning in her crown, long drip-sleeved arms */
+  D.tallow = (b, f, w) => { const t = f / 4 * TAU2, sway = bob(f) * 2, up = w ? -16 : 0;
+    b.poly([-22 + sway, -2, 22 + sway, -2, 13, -66, -13, -66], WAX, 2, 1); for (let i = -4; i <= 4; i++) b.cap(i * 5 + sway, -4, i * 5 + sway, 5 + ((f + i) % 3) * 2, 2.2, 1.4, WAX, 3);
+    b.ell(sway, -2, 24, 4, WAX, 1, 0); b.ell(0, -74, 12, 12, WAX, 3, 1); b.ell(5, -73, 7, 8, IRN, 0, 0); b.ell(7, -75, 2, 2, FLM, 4, 0); b.ell(1, -75, 1.8, 1.8, FLM, 4, 0);
+    for (let i = 0; i < 5; i++) { const x = -10 + i * 5, h = 10 + (i % 3) * 3; b.line(x, -84, x, -84 - 3, IRN[1]); b.ell(x, -84 - h * 0.5 - 2, 2.2, h * 0.5, FLM, 2 + (i % 2), 0); b.ell(x, -84 - h * 0.4 - 2, 1, h * 0.3, FLM, 4, 0); }
+    b.cap(-12, -58, -28, -40 + up, 4.6, 3, WAX, 1); b.cap(12, -58, 28, -40 + up, 4.6, 3, WAX, 3); b.ell(29, -39 + up, 4, 3.6, WAX, 3, 1); b.ell(-29, -39 + up, 4, 3.6, WAX, 2, 1);
+    if (w) { b.ell(33, -46 + up, 4, 7, FLM, 3, 0); b.ell(-33, -46 + up, 4, 7, FLM, 3, 0); } };
+  /* The Cellar Butcher: towering hog-faced slaughterman, gore-stiff apron, hooks and two huge cleavers */
+  D.hogcleaver = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t * 2)) * 1.4 + (w ? 3 : 0), hy = -76 + by;
+    for (const [x, ph, lv] of [[-12, t + Math.PI, 1], [10, t, 2]]) { const s = Math.sin(ph) * 4; b.cap(x, -30 + by, x + s, -2, 7, 6, PNK, lv); b.ell(x + s + 2, -1, 7, 3, IRN, lv, 0); }
+    b.cap(-14, -64 + by, -26, -34 + by, 6, 5, PNK, 1); b.ell(-26, -32 + by, 6, 5, PNK, 1, 1);
+    b.ell(-1, -52 + by, 22, 26, PNK, 2, 1); b.poly([-17, -68 + by, 15, -68 + by, 18, -20 + by, -18, -20 + by], CRM, 3, 1); for (let i = 0; i < 5; i++) b.ell(-10 + i * 5, -34 + by + (i % 2) * 7, 3.6, 2.4, BLD, 2 + (i % 2), 0); b.ell(0, -52 + by, 8, 5, BLD, 2, 0);
+    b.ell(7, hy, 14, 13, PNK, 3, 1); b.ell(16, hy + 4, 7, 5.6, PNK, 4, 1); b.set(14, hy + 4, IRN[0]); b.set(18, hy + 4, IRN[0]); b.poly([14, hy + 6, 20, hy + 6, 19, hy + 11, 15, hy + 11], CRM, 4, 0); b.poly([1, hy - 9, 8, hy - 11, 5, hy - 3], PNK, 2, 1); b.ell(11, hy - 4, 2.2, 2.2, BLD, 3, 0); b.ell(5, hy - 3, 1.8, 1.8, BLD, 3, 0);
+    b.poly([-4, hy - 8, 14, hy - 10, 12, hy - 14, -6, hy - 12], IRN, 2, 1);
+    const ax = w ? 24 : 22, ay = w ? -92 : -44; b.cap(10, -64 + by, ax, ay + by, 6, 5.4, PNK, 3); b.poly([ax - 2, ay + by - 22, ax + 14, ay + by - 18, ax + 12, ay + by + 4, ax - 2, ay + by], IRN, 3, 1); b.line(ax + 12, ay + by - 18, ax + 12, ay + by + 4, IRN[4]); for (let i = 0; i < 3; i++) b.set(ax + 6, ay + by - 14 + i * 5, BLD[3]); };
+  /* The Lidless: one enormous unblinking eye with no lid, tethered by dripping veins, a ring of small tear-eyes orbiting */
+  D.lidless = (b, f, w) => { const t = f / 4 * TAU2, cy = -56 + bob(f) * 3;
+    for (let i = 0; i < 6; i++) { const x = -24 + i * 10; b.curve(x, cy + 14, x + (i % 2 ? 4 : -4), cy + 30, x, cy + 40 + ((f + i) % 3) * 2, 2.2, 0.8, BLD, 1); }
+    b.ell(0, cy, 32, 30, CRM, 3, 1); for (let i = 0; i < 9; i++) { const q = i / 9 * TAU2; b.line(Math.cos(q) * 30, cy + Math.sin(q) * 28, Math.cos(q) * 16, cy + Math.sin(q) * 14, BLD[2]); }
+    const ix = 8 + (w ? 4 : 0); b.ell(ix, cy, 17, 17, BLD, 2, 0); b.ell(ix, cy, 13, 13, BLD, 3, 0); b.ell(ix + 1, cy, 7, 7, IRN, 0, 0); b.ell(ix - 2, cy - 4, 2.6, 2.6, CRM, 4, 0);
+    if (w) { b.line(ix + 8, cy, 60, cy, BLD[4]); }
+    for (let i = 0; i < 4; i++) { const q = t + i * TAU2 / 4; eyeW(b, Math.cos(q) * 42, cy + Math.sin(q) * 20 - 6, 3.4, 1); }
+    for (let i = 0; i < 3; i++) tear(b, -10 + i * 14, cy + 34 + ((f + i) % 3) * 3, 4); };
+})();
 
 /* ---- Hushborn + new boss sprites (pixel painters, same rules as px_mobs: feet at y = 0, facing +x, f 0-3 walk, w = wind-up) ---- */
 (() => {
@@ -6964,7 +7142,7 @@ function pxInit() { if (WFIRE.eclipse) return; /* v21: Paragon echoes run the or
     P.atk = 1; Snd.play('arcane'); return L >= 6 ? 3.4 : L >= 3 ? 4 : 4.6; }; }
 function paragonTick(dt) { const tf = G.tf; if (G.totT > 0) G.totT -= dt; /* v21 Paragon capstones (damage meter: Ultimate) */
   const vw = W / ZOOM / 2, vh = H / ZOOM / 2, vis = () => enemies.filter(e => !e.dead && !e.under && Math.abs(e.x - P.x) < vw && Math.abs(e.y - P.y) < vh);
-  if (tf.totality && (G.ptT = (G.ptT === undefined ? 15 : G.ptT) - dt) <= 0) { G.ptT = 15; const v = vis(); if (v.length) { toast('Totality!', '#ffd36a', 1.6); Snd.play('hexnova'); G.totT = 4; G.shake = Math.max(G.shake, 0.2);
+  if (tf.totality && (G.ptT = (G.ptT === undefined ? 15 : G.ptT) - dt) <= 0) { G.ptT = 15; const v = vis(); if (v.length) { toast('Totality!', '#ffd36a', 1.6); Snd.play('hexnova'); G.totT = 4; 
       for (const e of v) damage(e, 30 + 3 * G.level, { kb: 60, kx: Math.sign(e.x - P.x) || 1, ky: 0 });
       effects.push({ k: 'nova', x: P.x, y: P.y, r: 0, maxR: Math.hypot(vw, vh), life: 0.6, max: 0.6, dmg: 0, hit: new Set(), col: '#ffd36a', vis: 1 }); } }
   if (tf.verdantApo && (G.pvT = (G.pvT === undefined ? 12 : G.pvT) - dt) <= 0) { G.pvT = 12; toast('Verdant Apotheosis!', '#9dff9a', 1.4); Snd.play('heal'); heal(P.maxHp * 0.08);
@@ -7110,7 +7288,7 @@ function restoreRun(r) {
   if (typeof G.npcNext !== 'number') G.npcNext = Math.max(90, (G.t || 0) + 45); G.passives = G.passives && typeof G.passives === 'object' ? G.passives : {};
 
   P = { x: r.P.x || 0, y: r.P.y || 0, r: 11, hp: 100, maxHp: 0, facing: r.P.facing || 1, aim: 0, moving: false, inv: 1.5, atk: 0 };
-  G.map = G.map === 'castle' || G.map === 'heart' ? G.map : 'forest'; mapApply(); G.obSeed = G.obSeed | 0; if (!G.obGone || typeof G.obGone !== 'object') G.obGone = {}; obReset(); obGrid(); obFree(P, P.r + 1); // v17 runs get obstacles too; never restore inside one
+  G.map = G.map === 'castle' || G.map === 'heart' || G.map === 'cellar' ? G.map : 'forest'; mapApply(); G.obSeed = G.obSeed | 0; if (!G.obGone || typeof G.obGone !== 'object') G.obGone = {}; obReset(); obGrid(); obFree(P, P.r + 1); // v17 runs get obstacles too; never restore inside one
   recalc(); P.hp = clamp(r.P.hp, 1, P.maxHp);
   if (cls === 'druid' && G.weapons.some(w => w.id === 'catform') && catPurge(true)) G.catMig = 1; // v17 Shadowcat runs: shed nature spells, levels → free picks
   for (const k in G.evo) if (!EVO[k] || !G.weapons.some(w => w.id === k)) delete G.evo[k];
@@ -7218,6 +7396,7 @@ function spawnPos(extra = 0) {
 }
 function spawnEnemy(type, o = {}) {
   if (heart36() && HEARTSUB[type]) type = HEARTSUB[type]; /* v36: the Belfry's own roster */
+  if (cellarOn() && CELLARSUB[type]) type = CELLARSUB[type]; /* v39: the Cellar's own roster */
   const d = ETYPES[type]; const [x, y] = o.x !== undefined ? [o.x, o.y] : spawnPos();
   const t = G.t, elite = !!o.elite;
   let hp = d.hp * hpMul(t) * (elite ? 7 : 1) * (isNight(t) ? 1.12 : 1);
@@ -7233,8 +7412,9 @@ function spawnEnemy(type, o = {}) {
   enemies.push(e); return e;
 }
 const RANGED = { seer: 22, spitter: 22, healer: 10, caller: 8, sprite: 26, bellshade: 22, chimewisp: 22, lantern: 10, hwraith: 26 }; // ranged/support types hold back; capped so they can't clog the enemy cap
+Object.assign(RANGED, { sobber: 22, sobwisp: 22, wickling: 10, drowned: 26 }); /* v39: Cellarborn */
 function pickType(t) {
-  const rc = G.typeN || {}, av = Object.keys(ETYPES).filter(k => !ETYPES[k].boss && ETYPES[k].t0 <= t && onMap28(k) && !(RANGED[k] && (rc[(heart36() && HEARTSUB[k]) || k] || 0) >= RANGED[k]));
+  const rc = G.typeN || {}, av = Object.keys(ETYPES).filter(k => !ETYPES[k].boss && ETYPES[k].t0 <= t && onMap28(k) && !(RANGED[k] && (rc[(heart36() && HEARTSUB[k]) || (cellarOn() && CELLARSUB[k]) || k] || 0) >= RANGED[k]));
   return wpick(av, k => { const d = ETYPES[k]; if (k === 'wisp') return Math.max(0.35, 3 - t / 80) * (t > 600 ? 0.5 : 1); // older, weaker types fade out of the mix late so new threats dominate
     return Math.min(d.cap || 3, 0.8 + (t - d.t0) / 50) * (d.hp < 20 ? Math.max(0.35, 1 - Math.max(0, t - d.t0 - 480) / 900) : 1); });
 }
@@ -7482,7 +7662,7 @@ function quakeAt(x, y, r, dmg, pull) {
     if (d < r + e.r && n++ < 45) { damage(e, dmg); e.slow = Math.max(e.slowT > 0 ? e.slow : 0, 0.5); e.slowT = Math.max(e.slowT, 1); } });
   if (G.tf && G.tf.obBreak) obBreakAt(x, y, r);
   effects.push({ k: 'slam', x, y: y + 10, r, life: 0.35, max: 0.35, col: '#c8a060' }); effects.push({ k: 'nova', x, y, r: 0, maxR: r, life: 0.35, max: 0.35, dmg: 0, hit: new Set(), col: '#9dff6a', vis: 1 });
-  burst(x, y + 8, '#8a6a40', 12, 150, 3.4, 0.5); G.shake = Math.max(G.shake, 0.22); Snd.play('stomp');
+  burst(x, y + 8, '#8a6a40', 12, 150, 3.4, 0.5); Snd.play('stomp');
 }
 /* ---- Warlock afflictions: Rot (stacking), Dread (ramping), Volatile Blight (burst on death) ---- */
 const AFF_TICK = 0.5;
@@ -7666,7 +7846,7 @@ const WFIRE = {
     const leap = (tg, delay) => G.later.push({ t: delay, f: () => { if (tg.dead) return; const sx = P.x, sy = P.y, ex = tg.x, ey = tg.y, steps = 5;
       for (let i = 1; i <= steps; i++) G.later.push({ t: i * 0.03, f: () => { P.x = sx + (ex - sx) * i / steps; P.y = sy + (ey - sy) * i / steps; parts.push({ x: P.x, y: P.y, vx: 0, vy: 0, life: 0.3, max: 0.3, s: 5, c: '#ff3d6e', glow: true });
         if (i === steps) { const r = (L >= 3 ? 78 : 62) * P.area; areaHit(P.x, P.y, r, (19 + 6.5 * L) * (L >= 5 ? 1.2 : 1) * P.feral, 120); query(P.x, P.y, r + 20, e => { if ((e.x - P.x) ** 2 + (e.y - P.y) ** 2 < (r + e.r) ** 2) applyBleed(e, (4 + 1.5 * L) * P.bleed, 3); });
-          effects.push({ k: 'boom', x: P.x, y: P.y, r, life: 0.25, max: 0.25, col: '#ff3d6e' }); G.shake = Math.max(G.shake, 0.15); Snd.play('claw'); } } });
+          effects.push({ k: 'boom', x: P.x, y: P.y, r, life: 0.25, max: 0.25, col: '#ff3d6e' }); Snd.play('claw'); } } });
       P.inv = Math.max(P.inv, 0.35); P.facing = ex < sx ? -1 : 1; Snd.play('whoosh'); } });
     near.sort((a, b) => b.hp - a.hp); leap(near[0], 0); if (L >= 6 && near[1]) leap(near[1], 0.35);
     return L >= 4 ? 3.2 : 4.2; },
@@ -8627,7 +8807,7 @@ sk30('chorus', { name: 'Spirit Chorus', ic: '♩', cls: 'bard', desc: ['Two sing
 sk30('drum', { name: 'War Drum', ic: '❍', cls: 'bard', desc: ['Pound a war drum: a shockwave that hits harder for every song you know', '+20% damage', 'Bigger shockwave', '+20% damage, 12% faster', 'A second beat follows', 'Shockwaves stun'] }, w => {
   const L = w.lvl, S = v30S(); if (!nearestN(P.x, P.y, 1, 170).length) return -1; const d = 20 * dm30(L) * (1 + 0.15 * S.songs), r = (L >= 3 ? 150 : 130) * Math.sqrt(P.area);
   G.srcW = 'drum'; nova30(P.x, P.y, r, d, BRD.war, { src: 'drum', on: L >= 6 ? (e => stun30(e, 0.5)) : null }); if (L >= 5) G.later.push({ t: 0.4, src: 'drum', f: () => nova30(P.x, P.y, r * 0.8, d * 0.6, BRD.all, { src: 'drum' }) });
-  brdInsp(S, 2); Snd.play('stomp'); G.shake = Math.max(G.shake || 0, 3); return 4.2 * cd30(L); });
+  brdInsp(S, 2); Snd.play('stomp'); return 4.2 * cd30(L); });
 sk30('discord', { name: 'Discord', ic: '♮', cls: 'bard', desc: ['Blast a cone of jarring noise: foes are stunned and Dissonant (+20% damage taken) for 3s', '+20% damage', 'Wider cone', '+20% damage, 12% faster', 'Dissonance lasts 5s', 'Hits twice'] }, w => {
   const L = w.lvl, S = v30S(), { t, a } = aim30(240); if (!t) return -1; const d = 22 * dm30(L), go = () => { G.srcW = 'discord'; cone30(P.x, P.y, a, 190 * Math.sqrt(P.area), L >= 3 ? 1.1 : 0.85, d, 120, e => { stun30(e, 0.5); e.dis = gtime + (L >= 5 ? 5 : 3); }); arc30(a, 190, L >= 3 ? 1.1 : 0.85, '#d080ff', BRD.note); };
   go(); if (L >= 6) G.later.push({ t: 0.3, src: 'discord', f: go }); brdInsp(S, 2); Snd.play('wail'); return 5 * cd30(L); });
@@ -8700,7 +8880,7 @@ sk30('hemorrhage', { name: 'Hemorrhage', ic: '❣', cls: 'bloodknight', desc: ['
 sk30('bloodnova', { name: 'Blood Nova', ic: '⨀', cls: 'bloodknight', desc: ['Costs 6% health: your blood bursts outward — the lower your health, the bigger the blast', '+20% damage', 'Bigger blast', '+20% damage, 12% faster', 'Heals 2% per foe hit', 'Leaves 2 Bleed stacks'] }, w => {
   const L = w.lvl, S = v30S(); if (!nearestN(P.x, P.y, 1, 160).length) return -1; bkPay(S, 0.06); const lo = 1 - P.hp / P.maxHp, r = (L >= 3 ? 150 : 130) * Math.sqrt(P.area) * (1 + 0.4 * lo), d = 32 * dm30(L);
   let n = 0; G.srcW = 'bloodnova'; nova30(P.x, P.y, r, d, BK.r, { src: 'bloodnova', on: e => { n++; if (L >= 6) bkBleed(e, 2, 4 * dm30(L), 'bloodnova'); } }); if (L >= 5) G.later.push({ t: 0.3, src: 'bloodnova', f: () => heal(P.maxHp * Math.min(0.12, 0.02 * n)) });
-  Snd.play('boom'); G.shake = Math.max(G.shake || 0, 3); return 5 * cd30(L); });
+  Snd.play('boom'); return 5 * cd30(L); });
 sk30('crimsonleap', { name: 'Crimson Leap', ic: '➚', cls: 'bloodknight', desc: ['Costs 4% health: leap into the crowd and slam down, healing for each foe hit', '+20% damage', 'Bigger slam', '+20% damage, 12% faster', 'Leap twice', 'The slam stuns'] }, w => {
   const L = w.lvl, S = v30S(); if (S.dash) return 0.3; const tg = nearestN(P.x, P.y, 10, 300); if (!tg.length) return -1; let cx = 0, cy = 0; for (const e of tg) { cx += e.x; cy += e.y; } cx /= tg.length; cy /= tg.length;
   bkPay(S, 0.04); const a = Math.atan2(cy - P.y, cx - P.x), dist = Math.min(260, Math.hypot(cx - P.x, cy - P.y)); G.srcW = 'crimsonleap';
@@ -9702,6 +9882,8 @@ const TOWNS36 = {
     sub: 'Behind the bastion walls the forges never sleep.', signs: { merchant: 'Quartermaster', gambler: 'Dice Hall', smith: 'Ember Forge', stranger: 'Veiled Alcove' } },
   heart: { name: 'Vesper Clocktown', ic: '♡', col: '#ffd98a', edge: 'rgba(255,214,140,.7)', bg: 'rgba(12,8,30,.8)', kc: [12, 10, 36], part: 'mote', music: 't_heart',
     sub: 'Where the bells keep the dark at bay. Shop in peace!', signs: { merchant: 'Sundries', gambler: 'Star Fortunes', smith: 'Clockwork Smithy', stranger: 'The Locked Door' } },
+  cellar: { name: 'Drip Hollow Larder', ic: '☠', col: '#d8dc8a', edge: 'rgba(200,208,112,.7)', bg: 'rgba(20,12,8,.84)', kc: [18, 10, 8], part: 'drip', music: 't_cellar',
+    sub: 'A dry corner of the cellar. Candles lit, trapdoor shut. Shop in peace!', signs: { merchant: 'Pantry of Odds', gambler: 'The Wishing Well', smith: 'Rust & Render', stranger: 'The Trapdoor' } },
 };
 const townTheme36 = () => G && G.town && TOWNS36[G.town.theme] ? G.town.theme : 'forest';
 const T36 = { spr: {}, ground: {}, deco: {}, parts: [], amb: 0, k: 0 };
@@ -9740,7 +9922,7 @@ const T36P = {
 /* ---------- the three ground plates (baked once per theme, ~800 world units square) ---------- */
 const TOWN_GR = 420;
 function t36Ground(th) { if (T36.ground[th]) return T36.ground[th]; const k = 1.7, S = TOWN_GR * 2, c = mkCanvas(S * k, S * k), g = c.getContext('2d'); g.scale(k, k); g.translate(TOWN_GR, TOWN_GR); g.lineJoin = 'round'; g.lineCap = 'round';
-  const R = TOWN_R, r = t36r(th === 'forest' ? 101 : th === 'castle' ? 202 : 303), G_ = T36G; (TOWN_GROUND[th] || TOWN_GROUND.forest)(g, R, r, G_);
+  const R = TOWN_R, r = t36r(th === 'forest' ? 101 : th === 'castle' ? 202 : th === 'cellar' ? 404 : 303), G_ = T36G; (TOWN_GROUND[th] || TOWN_GROUND.forest)(g, R, r, G_);
   // soft falloff to the dark at the plate edge so it melts into the outer fill
   g.fillStyle = G_.rg(g, 0, 0, R + 60, TOWN_GR, 'rgba(0,0,0,0)', 'rgba(0,0,0,.9)'); g.fillRect(-TOWN_GR, -TOWN_GR, S, S);
   return T36.ground[th] = c; }
@@ -9815,6 +9997,30 @@ const TOWN_GROUND = {
     g.strokeStyle = '#d8a848'; g.lineWidth = 2.4; g.beginPath(); g.arc(0, 0, R + 3, 0, TAU); g.stroke(); g.strokeStyle = 'rgba(255,240,180,.5)'; g.lineWidth = 0.8; g.beginPath(); g.arc(0, 0, R + 5, 0, TAU); g.stroke();
     // a few distant floating rosettes in the void
     for (const [x, y, rr, v] of [[-340, -300, 34, 1], [330, -330, 26, 3], [-370, 200, 30, 2], [350, 230, 38, 0], [20, 380, 24, 4]]) { const im = heartRosette(rr, v, 77 + v); g.globalAlpha = 0.55; g.drawImage(im, x - im.S / 2, y - im.S / 2, im.S, im.S); g.globalAlpha = 1; }
+  },
+  cellar(g, R, r, G_) {
+    g.fillStyle = '#060403'; g.fillRect(-TOWN_GR, -TOWN_GR, TOWN_GR * 2, TOWN_GR * 2);
+    for (let y = -TOWN_GR; y < TOWN_GR; y += 16) for (let x = -TOWN_GR + ((y / 16) & 1) * 16; x < TOWN_GR; x += 32) { if (Math.hypot(x, y) < R) continue; const v = r(); G_.rr(g, x + 1, y + 1, 30, 14, 2, v < 0.2 ? '#1c120e' : v < 0.7 ? '#150d0a' : '#241610'); }
+    g.save(); g.beginPath(); g.arc(0, 0, R + 8, 0, TAU); g.clip(); g.fillStyle = '#0e0a08'; g.fillRect(-R - 10, -R - 10, R * 2 + 20, R * 2 + 20);
+    for (let y = -R - 10; y < R + 10; y += 30) { let x = -R - 10 + r() * 20; while (x < R + 10) { const w = 26 + r() * 22, v = r(), t = 0.7 + r() * 0.4, base = v < 0.2 ? [64, 56, 52] : v < 0.65 ? [50, 42, 38] : [40, 34, 32];
+        G_.rr(g, x + 1, y + 1, w - 2, 28, 3, `rgb(${base.map(q => Math.round(q * t)).join(',')})`); g.fillStyle = 'rgba(255,230,200,.05)'; g.fillRect(x + 3, y + 3, w - 6, 1.2); x += w; } }
+    for (let i = 0; i < 70; i++) { const a = r() * TAU, d = Math.sqrt(r()) * R, x = Math.cos(a) * d, y = Math.sin(a) * d; G_.el(g, x, y, 10 + r() * 26, 5 + r() * 12, r() < 0.55 ? 'rgba(110,16,20,.34)' : 'rgba(20,70,80,.3)', r() * 3); }       // old stains & seep puddles
+    for (let i = 0; i < 40; i++) { const a = r() * TAU, d = Math.sqrt(r()) * R, x = Math.cos(a) * d, y = Math.sin(a) * d; G_.ln(g, [x, y, x + (r() - 0.5) * 16, y + (r() - 0.5) * 10, x + (r() - 0.5) * 26, y + (r() - 0.5) * 16], 'rgba(0,0,0,.55)', 1.2); }   // cracks
+    // drainage gutters running out from the middle
+    for (let k = 0; k < 4; k++) { const a = k / 4 * TAU + 0.5, pts = []; for (let d = 40; d < R + 4; d += 20) pts.push(Math.cos(a + Math.sin(d * 0.05) * 0.12) * d, Math.sin(a + Math.sin(d * 0.05) * 0.12) * d); G_.ln(g, pts, '#0a0606', 9); G_.ln(g, pts, 'rgba(60,150,160,.5)', 4); G_.ln(g, pts, 'rgba(180,235,240,.25)', 1.2); }
+    // plank walkway from the middle to the exit
+    for (let y = 70; y < R + 6; y += 12) { G_.rr(g, -17, y, 34, 11, 1.5, y % 24 ? '#4a3220' : '#563a26'); g.fillStyle = 'rgba(0,0,0,.35)'; g.fillRect(-17, y + 10, 34, 1.4); g.fillStyle = '#2a2a30'; g.fillRect(-14, y + 4, 1.6, 1.6); g.fillRect(12, y + 4, 1.6, 1.6); }
+    // bones & wax drippings
+    for (let i = 0; i < 26; i++) { const a = r() * TAU, d = 50 + r() * (R - 60), x = Math.cos(a) * d, y = Math.sin(a) * d; G_.ln(g, [x, y, x + 6, y + 2], '#cfc6a8', 1.8); G_.el(g, x - 1, y, 1.6, 1.6, '#cfc6a8'); G_.el(g, x + 7, y + 2, 1.6, 1.6, '#cfc6a8'); }
+    for (let i = 0; i < 18; i++) { const a = r() * TAU, d = 40 + r() * (R - 50); G_.el(g, Math.cos(a) * d, Math.sin(a) * d, 3 + r() * 5, 2 + r() * 3, 'rgba(230,205,150,.55)'); }
+    // the central drain: a great iron grate over black water
+    G_.el(g, 0, 2, 54, 40, 'rgba(0,0,0,.5)'); G_.el(g, 0, 0, 46, 34, '#050304'); G_.el(g, 0, 0, 40, 29, G_.rg(g, 0, 0, 2, 40, '#0c3a42', '#082228', '#04100f'));
+    g.strokeStyle = '#2c2a30'; g.lineWidth = 2.6; for (let i = -4; i <= 4; i++) { g.beginPath(); g.moveTo(i * 8.5, -28); g.lineTo(i * 8.5, 28); g.stroke(); } for (let i = -3; i <= 3; i++) { g.beginPath(); g.moveTo(-38, i * 8); g.lineTo(38, i * 8); g.stroke(); }
+    g.strokeStyle = '#4a4850'; g.lineWidth = 0.8; for (let i = -4; i <= 4; i++) { g.beginPath(); g.moveTo(i * 8.5 - 0.8, -28); g.lineTo(i * 8.5 - 0.8, 28); g.stroke(); }
+    g.globalCompositeOperation = 'lighter'; G_.el(g, 0, 0, 30, 20, G_.rg(g, 0, 0, 2, 30, 'rgba(120,230,240,.28)', 'rgba(120,230,240,0)')); g.globalCompositeOperation = 'source-over';
+    g.restore();
+    for (const [w, c] of [[16, '#0c0806'], [11, '#2a1e16'], [5, '#4a3a2e']]) { g.beginPath(); g.arc(0, 0, R + 4, 0, TAU); g.strokeStyle = c; g.lineWidth = w; g.stroke(); }
+    for (let i = 0; i < 28; i++) { const a = i / 28 * TAU; G_.el(g, Math.cos(a) * (R + 4), Math.sin(a) * (R + 4), 2.2, 2.2, '#6a6a76'); }
   },
 };
 /* ---------- props per theme (static painted sprites; animated bits are drawn live in t36Anim) ---------- */
@@ -9916,6 +10122,33 @@ const T36W = {
       G_.el(g, 0, 0, 7, 7, '#2a1a3a'); g.restore(); g.save(); g.translate(0, -104); G_.el(g, -2, -1, 2.6, 2.4, '#ff6a8a'); G_.el(g, 2, -1, 2.6, 2.4, '#ff6a8a'); G_.po(g, [-4.5, -0.4, 4.5, -0.4, 0, 4.4], '#ff6a8a'); g.restore();
       G_.rr(g, -1.4, -122, 2.8, 8, 1, '#d8a848'); G_.el(g, 0, -124, 3, 3, '#ffe08a'); G_.ln(g, [0, -124, 6, -130, 4, -136], '#d8a848', 1.2); G_.el(g, 4, -137, 2, 2, '#ff6a8a'); }); },
   shardF(v) { return t36S('shardF' + v, 40, 40, 20, 20, g => { const G_ = T36G, c = ['#c49aff', '#86c4ff', '#ff7aa0', '#6ff0d8'][v % 4]; G_.po(g, [0, -16, 7, -2, 2, 14, -6, 4], G_.lg(g, -6, -16, 7, 14, '#ffffff', c, '#1a1030'), 'rgba(255,255,255,.4)', 0.6); }); },
+  // ======== DRIP HOLLOW LARDER ========
+  cbrick(v) { if (v === 2) return t36S('cbrick2', 78, 60, 39, 50, (g, r) => { const G_ = T36G; G_.el(g, 0, 0, 38, 6, 'rgba(0,0,0,.5)'); G_.rr(g, -36, -40, 72, 40, 2, G_.lg(g, -36, 0, 36, 0, '#3a2a22', '#523c2e', '#2e211a')); for (let y = -38; y < 0; y += 9) for (let x = -36 + ((y / 9) & 1) * 9; x < 36; x += 18) { g.strokeStyle = 'rgba(0,0,0,.35)'; g.lineWidth = 0.8; g.strokeRect(x, y, 18, 9); } G_.rr(g, -38, -44, 76, 7, 2, '#4a382c'); });
+    return t36S('cbrick' + v, 78, 110, 39, 100, (g, r) => { const G_ = T36G; G_.el(g, 0, 0, 38, 6, 'rgba(0,0,0,.5)'); G_.rr(g, -36, -94, 72, 94, 2, G_.lg(g, -36, 0, 36, 0, '#3a2a22', '#523c2e', '#2e211a'));
+      for (let y = -90; y < 0; y += 9) for (let x = -36 + ((y / 9) & 1) * 9; x < 36; x += 18) { g.strokeStyle = 'rgba(0,0,0,.35)'; g.lineWidth = 0.8; g.strokeRect(x, y, 18, 9); if (r() < 0.12) { g.fillStyle = 'rgba(110,16,20,.3)'; g.fillRect(x + 1, y + 1, 16, 7); } }
+      if (v) { g.beginPath(); g.moveTo(-14, 0); g.lineTo(-14, -46); g.arc(0, -46, 14, Math.PI, 0); g.lineTo(14, 0); g.closePath(); g.fillStyle = '#080504'; g.fill(); G_.ln(g, [-10, -4, -10, -40], '#5a5a66', 1.4); G_.ln(g, [0, -4, 0, -58], '#5a5a66', 1.4); G_.ln(g, [10, -4, 10, -40], '#5a5a66', 1.4); }
+      else { G_.rr(g, -22, -82, 5, 40, 2, 'rgba(60,150,160,.35)'); G_.el(g, -19, -42, 4, 2.4, 'rgba(60,150,160,.5)'); }
+      G_.rr(g, -38, -98, 76, 8, 2, '#4a382c'); }); },
+  cpillar() { return t36S('cpillarT', 60, 150, 30, 140, g => { const G_ = T36G; G_.el(g, 0, 0, 22, 5, 'rgba(0,0,0,.5)'); G_.rr(g, -16, -8, 32, 8, 2, '#3a2e28'); G_.rr(g, -11, -122, 22, 116, 2, G_.lg(g, -11, 0, 11, 0, '#2c221c', '#54423a', '#2c221c')); G_.rr(g, -16, -130, 32, 8, 2, '#3a2e28');
+      for (const y of [-100, -60, -22]) G_.rr(g, -12.5, y, 25, 4, 1, '#34343c'); for (let i = 0; i < 5; i++) G_.ln(g, [-8 + i * 4, -118, -8 + i * 4 + (i % 2), -12], 'rgba(0,0,0,.2)', 1); G_.rr(g, 2, -118, 4, 30, 2, 'rgba(60,150,160,.3)'); }); },
+  chook() { return t36S('chookT', 70, 140, 35, 132, g => { const G_ = T36G; G_.el(g, 0, 0, 14, 4, 'rgba(0,0,0,.45)'); G_.rr(g, -24, -120, 3, 120, 1, '#26242c'); G_.rr(g, 21, -120, 3, 120, 1, '#26242c'); G_.rr(g, -26, -124, 52, 5, 1.5, '#34323c');
+      for (const x of [-10, 8]) { G_.ln(g, [x, -120, x, -86], '#6a6a76', 1.6); g.strokeStyle = '#8a8a96'; g.lineWidth = 2; g.beginPath(); g.arc(x, -82, 4.4, -0.6, Math.PI * 1.1); g.stroke(); }
+      G_.el(g, 8, -62, 9, 18, '#7a2a30'); G_.el(g, 6, -66, 3.6, 9, '#a04048'); G_.ln(g, [8, -82, 8, -76], '#6a6a76', 1.6); G_.el(g, 8, -42, 2.4, 2.4, 'rgba(110,16,20,.8)'); }); },
+  ccandleC() { return t36S('ccandleC', 50, 50, 25, 44, g => { const G_ = T36G; G_.el(g, 0, 1, 18, 5, 'rgba(0,0,0,.45)'); G_.el(g, 0, 0, 14, 4, 'rgba(230,205,150,.5)'); for (const [x, h] of [[-8, 14], [0, 22], [8, 11], [-3, 8]]) { G_.rr(g, x - 3, -h, 6, h, 1.5, G_.lg(g, x - 3, 0, x + 3, 0, '#c8b284', '#efe0b0')); G_.el(g, x, -h, 3, 1.2, '#f6ecc8'); G_.ln(g, [x + 3, -h + 2, x + 3, -h + 7], '#efe0b0', 1.2); G_.ln(g, [x, -h, x, -h - 3], '#2a1c10', 0.8); } }); },
+  cpipe() { return t36S('cpipeT', 50, 150, 25, 140, g => { const G_ = T36G; G_.el(g, 0, 0, 18, 4, 'rgba(0,0,0,.45)'); G_.rr(g, -5, -132, 10, 132, 2, G_.lg(g, -5, 0, 5, 0, '#3a2c20', '#7a5a38', '#2e2218')); for (const y of [-120, -70, -24]) G_.rr(g, -7, y, 14, 5, 1.5, '#5a4630'); G_.rr(g, -7, -134, 24, 9, 2, '#5a4630'); G_.el(g, 17, -126, 4, 4, '#1a1008'); G_.el(g, 0, -2, 14, 4, 'rgba(60,150,160,.45)'); }); },
+  cpedestal() { return t36S('cpedT', 70, 100, 35, 90, g => { const G_ = T36G; G_.el(g, 0, 0, 28, 7, 'rgba(0,0,0,.5)'); G_.rr(g, -24, -12, 48, 12, 2, '#3a2e28'); G_.rr(g, -18, -26, 36, 14, 2, '#4e3e34'); G_.rr(g, -13, -44, 26, 18, 2, G_.lg(g, -13, 0, 13, 0, '#3a2e28', '#5e4a3e', '#3a2e28')); G_.rr(g, -20, -50, 40, 8, 2, '#6a5448');
+      G_.rr(g, -2.4, -66, 4.8, 16, 1.5, '#efe0b0'); G_.ln(g, [0, -66, 0, -69], '#2a1c10', 0.8); for (const x of [-14, 14]) { G_.rr(g, x - 1.6, -58, 3.2, 8, 1, '#c8b284'); } }); },
+  cwell() { return t36S('cwellT', 90, 90, 45, 80, g => { const G_ = T36G; G_.el(g, 0, 2, 40, 12, 'rgba(0,0,0,.5)'); G_.el(g, 0, -6, 36, 14, '#4a3a30'); G_.el(g, 0, -10, 30, 11, '#150e0a'); G_.el(g, 0, -10, 26, 9, G_.rg(g, 0, -10, 1, 26, '#4aa8b4', '#14464e', '#06181c'));
+      G_.rr(g, -36, -22, 72, 16, 4, G_.lg(g, 0, -22, 0, -6, '#6a584c', '#3a2e28')); G_.el(g, 0, -22, 36, 11, '#6a584c'); G_.el(g, 0, -22, 29, 8.4, '#150e0a'); G_.el(g, 0, -22, 25, 7, G_.rg(g, 0, -22, 1, 25, '#4aa8b4', '#14464e', '#06181c'));
+      for (const s of [-1, 1]) G_.rr(g, s * 32 - 2.5, -62, 5, 42, 1.5, '#4a3220'); G_.rr(g, -36, -66, 72, 6, 2, '#5a4030'); G_.ln(g, [0, -60, 0, -28], '#8a8a96', 1.4); G_.rr(g, -6, -34, 12, 8, 2, '#4a3a2c'); }); },
+  cbarrelS() { return t36S('cbarrS', 60, 70, 30, 62, g => { const G_ = T36G; T36P.barrel(g, -10, 0, 0.95, ['#6a4020', '#3e2410']); T36P.barrel(g, 12, 0, 0.9, ['#5a3820', '#3a2210']); T36P.barrel(g, 1, -14, 0.9, ['#7a4a26', '#4a2a12']); G_.el(g, 14, -12, 2, 1.2, 'rgba(110,16,20,.8)'); }); },
+  csack() { return t36S('csackT', 40, 36, 20, 30, g => { const G_ = T36G; G_.el(g, 0, 0, 14, 4, 'rgba(0,0,0,.45)'); G_.po(g, [-11, 0, -9, -16, -3, -22, 3, -22, 9, -16, 11, 0], G_.lg(g, -11, 0, 11, 0, '#6a5a3a', '#9a8458', '#5a4a2e')); G_.ln(g, [-4, -21, 0, -25, 4, -21], '#4a3c24', 1.6); G_.ln(g, [-8, -10, 8, -10], 'rgba(0,0,0,.3)', 0.8); }); },
+  cvault() { return t36S('cvaultT', 300, 240, 150, 230, (g, r) => { const G_ = T36G; G_.el(g, 0, 0, 130, 12, 'rgba(0,0,0,.55)'); G_.rr(g, -134, -170, 268, 170, 3, G_.lg(g, -134, 0, 134, 0, '#2e211a', '#4a3828', '#2a1e16'));
+      for (let y = -166; y < 0; y += 10) for (let x = -134 + ((y / 10) & 1) * 10; x < 134; x += 20) { g.strokeStyle = 'rgba(0,0,0,.3)'; g.lineWidth = 0.8; g.strokeRect(x, y, 20, 10); }
+      g.beginPath(); g.moveTo(-54, 0); g.lineTo(-54, -90); g.arc(0, -90, 54, Math.PI, 0); g.lineTo(54, 0); g.closePath(); g.fillStyle = '#050302'; g.fill(); g.strokeStyle = '#6a584c'; g.lineWidth = 6; g.stroke();
+      for (let i = -3; i <= 3; i++) G_.ln(g, [i * 14, -2, i * 14, -134 + Math.abs(i) * 6], '#4a4850', 2.4); G_.ln(g, [-52, -60, 52, -60], '#4a4850', 2.4); G_.glow(g, 0, -60, 70, '#ffb860', 0.12);
+      for (const x of [-96, 96]) { G_.rr(g, x - 7, -150, 14, 30, 3, '#1a1008'); G_.rr(g, x - 5, -148, 10, 26, 2, G_.lg(g, 0, -148, 0, -122, '#ffd890', '#c0702a')); }
+      G_.rr(g, -140, -178, 280, 10, 2, '#4a382c'); }); },
   bench() { return t36S('benchH', 60, 30, 30, 24, g => { const G_ = T36G; G_.el(g, 0, 0, 24, 4, 'rgba(0,0,0,.4)'); for (const x of [-18, 16]) G_.rr(g, x, -10, 2.4, 10, 1, '#22203a'); G_.rr(g, -22, -12, 44, 4, 1.5, '#6a4626'); G_.rr(g, -22, -20, 44, 3, 1.5, '#7a5430'); for (const x of [-18, 16]) G_.rr(g, x, -20, 2.4, 9, 1, '#22203a'); }); },
 };
 /* ---------- the four vendor stalls, themed per town (sprite behind each vendor, sign text drawn live) ---------- */
@@ -9968,6 +10201,29 @@ const T36STALL = {
     if (nt === 'merchant') { for (let i = 0; i < 5; i++) G_.el(g, -40 + i * 7, -4, 3, 3, ['#ff7aa0', '#ffd24a', '#86c4ff', '#7dff9a', '#c49aff'][i]); T36P.crate(g, 32, 0, 0.8, ['#8a6a4a', '#6a4a2a', '#2a1a0c']); }
     if (nt === 'gambler') { for (let i = 0; i < 6; i++) { const x = -40 + (i % 3) * 8, y = -8 - Math.floor(i / 3) * 8; g.fillStyle = '#ffe08a'; g.beginPath(); for (let j = 0; j < 10; j++) { const a = j / 10 * TAU - Math.PI / 2, rr = j & 1 ? 1.4 : 3.4; g.lineTo(x + Math.cos(a) * rr, y + Math.sin(a) * rr); } g.fill(); } }
   },
+  cellar(g, nt, r, G_) { const cl = { merchant: '#4a5a2a', gambler: '#2a4a5a', smith: '#6a2a28', stranger: '#2a1a2a' }[nt];
+    // a brick alcove
+    G_.rr(g, -50, -66, 100, 66, 2, G_.lg(g, -50, 0, 50, 0, '#3a2a22', '#523c2e', '#2e211a')); for (let y = -62; y < 0; y += 9) for (let x = -50 + ((y / 9) & 1) * 9; x < 50; x += 18) { g.strokeStyle = 'rgba(0,0,0,.3)'; g.lineWidth = 0.8; g.strokeRect(x, y, 18, 9); }
+    g.beginPath(); g.moveTo(-36, 0); g.lineTo(-36, -38); g.arc(0, -38, 36, Math.PI, 0); g.lineTo(36, 0); g.closePath(); g.fillStyle = '#0a0605'; g.fill();
+    if (nt === 'merchant') {   // shelves of jars, hanging sausages and garlic
+      for (const y of [-52, -34, -16]) G_.rr(g, -32, y, 64, 3, 1, '#5a4030'); const jc = ['#7a2a30', '#b8a43a', '#3a7a4a', '#7a5a9a', '#c8782a', '#4a8aa8'];
+      for (let row = 0; row < 3; row++) for (let i = 0; i < 5; i++) { const x = -28 + i * 12, y = -52 + row * 18; G_.rr(g, x, y - 12, 8, 12, 2, jc[(row * 5 + i) % 6]); G_.rr(g, x + 1, y - 14, 6, 3, 1, '#6a5a3a'); G_.el(g, x + 2.4, y - 8, 1, 2, 'rgba(255,255,255,.3)'); }
+      for (let i = 0; i < 4; i++) { const x = -22 + i * 15; G_.ln(g, [x, -64, x, -58], '#5a4030', 1); G_.el(g, x, -54, 3, 6, i & 1 ? '#a04848' : '#e8e0c0'); }
+      T36P.crate(g, 30, 0, 0.9, ['#6a4626', '#4a2e18', '#1a0c06']); T36P.barrel(g, -34, 0, 0.8); }
+    else if (nt === 'gambler') {   // wishing well in the alcove
+      G_.el(g, 0, -4, 34, 10, '#4a3a30'); G_.el(g, 0, -8, 28, 8, '#06181c'); G_.el(g, 0, -8, 24, 6.4, G_.rg(g, 0, -8, 1, 24, '#4aa8b4', '#14464e', '#06181c')); G_.rr(g, -34, -22, 68, 14, 3, G_.lg(g, 0, -22, 0, -8, '#6a584c', '#3a2e28'));
+      for (const [x, y] of [[-12, -12], [8, -9], [18, -14]]) G_.el(g, x, y, 2.4, 1.4, '#ffd24a'); for (const s_ of [-1, 1]) G_.rr(g, s_ * 28 - 2, -58, 4, 38, 1, '#4a3220'); G_.rr(g, -30, -62, 60, 5, 2, '#5a4030'); G_.ln(g, [0, -58, 0, -30], '#8a8a96', 1.2); G_.rr(g, -5, -34, 10, 7, 2, '#4a3a2c'); G_.glow(g, 0, -10, 28, '#6ad8e8', 0.35); }
+    else if (nt === 'smith') {   // butcher's block and grindstone
+      G_.rr(g, -22, -22, 44, 22, 3, G_.lg(g, -22, 0, 22, 0, '#5a3a20', '#7a5230', '#4a2e18')); G_.el(g, 0, -22, 22, 5, '#8a6038'); for (let i = 0; i < 3; i++) G_.ln(g, [-14 + i * 12, -23, -10 + i * 12, -21], 'rgba(0,0,0,.35)', 0.8); G_.el(g, -8, -22, 5, 1.6, 'rgba(120,16,22,.7)');
+      G_.po(g, [6, -30, 19, -27, 18, -22, 6, -24], '#a0a0b0'); G_.rr(g, 17, -29, 8, 3, 1, '#4a2e18'); for (let i = 0; i < 3; i++) { G_.ln(g, [-42 + i * 8, -58, -42 + i * 8, -44], '#6a6a76', 1.2); G_.po(g, [-45 + i * 8, -44, -39 + i * 8, -44, -39 + i * 8, -32, -43 + i * 8, -28], '#a0a0b0'); }
+      G_.el(g, 36, -12, 11, 11, '#6a6a76'); G_.el(g, 36, -12, 8, 8, '#8a8a96'); G_.el(g, 36, -12, 2, 2, '#26242c'); G_.rr(g, 28, -4, 16, 4, 1, '#4a2e18'); G_.glow(g, 0, -26, 22, '#ff4a2a', 0.18); }
+    else {   // a trapdoor propped open on a dark stair
+      G_.po(g, [-30, -4, 30, -4, 24, -14, -24, -14], '#2a1a12'); G_.po(g, [-24, -14, 24, -14, 18, -22, -18, -22], '#1a100c'); G_.po(g, [-22, -4, 22, -4, 20, -12, -20, -12], '#050202');
+      G_.po(g, [-30, -4, -26, -46, 12, -52, 8, -10], G_.lg(g, -30, 0, 12, 0, '#4a3220', '#6a4a2e')); G_.ln(g, [-26, -20, 10, -26], '#26242c', 2); G_.ln(g, [-26, -36, 10, -42], '#26242c', 2);
+      G_.glow(g, 0, -10, 24, '#ffd890', 0.5); G_.el(g, -6, -9, 2.4, 1.6, '#fff0b0'); G_.el(g, 6, -9, 2.4, 1.6, '#fff0b0'); G_.el(g, -6, -9, 0.8, 1.6, '#0a0605'); G_.el(g, 6, -9, 0.8, 1.6, '#0a0605'); }
+    // hanging cloth sign beam
+    G_.po(g, [-56, -68, 56, -68, 50, -82, -50, -82], G_.lg(g, 0, -82, 0, -68, cl, '#100806')); for (let i = 0; i < 12; i++) G_.el(g, -52 + i * 9.6, -67, 4.4, 3, cl);
+  },
 };
 /* ---------- layout: everything placed around the fixed v35 vendor ring (cached per visit) ---------- */
 function t36Layout(T) { if (T.deco && T.decoK === T.theme) return T.deco; const th = T.theme, R = TOWN_R, out = [], cx = T.cx, cy = T.cy, add = (x, y, s, o = {}) => out.push(Object.assign({ td: 1, x: cx + x, y: cy + y, s, r: 0 }, o)), r = t36r(th === 'forest' ? 11 : th === 'castle' ? 22 : 33), W_ = T36W;
@@ -9989,13 +10245,25 @@ function t36Layout(T) { if (T.deco && T.decoK === T.theme) return T.deco; const 
     for (const [x, y] of [[-200, -40], [200, -40], [-160, 140], [160, 140], [-60, -170], [60, -170]]) add(x, y, W_.brazierB(), { fire: 0.55, fy: -27 });
     for (const [x, y] of [[-176, -104], [176, -104], [-40, 120], [40, 120]]) add(x, y, W_.cbanner(), { banner: 1 });
     add(0, 0, W_.forgeBowl(), { fire: 1.2, fy: -34 }); add(-170, 30, W_.rack()); add(176, 120, W_.rack()); add(-60, 190, null, { folk: 'none' });
-  } else {
+  } else if (th === 'heart') {
     add(0, -R - 14, W_.ctowerH(), { tall: 1, clock: 1 });
     for (let i = 0; i < 36; i++) { const a = i / 36 * TAU; if (exitGap(a) || Math.abs(Math.cos(a)) < 0.2 && Math.sin(a) < 0) continue; add(Math.cos(a) * (R + 2), Math.sin(a) * (R + 2), W_.railPost(), { orb: 1 }); }
     for (const [x, y] of [[-196, -20], [196, -20], [-140, 150], [140, 150], [-70, -180], [70, -180]]) add(x, y, W_.hlampP(), { lamp: [0, -69], lc: '#ffc860' });
     add(0, -4, W_.keyMonu(), { key: 1 }); add(-190, 70, W_.bench()); add(190, 76, W_.bench());
     for (let i = 0; i < 12; i++) { const a = i / 12 * TAU + 0.3, d = R + 60 + r() * 120; add(Math.cos(a) * d, Math.sin(a) * d, W_.shardF(i), { bob: r() * TAU, float: 1 }); }
     add(206, 64, null, { folk: 'sitter' });
+  } else {   // v39: Drip Hollow Larder
+    add(0, -R - 6, W_.cvault(), { tall: 1 });
+    for (let i = 0; i < 28; i++) { const a = i / 28 * TAU; if (exitGap(a) || Math.sin(a) < -0.88) continue; add(Math.cos(a) * (R + 16), Math.sin(a) * (R + 16), Math.sin(a) > 0.2 ? W_.cbrick(2) : W_.cbrick(i % 4 === 0 ? 1 : 0), { tall: 1 }); }
+    for (const s_ of [-1, 1]) { add(s_ * 36, R + 8, W_.cpillar(), { tall: 1 }); add(s_ * 30, R - 20, W_.ccandleC(), { lamp: [0, -26], lc: '#ffb860' }); }
+    for (const [x, y] of [[-200, -50], [200, -50], [-150, 140], [150, 140], [-40, -170], [40, -170]]) add(x, y, W_.cpillar(), { tall: 1 });
+    for (const [x, y] of [[-168, -96], [170, -96]]) add(x, y, W_.chook());
+    for (const [x, y] of [[-70, 172], [74, 168], [-212, 40], [214, 36]]) add(x, y, W_.ccandleC(), { lamp: [0, -26], lc: '#ffb860' });
+    for (const [x, y] of [[-124, 190], [128, 196], [-206, -110], [206, -112]]) add(x, y, W_.cbarrelS());
+    for (const [x, y] of [[-30, 150], [36, 154], [-182, 80], [186, 86]]) add(x, y, W_.csack());
+    for (const [x, y] of [[-222, -10], [222, -8]]) add(x, y, W_.cpipe(), { tall: 1, drip: [17, -126] });
+    add(0, -150, W_.cpedestal(), { fire: 0.55, fy: -70 });
+    add(120, 60, null, { folk: 'weepsit' });
   }
   T.deco = out; T.decoK = th; return out; }
 function townDeco() { const T = G.town; if (!T) return []; const L = t36Layout(T), vw = W / ZOOM / 2 + 140, vh = H / ZOOM / 2 + 260, o = []; for (const d of L) if (Math.abs(d.x - P.x) < vw && Math.abs(d.y - P.y) < vh) o.push(d); return o; }
@@ -10016,13 +10284,14 @@ function t36DrawDeco(d) { const T = G.town, th = T.theme, t = gtime; ctx.imageSm
       ctx.globalCompositeOperation = 'source-over';
       if (d.fs) { ctx.fillStyle = '#3a2412'; for (const a of [0.5, -0.5, 1.6]) { ctx.save(); ctx.translate(fx, fy + 2); ctx.rotate(a); ctx.fillRect(-14, -2, 28, 4); ctx.restore(); } } }
   if (d.lamp) { ctx.globalCompositeOperation = 'lighter'; gl36(d.lc, d.x + d.lamp[0], d.y + d.lamp[1], 30, 0.45 + 0.12 * Math.sin(t * 7 + d.x)); ctx.globalCompositeOperation = 'source-over'; }
+  if (d.drip) { const ph = (t * 0.9 + d.x * 0.013) % 1, dy = ph * ph * 120; ctx.globalAlpha = 1 - ph * 0.5; ctx.fillStyle = '#9fd8ff'; ctx.beginPath(); ctx.ellipse(d.x + d.drip[0], d.y + d.drip[1] + 6 + dy, 1.2, 2, 0, 0, TAU); ctx.fill(); if (ph > 0.97) { ctx.globalAlpha = 0.5; ctx.strokeStyle = '#9fd8ff'; ctx.beginPath(); ctx.ellipse(d.x + d.drip[0], d.y, 6, 2, 0, 0, TAU); ctx.stroke(); } ctx.globalAlpha = 1; }
   if (d.glowc) { ctx.globalCompositeOperation = 'lighter'; gl36(d.glowc, d.x, d.y - 14, 44, 0.35 + 0.15 * Math.sin(t * 1.7 + d.x)); ctx.globalCompositeOperation = 'source-over'; }
   if (d.orb) { ctx.globalCompositeOperation = 'lighter'; gl36('#9fdcff', d.x, d.y - 38, 20, 0.35 + 0.15 * Math.sin(t * 2 + d.x * 0.05)); ctx.globalCompositeOperation = 'source-over'; }
   if (d.key) { ctx.globalCompositeOperation = 'lighter'; gl36('#ffd98a', d.x, d.y - 104, 60, 0.35 + 0.1 * Math.sin(t * 2)); for (let i = 0; i < 5; i++) { const a = t * 0.8 + i / 5 * TAU; gl36('#ff9ae6', d.x + Math.cos(a) * 22, d.y - 70 + Math.sin(a) * 30, 10, 0.7); } ctx.globalCompositeOperation = 'source-over'; }
   if (d.folk) t36Folk(d, t);
-  if (d.stall) { const S = TOWNS36[th], txt = S.signs[d.stall], fs = Math.max(9, 12.5 / ZOOM), sy = d.y - (th === 'heart' ? 118 : th === 'castle' ? 98 : 96) - 2;
+  if (d.stall) { const S = TOWNS36[th], txt = S.signs[d.stall], fs = Math.max(9, 12.5 / ZOOM), sy = d.y - (th === 'heart' ? 118 : th === 'castle' ? 98 : th === 'cellar' ? 100 : 96) - 2;
     ctx.font = `800 ${fs}px "Trebuchet MS",-apple-system,system-ui,sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; const w = ctx.measureText(txt).width + fs * 1.3, h = fs * 1.55;
-    const P_ = { forest: ['#5a3a1e', '#2e1c0e', '#ffe2a8', '#c89a5a'], castle: ['#2a2430', '#140e16', '#ffd27a', '#c89a3a'], heart: ['#2a1e4a', '#140c26', '#ffe9b8', '#d8a848'] }[th];
+    const P_ = { forest: ['#5a3a1e', '#2e1c0e', '#ffe2a8', '#c89a5a'], castle: ['#2a2430', '#140e16', '#ffd27a', '#c89a3a'], heart: ['#2a1e4a', '#140c26', '#ffe9b8', '#d8a848'], cellar: ['#3a2418', '#150c08', '#e8e4a8', '#9a8a5a'] }[th];
     ctx.strokeStyle = P_[3]; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.moveTo(d.x - w / 3, sy + h / 2); ctx.lineTo(d.x - w / 3, sy + h / 2 + 5); ctx.moveTo(d.x + w / 3, sy + h / 2); ctx.lineTo(d.x + w / 3, sy + h / 2 + 5); ctx.stroke();
     const gr = ctx.createLinearGradient(0, sy - h / 2, 0, sy + h / 2); gr.addColorStop(0, P_[0]); gr.addColorStop(1, P_[1]); ctx.fillStyle = gr; rr(d.x - w / 2, sy - h / 2, w, h, 3); ctx.fill(); ctx.strokeStyle = P_[3]; ctx.stroke();
     ctx.lineWidth = 2.5; ctx.strokeStyle = 'rgba(8,4,12,.8)'; ctx.strokeText(txt, d.x, sy + 0.5); ctx.fillStyle = P_[2]; ctx.fillText(txt, d.x, sy + 0.5);
@@ -10033,12 +10302,17 @@ function t36Folk(d, t) { const x = d.x, y = d.y; if (d.folk === 'none') return;
   if (d.folk === 'camper') { const b = Math.sin(t * 1.6) * 0.8; ctx.save(); ctx.translate(x, y); ctx.fillStyle = 'rgba(0,0,0,.4)'; ctx.beginPath(); ctx.ellipse(0, 1, 9, 3, 0, 0, TAU); ctx.fill();
     ctx.fillStyle = '#2e4a2a'; ctx.beginPath(); ctx.moveTo(-8, 0); ctx.quadraticCurveTo(-8, -14 + b, 0, -18 + b); ctx.quadraticCurveTo(8, -14 + b, 8, 0); ctx.fill(); ctx.fillStyle = '#1a2a18'; ctx.beginPath(); ctx.arc(0, -19 + b, 5.5, 0, TAU); ctx.fill(); ctx.fillStyle = '#c8a080'; ctx.beginPath(); ctx.arc(-1.6, -18.5 + b, 2.6, 0, TAU); ctx.fill();
     ctx.strokeStyle = '#5a3a1e'; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.moveTo(-4, -10 + b); ctx.lineTo(-24, -4 + Math.sin(t * 0.7) * 1.5); ctx.stroke(); ctx.fillStyle = '#ffe8c8'; ctx.beginPath(); ctx.ellipse(-25, -4 + Math.sin(t * 0.7) * 1.5, 2.6, 2, 0, 0, TAU); ctx.fill(); ctx.restore(); }
+  else if (d.folk === 'weepsit') { ctx.save(); ctx.translate(x, y); const sh = Math.sin(t * 5) * 0.6; ctx.fillStyle = 'rgba(0,0,0,.4)'; ctx.beginPath(); ctx.ellipse(0, 1, 11, 3.4, 0, 0, TAU); ctx.fill();
+    ctx.fillStyle = '#c8a898'; ctx.beginPath(); ctx.ellipse(0 + sh, -8, 7, 8, 0, 0, TAU); ctx.fill(); ctx.beginPath(); ctx.arc(0 + sh, -19, 6.4, 0, TAU); ctx.fill();
+    ctx.fillStyle = '#f4ecdc'; ctx.beginPath(); ctx.ellipse(-2.2 + sh, -19, 2, 2.4, 0, 0, TAU); ctx.ellipse(2.6 + sh, -19, 2, 2.4, 0, 0, TAU); ctx.fill(); ctx.fillStyle = '#2a1a18'; ctx.beginPath(); ctx.arc(-2 + sh, -18.6, 0.9, 0, TAU); ctx.arc(2.8 + sh, -18.6, 0.9, 0, TAU); ctx.fill();
+    ctx.strokeStyle = '#9fd8ff'; ctx.lineWidth = 1.2; for (let i = 0; i < 2; i++) { const ph = (t * 1.3 + i * 0.5) % 1; ctx.globalAlpha = 1 - ph; ctx.beginPath(); ctx.moveTo((i ? 2.6 : -2.2) + sh, -17 + ph * 4); ctx.lineTo((i ? 2.6 : -2.2) + sh, -14 + ph * 16); ctx.stroke(); } ctx.globalAlpha = 1;
+    ctx.fillStyle = '#7a8aa0'; ctx.fillRect(-9, -3, 18, 3); ctx.restore(); }
   else if (d.folk === 'guard') { const br = Math.sin(t * 1.5 + d.ph) * 0.6; t36D(T36W.guard(), x, y - br * 0.5); }
   else if (d.folk === 'sitter') { ctx.save(); ctx.translate(x, y); const sw = Math.sin(t * 2) * 2; ctx.fillStyle = '#3a2a5a'; ctx.fillRect(-6, -14, 12, 12); ctx.strokeStyle = '#2a1a3a'; ctx.lineWidth = 2.4; ctx.beginPath(); ctx.moveTo(-3, -2); ctx.lineTo(-3 + sw, 7); ctx.moveTo(3, -2); ctx.lineTo(3 - sw, 7); ctx.stroke();
     ctx.fillStyle = '#e8c8a0'; ctx.beginPath(); ctx.arc(0, -19, 5, 0, TAU); ctx.fill(); ctx.fillStyle = '#5a3a2a'; ctx.beginPath(); ctx.arc(0, -21, 5.4, Math.PI, 0); ctx.fill(); ctx.fillStyle = '#ff8aa0'; ctx.fillRect(-6, -12, 12, 2.4); ctx.restore();
     ctx.globalCompositeOperation = 'lighter'; gl36('#ffc860', x + 14, y - 30 + Math.sin(t * 1.5) * 4, 18, 0.7); ctx.globalCompositeOperation = 'source-over'; ctx.fillStyle = '#fff2c0'; ctx.beginPath(); ctx.arc(x + 14, y - 30 + Math.sin(t * 1.5) * 4, 2.2, 0, TAU); ctx.fill(); } }
 function drawTownWorld(cx, cy) { const T = G.town; if (!T) return; const vw = W / ZOOM, vh = H / ZOOM, th = T.theme || 'forest';
-  ctx.fillStyle = th === 'heart' ? '#03020a' : th === 'castle' ? '#0a0608' : '#060c07'; ctx.fillRect(cx - vw / 2 - 4, cy - vh / 2 - 4, vw + 8, vh + 8);
+  ctx.fillStyle = th === 'heart' ? '#03020a' : th === 'castle' ? '#0a0608' : th === 'cellar' ? '#060403' : '#060c07'; ctx.fillRect(cx - vw / 2 - 4, cy - vh / 2 - 4, vw + 8, vh + 8);
   const gp = t36Ground(th); ctx.imageSmoothingEnabled = true; ctx.drawImage(gp, T.cx - TOWN_GR, T.cy - TOWN_GR, TOWN_GR * 2, TOWN_GR * 2);
   if (th === 'heart') { ctx.globalCompositeOperation = 'lighter'; gl36('#ffd98a', T.cx, T.cy, 120, 0.12 + 0.04 * Math.sin(gtime)); ctx.globalCompositeOperation = 'source-over'; const a = gtime * 0.25; ctx.strokeStyle = 'rgba(40,20,10,.85)'; ctx.lineWidth = 3; ctx.lineCap = 'round';
     ctx.beginPath(); ctx.moveTo(T.cx, T.cy); ctx.lineTo(T.cx + Math.sin(a) * 40, T.cy - Math.cos(a) * 40); ctx.stroke(); ctx.lineWidth = 4.5; ctx.beginPath(); ctx.moveTo(T.cx, T.cy); ctx.lineTo(T.cx + Math.sin(a / 12) * 26, T.cy - Math.cos(a / 12) * 26); ctx.stroke(); }
@@ -10049,19 +10323,21 @@ function townLights(L) { const T = G.town; if (!T) return; const th = T.theme; L
   for (const d of t36Layout(T)) { if (d.fire) L(d.x, d.y - 14, 70 * Math.min(1.4, d.fire + 0.3), 0.85); else if (d.lamp) L(d.x + d.lamp[0], d.y + d.lamp[1] + 20, 60, 0.75); else if (d.glowc) L(d.x, d.y - 10, 40, 0.5); else if (d.stall) L(d.x, d.y - 30, 64, 0.6); else if (d.clock) L(d.x, d.y - 150, 70, 0.6); else if (d.key) L(d.x, d.y - 60, 70, 0.7); }
   L(T.cx, T.cy + TOWN_R - 40, 60, 0.7); }
 function townTick36(dt) { const T = G.town; if (!T) return; const th = T.theme || 'forest', S = TOWNS36[th], ps = T36.parts, cap = PC ? 70 : 38, vw = W / ZOOM / 2, vh = H / ZOOM / 2;
-  T36.acc = (T36.acc || 0) + dt * (S.part === 'fly' ? 14 : S.part === 'ember' ? 22 : 16);
+  T36.acc = (T36.acc || 0) + dt * (S.part === 'fly' ? 14 : S.part === 'ember' ? 22 : S.part === 'drip' ? 20 : 16);
   while (T36.acc >= 1) { T36.acc--; if (ps.length >= cap) continue; const p = { x: P.x + rand(-vw, vw), y: P.y + rand(-vh, vh), ph: rand(TAU), life: 0, max: rand(3, 6) };
     if (S.part === 'fly') { p.vx = rand(-8, 8); p.vy = rand(-8, 8); p.c = Math.random() < 0.75 ? '#d8ff6a' : '#7dffc8'; p.max = rand(4, 8); }
     else if (S.part === 'ember') { p.vx = rand(-6, 10); p.vy = rand(-34, -18); p.c = Math.random() < 0.6 ? '#ff8a2a' : '#ffd060'; p.max = rand(2.4, 4); if (Math.random() < 0.35) { p.c = '#9a9090'; p.ash = 1; p.vy = rand(10, 22); p.vx = rand(4, 14); } }
+    else if (S.part === 'drip') { p.vx = rand(-2, 2); p.vy = rand(60, 110); p.c = Math.random() < 0.7 ? '#9fd8ff' : '#e8e4b0'; p.max = rand(0.8, 1.6); if (Math.random() < 0.3) { p.vy = rand(-3, 3); p.vx = rand(-6, 6); p.c = '#d8c8a0'; p.mote = 1; p.max = rand(3, 6); } }
     else { p.vx = rand(-4, 4); p.vy = rand(-14, -6); p.c = pick(['#ff9ae6', '#9fdcff', '#ffe58a', '#c9a0ff', '#8affc8']); p.max = rand(4, 7); }
     ps.push(p); }
   for (let i = ps.length - 1; i >= 0; i--) { const p = ps[i]; p.life += dt; if (p.life >= p.max) { ps.splice(i, 1); continue; } if (S.part === 'fly') { p.vx += Math.sin(gtime * 2 + p.ph) * 12 * dt; p.vy += Math.cos(gtime * 1.7 + p.ph) * 12 * dt; } p.x += p.vx * dt; p.y += p.vy * dt; }
   if (T.bellT > 0) T.bellT -= dt;
-  T.ambT = (T.ambT == null ? 4 : T.ambT) - dt; if (T.ambT <= 0) { T.ambT = rand(6, 11); const k = th === 'forest' ? pick(['cricket', 'owl', 'cricket']) : th === 'castle' ? pick(['clang', 'crackle', 'clang']) : pick(['chime', 'tick', 'chime']); if (k === 'chime') T.bellT = 2.2; Snd.play(k); } }
+  T.ambT = (T.ambT == null ? 4 : T.ambT) - dt; if (T.ambT <= 0) { T.ambT = rand(6, 11); const k = th === 'forest' ? pick(['cricket', 'owl', 'cricket']) : th === 'castle' ? pick(['clang', 'crackle', 'clang']) : th === 'cellar' ? pick(['tick', 'crackle', 'tick']) : pick(['chime', 'tick', 'chime']); if (k === 'chime') T.bellT = 2.2; Snd.play(k); } }
 function townScreen(cx, cy) { const T = G && G.town; if (!T) return; const S = TOWNS36[T.theme || 'forest']; ctx.save(); ctx.globalCompositeOperation = 'lighter';
   for (const p of T36.parts) { const sx = (p.x - cx) * ZOOM + W / 2, sy = (p.y - cy) * ZOOM + H / 2; if (sx < -10 || sy < -10 || sx > W + 10 || sy > H + 10) continue; const f = Math.min(1, p.life * 2, (p.max - p.life) * 1.5);
     if (S.part === 'fly') { const bl = 0.5 + 0.5 * Math.sin(gtime * 5 + p.ph * 3); if (bl < 0.15) continue; gl36(p.c, sx, sy, 16 * ZOOM, f * bl); ctx.fillStyle = '#ffffe0'; ctx.globalAlpha = f * bl; ctx.fillRect(sx - 1, sy - 1, 2, 2); }
     else if (p.ash) { ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = f * 0.6; ctx.fillStyle = p.c; ctx.fillRect(sx, sy, 2, 2); ctx.globalCompositeOperation = 'lighter'; }
+    else if (S.part === 'drip') { ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = f * (p.mote ? 0.4 : 0.8); ctx.fillStyle = p.c; if (p.mote) ctx.fillRect(sx, sy, 1.6, 1.6); else ctx.fillRect(sx - 0.8, sy - 3, 1.6, 4); ctx.globalCompositeOperation = 'lighter'; }
     else if (S.part === 'ember') { gl36(p.c, sx, sy, 9 * ZOOM, f * 0.9); ctx.globalAlpha = f; ctx.fillStyle = '#ffe8b0'; ctx.fillRect(sx - 0.8, sy - 0.8, 1.6, 1.6); }
     else { const tw = 0.6 + 0.4 * Math.sin(gtime * 4 + p.ph); gl36(p.c, sx, sy, 12 * ZOOM, f * tw); ctx.globalAlpha = f * tw; ctx.fillStyle = '#ffffff'; ctx.beginPath(); ctx.moveTo(sx, sy - 3); ctx.lineTo(sx + 1, sy); ctx.lineTo(sx, sy + 3); ctx.lineTo(sx - 1, sy); ctx.fill(); }
     ctx.globalAlpha = 1; }
@@ -10206,7 +10482,7 @@ function updateEffects(dt) {
     if (f.k === 'arrowfall' && f.life <= 0 && !f.done) { f.done = true; areaHit(f.x, f.y, f.r, f.dmg, 40); burst(f.x, f.y, '#c58bff', 4, 70, 2, 0.3, true); Snd.play('hit'); }
     if (f.k === 'star' && f.life <= 0 && !f.done && (f.burn || f.ground || f.chill)) { const r = f.r; query(f.x, f.y, r + 30, e => { if ((e.x - f.x) ** 2 + (e.y - f.y) ** 2 < (r + e.r) ** 2) { if (f.burn) applyBurn(e, f.burn, 3); if (f.chill) applyChill(e, f.chill); } });
       if (f.ground) effects.push({ k: 'zone', x: f.x, y: f.y, r: f.ground.r, life: f.ground.life, max: f.ground.life, dps: f.ground.dps, col: '#ff6a2a', tick: 0, fire: 1, burn: f.burn * 0.5 });
-      if (f.meteor) { G.shake = Math.max(G.shake, 0.2); burst(f.x, f.y, '#5a4a40', 10, 120, 3.2, 0.7); } }
+      if (f.meteor) { burst(f.x, f.y, '#5a4a40', 10, 120, 3.2, 0.7); } }
     if (f.k === 'star' && f.comet && f.life <= 0 && !f.done) cometImpact(f);
     if (f.k === 'star' && f.life <= 0 && !f.done) { puff(f.x, f.y, f.meteor ? 7 : 3, f.burn || f.meteor ? '#4a3a36' : '#5a4870', f.r * 0.35); f.done = true; if (f.on) query(f.x, f.y, f.r + 30, e => { if (in30(e, f.x, f.y, f.r)) f.on(e, f); }); areaHit(f.x, f.y, f.r, f.dmg, 80); burst(f.x, f.y, f.col || '#c58bff', 14, 160, 3, 0.5, true); effects.push({ k: 'boom', x: f.x, y: f.y, r: f.r, life: 0.25, max: 0.25, col: f.col }); Snd.play('boom'); }
     if (f.k === 'clone' && f.life > 0) { // v19 Umbral Double
@@ -10222,7 +10498,7 @@ function updateEffects(dt) {
         if (tg) { f.sprung = 1; f.life = Math.min(f.life, 0.5); f.max = Math.max(f.max, 0.5); f.st = f.life; const boom = G.tf.trapBoom || (G.evo && G.evo.traps), R = 58 * P.area, list = [tg];
           if (boom) query(f.x, f.y, R + 30, e => { if (e !== tg && (e.x - f.x) ** 2 + (e.y - f.y) ** 2 < (R + e.r) ** 2) list.push(e); });
           for (const e of list) { damage(e, f.dmg * (e === tg ? 1 : 0.6), { kb: boom ? 90 : 0, kx: Math.sign(e.x - f.x) || 1, ky: 0 }); e.slow = Math.max(e.slowT > 0 ? e.slow : 0, e.boss ? 0.5 : 0.95); e.slowT = Math.max(e.slowT || 0, f.hold * P.dur); if (G.tf.trapBleed) applyBleed(e, f.dmg * 0.12, 4); }
-          if (boom) { effects.push({ k: 'boom', x: f.x, y: f.y, r: R, life: 0.3, max: 0.3, col: '#ff8a3c' }); G.shake = Math.max(G.shake, 0.15); Snd.play('boom'); } else Snd.play('snare');
+          if (boom) { effects.push({ k: 'boom', x: f.x, y: f.y, r: R, life: 0.3, max: 0.3, col: '#ff8a3c' }); Snd.play('boom'); } else Snd.play('snare');
           if (parts.length < 360) burst(f.x, f.y, boom ? '#ff8a3c' : '#e8dcc0', 8, 120, 2.4, 0.35, true); } } }
     if (f.k === 'mark' && f.e && !f.e.dead) { f.x = f.e.x; f.y = f.e.y; }
     if (f.k === 'warn' && f.life <= 0 && !f.done) { f.done = true; let hit = false;
@@ -10270,7 +10546,7 @@ function updatePickups(dt) {
 }
 function update(dt, dying) {
   for (let i = corpses.length - 1; i >= 0; i--) if ((corpses[i].t += dt) >= corpses[i].d) corpses.splice(i, 1);
-  if (!dying) { if (!G.town) { G.t += dt; if (G.t >= 900 && G.map !== 'castle' && G.map !== 'heart' && !save.ach.p.f15) { save.ach.p.f15 = 1; achCheck(false); } if (G.t >= 900 && G.map === 'castle' && !save.ach.p.c15) { save.ach.p.c15 = 1; achCheck(false); persist(); G.later.push({ t: 2.5, f: heartUnlocked36 }); toast('♡ Heartfall Belfry unlocked!', '#ff8ab0', 3.2); } } jumpTick(); }
+  if (!dying) { if (!G.town) { G.t += dt; if (G.t >= 900 && G.map !== 'castle' && G.map !== 'heart' && G.map !== 'cellar' && !save.ach.p.f15) { save.ach.p.f15 = 1; achCheck(false); } if (G.t >= 900 && G.map === 'castle' && !save.ach.p.c15) { save.ach.p.c15 = 1; achCheck(false); persist(); G.later.push({ t: 2.5, f: heartUnlocked36 }); toast('♡ Heartfall Belfry unlocked!', '#ff8ab0', 3.2); } if (G.t >= 900 && G.map === 'heart' && !save.ach.p.h15) { save.ach.p.h15 = 1; achCheck(false); persist(); G.later.push({ t: 2.5, f: cellarUnlocked39 }); toast('☠ The Weeping Cellar unlocked!', '#c8d070', 3.2); } } jumpTick(); }
   if (!dying) { const want = G.town ? 'title' : musicName(); if (!Snd.cur || Snd.cur.name !== want) Snd.music(want); }
   if (!dying && (G.achT -= dt) <= 0) { G.achT = 0.5; const t = Math.floor(G.t); achMax('c_' + G.cls + '_t', t); achMax('r_' + G.race + '_t', t);
     if (G.race === 'elf' && G.t < 360) achMax('r_elf_fast', G.level); achCheck(false); }
@@ -10294,7 +10570,7 @@ function update(dt, dying) {
   P.inv -= dt; P.atk = Math.max(0, P.atk - dt * 5); G.hurtFlash -= dt; G.shake = Math.max(0, G.shake - dt); if (G.cls === 'maestro' && G.mxNS > gtime) G.shake = 0; // v33: no camera shake while the Maestro ult plays
   if (!dying) { const tf = G.tf;
     if (tf.deathless && P.hp < P.maxHp * 0.5) heal(P.regen * 2 * dt, true);
-    if (tf.toll && (G.tollT = (G.tollT === undefined ? 12 : G.tollT) - dt) <= 0) { G.tollT = 12; effects.push({ k: 'reap', r: Math.hypot(W, H) / ZOOM / 2, life: 0.45, max: 0.45, dir: 1, follow: true }); Snd.play('reap'); G.shake = 0.25;
+    if (tf.toll && (G.tollT = (G.tollT === undefined ? 12 : G.tollT) - dt) <= 0) { G.tollT = 12; effects.push({ k: 'reap', r: Math.hypot(W, H) / ZOOM / 2, life: 0.45, max: 0.45, dir: 1, follow: true }); Snd.play('reap'); 
       const vw = W / ZOOM / 2 + 20, vh = H / ZOOM / 2 + 20; for (const e of enemies) if (!e.dead && Math.abs(e.x - P.x) < vw && Math.abs(e.y - P.y) < vh) damage(e, 40 + 3 * G.level, { src: '@ult' }); }
     G.srcW = '@ult'; if (G.cls === 'druid') druidTick(dt);
     if (G.cls === 'mage') mageTick(dt); if (G.cls === 'paragon') paragonTick(dt); v30Tick(dt); ultTick(dt); G.srcW = null;
@@ -10522,6 +10798,8 @@ const NOFF = {
   bet2: { ic: '⚅', n: () => 'High Stakes', d: () => 'Bigger prizes (even an evolution!), bigger risks', base: 45, rep: 2 },
   evo: { ic: '⇪', n: () => 'Pact of Ascension', d: o => 'Evolve ' + (WDEF[o.a] ? WDEF[o.a].name : 'a ready skill') + ' right now', base: 100 },
   horde: { ic: '☄', n: () => 'Banish the Horde', d: () => 'Banish every ordinary foe on screen and hold back the swarm for 6s (elites & bosses lose 20% HP)', base: 55 },
+  broth: { ic: '♨', n: () => 'Weeping Broth', d: () => 'Restore 70% of your HP and +3 armor for 60s', base: 22 },
+  ped: { ic: '✦', n: () => 'Pedestal Gift', d: () => 'The candlelit pedestal grants one random boon: +2 skill levels, a big heal, or a 90s damage + haste surge', base: 70 },
   ward: { ic: '✧', n: () => 'Deathward', d: () => 'Cheat death once this run: rise again with 50% HP', base: 110 },
 };
 function lvName(a) { if (!a) return 'a random skill'; if (a.k === 'w' && WDEF[a.id]) { const w = G.weapons.find(w => w.id === a.id); return WDEF[a.id].name + (w ? ` (Lv ${w.lvl})` : ''); }
@@ -10539,11 +10817,11 @@ function npcLevel(a) { if (!a) return null;
 function npcLevelAny(a) { return npcLevel(a) || npcLevel(npcLvTarget('any')); }
 function npcOffers(type) {
   const f = 1 + G.t / 240, O = (k, x) => Object.assign({ k, p: metaPrice(Math.max(1, Math.round(NOFF[k].base * f))), left: NOFF[k].rep || 1 }, x || {});
-  if (type === 'merchant') { const a = npcLvTarget('any'); return [O('heal'), a ? O('lvl', { a, by: 'merchant' }) : O('reroll'), O(a && Math.random() < 0.5 ? 'reroll' : 'magnet')]; }
+  if (type === 'merchant') { const a = npcLvTarget('any'); return [O(cellarOn() ? 'broth' : 'heal'), a ? O('lvl', { a, by: 'merchant' }) : O('reroll'), O(a && Math.random() < 0.5 ? 'reroll' : 'magnet')]; }
   if (type === 'gambler') return [O('bet'), O('bet2'), O('reroll')];
   if (type === 'smith') { const a = npcLvTarget('low'), L = [O('edge'), O('haste'), O('hide')]; if (a) L.unshift(O('lvl', { a, by: 'smith' })); return L; }
   const er = evoReady(), L = []; if (er.length) L.push(O('evo', { a: er[0] })); else { const a = npcLvTarget('top'); if (a) L.push(O('lvl2', { a })); }
-  L.push(O('horde')); if (!G.deathward) L.push(O('ward')); return L; }
+  if (cellarOn()) L.push(O('ped')); L.push(O('horde')); if (!G.deathward) L.push(O('ward')); return L; }
 function dropGold(x, y, total, n) { /* coins are normal pickups: pickup radius, magnet and Soul Lure all apply */
   total = Math.round(total); if (!(total > 0)) return; n = Math.max(1, Math.min(n || 1, total)); let gc = 0; for (const p of picks) if (p.k === 'gold') gc++;
   for (let i = 0; i < n; i++) { const v = Math.floor(total / n) + (i < total % n ? 1 : 0); if (v <= 0) continue;
@@ -10595,7 +10873,15 @@ const NPCMENU36 = {
   smith: { ic: '⚒', shop: "Brunhild's Runeforge", road: 'Travelling anvil', fl: ['Hot iron · Cold runes · Fair prices', 'Forged in fire, quenched in spite', 'Edges guaranteed until they are not'] },
   stranger: { ic: '☾', shop: 'A door that was not there', road: 'Between the shadows', fl: ['What you buy here was always yours', 'Prices are paid… one way or another', 'The door is open. For now.'] },
 };
-function npcTheme36(n) { const z = G.town ? (G.town.theme || 'forest') : mapKey36(), M = NPCMENU36[n.nt] || NPCMENU36.merchant, S = TOWNS36[z] || TOWNS36.forest, el = $('npc');
+const NPCMENUC = {
+  merchant: { ic: '♨', shop: "Gristle's Pantry of Odds", road: 'Cellar-door stall', fl: ['Everything here was definitely not lost', 'Broth is warm, pickles are older than you', 'Mind the drip. Mind the jars. Mind the floor'] },
+  gambler: { ic: '◍', shop: 'The Wishing Well', road: 'Pop-up well', fl: ['Drop a coin, hear it hit… eventually', 'Every wish comes true. Some of them even good', 'The well is hungry, and so are the odds'] },
+  smith: { ic: '⚒', shop: 'Rust & Render', road: 'Butcher block', fl: ['Sharpened on the finest stone in the cellar', 'Fresh edge, slightly sticky', 'We render everything. Including prices'] },
+  stranger: { ic: '☗', shop: 'The Trapdoor', road: 'Something under the floor', fl: ['Knock twice. It already knows you are here', 'The stair goes down. The prices go further', 'Take a candle. You will want one'] },
+};
+const CELLARNM = { heal: 'Weeping Broth', lvl: o => o.by === 'smith' ? 'Sharpening Lesson' : "Gristle's Lesson", lvl2: 'Dark Tutelage', reroll: 'Wishing Penny', magnet: 'Drain Hook', edge: 'Honed Cleaver', haste: 'Quick Wick', hide: 'Tallow Coat', bet: 'Bone Toss', bet2: 'Deep Well Wager', evo: 'Pedestal Pact', horde: 'Flood the Drains', ward: 'The Second Candle' };
+const npcNm36 = (o, def) => { if (cellarOn() && CELLARNM[o.k]) { const q = CELLARNM[o.k]; return typeof q === 'function' ? q(o) : q; } return def.n(o); };
+function npcTheme36(n) { const z = G.town ? (G.town.theme || 'forest') : mapKey36(), M = (z === 'cellar' && NPCMENUC[n.nt]) || NPCMENU36[n.nt] || NPCMENU36.merchant, S = TOWNS36[z] || TOWNS36.forest, el = $('npc');
   el.dataset.v = n.nt; el.dataset.z = z; el.style.setProperty('--za', S.col);
   $('npcBand').innerHTML = `<span class="bi">${G.town ? S.ic : M.ic}\uFE0E</span><b>${G.town ? S.signs[n.nt] : M.shop}</b><span class="bz">${G.town ? S.name : M.road}</span>`;
   $('npcFlav').textContent = '— ' + M.fl[((n.visits || 1) - 1) % M.fl.length] + ' —'; }
@@ -10604,7 +10890,7 @@ function renderNpc() { const n = npcCur; if (!n) return; const D = NPCS[n.nt];
   $('npcGold').textContent = G.gold || 0; npcTheme36(n); $('npcTime').textContent = n.town ? (TOWNS36[G.town ? G.town.theme : 'forest'] || TOWNS36.forest).name + ' · the portal clock is paused while you shop' : n.fixed ? `fades in ${Math.max(1, Math.ceil(n.T))}s (time is paused)` : `leaves in ${Math.max(1, Math.ceil(n.T))}s (time is paused)`; /* v27: town shops never leave */
   npcPortrait($('npcArt'), n.nt);
   const L = $('npcOffers'); L.innerHTML = '';
-  n.offers.forEach((o, i) => { const def = NOFF[o.k]; if (!def) return; const sold = !(o.left > 0), can = (G.gold || 0) >= o.p, nm = def.n(o), ds = def.d(o);
+  n.offers.forEach((o, i) => { const def = NOFF[o.k]; if (!def) return; const sold = !(o.left > 0), can = (G.gold || 0) >= o.p, nm = npcNm36(o, def), ds = def.d(o);
     const b = document.createElement('button'); b.className = 'npco' + (sold ? ' sold' : can ? '' : ' poor'); b.disabled = sold; b.dataset.i = i;
     b.innerHTML = `<kbd class="kh">${i + 1}</kbd><span class="ni">${def.ic}\uFE0E</span><span class="nt"><b>${nm}</b><small>${ds}</small></span><span class="np">${sold ? (n.fixed ? '—' : 'SOLD') : o.p ? '● ' + o.p : 'FREE'}${!sold && def.rep && o.left > 1 ? `<i>×${o.left}</i>` : ''}</span>`;
     b.setAttribute('aria-label', `${nm}: ${ds}. ${sold ? 'Sold out' : o.p + ' gold' + (can ? '' : ', not enough gold')}`);
@@ -10625,6 +10911,10 @@ function npcApply(o, price, n) { const by = n.nt;
     case 'heal': if (P.hp >= P.maxHp - 0.5) return { fail: 'You are already at full health. Keep your coin!' }; heal(P.maxHp * 0.5); burst(P.x, P.y, '#ff3d6e', 10, 70, 2.5, 0.5, true); return { t: '✚ Healed! ' + Math.ceil(P.hp) + ' / ' + Math.round(P.maxHp) + ' HP', snd: 'heal' };
     case 'lvl': { const r = npcLevelAny(o.a); return r ? { t: '⇧ ' + r + (by === 'smith' ? '. Good as new!' : '. Lesson learned!') } : { fail: 'Your skills are all maxed, there is nothing left to teach!', gone: 1 }; }
     case 'lvl2': { const a = npcLevelAny(o.a); if (!a) return { fail: 'Your power is already complete.', gone: 1 }; const b = npcLevelAny(o.a); return { t: '⇧ ' + a + (b && b !== a ? ' · ' + b : '') }; }
+    case 'broth': heal(P.maxHp * 0.7); npcBuff('bufA', 60); burst(P.x, P.y, '#d8dc8a', 10, 70, 2.5, 0.5, true); return { t: '♨ Warm! ' + Math.ceil(P.hp) + ' / ' + Math.round(P.maxHp) + ' HP and +3 armor for 60s', snd: 'heal' };
+    case 'ped': { const q = Math.random(); if (q < 0.4) { const a = npcLevelAny(null), b = npcLevelAny(null); return { t: '✦ The pedestal glows: ' + (a || 'a skill') + (b && b !== a ? ' · ' + b : '') }; }
+      if (q < 0.7) { heal(P.maxHp * 0.9); burst(P.x, P.y, '#ffd890', 12, 80, 2.5, 0.5, true); return { t: '✦ A warm light mends you: ' + Math.ceil(P.hp) + ' / ' + Math.round(P.maxHp) + ' HP', snd: 'heal' }; }
+      npcBuff('bufE', 90); npcBuff('bufH', 90); return { t: '✦ Candle-fire in your veins: +25% damage and faster skills for 90s' }; }
     case 'reroll': G.rerolls = (G.rerolls || 0) + 1; return { t: '↻ +1 Reroll (' + G.rerolls + ' total)' };
     case 'magnet': for (const g of gems) g.pull = true; for (const p of picks) p.pull = true; return { t: '⊛ Every treasure on the map is drifting to you!' };
     case 'edge': npcBuff('bufE', 90); return { t: '⚔ +25% damage for 90s. Go get them!' };
@@ -10654,7 +10944,7 @@ function npcBanish() { const vw = W / ZOOM / 2 + 30, vh = H / ZOOM / 2 + 30; let
     if (e.boss || e.elite || e.mini || d.totem || e.qid) { e.hp = Math.max(1, e.hp - e.maxHp * 0.2); continue; }
     e.dead = true; n++; if (parts.length < 380) burst(e.x, e.y, '#c56bff', 4, 80, 2.4, 0.5, true); }
   G.spawnAcc = Math.min(G.spawnAcc, -(1 + G.t * 0.04 + Math.pow(G.t / 60, 1.7) * 0.55) * 6);
-  effects.push({ k: 'nova', x: P.x, y: P.y, r: 0, maxR: 420, life: 0.6, max: 0.6, dmg: 0, hit: new Set(), col: '#c56bff', vis: 1 }); G.shake = 0.35; return n; }
+  effects.push({ k: 'nova', x: P.x, y: P.y, r: 0, maxR: 420, life: 0.6, max: 0.6, dmg: 0, hit: new Set(), col: '#c56bff', vis: 1 }); return n; }
 function npcAutoBuy(n) { /* balance sims only: a player who visits every trader and buys what helps most */
   const pr = n.fixed ? n.offers.map(o => o.k) : ['evo', 'lvl2', 'lvl', 'edge', 'haste', 'bet2', 'bet', 'ward', 'reroll', 'hide', 'horde'];
   for (let guard = 0; guard < 12; guard++) { let done = false; for (const k of pr) { const i = n.offers.findIndex(o => o.k === k && o.left > 0 && G.gold >= o.p); if (i >= 0 && npcBuy(i, n)) { done = true; break; } } if (!done) break; } }
@@ -10714,7 +11004,7 @@ let LM = null, WL = null;
 function warmLight() { if (WL) return WL; const c = mkCanvas(128, 128), g = c.getContext('2d'), gr = g.createRadialGradient(64, 64, 0, 64, 64, 64);
   gr.addColorStop(0, 'rgba(255,190,110,1)'); gr.addColorStop(0.35, 'rgba(255,140,60,.45)'); gr.addColorStop(0.7, 'rgba(180,70,30,.12)'); gr.addColorStop(1, 'rgba(120,40,20,0)'); g.fillStyle = gr; g.fillRect(0, 0, 128, 128); return WL = c; }
 function drawSky(t, cx, cy) {
-  const k = w28Sky(skyAt(t)), MOOD = G && G.town ? 0.26 : heartOn() ? 0.34 : mapOn() ? 0.36 : 0.3, kd = Math.max(k.da, MOOD), kc = k.da >= MOOD ? k.dc : G && G.town ? TOWNS36[townTheme36()].kc : heartOn() ? [12, 8, 34] : [10, 14, 34], WARM = []; // v33: the painted look is lit, never flat
+  const k = w28Sky(skyAt(t)), MOOD = G && G.town ? 0.26 : cellarOn() ? 0.4 : heartOn() ? 0.34 : mapOn() ? 0.36 : 0.3, kd = Math.max(k.da, MOOD), kc = k.da >= MOOD ? k.dc : G && G.town ? TOWNS36[townTheme36()].kc : cellarOn() ? [16, 8, 8] : heartOn() ? [12, 8, 34] : [10, 14, 34], WARM = []; // v33: the painted look is lit, never flat
   if (kd > 0.005) { // v13 light map: moonlit darkness with light pools punched out by the hero, spells, fires and glowing foes
     const lw = Math.max(2, Math.ceil(W / 3)), lh = Math.max(2, Math.ceil(H / 3)); if (!LM || LM.width !== lw || LM.height !== lh) LM = mkCanvas(lw, lh);
     const g = LM.getContext('2d'), s = lw / W, zz = ZOOM * s; g.globalCompositeOperation = 'copy'; g.fillStyle = `rgba(${kc},${Math.min(0.66, kd * 1.1)})`; g.fillRect(0, 0, lw, lh);
@@ -10763,7 +11053,7 @@ const ROADC = new Map(), RCH = 320;
 function roadChunk(i, j) { const key = i + ',' + j; if (ROADC.has(key)) { const v = ROADC.get(key); ROADC.delete(key); ROADC.set(key, v); return v; }
   const x0 = i * RCH, y0 = j * RCH, jr = Math.round((y0 + RCH / 2) / ROAD_GAP); let hit = false; for (let x = x0 - 40; x <= x0 + RCH + 40; x += 20) { const y = roadY(jr, x); if (y > y0 - 40 && y < y0 + RCH + 40) { hit = true; break; } }
   let c = null; if (hit) { let mn = 1e9, mx = -1e9; for (let x = x0 - 20; x <= x0 + RCH + 20; x += 8) { const y = roadY(jr, x); mn = Math.min(mn, y); mx = Math.max(mx, y); }
-    const ya = Math.max(y0, Math.floor(mn - 30)), yb = Math.min(y0 + RCH, Math.ceil(mx + 30)); if (yb > ya) { if (PXA.on) { c = (heartOn() ? PXA.world.roadH : mapOn() ? PXA.world.roadC : PXA.world.road)(x0, RCH, ya, yb, jr); c.y = ya; c.h = yb - ya; } else { const k = Math.min(RS, 2); c = mkCanvas(RCH * k, (yb - ya) * k); c.y = ya; c.h = yb - ya; const g = c.getContext('2d'); g.scale(k, k); g.translate(-x0, -ya); paintRoad(g, x0 - 40, x0 + RCH + 40, jr); } } }
+    const ya = Math.max(y0, Math.floor(mn - 30)), yb = Math.min(y0 + RCH, Math.ceil(mx + 30)); if (yb > ya) { if (PXA.on) { c = (cellarOn() ? PXA.world.roadL : heartOn() ? PXA.world.roadH : mapOn() ? PXA.world.roadC : PXA.world.road)(x0, RCH, ya, yb, jr); c.y = ya; c.h = yb - ya; } else { const k = Math.min(RS, 2); c = mkCanvas(RCH * k, (yb - ya) * k); c.y = ya; c.h = yb - ya; const g = c.getContext('2d'); g.scale(k, k); g.translate(-x0, -ya); paintRoad(g, x0 - 40, x0 + RCH + 40, jr); } } }
   ROADC.set(key, c); if (ROADC.size > 40) ROADC.delete(ROADC.keys().next().value); return c; }
 function paintRoad(g, x0, x1, j) { g.lineCap = 'round'; g.lineJoin = 'round';
   const path = new Path2D(); for (let x = x0; x <= x1 + 12; x += 12) x === x0 ? path.moveTo(x, roadY(j, x)) : path.lineTo(x, roadY(j, x));
@@ -10790,6 +11080,7 @@ function obChunk(i, j) {
     if (Math.hypot(x, y) < OB_SAFE + r || obRoadNear(x, y, 30 + r) || gone[id]) return false;
     for (const o of a) if (Math.hypot(o.x - x, o.y - y) < o.r + r + (k === 'wall' && o.k === 'wall' ? 2 : 34)) return false;
     a.push({ k, x, y, r, s: sc, id, tall: T.tall, small: T.small, low: T.low }); return true; };
+  if (G && G.map === 'cellar') { cellarChunk(i, j, key, a, rnd, add, x0, y0); OBCACHE.set(key, a); if (OBCACHE.size > 1600) OBCACHE.delete(OBCACHE.keys().next().value); return a; }
   if (G && G.map === 'heart') { heartChunk(i, j, key, a, rnd, add, x0, y0); OBCACHE.set(key, a); if (OBCACHE.size > 1600) OBCACHE.delete(OBCACHE.keys().next().value); return a; }
   if (G && G.map === 'castle') { castleChunk(i, j, key, a, rnd, add, x0, y0); OBCACHE.set(key, a); if (OBCACHE.size > 1600) OBCACHE.delete(OBCACHE.keys().next().value); return a; }
   const u = rnd(), cx = x0 + 30 + rnd() * (OBC - 60), cy = y0 + 30 + rnd() * (OBC - 60);
@@ -10830,7 +11121,7 @@ function obBreakAt(x, y, r) { // v19 Gravebreaker / Uprooter: shatter small cove
     const bx = b.x, by = b.y; G.later.push({ t: 0.02, src: '@talent', f: () => { G.fxLock = 1; areaHit(bx, by, 58 * P.area, 12 + 1.4 * G.level, 110); G.fxLock = 0; effects.push({ k: 'boom', x: bx, y: by, r: 58 * P.area, life: 0.25, max: 0.25, col: '#d8a050' }); } }); Snd.play('stomp'); break; } }
 function stagCrash(p, b) { p.life = 0; p.done = 1; const r = 64 * P.area, x = p.x, y = p.y; // the stag slams into cover: shockwave
   areaHit(x, y, r, p.dmg * 1.2, 170); effects.push({ k: 'boom', x, y, r, life: 0.3, max: 0.3, col: '#9dff6a' }); effects.push({ k: 'slam', x, y: y + 8, r, life: 0.32, max: 0.32, col: '#c8ff9a' });
-  if (parts.length < 360) burst(x, y, '#c8ff9a', 14, 170, 3, 0.5, true); G.shake = Math.max(G.shake, 0.2); Snd.play('stomp');
+  if (parts.length < 360) burst(x, y, '#c8ff9a', 14, 170, 3, 0.5, true); Snd.play('stomp');
   if (G.tf.stagMore && projs.length < 280) for (let i = 0; i < 8; i++) { const a = i / 8 * TAU; projs.push({ k: 'seed', x, y, vx: Math.cos(a) * 300, vy: Math.sin(a) * 300, a, r: 5, dmg: p.dmg * 0.3, pierce: 0, life: 0.35, hit: new Set(), mini: 1, src: p.src }); } }
 function rockShatter(p, b) { if (p.done) return; p.done = 1; p.life = 0; const x = p.x, y = p.y; // the boulder bursts: area crush (+ splitting stones with Mountain's Heart)
   if (p.mini) { if (parts.length < 360) burst(x, y, '#8a7a60', 4, 80, 2.2, 0.3); return; }
@@ -10844,7 +11135,7 @@ function cometImpact(f) { // Prismatic Comet: split into fire / frost / arcane s
   if (tf.cometFrost) query(x, y, r + 30, e => { if ((e.x - x) ** 2 + (e.y - y) ** 2 < (r + e.r) ** 2) freezeE(e, 1.2); });
   if (tf.cometArc) { arcGain(2); nearestN(x, y, 4, 220).slice(0, 3).forEach((e, i) => G.later.push({ t: 0.05 + i * 0.05, src: f.src, f: () => { if (e.dead) return; effects.push({ k: 'bolt', x: e.x, y: e.y, x0: x, y0: y - 10, life: 0.2, max: 0.2, seed: Math.random() * 99, col: '#c56bff' }); damage(e, f.dmg * 0.35, {}); } })); }
   if (projs.length < 300) for (let i = 0; i < 3; i++) { const a = o + i / 3 * TAU; projs.push({ k: 'mbolt', x, y, vx: Math.cos(a) * 340, vy: Math.sin(a) * 340, r: 7, dmg: f.dmg * 0.3 * (el[i] === 'arcane' ? 1.25 : 1), pierce: 2, life: 0.5, hit: new Set(), el: el[i], burn: el[i] === 'fire' ? (5 + 0.5 * G.level) * P.burn : 0, chill: 2, arcG: el[i] === 'arcane' ? 1 : 0, src: f.src }); }
-  G.shake = Math.max(G.shake, 0.18); }
+  }
 function obSmash(b) { b.gone = true; if (G) { G.obGone = G.obGone || {}; G.obGone[b.id] = 1; } burst(b.x, b.y - 8, b.k === 'stump' ? '#8a5c34' : '#b8ae98', 14, 150, 3.4, 0.55); G.shake = Math.max(G.shake, 0.15); obGK = null; if (OBT[b.k] && OBT[b.k].brk) w28Brk(b); }
 const OB_STOP = { gbolt: 1, knife: 1, arrow: 1, mbolt: 1, mshard: 1, seed: 1, hex: 1, vstar: 1 }; // v19: void stars shatter; stags & boulders crash (p.crash); locusts & wraiths fly over // magic lances, arcane orbs pass; boomerangs (chakram, scythe) bounce back
 function obProj(p) { if (p.crash) { const b = obHit(p.x, p.y, p.r * 0.6, 1); if (b) p.crash(p, b); return; } // v19: charging stags & rolling boulders crash into cover
@@ -11147,8 +11438,8 @@ const HEART_KINDS = ['hpillar', 'hbell', 'hclock', 'hkey', 'hlamp', 'hshard', 'h
 const HEART_SINGLE = [['hpillar', 14], ['hbell', 10], ['hclock', 12], ['hkey', 9], ['hlamp', 14], ['hshard', 16], ['hrail', 8]];
 const heartOn = () => !!(G && G.map === 'heart');
 const heartOpen = () => !!(save && save.ach && save.ach.done && save.ach.done.m_c15);
-const mapKey36 = () => G && G.map === 'castle' ? 'castle' : G && G.map === 'heart' ? 'heart' : 'forest';
-const MAPNAME36 = { forest: 'Gloomwood', castle: 'Ashen Citadel', heart: 'Heartfall Belfry' };
+const mapKey36 = () => G && G.map === 'castle' ? 'castle' : G && G.map === 'heart' ? 'heart' : G && G.map === 'cellar' ? 'cellar' : 'forest';
+const MAPNAME36 = { forest: 'Gloomwood', castle: 'Ashen Citadel', heart: 'Heartfall Belfry', cellar: 'The Weeping Cellar' };
 const gl36 = (c, x, y, s, a) => { if (!SPR.glow[c]) g30(c); glowAt(c, x, y, s, a); };
 (() => {
   const { ramp: R, PB, finish } = PXA, W = PXA.world, PD = W.PD;
@@ -11265,10 +11556,88 @@ function heartMoonImg() { if (_hmoon) return _hmoon; const S = 220, c = mkCanvas
 function drawHeartMoon() { if (!heartOn()) return; const s = Math.min(W, H) * (PC ? 0.3 : 0.36), x = W - s * 0.62, y = s * 0.62 + (PC ? 40 : 70); ctx.save(); ctx.globalAlpha = G.town ? 0.5 : 0.62 + 0.06 * Math.sin(gtime * 0.7);
   ctx.globalCompositeOperation = 'lighter'; ctx.drawImage(heartMoonImg(), x - s / 2, y - s / 2, s, s); ctx.restore(); }
 /* v36: the map the next run uses (and the select screen shows): falls back when the saved map is still locked */
+function cellarUnlocked39() { const a = '☠ The Weeping Cellar unlocked!'; announce(a, 'You survived 15:00 in the Heartfall Belfry. Something is crying below — a new zone waits on the map select', '#c8d070', 'shimmer'); const i = bannerQ.findIndex(x => x.a === a); if (i > 0) { bannerQ.unshift(bannerQ.splice(i, 1)[0]); if (G.banner) G.banner.life = Math.min(G.banner.life, 0.35); } }
 function heartUnlocked36() { const a = '♡ Heartfall Belfry unlocked!'; announce(a, 'You survived 15:00 in the Ashen Citadel. A new zone waits on the map select', '#ff8ab0', 'shimmer'); const i = bannerQ.findIndex(x => x.a === a); if (i > 0) { bannerQ.unshift(bannerQ.splice(i, 1)[0]); if (G.banner) G.banner.life = Math.min(G.banner.life, 0.35); } } /* jumps the banner queue so the 15:00 boss/mini-boss calls can't bury it */
-function selMap36() { return save.map === 'heart' && heartOpen() ? 'heart' : save.map === 'castle' && castleOpen() ? 'castle' : 'forest'; }
+function selMap36() { return save.map === 'cellar' && cellarOpen() ? 'cellar' : save.map === 'heart' && heartOpen() ? 'heart' : save.map === 'castle' && castleOpen() ? 'castle' : 'forest'; }
 
-function mapApply() { const mp = mapKey36(); if (mp === ARTMAP) return; ARTMAP = mp;  ROADC.clear(); PXA.cache.clear(); HPLAT.clear(); buildArt(); if (mapOn()) PXA.world.castleProps(); if (heartOn()) PXA.world.heartProps(); }
+/* ================= v39 THE WEEPING CELLAR: the fourth zone. Damp flagstones, rust-red stains, dung heaps, meat hooks, dripping pipes, candlelit item pedestals and trapdoors.
+   Unlocks after surviving 15:00 in the Heartfall Belfry. Everything here (art, names, creatures, bosses, music) is original to this game. ================= */
+Object.assign(OBT, { cmidden: { S: 64, f: 12, r: 12, small: 1 }, cbarrel: { S: 60, f: 12, r: 12, small: 1 }, cskulls: { S: 52, f: 10, r: 10, small: 1, low: 1 }, cpedestal: { S: 76, f: 14, r: 11, small: 1 },
+  chook: { S: 96, f: 14, r: 9, tall: 1, small: 1 }, ccandle: { S: 62, f: 12, r: 6, small: 1 }, cpipe: { S: 92, f: 14, r: 9, tall: 1, small: 1 }, ctrap: { S: 56, f: 10, r: 7, small: 1, low: 1 } });
+const CELLAR_KINDS = ['cmidden', 'cbarrel', 'cskulls', 'cpedestal', 'chook', 'ccandle', 'cpipe', 'ctrap'];
+const CELLAR_SINGLE = [['cmidden', 16], ['cbarrel', 14], ['cskulls', 12], ['cpedestal', 6], ['chook', 8], ['ccandle', 14], ['cpipe', 9], ['ctrap', 6]];
+const cellarOn = () => !!(G && G.map === 'cellar');
+const cellar39 = cellarOn;
+const cellarOpen = () => !!(save && save.ach && save.ach.done && save.ach.done.m_h15);
+(() => {
+  const { ramp: R, PB, finish } = PXA, W = PXA.world, PD = W.PD;
+  const CS1 = R(['#0a0706', '#16100c', '#241a14', '#34261c', '#4a382a']), CS2 = R(['#070a0a', '#0e1618', '#1a2628', '#2a3a3e', '#3e5256']), CS3 = R(['#0e0606', '#1e0e0c', '#32180f', '#4a2616', '#663820']);
+  const BLD = R(['#2a0406', '#5a0a10', '#9a1420', '#d03a3a', '#ff8a8a'], 1), TEA = R(['#0a2a4a', '#1a5a9a', '#4aa0e0', '#a0d8ff', '#e8f8ff'], 1), DUN = R(['#1a0e06', '#3a2210', '#5a3a1c', '#7e5a2c', '#a07c44']);
+  const WAX = R(['#4a3a20', '#8a7448', '#c8b078', '#eedaa0', '#fff8dc']), RUS = R(['#2a1204', '#5a2a0a', '#9a4a14', '#d0782c', '#ffb860']), BON = R(['#3a3226', '#7a6e58', '#b8aa8c', '#e0d4b8', '#fff6e0']);
+  const WOD = R(['#120a06', '#2a1a10', '#4a3220', '#6e5034', '#94744e']), IRN = R(['#06060a', '#14141c', '#26262e', '#3e3e48', '#60606c']), FLM = R(['#6a1004', '#c23a0a', '#ff7a1e', '#ffc05a', '#fff2c8'], 1);
+  const FLS = R(['#3a1418', '#7a3038', '#b86a68', '#e8a498', '#ffe0d4']), GLD = R(['#4a2a04', '#8a5a0c', '#e0a01c', '#ffe066', '#fffbe0'], 1);
+  const hsh = (x, y, s = 0) => { let h = (x * 374761393 + y * 668265263 + s * 2246822519) | 0; h = (h ^ (h >>> 13)) * 1274126177; return ((h ^ (h >>> 16)) >>> 0) / 4294967296; };
+  // ground: damp flagstones (toroidal voronoi so the 256 tile is seamless) with blood stains, tear-puddles and a little slime
+  W.groundL = function () { const T = TILE, b = new PB(T, T, 0, 0, 1), N = 8, pts = [];
+    for (let j = 0; j < N; j++) for (let i = 0; i < N; i++) pts.push([(i + 0.12 + hsh(i, j, 13) * 0.76) * T / N, (j + 0.12 + hsh(i, j, 14) * 0.76) * T / N, hsh(i, j, 15)]);
+    for (let y = 0; y < T; y++) for (let x = 0; x < T; x++) { let d1 = 1e9, d2 = 1e9, w = 0;
+      for (const p of pts) { let dx = Math.abs(x + 0.5 - p[0]), dy = Math.abs(y + 0.5 - p[1]); if (dx > T / 2) dx = T - dx; if (dy > T / 2) dy = T - dy; const d = dx * dx + dy * dy; if (d < d1) { d2 = d1; d1 = d; w = p[2]; } else if (d < d2) d2 = d; }
+      const e = Math.sqrt(d2) - Math.sqrt(d1), P = w < 0.5 ? CS1 : w < 0.82 ? CS2 : CS3, n = hsh(x, y, 19); let c;
+      if (e < 1.4) c = IRN[e < 0.7 ? 0 : 1]; else if (e < 2.4) c = P[3]; else c = P[n < 0.1 ? 1 : n > 0.97 ? 3 : 2];
+      b.a[y * T + x] = c; }
+    let s = 53; const rnd = () => (s = (s * 16807) % 2147483647) / 2147483647, ws = (x, y, c) => b.set(((x % T) + T) % T, ((y % T) + T) % T, c);
+    for (let k = 0; k < 5; k++) { const cx = Math.floor(rnd() * T), cy = Math.floor(rnd() * T), r = 3 + rnd() * 8;   // dried-blood stains
+      for (let y = -r; y <= r; y++) for (let x = -r; x <= r; x++) { const d = Math.hypot(x, y) + (hsh(x + cx, y + cy, 3) - 0.5) * 3; if (d < r) ws(cx + x, cy + y, d < r * 0.3 ? BLD[1] : BLD[0]); } }
+    for (let k = 0; k < 3; k++) { const cx = Math.floor(rnd() * T), cy = Math.floor(rnd() * T), r = 4 + rnd() * 6;   // tear-puddles with a highlight
+      for (let y = -r * 0.5; y <= r * 0.5; y++) for (let x = -r; x <= r; x++) { if ((x * x) / (r * r) + (y * y) / (r * r * 0.25) < 1) ws(Math.round(cx + x), Math.round(cy + y), TEA[x + y < 0 ? 2 : 1]); } ws(cx - 1, cy - 1, TEA[4]); }
+    for (let i = 0; i < 60; i++) ws(Math.floor(rnd() * T), Math.floor(rnd() * T), BON[1]);
+    return PXA.paintUp(finish(b, { ol: 0, glow: 0 }).img, PXA.gK(), { tile: 1, seed: 53, mix: 0.4 }); };
+  // road: a gutter walkway: wet cobbles with a red stain trail and iron-bound edges
+  W.roadL = function (x0, RCH, ya, yb, jr) { const w = RCH, h = yb - ya, b = new PB(w, h, -x0, -ya, 1);
+    for (let x = x0; x < x0 + w; x++) { const cy = roadY(jr, x + 0.5); for (let y = ya; y < yb; y++) { const d = Math.abs(y + 0.5 - cy), n = hsh(x, y, 21); let c = 0;
+        if (d < 4.6) { const cell = ((x >> 3) + (y >> 3)) & 3, P = cell === 0 ? CS2 : cell === 1 ? CS3 : CS1; c = P[((x & 7) === 0 || (y & 7) === 0) ? 0 : n < 0.1 ? 3 : 2]; if (n > 0.9 && d < 3) c = BLD[1]; }
+        else if (d < 6.2) c = IRN[d < 5.2 ? 3 : 2]; else if (d < 8.2) c = CS1[(x >> 2 & 1) ? 1 : 2]; else if (d < 9 && n < 0.5) c = CS1[1];
+        if (c) b.set(x, y, c); } }
+    return PXA.paintUp(finish(b, { ol: 0, glow: 0 }).img, PXA.gK(), { ox: x0, oy: ya, mix: 0.45, soft: 1.1 }); };
+  // ---- props ----
+  PD.cmidden = (b) => { b.ell(0, -1, 20, 4, CS1, 1, 0); b.ell(0, -8, 17, 9, DUN, 2, 1); b.ell(1, -17, 12.5, 8, DUN, 2, 1); b.ell(0, -24, 7.5, 5.4, DUN, 3, 1); b.cap(0, -28, 2, -33, 2.2, 0.8, DUN, 3);
+    for (const [x, y] of [[-8, -9], [6, -13], [-3, -19], [9, -6]]) { b.set(x, y, DUN[4]); b.set(x + 1, y, DUN[4]); }
+    for (const [x, y] of [[-12, -30], [10, -26], [15, -20]]) { b.set(x, y, IRN[0]); b.set(x + 1, y - 1, IRN[1]); } };   // flies
+  PD.cbarrel = (b) => { b.ell(0, -1, 15, 3.5, CS1, 1, 0); b.rect(-11, -26, 22, 25, WOD[2]); b.rect(-11, -26, 4, 25, WOD[3]); b.rect(7, -26, 4, 25, WOD[1]); b.ell(0, -26, 11, 4, WOD, 3, 1); b.ell(0, -26, 8, 2.6, WOD, 1, 0);
+    for (const y of [-21, -7]) { b.rect(-12, y, 24, 2.4, IRN[2]); b.rect(-12, y, 24, 0.8, IRN[4]); } b.line(-3, -24, -3, -4, WOD[0]); b.line(4, -24, 4, -4, WOD[0]);
+    b.cap(7, -9, 8, -3, 1.1, 1.6, BLD, 2); b.ell(8, -1.5, 3.5, 1.2, BLD, 2, 0); };
+  PD.cskulls = (b) => { b.ell(0, -1, 18, 3.4, CS1, 1, 0); for (const [x, y, s, a] of [[-8, -5, 7, 0], [7, -5, 6.4, 0.2], [-1, -12, 6.6, -0.1], [13, -3, 4, 0], [-14, -3, 4.2, 0]]) { b.ell(x, y, s, s * 0.9, BON, 3, 1); b.ell(x, y + s * 0.7, s * 0.55, s * 0.4, BON, 2, 0);
+      b.ell(x - s * 0.35, y, s * 0.26, s * 0.3, IRN, 0, 0); b.ell(x + s * 0.35, y, s * 0.26, s * 0.3, IRN, 0, 0); b.set(Math.round(x), Math.round(y + s * 0.3), IRN[1]); }
+    b.cap(-18, -2, -8, -4, 1.4, 1.2, BON, 3); b.cap(12, -3, 22, -1, 1.2, 1.2, BON, 2); };
+  PD.cpedestal = (b) => { b.ell(0, -1, 15, 3.6, CS1, 1, 0); b.rect(-12, -8, 24, 8, CS2[2]); b.rect(-12, -8, 24, 1.4, CS2[4]); b.rect(-9, -18, 18, 10, CS2[3]); b.rect(-9, -18, 3, 10, CS2[4]); b.rect(-13, -22, 26, 5, CS2[3]); b.rect(-13, -22, 26, 1.4, CS2[4]);
+    b.ell(0, -23, 11, 3, GLD, 1, 0); b.poly([0, -40, 3.4, -33, 10, -32, 5, -27.5, 6.6, -21, 0, -25, -6.6, -21, -5, -27.5, -10, -32, -3.4, -33], GLD, 3, 1); b.set(-2, -34, GLD[4]); b.set(-1, -35, GLD[4]);
+    for (const x of [-14, 14]) { b.rect(x - 1, -28, 2, 6, WAX[3]); b.set(x, -30, FLM[3]); b.set(x, -31, FLM[4]); } };
+  PD.chook = (b) => { b.ell(0, -1, 14, 3, CS1, 1, 0); b.rect(-14, -84, 4, 83, WOD[2]); b.rect(10, -84, 4, 83, WOD[2]); b.rect(-14, -84, 1.4, 83, WOD[3]); b.rect(-16, -90, 32, 6, WOD[3]); b.rect(-16, -90, 32, 1.4, WOD[4]);
+    for (const [x, y, k] of [[-5, -78, 0], [5, -78, 1]]) { b.line(x, -84, x, y, IRN[3]); b.cap(x, y, x, y + 7, 1.2, 1.2, IRN, 3); b.cap(x, y + 7, x + 3.4, y + 11, 1.2, 0.9, IRN, 3); }
+    b.poly([-9, -66, -1, -66, 0, -40, -8, -38, -11, -52], FLS, 2, 1); b.cap(-6, -66, -5, -43, 1.6, 2.4, FLS, 3); b.ell(-5, -38, 3, 1.4, BLD, 2, 0);
+    b.poly([2, -64, 9, -66, 11, -50, 6, -46, 3, -55], FLS, 1, 1); b.set(-5, -37, BLD[3]); b.set(-5, -35, BLD[2]); };
+  PD.ccandle = (b) => { b.ell(0, -1, 11, 2.8, CS1, 1, 0); b.rect(-5, -4, 10, 4, IRN[2]); b.rect(-5, -4, 10, 1, IRN[4]); b.cap(0, -4, 0, -34, 1.5, 1.2, IRN, 2);
+    for (const [x, y] of [[-9, -34], [9, -34], [0, -43]]) { b.rect(x - 1, y - 6, 3, 12, WAX[3]); b.rect(x - 1, y - 6, 1, 12, WAX[4]); b.ell(x + 0.5, y - 6, 1.6, 0.7, WAX, 2, 0); b.cap(x + 0.5, y - 8, x + 0.5, y - 13, 1.6, 0.4, FLM, 2); b.set(x, y - 9, FLM[4]); }
+    b.cap(-9, -28, 9, -28, 1, 1, IRN, 2); b.cap(0, -34, 0, -37, 1, 1, IRN, 2); b.poly([-4, -28, -9, -28, -9, -31], IRN, 2, 0); b.ell(-2, -17, 1.4, 2.4, WAX, 3, 0); };
+  PD.cpipe = (b) => { b.ell(0, -1, 12, 3, CS1, 1, 0); b.rect(-6, -86, 12, 84, RUS[2]); b.rect(-6, -86, 3, 84, RUS[3]); b.rect(3, -86, 3, 84, RUS[1]);
+    for (const y of [-80, -48, -16]) { b.rect(-9, y, 18, 5, RUS[1]); b.rect(-9, y, 18, 1.4, RUS[3]); b.set(-7, y + 2, IRN[3]); b.set(7, y + 2, IRN[3]); }
+    b.cap(-6, -54, -16, -54, 3, 3, RUS, 2); b.cap(-16, -54, -16, -40, 3, 3, RUS, 2); b.ell(-16, -39, 3.6, 1.6, RUS, 1, 0);
+    b.cap(-16, -37, -16, -22, 0.8, 1.4, TEA, 3); b.ell(-16, -19, 2.4, 1.2, TEA, 2, 0); b.cap(-3, -16, -3, -6, 0.8, 1.2, BLD, 2); b.ell(-3, -3, 4, 1.4, BLD, 2, 0); };
+  PD.ctrap = (b) => { b.ell(0, 0, 24, 8, CS1, 1, 0); b.poly([-20, -6, 20, -6, 24, 2, -24, 2], IRN, 2, 1); b.poly([-17, -5, 17, -5, 20, 0.6, -20, 0.6], WOD, 2, 1);
+    for (const x of [-11, -3, 5, 13]) b.line(x, -5, x + 1.4, 0.4, WOD[0]); b.ell(0, -2.6, 3.8, 1.6, IRN, 4, 1); b.ell(0, -2.6, 2.2, 0.9, WOD, 0, 0); b.rect(-19, -6, 38, 1, IRN[4]); };
+  W.cellarProps = () => { for (const k of CELLAR_KINDS) { const c = W.prop(k); SPR.prop[k] = c; SPR.prop['px_' + k] = c; } };
+})();
+function cellarChunk(i, j, key, a, rnd, add, x0, y0) {
+  const u = rnd(), cx = x0 + 30 + rnd() * (OBC - 60), cy = y0 + 30 + rnd() * (OBC - 60), hz = rnd() < 0.5;
+  if (u < 0.3 || w28Pick(key)) w28Open(key, a, rnd, add, cx, cy, 2);
+  else if (u < 0.5) add(obPick(CELLAR_SINGLE, rnd()), cx, cy, 0.95 + rnd() * 0.15);
+  else if (u < 0.64) { const m = 3 + Math.floor(rnd() * 2); for (let q = 0; q < m; q++) { const d = (q - (m - 1) / 2) * 56; add(q & 1 ? 'ccandle' : 'cbarrel', hz ? cx + d : cx, hz ? cy : cy + d); } }          // a row of barrels and candles
+  else if (u < 0.78) { const m = 3 + Math.floor(rnd() * 2); for (let q = 0; q < m; q++) add('cpipe', cx + (q - (m - 1) / 2) * 34, cy + (q & 1) * 8); }                                           // pipe bank
+  else if (u < 0.88) { add('cpedestal', cx, cy); add('ccandle', cx - 54, cy + 10); add('ccandle', cx + 54, cy + 10); add('cskulls', cx, cy + 46); }                                              // an item pedestal shrine
+  else { add('chook', cx, cy); add('chook', cx + 62, cy + 6, 0.95); add('cmidden', cx - 52, cy + 22); add('ctrap', cx + 20, cy + 50); }                                                           // butcher's corner
+}
+
+function mapApply() { const mp = mapKey36(); if (mp === ARTMAP) return; ARTMAP = mp;  ROADC.clear(); PXA.cache.clear(); HPLAT.clear(); buildArt(); if (mapOn()) PXA.world.castleProps(); if (heartOn()) PXA.world.heartProps(); if (cellarOn()) PXA.world.cellarProps(); }
 /* ================= v28 LIVING WORLD: art for landmarks, breakables, ground decals and the shrine =================
    Everything is baked once per map into small pixel sprites (PXA), so the per-frame cost is a handful of drawImage calls. */
 Object.assign(RANGED, { shaman: 8, pyromancer: 18 });
@@ -11367,9 +11736,9 @@ let W28ART = null;
       for (let i = 0; i < 3; i++) dith(b, -30 + i * 30, -6 + i * 4, 7, 3, MAG, 2, 153 + i, 2); },
   };
   const bake = (n, fn) => { const b = new PB(n, Math.round(n * 0.6), n / 2, Math.round(n * 0.3)); fn(b); const c = finish(b, { ol: 0, rim: 0, glow: 0, light: 0.35 }).img; c.n = n; return c; };
-  PW.w28Bake = () => { const c = mapOn(), hz = heartOn(), out = { m: mapKey36(), dec: [], pat: [] };
-    const D = hz ? [['crack', 5], ['runes', 1.2, 1], ['tiles', 2], ['chains', 1.4], ['bones', 0.6], ['fairy', 0.9, 1]] : c ? [['crack', 5], ['scorch', 3], ['grate', 1.4, 1], ['runes', 1.2, 1], ['tiles', 3], ['chains', 1.4], ['blood', 1.2], ['bones', 1]] : [['moss', 5], ['flowers', 3], ['puddle', 1.6], ['leaves', 2.2], ['fairy', 0.9, 1], ['bones', 1], ['roots', 2.4]];
-    const Pt = hz ? [['blue', 1.3], ['clear', 1]] : c ? [['carpet', 1], ['ash', 2], ['magma', 1.2, 1]] : [['clear', 2], ['bog', 1.2], ['blue', 1.3]];
+  PW.w28Bake = () => { const c = mapOn(), hz = heartOn(), cz = cellarOn(), out = { m: mapKey36(), dec: [], pat: [] };
+    const D = cz ? [['blood', 0.8], ['puddle', 1.1], ['bones', 1.4], ['crack', 4], ['grate', 1.4, 1], ['tiles', 2.4], ['chains', 0.8], ['moss', 0.8]] : hz ? [['crack', 5], ['runes', 1.2, 1], ['tiles', 2], ['chains', 1.4], ['bones', 0.6], ['fairy', 0.9, 1]] : c ? [['crack', 5], ['scorch', 3], ['grate', 1.4, 1], ['runes', 1.2, 1], ['tiles', 3], ['chains', 1.4], ['blood', 1.2], ['bones', 1]] : [['moss', 5], ['flowers', 3], ['puddle', 1.6], ['leaves', 2.2], ['fairy', 0.9, 1], ['bones', 1], ['roots', 2.4]];
+    const Pt = cz ? [['clear', 2], ['blue', 0.9]] : hz ? [['blue', 1.3], ['clear', 1]] : c ? [['carpet', 1], ['ash', 2], ['magma', 1.2, 1]] : [['clear', 2], ['bog', 1.2], ['blue', 1.3]];
     for (const [k, w, e] of D) out.dec.push({ k, w, img: PXA.paintSpr(bake(44, F[k]), { mix: 0.6, soft: 1.1 }), e }); for (const [k, w, e] of Pt) out.pat.push({ k, w, img: PXA.paintSpr(bake(150, PT[k]), { mix: 0.75, soft: 1.6, drift: 0.4 }), e });
     W28ART = out; return out; };
 })();
@@ -11402,6 +11771,8 @@ const WX28 = {
 };
 WX28.heart = { clear: { n: 'Still Twilight', w: 2 }, glass: { n: 'Glassfall', p: 'spark', pr: 6, w: 1.4 }, gloam: { n: 'Gloaming Mist', fog: 0.4, ov: '60,40,120,.06', w: 1.4 },
   starfall: { n: 'Starfall', ov: '255,200,255,.04', gold: 1.1, w: 1, d: '+10% gold while it lasts', p: 'spark', pr: 9 } };
+WX28.cellar = { clear: { n: 'Damp Stillness', w: 2 }, leak: { n: 'Leaking Pipes', p: 'drip', pr: 16, w: 2 }, gnats: { n: 'Gnat Cloud', p: 'gnat', pr: 14, fog: 0.25, ov: '60,60,20,.05', w: 1.5 },
+  candle: { n: 'Candle Draft', ov: '255,150,60,.045', gold: 1.1, w: 1, d: '+10% gold while it lasts', p: 'spark', pr: 5 } };
 function w28Wx() { const m = WX28[mapKey36()] || WX28.forest; return m[G && G.w28 && G.w28.wx] || m.clear; }
 function w28WxPick() { const m = WX28[mapKey36()] || WX28.forest; return wpick(Object.keys(m), k => m[k].w); }
 const EVD28 = {
@@ -11455,9 +11826,9 @@ function w28Place(k, key, add, rnd, cx, cy) { let lx = cx, ly = cy;
   else { const main = { stones: 'altar', elder: 'eldertree', camp: 'tent', crypt: 'crypt', forge: 'forge', throne: 'throne' }[k]; if (!add(main, cx, cy)) return false;
     if (k === 'stones') for (let q = 0; q < 5; q++) { const an = q / 5 * TAU - Math.PI / 2; add('menhir', cx + Math.cos(an) * 78, cy + Math.sin(an) * 64, 0.9 + rnd() * 0.2); }
     else if (k === 'camp') { add('campfire', cx + 10, cy + 66); add('urn', cx - 60, cy + 40); add('urn', cx + 70, cy + 20); add('urn', cx - 40, cy - 62); }
-    else if (k === 'crypt') { const t = mapOn() || heartOn() ? 'urn' : 'tomb'; add(t, cx - 84, cy + 22); add(t, cx + 84, cy + 22); }
+    else if (k === 'crypt') { const t = mapOn() || heartOn() || cellarOn() ? 'urn' : 'tomb'; add(t, cx - 84, cy + 22); add(t, cx + 84, cy + 22); }
     else if (k === 'forge') { add('anvil', cx, cy + 72); add('cask', cx - 74, cy + 30); add('cask', cx + 76, cy + 28); }
-    else if (k === 'throne') { const bz = heartOn() ? 'hlamp' : 'brazier'; add(bz, cx - 70, cy + 14); add(bz, cx + 70, cy + 14); add('urn', cx, cy + 66); }
+    else if (k === 'throne') { const bz = cellarOn() ? 'ccandle' : heartOn() ? 'hlamp' : 'brazier'; add(bz, cx - 70, cy + 14); add(bz, cx + 70, cy + 14); add('urn', cx, cy + 66); }
     else if (k === 'elder') { add(mapOn() ? 'urn' : 'stump', cx + 80, cy + 30); } }
   W28LM.set(key, { k, key, x: lx, y: ly, h: 0, fx: cx + 10, fy: cy + 66 }); if (W28LM.size > 120) W28LM.delete(W28LM.keys().next().value); return true; }
 function w28Brk(b) { const w = G && G.w28; if (w) w.brkN++; Snd.play('pop'); burst(b.x, b.y - 6, b.k === 'cask' ? '#a8743a' : '#c9a27a', 10, 120, 2.6, 0.45); w28Loot('brk', b.x, b.y); }
@@ -11613,13 +11984,15 @@ function world28Tick(dt) { let w = G.w28; if (!w) { w28Start(1); w = G.w28; }
 }
 
 /* ---------- weather particles ---------- */
-const PCOL28 = { leaf: ['#d8862a', '#c0502a', '#e0b040', '#9a6a2a'], ash: ['#9a9090', '#b8b0a8', '#706868'] };
-function w28Parts(dt) { const X = w28Wx(), cap = PC ? 70 : 34, vw = W / ZOOM / 2 + 30, vh = H / ZOOM / 2 + 30, base = mapOn() ? 'ember' : 'pollen', R = { [base]: 2.2 };
+const PCOL28 = { drip: ['#7fc8ff', '#b4e0ff', '#4a8ac8'], gnat: ['#2a2a14', '#46461e', '#14140a'], leaf: ['#d8862a', '#c0502a', '#e0b040', '#9a6a2a'], ash: ['#9a9090', '#b8b0a8', '#706868'] };
+function w28Parts(dt) { const X = w28Wx(), cap = PC ? 70 : 34, vw = W / ZOOM / 2 + 30, vh = H / ZOOM / 2 + 30, base = mapOn() ? 'ember' : cellarOn() ? 'drip' : 'pollen', R = { [base]: 2.2 };
   if (X.p) R[X.p] = (R[X.p] || 0) + (X.pr || 6) * (PC ? 1 : 0.6);
   for (const k in R) { W28ACC[k] = (W28ACC[k] || 0) + R[k] * dt; while (W28ACC[k] >= 1) { W28ACC[k]--; if (W28A.length >= cap) continue;
       const p = { k, x: P.x + rand(-vw, vw), y: P.y + rand(-vh, vh), vx: 0, vy: 0, life: 4, max: 4, s: 2, c: '', ph: rand(TAU) };
       if (k === 'leaf') { p.vx = rand(18, 40); p.vy = rand(16, 30); p.life = p.max = rand(4, 6); p.c = pick(PCOL28.leaf); p.s = 2.6; }
       else if (k === 'ash') { p.vx = rand(6, 16); p.vy = rand(14, 24); p.life = p.max = rand(4, 6); p.c = pick(PCOL28.ash); p.s = 1.8; }
+      else if (k === 'drip') { p.vx = rand(-2, 2); p.vy = rand(70, 120); p.life = p.max = rand(0.5, 0.9); p.c = pick(PCOL28.drip); p.s = 2; }
+      else if (k === 'gnat') { p.vx = rand(-34, 34); p.vy = rand(-26, 26); p.life = p.max = rand(3, 5); p.c = pick(PCOL28.gnat); p.s = 1.8; }
       else if (k === 'ember') { p.vx = rand(-10, 10); p.vy = rand(-40, -24); p.life = p.max = rand(2, 3.2); p.s = 6; }
       else if (k === 'spark') { p.vx = rand(-30, 30); p.vy = rand(-70, -40); p.life = p.max = rand(0.9, 1.5); p.s = 7; }
       else if (k === 'fly') { p.vx = rand(-12, 12); p.vy = rand(-12, 12); p.life = p.max = rand(3, 5); p.s = 10; }
@@ -11629,7 +12002,9 @@ function w28Parts(dt) { const X = w28Wx(), cap = PC ? 70 : 34, vw = W / ZOOM / 2
     if (p.life <= 0 || Math.abs(p.x - P.x) > vw + 80 || Math.abs(p.y - P.y) > vh + 80) { W28A[i] = W28A[W28A.length - 1]; W28A.pop(); } } }
 function w28Air() { if (!G || G.town || !W28A.length) return; let lit = false;
   for (const p of W28A) { const a = Math.min(1, p.life / 0.6, (p.max - p.life) / 0.6);
-    if (p.k === 'leaf' || p.k === 'ash' || p.k === 'pollen') { ctx.globalAlpha = a * (p.k === 'pollen' ? 0.55 : 0.85); ctx.fillStyle = p.k === 'pollen' ? '#f0f6c0' : p.c; const w = p.k === 'leaf' ? p.s * (0.6 + 0.4 * Math.abs(Math.sin(gtime * 3 + p.ph))) : p.s; ctx.fillRect(p.x - w / 2, p.y - p.s / 2, w, p.s); }
+    if (p.k === 'drip') { ctx.globalAlpha = a * 0.8; ctx.fillStyle = p.c; ctx.fillRect(p.x - 0.8, p.y - 3, 1.6, 4); }
+    else if (p.k === 'gnat') { ctx.globalAlpha = a * 0.9; ctx.fillStyle = p.c; ctx.fillRect(p.x + Math.sin(gtime * 14 + p.ph) * 1.5, p.y, 2, 2); }
+    else if (p.k === 'leaf' || p.k === 'ash' || p.k === 'pollen') { ctx.globalAlpha = a * (p.k === 'pollen' ? 0.55 : 0.85); ctx.fillStyle = p.k === 'pollen' ? '#f0f6c0' : p.c; const w = p.k === 'leaf' ? p.s * (0.6 + 0.4 * Math.abs(Math.sin(gtime * 3 + p.ph))) : p.s; ctx.fillRect(p.x - w / 2, p.y - p.s / 2, w, p.s); }
     else { if (!lit) { ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'lighter'; lit = true; } glowAt(p.k === 'fly' ? '#ffe58a' : p.k === 'spark' ? '#ffae4a' : '#ff6a2a', p.x, p.y, p.s * (p.k === 'fly' ? 0.8 + 0.4 * Math.sin(gtime * 5 + p.ph) : 1), a * (p.k === 'fly' ? 0.8 : 0.7)); } }
   ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; }
 
@@ -11666,7 +12041,7 @@ function w28Lights(L) { const w = G.w28; if (!w || G.town) return;
     for (let i = i0; i <= i1; i++) for (let j = j0; j <= j1; j++) { const c = W28C.get((i + 30000) * 60000 + (j + 30000)); if (!c) continue; for (const d of c.d) if (A.dec[d.t] && A.dec[d.t].e) L(d.x, d.y, 34, 0.6); for (const p of c.p) if (A.pat[p.t] && A.pat[p.t].e) L(p.x, p.y, 110, 0.5); } } }
 function w28Screen() { const w = G && G.w28; if (!w || G.town) return; const X = w28Wx(), fog = Math.max(X.fog || 0, w.ev && w.ev.k === 'fog' ? 0.8 : 0);
   if (X.ov) { ctx.fillStyle = `rgba(${X.ov})`; ctx.fillRect(0, 0, W, H); }
-  if (fog > 0) { const sm = smokeOf(mapOn() ? '#8a7a78' : heartOn() ? '#9a8ad8' : w.ev && w.ev.k === 'fog' ? '#bfe0ff' : '#c8d8ea'), S = Math.max(W, H) * 0.7;
+  if (fog > 0) { const sm = smokeOf(mapOn() ? '#8a7a78' : cellarOn() ? '#8a9a6a' : heartOn() ? '#9a8ad8' : w.ev && w.ev.k === 'fog' ? '#bfe0ff' : '#c8d8ea'), S = Math.max(W, H) * 0.7;
     for (let i = 0; i < 5; i++) { const x = ((gtime * (10 + i * 4) + i * W / 4) % (W + S)) - S / 2, y = H * (0.15 + 0.18 * i) + Math.sin(gtime * 0.3 + i) * 30; ctx.globalAlpha = fog * 0.16; ctx.drawImage(sm, x - S / 2, y - S / 2, S, S); }
     ctx.globalAlpha = 1; } }
 function w28Found29(L, D) { const o = W28ACC._lmT, nm = w28LN(L.k);
@@ -11682,7 +12057,7 @@ function w28HUD() { const w = G && G.w28; if (!w || G.town || state === 'dying')
   ctx.fillStyle = 'rgba(10,6,18,.9)'; rr(x - tw / 2, y - 15, tw, 30, 15); ctx.fill(); ctx.strokeStyle = D.col; ctx.lineWidth = 2; ctx.stroke();
   ctx.fillStyle = hexA(D.col, 0.6); rr(x - tw / 2 + 4, y + 9, (tw - 8) * clamp(f, 0, 1), 3, 1.5); ctx.fill(); ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(0,0,0,.9)'; ctx.lineJoin = 'round'; ctx.strokeText(txt, x, y - 1); ctx.fillStyle = msgLite(D.col, 0.3); ctx.fillText(txt, x, y - 1); ctx.textBaseline = 'alphabetic'; MSG_PILL = y + 15; }
 let W28PILL_Y = 112;
-function musicName() { const m = heartOn() ? 'h_' : mapOn() ? 'm_' : ''; return G.boss && !G.boss.dead ? m + 'boss' : G.isNight ? m + 'night' : m + 'battle'; }
+function musicName() { const m = cellarOn() ? 'c_' : heartOn() ? 'h_' : mapOn() ? 'm_' : ''; return G.boss && !G.boss.dead ? m + 'boss' : G.isNight ? m + 'night' : m + 'battle'; }
 /* ---- metal ---- */
 function _dist(c, amt) { const ws = c.createWaveShaper(), n = 513, cv = new Float32Array(n); for (let i = 0; i < n; i++) { const x = i * 2 / (n - 1) - 1; cv[i] = Math.tanh(x * amt); } ws.curve = cv; ws.oversample = '2x'; return ws; }
 Object.assign(VOX, {
@@ -11717,6 +12092,27 @@ TRACKS.h_battle = { bpm: 132, root: 60, sc: 'minor', lead: 'lead', pad: 'pad', a
 TRACKS.h_night = Object.assign({}, TRACKS.h_battle, { bpm: 120, dark: 1, vol: 0.74, lead: 'nlead', arp: 'narp', arpPat: '0...0.4.7...4.0.', bassPat: 'r...r.r.o...r.r.', drums: { k: 'x.......x.......', s: '....x.......x...', h: '..x...x...x...x.' } });
 TRACKS.h_boss = { bpm: 150, root: 59, sc: 'harm', lead: 'brass', pad: 'pad', dark: 1, arp: 'arp', bass: 'bass', arpPat: '0.4.7.4.0.4.7.4.', bassPat: 'rrrorrrfrrrorrro', drums: { k: 'x.x.....x.x.x...', s: '....x.......x..x', h: 'x.x.x.x.x.x.x.x.' }, vol: 0.8,
   bars: [B(0, '7---6-7-9---7-6-'), B(5, '5---4-5-7-------'), B(3, '8---7-8-a---9-8-'), B(4, '7---------4-6-7-'), B(0, 'a---9-a-c---a-9-'), B(5, '8---7-8-9---7---'), B(3, '6-7-8-9-a-b-c-d-', { fill: 1 }), B(4, 'e-------7-------', { fill: 1 })] };
+/* ---- v39: the Weeping Cellar's own sound: a warped music-box lead, dripping water arps, a wet wobbling pad and a squelchy bass, in a lopsided minor waltz-and-shuffle ---- */
+Object.assign(VOX, {
+  tinbox(c, out, t, f, d, v) { const g = _env(c, out, t, 0.004, 0.17 * v, 0.02, Math.min(0.45, d * 0.5 + 0.12)); const o = _osc(c, 'triangle', f, t, t + d + 1.2, -14); o.frequency.exponentialRampToValueAtTime(f * 0.985, t + d + 0.6); o.connect(g);
+    const g2 = _env(c, out, t, 0.002, 0.05 * v, 0.01, 0.1); _osc(c, 'sine', f * 4.07, t, t + 0.5, 11).connect(g2); const g3 = _env(c, out, t, 0.002, 0.03 * v, 0.01, 0.08); _osc(c, 'sine', f * 2.01, t, t + 0.4, -9).connect(g3); },
+  drop(c, out, t, f, d, v) { const g = _env(c, out, t, 0.002, 0.06 * v, 0.015, 0.1), o = _osc(c, 'sine', f * 2, t, t + 0.45); o.frequency.setValueAtTime(f * 2.6, t); o.frequency.exponentialRampToValueAtTime(f * 1.5, t + 0.09); o.connect(g); },
+  wetpad(c, out, t, f, d, v, dark) { const lp = c.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = dark ? 520 : 760; lp.Q.value = 1.2; const g = _env(c, out, t, Math.min(0.7, d * 0.35), 0.05 * v, d * 0.85, 0.4); lp.connect(g);
+    const l = c.createOscillator(), lg = c.createGain(); l.frequency.value = 0.9; lg.gain.value = 120; l.connect(lg); lg.connect(lp.frequency); l.start(t); l.stop(t + d + 1.8);
+    _osc(c, 'sawtooth', f, t, t + d + 1.8, -11).connect(lp); _osc(c, 'square', f * 0.5, t, t + d + 1.8, 9).connect(lp); },
+  squelch(c, out, t, f, d, v) { const lp = c.createBiquadFilter(); lp.type = 'lowpass'; lp.Q.value = 6; lp.frequency.setValueAtTime(1400, t); lp.frequency.exponentialRampToValueAtTime(180, t + 0.16); const g = _env(c, out, t, 0.006, 0.17 * v, d * 0.75, 0.05); lp.connect(g);
+    _osc(c, 'square', f, t, t + d + 0.3).connect(lp); const sb = _osc(c, 'sine', f * 0.5, t, t + d + 0.3), sg = c.createGain(); sg.gain.value = 0.8; sb.connect(sg); sg.connect(g); },
+  moan(c, out, t, f, d, v) { const lp = c.createBiquadFilter(); lp.type = 'lowpass'; lp.Q.value = 3; lp.frequency.setValueAtTime(400, t); lp.frequency.exponentialRampToValueAtTime(1500, t + d * 0.5); lp.frequency.exponentialRampToValueAtTime(600, t + d); const g = _env(c, out, t, 0.04, 0.09 * v, d * 0.9, 0.1); lp.connect(g);
+    const o = _osc(c, 'sawtooth', f, t, t + d + 0.6, -8), vib = c.createOscillator(), vg = c.createGain(); vib.frequency.value = 4.4; vg.gain.value = f * 0.02; vib.connect(vg); vg.connect(o.frequency); vib.start(t + 0.1); vib.stop(t + d + 0.6); o.connect(lp); _osc(c, 'sawtooth', f * 1.5, t, t + d + 0.6, 12).connect(lp); },
+});
+TRACKS.c_battle = { bpm: 116, root: 57, sc: 'harm', lead: 'tinbox', pad: 'wetpad', arp: 'drop', bass: 'squelch', arpPat: '0.2.4...2.4.7...', bassPat: 'r..r..o.r..f..r.', drums: { k: 'x..x..x...x..x..', s: '....x.......x..x', h: '.x.x.x.x.x.x.x.x' }, vol: 0.82,
+  bars: [B(0, '7---7-9-7---4---'), B(4, '8---7-6-4---6---'), B(5, '5---5-7-9---8---'), B(3, '6-7-6-4-3---4---'), B(0, '9---7-9-b---9---'), B(4, 'a---9-7-6---7---'), B(5, '8-7-5-7-9---7-5-'), B(3, '4-------2-3-4---', { fill: 1 }),
+    B(0, 'b-b-9-b-d---b-9-'), B(4, 'c---b-9-7---9---'), B(5, '9-9-7-9-b---9-7-'), B(6, 'a-9-7-6-4-6-7-9-'), B(0, '7-9-b-9-7---4---'), B(3, '8---7-6-4-3-4-6-'), B(4, '7---6-4-2---3-4-'), B(0, '4-------2-------', { fill: 1 })] };
+TRACKS.c_night = Object.assign({}, TRACKS.c_battle, { bpm: 94, dark: 1, vol: 0.72, lead: 'moan', arp: 'drop', arpPat: '0.......4...2...', bassPat: 'r.......r...o...', drums: { k: 'x...........x...', s: '........x.......', h: '..x.......x.....' } });
+TRACKS.c_boss = { bpm: 144, root: 56, sc: 'harm', lead: 'moan', pad: 'wetpad', dark: 1, arp: 'chug', bass: 'squelch', arpPat: '0.00.0.00.0.0.00', bassPat: 'rr.rorr.rr.rorro', drums: { k: 'x..xx..xx..xx.x.', s: '....x..x....x..x', h: 'x.x.x.x.x.x.x.x.', t: '..............xx' }, vol: 0.8,
+  bars: [B(0, '7---6-7-9---7-6-'), B(1, '5---4-5-6-------'), B(5, '8---7-8-a---9-8-'), B(4, '7---------4-6-7-'), B(0, 'a---9-a-c---a-9-'), B(6, '8---7-8-9---7---'), B(3, '6-7-8-9-a-b-c-d-', { fill: 1 }), B(4, 'e-------7-------', { fill: 1 })] };
+TRACKS.t_cellar = { bpm: 78, root: 57, sc: 'harm', lead: 'tinbox', pad: 'wetpad', arp: 'drop', bass: 'sbass', dark: 1, arpPat: '0.....4...2.....', bassPat: 'r.......o.......', drums: null, vol: 0.8,
+  bars: [B(0, '7---9---7-4-----'), B(3, '6---7---6-4-----'), B(5, '5---7---9-8-7---'), B(4, '6-------4-------'), B(0, '9---b---9-7-----'), B(3, '8---7---6-4-----'), B(5, '7-9-b-9-7-5-----'), B(4, '4---2-----------')] };
 let ARTMAP = 'forest';
 function render(dt) {
   if (HUDS) hudEnd();
@@ -12462,12 +12858,15 @@ function goSelect() {
 function renderSelect() {
   $('selShards').textContent = '◆ ' + save.shards; const rc = RACES[raceOf(save.race)];
   $('btnSelRace').innerHTML = `Race: <b>${rc.name}</b> <span>change ›</span>`;
-  { const open = castleOpen(), hOpen = heartOpen(), cur = selMap36(), mb = $('btnSelMap'); mb.classList.toggle('locked', !open); mb.dataset.map = cur;
+  { const open = castleOpen(), hOpen = heartOpen(), cOpen = cellarOpen(), cur = selMap36(), mb = $('btnSelMap'); mb.classList.toggle('locked', !open); mb.dataset.map = cur;
     mb.innerHTML = open ? `Map: <b>${MAPNAME36[cur]}</b> <span>change ›</span>` : `Map: <b>Gloomwood</b> <span class="lw">🔒 Citadel: survive 15:00 here</span><span class="ln">🔒</span>`;
-    mb.onclick = () => { if (!open) { Snd.play('click'); mb.classList.remove('shake'); void mb.offsetWidth; mb.classList.add('shake'); selMapMsg('🔒 Survive 15:00 in Gloomwood to unlock the Ashen Citadel'); return; } const order = hOpen ? ['forest', 'castle', 'heart'] : ['forest', 'castle'];
+    mb.onclick = () => { if (!open) { Snd.play('click'); mb.classList.remove('shake'); void mb.offsetWidth; mb.classList.add('shake'); selMapMsg('🔒 Survive 15:00 in Gloomwood to unlock the Ashen Citadel'); return; } const order = cOpen ? ['forest', 'castle', 'heart', 'cellar'] : hOpen ? ['forest', 'castle', 'heart'] : ['forest', 'castle'];
       save.map = order[(order.indexOf(cur) + 1) % order.length]; persist(); Snd.play('click'); renderSelect(); if (!hOpen && save.map === 'forest') selMapMsg('🔒 Survive 15:00 in the Ashen Citadel to unlock'); };
     const hl = $('heartLock36'); if (hl) { hl.hidden = hOpen; hl.setAttribute('aria-label', 'Heartfall Belfry, locked. Survive 15:00 in the Ashen Citadel to unlock');
       hl.onclick = () => { Snd.play('click'); hl.classList.remove('shake'); void hl.offsetWidth; hl.classList.add('shake'); selMapMsg('🔒 Survive 15:00 in the Ashen Citadel to unlock'); }; }
+    const cl = $('cellarLock39'); if (cl) { cl.hidden = !hOpen || cOpen; cl.setAttribute('aria-label', 'The Weeping Cellar, locked. Survive 15:00 in the Heartfall Belfry to unlock');
+      cl.onclick = () => { Snd.play('click'); cl.classList.remove('shake'); void cl.offsetWidth; cl.classList.add('shake'); selMapMsg('🔒 Survive 15:00 in the Heartfall Belfry to unlock'); }; }
+    if (cOpen && !save.cellarSeen39) { save.cellarSeen39 = 1; persist(); mb.classList.add('new39'); setTimeout(() => selMapMsg('☠ The Weeping Cellar unlocked! Tap Map to choose it'), 300); }
     if (hOpen && !save.heartSeen36) { save.heartSeen36 = 1; persist(); mb.classList.add('new36'); setTimeout(() => selMapMsg('♡ Heartfall Belfry unlocked! Tap Map to choose it'), 300); } }
   const L = $('classList'); L.innerHTML = '';
   for (const id in CLASSES) {
@@ -13749,7 +14148,19 @@ const BGA = (() => {
       tapestry(K, cls, acc, cx, H * 0.1, Math.min(W * 0.28, 44));
       K.vg(0, hz, W, H - hz, '#140c2a', '#05030c');
       g.save(); g.translate(cx, hz + (H - hz) * 0.55); g.scale(1, 0.3); const fr = Math.min(W * 0.62, 260), fim = heartRosette(120, 0, 5); g.globalAlpha = 0.9; g.drawImage(fim, -fr, -fr, fr * 2, fr * 2); g.restore();
-      K.glow(cx, hz + (H - hz) * 0.5, H * 0.3, acc, 0.22); K.fog(hz - 3, '#c8b0ff', 0.14); K.dots(26, '#ffe8c8', 0, H * 0.3, W, H * 0.9); K.vig(0.55); }
+      K.glow(cx, hz + (H - hz) * 0.5, H * 0.3, acc, 0.22); K.fog(hz - 3, '#c8b0ff', 0.14); K.dots(26, '#ffe8c8', 0, H * 0.3, W, H * 0.9); K.vig(0.55); },
+    cellar(K, acc, cls) { const { W, H, R } = K, hz = H * 0.66, cx = W / 2;   // v39: the Weeping Cellar - damp brick, hooks and chains, candlelit pedestal, a floor of stains
+      K.bricks(0, hz, '#2a1c16', '#150e0b', 12, 6); K.dots(90, '#3e2a20', 0, 0, W, hz);
+      for (const d of [-1, 1]) { const ax = cx + d * W * 0.36; K.poly([ax - 14, hz, ax - 14, H * 0.22, ax, H * 0.1, ax + 14, H * 0.22, ax + 14, hz], '#0c0706'); K.glow(ax, H * 0.3, 18, '#ffb860', 0.12); }
+      tapestry(K, cls, acc, cx, H * 0.08, Math.min(W * 0.28, 44));
+      for (let i = 0; i < 4; i++) { const hx = W * (0.12 + i * 0.25) + R() * 6; K.chain(hx, 0, H * (0.1 + R() * 0.08)); K.r(hx - 1, H * 0.2, 2, 6, '#8a8a96'); if (i % 2) K.glow(hx, H * 0.27, 10, '#a01820', 0.25); }
+      for (let i = 0; i < 6; i++) { const dx = W * (0.08 + R() * 0.84); K.r(dx, H * 0.08 + R() * H * 0.3, 1, 5, '#7fc8ff'); }
+      K.floor(hz, '#2e2018', '#0a0605', cx, '#160e0a');
+      for (let i = 0; i < 5; i++) K.circ(R() * W, hz + 4 + R() * (H - hz - 6), 4 + R() * 9, i % 2 ? '#4a0a10' : '#10262c');
+      for (const d of [-1, 1]) { const bx = cx + d * W * 0.3; K.r(bx - 9, hz - 12, 18, 16, '#3e2a1a'); K.r(bx - 9, hz - 8, 18, 2, '#6a6a76'); K.r(bx - 9, hz - 1, 18, 2, '#6a6a76'); K.glow(bx, hz - 4, 14, '#ffb860', 0.12); }
+      const py = hz + (H - hz) * 0.38; K.box(cx - 14, py - 4, 28, 5, '#4a3e36'); K.box(cx - 9, py - 12, 18, 8, '#5a4e46'); K.glow(cx, py - 16, H * 0.3, '#ffb860', 0.42); K.glow(cx, py - 16, H * 0.14, acc, 0.22);
+      K.r(cx - 2, py - 22, 4, 10, '#e8d8a0'); K.tri(cx, py - 30, 5, 9, '#ff8a2a'); K.tri(cx, py - 27, 2.4, 5, '#fff0b0');
+      K.fog(hz - 3, '#b8c870', 0.12); K.dots(18, '#b4e0ff', 0, H * 0.1, W, H * 0.7); K.vig(0.6); }
   };
   function tapestry(K, cls, acc, cx, y, w) { const h = Math.round(w * 1.46), x = Math.round(cx - w / 2); K.r(x - 4, y - 3, w + 8, 3, '#5a3a1e'); K.r(x - 2, y, w + 4, h + 4, '#d8b04a');
     try { const c = document.createElement('canvas'); c.width = 240; c.height = 352; const f = T[cls]; if (f) { const cg = c.getContext('2d'); cg.scale(2, 2); f(kit2(kit(cg, 120, 176, rng(hash('tap' + cls)))), acc, 0); K.g.imageSmoothingEnabled = true; K.g.drawImage(c, x, y + 2, w, h); } else K.r(x, y + 2, w, h, sh(acc, -0.5)); } catch (e) {}
@@ -13759,7 +14170,7 @@ const BGA = (() => {
     if (on && on.dataset.u === url) return L; const nx = on === a ? b : a; nx.style.backgroundImage = `url(${url})`; nx.dataset.u = url; void nx.offsetWidth; nx.classList.add('on'); if (on) on.classList.remove('on'); L.dataset.pt = cls; return L; }
   function race(id) { const s = typeof $ === 'function' && $('race'); if (!s) return; id = HOME[id] ? id : 'human'; const [w, h] = dims(), url = paint(`home:${id}:${w}`, w, h, HOME[id]); if (!url) return;
     layer(s, url, RPT[id] || 'fly'); s.style.setProperty('--rc', RC[id] || '#ffd890'); s.dataset.home = id; }
-  function hall(cls, map, rc) { const s = typeof $ === 'function' && $('select'); if (!s) return; const acc = ACC[cls] || '#ffd76a', mp = map === 'castle' || map === 'heart' ? map : 'forest', [w, h] = dims();
+  function hall(cls, map, rc) { const s = typeof $ === 'function' && $('select'); if (!s) return; const acc = ACC[cls] || '#ffd76a', mp = map === 'castle' || map === 'heart' || map === 'cellar' ? map : 'forest', [w, h] = dims();
     const url = paint(`hall:${mp}:${cls}:${w}`, w, h, K => HALL[mp](K, acc, cls)); if (!url) return; layer(s, url, mp === 'forest' ? 'ember' : 'dust'); s.style.setProperty('--acc', acc); s.style.setProperty('--rc', RC[rc] || '#ffd890'); s.dataset.hall = mp; }
   function stage(cls) { const s = typeof $ === 'function' && $('select'); if (!s) return; const rc = typeof raceOf === 'function' ? raceOf(save.race) : save.race; hall(cls, typeof selMap36 === 'function' ? selMap36() : 'forest', rc);
     let st = $('selStage'); if (!st) { st = document.createElement('div'); st.id = 'selStage'; st.setAttribute('aria-hidden', 'true'); st.innerHTML = '<i class="spot"></i><i class="ped"></i><canvas></canvas><div class="plate"><b></b><span></span></div>'; const tb = s.querySelector('.seltop'); (tb || s.firstChild).after(st); }

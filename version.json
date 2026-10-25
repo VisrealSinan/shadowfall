@@ -1,19 +1,16 @@
 {
- "version": "38",
+ "version": "39",
  "date": "2026-10-24",
  "minLauncher": "2.0.0",
  "notes": [
-  "The whole game's UI has a new polished look in the dark painted fantasy style, from the title screen to the in-run HUD.",
-  "Every screen keeps its own theme. The class-coloured talent screens, the vendor menus (Pell, Lady Vex, Brunhild, the Stranger), the race homelands, the town and tree-themed level-up cards, and Pip's jester cards all keep their own colours and art. The new polish is added on top of each theme.",
-  "Plain menus now use dark painted panels with a gold and violet trim: Hero Hall, Armory, gear, Stash, Wardrobe, settings, controls, achievements, How to Play, the Codex and the pause, death and victory screens.",
-  "Buttons have a painted leather look, glow when you hover, press down when tapped, and look greyed out when disabled.",
-  "Screen titles have a gold scroll-work underline. Pop-ups, confirm boxes, achievement banners and toasts use matching painted frames and fade in smoothly.",
-  "When you play with a gamepad or keyboard, the selected button has a clear gold focus ring.",
-  "In a run, the XP bar has a gilded frame with a violet-to-gold fill. The timer sits on a gold plaque. The boss health bar has a gilded crimson frame with quarter marks. Skill cooldowns have gold rims. On-screen banners now use painted panels.",
-  "All text is at least 12px, including talent tier locks, loadout level badges and buff timers. Every button is at least 44px for easy tapping.",
-  "Every screen fits or scrolls on phones (portrait and landscape) and on PC.",
-  "If your device is set to reduce motion, the screen fade-ins are turned off.",
-  "No gameplay, balance, class, gear or save data has changed."
+  "New 4th zone: The Weeping Cellar. Survive 15 minutes in the Heartfall Belfry to unlock it on the map select (a locked card shows the goal once the Belfry is open).",
+  "A damp, candlelit cellar of wet flagstones, blood stains, meat hooks, dripping pipes, heaps of muck and little pedestals with candles. It has its own weather: leaking pipes, gnat clouds and candle drafts.",
+  "Its own monsters, all new: Weepers, Cellar Gnats, Gorge Grubs, Bloaters, Muckheaps, Sobbers, Gutlings, Cellar Cleavers, Wicklings, Penitents, Drowned Wraiths and more. The mini-boss is the Midden King.",
+  "Five new bosses: The Weeping Mass, The Gorgeworm, Mistress Tallow, The Cellar Butcher and The Lidless. Each has its own look, moves and death. All five appear before any repeats.",
+  "Its own music: a warped music-box melody, dripping-water notes, a wobbling pad and a squelchy bass. There is a separate battle, night, boss and shop track.",
+  "Its own shop town, Drip Hollow Larder: a brick larder with a drain, a wishing well, a butcher block and a trapdoor, with its own ware names. Two new wares: Weeping Broth (heals 70% and gives armor) and Pedestal Gift (a random boon).",
+  "All the new art, names, monsters and music are original to Shadowfall.",
+  "Class skills no longer shake the screen. We found 11 more spots (Druid stomp and pounce, Mage meteor, Reaper toll, Bard War Drum, Blood Knight Blood Nova and others) and removed them. Bosses and getting hit still shake."
  ],
  "files": [
   {
@@ -38,8 +35,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "5bbe49579a6b921dcac1fbdc78574d4d0826ce796a9749b81825bb0d7476298d",
-   "size": 1955588
+   "sha256": "c603c7079b0fef6a555542929924ad68dea604033dfd546aa920343ce806f2f3",
+   "size": 2021949
   },
   {
    "name": "manifest.webmanifest",
@@ -48,7 +45,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "50cb9aecaa5f176f879f26c618e047c2004c5342b4e8b9fe3c0f0591d31c5e5d",
+   "sha256": "8a33f6e9afee9a7e61cfa8a3ef081e394c5768758452db940bfec685d78263bb",
    "size": 1466
   }
  ]
