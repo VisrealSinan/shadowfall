@@ -1,16 +1,14 @@
 {
- "version": "39",
+ "version": "40",
  "date": "2026-10-24",
  "minLauncher": "2.0.0",
  "notes": [
-  "New 4th zone: The Weeping Cellar. Survive 15 minutes in the Heartfall Belfry to unlock it on the map select (a locked card shows the goal once the Belfry is open).",
-  "A damp, candlelit cellar of wet flagstones, blood stains, meat hooks, dripping pipes, heaps of muck and little pedestals with candles. It has its own weather: leaking pipes, gnat clouds and candle drafts.",
-  "Its own monsters, all new: Weepers, Cellar Gnats, Gorge Grubs, Bloaters, Muckheaps, Sobbers, Gutlings, Cellar Cleavers, Wicklings, Penitents, Drowned Wraiths and more. The mini-boss is the Midden King.",
-  "Five new bosses: The Weeping Mass, The Gorgeworm, Mistress Tallow, The Cellar Butcher and The Lidless. Each has its own look, moves and death. All five appear before any repeats.",
-  "Its own music: a warped music-box melody, dripping-water notes, a wobbling pad and a squelchy bass. There is a separate battle, night, boss and shop track.",
-  "Its own shop town, Drip Hollow Larder: a brick larder with a drain, a wishing well, a butcher block and a trapdoor, with its own ware names. Two new wares: Weeping Broth (heals 70% and gives armor) and Pedestal Gift (a random boon).",
-  "All the new art, names, monsters and music are original to Shadowfall.",
-  "Class skills no longer shake the screen. We found 11 more spots (Druid stomp and pounce, Mage meteor, Reaper toll, Bard War Drum, Blood Knight Blood Nova and others) and removed them. Bosses and getting hit still shake."
+  "New map page. After you pick your hero and press Enter the Dark, you now see all four maps: Gloomwood, Ashen Citadel, Heartfall Belfry and The Weeping Cellar.",
+  "Each map card shows what it is like, the foes you will meet, its bosses and its safe-haven town.",
+  "Maps you have not unlocked yet are greyed out and say exactly what to do to unlock them. Tap one to see the goal.",
+  "Tap an open map to choose it, then Enter the Dark to start. Back takes you to your hero.",
+  "The map button on the hero page still works as a quick way to switch maps.",
+  "Works with touch, mouse, keyboard (Enter and Esc) and gamepad."
  ],
  "files": [
   {
@@ -35,8 +33,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "c603c7079b0fef6a555542929924ad68dea604033dfd546aa920343ce806f2f3",
-   "size": 2021949
+   "sha256": "fdf52610953c264b9283781067729b34422bf1046cd89ef088fd9abd04cfcbe9",
+   "size": 2026742
   },
   {
    "name": "manifest.webmanifest",
@@ -45,7 +43,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "8a33f6e9afee9a7e61cfa8a3ef081e394c5768758452db940bfec685d78263bb",
+   "sha256": "cfa1d00939ca67c64331d7824948aded1fe01ff2826f59e6e0351727121498f3",
    "size": 1466
   }
  ]
