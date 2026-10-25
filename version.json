@@ -1,14 +1,12 @@
 {
- "version": "45",
+ "version": "46",
  "date": "2026-10-25",
  "minLauncher": "2.0.0",
  "notes": [
-  "New: the Mystery Gift's \"very surprised mimic\" is real: a Startled Mimic hops out (with a warning first) and drops a treasure chest and gold when beaten",
-  "Change: the first pair of bosses now arrives at exactly 20:00, then pairs keep coming every 3 minutes",
-  "Fix: achievement and \"Event Complete\" pop-ups no longer cover the trader, shop or treasure windows; they wait and show once you close them",
-  "Fix: Crystal Bits, Snowballs and the Sleigh Hearse now visibly walk",
-  "Fix: Gift Mimic, Slot Mimic, Great Gift and a few other monsters were missing parts of their bodies; they now draw in full",
-  "Fix (PC): Enter and Esc work on the map page again"
+  "New: a secret class is hiding somewhere in the night. If you hear a phone ringing during a run... maybe answer it",
+  "New (once found): Hollow Visage, a hooded stalker in a pale, wailing mask, with thrown knives, ambush backstabs, a Dread meter that turns into Terror, and a Jump Scare ultimate",
+  "New: Hollow Visage has 6 skills with evolutions plus the Lights Out signature, 3 talent trees (Stalker, Knifework, Night Terror), 5 achievements and its own eerie sounds",
+  "New: Hollow Visage looks for all 8 races, male and female"
  ],
  "files": [
   {
@@ -33,8 +31,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "44d8c8ab9a1f228c6c00e5c00118579184ed11ea04287ccf975618df5bae55df",
-   "size": 2282461
+   "sha256": "56f0a4ac22a77de64221011bb1ccb8bf95ab05599e69ee5e204f0e645460c8d0",
+   "size": 2330867
   },
   {
    "name": "manifest.webmanifest",
@@ -43,7 +41,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "2f4b37802d5c036b58e38321eccd8dc1e32bd8b4cd921277fdfb3b51e553ccb5",
+   "sha256": "4d467b50327ec71c4e880905721a18ed6379c291ecf9bb2d0666ae3ac7177dcd",
    "size": 1466
   }
  ]

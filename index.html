@@ -310,6 +310,14 @@ h3,.lbl,.branch .bn{color:#f0d48a}
 #achBanner .abt{font-size:11px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:#ffe08a}
 #achBanner .abn{font-size:17px;font-weight:900;color:#fff;text-shadow:0 2px 0 rgba(0,0,0,.4)}
 #achBanner .abr{font-size:12px;color:#dfe8ff}#achBanner .abr b{color:#9fffb0}
+#achBanner.creep46{background:linear-gradient(180deg,rgba(26,18,38,.98),rgba(6,3,12,.99));border-color:#c8d4ff;box-shadow:0 0 0 2px rgba(0,0,0,.7),0 6px 26px rgba(0,0,0,.6),0 0 28px rgba(255,58,90,.45);animation:creep46 .9s steps(2) 2}
+#achBanner.creep46 .abic{background:radial-gradient(circle at 40% 35%,#ffffff,#c8c4d8 60%,#4a4458);color:#14080c;box-shadow:0 0 16px rgba(255,58,90,.7)}
+#achBanner.creep46 .abt{font-size:12px;color:#ff6a8a;letter-spacing:.2em}#achBanner.creep46 .abr b{color:#c8d4ff}
+@keyframes creep46{0%,100%{filter:none}50%{filter:invert(1) hue-rotate(180deg)}}
+.ccard.sec46{border-color:#5a4a7a;background:linear-gradient(180deg,rgba(26,18,38,.95),rgba(8,4,14,.97))}
+.ccard .secb46{display:inline-block;margin-top:5px;font-size:12px;font-weight:800;color:#ff8aa0;background:rgba(10,4,16,.85);border:1px solid #5a3a5a;border-radius:10px;padding:2px 8px;letter-spacing:.04em}
+.ccard .sec46l{font-size:12px;font-style:italic;color:#c8d4ff;margin-top:4px}
+
 /* v14 quests: banner/toast never takes input; tracker top-left, away from the thumb */
 #qBan{position:fixed;left:50%;top:calc(env(safe-area-inset-top,0px) + 70px);transform:translate(-50%,-30px) scale(.94);opacity:0;z-index:55;pointer-events:none;display:flex;align-items:center;gap:10px;width:min(86vw,320px);padding:7px 12px 7px 8px;border-radius:16px;
  background:linear-gradient(180deg,rgba(40,22,62,.93),rgba(16,8,28,.93));border:1.5px solid rgba(255,210,74,.6);box-shadow:0 6px 18px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.08);transition:transform .28s cubic-bezier(.2,1.4,.4,1),opacity .25s;color:#efe6ff;font-family:-apple-system,system-ui,sans-serif}
@@ -1604,6 +1612,10 @@ const SFX = { // [duration, variants, recipe]
   flutter: [0.5, 2, (c, o) => { for (let i = 0; i < 7; i++) _nz(c, o, i * 0.055, 0.05, 0.05 - i * 0.005, R_(500, 800), 1.2, 'lowpass'); }],
   lull: [1.0, 3, (c, o) => { const b = 81 + [0, 3, 5][Math.floor(Math.random() * 3)]; [0, -5, -9].forEach((m, i) => { _tone(c, o, i * 0.14, mtof(b + m), 0.7, 'sine', 0.035); _tone(c, o, i * 0.14, mtof(b + m + 12), 0.3, 'triangle', 0.01); }); }],
   eclipse: [1.3, 1, (c, o) => { _tone(c, o, 0, 110, 1.2, 'sawtooth', 0.03, 220); _tone(c, o, 0, 165, 1.2, 'sine', 0.04, 330); _nz(c, o, 0.1, 1.1, 0.02, 900, 2, 'bandpass', 2400); }],
+  // v46: the Hollow Visage (old phone bell, jump-scare sting, a whisper)
+  ring46: [1.3, 1, (c, o) => { for (let r = 0; r < 2; r++) for (let i = 0; i < 9; i++) { const t = r * 0.62 + i * 0.05; _tone(c, o, t, i & 1 ? 1180 : 1420, 0.05, 'square', 0.022); _tone(c, o, t, i & 1 ? 2360 : 2840, 0.04, 'sine', 0.012); } }],
+  scare46: [1.4, 1, (c, o) => { _nz(c, o, 0, 0.5, 0.16, 2400, 0.7, 'bandpass', 900, 0.002); [0, 1, 6, 11].forEach((m, i) => _tone(c, o, 0, 440 * Math.pow(2, m / 12), 1.1, i & 1 ? 'sawtooth' : 'triangle', 0.035, 330 * Math.pow(2, m / 12))); _tone(c, o, 0, 70, 0.9, 'sine', 0.12, 40); }],
+  hush46: [0.9, 2, (c, o) => { _nz(c, o, 0, 0.7, 0.05, 3000, 2.4, 'bandpass', 1800, 0.18); _nz(c, o, 0.25, 0.5, 0.03, 5200, 3, 'bandpass', 4200, 0.12); _tone(c, o, 0, 196, 0.8, 'sine', 0.012, 185); }],
   tick: [0.5, 1, (c, o) => { for (let i = 0; i < 4; i++) { _nz(c, o, i * 0.11, 0.02, 0.03, i & 1 ? 2600 : 3400, 6); } }],
 
   claw: [0.2, 4, (c, o) => { const f = R_(2400, 3400); for (let i = 0; i < 3; i++) _nz(c, o, i * 0.028, 0.07, 0.045, f - i * 300, 2.4, 'bandpass', f * 0.45); _tone(c, o, 0, R_(260, 320), 0.07, 'triangle', 0.03, 150); }],
@@ -1795,6 +1807,9 @@ const SND32 = (() => {
     summon(c, o, t, p) { N(c, o, t, 0.3, 0.07 * p.v, 500 * p.f, 0.9, 'bandpass', 2600 * p.f, 0.12); T(c, o, t + 0.05, 360 * p.f, 0.28, 'sine', 0.045 * p.v, 820 * p.f); T(c, o, t + 0.12, 720 * p.f, 0.2, 'triangle', 0.02 * p.v, 1300 * p.f); },
     gun(c, o, t, p) { const f = p.f; N(c, o, t, 0.05, 0.13 * p.v, 2200 * f, 1.4, 'bandpass', 900 * f, 0.002); T(c, o, t, 140 * f, 0.11, 'sine', 0.07 * p.v, 55); N(c, o, t + 0.02, 0.16, 0.035 * p.v, 900 * f, 0.7, 'lowpass', 300); T(c, o, t + 0.12 * p.k + 0.05, 4200 * f, 0.05, 'sine', 0.012 * p.v, 3900 * f); },
     ric(c, o, t, p) { const f = p.f; T(c, o, t, 2400 * f, 0.22, 'sine', 0.035 * p.v, 900 * f); T(c, o, t + 0.01, 3600 * f, 0.16, 'triangle', 0.014 * p.v, 1800 * f); N(c, o, t, 0.04, 0.05 * p.v, 5200 * f, 3, 'bandpass', 3000 * f, 0.002); },
+    hush(c, o, t, p) { const f = p.f; N(c, o, t, 0.22, 0.06 * p.v, 2600 * f, 2.2, 'bandpass', 1400 * f, 0.06); N(c, o, t + 0.05, 0.12, 0.03 * p.v, 5200 * f, 3, 'bandpass', 3800 * f, 0.03); T(c, o, t, 1900 * f, 0.07, 'triangle', 0.012 * p.v, 2600 * f); },
+    shriek(c, o, t, p) { const f = p.f; T(c, o, t, 980 * f, 0.42, 'sawtooth', 0.018 * p.v, 420 * f); T(c, o, t, 1040 * f, 0.42, 'sine', 0.035 * p.v, 455 * f); T(c, o, t + 0.03, 1470 * f, 0.3, 'triangle', 0.014 * p.v, 690 * f); N(c, o, t, 0.36, 0.035 * p.v, 1800 * f, 1.6, 'bandpass', 700 * f, 0.03); },
+    bell(c, o, t, p) { const f = p.f; for (let i = 0; i < 4; i++) { T(c, o, t + i * 0.045, (i & 1 ? 1180 : 1440) * f, 0.05, 'square', 0.012 * p.v); T(c, o, t + i * 0.045, (i & 1 ? 2360 : 2880) * f, 0.04, 'sine', 0.01 * p.v); } },
   };
   const FAMS = Object.keys(F);
   const SIG = { '@summonbolt': ['summoner', 'shadow:summon'] }; // class signature attacks that are not WDEF skills
@@ -1819,11 +1834,12 @@ const SND32 = (() => {
     beatpulse: 'synth', holoneko: 'synth:beast', subwoofer: 'synth:boom', glitchstep: 'synth:holy', promptstorm: 'glitch:shock', neuralnet: 'synth:arcane', vinyl: 'scratch', autotune: 'synth:wind', thedrop: 'synth:earth',
     fraybolt: 'thread', plaguebloom: 'thread:poison', hexfire: 'thread:fire', withering: 'thread:shadow', threadsnare: 'thread:chain', snap: 'thread:blade', spindle: 'thread:time', blackpall: 'thread:void', unravel: 'thread:boom',
     sixguns: 'gun', fanhammer: 'gun:metal', ricochet: 'gun:ric', smokeroll: 'wind:ric', deadeye: 'ric:gun', trickshot: 'ric:glass', explosive: 'gun:boom', highnoon: 'ric:boom',
+    hushblades: 'hush', stalk: 'hush:shadow', behindyou: 'shadow:hush', knifefan: 'throw:hush', dreadwail: 'shriek', lastcall: 'bell:boom', stalkwake: 'hush:ghost', lightsout: 'shriek:void',
   };
   // very frequent casts: quieter, throttled harder
-  const FREQ = { sixguns: 1, fangs: 1, knives: 1, bow: 1, rivetgun: 1, orbs: 1, familiars: 1, hounds: 1, lute: 1, fraybolt: 1, clockhand: 1, seedbolt: 1, mbolt: 1, flask: 1, bloodblade: 1, shieldbash: 1, chakram: 1, blightbolt: 1, beatpulse: 1, archers: 1, imps: 1, catform: 1, shred: 1, px_dagger: 1, turret: 1, drone: 1, eclipse: 1 };
+  const FREQ = { hushblades: 1, sixguns: 1, fangs: 1, knives: 1, bow: 1, rivetgun: 1, orbs: 1, familiars: 1, hounds: 1, lute: 1, fraybolt: 1, clockhand: 1, seedbolt: 1, mbolt: 1, flask: 1, bloodblade: 1, shieldbash: 1, chakram: 1, blightbolt: 1, beatpulse: 1, archers: 1, imps: 1, catform: 1, shred: 1, px_dagger: 1, turret: 1, drone: 1, eclipse: 1 };
   const ULF = { rogue: 'blade:shadow:0', warlock: 'shadow:poison:0', summoner: 'summon:bone:0', ranger: 'bow:hawk:1', reaper: 'shadow:blade:0', rift: 'void:arcane:1', druid: 'nature:earth:1', druid_cat: 'beast:blade:0', druid_tree: 'earth:nature:1',
-    mage: 'arcane:fire:1', paragon: 'holy:void:1', paladin: 'holy:metal:1', engineer: 'boom:metal:1', alchemist: 'glass:fire:1', bard: 'horn:lute:1', bloodknight: 'blood:boom:0', chrono: 'time:void:1', maestro: 'synth:glitch:0', unraveler: 'thread:void:0', gunslinger: 'gun:boom:0' };
+    mage: 'arcane:fire:1', paragon: 'holy:void:1', paladin: 'holy:metal:1', engineer: 'boom:metal:1', alchemist: 'glass:fire:1', bard: 'horn:lute:1', bloodknight: 'blood:boom:0', chrono: 'time:void:1', maestro: 'synth:glitch:0', unraveler: 'thread:void:0', gunslinger: 'gun:boom:0', visage: 'hush:shriek:0' };
   const spec = id => SK[id] || (SIG[id] && SIG[id][1]) || FAMS[(hsh(id) * FAMS.length) | 0] + ':' + FAMS[(hsh(id + '#') * FAMS.length) | 0];
   const par = id => { const a = hsh(id), b = hsh(id + '~'); return { f: 0.8 + a * 0.5, k: b, v: 1 }; };
   function skillRec(id, evo) { const [f1, f2] = spec(id).split(':'), p = par(id);
@@ -2289,6 +2305,8 @@ const TALENTS = {
     passive: 'Loose Threads', pdesc: 'Plague, Burning and Curses stack on foes and tick for visible damage. Each distinct affliction on a foe makes it take +10% damage, and every Curse stack amplifies the other afflictions by 8%. Afflicted foes pass on part of their stacks when they die (Contagion). Afflicted kills wind the Loom: when it is full, a wave of every affliction rolls out', stats: { maxHp: 90, armor: 0, speed: 1.02 }, chips: ['♥ 90', '⚸ Afflictions', '⚵ Contagion'] },
   gunslinger: { name: 'Gunslinger', role: 'Rapid Fire · Dual Pistols & Trick Shots', flavor: '“Two guns, twelve shots, no second chances.”', desc: 'A dust-caked drifter with a revolver in each hand and a wanted poster in every town. Both guns bark in a rapid left-right rhythm, bullets ricochet from foe to foe, fanned volleys and explosive rounds clear the road, and when the sun hits High Noon every marked outlaw on screen falls at once.', weapon: 'sixguns', wname: 'Twin Six-Shooters', tint: '#ffc85a', cost: 1200,
     passive: 'True Grit', pdesc: 'Every hit builds Grit; kills build more (triple on marked foes). At 100 Grit you go on a Hot Streak for 5s: both revolvers fire much faster, every shot is doubled and you deal +15% damage. Every 6th pistol shot is a guaranteed crit, and foes Marked by Deadeye or High Noon take +25% damage from you', stats: { maxHp: 95, armor: 0, crit: 0.05, speed: 1.06 }, chips: ['♥ 95', '✵ High Noon', '⊕ Deadeye Marks'] },
+  visage: { name: 'Hollow Visage', role: 'Secret Stalker · Thrown Blades, Backstabs & Dread', flavor: '“Pick up. I can see you.”', desc: 'Nobody remembers sending for it. A hooded shape in a black robe, its pale mask stretched long into a silent wail, it answers a phone that should not ring and follows you out into the dark. It fades into shadow, throws hush-blades into turned backs, appears right behind the foes it frightens, and when its Dread boils over every monster on screen forgets how to be brave.', weapon: 'hushblades', wname: 'Hush Blades', tint: '#c8d4ff', cost: 0, secret: 1,
+    passive: 'Dread & Backstab', pdesc: 'Hits that land on a foe’s turned back (or on a frightened, staggered foe, or from the shadows) are Backstabs: +35% damage. Your first hit on an unhurt foe is an Ambush: +20% damage. Every hit builds Dread, Backstab kills build more. At 100 Dread you become Terror for 5s: every hit is a Backstab and nearby foes flee from you', stats: { maxHp: 100, armor: 0, crit: 0.07, speed: 1.08 }, chips: ['♥ 100', '⊘ Lights Out', '☎ Secret Class'] },
 }); CLASSES.paragon = _pg; }
 Object.assign(CLS_COL, { paladin: '#d8b04a',
  engineer: '#e08a2a',
@@ -2297,7 +2315,7 @@ Object.assign(CLS_COL, { paladin: '#d8b04a',
  bloodknight: '#e0203a',
  chrono: '#5ab0ff',
  maestro: '#3af0ff',
- unraveler: '#b05aff', gunslinger: '#ff9a3a',});
+ unraveler: '#b05aff', gunslinger: '#ff9a3a', visage: '#c8d4ff',});
 Object.assign(TALENTS, {
   paladin: [ // v30 Knight (Paladin): Bulwark (defence) · Zeal (charge & smite) · Radiance (holy light)
     TTREE('Bulwark', '⛊', '#c9d4ea', [
@@ -2524,6 +2542,31 @@ Object.assign(TALENTS, {
       ['gs_keg', 'Powder Keg', '✸', {}, { f: 'gKeg', d: 'Explosive Rounds blasts are {12}% bigger' }], ['gs_ghost', 'Ghost in the Smoke', '☁', {}, { f: 'gGhost', d: 'After a Smoke Roll your next {3} shots are guaranteed crits' }],
       ['gs_ex2', 'Nitro', '✹', { sd_explosive: 0.06 }], ['gs_reg3', 'Whiskey', '✚', { regen: 0.2 }],
       ['gs_wild', 'Wild Bunch', '✺', {}, { f: 'gWild', d: 'CAPSTONE: explosive blasts throw out 3 burning shrapnel bullets that ricochet into nearby foes' }]])],
+  visage: [ // v46 Hollow Visage (secret): Stalker (shadows & ambush) · Knifework (thrown blades) · Night Terror (fear & Dread)
+    TTREE('Stalker', '◐', '#c8d4ff', [
+      ['vs_stalk', 'Soft Footfalls', '◐', { sd_stalk: 0.1 }], ['vs_hp', 'Thick Robe', '♥', { maxHp: 5 }],
+      ['vs_hide', 'Long Shadow', '◔', {}, { f: 'vHide', d: 'Stalk keeps you hidden {20}% longer' }], ['vs_spd', 'Light Step', '»', { speed: 0.02 }], ['vs_behind', 'Right Behind You', '⧖', { sd_behindyou: 0.08 }],
+      ['vs_amb', 'Patient Hunter', '❖', {}, { f: 'vAmb', d: 'Ambushes deal {10}% more damage' }], ['vs_shade', 'Second Shade', '⧖', {}, { f: 'vShade', d: 'Behind You strikes {1} more foe' }], ['vs_dodge', 'Not There', '»', { dodge: 0.008 }],
+      ['vs_wake', 'Cold Footprints', '∴', { sd_stalkwake: 0.1 }], ['vs_dmg', 'Whetstone', '✦', { dmg: 0.012 }], ['vs_arm', 'Padded Robe', '⛊', { armor: 0.4 }],
+      ['vs_hush', 'Hushed', '◐', {}, { f: 'vHush', d: 'While hidden you take {10}% less damage' }], ['vs_trail', 'Wet Tracks', '∴', {}, { f: 'vTrail', d: 'Stalker’s Wake prints last {1}s longer' }],
+      ['vs_behind2', 'Over the Shoulder', '⧖', { sd_behindyou: 0.06 }], ['vs_reg', 'Night Air', '✚', { regen: 0.2 }],
+      ['vs_unseen', 'Unseen', '◑', {}, { f: 'vUnseen', d: 'CAPSTONE: every Ambush also sends a shade behind its target for a free Backstab, and slipping out of Stalk resets Behind You' }]]),
+    TTREE('Knifework', '✢', '#ff3a5a', [
+      ['vs_blade', 'Balanced Blades', '✢', { sd_hushblades: 0.06 }], ['vs_crit', 'Steady Hand', '◈', { crit: 0.01 }],
+      ['vs_fan', 'More Knives', '✣', {}, { f: 'vFan', d: 'Knife Fan throws {2} more knives' }], ['vs_cd', 'Quick Fingers', '↯', { cd: 0.015 }], ['vs_fan2', 'Fanned Steel', '✣', { sd_knifefan: 0.08 }],
+      ['vs_back', 'Between the Ribs', '☠', {}, { f: 'vBack', d: 'Backstabs deal {5}% more damage' }], ['vs_cm', 'Deep Cuts', '◈', { critMul: 0.03 }], ['vs_hp2', 'Stubborn', '♥', { maxHp: 4 }],
+      ['vs_out', 'Blackout', '◑', { sd_lightsout: 0.08 }], ['vs_crit2', 'Cold Eye', '◈', { crit: 0.01 }], ['vs_elite', 'Big Game', '♛', { eliteDmg: 0.04 }],
+      ['vs_twin', 'Spare Blade', '✢', {}, { f: 'vTwin', d: 'Hush Blades have a {20}% chance to throw a second blade' }], ['vs_bleed', 'Open Wounds', '❦', {}, { f: 'vBleed', d: 'Backstabs make foes Bleed for {3} damage a second' }],
+      ['vs_cm2', 'Artery', '◈', { critMul: 0.03 }], ['vs_reg2', 'Second Wind', '✚', { regen: 0.2 }],
+      ['vs_thousand', 'Thousand Cuts', '✺', {}, { f: 'vThousand', d: 'CAPSTONE: every 5th hush-blade splits into 3 blades that seek different foes, and Knife Fan knives that Backstab throw a blade at another foe' }]]),
+    TTREE('Night Terror', '☊', '#a07aff', [
+      ['vs_wail', 'Louder', '☊', { sd_dreadwail: 0.1 }], ['vs_hp3', 'Unshaken', '♥', { maxHp: 5 }],
+      ['vs_long', 'Lingering Fear', '◔', {}, { f: 'vLong', d: 'Your Dread effects last {20}% longer' }], ['vs_call', 'Ring Ring', '☎', { sd_lastcall: 0.1 }], ['vs_dread', 'Creeping Dread', '❣', {}, { f: 'vDread', d: 'You build Dread {10}% faster' }],
+      ['vs_dr', 'Numb', '⛨', { dr: 0.008 }], ['vs_two', 'Party Line', '☎', {}, { f: 'vCall', d: 'Last Call rings {1} more foe' }], ['vs_area', 'Wide Wail', '◍', { area: 0.015 }],
+      ['vs_terror', 'Night Terrors', '♨', {}, { f: 'vTerror', d: 'Terror lasts {20}% longer' }], ['vs_dmg2', 'Cruel Streak', '✦', { dmg: 0.012 }], ['vs_arm2', 'Cold Iron', '⛊', { armor: 0.4 }],
+      ['vs_shake', 'Weak Knees', '☊', {}, { f: 'vWeak', d: 'Frightened foes take {6}% more damage' }], ['vs_hold', 'Frozen Stiff', '❄', {}, { f: 'vFreeze', d: 'Dread Wail roots foes in place for {0.4}s before they run' }],
+      ['vs_call2', 'Collect Call', '☎', { sd_lastcall: 0.06 }], ['vs_reg3', 'Sleepless', '✚', { regen: 0.2 }],
+      ['vs_panic', 'Mass Panic', '☠', {}, { f: 'vPanic', d: 'CAPSTONE: foes that die while frightened let out a scream that frightens every foe within 90px for 1.5s, and Terror starts with a free Dread Wail all around you' }]])],
 });
 const TAL_BY_ID = {}; for (const c in TALENTS) TALENTS[c].forEach((tr, bi) => tr.nodes.forEach(n => { TAL_BY_ID[c + ':' + n.id] = n; n.bi = bi; }));
 const cxpNeed = l => l <= 20 ? 120 + 90 * (l - 1) : 1830 + 45 * (l - 20);            // class XP for level l -> l+1 (v19: same curve, cap raised 42 -> 51)
@@ -2587,6 +2630,9 @@ Object.assign(ARMOR_SETS, {
   gunslinger: [AS('gs_duster', 'Dust-Road Duster', '#6a4a2a', '#2a1a0e', '#e8b050', 'studs', '#a8282a'), AS('gs_bounty', 'Bounty Hunter Leathers', '#3a2a1a', '#140c06', '#cfc6b8', 'studs', '#ff8a2a'),
     AS('gs_noon', 'High Noon Poncho', '#c87a3a', '#4a2410', '#ffe0a0', 'stars', '#2a4a8a'), AS('gs_outlaw', 'Outlaw Blacks', '#1a1418', '#08060a', '#ff4a3a', 'runes', '#c8c0b0'),
     AS('gs_legend', 'Legend of the West', '#f0e0c0', '#6a4a2a', '#ffc85a', 'filigree', '#a8282a', '#ffd890')],
+  visage: [AS('vs_robe', 'Hollow Visage Robe', '#141018', '#050308', '#c8d4ff', 'runes', '#4a1a2a'), AS('vs_shift', 'Graveyard Shift', '#22262e', '#0a0c10', '#8a96aa', 'studs', '#3a4a6a'),
+    AS('vs_prank', 'Midnight Prankster', '#2a0a14', '#0e0306', '#ff3a5a', 'stars', '#e8e0f0'), AS('vs_static', 'Dial-Tone Static', '#1a1a22', '#08080c', '#a07aff', 'runes', '#c8d4ff'),
+    AS('vs_legend', 'The Last Caller', '#e8e4f0', '#3a3448', '#ff3a5a', 'filigree', '#141018', '#ff6a8a')],
 });
 const ARMOR_BY_ID = {}; for (const c in ARMOR_SETS) for (const s of ARMOR_SETS[c]) { s.cls = c; ARMOR_BY_ID[s.id] = s; }
 const RC = (id, name, slot, v) => ({ id, name, slot, v });
@@ -2685,6 +2731,7 @@ Object.assign(ACH_NAMES, {
   maestro: ['Prompt Accepted', 'Nya Squad', 'Bass Face', 'Hype Train Conductor', 'Neural Maestro'],
   unraveler: ['Loose Threads', 'Pandemic', 'Triple Affliction', 'Unravelled', 'Visreal the Unraveler'],
   gunslinger: ['Quick on the Draw', 'Bounty Collector', 'Showdown at Sundown', 'Fastest Gun in the West', 'Legend of the Dust Road'],
+  visage: ['Is Anyone There?', 'Don’t Look Behind You', 'Lights Out', 'Seven Rings', 'Nobody Hangs Up on Me'],
 });
 const RACE_ACH = {
   cat: { k: 'r_cat_dodge', goal: 250, name: 'Can\'t Touch This', desc: 'Evade 250 hits as a Cat Human', ic: '≋' },
@@ -2752,8 +2799,8 @@ function achBanner(a) { _achQ.push(a); if (!_achBusy) _achNext(); }
 const POPHOLD45 = { npc: 1, gear: 1, shop: 1 }; let _achCur = null, _achT = 0; function popHold45() { return !!POPHOLD45[state]; } // v45
 function _achNext() { clearTimeout(_achT); if (_achQ.length && popHold45()) { _achBusy = true; _achT = setTimeout(_achNext, 300); return; } const a = _achQ.shift(), el = $('achBanner'); if (!a) { _achBusy = false; return; } _achBusy = true; _achCur = a;
   el.style.top = (state === 'play' || state === 'countdown') && G ? `calc(env(safe-area-inset-top,0px) + ${G.boss && !G.boss.dead ? 150 : 128}px)` : ''; // v11: in-run, sit below the HUD (pause button, danger, boss bar)
-  el.innerHTML = `<div class="abic">${a.ic}\uFE0E</div><div class="abtx"><div class="abt">Achievement Unlocked!</div><div class="abn">${a.name}</div><div class="abr">${a.rw ? `Reward: <b>${rewardName(a.rw)}</b>` : a.un ? `Unlocks: <b>${a.un}</b>` : ''}</div></div>`;
-  el.classList.remove('on'); void el.offsetWidth; el.classList.add('on'); try { Snd.play('ach'); } catch (e) { }
+  el.innerHTML = `<div class="abic">${a.ic}\uFE0E</div><div class="abtx"><div class="abt">${a.abt || 'Achievement Unlocked!'}</div><div class="abn">${a.name}</div><div class="abr">${a.rw ? `Reward: <b>${rewardName(a.rw)}</b>` : a.un ? `Unlocks: <b>${a.un}</b>` : ''}</div></div>`;
+  el.classList.toggle('creep46', !!a.creep); el.classList.remove('on'); void el.offsetWidth; el.classList.add('on'); try { Snd.play(a.creep ? 'ring46' : 'ach'); } catch (e) { }
   _achT = setTimeout(() => { el.classList.remove('on'); _achCur = null; _achT = setTimeout(_achNext, 380); }, 3000); }
 setInterval(() => { if (!popHold45()) return; const el = $('achBanner'), q = $('qBan'); // v45: a window opened under a banner -> the banner steps aside and replays afterwards
   if (el && _achCur && el.classList.contains('on')) { clearTimeout(_achT); el.classList.remove('on'); _achQ.unshift(_achCur); _achCur = null; _achT = setTimeout(_achNext, 300); }
@@ -5759,6 +5806,35 @@ const HAWK32 = (() => {
     front(c) { const { b, an, f, hipX, hipY } = c; if (an !== 'atk') return; const k = f / 3; // spent brass flicking out of the cylinders
       b.set(hipX + 6 - k * 4, hipY - 20 + k * 12, BRS[4]); b.set(hipX + 6.6 - k * 4, hipY - 19.4 + k * 12, BRS[2]); if (f >= 2) { b.set(hipX + 2 + (f - 2) * 2, hipY - 22 + (f - 2) * 9, BRS[3]); } }
   }; }
+  /* ======================= HOLLOW VISAGE (v46 secret): long ragged black robe, tall drooping hood, a pale stretched wailing mask, throwing knives ======================= */
+  { const MASK = R(['#5a5468', '#9e9ab0', '#cfcddc', '#ecebf4', '#ffffff']), INKV = R(['#020104', '#06030a', '#0c0612', '#140a1c', '#1e1028']), STEEL = R(['#1a1c24', '#3a3e4c', '#6a7080', '#a8b0c0', '#eef2ff'], 1), HILT = R(['#0a0408', '#1e0a12', '#3a1220', '#5a1a2e', '#7a2a40']);
+    const knife = (b, H, hot, back) => { const dx = Math.sin(H.fa), dy = Math.cos(H.fa), tx = H.hx + dx * 7, ty = H.hy + dy * 7; // reverse-grip-free: blade runs along the forearm line past the fist
+      b.cap(H.hx - dx * 1.4, H.hy - dy * 1.4, H.hx + dx * 1.2, H.hy + dy * 1.2, 0.9, 0.9, HILT, back ? 1 : 2); b.cap(H.hx + dx * 1.6, H.hy + dy * 1.6, tx, ty, 0.95, 0.35, STEEL, back ? 2 : 3); b.set(tx, ty, STEEL[4]);
+      if (hot) PX.sparkle(b, tx + dx * 1.5, ty + dy * 1.5, STEEL, 1); };
+    PXA.kits.visage = {
+      look(L) { L.cape = L.lea2; },
+      pose(P, an, f) { if (an === 'walk' || an === 'idle') P.lean = (P.lean || 0) + 0.07; // the stalker's hunch
+        if (an === 'atk') { // 0 wind back · 1 throw · 2 follow-through · 3 second knife ready
+          P.af = [{ u: -1.5, e: 1.3 }, { u: 1.25, e: 0.1 }, { u: 1.6, e: -0.1 }, { u: 0.4, e: 0.9 }][f]; P.ab = [{ u: 0.5, e: 0.7 }, { u: -0.4, e: 0.9 }, { u: -0.8, e: 1.0 }, { u: 0.9, e: 0.4 }][f];
+          P.lean = [-0.12, 0.16, 0.2, 0.06][f]; P.lf = { a: 0.4, b: 0.3 }; P.lb = { a: -0.4, b: 0.3 }; P.cape = [1, 3, 4, 2][f]; } },
+      backHand(c) { knife(c.b, c.AB, false, 1); },
+      torso(c) { const { b, Rm, up } = c; PX.torso(c, Rm.lea); // layered robe, rope belt, a long pale cord
+        b.line(...up(-1.4, -21), ...up(0.6, -4), Rm.lea2[0]); b.line(...up(2.6, -20.6), ...up(3.4, -6), Rm.lea[3]); PX.belt(c, HILT, Rm.trim[3]);
+        const [kx, ky] = up(-3.6, -6); b.cap(kx, ky, kx - 1.4, ky + 4, 0.8, 0.6, STEEL, 2); }, // a spare knife tucked at the hip
+      skirt(c) { const { Rm, b, hipY } = c; PX.skirt(c, Rm.lea, { flare: 1.28, len: 15, ragged: true, zig: 9 }); b.tint((x, y) => y > hipY + 10 && ((x * 3 + y) | 0) % 4 === 0, ch => Rm.lea.includes(ch) ? PXA.step(ch, -1) : 0); },
+      headBack(c, hx, hy) { const { b, Rm } = c, wv = c.P.hair; // a tall hood that droops back over the shoulders
+        b.poly([hx - 8.6, hy + 8, hx - 9.8, hy - 2, hx - 6, hy - 10, hx - 1, hy - 14, hx + 3, hy - 11, hx + 7.6, hy - 5, hx + 8.4, hy + 2, hx + 5.6, hy + 7], Rm.lea, 1, 1);
+        b.poly([hx - 9.8, hy + 2, hx - 12 - wv * 0.4, hy + 11, hx - 5, hy + 11, hx - 3.4, hy + 4], Rm.lea2, 1, 1); },
+      headFront(c, hx, hy) { const { b, Rm } = c;
+        b.ell(hx + 1.2, hy + 1, 5.4, 6, INKV, 1, 0); // the hood's dark inside
+        b.ell(hx + 2.2, hy + 2.2, 3.4, 5.8, MASK, 3, 1); b.tint((x, y) => y > hy + 4.5, ch => MASK.includes(ch) ? PXA.step(ch, -1) : 0); // long pale mask, narrowing to the chin
+        for (const ex of [hx + 0.8, hx + 3.6]) { b.set(ex, hy, INKV[0]); b.set(ex, hy - 1, INKV[0]); b.set(ex + (ex > hx + 2 ? 1 : -1), hy - 1, INKV[1]); b.set(ex, hy + 1.6, MASK[0]); b.set(ex, hy + 2.6, MASK[1]); } // hollow slanted eyes + ink tear-streaks
+        b.set(hx + 2.2, hy + 4.4, INKV[0]); b.set(hx + 2.2, hy + 5.4, INKV[0]); b.set(hx + 2.2, hy + 6.4, HILT[3]); b.set(hx + 1.6, hy + 5.4, INKV[2]); b.set(hx + 2.8, hy + 5.4, INKV[2]); // the long wailing mouth
+        b.set(hx + 3.4, hy - 3, MASK[0]); b.set(hx + 3.9, hy - 2, MASK[1]); // hairline crack
+        b.poly([hx - 6.6, hy + 3, hx - 6.2, hy - 4.6, hx - 1.6, hy - 9, hx + 3.6, hy - 8.4, hx + 7.4, hy - 3.6, hx + 5.8, hy - 4.4, hx + 1.2, hy - 5.4, hx - 2.8, hy - 4, hx - 4, hy + 3], Rm.lea, 1, 1); b.line(hx - 3.2, hy - 4.2, hx + 5.4, hy - 4.6, Rm.lea2[0]); }, // hood rim
+      weapon(c) { const { b, an, f } = c; knife(b, c.AF, an === 'atk' && f === 1, 0);
+        if (an === 'atk' && f >= 1 && f <= 2) { const k = f - 1, x = c.AF.hx + 6 + k * 8, y = c.AF.hy - 2 - k * 1; b.line(x, y, x + 5, y, STEEL[3]); b.set(x + 5, y, STEEL[4]); } } // a thrown knife leaving the hand
+    }; }
 })();
 /* ---- v23 pixel Druid forms: Shadowcat and Treant. Same frame names as the hero (idle 4 · walk 8 · atk 4 · jump 4 · hurt 1);
    colours come from the equipped outfit exactly like the classic forms (cloak colour = stripe / sash, eye colour = glowing eyes). ---- */
@@ -8291,6 +8367,7 @@ function updateEnemies(dt, dying) {
     }
     if (e.boss || def.mini) { for (let i = _ne0; i < effects.length; i++) effects[i].bossSrc = 1; for (let i = _np0; i < eprojs.length; i++) eprojs[i].bossSrc = 1; }
     if (e.dead) continue;
+    if (e.fear46 > gtime && !e.boss && !def.mini) { const fx = e.x - P.x, fy = e.y - P.y, fl = Math.hypot(fx, fy) || 1; dx = fx / fl; dy = fy / fl; sp = Math.max(sp, e.spd * 0.25 * (e.slowT > 0 ? 1 - e.slow : 1)); } // v46: terrified foes run away
     const solid = !def.fly && !e.under && !e.boss && OBG.size;
     if (solid && sp > 0) { const sv = obSteer(e, dx, dy); if (sv) { dx = sv[0]; dy = sv[1]; } }
     e.x += dx * sp * dt + e.kbx * dt; e.y += dy * sp * dt + e.kby * dt;
@@ -10256,6 +10333,195 @@ evo30('deadeye', 'insight', 'Dead Aim', '#ff4a3a', 1.4, 0.85, 1.1, 'execute', '+
 evo30('trickshot', 'expanse', 'Silver Dollar Show', '#fff4d8', 1.4, 0.85, 1.15, 'crit', '+40% damage; +20% crit chance');
 evo30('explosive', 'vigor', 'Nitro Express', '#ff8a2a', 1.4, 0.85, 1.2, 'nova', '+40% damage; every blast rings out a shockwave');
 evo30('highnoon', 'ward', 'Sundown', '#ffc85a', 1.3, 0.85, 1.15, 'execute', 'SIGNATURE EVO: +30% damage, faster; High Noon executes weakened foes outright');
+/* ================= v46 HOLLOW VISAGE (secret class): stealth, backstabs & ambushes, thrown hush-blades, Dread & fear ================= */
+Object.assign(GCLS, { visage: ['crit', 'critMul', 'speed', 'dodge'] }); Object.assign(GCLSN, { visage: 'Night Terror' }); Object.assign(GPAL, { visage: ['#141018', '#c8d4ff', '#ff3a5a'] });
+Object.assign(CLASS_PAL, { visage: { cloak: '#141018', cloak2: '#050308', trim: '#c8d4ff', acc: '#4a1a2a', acc2: '#1a060c', eye: '#ff3a5a', name: 'Hollow Visage Robe' } });
+Object.assign(CLASS_LOOK, { visage: { acc: '#4a1a2a', acc2: '#1a060c', body: 'tunic', hood: 'none' } });
+const HV = { p: '#c8d4ff', w: '#f4f2ff', r: '#ff3a5a', v: '#a07aff', k: '#2a2236', s: '#d8e0ec' };
+const vsLv = id => { const w = G.weapons.find(q => q.id === id); return w ? w.lvl : 0; };
+/* frightened: the foe turns and runs (bosses and mini-bosses only stagger) */
+const vsFeared = e => !!e && e.fear46 > gtime;
+function vsFear(e, t) { if (!e || e.dead) return; t *= 1 + 0.2 * tf30('vLong'); if (e.boss || e.mini) { stun30(e, Math.min(0.6, t * 0.3)); return; }
+  const was = vsFeared(e); e.fear46 = Math.max(e.fear46 || 0, gtime + t); if (!was) { const S = v30S(); S.fears = (S.fears || 0) + 1; if (S.fr && S.fr.length < 60) S.fr.push(e); } }
+/* a Backstab: the foe's back is turned to you, it is frightened or staggered, you strike from the shadows, or you are Terror */
+function vsBack(e, S) { if (!e) return false; S = S || G.v30 || {}; if (S.hideT > 0 || S.terT > 0 || S.ambN > 0 || vsFeared(e) || e.stunU > gtime) return true;
+  const away = Math.sign(e.x - P.x) || 1; return e.face === away && Math.abs(e.x - P.x) > 6; }
+function vsDread(S, n) { if (!S || S.terT > 0) return; S.dread = (S.dread || 0) + n * (1 + 0.1 * tf30('vDread')); if (S.dread >= 100) vsTerror(S); }
+function vsTerror(S) { S.dread = 0; S.terMax = 5 * (1 + 0.2 * tf30('vTerror')); S.terT = S.terMax; S.terrors = (S.terrors || 0) + 1;
+  for (const e of nearestN(P.x, P.y, 40, 170)) vsFear(e, 2); if (tf30('vPanic')) vsWail(S, Math.max(1, vsLv('dreadwail')), true);
+  ring30(P.x, P.y, 110, HV.v, 0.6, { w: 4 }); ring30(P.x, P.y, 70, HV.r, 0.45, { w: 2 }); txt30(P.x, P.y - 46, 'TERROR', HV.r, { sz: 12 }); Snd.play('hush46'); }
+/* a hush-blade: a thin, fast, pale throwing knife */
+function vsKnife(x, y, a, d, o) { return bolt30(x, y, a, 600, d, Object.assign({ col: HV.p, r: 4.5, life: 0.62, src: 'hushblades' }, o)); }
+/* a shade of you appears at the foe's back and stabs */
+function vsShade(e, d, src, o) { if (!e || e.dead) return; o = o || {}; const fx = Math.sign(e.x - P.x) || 1, x = e.x + fx * ((e.r || 10) + 9), y = e.y;
+  u30('vshade', { x, y, fx: -fx, life: 0.5, max: 0.5, src }); const S = v30S(); S.shades = (S.shades || 0) + 1;
+  G.later.push({ t: 0.12, src, f: () => { if (e.dead) return; G.srcW = src; S.ambN = (S.ambN || 0) + 1; damage(e, d * (o.cr ? P.critMul : 1), { src, col: HV.w, kb: 30, kx: -fx, ky: 0 }); S.ambN--;
+    if (o.on) o.on(e); stun30(e, o.st || 0.35); if (parts.length < 330) burst(e.x, e.y - 6, HV.r, 4, 100, 2, 0.25, true); if (Math.random() < 0.5) Snd.play('knife'); } }); }
+function vsWail(S, L, all) { const R = (L >= 3 ? 190 : 160) * Math.sqrt(P.area), arc = all || L >= 5 ? TAU : 1.9, { a } = aim30(R), d = 20 * dm30(L), src = 'dreadwail'; G.srcW = src;
+  const on = e => { if (tf30('vFreeze') && !e.boss) { e.stunU = Math.max(e.stunU || 0, gtime + 0.4 * tf30('vFreeze')); } vsFear(e, 2.2); if (L >= 6) e.vulnU = Math.max(e.vulnU || 0, gtime + 3); };
+  if (arc >= TAU) area30(P.x, P.y, R, d, 30, on, { src, col: HV.v }); else cone30(P.x, P.y, a, R, arc, d, 30, on);
+  u30('vwail', { x: P.x, y: P.y - 12, a, arc, r: R, life: 0.5, max: 0.5, src }); vsDread(S, 8); }
+function vsCall(e, L, S, hop) { if (!e || e.dead) return; const t = hop ? 1 : 2.4; u30('vcall', { x: e.x, y: e.y, e, life: t, max: t, L, hop, src: 'lastcall' }); S.calls = (S.calls || 0) + 1; }
+function vsPrint(x, y, L) { const life = (3 + tf30('vTrail')) * P.dur; u30('vprint', { x, y, L, r: (L >= 3 ? 22 : 17) * Math.sqrt(P.area), life, max: life, tk: 0, a: Math.random() * TAU, src: 'stalkwake' }); }
+/* ---- units ---- */
+UK30.vshade = { top: 1, upd() {}, draw(u) { const k = 1 - u.life / u.max, a = Math.max(0, Math.min(1, u.life / u.max * 2.2, k * 6)); ctx.save(); ctx.globalAlpha = a; const x = u.x, y = u.y + 2;
+  ctx.fillStyle = 'rgba(6,4,10,.85)'; ctx.beginPath(); ctx.moveTo(x - 9, y + 13); ctx.quadraticCurveTo(x - 10, y - 8, x, y - 22); ctx.quadraticCurveTo(x + 10, y - 8, x + 9, y + 13); ctx.closePath(); ctx.fill();
+  ctx.fillStyle = HV.w; ctx.beginPath(); ctx.ellipse(x + u.fx * 2, y - 13, 3.4, 4.6, 0, 0, TAU); ctx.fill(); ctx.fillStyle = '#05030a'; ctx.fillRect(x + u.fx * 2 - 2.2, y - 15, 1.4, 2.4); ctx.fillRect(x + u.fx * 2 + 0.8, y - 15, 1.4, 2.4);
+  ctx.beginPath(); ctx.ellipse(x + u.fx * 2, y - 10, 1, 1.8, 0, 0, TAU); ctx.fill();
+  if (k > 0.2 && k < 0.6) { ctx.strokeStyle = hexA(HV.s, 0.9); ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(x + u.fx * 4, y - 6); ctx.lineTo(x + u.fx * 15, y - 2); ctx.stroke(); } ctx.restore(); } };
+UK30.vwail = { top: 1, upd(u) { u.x = P.x; u.y = P.y - 12; }, draw(u) { const k = 1 - u.life / u.max, a = Math.max(0, u.life / u.max); ctx.save(); ctx.globalCompositeOperation = 'lighter';
+  for (let i = 0; i < 3; i++) { const r = u.r * Math.min(1, k * 1.6 + i * 0.12); ctx.strokeStyle = hexA(i % 2 ? HV.r : HV.v, 0.5 * a); ctx.lineWidth = 3 - i; ctx.beginPath(); if (u.arc >= TAU) ctx.arc(u.x, u.y, r, 0, TAU); else ctx.arc(u.x, u.y, r, u.a - u.arc / 2, u.a + u.arc / 2); ctx.stroke(); }
+  ctx.restore(); } };
+UK30.vcall = { top: 1, upd(u) { if (u.e && !u.e.dead) { u.x = u.e.x; u.y = u.e.y; } }, end(u) { const S = v30S(), L = u.L, r = (L >= 5 ? 78 : 60) * Math.sqrt(P.area); G.srcW = 'lastcall';
+    area30(u.x, u.y, r, (u.hop ? 0.6 : 1) * 58 * dm30(L), 60, e => vsFear(e, 1.5), { src: 'lastcall', col: HV.r }); boom30(u.x, u.y, r, HV.r); ring30(u.x, u.y, r, HV.v, 0.45, { w: 3 }); txt30(u.x, u.y - 30, 'CLICK.', HV.w, { sz: 11 }); vsDread(S, 4); Snd.play('boom');
+    if (L >= 6 && !u.hop) { const n = nearestN(u.x, u.y, 4, 240).find(q => q !== u.e && !q.dead); if (n) vsCall(n, L, S, 1); } },
+  draw(u) { const a = Math.min(1, u.t / 0.15), sh = Math.sin(gtime * 40) * 1.4 * (u.life < 0.8 ? 1 : 0.4), x = u.x + sh, y = u.y - 30; ctx.save(); ctx.globalAlpha = a;
+    ctx.strokeStyle = hexA(HV.r, 0.4 + 0.4 * Math.abs(Math.sin(gtime * 9))); ctx.lineWidth = 1.5; for (let i = 1; i <= 2; i++) { ctx.beginPath(); ctx.arc(x, y, 7 + i * 4 + (gtime * 14) % 4, -2.4, -0.7); ctx.stroke(); ctx.beginPath(); ctx.arc(x, y, 7 + i * 4 + (gtime * 14) % 4, Math.PI - 2.4 + 1.7, Math.PI + 0.7); ctx.stroke(); }
+    ctx.font = '700 13px system-ui,sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = HV.w; ctx.fillText('☎\uFE0E', x, y); ctx.restore(); } };
+UK30.vprint = { gr: 1, upd(u, dt) { if ((u.tk -= dt) > 0) return; u.tk = 0.45; const S = v30S();
+    const n = area30(u.x, u.y, u.r, 10 * dm30(u.L), 0, e => { slow30(e, 0.35, 0.6); if (u.L >= 6) vsFear(e, 0.8); }, { src: 'stalkwake', dot: 1, col: HV.p }); if (n) vsDread(S, 0.3 * Math.min(n, 4)); },
+  end(u) { if (u.L >= 5) { G.srcW = 'stalkwake'; area30(u.x, u.y, u.r * 1.5, 10 * dm30(u.L), 20, null, { src: 'stalkwake', col: HV.p }); ring30(u.x, u.y, u.r * 1.5, HV.p, 0.3, { w: 2 }); } },
+  draw(u) { const a = Math.min(1, u.life / 0.6, u.t / 0.15) * 0.75; ctx.save(); ctx.translate(u.x, u.y); ctx.rotate(u.a); ctx.fillStyle = hexA(HV.p, 0.22 * a); ctx.beginPath(); ctx.ellipse(0, 0, u.r, u.r * 0.55, 0, 0, TAU); ctx.fill();
+    ctx.fillStyle = hexA(HV.w, 0.7 * a); for (const s of [-1, 1]) { ctx.beginPath(); ctx.ellipse(s * 4, s * 2, 2.4, 4.2, 0.3 * s, 0, TAU); ctx.fill(); ctx.beginPath(); ctx.arc(s * 4 + 0.8, s * 2 - 5.6, 1.1, 0, TAU); ctx.fill(); } ctx.restore(); } };
+/* the Lights Out darkness and the hidden veil */
+V30.visage = { dm: 4.4, cols: [HV.p, HV.w, HV.r, HV.v, HV.s],
+  start(S) { S.dread = 0; S.terT = 0; S.terMax = 5; S.terrors = 0; S.hideT = 0; S.hideMax = 1.8; S.ambN = 0; S.amb = 0; S.ambs = 0; S.backs = 0; S.fears = 0; S.fr = []; S.shades = 0; S.calls = 0; S.outs = 0; S.outT = 0; S.blades = 0; S.prT = 0; S.hides = 0; },
+  dmg(e, o, sk) { const S = G.v30 || {}; let m = 1; if (sk === ULT_SRC) return 1;
+    if (vsBack(e, S)) { m *= 1.35 + 0.05 * tf30('vBack'); S.backs = (S.backs || 0) + 1; if (tf30('vBleed') && !(o && o.dot) && Math.random() < 0.35) applyBleed(e, 3 * tf30('vBleed') * (1 + G.level * 0.05), 2); }
+    if (!(o && o.dot) && e.hp >= e.maxHp) { m *= 1.2 + 0.1 * tf30('vAmb'); S.ambs = (S.ambs || 0) + 1; }
+    if (tf30('vWeak') && vsFeared(e)) m *= 1 + 0.06 * tf30('vWeak');
+    if (S.terT > 0) m *= 1.1; if (!(o && o.dot)) vsDread(S, 0.5); return m; },
+  hurt(d, src, S) { return S.hideT > 0 ? d * (0.6 - 0.1 * tf30('vHush')) : d; },
+  kill(e, S) { const fr = vsFeared(e), b = fr || e.stunU > gtime || S.terT > 0; vsDread(S, b ? 3 : 1);
+    if (fr && tf30('vPanic')) { for (const q of nearestN(e.x, e.y, 12, 90)) if (q !== e) vsFear(q, 1.5); if (parts.length < 330) burst(e.x, e.y - 6, HV.v, 5, 90, 2, 0.3, true); } },
+  tick(dt, S) { if (S.terT > 0) { S.terT -= dt; if ((S.terPulse = (S.terPulse || 0) - dt) <= 0) { S.terPulse = 0.6; for (const e of nearestN(P.x, P.y, 20, 120)) vsFear(e, 0.8); } if (S.terT <= 0) { S.terT = 0; S.dread = 0; } }
+    if (S.hideT > 0) { S.hideT -= dt; if (S.hideT <= 0) { S.hideT = 0; S.amb = 3 + (vsLv('stalk') >= 5 ? 2 : 0); txt30(P.x, P.y - 36, 'AMBUSH', HV.r, { sz: 10 });
+      if (tf30('vUnseen')) { const w = G.weapons.find(q => q.id === 'behindyou'); if (w) w.t = Math.min(w.t, 0.05); } } }
+    if (S.outT > 0) S.outT -= dt;
+    if (S.fr && S.fr.length && (S.frT = (S.frT || 0) - dt) <= 0) { S.frT = 0.25; S.fr = S.fr.filter(e => !e.dead && vsFeared(e)); } },
+  over(S) { ctx.save(); let n = 0; for (const e of S.fr || []) { if (n >= 30) break; if (e.dead || !vsFeared(e) || !inView(e.x, e.y, 20)) continue; n++; const y = e.y - (e.r || 10) - 12, j = Math.sin(gtime * 30 + e.x) * 0.8;
+      ctx.fillStyle = hexA(HV.v, 0.9); ctx.font = '900 12px system-ui,sans-serif'; ctx.textAlign = 'center'; ctx.fillText('!', e.x + j, y); ctx.strokeStyle = hexA(HV.p, 0.5); ctx.lineWidth = 1;
+      ctx.beginPath(); for (let i = 0; i < 3; i++) { const xx = e.x - 6 + i * 6; ctx.moveTo(xx, y + 4); ctx.lineTo(xx + j, y + 1); } ctx.stroke(); }
+    if (S.terT > 0) { glowAt(HV.r, P.x, P.y - 8, 90, 0.18 + 0.08 * Math.sin(gtime * 6)); ctx.strokeStyle = hexA(HV.v, 0.45); ctx.lineWidth = 1.5; ctx.setLineDash([4, 6]); ctx.lineDashOffset = gtime * 20; ctx.beginPath(); ctx.ellipse(P.x, P.y + 14, 26, 9, 0, 0, TAU); ctx.stroke(); ctx.setLineDash([]); }
+    if (S.hideT > 0) { ctx.fillStyle = 'rgba(6,4,12,.35)'; for (let i = 0; i < 5; i++) { const q = gtime * 1.4 + i * 1.3; ctx.beginPath(); ctx.ellipse(P.x + Math.cos(q) * 10, P.y + 4 + Math.sin(q * 1.7) * 4, 12, 7, 0, 0, TAU); ctx.fill(); } }
+    ctx.restore(); },
+  hud(S) { if (S.outT > 0) { ctx.fillStyle = `rgba(2,0,6,${(0.62 * Math.min(1, S.outT * 2.5)).toFixed(3)})`; ctx.fillRect(0, 0, W, H); }
+    else if (S.terT > 0) { const g = ctx.createRadialGradient(W / 2, H / 2, Math.min(W, H) * 0.3, W / 2, H / 2, Math.max(W, H) * 0.7); g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(1, 'rgba(40,0,16,.35)'); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H); } },
+  meter: S => S.terT > 0 ? { v: S.terT, max: S.terMax || 5, col: HV.r } : { v: S.dread || 0, max: 100, col: HV.v } };
+/* ---- skills ---- */
+sk30('hushblades', { name: 'Hush Blades', ic: '⸸', cls: 'visage', desc: ['Throw pale hush-blades that pierce a foe, aimed at the nearest — preferring a foe whose back is turned. Every hit on a turned back is a Backstab', '+20% damage', 'Blades pierce one more foe', '+20% damage, 12% faster', 'Throw a second blade at another foe', 'Backstab blades glance off into another foe'] }, w => {
+  const L = w.lvl, S = v30S(), tg = nearestN(P.x, P.y, 6, 440); if (!tg.length) return -1; const t = tg.find(e => vsBack(e, S)) || tg[0]; S.blades = (S.blades || 0) + 1;
+  const amb = S.amb > 0; if (amb) S.amb--; const thr = (e, side) => { const a = Math.atan2(e.y - P.y, e.x - P.x); let d = 9 * dm30(L); if (amb) d *= P.critMul;
+    vsKnife(P.x + side * 4, P.y - 12, a + (Math.random() - 0.5) * 0.05, d, { pierce: L >= 3 ? 2 : 1, col: amb ? HV.r : HV.p, on: (q, p) => { if (amb && tf30('vUnseen')) vsShade(q, d * 0.8, 'hushblades');
+      if (L >= 6 && vsBack(q, S) && !p.gl) { const n = nearestN(q.x, q.y, 4, 200).find(z => z !== q && !z.dead && !p.hit.has(z)); if (n) { const pp = vsKnife(q.x, q.y, Math.atan2(n.y - q.y, n.x - q.x), d * 0.6, { r: 3.5, life: 0.45 }); pp.gl = 1; pp.hit.add(q); } } } }); };
+  S.side = -(S.side || 1); thr(t, S.side); if (L >= 5 || (tf30('vTwin') && Math.random() < 0.2 * tf30('vTwin'))) thr(tg.find(e => e !== t) || t, -S.side);
+  if (tf30('vThousand') && S.blades % 5 === 0) for (const e of tg.slice(0, 3)) thr(e, 0);
+  P.atk = 1; return 0.34 * cd30(L); });
+sk30('stalk', { name: 'Stalk', ic: '◖', cls: 'visage', desc: ['When foes close in, slip into the shadows for 1.8s: you fade from sight, take 40% less damage and every hit is a Backstab. Foes near you lose track of you and stagger. Coming out of the shadows, your next 3 hush-blades are critical Ambushes', '+20% damage', 'Stay hidden longer', '+20% damage, 12% faster', '+2 Ambush blades', 'Vanishing lets out a hush that frightens foes nearby'] }, w => {
+  const L = w.lvl, S = v30S(), q = nearestN(P.x, P.y, 1, 140)[0]; if (!q || S.hideT > 0) return -1;
+  S.hideMax = (L >= 3 ? 2.3 : 1.8) * (1 + 0.2 * tf30('vHide')); S.hideT = S.hideMax; S.hides = (S.hides || 0) + 1; G.srcW = 'stalk';
+  area30(P.x, P.y, 110, 14 * dm30(L), 0, e => { stun30(e, 0.5); if (L >= 6) vsFear(e, 1.4); }, { src: 'stalk', col: HV.p });
+  if (parts.length < 330) burst(P.x, P.y - 4, '#2a2236', 14, 90, 3, 0.5, false); txt30(P.x, P.y - 34, 'hush…', HV.p, { sz: 10 }); Snd.play('hush46'); return 7 * cd30(L); });
+sk30('behindyou', { name: 'Behind You', ic: '⧗', cls: 'visage', desc: ['A shade of you rises right behind up to 3 foes and stabs them in the back — a guaranteed Backstab that staggers', '+20% damage', '+2 foes', '+20% damage, 12% faster', 'The shade stabs twice', 'Foes it stabs are frightened and flee'] }, w => {
+  const L = w.lvl, tg = nearestN(P.x, P.y, 12, 320); if (!tg.length) return -1; const n = 3 + (L >= 3 ? 2 : 0) + tf30('vShade'), d = 22 * dm30(L);
+  tg.slice(0, n).forEach((e, i) => G.later.push({ t: i * 0.06, src: 'behindyou', f: () => { vsShade(e, d, 'behindyou', { on: q => { if (L >= 6) vsFear(q, 1.5); } }); if (L >= 5) G.later.push({ t: 0.22, src: 'behindyou', f: () => { if (!e.dead) { G.srcW = 'behindyou'; damage(e, d * 0.6, { src: 'behindyou', col: HV.w }); } } }); } }));
+  return 3.2 * cd30(L); });
+sk30('knifefan', { name: 'Knife Fan', ic: '⫶', cls: 'visage', desc: ['Flick 7 piercing hush-knives out in a wide fan toward the nearest foe', '+20% damage', '+3 knives', '+20% damage, 12% faster', 'A second fan flies out behind you', 'Knives pierce two more foes'] }, w => {
+  const L = w.lvl, { t, a } = aim30(300); if (!t) return -1; const n = 7 + (L >= 3 ? 3 : 0) + 2 * tf30('vFan'), d = 11 * dm30(L), S = v30S();
+  for (const base of L >= 5 ? [a, a + Math.PI] : [a]) for (let i = 0; i < n; i++) { const q = base + (i / (n - 1) - 0.5) * 1.1;
+    vsKnife(P.x, P.y - 12, q, d, { src: 'knifefan', pierce: L >= 6 ? 3 : 1, life: 0.5, on: (e, p) => { if (tf30('vThousand') && vsBack(e, S) && !p.gl) { const z = nearestN(e.x, e.y, 3, 200).find(y => y !== e && !y.dead); if (z) { const pp = vsKnife(e.x, e.y, Math.atan2(z.y - e.y, z.x - e.x), d * 0.6, { src: 'knifefan', r: 3.5, life: 0.4 }); pp.gl = 1; pp.hit.add(e); } } } }); }
+  P.atk = 1; return 2.3 * cd30(L); });
+sk30('dreadwail', { name: 'Dread Wail', ic: '⊚', cls: 'visage', desc: ['The mask’s mouth stretches and lets out a silent wail: foes in a wide cone take damage and are frightened — they turn and run for 2.2s, backs to you. Bosses stagger instead', '+20% damage', 'A longer wail', '+20% damage, 12% faster', 'The wail goes all the way around you', 'Frightened foes take +15% damage for 3s'] }, w => {
+  const L = w.lvl, S = v30S(), q = nearestN(P.x, P.y, 1, 180)[0]; if (!q) return -1; vsWail(S, L); Snd.play('wail'); return 5.2 * cd30(L); });
+sk30('lastcall', { name: 'Last Call', ic: '☎', cls: 'visage', desc: ['A phone rings on the toughest foe nearby. After 2.4s someone picks up — and it bursts, frightening every foe around it', '+20% damage', 'Ring a second foe', '+20% damage, 12% faster', 'A bigger burst', 'The call is forwarded: a second ring jumps to the next foe'] }, w => {
+  const L = w.lvl, S = v30S(), tg = nearestN(P.x, P.y, 20, 360).filter(e => !e.dead); if (!tg.length) return -1; const n = 1 + (L >= 3 ? 1 : 0) + tf30('vCall');
+  tg.sort((p, q) => q.hp - p.hp).slice(0, n).forEach(e => vsCall(e, L, S)); return 4.6 * cd30(L); });
+sk30('stalkwake', { name: 'Stalker’s Wake', ic: '∴', cls: 'visage', desc: ['You leave cold, pale footprints wherever you walk. Foes that step on them are chilled, slowed and take damage, building Dread', '+20% damage', 'Bigger prints', '+20% damage, 12% faster', 'Prints burst when they fade', 'Prints frighten the foes that touch them'] }, w => {
+  const L = w.lvl; let x = P.x, y = P.y + 12; if (!P.moving) { const a = Math.random() * TAU, r = 18 + Math.random() * 40; x += Math.cos(a) * r; y += Math.sin(a) * r * 0.7; } vsPrint(x, y, L);
+  return (P.moving ? 0.36 : 0.6) * cd30(L); });
+sk30('lightsout', { name: 'Lights Out', ic: '⊘', cls: 'visage', desc: ['SIGNATURE: “Lights out.” — the screen goes black for a heartbeat and up to 12 foes on screen are frightened; when the lights come back you are behind every one of them, a critical Backstab each', '+20% damage', '+6 foes', '+20% damage, 12% faster', 'Each stab throws a Knife Fan of 3 blades', 'Fills your Dread: Terror starts at once'] }, w => {
+  const L = w.lvl, S = v30S(), tg = uScr(0).filter(e => !e.dead).sort((p, q) => Math.hypot(p.x - P.x, p.y - P.y) - Math.hypot(q.x - P.x, q.y - P.y)).slice(0, 12 + (L >= 3 ? 6 : 0)); if (tg.length < 3) return -1;
+  S.outT = 0.55; S.outs = (S.outs || 0) + 1; for (const e of tg) vsFear(e, 1.6); txt30(P.x, P.y - 50, 'LIGHTS OUT', HV.p, { sz: 12 }); Snd.play('hush46');
+  G.later.push({ t: 0.5, src: 'lightsout', f: () => { const d = 80 * dm30(L); tg.forEach((e, i) => G.later.push({ t: i * 0.04, src: 'lightsout', f: () => { if (e.dead) return; vsShade(e, d, 'lightsout', { cr: 1, st: 0.6 });
+      if (L >= 5) for (let k = -1; k <= 1; k++) G.later.push({ t: 0.14, src: 'lightsout', f: () => { if (e.dead) return; const a = Math.atan2(e.y - P.y, e.x - P.x) + k * 0.4; G.srcW = 'lightsout'; vsKnife(e.x, e.y, a, d * 0.2, { src: 'lightsout', r: 3.5, life: 0.4 }).hit.add(e); } }); } }));
+    Snd.play('scare46'); if (L >= 6 && !(S.terT > 0)) vsTerror(S); } });
+  return 18 * cd30(L); });
+pas30('hushstep', { name: 'Hush Step', ic: '⁖', desc: '+1.5% crit chance and +2% movement speed', max: 5, cls: ['visage'] }, { crit: 0.015, speed: 0.02 }, ['c', { dmg: 0.03 }]);
+evo30('hushblades', 'haste', 'Whispering Steel', '#f4f2ff', 1.35, 0.85, 1, 'crit', 'EVOLVED: +35% damage, faster throws, +20% crit chance on every hush-blade');
+evo30('stalk', 'swift', 'Gone Dark', '#c8d4ff', 1.4, 0.8, 1.2, 'slow', '+40% damage; foes you slip away from are held in place');
+evo30('behindyou', 'insight', 'Always Behind You', '#ff3a5a', 1.4, 0.85, 1.1, 'execute', '+40% damage; shades execute weakened foes');
+evo30('knifefan', 'might', 'Fan of Whispers', '#c8d4ff', 1.4, 0.85, 1.1, 'burst', '+40% damage; every knife bursts on the foe it strikes');
+evo30('dreadwail', 'expanse', 'Banshee Throat', '#a07aff', 1.4, 0.85, 1.2, 'nova', '+40% damage; every wail rings out a shockwave');
+evo30('lastcall', 'reach', 'Long Distance', '#ff3a5a', 1.4, 0.85, 1.15, 'chain', '+40% damage; the burst leaps between foes');
+evo30('stalkwake', 'vigor', 'Cold Trail', '#c8d4ff', 1.4, 0.85, 1.2, 'slow', '+40% damage; prints freeze foes in their tracks');
+evo30('lightsout', 'ward', 'Nobody Home', '#f4f2ff', 1.3, 0.85, 1.15, 'execute', 'SIGNATURE EVO: +30% damage, faster; Lights Out executes weakened foes outright');
+/* the Hollow Visage mask (original design): a long stretched porcelain face, hollow crescent eyes, ink tear-streaks, a hairline crack, a wailing mouth */
+function hvMask(c, x, y, s, a, k) { c.save(); c.globalAlpha = a; c.translate(x, y); c.scale(s / 100, s / 100);
+  c.fillStyle = '#05030a'; c.beginPath(); c.moveTo(0, -78); c.bezierCurveTo(52, -76, 70, -20, 64, 40); c.bezierCurveTo(60, 72, 30, 86, 0, 88); c.bezierCurveTo(-30, 86, -60, 72, -64, 40); c.bezierCurveTo(-70, -20, -52, -76, 0, -78); c.fill(); // the hood
+  const g = c.createLinearGradient(0, -54, 0, 66); g.addColorStop(0, '#ffffff'); g.addColorStop(0.55, '#e6e4f0'); g.addColorStop(1, '#9a94ac'); c.fillStyle = g;
+  c.beginPath(); c.moveTo(0, -54); c.bezierCurveTo(32, -54, 40, -16, 31, 16); c.bezierCurveTo(24, 42, 11, 62, 0, 66); c.bezierCurveTo(-11, 62, -24, 42, -31, 16); c.bezierCurveTo(-40, -16, -32, -54, 0, -54); c.fill();
+  for (const sd of [-1, 1]) { c.fillStyle = '#05030a'; c.beginPath(); c.ellipse(sd * 13, -16, 7.5, 14, sd * 0.42, 0, TAU); c.fill(); c.fillStyle = g; c.beginPath(); c.ellipse(sd * 16.5, -20, 6, 12.5, sd * 0.42, 0, TAU); c.fill(); // crescent eyes
+    c.strokeStyle = 'rgba(30,14,40,.55)'; c.lineWidth = 2.2; c.beginPath(); c.moveTo(sd * 10, -3); c.quadraticCurveTo(sd * 13, 16, sd * 9, 34); c.stroke(); } // tear-streaks
+  c.fillStyle = '#05030a'; c.beginPath(); c.ellipse(0, 26 + 4 * k, 6 + 4 * k, 12 + 12 * k, 0, 0, TAU); c.fill(); c.fillStyle = 'rgba(140,20,60,.55)'; c.beginPath(); c.ellipse(0, 32 + 7 * k, 2.5 + 2 * k, 5 + 6 * k, 0, 0, TAU); c.fill();
+  c.fillStyle = 'rgba(40,20,50,.7)'; for (const [dx, dy] of [[0, -44], [-4, -38], [4, -38]]) { c.beginPath(); c.arc(dx, dy, 1.8, 0, TAU); c.fill(); } // three carved dots on the brow
+  c.strokeStyle = 'rgba(70,60,90,.85)'; c.lineWidth = 1.3; c.beginPath(); c.moveTo(9, -54); c.lineTo(13, -42); c.lineTo(8, -33); c.lineTo(15, -24); c.stroke();
+  c.restore(); }
+/* ================= v46 THE PHONE: once in a while an old telephone rings somewhere out in a run. Walk up and answer it... =================
+   Rules: only while the Hollow Visage is still a secret. Each run rolls a 15% chance (guaranteed after 5 quiet runs in a row) that the phone
+   rings between 4:00 and 8:00. It rings for 70s; a ☎ marker at the screen edge points to it. Walk onto it to pick up. Answering plays a short
+   creepy call, a (shake-free) jump scare, then permanently unlocks the secret class. Missing it leaves a cryptic hint. Off in ?debug sessions
+   (sims/tests) unless window.__PH46 is set. */
+const PH46 = { chance: 0.15, pity: 5, t0: 240, t1: 480, life: 70, r: 26 };
+const PH46_LINES = [[0.3, '*click*'], [0.9, '…'], [1.6, 'I’ve been watching you fight.'], [3.0, 'You’re good. Really good.'], [4.4, 'But you never look behind you.']];
+const PH46_SCARE = 5.8, PH46_END = 7.2;
+function hasVis46() { return !!(save && save.classes && save.classes.visage); }
+function hid46(id) { return !!(id && CLASSES[id] && CLASSES[id].secret && !(save && save.classes && save.classes[id])); }
+function ph46Sv() { return save.ph46 || (save.ph46 = { dry: 0, rang: 0, miss: 0, unl: 0, seen: 0 }); }
+function ph46Plan() { G.ph46 = { at: -1, st: 'off' }; if (hasVis46() || (DEBUG && !window.__PH46)) return; const s = ph46Sv(), lucky = window.__PH46 === 2 || Math.random() < PH46.chance || (s.dry | 0) >= PH46.pity;
+  if (lucky) G.ph46.at = window.__PH46 === 2 ? 0 : PH46.t0 + Math.random() * (PH46.t1 - PH46.t0); else { s.dry = (s.dry | 0) + 1; persist(); } }
+function ph46Tick(dt) { if (!G || G.town || !P) return; if (!G.ph46) ph46Plan(); const F = G.ph46; if (F.st === 'off') { if (F.at < 0 || G.t < F.at || state !== 'play') return; ph46Spawn(F); return; }
+  if (F.st === 'ring') { F.life -= dt; F.rt = (F.rt || 0) - dt; if (F.rt <= 0) { F.rt = 2.6; if (Math.hypot(F.x - P.x, F.y - P.y) < 900) Snd.play('ring46'); }
+    if (Math.hypot(F.x - P.x, F.y - P.y) < PH46.r + (P.r || 10)) ph46Answer(F);
+    else if (F.life <= 0) { F.st = 'gone'; const s = ph46Sv(); s.miss = (s.miss | 0) + 1; persist(); toast('☎ …the ringing stops.', '#c8d4ff', 3, 'Next time, maybe pick up.'); }
+    return; }
+  if (F.st === 'call') { const t0 = F.t; F.t += dt; P.inv = Math.max(P.inv, 0.5);
+    for (const [t, s] of PH46_LINES) if (t0 < t && F.t >= t) F.line = s;
+    if (t0 < PH46_SCARE && F.t >= PH46_SCARE) { F.line = ''; Snd.play('scare46'); for (const e of nearestN(P.x, P.y, 40, 260)) { if (e.boss || e.mini) continue; const d = Math.hypot(e.x - P.x, e.y - P.y) || 1; e.kbx = (e.x - P.x) / d * 420; e.kby = (e.y - P.y) / d * 420; e.fear46 = gtime + 2; } }
+    if (t0 < PH46_END && F.t >= PH46_END) ph46Unlock(F); } }
+function ph46Spawn(F) { let x = P.x, y = P.y; for (let i = 0; i < 12; i++) { const a = rand(TAU), d = 230 + rand(60); x = P.x + Math.cos(a) * d; y = P.y + Math.sin(a) * d; if (typeof obHit !== 'function' || !obHit(x, y, 24)) break; }
+  const o = { x, y }; if (typeof obFree === 'function') obFree(o, 20); if (typeof WORLD_R === 'number') { const r = Math.hypot(o.x, o.y); if (r > WORLD_R - 60) { o.x *= (WORLD_R - 60) / r; o.y *= (WORLD_R - 60) / r; } }
+  Object.assign(F, { st: 'ring', x: o.x, y: o.y, life: PH46.life, rt: 0, t: 0 }); const s = ph46Sv(); s.dry = 0; s.rang = (s.rang | 0) + 1; persist();
+  toast('☎ Somewhere close, an old phone is ringing…', '#c8d4ff', 4, 'Who would call you out here?'); }
+function ph46Answer(F) { F.st = 'call'; F.t = 0; F.line = ''; P.inv = Math.max(P.inv, 1); Snd.play('click'); }
+function ph46Unlock(F) { F.st = 'done'; F.line = ''; const s = ph46Sv(); save.classes.visage = 1; s.unl = 1; s.seen = 0; persist();
+  achBanner({ ic: '☎', name: 'The Hollow Visage', abt: 'Secret Class Unlocked', un: 'a new class, waiting in Class Select', creep: 1 });
+  toast('☎ Something followed you home…', '#ff3a5a', 4, 'Look for it in Class Select'); Snd.play('hush46'); }
+/* world: the ringing telephone on a little stool, with sound rings and a cold glow */
+function ph46Draw() { const F = G && G.ph46; if (!F || (F.st !== 'ring' && F.st !== 'call') || !inView(F.x, F.y, 60)) return; const x = F.x, y = F.y, rg = F.st === 'ring', j = rg && (gtime % 2.6) < 1.2 ? Math.sin(gtime * 60) * 1.4 : 0;
+  ctx.save(); ctx.globalCompositeOperation = 'lighter'; glowAt(g30('#c8d4ff'), x, y - 6, 90, 0.35 + 0.15 * Math.sin(gtime * 5)); ctx.restore();
+  ctx.fillStyle = 'rgba(0,0,0,.4)'; ctx.beginPath(); ctx.ellipse(x, y + 12, 16, 5, 0, 0, TAU); ctx.fill();
+  ctx.fillStyle = '#2a1a12'; ctx.fillRect(x - 11, y + 1, 22, 4); ctx.fillRect(x - 9, y + 5, 3, 8); ctx.fillRect(x + 6, y + 5, 3, 8); // stool
+  ctx.fillStyle = '#14080c'; ctx.beginPath(); ctx.moveTo(x - 11, y + 1); ctx.lineTo(x - 8, y - 9); ctx.lineTo(x + 8, y - 9); ctx.lineTo(x + 11, y + 1); ctx.closePath(); ctx.fill(); // body
+  ctx.fillStyle = '#6a1424'; ctx.beginPath(); ctx.moveTo(x - 10, y); ctx.lineTo(x - 7.5, y - 8); ctx.lineTo(x + 7.5, y - 8); ctx.lineTo(x + 10, y); ctx.closePath(); ctx.fill();
+  ctx.fillStyle = '#e8e4f0'; ctx.beginPath(); ctx.arc(x, y - 3.6, 4, 0, TAU); ctx.fill(); ctx.fillStyle = '#14080c'; for (let i = 0; i < 8; i++) { const a = i * 0.7 - 1; ctx.fillRect(x + Math.cos(a) * 2.6 - 0.5, y - 3.6 + Math.sin(a) * 2.6 - 0.5, 1, 1); } // dial
+  if (F.st === 'ring') { ctx.save(); ctx.translate(x, y - 11 - Math.abs(j)); ctx.rotate(j * 0.05); ctx.fillStyle = '#14080c'; ctx.fillRect(-10, -2, 20, 3.5); ctx.fillStyle = '#6a1424'; ctx.fillRect(-12, -3, 5, 5); ctx.fillRect(7, -3, 5, 5); ctx.restore(); // handset on the cradle
+    if ((gtime % 2.6) < 1.2) { ctx.strokeStyle = `rgba(200,212,255,${0.5 + 0.3 * Math.sin(gtime * 30)})`; ctx.lineWidth = 1.5; for (let i = 1; i <= 3; i++) { const r = 10 + i * 6 + (gtime * 20) % 6; ctx.beginPath(); ctx.arc(x, y - 10, r, -2.5, -1.9); ctx.stroke(); ctx.beginPath(); ctx.arc(x, y - 10, r, -1.25, -0.65); ctx.stroke(); } }
+    ctx.font = '800 12px system-ui,sans-serif'; ctx.textAlign = 'center'; ctx.fillStyle = `rgba(232,228,240,${0.6 + 0.4 * Math.sin(gtime * 4)})`; ctx.fillText('RING', x, y - 34 - Math.abs(j)); }
+  else { ctx.strokeStyle = '#14080c'; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.moveTo(x + 9, y - 4); ctx.quadraticCurveTo(x + 18, y - 2, P.x - 4, P.y - 10); ctx.stroke(); } } // the cord stretches to you
+/* screen: an edge marker pointing at the phone, the call subtitles, and the jump scare */
+function ph46HUD() { const F = G && G.ph46; if (!F || state === 'menu') return;
+  if (F.st === 'ring') { const sx = W / 2 + (F.x - P.x) * ZOOM, sy = H / 2 + (F.y - P.y) * ZOOM, m = 34; if (sx < m || sy < 90 || sx > W - m || sy > H - m) {
+      const ex = clamp(sx, m, W - m), ey = clamp(sy, 96, H - m - 40), a = 0.6 + 0.4 * Math.sin(gtime * 6); ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = 'rgba(10,6,20,.8)'; ctx.beginPath(); ctx.arc(ex, ey, 18, 0, TAU); ctx.fill();
+      ctx.strokeStyle = '#c8d4ff'; ctx.lineWidth = 2; ctx.stroke(); ctx.fillStyle = '#e8e4f0'; ctx.font = '700 16px system-ui,sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('☎\uFE0E', ex, ey + 1); ctx.restore(); } }
+  if (F.st !== 'call') return; const t = F.t, dark = t < PH46_SCARE ? Math.min(0.7, t * 0.35) : Math.max(0, 0.85 - (t - PH46_SCARE) * 0.6);
+  ctx.fillStyle = `rgba(2,0,6,${dark.toFixed(3)})`; ctx.fillRect(0, 0, W, H);
+  if (F.line) { const fs = Math.max(15, Math.min(22, W / 26)); ctx.save(); ctx.font = `italic 700 ${fs}px Georgia,serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; const y = H * 0.7;
+    ctx.fillStyle = 'rgba(0,0,0,.6)'; const w = ctx.measureText(F.line).width + 30; ctx.fillRect(W / 2 - w / 2, y - fs, w, fs * 2); ctx.fillStyle = '#e8e4f0'; ctx.fillText(F.line, W / 2 + Math.sin(gtime * 50) * 0.6, y); ctx.restore(); }
+  if (t < PH46_SCARE) { ctx.save(); ctx.font = '700 13px system-ui,sans-serif'; ctx.textAlign = 'center'; ctx.fillStyle = 'rgba(200,212,255,.75)'; ctx.fillText('☎\uFE0E on the line…', W / 2, H * 0.7 + 40); ctx.restore(); }
+  else if (t < PH46_SCARE + 1.1) { const k = (t - PH46_SCARE) / 1.1, s = Math.min(W, H) * (0.5 + 0.12 * k); hvMask(ctx, W / 2, H / 2, s, Math.min(1, (1 - k) * 2.2), 1); } }
+/* class select: the secret card gets a ☎ badge, a NEW tag until first picked, and a whispered line when selected */
+function sec46(b, sel, id) { const s = ph46Sv(), nw = !s.seen; b.classList.add('sec46'); b.querySelector('.tx').insertAdjacentHTML('beforeend', `<div class="secb46">☎\uFE0E Secret${nw ? ' · NEW' : ''}</div>`);
+  if (sel) { b.querySelector('.tx').insertAdjacentHTML('beforeend', '<div class="sec46l">☎\uFE0E You answered the call. Now it plays as you.</div>'); if (nw) { s.seen = 1; persist(); } } }
 /* ================= v30 ULTIMATES: every class gets one top-tier move, unlocked mid-run once all six skills are maxed ================= */
 /* Rule: hold SKILL_SLOTS (6) skills, every one at its max level (evolutions not required). Then a big alert, and the ✹ Ultimate
    button appears: R on PC, Y on a gamepad, tap on phone (64px). If you don't fire it, it fires itself after 6s with a foe near.
@@ -10393,6 +10659,14 @@ const ULTS = {
       uLater(3.9, () => { const tg = uScr(30); for (let c = 0; c < 4; c++) { const an = -Math.PI / 2 + (c - 1.5) * 0.9, x1 = P.x + Math.cos(an) * 900, y1 = P.y + Math.sin(an) * 900; uBeam(P.x, P.y - 14, x1, y1, 10, c % 2 ? '#ff4a3a' : '#ffc85a', 0.7); }
         for (const e of tg) { uHit(e, uD(5.2), { col: '#fff4d8' }); uSpark(e.x, e.y, '#ffc85a', 6, 130); }
         uRing(P.x, P.y, uR(380), '#ffc85a', 0.7, 8); uGlyph(P.x, P.y - 90, 'DEAD MAN’S HAND', 26, '#ffc85a', 1.3, { grow: 1 }); Snd.play('boom'); }); } },
+  visage: { n: 'Jump Scare', ic: '⊛', col: '#f4f2ff', d: 'The lights cut out. Silence. Then the Hollow Visage’s mask fills the whole screen with a shriek: every foe on screen staggers, is frightened out of its wits and takes massive damage, then a storm of hush-blades hunts down the stragglers',
+    cast() { P.inv = Math.max(P.inv, 4); const S = v30S(); S.outT = 1.05; Snd.play('hush46');
+      uLater(1.0, () => { uFlash('#f4f2ff', 0.22, 0.45); Snd.play('scare46'); const tg = uScr(30);
+        uFx(1.1, (f, k, a) => { const vh = H / ZOOM, s = vh * (0.36 + 0.1 * k); ctx.save(); ctx.globalAlpha = Math.min(1, a * 1.6); ctx.fillStyle = 'rgba(2,0,6,.55)'; ctx.fillRect(P.x - W / ZOOM, P.y - vh, 2 * W / ZOOM, 2 * vh); ctx.restore(); hvMask(ctx, P.x, P.y - 10, s, Math.min(1, a * 1.6), 1); });
+        for (const e of tg) { uHit(e, uD(4.8), { col: HV.w }); vsFear(e, 3); if (e.boss || e.mini) stun30(e, 1); uSpark(e.x, e.y, HV.r, 5, 120); }
+        uGlyph(P.x, P.y + H / ZOOM * 0.3, 'BOO.', 30, HV.r, 1.4, { grow: 1 }); });
+      for (let i = 0; i < 40; i++) uLater(1.5 + i * 0.05, () => { const tg = uScr(0); if (!tg.length) return; const e = tg[(Math.random() * tg.length) | 0]; G.srcW = ULT_SRC;
+        vsKnife(P.x, P.y - 12, Math.atan2(e.y - P.y, e.x - P.x), uD(0.6), { src: ULT_SRC, col: i % 3 ? HV.p : HV.r, pierce: 1, life: 0.8 }); P.atk = 1; if (i % 4 === 0) Snd.play('knife'); }); } },
 };
 /* ---- state, unlock & casting ---- */
 function ultKey() { if (G.cls === 'druid') { const f = druidForm(); if (f === 'cat' || f === 'tree') return 'druid_' + f; } return ULTS[G.cls] ? G.cls : null; }
@@ -11349,6 +11623,7 @@ function updateWeapons(dt) {
   }
   G.srcW = null; gearTick(dt);
   if ((G.mimic45 | 0) > (G._mim45 | 0) && !G.town) mimicCheck45(); // v45
+  ph46Tick(dt); // v46: the phone
   for (let i = G.later.length - 1; i >= 0; i--) { const l = G.later[i]; l.t -= dt; if (l.t <= 0) { G.later.splice(i, 1); G.srcW = l.src || null; l.f(); G.srcW = null; } }
 }
 function evoCast(w, ev) { // v18: evolution perks that trigger on each cast
@@ -12348,7 +12623,7 @@ function drawPlayerBlock() {
     const jp = jumpPose(), jh = jp ? jp.h : 0, shk = 1 - 0.42 * (jp ? jp.k : 0); /* the ground shadow stays put and shrinks while airborne */
     ctx.globalAlpha = 1 - 0.35 * (jp ? jp.k : 0); ctx.drawImage(SPR.shadow, P.x - 17 * shk, P.y + 12 + 5.5 * (1 - shk), 34 * shk, 11 * shk); ctx.globalAlpha = 1;
     if (G.nearOb && G.tf && (G.tf.cover || G.tf.ambush)) { ctx.strokeStyle = `rgba(242,201,76,${0.35 + 0.15 * Math.sin(gtime * 5)})`; ctx.lineWidth = 1.5; ctx.setLineDash([3, 4]); ctx.beginPath(); ctx.ellipse(P.x, P.y + 16, 19, 6.5, 0, 0, TAU); ctx.stroke(); ctx.setLineDash([]); } // v19: in cover
-    if (P.inv > 0 && Math.floor(gtime * 20) % 2) ctx.globalAlpha = 0.45;
+    if (P.inv > 0 && Math.floor(gtime * 20) % 2) ctx.globalAlpha = 0.45; if (G.cls === 'visage' && G.v30 && G.v30.hideT > 0) ctx.globalAlpha = Math.min(ctx.globalAlpha, 0.38); // v46: unseen
     const _pxh = PXA.hero.ok({ cls: G.cls, race: G.race, form: G.form }), _vf = V31P.face(), _dg = V31P.dodge(jp); if (jp) { ctx.save(); ctx.translate(P.x, P.y + 16 - jh); if (_dg) ctx.rotate(_dg); if (!_pxh) ctx.scale(jp.sx, jp.sy); ctx.translate(-P.x, -(P.y + 16)); }
     if (_vf && !_pxh) { ctx.save(); ctx.translate(P.x, 0); ctx.scale(0.9, 1); ctx.translate(-P.x, 0); }
     drawHeroLit({ t: gtime, moving: P.moving, cls: G.cls, race: G.race, outfit: G.outfit || save.outfit, atk: P.atk, form: G.form, gear: G.gear, gearOver: save.gearOver, tails: G.level >= 20 ? 3 : G.level >= 10 ? 2 : 1, noShadow: 1, hurt: clamp(G.hurtFlash * 4, 0, 1), jp: jp && _pxh ? PXA.glue.jumpPhase() : undefined, vf: _vf }, P.x, P.y, P.facing, G.ancientT > 0 ? 1.55 : 1);
@@ -13582,7 +13857,7 @@ function render(dt) {
           ctx.fillStyle = hexA('#ff6a2a', 0.55 * a); ctx.beginPath(); ctx.moveTo(fx - 4 * fl, fy); ctx.quadraticCurveTo(fx, fy - 16 * fl, fx + 4 * fl, fy); ctx.fill(); ctx.fillStyle = hexA('#ffd36a', 0.6 * a); ctx.beginPath(); ctx.moveTo(fx - 2 * fl, fy); ctx.quadraticCurveTo(fx, fy - 9 * fl, fx + 2 * fl, fy); ctx.fill(); } ctx.globalCompositeOperation = 'source-over'; }
       else for (let i = 0; i < 3; i++) { const an = gtime * 0.8 + i * 2.1; ctx.fillStyle = hexA(f.col, 0.12 * a); ctx.beginPath(); ctx.arc(f.x + Math.cos(an) * f.r * 0.35, f.y + Math.sin(an) * f.r * 0.3, f.r * 0.55, 0, TAU); ctx.fill(); } }
   }
-  drawQuestWorld(); w28World();
+  drawQuestWorld(); w28World(); ph46Draw();
   // v15: time-of-day key light re-bake (incremental)
   { const kp = phaseName(G.t || 0); if (kp !== SPR.keyPh) relightEnemies(kp); if (SPR.rq.length) tickRelight(); }
   // v15: death animation: collapse (tip back, sink) while dissolving into a shadow silhouette, then fade
@@ -13822,7 +14097,7 @@ function drawHUD() {
     for (let q = 1; q < 4; q++) { ctx.fillStyle = 'rgba(0,0,0,.35)'; ctx.fillRect(bx + bw * q / 4 - 0.5, by + 3, 1, bh - 6); }
     stud38(bx - 1, by + bh / 2, 4.5, '#e04a3a'); stud38(bx + bw + 1, by + bh / 2, 4.5, '#e04a3a');
     ctx.font = '900 12px -apple-system,system-ui,sans-serif'; ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(40,0,0,.9)'; ctx.fillStyle = '#fff'; const bt = Math.ceil(f * 100) + '%'; ctx.strokeText(bt, bx + bw / 2, by + bh / 2 + 0.5); ctx.fillText(bt, bx + bw / 2, by + bh / 2 + 0.5); }
-  drawQuestHUD(); npcHUD(); w28HUD(); v30HUD(); ultHUD();
+  drawQuestHUD(); npcHUD(); w28HUD(); v30HUD(); ph46HUD(); ultHUD();
   drawMsgs(t);
   if (!G.moved && !G.town && state === 'play') { ctx.globalAlpha = 0.6 + 0.4 * Math.sin(gtime * 4); ctx.font = '600 15px -apple-system,system-ui,sans-serif'; ctx.fillStyle = '#e6dbff';
     { const tx = !PC ? 'Touch & drag anywhere to move' : W < 560 ? 'Move with WASD / Arrows' : 'Move with WASD / Arrow keys, or hold the mouse button'; ctx.fillText(tx, W / 2, H - SAFE.b - 135); } ctx.globalAlpha = 1; }
@@ -14170,7 +14445,7 @@ addEventListener('freeze', () => saveRun());
 let dmExp = false, dmSig = '', dmUiT = 0, dmHist = [], dmHistG = null;
 const DM_LBL = { '@fox': ['✺', 'Fox-fire', '#ff9a3c'], '@g_ember': ['✹', 'Ember (gear)', '#ff8a3c'], '@g_storm': ['↯', 'Storm (gear)', '#9fdcff'], '@g_thorns': ['✸', 'Thorns (gear)', '#9de07a'],
   '@bark': ['♣', 'Bark reflect', '#9de07a'], '@ult': ['✷', 'Ultimates', '#ffe23a'], '@apex': ['✹', 'Ultimate move', '#ffffff'], '@talent': ['✦', 'Talent procs', '#e0b0ff'], '@grave': ['✹', 'Grave Burst', '#b56bff'], '@other': ['•', 'Other', '#a593c4'] };
-const DM_CC = { rogue: '#ff6a8a', warlock: '#b98aff', summoner: '#5ff0d0', ranger: '#9dff6a', reaper: '#d8d0e8', rift: '#6fc8ff', druid: '#9dff6a', mage: '#8fb4ff', paragon: '#ffd36a', paladin: '#ffe08a', engineer: '#ffc860', alchemist: '#9af07a', bard: '#ffc0e8', bloodknight: '#ff5a6a', chrono: '#8ad0ff', maestro: '#3af0ff', unraveler: '#b05aff', gunslinger: '#ff9a3a' };
+const DM_CC = { rogue: '#ff6a8a', warlock: '#b98aff', summoner: '#5ff0d0', ranger: '#9dff6a', reaper: '#d8d0e8', rift: '#6fc8ff', druid: '#9dff6a', mage: '#8fb4ff', paragon: '#ffd36a', paladin: '#ffe08a', engineer: '#ffc860', alchemist: '#9af07a', bard: '#ffc0e8', bloodknight: '#ff5a6a', chrono: '#8ad0ff', maestro: '#3af0ff', unraveler: '#b05aff', gunslinger: '#ff9a3a', visage: '#c8d4ff' };
 function dmLabel(k) { const d = WDEF[k]; if (d) { const ev = G && G.evo && G.evo[k] && EVO[k]; return [d.ic, ev ? ev.n : d.name, ev ? ev.col : d.dir === 'feral' || d.form === 'cat' ? '#ff7a96' : (DM_CC[d.cls] || '#b56bff'), !!ev]; } return DM_LBL[k] || ['•', k, '#a593c4', false]; }
 function fmtK(n) { n = +n || 0; return n >= 1e6 ? (n / 1e6).toFixed(n >= 1e7 ? 0 : 1) + 'M' : n >= 1e4 ? Math.round(n / 1e3) + 'k' : n >= 1e3 ? (n / 1e3).toFixed(1) + 'k' : String(Math.round(n)); }
 function dmSorted() { const D = (G && G.dm) || {}; return Object.keys(D).filter(k => D[k][0] >= 1).sort((a, b) => D[b][0] - D[a][0]); }
@@ -14211,7 +14486,7 @@ function renderCodex() {
   const S = evoSeen(), all = Object.keys(EVO), seen = all.filter(id => S[id]).length;
   $('cdxCount').textContent = `Discovered ${seen} / ${all.length}`; $('cdxPct').textContent = Math.round(seen / all.length * 100) + '%';
   const tabs = $('cdxTabs'); tabs.innerHTML = '';
-  for (const c in CLASSES) { const ids = all.filter(id => WDEF[id].cls === c), n = ids.filter(id => S[id]).length, bt = document.createElement('button');
+  for (const c in CLASSES) { if (hid46(c)) continue; const ids = all.filter(id => WDEF[id].cls === c), n = ids.filter(id => S[id]).length, bt = document.createElement('button');
     bt.textContent = CLASSES[c].name + (n ? ` ${n}/${ids.length}` : ''); bt.className = c === codexCls ? 'on' : ''; bt.onclick = () => { codexCls = c; Snd.play('click'); renderCodex(); }; tabs.appendChild(bt); }
   const run = codexFrom === 'pause' && G && !G.ended && G.cls === codexCls, er = run ? evoReady() : [];
   $('cdxList').innerHTML = all.filter(id => WDEF[id].cls === codexCls).map(id => { const E = EVO[id], d = WDEF[id], p = PDEF[E.p], ok = !!S[id];
@@ -14293,7 +14568,7 @@ function renderSelect() {
     for (const zk of ZN39_ORDER) { const z = ZN39[zk]; if (z.open() && !save.zoneSeen39[zk]) { save.zoneSeen39[zk] = 1; persist(); mb.classList.add('new39'); setTimeout(() => selMapMsg(z.ic + ' ' + z.name + ' unlocked! Tap Map to choose it'), 300); break; } }
     if (hOpen && !save.heartSeen36) { save.heartSeen36 = 1; persist(); mb.classList.add('new36'); setTimeout(() => selMapMsg('♡ Heartfall Belfry unlocked! Tap Map to choose it'), 300); } }
   const L = $('classList'); L.innerHTML = '';
-  for (const id in CLASSES) {
+  for (const id in CLASSES) { if (hid46(id)) continue;
     const c = CLASSES[id], owned = !!save.classes[id], sel = selClass === id && owned;
     const b = document.createElement('button'); b.className = 'ccard' + (owned ? '' : ' locked') + (sel ? ' sel' : ''); b.dataset.cls = id;
     const lvl = classLevel(id).lvl;
@@ -14304,6 +14579,7 @@ function renderSelect() {
     if (!owned) { const af = save.shards >= c.cost; b.querySelector('.tx').insertAdjacentHTML('beforeend', `<div class="buyrow"><span class="buyc${af ? ' ok' : ''}">${af ? 'Unlock' : '🔒 Unlock'} · ◆ ${c.cost}</span>${af ? '' : `<span class="need">Need ${c.cost - save.shards} more ◆</span>`}</div>`);
       b.setAttribute('aria-label', `${c.name}, locked. Unlock for ${c.cost} Shards` + (af ? '' : `, need ${c.cost - save.shards} more`)); if (id === 'paragon') b.classList.add('prem'); }
     b.onclick = () => { Snd.init(); if (owned) { selClass = id; Snd.play('click'); MENU_HOP = 1; renderSelect(); } else if (save.shards >= c.cost) { askConfirm(`Unlock ${c.name}?`, `Spend ${c.cost} ◆ Shards (you have ${save.shards}) to unlock the ${c.name} for good.`, `◆ ${c.cost} Unlock`, () => { save.shards -= c.cost; save.classes[id] = 1; selClass = id; persist(); Snd.play('buy'); renderSelect(); }); } else { Snd.play('hurt'); b.animate([{ transform: 'translateX(-6px)' }, { transform: 'translateX(6px)' }, { transform: 'none' }], 200); } };
+    if (c.secret) sec46(b, sel, id);
     L.appendChild(b); heroPortrait(b.querySelector('canvas'), id, save.outfit, 1.42); if (sel && MENU_HOP) { MENU_HOP = 0; menuHop(b.querySelector('canvas')); }
   }
   BGA.stage(selClass); /* v32 hero hall + pedestal */
@@ -14420,7 +14696,7 @@ function renderShop() {
     row(`<div class="ic">${m.ic}\uFE0E</div>`, m.name, '', m.desc + pips, mkBtn(max ? 'MAX' : `${cost}◆`, !max && save.shards >= cost, () => { save.shards -= cost; save.meta[m.id] = r + 1; persist(); Snd.play('buy'); renderShop(); }));
   }
   if (shopTab === 'wp') for (const id in CLASSES) {
-    const c = CLASSES[id], owned = !!save.classes[id];
+    if (hid46(id)) continue; const c = CLASSES[id], owned = !!save.classes[id];
     const d = row('<canvas></canvas>', c.name, `<div class="sub">${c.role}</div>`, c.desc + `<br><span style="color:#ffd98a">${c.passive}: ${c.pdesc}</span>`, mkBtn(owned ? 'Owned' : `${c.cost}◆`, !owned && save.shards >= c.cost, () => { save.shards -= c.cost; save.classes[id] = 1; persist(); Snd.play('buy'); renderShop(); }));
     heroPortrait(d.querySelector('canvas'), id, save.outfit);
   }
@@ -14749,10 +15025,10 @@ function renderAch() {
   $('achCount').innerHTML = `Unlocked <b style="color:#ffe08a">${nd} / ${ACH.length}</b> · looks are visual only`; $('achPct').textContent = Math.round(nd / ACH.length * 100) + '%';
   for (const b of $('achTabs').children) b.classList.toggle('on', b.dataset.t === achTab);
   const F = $('achFilter'); F.innerHTML = '';
-  const keys = achTab === 'class' ? Object.keys(ARMOR_SETS) : achTab === 'race' ? RACE_IDS : [];
+  const keys = achTab === 'class' ? Object.keys(ARMOR_SETS).filter(k => !hid46(k)) : achTab === 'race' ? RACE_IDS : [];
   if (keys.length) for (const k of ['all', ...keys]) { const b = document.createElement('button'); b.textContent = k === 'all' ? 'All' : (CLASSES[k] || RACES[k]).name; b.className = achKey === k ? 'on' : ''; b.onclick = () => { achKey = k; Snd.play('click'); renderAch(); }; F.appendChild(b); }
   const L = $('achList'); L.innerHTML = '';
-  const list = ACH.filter(a => a.cat === achTab && (achKey === 'all' || !a.key || a.key === achKey));
+  const list = ACH.filter(a => a.cat === achTab && !hid46(a.key) && (achKey === 'all' || !a.key || a.key === achKey));
   let grp = null;
   for (const a of list) {
     if (a.key && a.key !== grp) { grp = a.key; const n = ACH.filter(x => x.key === grp); L.insertAdjacentHTML('beforeend', `<div class="ahead"><span>${(CLASSES[grp] || RACES[grp]).name}</span><span>${n.filter(x => save.ach.done[x.id]).length}/${n.length}</span></div>`); }
@@ -14770,7 +15046,7 @@ function goWard(from) { wardFrom = from || 'title'; wardCls = clsOf(save.lastCla
 function cosSlotObj(race) { return save.cos.race[race] = save.cos.race[race] || {}; }
 function renderWard() {
   const mk = (id, txt, on, fn) => { const b = document.createElement('button'); b.textContent = txt; b.className = on ? 'on' : ''; b.onclick = () => { Snd.play('click'); fn(); }; return b; };
-  const WC = $('wardCls'); WC.innerHTML = ''; for (const c in CLASSES) WC.appendChild(mk(c, CLASSES[c].name, wardCls === c, () => { wardCls = c; renderWard(); }));
+  const WC = $('wardCls'); WC.innerHTML = ''; for (const c in CLASSES) if (!hid46(c)) WC.appendChild(mk(c, CLASSES[c].name, wardCls === c, () => { wardCls = c; renderWard(); }));
   const WR = $('wardRace'); WR.innerHTML = ''; for (const r of RACE_IDS) WR.appendChild(mk(r, RACES[r].name, wardRace === r, () => { wardRace = r; renderWard(); }));
   const B = $('wardBody'); B.innerHTML = '';
   const sec = t => B.insertAdjacentHTML('beforeend', `<div class="wsec">${t}</div>`);
@@ -14906,7 +15182,7 @@ function talGuard(go) { // pending changes? ask Apply / Discard (Cancel stays)
   const p = talPend(); if (!p.any) return go();
   askConfirm('Apply talent changes?', `You have ${p.add ? p.add + ' new point' + (p.add > 1 ? 's' : '') : ''}${p.add && p.rem ? ' and ' : ''}${p.rem ? p.rem + ' refunded point' + (p.rem > 1 ? 's' : '') : ''} not applied yet.`, '✔ Apply', () => { talApply(); go(); }, 'Discard', () => { talDraft = Object.assign({}, talComm()); go(); }); }
 function talSetClass(id) { if (id === talCls) return; talGuard(() => { talLoad(id); Snd.play('click'); renderTalents(); }); }
-function talCycleClass(d) { const ks = Object.keys(TALENTS); talSetClass(ks[(ks.indexOf(talCls) + d + ks.length) % ks.length]); }
+function talCycleClass(d) { const ks = Object.keys(TALENTS).filter(k => !hid46(k)); talSetClass(ks[(ks.indexOf(talCls) + d + ks.length) % ks.length]); }
 function talSetSpec(i, focus) { talSpec = (i + 3) % 3; talOv = false; Snd.play('click'); renderTalents();
   if (focus && GP.conn) { const n = TALENTS[talCls][talSpec].nodes, sel = talPick && n.find(x => x.id === talPick) || n[0], el = $('tn_' + sel.id); if (el) gfSet(el, true); talHover(sel.id); } }
 function talNodeState(n) { const r = tRank(talDraft, n), c = tRank(talComm(), n), free = talentPoints(talCls, talDraft).free;
@@ -15029,7 +15305,7 @@ const TI = (() => {
     archers: 'bow', wraiths: 'ghost', corpse: 'tomb', brute: 'fist', grasp: 'hand', bow: 'bow', ballista: 'arrow', traps: 'trap', hawk: 'feather', volley: 'arrows', arrowrain: 'arrowdown', reap: 'scythe', scythethrow: 'scythe', chains: 'chain',
     skulls: 'skull', wail: 'bell', nova: 'burst', chakram: 'trap', orbs: 'orb', spiral: 'vortex', lance: 'beam', blink: 'gem', singularity: 'vortex', talons: 'claw', pounce: 'paw', shred: 'moon', seedbolt: 'leaf', starseed: 'star', stampede: 'antler',
     briars: 'thorn', tempest: 'cloud', quake: 'mountain', boulder: 'rock', mcinder: 'flame', mwake: 'flame', mcomet: 'comet', mmeteor: 'comet', mshards: 'crystal', mnova: 'snow', mward: 'shield', morbs: 'orb', mbeam: 'beam', mblink: 'gem', mbolt: 'star',
-    eclipse: 'moon', px_dagger: 'dagger', px_hex: 'vine', px_thrall: 'ghost', px_volley: 'arrows', px_scythe: 'scythe', px_rift: 'gem', px_gale: 'cloud', px_spell: 'flame', px_conv: 'star8', sixguns: 'crosshair', fanhammer: 'fan', ricochet: 'trap', smokeroll: 'cloud', deadeye: 'eye', trickshot: 'gem', explosive: 'burst', highnoon: 'sun' };
+    eclipse: 'moon', px_dagger: 'dagger', px_hex: 'vine', px_thrall: 'ghost', px_volley: 'arrows', px_scythe: 'scythe', px_rift: 'gem', px_gale: 'cloud', px_spell: 'flame', px_conv: 'star8', sixguns: 'crosshair', fanhammer: 'fan', ricochet: 'trap', smokeroll: 'cloud', deadeye: 'eye', trickshot: 'gem', explosive: 'burst', highnoon: 'sun', hushblades: 'dagger', stalk: 'moon', behindyou: 'ghost', knifefan: 'fan', dreadwail: 'eye', lastcall: 'burst', stalkwake: 'trap', lightsout: 'star8' };
   const EMB = ['skull', 'sword', 'mask', 'flask', 'spores', 'drop', 'bone', 'link', 'crown', 'eye', 'wing', 'arrows', 'scythe', 'tomb', 'bell', 'vortex', 'pulse', 'crosshair', 'claw', 'leaf', 'tree', 'flame', 'snow', 'star', 'moon', 'rose', 'sun'];
   function cands(n) { const nm = n.n.toLowerCase(), out = []; const add = m => { if (m && M[m] && !out.includes(m)) out.push(m); };
     for (const [re, m] of KW) if (re.test(nm)) add(m);
@@ -15305,6 +15581,23 @@ const BGA = (() => {
       for (let i = 0; i < 6; i++) { const x = 20 + K.R() * (W - 40), y = 134 + K.R() * 18; K.ring(x, y, 2 + K.R() * 2, K.rgba('#c8a070', 0.35)); }
       K.dots(26, K.rgba('#e8c090', 0.55), 0, 100, W, 158, 1); K.glow(cx, 150, 30, th, 0.18);
       K.vig(0.5); K.frame('wood', '#5a3418', '#a8743a', th); },
+    /* Hollow Visage (v46): a quiet house at midnight: faded wallpaper, a moonlit window, a phone ringing on the hall table, and a hooded figure in the open doorway */
+    visage(K, tc, bi) { const { W, H } = K, cx = W / 2, th = P3(bi, '#c8d4ff', '#ff3a5a', '#a07aff');
+      K.sky(['#06040c', '#0e0a18', '#140e20', '#08060e']); K.vg(0, 0, W, 132, '#1a1426', '#0c0814');
+      for (let x = 4; x < W; x += 12) { K.r(x, 0, 1, 132, '#221a30'); for (let y = 8; y < 128; y += 14) K.px(x + 6, y + ((x / 12) % 2) * 7, '#2a2038'); } // striped wallpaper with little fleurs
+      const wx = 12, wy = 22; K.box(wx, wy, 34, 46, '#2a2234'); K.r(wx + 2, wy + 2, 30, 42, '#1a2440'); K.glow(wx + 17, wy + 18, 30, '#a8c0ff', 0.35); K.circ(wx + 23, wy + 12, 5, '#e8eeff');
+      K.r(wx + 16, wy + 2, 2, 42, '#2a2234'); K.r(wx + 2, wy + 22, 30, 2, '#2a2234'); K.poly([wx - 2, wy - 2, wx + 8, wy - 2, wx + 6, wy + 50, wx - 3, wy + 52], '#3a1020'); K.poly([wx + 36, wy - 2, wx + 26, wy - 2, wx + 29, wy + 50, wx + 37, wy + 52], '#3a1020'); // window, moon, curtains
+      K.cone(wx + 17, wy + 46, 30, 60, 60, '#a8c0ff', 0.08);
+      const dx = W - 52, dy = 30; K.box(dx - 3, dy - 3, 40, 102, '#2e2238'); K.r(dx, dy, 34, 99, '#020104'); K.glow(dx + 17, dy + 40, 22, th, 0.16); // the open doorway
+      K.poly([dx + 6, dy + 99, dx + 9, dy + 40, dx + 13, dy + 22, dx + 17, dy + 16, dx + 21, dy + 22, dx + 25, dy + 40, dx + 28, dy + 99], '#0c0812'); // the hooded silhouette
+      K.poly([dx + 14, dy + 26, dx + 17, dy + 21, dx + 20, dy + 26, dx + 19.5, dy + 36, dx + 17, dy + 40, dx + 14.5, dy + 36], '#e4e2ee'); // its pale mask
+      K.r(dx + 15, dy + 26, 1, 3, '#020104'); K.r(dx + 18.5, dy + 26, 1, 3, '#020104'); K.r(dx + 16.5, dy + 32, 1.4, 5, '#2a0a14'); K.px(dx + 15, dy + 30, '#8a86a0'); K.px(dx + 19, dy + 30, '#8a86a0');
+      K.floor(132, '#2a1e1a', '#140e0c', cx, '#3a2a22'); K.r(0, 128, W, 4, '#3a2a30');
+      const tx = cx - 24, ty = 106; K.box(tx, ty, 34, 4, '#4a2e1e'); K.r(tx + 3, ty + 4, 2, 24, '#3a2216'); K.r(tx + 29, ty + 4, 2, 24, '#3a2216'); // hall table
+      K.glow(tx + 17, ty - 4, 18, th, 0.45); K.poly([tx + 9, ty, tx + 11, ty - 7, tx + 23, ty - 7, tx + 25, ty], '#6a1424'); K.circ(tx + 17, ty - 3, 2.5, '#e8e4f0'); K.r(tx + 8, ty - 10, 18, 2.5, '#14080c'); // the phone
+      for (let i = 1; i <= 3; i++) { K.ring(tx + 17, ty - 9, 5 + i * 4, K.rgba('#c8d4ff', 0.5 - i * 0.12)); }
+      K.dots(18, K.rgba('#c8d4ff', 0.35), 0, 0, W, 130, 1); K.fog(140, '#1a1430', 0.35);
+      K.vig(0.6); K.frame('iron', '#2a2236', '#c8d4ff', th); },
     /* Druid: deep grove: misty far trees, great trunks, stone circle, shafts through canopy, ferns */
     druid(K, tc, bi) { const { W, H } = K, cx = W / 2;
       K.sky(['#0e2a1a', '#1e4a2a', '#0a1a0e']); K.glow(cx, 10, 60, '#e8ffb0', 0.4);
@@ -15417,8 +15710,8 @@ const BGA = (() => {
       K.vig(0.5); K.frame('gold', '#1e1a30', '#ffd36a', tc); },
   };
   /* themed node frames + connectors (CSS reads data-th) */
-  const TH = { paladin: 'stone', engineer: 'brass', alchemist: 'wood', bard: 'gold', bloodknight: 'iron', chrono: 'brass', maestro: 'neon', unraveler: 'thread', gunslinger: 'wood', druid: 'vine', reaper: 'bone', rogue: 'iron', warlock: 'bone', summoner: 'crystal', ranger: 'wood', rift: 'crystal', mage: 'gold', paragon: 'gold' };
-  const AMB = { rogue: 'mote', warlock: 'ember', summoner: 'wisp', ranger: 'leaf', reaper: 'mote', rift: 'star', druid: 'wisp', mage: 'ember', paragon: 'star', paladin: 'mote', engineer: 'ember', alchemist: 'bub', bard: 'star', bloodknight: 'ember', chrono: 'star', maestro: 'bub', unraveler: 'wisp', gunslinger: 'ember', mt0: 'ember', mt1: 'mote', mt2: 'star', mt3: 'mote' };
+  const TH = { paladin: 'stone', engineer: 'brass', alchemist: 'wood', bard: 'gold', bloodknight: 'iron', chrono: 'brass', maestro: 'neon', unraveler: 'thread', gunslinger: 'wood', visage: 'iron', druid: 'vine', reaper: 'bone', rogue: 'iron', warlock: 'bone', summoner: 'crystal', ranger: 'wood', rift: 'crystal', mage: 'gold', paragon: 'gold' };
+  const AMB = { rogue: 'mote', warlock: 'ember', summoner: 'wisp', ranger: 'leaf', reaper: 'mote', rift: 'star', druid: 'wisp', mage: 'ember', paragon: 'star', paladin: 'mote', engineer: 'ember', alchemist: 'bub', bard: 'star', bloodknight: 'ember', chrono: 'star', maestro: 'bub', unraveler: 'wisp', gunslinger: 'ember', visage: 'wisp', mt0: 'ember', mt1: 'mote', mt2: 'star', mt3: 'mote' };
   /* ---------- Armory: stone wall, weapon racks, shields, banners, torches, forge ---------- */
   const ARM = [
     (K) => { K.bricks(0, K.H, '#3a2a24', '#22160f', 12, 6); const cx = K.W / 2, cy = K.H - 40; K.r(cx - 22, cy - 10, 44, 50, '#1a1210'); K.circ(cx, cy - 10, 22, '#1a1210'); K.glow(cx, cy + 10, 36, '#ff7a2a', 0.85); K.r(cx - 16, cy + 18, 32, 6, '#ffb03a'); for (let i = 0; i < 8; i++) K.r(cx - 14 + i * 4, cy + 10 + (i % 3) * 2, 2, 8, i % 2 ? '#ff5a1a' : '#ffd23a');
@@ -15454,7 +15747,7 @@ const BGA = (() => {
   function armory() { const s = typeof $ === 'function' && $('shop'); if (!s || s.dataset.bga) return; const url = paint('armory', 240, 150, wall); if (!url) return; s.dataset.bga = 1; s.classList.add('armory'); s.style.setProperty('--abg', `url(${url})`); }
   /* ---------- v32: race homeland vignettes + class-select hero hall (painted once per key, cached as dataURL) ---------- */
   const ACC = { rogue: '#ff4a6a', warlock: '#b05aff', summoner: '#3ae0d0', ranger: '#8ad85a', reaper: '#cfc6e6', rift: '#6a7aff', druid: '#9ae04a', mage: '#4aa8ff',
-    paladin: '#ffd76a', engineer: '#ffa040', alchemist: '#6aff9a', bard: '#ffcf4a', bloodknight: '#ff3a4a', chrono: '#e8c070', maestro: '#ff4ae0', unraveler: '#c890ff', gunslinger: '#ffc85a', paragon: '#fff0a0' };
+    paladin: '#ffd76a', engineer: '#ffa040', alchemist: '#6aff9a', bard: '#ffcf4a', bloodknight: '#ff3a4a', chrono: '#e8c070', maestro: '#ff4ae0', unraveler: '#c890ff', gunslinger: '#ffc85a', visage: '#c8d4ff', paragon: '#fff0a0' };
   const RC = { cat: '#ffb0d8', elf: '#7affc0', ogre: '#d8b048', dwarf: '#ffb040', troll: '#6ad8ff', kitsune: '#ff8a3a', scale: '#4ae0b0', shade: '#b07aff', human: '#ffd890' };
   const RPT = { cat: 'fly', elf: 'fly', ogre: 'ember', dwarf: 'ember', troll: 'fly', kitsune: 'petal', scale: 'fly', shade: 'void', human: 'fly' };
   const dims = () => (innerWidth < innerHeight ? [135, 240] : [240, 150]);
@@ -15698,7 +15991,7 @@ const BGA = (() => {
     paladin: ['#ffd76a', '#8a7650', '#2a2418', '#120f0a', '#fff4d0'], engineer: ['#ffb050', '#a8641e', '#2a1a0c', '#120a04', '#e8c890'],
     alchemist: ['#9aff8a', '#b07a2a', '#1a2410', '#0a1006', '#ffc65a'], bard: ['#ffcf4a', '#8a2a3a', '#2a1210', '#120806', '#ffb0c0'],
     bloodknight: ['#ff5a6a', '#8a1020', '#2a060c', '#120204', '#ffb0a0'], chrono: ['#e8c070', '#2a8a8a', '#0e2424', '#061010', '#ffe0a0'],
-    maestro: ['#ff4ae0', '#7a1a8a', '#1a0626', '#08020e', '#4ae0ff'], unraveler: ['#c890ff', '#6a3aa8', '#1e0e34', '#0c0618', '#ff9ad8'], gunslinger: ['#ffc85a', '#a8582a', '#2a160a', '#120a06', '#ff4a3a'],
+    maestro: ['#ff4ae0', '#7a1a8a', '#1a0626', '#08020e', '#4ae0ff'], unraveler: ['#c890ff', '#6a3aa8', '#1e0e34', '#0c0618', '#ff9ad8'], gunslinger: ['#ffc85a', '#a8582a', '#2a160a', '#120a06', '#ff4a3a'], visage: ['#c8d4ff', '#4a3a6a', '#141018', '#06040a', '#ff3a5a'],
     paragon: ['#fff0a0', '#8a5a7a', '#261a24', '#0e0a0e', '#ffffff'] };
   function talPage(cls, spec) { const s = typeof $ === 'function' && $('talents'); if (!s) return; const P = TPAL[cls] || TPAL.rogue;
     ['--t1', '--t2', '--t3', '--t4', '--t5'].forEach((k, i) => s.style.setProperty(k, P[i])); s.classList.add('tp32'); s.dataset.tcls = cls;
@@ -15709,7 +16002,7 @@ const BGA = (() => {
 
 function renderTalents() {
   const tabs = $('talTabs'); tabs.innerHTML = '';
-  for (const id in TALENTS) { const b = document.createElement('button'); const fp = talentPoints(id).free; b.innerHTML = CLASSES[id].name + (fp ? ` <i class="tfp">${fp}</i>` : ''); b.className = id === talCls ? 'on' : ''; b.dataset.id = id; b.onclick = () => talSetClass(id); tabs.appendChild(b); }
+  for (const id in TALENTS) { if (hid46(id)) continue; const b = document.createElement('button'); const fp = talentPoints(id).free; b.innerHTML = CLASSES[id].name + (fp ? ` <i class="tfp">${fp}</i>` : ''); b.className = id === talCls ? 'on' : ''; b.dataset.id = id; b.onclick = () => talSetClass(id); tabs.appendChild(b); }
   const cl = classLevel(talCls), tp = talentPoints(talCls, talDraft), pend = talPend(), T = TALENTS[talCls];
   $('talHead').innerHTML = `<canvas></canvas><div class="lv"><b>${CLASSES[talCls].name}</b> · Class Lv ${cl.lvl}/${CLASS_LV_MAX}<div class="bar"><i style="width:${cl.need ? Math.round(cl.into / cl.need * 100) : 100}%"></i></div>` +
     `<span class="xp">${cl.need ? cl.into + ' / ' + cl.need + ' class XP' : 'Max level'}</span></div>` +
