@@ -1,12 +1,12 @@
 {
- "version": "46",
+ "version": "47",
  "date": "2026-10-25",
  "minLauncher": "2.0.0",
  "notes": [
-  "New: a secret class is hiding somewhere in the night. If you hear a phone ringing during a run... maybe answer it",
-  "New (once found): Hollow Visage, a hooded stalker in a pale, wailing mask, with thrown knives, ambush backstabs, a Dread meter that turns into Terror, and a Jump Scare ultimate",
-  "New: Hollow Visage has 6 skills with evolutions plus the Lights Out signature, 3 talent trees (Stalker, Knifework, Night Terror), 5 achievements and its own eerie sounds",
-  "New: Hollow Visage looks for all 8 races, male and female"
+  "New: a secret Halloween map is hidden somewhere in the dark. Keep an eye out for a light that doesn't belong... it is easier to find around Halloween",
+  "New (once found): The Hallowmoon Patch, a moonlit pumpkin field with graveyards, scarecrows and a lantern tree, with its own monsters, weather, music and eerie sounds",
+  "New (once found): 5 rotating Hallowmoon bosses, a scarecrow mini-boss, and Candlewick Crossroads, a candle-lit rest stop with Hot Apple Cider and Trick-or-Treat Bags",
+  "New: once found, the secret map stays unlocked for good and shows up on the Map page"
  ],
  "files": [
   {
@@ -31,8 +31,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "56f0a4ac22a77de64221011bb1ccb8bf95ab05599e69ee5e204f0e645460c8d0",
-   "size": 2330867
+   "sha256": "e12da874603ef5b2e6fdee2f38820ddbd3c19873aa46ac75578e3aaa11c03080",
+   "size": 2404461
   },
   {
    "name": "manifest.webmanifest",
@@ -41,7 +41,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "4d467b50327ec71c4e880905721a18ed6379c291ecf9bb2d0666ae3ac7177dcd",
+   "sha256": "74de773916595ef26e3a086cd49f012efd1a4ccb66dd12b3e024da7aa1d093cf",
    "size": 1466
   }
  ]

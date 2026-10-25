@@ -1616,6 +1616,10 @@ const SFX = { // [duration, variants, recipe]
   ring46: [1.3, 1, (c, o) => { for (let r = 0; r < 2; r++) for (let i = 0; i < 9; i++) { const t = r * 0.62 + i * 0.05; _tone(c, o, t, i & 1 ? 1180 : 1420, 0.05, 'square', 0.022); _tone(c, o, t, i & 1 ? 2360 : 2840, 0.04, 'sine', 0.012); } }],
   scare46: [1.4, 1, (c, o) => { _nz(c, o, 0, 0.5, 0.16, 2400, 0.7, 'bandpass', 900, 0.002); [0, 1, 6, 11].forEach((m, i) => _tone(c, o, 0, 440 * Math.pow(2, m / 12), 1.1, i & 1 ? 'sawtooth' : 'triangle', 0.035, 330 * Math.pow(2, m / 12))); _tone(c, o, 0, 70, 0.9, 'sine', 0.12, 40); }],
   hush46: [0.9, 2, (c, o) => { _nz(c, o, 0, 0.7, 0.05, 3000, 2.4, 'bandpass', 1800, 0.18); _nz(c, o, 0.25, 0.5, 0.03, 5200, 3, 'bandpass', 4200, 0.12); _tone(c, o, 0, 196, 0.8, 'sine', 0.012, 185); }],
+  // v47: the Hallowmoon lantern
+  flick47: [0.7, 1, (c, o) => { _nz(c, o, 0, 0.35, 0.03, 700, 1.4, 'lowpass', 300, 0.05); _tone(c, o, 0.05, 523, 0.5, 'sine', 0.018, 494); _tone(c, o, 0.2, 622, 0.45, 'sine', 0.012, 587); }],
+  lit47: [1.4, 1, (c, o) => { _nz(c, o, 0, 0.5, 0.08, 400, 1, 'lowpass', 2400, 0.02); [0, 3, 7, 11, 12].forEach((m, i) => _tone(c, o, 0.12 + i * 0.1, 440 * Math.pow(2, m / 12), 0.7, 'triangle', 0.03)); _tone(c, o, 0.1, 110, 1.1, 'sine', 0.06, 82); }],
+  cackle47: [1.2, 2, (c, o) => { for (let i = 0; i < 7; i++) { const t = i * 0.11; _tone(c, o, t, 880 - i * 30, 0.08, 'sawtooth', 0.012, 700 - i * 30); _nz(c, o, t, 0.07, 0.02, 2400, 3, 'bandpass'); } _tone(c, o, 0.8, 330, 0.4, 'sine', 0.02, 220); }],
   tick: [0.5, 1, (c, o) => { for (let i = 0; i < 4; i++) { _nz(c, o, i * 0.11, 0.02, 0.03, i & 1 ? 2600 : 3400, 6); } }],
 
   claw: [0.2, 4, (c, o) => { const f = R_(2400, 3400); for (let i = 0; i < 3; i++) _nz(c, o, i * 0.028, 0.07, 0.045, f - i * 300, 2.4, 'bandpass', f * 0.45); _tone(c, o, 0, R_(260, 320), 0.07, 'triangle', 0.03, 150); }],
@@ -7013,6 +7017,50 @@ Object.assign(BOSS36, {
 });
 function w39HollowMini() { const w = G.w28 || {}, n = w.mini = (w.mini || 0) + 1, p = n % 2 === 1, k = p ? 'oldsack' : 'juggernaut'; spawnEnemy(k);
   announce(p ? '☠ LUMPY AND ANGRY: Old Sackweight' : '♜ MINI-BOSS: Grave Juggernaut', p ? 'A very large sack. Something inside is kicking.' : 'Dodge its charge and ground slam', p ? '#ff8a2a' : '#c56bff', 'boss'); }
+/* ================= v47: THE HALLOWMOON PATCH (secret zone): a moonlit haunted harvest where a pumpkin patch runs right into an old graveyard.
+   Hidden: it is not on the map page until you find your own way in. An original setting with original creatures. ================= */
+Object.assign(ETYPES, {
+  sheetling: { name: 'Sheetling', fam: 'undead', hp: 11, spd: 54, dmg: 6, r: 11, xp: 1, t0: 1e9, size: 34, ai: 'chase', puff: '#e8ecff', map: 'moonpatch' },
+  moonbat: { name: 'Moon Bat', fam: 'beast', hp: 7, spd: 98, dmg: 5, r: 9, xp: 1, t0: 1e9, size: 32, ai: 'bat', puff: '#ffe9a8', fly: 1, cap: 2, map: 'moonpatch' },
+  costumebone: { name: 'Costumed Skeleton', fam: 'undead', hp: 23, spd: 47, dmg: 9, r: 12, xp: 2, t0: 1e9, size: 42, ai: 'chase', puff: '#f0e8d0', map: 'moonpatch' },
+  candycorn: { name: 'Candy-Corn Imp', fam: 'fae', hp: 6, spd: 76, dmg: 5, r: 9, xp: 1, t0: 1e9, size: 28, ai: 'chase', puff: '#ffb02a', pack: 4, cap: 1.2, map: 'moonpatch' },
+  fusegourd: { name: 'Fuse Gourd', fam: 'construct', hp: 14, spd: 60, dmg: 7, r: 11, xp: 2, t0: 1e9, size: 36, ai: 'bomber', puff: '#ff7a1a', cap: 1.3, map: 'moonpatch' },
+  scarecrow: { name: 'Patch Scarecrow', fam: 'construct', hp: 90, spd: 30, dmg: 16, r: 16, xp: 5, t0: 1e9, size: 54, ai: 'chase', heavy: true, puff: '#d8b060', map: 'moonpatch' },
+  broomwitch: { name: 'Broom Witch', fam: 'fae', hp: 34, spd: 38, dmg: 9, r: 13, xp: 4, t0: 1e9, size: 46, ai: 'seer', puff: '#9aff5a', cap: 1.1, map: 'moonpatch' },
+  rotpumpkin: { name: 'Rotgut Pumpkin', fam: 'beast', hp: 42, spd: 34, dmg: 10, r: 14, xp: 3, t0: 1e9, size: 46, ai: 'chase', puff: '#c8601a', split: 'pumpseed', cap: 1.5, map: 'moonpatch' },
+  pumpseed: { name: 'Seedling Gremlin', fam: 'beast', hp: 10, spd: 66, dmg: 6, r: 9, xp: 1, t0: 1e9, size: 28, ai: 'chase', puff: '#f4e0a0', map: 'moonpatch' },
+  mistmare: { name: 'Mist Mare', fam: 'undead', hp: 72, spd: 40, dmg: 15, r: 15, xp: 5, t0: 1e9, size: 54, ai: 'charger', heavy: true, puff: '#8ae8d8', cap: 1.4, map: 'moonpatch' },
+  hexcrone: { name: 'Kettle Crone', fam: 'fae', hp: 46, spd: 34, dmg: 8, r: 13, xp: 5, t0: 1e9, size: 44, ai: 'healer', puff: '#9aff5a', cap: 0.7, map: 'moonpatch' },
+  tombward: { name: 'Tombstone Warden', fam: 'undead', hp: 122, spd: 30, dmg: 17, r: 16, xp: 7, t0: 1e9, size: 52, ai: 'chase', heavy: true, shield: 0.6, puff: '#a8b0c0', cap: 1.4, map: 'moonpatch' },
+  moonhowl: { name: 'Moonhowl Pack', fam: 'beast', hp: 28, spd: 84, dmg: 11, r: 13, xp: 3, t0: 120, size: 44, ai: 'wolf', puff: '#b8c8e8', map: 'moonpatch' },
+  webspinner: { name: 'Web Spinner', fam: 'beast', hp: 30, spd: 38, dmg: 9, r: 13, xp: 3, t0: 200, size: 42, ai: 'spitter', puff: '#e8e8f0', cap: 1.2, map: 'moonpatch' },
+  gravehand: { name: 'Grave Grasper', fam: 'undead', hp: 92, spd: 40, dmg: 18, r: 15, xp: 7, t0: 720, size: 50, ai: 'burrower', heavy: true, puff: '#7a6a4a', cap: 1.1, map: 'moonpatch' },
+  willowisp: { name: "Will-o'-Wisp", fam: 'fae', hp: 46, spd: 72, dmg: 11, r: 11, xp: 6, t0: 900, size: 44, ai: 'sprite', puff: '#8affc8', fly: 1, cap: 1.3, map: 'moonpatch' },
+  strawgrin: { name: 'Old Strawgrin, the Lantern-Eyed', fam: 'construct', hp: 940, spd: 36, dmg: 26, r: 26, xp: 40, t0: 1e9, size: 92, ai: 'juggernaut', heavy: true, mini: true, puff: '#ffb02a' },
+  /* ---- the Hallowmoon Patch's 5 bosses ---- */
+  gourdgrim: { name: 'Gourdgrim, the Harvest Reaper', hp: 1320, spd: 36, dmg: 26, r: 30, xp: 95, size: 136, ai: 'boss36', boss: true, heavy: true, puff: '#ff7a1a' },
+  hexwell: { name: 'Granny Hexwell, the Cauldron Witch', hp: 1220, spd: 38, dmg: 25, r: 30, xp: 90, size: 130, ai: 'boss36', boss: true, heavy: true, puff: '#9aff5a' },
+  lanternrider: { name: 'The Lantern Rider', hp: 1180, spd: 46, dmg: 25, r: 30, xp: 90, size: 136, ai: 'boss36', boss: true, heavy: true, puff: '#ffb02a' },
+  marrowcloak: { name: 'Count Marrowcloak, the Masquerade Lich', hp: 1380, spd: 34, dmg: 27, r: 30, xp: 95, size: 134, ai: 'boss36', boss: true, heavy: true, puff: '#c8a0ff' },
+  silkwidow: { name: 'The Silkwidow Matriarch', hp: 1480, spd: 32, dmg: 28, r: 36, xp: 100, size: 132, ai: 'boss36', boss: true, heavy: true, puff: '#e8e8f0' },
+});
+const MOONSUB = { wisp: 'sheetling', bone: 'costumebone', bat: 'moonbat', imp: 'candycorn', oozelet: 'candycorn', bomber: 'fusegourd', armor: 'scarecrow', seer: 'broomwitch', splitter: 'rotpumpkin', charger: 'mistmare', healer: 'hexcrone', caller: 'hexcrone', shield: 'tombward',
+  wolf: 'moonhowl', spitter: 'webspinner', burrower: 'gravehand', sprite: 'willowisp', puffcap: 'sheetling', hornet: 'moonbat', shaman: 'broomwitch', lurker: 'gravehand', slag: 'rotpumpkin', slaglet: 'pumpseed', cinderhound: 'moonhowl', pyromancer: 'webspinner', automaton: 'scarecrow', gargoyle: 'willowisp' };
+Object.assign(EVS, { sheetling: 1.1, candycorn: 1.1, costumebone: 1.05, moonhowl: 1.05 });
+Object.assign(CSHW, { sheetling: 24, moonbat: 20, costumebone: 30, candycorn: 22, fusegourd: 22, scarecrow: 30, broomwitch: 22, rotpumpkin: 28, pumpseed: 20, mistmare: 34, hexcrone: 22, tombward: 28, moonhowl: 34, webspinner: 26, gravehand: 30, willowisp: 20, strawgrin: 30,
+  gourdgrim: 32, hexwell: 30, lanternrider: 34, marrowcloak: 30, silkwidow: 40 });
+Object.assign(W28NAMES, { sheetling: 'Sheetlings drift out of the dark!', moonbat: 'Moon bats pour across the sky!', costumebone: 'Skeletons in costume rattle up!', candycorn: 'Candy-corn imps swarm!', fusegourd: 'Fuse gourds are sizzling!', scarecrow: 'The scarecrows climb down!', broomwitch: 'Broom witches circle overhead!',
+  rotpumpkin: 'Rotgut pumpkins roll in!', mistmare: 'Mist mares gallop out of the fog!', hexcrone: 'Kettle crones stir their pots!', tombward: 'The tombstones get up and walk!', moonhowl: 'Something howls at the moon!', webspinner: 'Web spinners drop from the trees!', gravehand: 'Hands burst from the graves!', willowisp: "Will-o'-wisps flicker and lure!" });
+BOSSSET36.moonpatch = ['gourdgrim', 'hexwell', 'lanternrider', 'marrowcloak', 'silkwidow'];
+Object.assign(BOSS36, {
+  gourdgrim: { col: '#ff7a1a', c2: '#ffe0a0', moves: ['slam', 'cross', 'summon', 'fan'], add: 'pumpseed', cd: 2.9, death: 'col', emb: 1, enr: 'Gourdgrim swings his scythe — the whole patch catches fire!' },
+  hexwell: { col: '#9aff5a', c2: '#e8ffd0', moves: ['rain', 'summon', 'blink', 'ring'], add: 'candycorn', cd: 2.9, death: 'bubble', enr: 'Granny Hexwell tips the cauldron over!' },
+  lanternrider: { col: '#ffb02a', c2: '#fff0c0', moves: ['charge', 'fan', 'beam', 'gust'], cd: 2.6, death: 'col', emb: 1, enr: 'The Lantern Rider’s flame turns ghost-green!' },
+  marrowcloak: { col: '#c8a0ff', c2: '#f4e8ff', moves: ['blink', 'spiral', 'summon', 'ring'], add: 'costumebone', cd: 2.8, death: 'moth', enr: 'Count Marrowcloak drops the mask. Oh no.' },
+  silkwidow: { col: '#e8e8f0', c2: '#ffffff', moves: ['roots', 'slam', 'summon', 'rain'], add: 'webspinner', cd: 3.0, death: 'sink', enr: 'The Silkwidow pulls every web in the patch tight!' },
+});
+function w47MoonMini() { const w = G.w28 || {}, n = w.mini = (w.mini || 0) + 1, p = n % 2 === 1, k = p ? 'strawgrin' : 'juggernaut'; spawnEnemy(k);
+  announce(p ? '☠ HE CLIMBED DOWN: Old Strawgrin' : '♜ MINI-BOSS: Grave Juggernaut', p ? 'The tallest scarecrow in the patch. Its eyes are lit.' : 'Dodge its charge and ground slam', p ? '#ffb02a' : '#c56bff', 'boss'); }
 function b36Move(e, B, m, d, dx, dy) { const en = e.enr ? 1 : 0, C = B.col, C2 = B.c2, a = Math.atan2(dy, dx), dm = e.dmg;
   const shake = t => G.later.push({ t, f: () => { if (!e.dead) G.shake = Math.max(G.shake || 0, 0.22); } });
   switch (m) {
@@ -7734,6 +7782,126 @@ const ZP = (() => { const TAU2 = Math.PI * 2, bob = f => Math.sin(f / 4 * TAU2),
     held: (b, ax, ay, by, w) => { b.line(ax, ay + 10, ax + 3, ay - 70, WHT[3]); b.poly([ax - 5, ay - 40, ax + 3, ay - 100, ax + 11, ay - 40], ICE, 4, 1); b.line(ax + 3, ay - 96, ax + 3, ay - 44, '#fff'); glow(b, ax + 3, ay - 60, 7, ICE); },
     ex: (b, f, w, by, hy) => { for (let i = 0; i < 6; i++) b.poly([-18 + i * 7, -68 + by, -16 + i * 7, -56 - (i & 1) * 5 + by, -14 + i * 7, -68 + by], WHT, 4, 0); for (let i = 0; i < 4; i++) b.set(-8 + i * 6, Math.round(-40 + by), '#fff'); } });
 })();
+/* ---- v47: Hallowmoon Patch sprites (original designs) ---- */
+(() => {
+  const { ramp: R } = PXA, M = PXA.mobs, D = M.D, TAU2 = Math.PI * 2, bob = f => Math.sin(f / 4 * TAU2), Z = ZP;
+  Object.assign(M.FLOAT, { sheetling: 1, moonbat: 1, broomwitch: 1, willowisp: 1, marrowcloak: 1 });
+  Object.assign(M.SCALE, { sheetling: 1, moonbat: 1, costumebone: 1.05, candycorn: 0.9, fusegourd: 1, scarecrow: 1.15, broomwitch: 1, rotpumpkin: 1.05, pumpseed: 0.8, mistmare: 1.1, hexcrone: 1, tombward: 1.1, moonhowl: 1.05, webspinner: 1, gravehand: 1.1, willowisp: 1, strawgrin: 1.5 });
+  const ORG = R(['#3a1404', '#9a400a', '#ff7a1a', '#ffb44a', '#fff0b0'], 1), BLK = R(['#05060a', '#10121a', '#1e2230', '#343a50', '#545c78']), SHT = R(['#6a7090', '#a8b0cc', '#d8deee', '#f0f4ff', '#ffffff']), BON = R(['#4a4434', '#8a7e64', '#c4b896', '#e8e0c4', '#fffaec']);
+  const WCH = R(['#0c3a0a', '#2a8a1a', '#6ad83a', '#aaff6a', '#eaffd0'], 1), PRP = R(['#1e0c3a', '#4a2488', '#8a54d0', '#c8a0ff', '#f0e4ff']), STR = R(['#4a3410', '#8a6420', '#c89a3a', '#e8c46a', '#fff0b0']), SAK = R(['#2a1e14', '#5a4430', '#8a6c4a', '#b89a70', '#e0caa0']);
+  const MNT = R(['#0a3a3a', '#1a7a72', '#4ac8b8', '#8ae8d8', '#e0fff8'], 1), STN = R(['#22262e', '#454b58', '#6e7686', '#9aa2b2', '#c8ced8']), CRN = R(['#6a2a04', '#e0700a', '#ffb02a', '#ffe48a', '#ffffff']), RED = R(['#4a0610', '#9a1426', '#e03044', '#ff7a88', '#ffd0d4']);
+  const glow = (b, x, y, r, C) => { b.ell(x, y, r, r, C, 4, 0); b.ell(x, y, r * 0.5, r * 0.5, C, 4, 0); };
+  const jack = (b, x, y, rx, ry, lit) => { b.ell(x, y, rx, ry, ORG, 2, 1); b.ell(x - rx * 0.45, y, rx * 0.5, ry * 0.95, ORG, 3, 0); b.ell(x + rx * 0.45, y, rx * 0.5, ry * 0.95, ORG, 1, 0); b.rect(x - 1, y - ry - 3, 3, 4, WCH[0]);
+    const s = rx / 9, E = lit ? CRN : BLK; b.poly([x - 5 * s, y - 1 * s, x - 1.5 * s, y - 1 * s, x - 3.2 * s, y - 4.4 * s], E, lit ? 4 : 0, 0); b.poly([x + 1.5 * s, y - 1 * s, x + 5 * s, y - 1 * s, x + 3.2 * s, y - 4.4 * s], E, lit ? 4 : 0, 0);
+    b.poly([x - 6 * s, y + 2 * s, x + 6 * s, y + 2 * s, x + 4 * s, y + 5.4 * s, x + 2 * s, y + 3.6 * s, x, y + 5.4 * s, x - 2 * s, y + 3.6 * s, x - 4 * s, y + 5.4 * s], E, lit ? 4 : 0, 0); if (lit) glow(b, x, y + 1, rx * 0.55, CRN); };
+  /* Sheetling: a small bedsheet ghost with uneven eyeholes, clutching a trick-or-treat pail */
+  D.sheetling = (b, f, w) => { const cy = -24 + bob(f) * 2;
+    b.poly([-10, cy + 16 + bob(f + 1) * 1.6, -5, cy + 13, 0, cy + 16 + bob(f + 2) * 1.6, 5, cy + 13, 10, cy + 16 + bob(f + 3) * 1.6, 8, cy - 4, -8, cy - 4], SHT, 2, 1); b.ell(0, cy - 6, 9, 9, SHT, 3, 1); b.ell(-3, cy - 9, 4, 3, SHT, 4, 0);
+    b.ell(-2, cy - 6, 1.6, 2.4, BLK, 0, 0); b.ell(4, cy - 5, 2, 2.6, BLK, 0, 0); b.ell(1, cy + 0, 1.4, 1, BLK, 1, 0);
+    const px = w ? 14 : 11, py = w ? cy - 2 : cy + 8; b.poly([px - 4, py - 3, px + 4, py - 3, px + 3, py + 4, px - 3, py + 4], ORG, 2, 1); b.line(px - 1, py - 1, px + 1, py - 1, BLK[0]); b.curve(px - 4, py - 3, px, py - 9, px + 4, py - 3, 0.8, 0.8, BLK, 3); if (w) for (let i = 0; i < 3; i++) b.set(px - 2 + i * 2, Math.round(py - 5 - i), i & 1 ? CRN[3] : RED[3]); };
+  /* Moon Bat: a pale-bellied bat with a crescent-moon pattern on its wings and golden eyes */
+  D.moonbat = (b, f, w) => Z.fly(b, f, w, { wc: BLK, c: BLK, c2: SHT, k: 1, eye: '#ffe060', ex: (b, f, w, cy) => { b.poly([4, cy - 6, 3, cy - 13, 8, cy - 7], BLK, 3, 1); b.poly([8, cy - 6, 11, cy - 12, 12, cy - 6], BLK, 3, 1); b.curve(-16, cy - 6, -12, cy - 2, -16, cy + 1, 1.2, 0.6, CRN, 4); b.curve(16, cy - 6, 12, cy - 2, 16, cy + 1, 1.2, 0.6, CRN, 4); b.set(9, Math.round(cy - 1), '#fff'); } });
+  /* Costumed Skeleton: a rattly skeleton wearing a paper witch hat, a too-short cape and a cardboard sword */
+  D.costumebone = (b, f, w) => Z.hum(b, f, w, { k: 1, sk: BON, cl: BLK, lg: BON, cl2: BON, tw: 6, cape: PRP, wp: 'club', wc: SAK, hat: (b, x, y) => { b.poly([x - 9, y - 4, x + 9, y - 4, x + 2, y - 20, x - 1, y - 14], PRP, 2, 1); b.rect(x - 9, y - 5, 18, 2, CRN[2]); b.set(Math.round(x + 4), Math.round(y), BLK[0]); b.set(Math.round(x), Math.round(y), BLK[0]); b.line(x - 2, y + 3, x + 4, y + 3, BLK[0]); },
+    ex: (b, f, w, by) => { for (let i = 0; i < 3; i++) b.line(-4, -17 + by + i * 3, 4, -17 + by + i * 3, BON[3]); } });
+  /* Candy-Corn Imp: a tiny tri-coloured candy-corn gremlin with a toothy grin */
+  D.candycorn = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t * 2)) * 2;
+    for (const [x, ph] of [[-3, 0], [3, Math.PI]]) b.cap(x, -6 + by, x + Math.sin(t + ph) * 2.6, -0.5, 1.4, 1.1, BLK, 2);
+    b.poly([-7, -6 + by, 7, -6 + by, 0, -28 + by], CRN, 2, 1); b.poly([-7, -6 + by, 7, -6 + by, 5.4, -11 + by, -5.4, -11 + by], ORG, 2, 0); b.poly([-2.4, -21 + by, 2.4, -21 + by, 0, -28 + by], SHT, 3, 0);
+    b.set(-2, Math.round(-15 + by), '#fff'); b.set(2, Math.round(-15 + by), '#fff'); b.set(-2, Math.round(-14 + by), BLK[0]); b.set(2, Math.round(-14 + by), BLK[0]); b.line(-2, -12 + by, 3, -12 + by, BLK[0]); b.cap(5, -14 + by, w ? 11 : 9, w ? -22 + by : -10 + by, 1.1, 1, BLK, 2); };
+  /* Fuse Gourd: a squat warty gourd with a sizzling fuse for a stem and a nervous face */
+  D.fusegourd = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t * 2)) * 1.4, sw = w ? 1.2 : 1 + Math.sin(t) * 0.05;
+    for (const [x, ph] of [[-4, 0], [4, Math.PI]]) b.cap(x, -6 + by, x + Math.sin(t + ph) * 3, -0.5, 1.4, 1, WCH, 1);
+    b.ell(0, -15 + by, 11 * sw, 10 * sw, R(['#3a3a04', '#7a8a10', '#c8c82a', '#ffe060', '#fffbc0']), 2, 1); for (const [x, y] of [[-6, -18], [5, -11], [-3, -9], [7, -19]]) b.ell(x, y + by, 1.6, 1.4, WCH, 2, 0);
+    b.ell(-3, -16 + by, 2, 2.4, '#fff', 4, 0); b.ell(3, -16 + by, 2, 2.4, '#fff', 4, 0); b.set(-3, Math.round(-15 + by), BLK[0]); b.set(3, Math.round(-15 + by), BLK[0]); b.curve(-3, -10 + by, 0, -12 + by, 3, -10 + by, 0.8, 0.8, BLK, 0);
+    b.curve(0, -25 + by, 3, -30 + by, 1, -34 + by, 1.4, 1, BLK, 3); for (let i = 0; i < 4; i++) b.set(Math.round(1 + Math.cos(f + i * 1.6) * 3), Math.round(-35 + by + Math.sin(f + i * 1.6) * 2), i % 2 ? CRN[4] : '#ff6a1a'); };
+  /* Patch Scarecrow: a burlap-headed scarecrow with a stitched grin, a hay-stuffed coat and a pitchfork */
+  D.scarecrow = (b, f, w) => Z.hum(b, f, w, { k: 1.2, sk: SAK, cl: R(['#1a2a14', '#2a4a24', '#4a6a3a', '#6a8a50', '#9ab070']), lg: SAK, cl2: STR, tw: 8, wp: 'none', eye: '#ffb02a', hat: (b, x, y) => { b.rect(x - 9, y - 6, 20, 2, BLK[2]); b.poly([x - 5, y - 6, x + 7, y - 6, x + 5, y - 15, x - 3, y - 14], BLK, 2, 1); b.line(x - 2, y + 3, x + 5, y + 3, BLK[0]); for (let i = 0; i < 4; i++) b.line(x - 1 + i * 2, y + 2, x - 1 + i * 2, y + 4, BLK[0]); b.set(Math.round(x - 1), Math.round(y), '#ffb02a'); },
+    ex: (b, f, w, by) => { const ax = w ? 18 : 13, ay = w ? -38 + by : -16 + by; b.line(ax, ay + 18, ax, ay - 16, SAK[2]); for (const q of [-3, 0, 3]) b.line(ax + q, ay - 16, ax + q, ay - 22, STN[3]); b.line(ax - 3, ay - 16, ax + 3, ay - 16, STN[3]); for (let i = 0; i < 5; i++) b.line(-9 + i * 4, -9 + by, -10 + i * 4, -5 + by, STR[3]); b.line(-12, -18 + by, -16, -14 + by, STR[3]); } });
+  /* Broom Witch: a green-faced witch side-saddle on a crooked broom, hat brim flapping */
+  D.broomwitch = (b, f, w) => { const cy = -26 + bob(f) * 2; b.line(-18, cy + 8, 16, cy + 4, SAK[2]); b.line(-18, cy + 9, 16, cy + 5, SAK[1]); for (let i = 0; i < 5; i++) b.line(-18, cy + 8, -26, cy + 3 + i * 2.4, STR[2 + (i & 1)]);
+    b.poly([-6, cy + 6, 6, cy + 6, 4, cy - 8, -4, cy - 8], BLK, 2, 1); b.poly([2, cy + 6, 6, cy + 14, 0, cy + 13], BLK, 2, 1); b.ell(1, cy - 12, 5, 5.4, WCH, 3, 1); b.poly([4, cy - 12, 9, cy - 10, 4, cy - 9], WCH, 3, 0); b.set(3, Math.round(cy - 13), '#ffe060');
+    b.rect(-8, cy - 16, 18, 2, BLK[2]); b.poly([-4, cy - 16, 6, cy - 16, 0 + Math.sin(f) * 2, cy - 30, -2, cy - 22], BLK, 2, 1); b.rect(-4, cy - 18, 10, 1.6, PRP[2]);
+    const hx = w ? 14 : 10, hy2 = w ? cy - 14 : cy - 4; b.cap(4, cy - 4, hx, hy2, 1.2, 1, BLK, 2); if (w) for (let i = 0; i < 3; i++) glow(b, hx + 3 + i * 3, hy2 - 3 - (i % 2) * 3, 2, WCH); };
+  /* Rotgut Pumpkin / Seedling Gremlin: a slumped, caved-in pumpkin with seed-teeth that bursts into little seed gremlins */
+  D.rotpumpkin = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t)) * 1.2 + (w ? 1.5 : 0); for (const [x, ph] of [[-7, 0], [7, Math.PI]]) b.cap(x, -8 + by, x + Math.sin(t + ph) * 3, -0.5, 2.4, 2, WCH, 1);
+    b.ell(0, -18 + by, 15, 12, R(['#2a1004', '#6a2c08', '#b0561a', '#d8843a', '#f4c890']), 2, 1); b.ell(-6, -18 + by, 7, 11, R(['#2a1004', '#6a2c08', '#b0561a', '#d8843a', '#f4c890']), 3, 0); b.ell(4, -24 + by, 4, 2, BLK, 1, 0);
+    b.ell(2, -15 + by, 9, 4 + (w ? 2 : 0), BLK, 0, 0); for (let i = 0; i < 5; i++) b.ell(-5 + i * 3, -16 + by + (i & 1), 1, 1.6, BON, 4, 0); b.set(-3, Math.round(-21 + by), '#ffe060'); b.set(6, Math.round(-21 + by), '#ffe060'); b.curve(0, -30 + by, -3, -34 + by, -6, -32 + by, 1.4, 1, WCH, 1); };
+  D.pumpseed = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t * 2)) * 2; for (const [x, ph] of [[-2, 0], [2, Math.PI]]) b.cap(x, -5 + by, x + Math.sin(t + ph) * 2.4, -0.5, 1, 0.8, WCH, 2);
+    b.ell(0, -10 + by, 5, 7, BON, 3, 1); b.ell(-1, -12 + by, 2, 3, BON, 4, 0); b.set(-2, Math.round(-11 + by), BLK[0]); b.set(2, Math.round(-11 + by), BLK[0]); b.line(-2, -7 + by, 2, -7 + by, BLK[0]); b.poly([0, -17 + by, 4, -21 + by, 1, -16 + by], WCH, 3, 0); };
+  /* Mist Mare: a translucent teal ghost-horse whose mane and tail trail into fog, hooves never quite touching the ground */
+  D.mistmare = (b, f, w) => Z.quad(b, f, w, { c: MNT, c2: SHT, k: 1.15, sn: 3, eye: '#ffffff', tail: 0, ex: (b, f, w, by) => { for (let i = 0; i < 5; i++) b.curve(10 - i * 2, -26 + by, 2 - i * 4, -30 + by + Math.sin(f + i) * 2, -6 - i * 5, -24 + by, 2, 0.6, MNT, 4); for (let i = 0; i < 3; i++) b.curve(-16, -20 + by, -26, -18 + i * 3 + Math.sin(f * 2 + i) * 2, -34 - i * 2, -12 + i * 3, 2, 0.6, MNT, 3 + (i & 1)); glow(b, 17, -23 + by, 2.6, MNT); if (w) glow(b, 26, -17 + by, 4, SHT); } });
+  /* Kettle Crone: a hunched witch stirring a tiny floating kettle that pours healing green steam */
+  D.hexcrone = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t * 2)) * 1 + (w ? 1.5 : 0);
+    b.poly([-9, -2, 9, -2, 6, -22 + by, -4, -24 + by], BLK, 2, 1); b.poly([-9, -2, -2, -2, -3, -20 + by], PRP, 1, 0); b.ell(4, -26 + by, 5, 5, WCH, 3, 1); b.poly([7, -26 + by, 12, -23 + by, 7, -22 + by], WCH, 3, 0); b.set(6, Math.round(-27 + by), '#ffe060'); b.set(9, Math.round(-22 + by), WCH[0]);
+    b.rect(-4, -31 + by, 16, 2, BLK[2]); b.poly([0, -31 + by, 9, -31 + by, 2, -44 + by], BLK, 2, 1); for (let i = 0; i < 4; i++) b.line(-5 + i * 1.6, -30 + by, -7 + i * 1.6, -20 + by, SHT[1]);
+    const kx = w ? 18 : 15, ky = -18 + by + bob(f) * 1.4; b.ell(kx, ky, 5, 4, BLK, 2, 1); b.rect(kx - 5, ky - 3, 10, 1.4, BLK[3]); b.line(kx + 5, ky - 1, kx + 9, ky - 4, BLK[3]); b.cap(8, -18 + by, kx - 3, ky - 3, 1.2, 1, BLK, 2); glow(b, kx, ky - 6, 3 + (w ? 2 : 0), WCH); for (let i = 0; i < 3; i++) b.set(Math.round(kx - 2 + i * 2), Math.round(ky - 9 - i * 2 - (f % 3)), WCH[3]); };
+  /* Tombstone Warden: a hulking ghoul that carries its own cracked headstone as a shield */
+  D.tombward = (b, f, w) => Z.hum(b, f, w, { k: 1.2, sk: R(['#1a2a1a', '#3a5a3a', '#6a8a64', '#9ab08a', '#c8d8b0']), cl: BLK, lg: BLK, cl2: STN, tw: 9, wp: 'none', eye: '#9aff5a', hat: (b, x, y) => { b.line(x - 2, y + 3, x + 5, y + 3, BLK[0]); b.set(Math.round(x), Math.round(y), '#9aff5a'); },
+    ex: (b, f, w, by) => { const sx = w ? 4 : -2; b.poly([sx - 12, -6 + by, sx - 2, -6 + by, sx - 2, -30 + by, sx - 7, -34 + by, sx - 12, -30 + by], STN, 2, 1); b.line(sx - 7, -28 + by, sx - 7, -18 + by, STN[0]); b.line(sx - 10, -25 + by, sx - 4, -25 + by, STN[0]); b.line(sx - 4, -14 + by, sx - 9, -9 + by, STN[0]); b.set(sx - 11, Math.round(-12 + by), WCH[2]); b.set(sx - 3, Math.round(-31 + by), WCH[2]); } });
+  /* Moonhowl: a lean grey wolf with a crescent-shaped blaze glowing on its brow */
+  D.moonhowl = (b, f, w) => Z.quad(b, f, w, { c: STN, c2: SHT, k: 1, sn: 2, eye: '#ffe060', tail: 1, ex: (b, f, w, by) => { b.curve(10, -24 + by, 13, -22 + by, 16, -24 + by, 1.2, 0.6, CRN, 4); for (let i = 0; i < 4; i++) b.line(-10 + i * 5, -26 + by, -8 + i * 5, -22 + by, STN[0]); if (w) b.poly([18, -16 + by, 24, -14 + by, 18, -12 + by], RED, 3, 0); } });
+  /* Web Spinner: a fat black-and-orange spider with eight thin legs, spitting balls of web */
+  D.webspinner = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t * 2)) * 1;
+    for (let i = 0; i < 4; i++) for (const s of [-1, 1]) { const ph = t + i * 0.8 + (s > 0 ? Math.PI : 0), kx = s * (8 + i * 3), ky = -18 + by - 6 + Math.sin(ph) * 2; b.line(s * 3, -12 + by, kx, ky, BLK[3]); b.line(kx, ky, s * (11 + i * 4), -1, BLK[3]); }
+    b.ell(-5, -14 + by, 10, 8, BLK, 2, 1); b.rect(-10, -16 + by, 10, 1.6, ORG[2]); b.rect(-8, -12 + by, 6, 1.6, ORG[2]); b.ell(6, -12 + by, 5, 4.4, BLK, 3, 1); for (const [x, y] of [[6, -14], [8, -14], [7, -12], [9, -12]]) b.set(x, Math.round(y + by), RED[3]);
+    if (w) { b.ell(14, -12 + by, 3, 3, SHT, 4, 1); b.line(10, -12 + by, 14, -12 + by, SHT[3]); } };
+  /* Grave Grasper: a huge rotten hand bursting out of a mound of grave dirt, clutching at the air */
+  D.gravehand = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t)) * 1.4 + (w ? 2 : 0), op = w ? 1 : 0;
+    b.ell(0, -4, 18, 6, SAK, 1, 1); for (const [x, y] of [[-12, -6], [10, -7], [-4, -9]]) b.ell(x, y, 4, 2.4, SAK, 2, 0); b.rect(-14, -14, 4, 8, STN[2]); b.rect(-15, -13, 6, 1.6, STN[2]);
+    b.cap(0, -6, 2, -26 + by, 6, 5, R(['#1a2a1a', '#3a5a3a', '#6a8a64', '#9ab08a', '#c8d8b0']), 2); b.ell(2, -30 + by, 8, 6, R(['#1a2a1a', '#3a5a3a', '#6a8a64', '#9ab08a', '#c8d8b0']), 3, 1);
+    for (let i = 0; i < 4; i++) { const fx = -4 + i * 4, ang = (i - 1.5) * 0.25; b.cap(fx, -34 + by, fx + Math.sin(ang) * 6 + (op ? (i - 1.5) * 3 : 0), -46 + by + (op ? 0 : 4) + Math.abs(i - 1.5) * 2, 1.8, 1.4, R(['#1a2a1a', '#3a5a3a', '#6a8a64', '#9ab08a', '#c8d8b0']), 3); }
+    b.cap(8, -30 + by, 13, -36 + by, 1.8, 1.4, R(['#1a2a1a', '#3a5a3a', '#6a8a64', '#9ab08a', '#c8d8b0']), 2); b.rect(-2, -22 + by, 8, 2, BON[3]); };
+  /* Will-o'-Wisp: a drifting green flame with a sly little face, trailing sparks to lead you astray */
+  D.willowisp = (b, f, w) => { const cy = -24 + bob(f) * 3; glow(b, 0, cy, 12 + (w ? 3 : 0), R(['#0a3a20', '#1a8a50', '#4ae890', '#8affc8', '#e8fff4'], 1));
+    b.poly([-7, cy + 4, 7, cy + 4, 4, cy - 8, 1 + Math.sin(f * 2) * 2, cy - 18, -3, cy - 9], R(['#0a3a20', '#1a8a50', '#4ae890', '#8affc8', '#e8fff4'], 1), 3, 1); b.ell(0, cy, 5, 4, SHT, 4, 0);
+    b.set(-2, Math.round(cy - 1), BLK[0]); b.set(2, Math.round(cy - 1), BLK[0]); b.curve(-2, cy + 2, 0, cy + 3, 3, cy + 1, 0.6, 0.6, BLK, 0); for (let i = 0; i < 4; i++) b.set(Math.round(-6 - i * 3 + Math.sin(f + i)), Math.round(cy + 6 + i * 2), i & 1 ? '#8affc8' : '#e8fff4'); };
+  /* Old Strawgrin: the patch's tallest scarecrow, a lit jack-o'-lantern for a head and crows on his arms */
+  D.strawgrin = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t)) * 1.4 + (w ? 3 : 0);
+    b.line(0, 0, 0, -50 + by, SAK[1]); b.line(1, 0, 1, -50 + by, SAK[2]); for (let i = 0; i < 6; i++) b.line(-3 + i, -2, -6 + i * 2.4, 2, STR[3]);
+    b.poly([-14, -24 + by, 14, -24 + by, 12, -50 + by, -12, -50 + by], R(['#1a2a14', '#2a4a24', '#4a6a3a', '#6a8a50', '#9ab070']), 2, 1); for (let i = 0; i < 7; i++) b.line(-13 + i * 4, -25 + by, -14 + i * 4, -18 + by, STR[2 + (i & 1)]); b.rect(-6, -40 + by, 6, 6, RED[2]); b.rect(4, -32 + by, 6, 5, PRP[2]);
+    const lift = w ? -10 : 0; b.line(-30, -46 + by + lift, 30, -46 + by - lift, SAK[2]); b.line(-30, -45 + by + lift, 30, -45 + by - lift, SAK[1]); for (const s of [-1, 1]) for (let i = 0; i < 3; i++) b.line(s * 30, -46 + by - s * lift, s * (33 + i), -42 + i * 2 + by - s * lift, STR[3]);
+    for (const [x, y] of [[-24, -50], [22, -50]]) { b.ell(x, y + by, 4, 3, BLK, 2, 1); b.ell(x + 3, y - 3 + by, 2.4, 2.4, BLK, 3, 1); b.poly([x + 5, y - 3 + by, x + 8, y - 2 + by, x + 5, y - 1 + by], STR, 3, 0); b.set(x + 3, Math.round(y - 4 + by), '#ffe060'); }
+    jack(b, 1, -62 + by, 11, 10, 1); b.rect(-12, -73 + by, 26, 2.4, BLK[2]); b.poly([-6, -73 + by, 8, -73 + by, 5, -86 + by, -3, -84 + by], BLK, 2, 1); };
+  /* ======== the Hallowmoon Patch's 5 bosses ======== */
+  /* Gourdgrim: a towering reaper made of vines and harvest sacks, a great carved pumpkin skull and a crescent scythe */
+  D.gourdgrim = (b, f, w) => Z.big(b, f, w, { k: 1.15, sk: ORG, cl: R(['#0a1a08', '#1a3a14', '#2a5a20', '#4a7a30', '#7aa04a']), cl2: SAK, lg: R(['#0a1a08', '#1a3a14', '#2a5a20', '#4a7a30', '#7aa04a']), arm: R(['#0a1a08', '#1a3a14', '#2a5a20', '#4a7a30', '#7aa04a']), wide: 22, hd: 13, eye: '#ffe48a',
+    hat: (b, x, y) => { jack(b, x, y, 15, 13, 1); b.poly([x - 18, y - 6, x - 10, y - 22, x - 2, y - 12], BLK, 2, 1); b.poly([x + 4, y - 12, x + 12, y - 22, x + 20, y - 6], BLK, 2, 1); },
+    back: (b, f, w, by) => { for (let i = 0; i < 6; i++) b.curve(-20 + i * 8, -70 + by, -26 + i * 9, -40, -30 + i * 10, -6, 2, 1, WCH, 1 + (i & 1)); },
+    held: (b, ax, ay, by, w) => { b.line(ax, ay + 30, ax + 4, ay - 70, SAK[1]); b.line(ax + 1, ay + 30, ax + 5, ay - 70, SAK[2]); b.curve(ax + 4, ay - 70, ax - 30, ay - 84, ax - 50, ay - 56, 4, 1, STN, 4); b.curve(ax + 4, ay - 66, ax - 26, ay - 78, ax - 46, ay - 54, 1.4, 0.6, SHT, 4); if (w) glow(b, ax - 22, ay - 74, 8, CRN); },
+    ex: (b, f, w, by) => { for (let i = 0; i < 4; i++) { b.ell(-14 + i * 9, -28 + by, 4, 3, ORG, 2, 1); } for (let i = 0; i < 5; i++) b.line(-16 + i * 8, -60 + by, -14 + i * 8, -40 + by, STR[2]); } });
+  /* Granny Hexwell: an enormous, cheerful-looking witch grandmother riding inside her own bubbling cauldron, ladle raised */
+  D.hexwell = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t)) * 1.2 + (w ? 3 : 0);
+    for (const x of [-26, 0, 26]) b.cap(x, -12, x * 1.1, 0, 4, 3, BLK, 2); b.ell(0, -32 + by, 40, 26, BLK, 2, 1); b.ell(-12, -40 + by, 14, 12, BLK, 3, 0); b.rect(-42, -56 + by, 84, 6, BLK[3]);
+    for (let i = 0; i < 7; i++) { const x = -34 + i * 11, h = 6 + Math.sin(f + i * 1.3) * 3; b.ell(x, -58 + by - h * 0.4, 6, h * 0.6, WCH, 3, 0); }
+    b.poly([-18, -56 + by, 18, -56 + by, 14, -84 + by, -14, -84 + by], PRP, 2, 1); for (let i = 0; i < 4; i++) b.set(-8 + i * 6, Math.round(-70 + by), CRN[3]);
+    b.ell(1, -96 + by, 13, 13.4, WCH, 3, 1); b.poly([8, -96 + by, 18, -90 + by, 8, -88 + by], WCH, 3, 1); b.set(6, Math.round(-99 + by), '#ffe060'); b.set(-2, Math.round(-99 + by), '#ffe060'); b.curve(-4, -87 + by, 2, -84 + by, 8, -87 + by, 1, 1, BLK, 0); b.set(12, Math.round(-92 + by), WCH[0]);
+    for (let i = 0; i < 6; i++) b.curve(-12 + i * 2, -104 + by, -16 - i * 2, -92 + by, -14 - i * 3, -76 + by, 1.6, 0.8, SHT, 2 + (i & 1));
+    b.rect(-24, -110 + by, 50, 4, BLK[2]); b.poly([-12, -110 + by, 16, -110 + by, 6 + Math.sin(f) * 3, -146 + by, -2, -128 + by], BLK, 2, 1); b.rect(-12, -114 + by, 28, 3, CRN[2]); b.rect(-2, -116 + by, 6, 6, CRN[3]);
+    const lift = w ? -26 : 0; b.cap(14, -74 + by, 34, -66 + by + lift, 4, 3.4, PRP, 3); b.line(34, -66 + by + lift, 42, -100 + by + lift, SAK[2]); b.ell(42, -102 + by + lift, 6, 4, STN, 3, 1); if (w) for (let i = 0; i < 5; i++) glow(b, 42 + Math.cos(i * 1.3) * 12, -102 + by + lift + Math.sin(i * 1.3) * 10, 3, WCH);
+    b.cap(-14, -74 + by, -32, -60 + by, 4, 3.4, PRP, 1); for (let i = 0; i < 4; i++) glow(b, -20 + i * 12, -58 + by - ((f + i) % 4) * 6, 2.4, WCH); };
+  /* The Lantern Rider: a cloaked rider on a coal-black steed; where the head should be, an iron lantern burns */
+  D.lanternrider = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t * 2)) * 2 + (w ? 3 : 0);
+    for (const [x, ph] of [[-30, 0], [-20, Math.PI], [22, Math.PI * 0.5], [32, Math.PI * 1.5]]) { const s = Math.sin(t + ph) * 6; b.cap(x, -30 + by, x + s, -2, 4, 3, BLK, 2); b.ell(x + s, -1, 4, 2, BLK, 3, 0); if (w) glow(b, x + s, -1, 3, ORG); }
+    b.ell(0, -40 + by, 40, 16, BLK, 2, 1); b.curve(-38, -44 + by, -54, -50 + by, -60, -30 + by + Math.sin(f) * 3, 4, 1, BLK, 3); for (let i = 0; i < 3; i++) glow(b, -58 + i * 2, -32 + by + i * 4, 3, ORG);
+    b.cap(34, -48 + by, 50, -66 + by, 8, 6, BLK, 3); b.ell(56, -66 + by, 10, 7, BLK, 3, 1); b.ell(60, -68 + by, 2, 2, ORG, 4, 0); glow(b, 60, -68 + by, 4, ORG); for (let i = 0; i < 4; i++) b.line(30 + i * 5, -56 + by, 34 + i * 5, -72 + by + i, BLK[3]);
+    b.rect(-10, -58 + by, 24, 4, RED[1]); b.poly([-16, -54 + by, 16, -54 + by, 12, -96 + by, -10, -96 + by], R(['#08040e', '#1a1028', '#2e2040', '#463460', '#665088']), 2, 1); b.poly([-14, -92 + by, -40, -64 + by + Math.sin(f) * 4, -30, -56 + by, -10, -60 + by], R(['#08040e', '#1a1028', '#2e2040', '#463460', '#665088']), 1, 1);
+    b.rect(-6, -116 + by, 14, 18, STN[1]); b.rect(-4, -114 + by, 10, 14, CRN[2]); glow(b, 1, -107 + by, 12 + (w ? 4 : 0), CRN); b.rect(-7, -118 + by, 16, 3, STN[2]); b.poly([-4, -118 + by, 6, -118 + by, 1, -124 + by], STN, 3, 1); b.line(1, -124 + by, 1, -130 + by, STN[3]);
+    const lift = w ? -24 : 0; b.cap(12, -88 + by, 30, -80 + by + lift, 3.4, 3, R(['#08040e', '#1a1028', '#2e2040', '#463460', '#665088']), 3); b.line(30, -70 + by + lift, 34, -120 + by + lift, STN[3]); b.poly([30, -120 + by + lift, 38, -120 + by + lift, 34, -132 + by + lift], SHT, 4, 1); };
+  /* Count Marrowcloak: a floating lich in an opera cloak and a glittering masquerade mask, a candelabra in hand */
+  D.marrowcloak = (b, f, w) => Z.big(b, f, w, { k: 1.1, fl: 1, sk: BON, cl: R(['#100418', '#2a0c3a', '#4a1a6a', '#7a3aa0', '#b07ad8']), cl2: RED, lg: BLK, arm: BON, wide: 20, hd: 11, eye: '#c8a0ff',
+    hat: (b, x, y) => { b.poly([x - 13, y - 2, x + 15, y - 2, x + 18, y - 8, x + 4, y - 4, x - 10, y - 8], PRP, 3, 1); b.ell(x - 4, y - 3, 2.4, 1.6, BLK, 0, 0); b.ell(x + 6, y - 3, 2.4, 1.6, BLK, 0, 0); for (let i = 0; i < 4; i++) b.set(Math.round(x - 10 + i * 7), Math.round(y - 6), CRN[4]); b.poly([x + 14, y - 8, x + 22, y - 22, x + 18, y - 6], R(['#2a0c3a', '#8a54d0', '#c8a0ff', '#f0e4ff', '#ffffff']), 4, 0); b.rect(x - 8, y - 18, 18, 10, BLK[1]); b.rect(x - 12, y - 9, 26, 2, BLK[2]); b.line(x - 3, y + 6, x + 5, y + 6, BLK[0]); for (let i = 0; i < 4; i++) b.line(x - 3 + i * 2.4, y + 5, x - 3 + i * 2.4, y + 7, BLK[0]); },
+    back: (b, f, w, by) => { b.poly([-22, -74 + by, -46 + Math.sin(f) * 3, -84 + by, -48, -20 + bob(f + 1) * 3, 48, -20 + bob(f + 2) * 3, 46 + Math.sin(f + 1) * 3, -84 + by, 22, -74 + by], RED, 1, 1); b.poly([-20, -72 + by, -40, -20, 40, -20, 20, -72 + by], BLK, 1, 0); },
+    held: (b, ax, ay, by, w) => { b.line(ax, ay + 10, ax, ay - 20, CRN[1]); b.line(ax - 10, ay - 20, ax + 10, ay - 20, CRN[1]); for (const q of [-10, 0, 10]) { b.rect(ax + q - 1.4, ay - 30, 3, 9, SHT[3]); glow(b, ax + q, ay - 33 - (q === 0 ? 2 : 0), 4 + (w ? 2 : 0), R(['#2a0c3a', '#8a54d0', '#c8a0ff', '#f0e4ff', '#ffffff'], 1)); } },
+    ex: (b, f, w, by) => { for (let i = 0; i < 4; i++) b.line(-8, -60 + by + i * 7, 8, -60 + by + i * 7, BON[3]); b.ell(0, -62 + by, 4, 3, RED, 3, 1); } });
+  /* The Silkwidow Matriarch: a vast pale spider with a grinning bone-mask face, eight jointed legs and a web-spun crown */
+  D.silkwidow = (b, f, w) => { const t = f / 4 * TAU2, by = -Math.abs(Math.sin(t)) * 1.4 + (w ? 3 : 0);
+    for (let i = 0; i < 4; i++) for (const s of [-1, 1]) { const ph = t + i * 0.9 + (s > 0 ? Math.PI : 0), kx = s * (30 + i * 12), ky = -70 + by + Math.sin(ph) * 5 - (w && i === 0 ? 16 : 0), fx = s * (40 + i * 16); b.cap(s * 10, -40 + by, kx, ky, 3.4, 2.6, BLK, s > 0 ? 3 : 1); b.cap(kx, ky, fx, -1, 2.6, 1.4, BLK, s > 0 ? 3 : 1); b.set(Math.round(kx), Math.round(ky), SHT[3]); }
+    b.ell(-14, -46 + by, 36, 28, SHT, 2, 1); b.ell(-20, -54 + by, 18, 14, SHT, 3, 0); for (let i = 0; i < 3; i++) b.poly([-30 + i * 12, -60 + by, -24 + i * 12, -46 + by, -18 + i * 12, -60 + by], RED, 2, 0);
+    b.ell(24, -42 + by, 18, 16, SHT, 3, 1); b.ell(26, -40 + by, 13, 12, BON, 4, 0); for (const [x, y, r] of [[20, -46, 2.4], [30, -46, 2.4], [16, -40, 1.6], [34, -40, 1.6], [22, -51, 1.4], [28, -51, 1.4]]) { b.ell(x, y + by, r, r, BLK, 0, 0); b.set(x, Math.round(y + by), RED[3]); }
+    b.curve(16, -32 + by, 25, -28 + by, 34, -32 + by, 1.2, 1.2, BLK, 0); b.poly([20, -31 + by, 22, -24 + by - (w ? 4 : 0), 23, -31 + by], SHT, 4, 1); b.poly([28, -31 + by, 29, -24 + by - (w ? 4 : 0), 31, -31 + by], SHT, 4, 1);
+    for (let i = 0; i < 5; i++) { const a = -2.6 + i * 0.32; b.line(24, -56 + by, 24 + Math.cos(a) * 18, -56 + by + Math.sin(a) * 16, SHT[4]); } b.curve(10, -64 + by, 24, -72 + by, 38, -64 + by, 0.8, 0.8, SHT, 4); };
+})();
 /* ---- Hushborn + new boss sprites (pixel painters, same rules as px_mobs: feet at y = 0, facing +x, f 0-3 walk, w = wind-up) ---- */
 (() => {
   const { ramp: R } = PXA, M = PXA.mobs, D = M.D;
@@ -8230,6 +8398,7 @@ Object.assign(RANGED, { sobber: 22, sobwisp: 22, wickling: 10, drowned: 26 }); /
 Object.assign(RANGED, { apprentice: 22, archer: 22, cleric: 10 }); /* v39: Valorfields */
 Object.assign(RANGED, { conjurer: 22, rockspitter: 22, glimmer: 10, croonshade: 22, confetti: 22, dancer: 10 }); /* v39: Mossreach + Neon Perdition */
 Object.assign(RANGED, { carolghost: 22, cauldron: 22, elfwitch: 10 }); /* v39: Gourdmas Hollow */
+Object.assign(RANGED, { broomwitch: 22, webspinner: 22, hexcrone: 10, willowisp: 26 }); /* v47: the Hallowmoon Patch */
 function pickType(t) {
   const rc = G.typeN || {}, av = Object.keys(ETYPES).filter(k => !ETYPES[k].boss && ETYPES[k].t0 <= t && onMap28(k) && !(RANGED[k] && (rc[(heart36() && HEARTSUB[k]) || (zn39() && zn39().sub[k]) || k] || 0) >= RANGED[k]));
   return wpick(av, k => { const d = ETYPES[k]; if (k === 'wisp') return Math.max(0.35, 3 - t / 80) * (t > 600 ? 0.5 : 1); // older, weaker types fade out of the mix late so new threats dominate
@@ -10522,6 +10691,56 @@ function ph46HUD() { const F = G && G.ph46; if (!F || state === 'menu') return;
 /* class select: the secret card gets a ☎ badge, a NEW tag until first picked, and a whispered line when selected */
 function sec46(b, sel, id) { const s = ph46Sv(), nw = !s.seen; b.classList.add('sec46'); b.querySelector('.tx').insertAdjacentHTML('beforeend', `<div class="secb46">☎\uFE0E Secret${nw ? ' · NEW' : ''}</div>`);
   if (sel) { b.querySelector('.tx').insertAdjacentHTML('beforeend', '<div class="sec46l">☎\uFE0E You answered the call. Now it plays as you.</div>'); if (nw) { s.seen = 1; persist(); } } }
+/* ================= v47 THE HALLOWMOON LANTERN: the secret way into the Hallowmoon Patch. =================
+   Rules: only while the Patch is still a secret, and never inside it. Each run rolls a 12% chance (30% from Oct 24 to Nov 2 by the device's own
+   date: the Halloween Easter egg; guaranteed after 6 quiet runs in a row) that a carved jack-o'-lantern flickers into being between 5:00 and 10:00.
+   It lasts 60s; a 🎃 marker at the screen edge points to it. Stand beside it for 3s (a ring of candlelight fills; it drains slowly if you step away)
+   to light it. Lighting it flares (knocks nearby foes back, no screen shake) and permanently unlocks the secret map. If the candle gutters out
+   you get a cryptic hint. Off in ?debug sessions (sims/tests) unless window.__HM47 is set (2 = spawn right away). */
+const HM47 = { chance: 0.12, hallow: 0.3, pity: 6, t0: 300, t1: 600, life: 60, r: 54, need: 3 };
+function hallow47(d) { d = d || new Date(); const m = d.getMonth(), dd = d.getDate(); return (m === 9 && dd >= 24) || (m === 10 && dd <= 2); }
+function hm47Sv() { return save.hm47 || (save.hm47 = { dry: 0, seen: 0, miss: 0, unl: 0, new: 0 }); }
+function hm47Plan() { G.hm47 = { at: -1, st: 'off' }; if (moonOpen47() || G.map === 'moonpatch' || (DEBUG && !window.__HM47)) return; const s = hm47Sv(), f = window.__HM47 === 2,
+    lucky = f || Math.random() < (hallow47() ? HM47.hallow : HM47.chance) || (s.dry | 0) >= HM47.pity;
+  if (lucky) G.hm47.at = f ? 0 : HM47.t0 + Math.random() * (HM47.t1 - HM47.t0); else { s.dry = (s.dry | 0) + 1; persist(); } }
+function hm47Tick(dt) { if (!G || G.town || !P) return; if (!G.hm47) hm47Plan(); const F = G.hm47; if (F.st === 'off') { if (F.at < 0 || G.t < F.at || state !== 'play') return; hm47Spawn(F); return; }
+  if (F.st === 'wait') { F.life -= dt; F.ft = (F.ft || 0) - dt; const d = Math.hypot(F.x - P.x, F.y - P.y), near = d < HM47.r + (P.r || 10);
+    if (F.ft <= 0) { F.ft = 3.2; if (d < 800) Snd.play('flick47'); }
+    F.near = near; F.p = near ? F.p + dt : Math.max(0, F.p - dt * 0.4);
+    if (F.p >= HM47.need) hm47Light(F);
+    else if (F.life <= 0) { F.st = 'gone'; const s = hm47Sv(); s.miss = (s.miss | 0) + 1; persist(); toast('🎃 …the candle gutters out.', '#ffb02a', 3.4, 'Some lights only stay lit if someone stays beside them.'); }
+    return; }
+  if (F.st === 'lit') { F.t += dt; if (F.t >= 1.6 && !F.done) { F.done = 1; hm47Unlock(F); } if (F.t > 6) F.st = 'gone'; } }
+function hm47Spawn(F) { let x = P.x, y = P.y; for (let i = 0; i < 12; i++) { const a = rand(TAU), d = 260 + rand(80); x = P.x + Math.cos(a) * d; y = P.y + Math.sin(a) * d; if (typeof obHit !== 'function' || !obHit(x, y, 26)) break; }
+  const o = { x, y }; if (typeof obFree === 'function') obFree(o, 22); if (typeof WORLD_R === 'number') { const r = Math.hypot(o.x, o.y); if (r > WORLD_R - 60) { o.x *= (WORLD_R - 60) / r; o.y *= (WORLD_R - 60) / r; } }
+  Object.assign(F, { st: 'wait', x: o.x, y: o.y, life: HM47.life, ft: 0, p: 0, t: 0, near: false }); const s = hm47Sv(); s.dry = 0; s.seen = (s.seen | 0) + 1; persist();
+  toast('🎃 A lantern flickers where no lantern should be…', '#ffb02a', 4, 'It looks lonely.'); }
+function hm47Light(F) { F.st = 'lit'; F.t = 0; F.p = HM47.need; Snd.play('lit47'); P.inv = Math.max(P.inv, 1.4);
+  for (const e of nearestN(F.x, F.y, 40, 240)) { if (e.boss || e.mini) continue; const d = Math.hypot(e.x - F.x, e.y - F.y) || 1; e.kbx = (e.x - F.x) / d * 380; e.kby = (e.y - F.y) / d * 380; }
+  if (typeof burst === 'function') { burst(F.x, F.y - 10, '#ffb02a', 22, 140, 3, 0.8, true); burst(F.x, F.y - 10, '#8affc8', 14, 90, 2.6, 0.9, true); } }
+function hm47Unlock(F) { const s = hm47Sv(); s.unl = 1; s.new = 1; save.ach.p.hm47 = 1; persist(); if (typeof achCheck === 'function') achCheck(false);
+  achBanner({ ic: '🌕', name: 'The Hallowmoon Patch', abt: 'Secret Map Unlocked', un: 'a hidden map, waiting on the Map page', creep: 1 });
+  toast('🌕 The moon turns to look at you…', '#8affc8', 4.2, 'Look for it on the Map page'); Snd.play('cackle47'); }
+/* world: a carved jack-o'-lantern on a little stack of hay, guttering candlelight and a ring that fills while you stay near */
+function hm47Draw() { const F = G && G.hm47; if (!F || (F.st !== 'wait' && F.st !== 'lit') || !inView(F.x, F.y, 80)) return; const x = F.x, y = F.y, lit = F.st === 'lit', fl = 0.55 + 0.25 * Math.sin(gtime * 13) + 0.2 * Math.sin(gtime * 31);
+  const k = lit ? Math.min(1, 0.5 + F.t) : 0.2 + 0.8 * F.p / HM47.need;
+  ctx.save(); ctx.globalCompositeOperation = 'lighter'; glowAt(g30('#ffb02a'), x, y - 10, 60 + 90 * k, (0.25 + 0.3 * k) * fl); if (lit) glowAt(g30('#8affc8'), x, y - 10, 160 * Math.min(1, F.t), Math.max(0, 0.5 - F.t * 0.08)); ctx.restore();
+  ctx.fillStyle = 'rgba(0,0,0,.45)'; ctx.beginPath(); ctx.ellipse(x, y + 12, 20, 6, 0, 0, TAU); ctx.fill();
+  ctx.fillStyle = '#8a6420'; ctx.fillRect(x - 15, y + 1, 30, 11); ctx.fillStyle = '#c89a3a'; ctx.fillRect(x - 15, y + 1, 30, 3); ctx.fillStyle = '#4a3410'; for (let i = 0; i < 5; i++) ctx.fillRect(x - 13 + i * 6.5, y + 5, 1, 6);
+  const jy = y - 9 + (lit ? 0 : Math.sin(gtime * 2) * 0.6); ctx.fillStyle = '#9a400a'; ctx.beginPath(); ctx.ellipse(x, jy, 15, 11, 0, 0, TAU); ctx.fill(); ctx.fillStyle = '#ff7a1a'; ctx.beginPath(); ctx.ellipse(x - 4, jy - 1, 7, 10, 0, 0, TAU); ctx.fill(); ctx.beginPath(); ctx.ellipse(x + 5, jy - 1, 6, 10, 0, 0, TAU); ctx.fill();
+  ctx.fillStyle = '#2a5a20'; ctx.fillRect(x - 1.5, jy - 15, 3, 5);
+  const ec = `rgba(255,${Math.round(200 + 50 * fl)},${Math.round(90 * k)},${(0.5 + 0.5 * k * fl).toFixed(3)})`; ctx.fillStyle = ec;
+  ctx.beginPath(); ctx.moveTo(x - 9, jy - 1); ctx.lineTo(x - 3, jy - 1); ctx.lineTo(x - 6, jy - 7); ctx.fill(); ctx.beginPath(); ctx.moveTo(x + 3, jy - 1); ctx.lineTo(x + 9, jy - 1); ctx.lineTo(x + 6, jy - 7); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(x - 9, jy + 3); ctx.lineTo(x + 9, jy + 3); ctx.lineTo(x + 6, jy + 8); ctx.lineTo(x + 3, jy + 5.5); ctx.lineTo(x, jy + 8); ctx.lineTo(x - 3, jy + 5.5); ctx.lineTo(x - 6, jy + 8); ctx.closePath(); ctx.fill();
+  if (F.st === 'wait') { const a = F.p / HM47.need; ctx.strokeStyle = 'rgba(255,176,42,.25)'; ctx.lineWidth = 2; ctx.setLineDash([4, 6]); ctx.beginPath(); ctx.arc(x, y, HM47.r, 0, TAU); ctx.stroke(); ctx.setLineDash([]);
+    if (a > 0) { ctx.strokeStyle = '#ffb02a'; ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(x, y - 9, 24, -Math.PI / 2, -Math.PI / 2 + a * TAU); ctx.stroke(); }
+    ctx.font = '800 12px system-ui,sans-serif'; ctx.textAlign = 'center'; ctx.fillStyle = `rgba(255,228,138,${(0.55 + 0.4 * Math.sin(gtime * 3)).toFixed(3)})`; ctx.fillText(F.near ? 'stay…' : '…', x, y - 38); } }
+/* screen: an edge marker pointing at the lantern, and a short moonlit wash when it is lit (no shake) */
+function hm47HUD() { const F = G && G.hm47; if (!F || state === 'menu') return;
+  if (F.st === 'wait') { const sx = W / 2 + (F.x - P.x) * ZOOM, sy = H / 2 + (F.y - P.y) * ZOOM, m = 34; if (sx < m || sy < 90 || sx > W - m || sy > H - m) {
+      const ex = clamp(sx, m, W - m), ey = clamp(sy, 96, H - m - 40), a = 0.6 + 0.4 * Math.sin(gtime * 5); ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = 'rgba(10,6,4,.82)'; ctx.beginPath(); ctx.arc(ex, ey, 18, 0, TAU); ctx.fill();
+      ctx.strokeStyle = '#ffb02a'; ctx.lineWidth = 2; ctx.stroke(); ctx.font = '700 16px system-ui,sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = '#ffe48a'; ctx.fillText('🎃', ex, ey + 1); ctx.restore(); } }
+  if (F.st === 'lit' && F.t < 3) { const a = F.t < 0.5 ? F.t / 0.5 * 0.4 : Math.max(0, 0.4 - (F.t - 0.5) * 0.16); ctx.fillStyle = `rgba(138,255,200,${a.toFixed(3)})`; ctx.fillRect(0, 0, W, H); } }
 /* ================= v30 ULTIMATES: every class gets one top-tier move, unlocked mid-run once all six skills are maxed ================= */
 /* Rule: hold SKILL_SLOTS (6) skills, every one at its max level (evolutions not required). Then a big alert, and the ✹ Ultimate
    button appears: R on PC, Y on a gamepad, tap on phone (64px). If you don't fire it, it fires itself after 6s with a foe near.
@@ -11581,6 +11800,68 @@ ZFOLK39.carolers = (d, t) => { const x = d.x, y = d.y; ctx.save(); ctx.translate
   ctx.fillStyle = '#d8b888'; ctx.beginPath(); ctx.arc(0, -25 + b * 0.4, 6, 0, TAU); ctx.fill(); ctx.fillStyle = '#c01c34'; ctx.beginPath(); ctx.moveTo(-6, -28 + b * 0.4); ctx.lineTo(0, -40 + b * 0.4); ctx.lineTo(6, -28 + b * 0.4); ctx.fill(); ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(0, -40 + b * 0.4, 2, 0, TAU); ctx.fill();
   ctx.fillStyle = '#0a0a10'; ctx.fillRect(-2.6, -26 + b * 0.4, 1.6, 1.6); ctx.fillRect(1.2, -26 + b * 0.4, 1.6, 1.6); ctx.beginPath(); ctx.ellipse(0, -21 + b * 0.4, 2, 2.6, 0, 0, TAU); ctx.fill();
   ctx.fillStyle = '#f4f0d8'; ctx.fillRect(7, -22, 9, 11); ctx.fillStyle = '#382e48'; for (let i = 0; i < 3; i++) ctx.fillRect(8.6, -20 + i * 3, 6, 0.8); ctx.restore(); };
+/* ---------- v47: Candlewick Crossroads (the Hallowmoon Patch's rest spot): four dirt lanes meet at a giant hollowed pumpkin full of candles, a crooked little chapel keeps watch ---------- */
+TOWNS36.moonpatch = { name: 'Candlewick Crossroads', ic: '🕯', col: '#ffb02a', edge: 'rgba(255,176,42,.7)', bg: 'rgba(6,14,16,.86)', kc: [8, 18, 20], music: 't_moonpatch',
+  pk: { vx: [-6, 6], vy: [-20, -8], life: [2, 4], c: ['#ffb02a', '#ffe48a', '#8affc8'], shape: 'glow', gs: 5, ga: 0.6, rate: 16 },
+  sub: 'Candles in every window. The crossroads is safe tonight. Probably. Shop in peace!', signs: { merchant: 'The Treat Wagon', gambler: 'Trick or Treat?', smith: 'Lanternwright', stranger: 'Cider by Candlelight' } };
+TOWN_GROUND.moonpatch = function (g, R, r, G_) {
+  g.fillStyle = '#071012'; g.fillRect(-TOWN_GR, -TOWN_GR, TOWN_GR * 2, TOWN_GR * 2);
+  for (let i = 0; i < 170; i++) { const a = r() * TAU, d = R + 10 + r() * (TOWN_GR - R - 10); G_.el(g, Math.cos(a) * d, Math.sin(a) * d, 3 + r() * 7, 2 + r() * 3, ['#122224', '#1c3434', '#9a400a', '#44301c'][i % 4], r() * 3); }
+  g.save(); g.beginPath(); g.arc(0, 0, R + 8, 0, TAU); g.clip();
+  g.fillStyle = '#122224'; g.fillRect(-R - 10, -R - 10, R * 2 + 20, R * 2 + 20);
+  for (let i = 0; i < 220; i++) { const a = r() * TAU, d = r() * R; G_.el(g, Math.cos(a) * d, Math.sin(a) * d, 3 + r() * 5, 1.5 + r() * 2, r() < 0.5 ? '#1c3434' : '#0e1c1e', r() * 3); }
+  // the four dirt lanes of the crossroads
+  for (const [x, y, w, h] of [[-26, -R - 10, 52, R * 2 + 20], [-R - 10, -26, R * 2 + 20, 52]]) { G_.rr(g, x, y, w, h, 0, '#44301c'); }
+  for (let i = 0; i < 120; i++) { const s = r() < 0.5, t = (r() - 0.5) * 2 * R, q = (r() - 0.5) * 44; G_.el(g, s ? q : t, s ? t : q, 2 + r() * 3, 1 + r() * 1.5, ['#64482a', '#2a1c10', '#c89a3a', '#9a400a'][i % 4], r() * 3); }
+  for (const s of [-1, 1]) { G_.rr(g, -28, -R - 10, 2, R * 2 + 20, 0, 'rgba(0,0,0,.35)'); G_.rr(g, 26, -R - 10, 2, R * 2 + 20, 0, 'rgba(0,0,0,.35)'); G_.rr(g, -R - 10, s * 27 - 1, R * 2 + 20, 2, 0, 'rgba(0,0,0,.35)'); }
+  // a ring of candles laid around the centre
+  g.globalCompositeOperation = 'lighter'; G_.el(g, 0, 0, 90, 90, G_.rg(g, 0, 0, 4, 90, 'rgba(255,176,42,.3)', 'rgba(255,176,42,0)')); for (const [x, y, c] of [[-150, -70, 'rgba(138,255,200,.1)'], [150, 60, 'rgba(255,122,26,.12)'], [-40, 150, 'rgba(160,180,200,.1)']]) G_.el(g, x, y, 90, 90, G_.rg(g, x, y, 4, 90, c, 'rgba(0,0,0,0)')); g.globalCompositeOperation = 'source-over';
+  for (let i = 0; i < 16; i++) { const a = i / 16 * TAU + 0.2, x = Math.cos(a) * 66, y = Math.sin(a) * 66; G_.rr(g, x - 2, y - 7, 4, 7, 1, '#f4ecd0'); G_.el(g, x, y - 9, 1.6, 2.4, '#ffe48a'); G_.glow(g, x, y - 9, 10, '#ffb02a', 0.35); }
+  for (let i = 0; i < 40; i++) { const a = r() * TAU, d = r() * R; G_.el(g, Math.cos(a) * d, Math.sin(a) * d, 2.4, 1.3, ['#ff7a1a', '#c89a3a', '#9a400a'][i % 3], r() * 3); }
+  g.restore();
+  for (const [w, c] of [[16, '#04080a'], [11, '#1c3434'], [4, '#ffb02a']]) { g.beginPath(); g.arc(0, 0, R + 4, 0, TAU); g.strokeStyle = c; g.lineWidth = w; g.stroke(); }
+  for (let i = 0; i < 36; i++) { const a = i / 36 * TAU; G_.el(g, Math.cos(a) * (R + 4), Math.sin(a) * (R + 4), 2.4, 2.4, i % 3 ? '#ff7a1a' : '#8affc8'); }
+};
+T36STALL.moonpatch = function (g, nt, r, G_) { const cl = { merchant: '#ff7a1a', gambler: '#c8a0ff', smith: '#ffb02a', stranger: '#8affc8' }[nt];
+  // a harvest cart-stall with a patched canvas roof and a row of carved pumpkins
+  G_.rr(g, -50, -64, 100, 64, 3, '#0a0806'); G_.rr(g, -46, -60, 92, 60, 2, G_.lg(g, -46, 0, 46, 0, '#2a1c10', '#44301c', '#2a1c10')); for (let i = 0; i < 6; i++) G_.rr(g, -46 + i * 16, -60, 1.4, 60, 0, '#140c06');
+  G_.po(g, [-58, -64, 58, -64, 46, -88, -46, -88], '#0a0806'); G_.po(g, [-54, -66, 54, -66, 44, -86, -44, -86], '#5a4430'); for (let i = 0; i < 4; i++) G_.rr(g, -40 + i * 24, -82, 12, 10, 0, i & 1 ? cl : '#8a6c4a');
+  G_.el(g, -40, 4, 10, 10, '#140c06'); G_.el(g, 40, 4, 10, 10, '#140c06'); G_.el(g, -40, 4, 6, 6, '#5a4430'); G_.el(g, 40, 4, 6, 6, '#5a4430');
+  if (nt === 'merchant') { for (const [x, c] of [[-26, '#ff8a2a'], [-8, '#ffe48a'], [10, '#ff6a1a'], [28, '#c89a3a']]) { G_.rr(g, x - 6, -44, 12, 14, 2, '#f4ecd0'); G_.po(g, [x - 6, -44, x + 6, -44, x, -50], c); } G_.rr(g, -36, -28, 72, 4, 1, '#6a4a28'); T36P.crate(g, 36, 0, 0.8, ['#4a2a18', '#2a160c', '#10080a']); }
+  else if (nt === 'gambler') { for (const [x, c] of [[-22, '#ff7a1a'], [0, '#c8a0ff'], [22, '#8affc8']]) { G_.el(g, x, -30, 9, 8, c); G_.po(g, [x - 4, -32, x - 1, -32, x - 2.5, -36], '#000'); G_.po(g, [x + 1, -32, x + 4, -32, x + 2.5, -36], '#000'); G_.ln(g, [x - 4, -26, x + 4, -26], '#000', 1.4); } G_.rr(g, -36, -18, 72, 4, 1, '#6a4a28'); G_.glow(g, 0, -30, 40, '#c8a0ff', 0.16); }
+  else if (nt === 'smith') { for (let i = 0; i < 4; i++) { const x = -30 + i * 20; G_.ln(g, [x, -60, x, -50], '#545c78', 1.4); G_.rr(g, x - 5, -50, 10, 13, 2, '#343a50'); G_.rr(g, x - 3, -48, 6, 9, 1, ['#ffb02a', '#8affc8', '#ff7a1a', '#ffe48a'][i]); G_.glow(g, x, -44, 14, ['#ffb02a', '#8affc8', '#ff7a1a', '#ffe48a'][i], 0.3); } G_.rr(g, -40, -14, 80, 4, 1, '#6a4a28'); }
+  else { G_.el(g, 0, -22, 22, 14, '#5a4430'); G_.el(g, 0, -22, 18, 10, '#8a6c4a'); for (let i = 0; i < 3; i++) G_.rr(g, -16 + i * 6, -36, 1.4, 28, 0, '#2a1e14'); for (let i = 0; i < 3; i++) { G_.rr(g, -24 + i * 18, -50, 10, 12, 2, '#d8a050'); G_.ln(g, [-14 + i * 18, -46, -11 + i * 18, -46], '#d8a050', 2); } G_.glow(g, 0, -40, 36, '#ffb02a', 0.2); }
+  G_.rr(g, -58, -108, 116, 18, 4, '#04080a'); g.strokeStyle = cl; g.lineWidth = 2.4; rrp(g, -56, -106, 112, 14, 3); g.stroke(); G_.glow(g, 0, -99, 56, cl, 0.26);
+  for (let i = 0; i < 6; i++) { const x = -48 + i * 19; G_.el(g, x, -112, 3, 2.6, '#ff7a1a'); }
+};
+Object.assign(T36W, {
+  mpchapel() { return t36S('mpchapelT', 220, 290, 110, 280, (g, r) => { const G_ = T36G; G_.el(g, 0, 0, 96, 12, 'rgba(0,0,0,.5)');
+      G_.po(g, [-70, 0, -70, -110, 0, -150, 70, -110, 70, 0], '#10121a'); G_.po(g, [-64, 0, -64, -106, 0, -142, 64, -106, 64, 0], '#1e2230');
+      for (let y = -100; y < 0; y += 12) for (let x = -60; x < 60; x += 20) G_.rr(g, x + ((y / 12) & 1) * 10, y, 18, 10, 1, '#222838');
+      G_.po(g, [-24, -140, -24, -210, 0, -262, 24, -210, 24, -140], '#10121a'); G_.rr(g, -12, -206, 24, 30, 10, '#ffb02a'); G_.glow(g, 0, -190, 50, '#ffb02a', 0.3); G_.el(g, 0, -186, 8, 9, '#3a1404'); G_.ln(g, [0, -262, 0, -284], '#545c78', 3); G_.ln(g, [-8, -276, 8, -276], '#545c78', 3);
+      G_.rr(g, -16, -60, 32, 60, 14, '#2a1c10'); G_.rr(g, -14, -58, 28, 58, 12, '#44301c'); G_.el(g, 8, -30, 2, 2, '#c89a3a');
+      for (const x of [-46, 46]) { G_.rr(g, x - 9, -90, 18, 30, 9, '#ffb02a'); G_.glow(g, x, -76, 36, '#ffb02a', 0.28); G_.ln(g, [x, -90, x, -60], '#10121a', 2); G_.ln(g, [x - 9, -76, x + 9, -76], '#10121a', 2); }
+      G_.el(g, 54, -2, 9, 8, '#ff7a1a'); G_.el(g, -56, -2, 7, 6, '#ff7a1a'); G_.glow(g, 54, -2, 18, '#ffb02a', 0.3); }); },
+  mpwillow() { return t36S('mpwillowT', 70, 150, 35, 140, g => { const G_ = T36G; G_.el(g, 0, 0, 22, 5, 'rgba(0,0,0,.5)'); g.strokeStyle = '#05060a'; g.lineWidth = 8; g.beginPath(); g.moveTo(0, 0); g.bezierCurveTo(12, -40, -14, -80, 4, -126); g.stroke(); g.lineWidth = 2.6;
+      for (const [x, y] of [[-24, -84], [20, -98], [-16, -116], [24, -66]]) { g.beginPath(); g.moveTo(x * 0.2, y + 14); g.quadraticCurveTo(x * 0.7, y - 6, x, y); g.stroke(); } g.lineWidth = 1; g.strokeStyle = '#2a5a20'; for (let i = 0; i < 9; i++) { const x = -26 + i * 6.5; g.beginPath(); g.moveTo(x, -100 + Math.abs(x) * 0.4); g.lineTo(x + 2, -70 + (i % 3) * 8); g.stroke(); }
+      G_.el(g, 0, -4, 12, 3, '#1c3434'); }); },
+  mplight() { return t36S('mplightT', 70, 110, 35, 100, g => { const G_ = T36G; G_.el(g, 0, 0, 14, 4, 'rgba(0,0,0,.45)'); G_.rr(g, -2, -60, 4, 60, 1.5, '#343a50'); G_.ln(g, [-20, -64, 20, -64], '#343a50', 2);
+      const cs = ['#ff7a1a', '#ffb02a', '#ff7a1a']; for (let i = 0; i < 3; i++) { const x = -18 + i * 18, y = -76 - (i & 1) * 6; G_.ln(g, [x, -64, x, y + 6], '#343a50', 1.2); G_.el(g, x, y, 8, 7, cs[i]); G_.po(g, [x - 4, y - 2, x - 1, y - 2, x - 2.5, y - 5], '#3a1404'); G_.po(g, [x + 1, y - 2, x + 4, y - 2, x + 2.5, y - 5], '#3a1404'); G_.ln(g, [x - 4, y + 2, x + 4, y + 2], '#3a1404', 1.2); G_.glow(g, x, y, 22, cs[i], 0.3); } }); },
+  mplampT() { return t36S('mplampTT', 40, 110, 20, 100, g => { const G_ = T36G; G_.el(g, 0, 0, 10, 3, 'rgba(0,0,0,.45)'); G_.rr(g, -2.4, -80, 4.8, 80, 1.5, '#2a1e14'); G_.ln(g, [0, -78, 12, -78], '#2a1e14', 2.6); T36P.lantern(g, 12, -70, '#ffb02a', 1.4); G_.rr(g, -5, -6, 10, 6, 1.5, '#5a4430'); }); },
+  mphay() { return t36S('mphayT', 80, 54, 40, 48, g => { const G_ = T36G; G_.el(g, 0, 0, 36, 5, 'rgba(0,0,0,.45)'); G_.rr(g, -32, -26, 64, 26, 3, '#c89a3a'); G_.rr(g, -32, -26, 64, 4, 2, '#e8c46a'); for (let i = 0; i < 8; i++) G_.ln(g, [-28 + i * 8, -22, -27 + i * 8, -4], '#8a6420', 1); G_.rr(g, -32, -16, 64, 2, 0, '#4a3410'); G_.el(g, 18, -32, 8, 7, '#ff7a1a'); G_.rr(g, 17, -41, 2, 3, 0, '#2a5a20'); }); },
+  mpcauldron() { return t36S('mpcauldronT', 130, 110, 65, 100, g => { const G_ = T36G; G_.el(g, 0, 0, 58, 9, 'rgba(0,0,0,.5)');
+      G_.el(g, 0, -34, 44, 36, '#9a400a'); G_.el(g, -14, -38, 18, 30, '#ff7a1a'); G_.el(g, 14, -38, 18, 30, '#c85a10'); G_.el(g, 0, -40, 16, 34, '#ff8a2a'); G_.rr(g, -4, -80, 8, 12, 2, '#2a5a20');
+      G_.po(g, [-24, -46, -8, -46, -16, -60], '#ffe48a'); G_.po(g, [8, -46, 24, -46, 16, -60], '#ffe48a'); G_.po(g, [-28, -24, 28, -24, 20, -12, 10, -18, 0, -10, -10, -18, -20, -12], '#ffe48a');
+      G_.glow(g, 0, -36, 80, '#ffb02a', 0.34); for (let i = 0; i < 5; i++) { const a = i / 5 * TAU; G_.rr(g, Math.cos(a) * 52 - 2, -8 + Math.sin(a) * 8, 4, 8, 1, '#f4ecd0'); G_.el(g, Math.cos(a) * 52, -10 + Math.sin(a) * 8, 1.6, 2.4, '#ffe48a'); } }); },
+});
+ZFOLK39.trickers = (d, t) => { const x = d.x, y = d.y; ctx.save(); ctx.translate(x, y);
+  for (const [ox, sc, c, kind] of [[-14, 1, '#f0f4ff', 0], [4, 0.9, '#ff7a1a', 1], [20, 0.8, '#2a2a3a', 2]]) { const b = Math.sin(t * 4 + ox) * 1.6; ctx.save(); ctx.translate(ox, 0); ctx.scale(sc, sc);
+    ctx.fillStyle = 'rgba(0,0,0,.4)'; ctx.beginPath(); ctx.ellipse(0, 1, 8, 2.6, 0, 0, TAU); ctx.fill();
+    if (kind === 0) { ctx.fillStyle = c; ctx.beginPath(); ctx.moveTo(-8, 0 + b * 0.2); ctx.lineTo(-7, -18 + b); ctx.quadraticCurveTo(0, -30 + b, 7, -18 + b); ctx.lineTo(8, 0); ctx.lineTo(4, -2); ctx.lineTo(0, 0); ctx.lineTo(-4, -2); ctx.closePath(); ctx.fill(); ctx.fillStyle = '#05060a'; ctx.fillRect(-4, -20 + b, 2, 3); ctx.fillRect(2, -20 + b, 2, 3); }
+    else if (kind === 1) { ctx.fillStyle = '#343a50'; ctx.fillRect(-5, -14, 10, 14); ctx.fillStyle = c; ctx.beginPath(); ctx.ellipse(0, -20 + b, 8, 7, 0, 0, TAU); ctx.fill(); ctx.fillStyle = '#3a1404'; ctx.fillRect(-4, -22 + b, 2, 2); ctx.fillRect(2, -22 + b, 2, 2); ctx.fillRect(-3, -17 + b, 6, 1.4); }
+    else { ctx.fillStyle = c; ctx.beginPath(); ctx.moveTo(-6, 0); ctx.lineTo(-4, -16 + b); ctx.lineTo(4, -16 + b); ctx.lineTo(6, 0); ctx.fill(); ctx.fillStyle = '#9ab070'; ctx.beginPath(); ctx.arc(0, -20 + b, 5, 0, TAU); ctx.fill(); ctx.fillStyle = c; ctx.fillRect(-9, -25 + b, 18, 2); ctx.beginPath(); ctx.moveTo(-5, -25 + b); ctx.lineTo(1, -38 + b); ctx.lineTo(5, -25 + b); ctx.fill(); }
+    ctx.fillStyle = '#ff7a1a'; ctx.beginPath(); ctx.arc(9, -6, 3.4, 0, TAU); ctx.fill(); ctx.strokeStyle = '#05060a'; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(9, -9, 3, Math.PI, 0); ctx.stroke(); ctx.restore(); }
+  ctx.restore(); };
 function townPrebuild(th) { try { t36Ground(th); const T = { theme: th, cx: 0, cy: 0 }; const n0 = G.npcs; G.npcs = []; t36Layout(T); G.npcs = n0; for (const nt of ['merchant', 'gambler', 'smith', 'stranger']) t36Stall(th, nt); } catch (e) {} }
 
 /* ================= v26: evolutions for the v25 skills (same rules as v18: max the skill + own its paired passive) ================= */
@@ -11624,6 +11905,7 @@ function updateWeapons(dt) {
   G.srcW = null; gearTick(dt);
   if ((G.mimic45 | 0) > (G._mim45 | 0) && !G.town) mimicCheck45(); // v45
   ph46Tick(dt); // v46: the phone
+  hm47Tick(dt); // v47: the Hallowmoon lantern
   for (let i = G.later.length - 1; i >= 0; i--) { const l = G.later[i]; l.t -= dt; if (l.t <= 0) { G.later.splice(i, 1); G.srcW = l.src || null; l.f(); G.srcW = null; } }
 }
 function evoCast(w, ev) { // v18: evolution perks that trigger on each cast
@@ -12041,6 +12323,8 @@ const NOFF = {
   minibar: { ic: '♠', n: () => 'Penthouse Minibar', d: () => 'Raid the minibar for a fabulous random prize. Prices are, of course, outrageous', base: 70 },
   cocoa: { ic: '☕', n: () => 'Nightmare Cocoa', d: () => 'Restore 60% of your HP and +15% move speed for 60s', base: 26 },
   giftbox: { ic: '🎁', n: () => 'Mystery Gift', d: () => 'Unwrap a gift: gold, a heal, a skill level, +8 max HP — or a very surprised mimic (beat it for treasure)', base: 60 },
+  cider: { ic: '🍎', n: () => 'Hot Apple Cider', d: () => 'Restore 55% of your HP and +15% move speed for 75s', base: 26 },
+  treatbag: { ic: '🍬', n: () => 'Trick-or-Treat Bag', d: () => 'Reach in: gold, a heal, a skill level or +8 max HP. No tricks. Probably', base: 60 },
   stew: { ic: '♨', n: () => 'Hearty Stew', d: () => 'Restore 60% of your HP and +20% damage for 60s', base: 26 },
   crate: { ic: '▣', n: () => 'Mystery Loot Crate', d: () => 'Pry it open for a random prize: gold, a big heal, a skill level or a damage surge', base: 60 },
   broth: { ic: '♨', n: () => 'Weeping Broth', d: () => 'Restore 70% of your HP and +3 armor for 60s', base: 22 },
@@ -12165,6 +12449,11 @@ function npcApply(o, price, n) { const by = n.nt;
       if (q < 0.75) { const a = npcLevelAny(null); return { t: '🎁 A book of tricks: ' + (a || 'a skill') + ' levels up' }; }
       if (q < 0.87) { G.mimic45 = (G.mimic45 | 0) + 1; return { t: '🎁 The box blinks at you… and runs! A mimic will pop out in the fight' + (G.town ? ' when you leave town' : '') }; } /* v45: odds gold 30 / heal 25 / skill 20 / mimic 12 / +8 HP 13 */
       G.npcHp = (G.npcHp || 0) + 8; recalc(); return { t: '🎁 A lucky charm: +8 max HP' }; }
+    case 'cider': heal(P.maxHp * 0.55); npcBuff('bufH', 75); burst(P.x, P.y, '#ffb02a', 12, 80, 2.5, 0.5, true); return { t: '🍎 Hot and spiced: ' + Math.ceil(P.hp) + ' / ' + Math.round(P.maxHp) + ' HP and faster for 75s', snd: 'heal' };
+    case 'treatbag': { const q = Math.random(); if (q < 0.35) { const g0 = 50 + Math.floor(Math.random() * 80); G.gold = (G.gold || 0) + g0; return { t: '🍬 Chocolate coins! +' + g0 + ' gold' }; }
+      if (q < 0.6) { heal(P.maxHp * 0.9); burst(P.x, P.y, '#ffb02a', 12, 80, 2.5, 0.5, true); return { t: '🍬 A caramel apple: ' + Math.ceil(P.hp) + ' / ' + Math.round(P.maxHp) + ' HP', snd: 'heal' }; }
+      if (q < 0.85) { const a = npcLevelAny(null); return { t: '🍬 A fortune in a wrapper: ' + (a || 'a skill') + ' levels up' }; }
+      G.npcHp = (G.npcHp || 0) + 8; recalc(); return { t: '🍬 A full-size bar! +8 max HP' }; } /* v47: odds gold 35 / heal 25 / skill 25 / +8 HP 15 */
     case 'stew': heal(P.maxHp * 0.6); npcBuff('bufE', 60); burst(P.x, P.y, '#f4d060', 10, 70, 2.5, 0.5, true); return { t: '♨ Hearty! ' + Math.ceil(P.hp) + ' / ' + Math.round(P.maxHp) + ' HP and +20% damage for 60s', snd: 'heal' };
     case 'crate': { const q = Math.random(); if (q < 0.3) { const g0 = 40 + Math.floor(Math.random() * 70); G.gold = (G.gold || 0) + g0; return { t: '▣ Gold coins inside: +' + g0 + ' gold' }; }
       if (q < 0.55) { heal(P.maxHp * 0.9); burst(P.x, P.y, '#ffd890', 12, 80, 2.5, 0.5, true); return { t: '▣ A healing draught: ' + Math.ceil(P.hp) + ' / ' + Math.round(P.maxHp) + ' HP', snd: 'heal' }; }
@@ -13141,6 +13430,69 @@ function hollowChunk(i, j, key, a, rnd, add, x0, y0) {
   else if (u < 0.88) { add('hwstone', cx, cy); add('hwstone', cx - 40, cy + 14); add('hwlamp', cx + 46, cy - 6); add('hwcane', cx + 20, cy + 40); }                                                  // a graveyard corner
   else { add('hwgift', cx, cy); add('hwgift', cx - 36, cy + 18); add('hwcane', cx + 40, cy + 6); add('hwlantern', cx - 66, cy - 6); }                                                                // gifts under a grin
 }
+/* ================= v47 THE HALLOWMOON PATCH: a secret zone. A moonlit haunted harvest: pumpkin rows run straight into an old graveyard, corn shocks rustle,
+   scarecrows watch the road. Hidden from the map page until it is found. All original to this game. ================= */
+Object.assign(OBT, { mpjack: { S: 64, f: 12, r: 11, small: 1 }, mpgrave: { S: 64, f: 12, r: 11, small: 1 }, mpcross: { S: 70, f: 12, r: 7, small: 1 }, mpcorn: { S: 100, f: 14, r: 12, tall: 1, small: 1 },
+  mphay: { S: 60, f: 12, r: 15, small: 1, low: 1 }, mptree: { S: 124, f: 14, r: 10, tall: 1, small: 1 }, mpscare: { S: 100, f: 12, r: 8, tall: 1, small: 1 }, mpfence: { S: 52, f: 12, r: 14, small: 1, low: 1 } });
+const MOON_KINDS = ['mpjack', 'mpgrave', 'mpcross', 'mpcorn', 'mphay', 'mptree', 'mpscare', 'mpfence'];
+const MOON_SINGLE = [['mpjack', 14], ['mpgrave', 12], ['mpcross', 10], ['mpcorn', 12], ['mphay', 10], ['mptree', 12], ['mpscare', 8], ['mpfence', 8]];
+const moonOpen47 = () => !!(save && save.hm47 && save.hm47.unl);
+(() => {
+  const { ramp: R, PB, finish } = PXA, W = PXA.world, PD = W.PD;
+  const NIT = R(['#04080a', '#0a1416', '#122224', '#1c3434', '#2c4c4a']), ORG = R(['#3a1404', '#9a400a', '#ff7a1a', '#ffb44a', '#fff0b0'], 1), MOO = R(['#3a4a5a', '#6a7e94', '#a0b4c8', '#d4e2ee', '#f4fbff']), DRT = R(['#140c06', '#2a1c10', '#44301c', '#64482a', '#8a6a40']);
+  const VIN = R(['#0a1a08', '#1a3a14', '#2a5a20', '#4a7a30', '#7aa04a']), BLK = R(['#05060a', '#10121a', '#1e2230', '#343a50', '#545c78']), STN = R(['#22262e', '#454b58', '#6e7686', '#9aa2b2', '#c8ced8']), STR = R(['#4a3410', '#8a6420', '#c89a3a', '#e8c46a', '#fff0b0']);
+  const SAK = R(['#2a1e14', '#5a4430', '#8a6c4a', '#b89a70', '#e0caa0']), CRN = R(['#6a2a04', '#e0700a', '#ffb02a', '#ffe48a', '#ffffff']), WCH = R(['#0c3a0a', '#2a8a1a', '#6ad83a', '#aaff6a', '#eaffd0'], 1);
+  const hsh = (x, y, s = 0) => { let h = (x * 374761393 + y * 668265263 + s * 2246822519) | 0; h = (h ^ (h >>> 13)) * 1274126177; return ((h ^ (h >>> 16)) >>> 0) / 4294967296; };
+  // ground: dark blue-green turf under moonlight, curling pumpkin vines, fallen leaves and pale moonlit patches
+  W.groundMP = function () { const T = TILE, b = new PB(T, T, 0, 0, 1);
+    for (let y = 0; y < T; y++) for (let x = 0; x < T; x++) { const n = hsh(x, y, 47), lit = Math.sin(x * 0.09 + y * 0.05) + Math.sin(y * 0.11 - x * 0.04) > 1.3; b.a[y * T + x] = NIT[lit ? (n < 0.5 ? 3 : 4) : n < 0.12 ? 1 : n > 0.95 ? 3 : 2]; }
+    let s = 4747; const rnd = () => (s = (s * 16807) % 2147483647) / 2147483647, ws = (x, y, c) => b.set(((x % T) + T) % T, ((y % T) + T) % T, c);
+    for (let k = 0; k < 5; k++) { let x = rnd() * T, y = rnd() * T, a = rnd() * 6.28; for (let i = 0; i < 40; i++) { a += Math.sin(i * 0.4 + k) * 0.35; x += Math.cos(a); y += Math.sin(a); ws(Math.round(x), Math.round(y), VIN[i % 7 ? 2 : 3]); if (i % 9 === 4) { ws(Math.round(x) + 1, Math.round(y) - 1, VIN[3]); ws(Math.round(x) + 2, Math.round(y) - 1, VIN[2]); } } }   // vines
+    for (let i = 0; i < 34; i++) { const x = Math.floor(rnd() * T), y = Math.floor(rnd() * T), c = [ORG[1], ORG[2], DRT[3], CRN[1]][i % 4]; ws(x, y, c); ws(x + 1, y, c); }   // leaves
+    for (let i = 0; i < 10; i++) ws(Math.floor(rnd() * T), Math.floor(rnd() * T), MOO[3]);
+    return PXA.paintUp(finish(b, { ol: 0, glow: 0 }).img, PXA.gK(), { tile: 1, seed: 4747, mix: 0.3 }); };
+  // road: a rutted dirt cart-track strewn with leaves and straw
+  W.roadMP = function (x0, RCH, ya, yb, jr) { const w = RCH, h = yb - ya, b = new PB(w, h, -x0, -ya, 1);
+    for (let x = x0; x < x0 + w; x++) { const cy = roadY(jr, x + 0.5); for (let y = ya; y < yb; y++) { const d = Math.abs(y + 0.5 - cy), n = hsh(x, y, 61); let c = 0;
+        if (d < 5.4) c = (Math.abs(d - 2.8) < 0.7) ? DRT[1] : DRT[n < 0.15 ? 1 : n > 0.9 ? 4 : 3]; else if (d < 6.6) c = DRT[2]; else if (d < 7.6 && n < 0.35) c = n < 0.12 ? STR[3] : ORG[1];
+        if (c && d < 6.6 && n > 0.975) c = n > 0.99 ? ORG[2] : STR[3]; if (c) b.set(x, y, c); } }
+    return PXA.paintUp(finish(b, { ol: 0, glow: 0 }).img, PXA.gK(), { ox: x0, oy: ya, mix: 0.4, soft: 1.1 }); };
+  const face = (b, x, y, s, E) => { b.poly([x - 5 * s, y - 1 * s, x - 1.5 * s, y - 1 * s, x - 3.2 * s, y - 4.4 * s], E, 4, 0); b.poly([x + 1.5 * s, y - 1 * s, x + 5 * s, y - 1 * s, x + 3.2 * s, y - 4.4 * s], E, 4, 0);
+    b.poly([x - 6 * s, y + 2 * s, x + 6 * s, y + 2 * s, x + 4 * s, y + 5.4 * s, x + 2 * s, y + 3.6 * s, x, y + 5.4 * s, x - 2 * s, y + 3.6 * s, x - 4 * s, y + 5.4 * s], E, 4, 0); };
+  // ---- props ----
+  PD.mpjack = (b) => { b.ell(0, -1, 16, 3, NIT, 0, 0); b.ell(14, -6, 6, 5, ORG, 2, 1); b.rect(13, -12, 2, 2, VIN[1]); b.ell(0, -16, 13, 11, ORG, 2, 1); b.ell(-5, -16, 6, 10.4, ORG, 3, 0); b.ell(5, -16, 6, 10.4, ORG, 1, 0); b.rect(-1, -29, 3, 5, VIN[1]); b.curve(2, -27, 8, -30, 10, -24, 1, 0.8, VIN, 3);
+    face(b, 0, -16, 1, CRN); b.ell(0, -14, 4, 3, CRN, 4, 0); b.curve(-14, -2, -20, -6, -18, -12, 1.2, 0.8, VIN, 2); };
+  PD.mpgrave = (b) => { b.ell(0, -1, 16, 3, NIT, 0, 0); b.poly([-11, -2, -11, -30, -8, -38, 0, -42, 8, -38, 11, -30, 11, -2], STN, 3, 1); b.poly([-11, -2, -11, -30, -8, -38, -6, -36, -8, -2], STN, 2, 0); b.rect(-9, -4, 18, 2, STN[4]);
+    b.line(-5, -30, 5, -30, STN[0]); b.line(0, -34, 0, -22, STN[0]); b.line(-6, -16, 6, -16, STN[1]); b.line(-5, -12, 4, -12, STN[1]); b.line(5, -40, 8, -32, STN[0]); b.line(8, -32, 6, -28, STN[0]);
+    for (let i = 0; i < 5; i++) b.ell(-10 + i * 5, -3, 3, 2, VIN, 2 + (i & 1), 0); b.curve(-11, -8, -14, -18, -10, -26, 1, 0.6, VIN, 3); };
+  PD.mpcross = (b) => { b.ell(0, -1, 10, 2.6, NIT, 0, 0); b.ell(0, -2, 12, 4, DRT, 2, 0); b.rect(-2, -54, 5, 53, SAK[2]); b.rect(-2, -54, 2, 53, SAK[1]); b.rect(-12, -42, 25, 5, SAK[2]); b.rect(-12, -42, 25, 1.6, SAK[3]);
+    b.curve(-6, -40, -8, -30, -4, -24, 0.8, 0.6, STN, 3); b.ell(-4, -23, 2, 2, ORG, 3, 1); b.ell(6, -4, 3, 2.4, ORG, 3, 1); b.ell(-7, -3, 3.4, 2.6, BLK, 3, 0); };
+  PD.mpcorn = (b) => { b.ell(0, -1, 16, 3.4, NIT, 0, 0); for (let i = 0; i < 9; i++) { const x = -12 + i * 3, top = -70 - (i % 3) * 8; b.curve(x, -2, x + (i - 4) * 0.6, top * 0.5, x + (i - 4) * 2.2, top, 1.6, 0.8, STR, 2 + (i & 1)); }
+    b.rect(-14, -36, 28, 4, SAK[1]); b.poly([-14, -36, 14, -36, 12, -32, -12, -32], SAK, 2, 0); for (let i = 0; i < 6; i++) b.curve(-6 + i * 3, -60, -16 + i * 6, -66, -20 + i * 8, -58, 1, 0.5, STR, 3);
+    b.ell(-10, -8, 6, 5, ORG, 2, 1); b.ell(9, -6, 5, 4, ORG, 2, 1); b.ell(4, -40, 2, 4, CRN, 3, 1); };
+  PD.mphay = (b) => { b.ell(0, -1, 22, 3.4, NIT, 0, 0); b.rect(-20, -20, 40, 19, STR, 2); b.rect(-20, -20, 40, 3, STR[3]); for (let i = 0; i < 9; i++) b.line(-18 + i * 4.4, -18, -17 + i * 4.4, -3, STR[1 + (i & 1)]); b.rect(-20, -13, 40, 1.6, SAK[0]); b.rect(-20, -7, 40, 1.6, SAK[0]);
+    b.ell(-8, -27, 8, 7, ORG, 2, 1); b.ell(-11, -27, 4, 6.6, ORG, 3, 0); b.rect(-9, -35, 2, 3, VIN[1]); b.ell(9, -25, 6, 5, R(['#6a6a5a', '#a8a890', '#d8d8c0', '#f0f0e0', '#ffffff']), 2, 1); b.rect(8, -31, 2, 2, VIN[1]); };
+  PD.mptree = (b) => { b.ell(0, -1, 14, 3, NIT, 0, 0); b.curve(-4, -2, 6, -30, -4, -58, 6, 3.6, BLK, 3); b.curve(-4, -58, -14, -76, 0, -96, 3.6, 2, BLK, 3); b.curve(0, -96, 10, -106, 4, -118, 2, 1, BLK, 4);
+    b.curve(-2, -50, -24, -56, -30, -74, 2.4, 1, BLK, 3); b.curve(4, -36, 22, -42, 28, -60, 2.4, 1, BLK, 3); b.curve(-6, -80, -20, -86, -22, -98, 1.6, 0.8, BLK, 3); b.curve(28, -60, 34, -62, 36, -70, 1, 0.6, BLK, 4);
+    b.ell(0, -36, 3, 4, BLK, 0, 0); b.set(0, -37, CRN[3]); b.ell(24, -54, 4, 3, BLK, 2, 1); b.ell(27, -57, 2.4, 2.4, BLK, 3, 1); b.poly([29, -57, 32, -56, 29, -55], STR, 3, 0); b.set(27, -58, '#ffe060');
+    b.line(-30, -74, -30, -66, STN[3]); b.rect(-33, -66, 6, 7, CRN[2]); b.ell(-30, -62, 3, 3, CRN, 4, 0); for (let i = 0; i < 4; i++) b.ell(-10 + i * 7, -4, 4, 2, VIN, 2, 0); };
+  PD.mpscare = (b) => { b.ell(0, -1, 10, 2.6, NIT, 0, 0); b.rect(-1.6, -86, 3.6, 85, SAK[2]); b.rect(-28, -66, 56, 3.4, SAK[2]); for (const s of [-1, 1]) for (let i = 0; i < 4; i++) b.line(s * 28, -64, s * (30 + i), -58 + i * 2, STR[3]);
+    b.poly([-12, -64, 12, -64, 10, -38, -10, -38], R(['#1a2a14', '#2a4a24', '#4a6a3a', '#6a8a50', '#9ab070']), 2, 1); for (let i = 0; i < 5; i++) b.line(-10 + i * 5, -39, -11 + i * 5, -33, STR[3]); b.rect(-6, -56, 5, 5, ORG[1]);
+    b.ell(1, -76, 9, 9, SAK, 3, 1); b.rect(-12, -84, 26, 2.4, BLK[2]); b.poly([-6, -84, 8, -84, 5, -96, -3, -94], BLK, 2, 1); b.set(-2, -77, CRN[3]); b.set(4, -77, CRN[3]); b.line(-3, -71, 5, -71, BLK[0]); for (let i = 0; i < 4; i++) b.line(-2 + i * 2.2, -72, -2 + i * 2.2, -70, BLK[0]);
+    b.ell(-22, -70, 4, 3, BLK, 2, 1); b.ell(-19, -73, 2.4, 2.4, BLK, 3, 1); b.poly([-17, -73, -14, -72, -17, -71], STR, 3, 0); };
+  PD.mpfence = (b) => { b.ell(0, -1, 22, 3.4, NIT, 0, 0); for (let i = 0; i < 5; i++) { const x = -18 + i * 9, lean = (i - 2) * 0.8 + (i === 3 ? 2 : 0), h = 24 + (i % 2) * 5; b.poly([x - 2, -1, x + 2, -1, x + 2 + lean, -h, x + lean, -h - 4, x - 2 + lean, -h], SAK, 2 + (i & 1), 1); }
+    b.rect(-20, -18, 40, 3, SAK[1]); b.rect(-20, -9, 40, 3, SAK[1]); b.curve(-20, -14, -6, -26, 8, -16, 1, 0.6, VIN, 3); b.ell(8, -16, 3, 2.6, ORG, 3, 1); };
+  W.moonProps = () => { for (const k of MOON_KINDS) { const c = W.prop(k); SPR.prop[k] = c; SPR.prop['px_' + k] = c; } };
+})();
+function moonChunk(i, j, key, a, rnd, add, x0, y0) {
+  const u = rnd(), cx = x0 + 30 + rnd() * (OBC - 60), cy = y0 + 30 + rnd() * (OBC - 60), hz = rnd() < 0.5;
+  if (u < 0.3 || w28Pick(key)) w28Open(key, a, rnd, add, cx, cy, 2);
+  else if (u < 0.5) add(obPick(MOON_SINGLE, rnd()), cx, cy, 0.95 + rnd() * 0.15);
+  else if (u < 0.62) { for (let q = 0; q < 3; q++) for (let r2 = 0; r2 < 2; r2++) add(q === 1 && r2 === 0 ? 'mpcross' : 'mpgrave', cx + (q - 1) * 46, cy + r2 * 44 + (q & 1) * 6); }                                   // a little graveyard
+  else if (u < 0.74) { const m = 3 + Math.floor(rnd() * 3); for (let q = 0; q < m; q++) add(q === 0 ? 'mpscare' : 'mpjack', hz ? cx + (q - (m - 1) / 2) * 44 : cx, hz ? cy : cy + (q - (m - 1) / 2) * 44); }                // a row of grinning pumpkins
+  else if (u < 0.86) { add('mpcorn', cx, cy); add('mpcorn', cx + 40, cy + 8); add('mphay', cx - 46, cy + 30); add('mpjack', cx + 10, cy + 44); }                                                                  // corn shocks and hay
+  else { add('mptree', cx, cy); add('mpfence', cx - 50, cy + 24); add('mpfence', cx + 50, cy + 26); add('mpgrave', cx + 12, cy + 46); }                                                                            // the hanging-lantern tree
+}
 function mapApply() { const mp = mapKey36(); if (mp === ARTMAP) return; ARTMAP = mp;  ROADC.clear(); PXA.cache.clear(); HPLAT.clear(); buildArt(); if (mapOn()) PXA.world.castleProps(); if (heartOn()) PXA.world.heartProps(); if (zn39()) PXA.world[zn39().props](); }
 /* ================= v28 LIVING WORLD: art for landmarks, breakables, ground decals and the shrine =================
    Everything is baked once per map into small pixel sprites (PXA), so the per-frame cost is a handful of drawImage calls. */
@@ -13794,6 +14146,53 @@ w39Reg('hollow', { name: 'Gourdmas Hollow', ic: '🎃', col: '#ff8a2a', sub: HOL
     add(0, -130, W_.hwfountain(), { lamp: [0, -40], lc: '#ff8a2a' }); add(-130, 80, W_.hwbench()); add(134, 78, W_.hwbench());
     add(60, -120, null, { folk: 'carolers' });
   } });
+/* ---- v47: the Hallowmoon Patch weather, particles, music (a theremin-led waltz-of-the-dead), registration. A secret zone: hidden until its lantern is lit ---- */
+Object.assign(PK39, {
+  mleaf: { vx: [-34, -10], vy: [10, 22], life: [3, 5], c: ['#ff7a1a', '#9a400a', '#c89a3a', '#44301c'], s: 2.6, shape: 'rect' },
+  mbat: { vx: [-50, 50], vy: [-16, 4], life: [1, 2], c: ['#05060a', '#1e2230'], s: 2.6, shape: 'rect' },
+  mfog: { vx: [6, 16], vy: [-3, 2], life: [4, 6], c: ['#8affc8', '#a0b4c8'], s: 18, shape: 'glow', ga: 0.08 },
+  mwisp: { vx: [-10, 10], vy: [-16, -4], life: [1.4, 2.6], c: ['#8affc8', '#ffb02a', '#d4e2ee'], s: 6, shape: 'glow', ga: 0.7 },
+  mcandle: { vx: [-6, 6], vy: [-22, -10], life: [1, 2], c: ['#ffb02a', '#ffe48a'], s: 4, shape: 'glow', ga: 0.6 },
+});
+WX28.moonpatch = { clear: { n: 'Hallowmoon', w: 3 }, leaves: { n: 'Rattling Leaves', p: 'mleaf', pr: 20, w: 2.2 }, bats: { n: 'Bat Flight', p: 'mbat', pr: 14, ov: '20,30,40,.05', w: 1.6 },
+  fog: { n: 'Graveyard Fog', p: 'mfog', pr: 6, fog: 0.45, ov: '138,255,200,.05', w: 1.6 }, blood: { n: 'Harvest Moon', ov: '255,122,26,.07', gold: 1.1, w: 1.2, d: '+10% gold while it lasts', p: 'mwisp', pr: 8 } };
+Object.assign(VOX, {
+  // a wobbly theremin: sine with a slow vibrato that swoops up into each note
+  theremin(c, out, t, f, d, v) { const g = _env(c, out, t, 0.08, 0.11 * v, d * 0.9, 0.25), o = _osc(c, 'sine', f * 0.94, t, t + d + 1); o.frequency.exponentialRampToValueAtTime(f, t + 0.09);
+    const l = c.createOscillator(), lg = c.createGain(); l.frequency.value = 5.6; lg.gain.value = f * 0.018; l.connect(lg); lg.connect(o.frequency); l.start(t); l.stop(t + d + 1); o.connect(g);
+    const g2 = _env(c, out, t, 0.1, 0.03 * v, d * 0.9, 0.25); _osc(c, 'triangle', f * 2, t, t + d + 1, 6).connect(g2); },
+});
+TRACKS.o_battle = { bpm: 138, root: 50, sc: 'harm', lead: 'theremin', pad: 'organ', arp: 'kalimba', bass: 'mbass', arpPat: '0.2.4.0.2.4.0.2.', bassPat: 'r...o.o.r...o.o.', drums: { k: 'x.....x.....x...', s: '...x.....x......', h: 'x.xx.xx.xx.xx.x.' }, vol: 0.78,
+  bars: [B(0, '7---9-a-b---a-9-'), B(3, '8---a-b-c---b-a-'), B(4, '9---b-c-d---c-b-'), B(0, 'a-9-8-7-6---7---'), B(5, 'c---b-a-c---b-a-'), B(3, 'b---a-9-b---a-9-'), B(1, 'a-b-a-9-8-9-a-b-'), B(4, 'b-------6-------', { fill: 1 }),
+    B(0, 'e---d-c-e---d-c-'), B(3, 'd---c-b-d---c-b-'), B(4, 'e-d-c-b-c-d-e-f-'), B(0, 'e-------b-------'), B(5, 'c-d-e-c-a-b-c-a-'), B(1, 'b-c-d-b-9-a-b-9-'), B(4, 'b-a-9-8-7-8-9-a-'), B(0, '7-------7-------', { fill: 1 })] };
+TRACKS.o_night = Object.assign({}, TRACKS.o_battle, { bpm: 96, vol: 0.7, dark: 1, arp: 'bell', pad: 'softpad', arpPat: '0...4...2...4...', bassPat: 'r.....o.r.....o.', drums: { k: 'x...........x...', s: '........x.......', h: 'x...x.x.x...x.x.' } });
+TRACKS.o_boss = { bpm: 160, root: 48, sc: 'harm', lead: 'organ', pad: 'softpad', dark: 1, arp: 'chug', bass: 'mbass', arpPat: '0.00.00.0.00.00.', bassPat: 'r.r.o.r.r.o.r.6.', drums: { k: 'x..x.xx.x..x.xx.', s: '....x.......x.x.', h: 'xxxxxxxxxxxxxxxx', t: '............xxxx' }, vol: 0.8,
+  bars: [B(0, '7---a-7-b---a-7-'), B(3, '8---b-8-c---b-8-'), B(4, '9---c-9-d---c-9-'), B(0, 'b-a-9-8-7---6---'), B(5, 'c---e-c-a---c-e-'), B(1, 'b---d-b-9---b-d-'), B(4, 'd-c-b-a-9-8-7-6-', { fill: 1 }), B(4, 'b-------6-------', { fill: 1 })] };
+TRACKS.t_moonpatch = { bpm: 78, root: 50, sc: 'harm', lead: 'theremin', pad: 'softpad', arp: 'bell', bass: 'mbass', arpPat: '0...2...4.......', bassPat: 'r.....o.r.......', drums: { k: 'x...........x...', s: '........x.......', h: '....x.......x...' }, vol: 0.72,
+  bars: [B(0, '7-----9-a-------'), B(3, '8-----a-b-------'), B(4, '9---8---7---6---'), B(0, '7---------------'), B(5, 'a-----c-b-------'), B(3, 'b-----a-9-------'), B(4, 'b---a---9---8---'), B(0, '7---------------')] };
+w39Reg('moonpatch', { name: 'The Hallowmoon Patch', ic: '🌕', col: '#ffb02a', sub: MOONSUB, mus: 'o_', ground: 'groundMP', road: 'roadMP', props: 'moonProps', chunk: moonChunk, mood: 0.35, kc: [8, 18, 20], smoke: '#8affc8', base: 'mwisp', brazier: 'mpjack', secret: 1,
+  dec: [['leaves', 3], ['bones', 1], ['crack', 1], ['runes', 0.8, 1], ['puddle', 0.6], ['moss', 1.4], ['scorch', 0.6], ['flowers', 0.4]], pat: [['clear', 2], ['carpet', 0.7], ['magma', 0.3, 1]],
+  pool(t, pool) { if (t >= 300 && t < 540) pool.push('moonbat'); if (t >= 600) pool.push('rotpumpkin'); }, mini: () => w47MoonMini(),
+  prev: 'moonpatch', prevName: 'the Hallowmoon Patch', achName: 'Some Lights Stay Lit', prog: 'hm47', ach: 'm_hm47',
+  info: { bg: 'linear-gradient(180deg,#04080a,#2c4c4a 60%,#ff7a1a)', bl: 'A secret pumpkin patch under a giant moon, where the graveyard never quite stays shut.', mobs: 'Sheetlings, moonbats, costume skeletons, scarecrows, broom witches', boss: '5 bosses · Gourdgrim, Granny Hexwell…', town: 'Candlewick Crossroads' },
+  need: 'Find the light that should not be there', open: () => moonOpen47(), lockHint: 'A lantern flickers somewhere it should not',
+  seed: 1031, signY: 100, bg: '#04080a', sign: ['#ffb02a', '#0a1416', '#fff0d0', '#8affc8'], amb: ['crackle', 'chime', 'tick'], healK: 'cider', extraK: 'treatbag', menu: {
+    merchant: { ic: '🍬', shop: 'The Treat Wagon', road: 'Treat peddler', fl: ['Full-size bars only. I have standards', 'Take one. Take two. The sign says one', 'Every wrapper is a surprise. Some surprises are teeth'] },
+    gambler: { ic: '🎃', shop: 'Trick or Treat?', road: 'Grinning gambler', fl: ['Trick or treat? You must choose. I must laugh', 'The pumpkin knows. The pumpkin always knows', 'Heads you win. Tails, something follows you home'] },
+    smith: { ic: '🕯', shop: 'Lanternwright', road: 'Wandering lanternwright', fl: ['Every blade needs a light behind it', 'I carve faces into everything. Even swords', 'Keep the candle lit and the dark keeps its manners'] },
+    stranger: { ic: '🍎', shop: 'Cider by Candlelight', road: 'Cider keeper', fl: ['Hot cider for the long night. Mind the bobbing apples', 'They say the moon here never sets. They are right', 'Sit a while. The scarecrows are only listening'] },
+  }, names: { heal: 'Hot Apple Cider', lvl: o => o.by === 'smith' ? 'Carved Technique' : 'Moonlit Lesson', lvl2: 'Hallowmoon Tutelage', reroll: 'Lucky Candy Corn', magnet: 'Treat Lure', edge: 'Reaper Edge', haste: 'Broomstick Dash', hide: 'Bedsheet Disguise', bet: 'Trick or Treat', bet2: 'Double Dare', evo: 'Wish on the Moon', horde: 'Ring the Graveyard Bell', ward: 'Lantern Charm' },
+  layout(add, r, W_, R, exitGap) {
+    add(0, -R - 6, W_.mpchapel(), { tall: 1, lamp: [0, -190], lc: '#ffb02a' });
+    for (let i = 0; i < 24; i++) { const a = i / 24 * TAU; if (exitGap(a) || Math.sin(a) < -0.86 || Math.abs(Math.cos(a)) > 0.97) continue; add(Math.cos(a) * (R + 16), Math.sin(a) * (R + 16), W_.mpwillow(), { tall: 1 }); }
+    for (const s_ of [-1, 1]) { add(s_ * 40, R + 8, W_.mplight(), { tall: 1, lamp: [0, -76], lc: '#ff7a1a' }); add(s_ * 34, R - 20, W_.mplampT(), { lamp: [12, -70], lc: '#ffb02a' }); }
+    for (const [x, y] of [[-200, -54], [200, -54], [-150, 140], [150, 140], [-48, -170], [48, -170]]) add(x, y, W_.mplampT(), { tall: 1, lamp: [12, -70], lc: '#ffb02a' });
+    for (const [x, y] of [[-168, -100], [170, -100]]) add(x, y, W_.mplight(), { tall: 1, lamp: [0, -76], lc: '#8affc8' });
+    for (const [x, y] of [[-124, 190], [128, 196], [-206, -116], [206, -118], [-130, 80], [134, 78]]) add(x, y, W_.mphay());
+    add(0, -124, W_.mpcauldron(), { lamp: [0, -36], lc: '#ffb02a' });
+    add(70, -110, null, { folk: 'trickers' });
+  } });
+{ const a = ACH_BY_ID.m_hm47; if (a) { a.desc = 'Find the light that should not be there, and keep it lit'; a.un = 'a secret map'; } }
 let ARTMAP = 'forest';
 function render(dt) {
   if (HUDS) hudEnd();
@@ -13857,7 +14256,7 @@ function render(dt) {
           ctx.fillStyle = hexA('#ff6a2a', 0.55 * a); ctx.beginPath(); ctx.moveTo(fx - 4 * fl, fy); ctx.quadraticCurveTo(fx, fy - 16 * fl, fx + 4 * fl, fy); ctx.fill(); ctx.fillStyle = hexA('#ffd36a', 0.6 * a); ctx.beginPath(); ctx.moveTo(fx - 2 * fl, fy); ctx.quadraticCurveTo(fx, fy - 9 * fl, fx + 2 * fl, fy); ctx.fill(); } ctx.globalCompositeOperation = 'source-over'; }
       else for (let i = 0; i < 3; i++) { const an = gtime * 0.8 + i * 2.1; ctx.fillStyle = hexA(f.col, 0.12 * a); ctx.beginPath(); ctx.arc(f.x + Math.cos(an) * f.r * 0.35, f.y + Math.sin(an) * f.r * 0.3, f.r * 0.55, 0, TAU); ctx.fill(); } }
   }
-  drawQuestWorld(); w28World(); ph46Draw();
+  drawQuestWorld(); w28World(); ph46Draw(); hm47Draw();
   // v15: time-of-day key light re-bake (incremental)
   { const kp = phaseName(G.t || 0); if (kp !== SPR.keyPh) relightEnemies(kp); if (SPR.rq.length) tickRelight(); }
   // v15: death animation: collapse (tip back, sink) while dissolving into a shadow silhouette, then fade
@@ -14097,7 +14496,7 @@ function drawHUD() {
     for (let q = 1; q < 4; q++) { ctx.fillStyle = 'rgba(0,0,0,.35)'; ctx.fillRect(bx + bw * q / 4 - 0.5, by + 3, 1, bh - 6); }
     stud38(bx - 1, by + bh / 2, 4.5, '#e04a3a'); stud38(bx + bw + 1, by + bh / 2, 4.5, '#e04a3a');
     ctx.font = '900 12px -apple-system,system-ui,sans-serif'; ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(40,0,0,.9)'; ctx.fillStyle = '#fff'; const bt = Math.ceil(f * 100) + '%'; ctx.strokeText(bt, bx + bw / 2, by + bh / 2 + 0.5); ctx.fillText(bt, bx + bw / 2, by + bh / 2 + 0.5); }
-  drawQuestHUD(); npcHUD(); w28HUD(); v30HUD(); ph46HUD(); ultHUD();
+  drawQuestHUD(); npcHUD(); w28HUD(); v30HUD(); ph46HUD(); hm47HUD(); ultHUD();
   drawMsgs(t);
   if (!G.moved && !G.town && state === 'play') { ctx.globalAlpha = 0.6 + 0.4 * Math.sin(gtime * 4); ctx.font = '600 15px -apple-system,system-ui,sans-serif'; ctx.fillStyle = '#e6dbff';
     { const tx = !PC ? 'Touch & drag anywhere to move' : W < 560 ? 'Move with WASD / Arrows' : 'Move with WASD / Arrow keys, or hold the mouse button'; ctx.fillText(tx, W / 2, H - SAFE.b - 135); } ctx.globalAlpha = 1; }
@@ -14541,7 +14940,7 @@ const MAPINFO39 = [
 function goMaps() { state = 'maps'; show('mapsel'); renderMaps(); }
 function renderMaps() { const cur = selMap36(), L = $('mapList'), c = CLASSES[selClass]; L.innerHTML = '';
   $('mapSub').textContent = (c ? c.name : 'Your hero') + ' · pick where to fight';
-  for (const m of MAPINFO39.concat(ZN39_ORDER.map(k => Object.assign({ k, col: ZN39[k].col, ic: ZN39[k].ic, open: ZN39[k].open, need: ZN39[k].need }, ZN39[k].info)))) { const open = m.open(), b = document.createElement('button'); b.className = 'mapcard' + (open ? '' : ' locked') + (open && m.k === cur ? ' on' : ''); b.style.setProperty('--mc', m.col); b.dataset.map = m.k;
+  for (const m of MAPINFO39.concat(ZN39_ORDER.filter(k => !ZN39[k].secret || ZN39[k].open()).map(k => Object.assign({ k, col: ZN39[k].col, ic: ZN39[k].ic, open: ZN39[k].open, need: ZN39[k].need }, ZN39[k].info)))) { const open = m.open(), b = document.createElement('button'); b.className = 'mapcard' + (open ? '' : ' locked') + (open && m.k === cur ? ' on' : ''); b.style.setProperty('--mc', m.col); b.dataset.map = m.k;
     const pu = (typeof mapPreview39 === 'function' && mapPreview39(m.k, 240, 130)) || '';
     b.innerHTML = `<div class="pv" style="background:${pu ? `#000 url(${pu}) center 50%/cover` : m.bg}"><i></i><b>${open ? m.ic : '🔒'}</b></div><div class="tx"><h4>${MAPNAME36[m.k]}</h4><span>${m.bl}</span><span>Foes: ${m.mobs}</span><span>${m.boss}</span><span>Safe haven: ${m.town}</span>${open ? '' : `<span class="lk">🔒 ${m.need} to unlock</span>`}</div>`;
     b.setAttribute('aria-label', MAPNAME36[m.k] + (open ? (m.k === cur ? ', selected' : '') : ', locked. ' + m.need + ' to unlock'));
@@ -14555,13 +14954,13 @@ function goSelect() {
 function renderSelect() {
   $('selShards').textContent = '◆ ' + save.shards; const rc = RACES[raceOf(save.race)];
   $('btnSelRace').innerHTML = `Race: <b>${rc.name}</b> <span>change ›</span>`;
-  { const open = castleOpen(), hOpen = heartOpen(), cur = selMap36(), mb = $('btnSelMap'); mb.classList.toggle('locked', !open); mb.dataset.map = cur;
+  { const open = castleOpen() || moonOpen47(), hOpen = heartOpen(), cur = selMap36(), mb = $('btnSelMap'); mb.classList.toggle('locked', !open); mb.dataset.map = cur;
     mb.innerHTML = open ? `Map: <b>${MAPNAME36[cur]}</b> <span>change ›</span>` : `Map: <b>Gloomwood</b> <span class="lw">🔒 Citadel: survive 15:00 here</span><span class="ln">🔒</span>`;
-    mb.onclick = () => { if (!open) { Snd.play('click'); mb.classList.remove('shake'); void mb.offsetWidth; mb.classList.add('shake'); selMapMsg('🔒 Survive 15:00 in Gloomwood to unlock the Ashen Citadel'); return; } const order = hOpen ? ['forest', 'castle', 'heart'].concat(ZN39_ORDER.filter(k => ZN39[k].open())) : ['forest', 'castle'];
-      save.map = order[(order.indexOf(cur) + 1) % order.length]; persist(); Snd.play('click'); renderSelect(); if (!hOpen && save.map === 'forest') selMapMsg('🔒 Survive 15:00 in the Ashen Citadel to unlock'); };
+    mb.onclick = () => { if (!open) { Snd.play('click'); mb.classList.remove('shake'); void mb.offsetWidth; mb.classList.add('shake'); selMapMsg('🔒 Survive 15:00 in Gloomwood to unlock the Ashen Citadel'); return; } const order = hOpen ? ['forest', 'castle', 'heart'].concat(ZN39_ORDER.filter(k => ZN39[k].open())) : ['forest'].concat(castleOpen() ? ['castle'] : [], ZN39_ORDER.filter(k => ZN39[k].secret && ZN39[k].open()));
+      save.map = order[(order.indexOf(cur) + 1) % order.length]; persist(); Snd.play('click'); renderSelect(); if (!hOpen && castleOpen() && save.map === 'forest') selMapMsg('🔒 Survive 15:00 in the Ashen Citadel to unlock'); };
     const hl = $('heartLock36'); if (hl) { hl.hidden = hOpen; hl.setAttribute('aria-label', 'Heartfall Belfry, locked. Survive 15:00 in the Ashen Citadel to unlock');
       hl.onclick = () => { Snd.play('click'); hl.classList.remove('shake'); void hl.offsetWidth; hl.classList.add('shake'); selMapMsg('🔒 Survive 15:00 in the Ashen Citadel to unlock'); }; }
-    const nl = hOpen ? ZN39_ORDER.map(k => ZN39[k]).find(z => !z.open() && (z.prev === 'heart' || ZN39[z.prev].open())) : null, cl = $('cellarLock39');
+    const nl = hOpen ? ZN39_ORDER.map(k => ZN39[k]).find(z => !z.secret && !z.open() && (z.prev === 'heart' || ZN39[z.prev].open())) : null, cl = $('cellarLock39');
     if (cl) { cl.hidden = !nl; if (nl) { cl.querySelector('b').textContent = nl.name; cl.querySelector('.t span').textContent = '🔒 ' + nl.need + ' to unlock'; cl.setAttribute('aria-label', nl.name + ', locked. ' + nl.need + ' to unlock');
         cl.onclick = () => { Snd.play('click'); cl.classList.remove('shake'); void cl.offsetWidth; cl.classList.add('shake'); selMapMsg('🔒 ' + nl.need + ' to unlock'); }; } }
     save.zoneSeen39 = save.zoneSeen39 || {}; if (save.cellarSeen39) save.zoneSeen39.cellar = 1;
@@ -15924,7 +16323,20 @@ const BGA = (() => {
       for (let i = 0; i < 5; i++) { const x = W * (0.1 + i * 0.2), y = hz - R() * H * 0.04; K.circ(x, y - 6, 7, '#ff8a2a'); K.r(x - 2, y - 14, 4, 4, '#2a8a2a'); K.r(x - 3, y - 8, 2, 3, '#06040e'); K.r(x + 1, y - 8, 2, 3, '#06040e'); K.glow(x, y - 6, 16, '#ff8a2a', 0.4); }
       K.vg(0, hz, W, H - hz, '#1a1230', '#06040e'); for (let i = 0; i < 6; i++) for (let j = 0; j < 4; j++) if ((i + j) & 1) K.r(W * (i / 6), hz + (H - hz) * (j / 4), W / 6, (H - hz) / 4, '#241a40');
       const sy = hz + (H - hz) * 0.3; K.glow(cx, sy - 20, H * 0.3, '#ff8a2a', 0.28); K.r(cx - 3, sy - 24, 6, 20, '#06040e'); K.circ(cx, sy - 28, 5, '#eef2ff'); K.r(cx - 2, sy - 29, 1.4, 1.4, '#06040e'); K.r(cx + 1, sy - 29, 1.4, 1.4, '#06040e'); K.glow(cx, sy - 6, 22, acc, 0.4);
-      K.fog(hz - 3, '#c898ff', 0.12); K.dots(26, '#eef2ff', 0, H * 0.05, W, H * 0.9); K.vig(0.5); }
+      K.fog(hz - 3, '#c898ff', 0.12); K.dots(26, '#eef2ff', 0, H * 0.05, W, H * 0.9); K.vig(0.5); },
+    moonpatch(K, acc, cls) { const { W, H, R } = K, hz = H * 0.62, cx = W / 2;   // v47: the Hallowmoon Patch - a giant green-white moon over a pumpkin field, a crooked chapel and a row of gravestones
+      K.vg(0, 0, W, hz, '#04080a', '#16302e'); K.dots(40, '#d4e2ee', 0, 0, W, hz * 0.8); K.circ(cx, H * 0.24, Math.min(W, H) * 0.2, '#e8f4e0'); K.glow(cx, H * 0.24, H * 0.42, '#8affc8', 0.3);
+      K.circ(cx - Math.min(W, H) * 0.06, H * 0.2, Math.min(W, H) * 0.035, '#c8d8c0'); K.circ(cx + Math.min(W, H) * 0.07, H * 0.28, Math.min(W, H) * 0.025, '#c8d8c0');
+      tapestry(K, cls, acc, cx, H * 0.24, Math.min(W * 0.24, 38));
+      for (let i = 0; i < 6; i++) { const x = W * (0.15 + R() * 0.7), y = H * (0.08 + R() * 0.3); K.line(x - 6, y, x, y - 3, '#05060a'); K.line(x, y - 3, x + 6, y, '#05060a'); }
+      K.poly([0, hz, W * 0.12, hz - H * 0.08, W * 0.3, hz - H * 0.05, W * 0.5, hz - H * 0.1, W * 0.72, hz - H * 0.04, W * 0.88, hz - H * 0.09, W, hz], '#0a1416');
+      K.poly([W * 0.78, hz - H * 0.06, W * 0.78, hz - H * 0.2, W * 0.82, hz - H * 0.3, W * 0.86, hz - H * 0.2, W * 0.86, hz - H * 0.06], '#05060a'); K.r(W * 0.815, hz - H * 0.19, 4, 6, '#ffb02a'); K.glow(W * 0.82, hz - H * 0.18, 18, '#ffb02a', 0.4);
+      K.line(W * 0.14, hz - H * 0.06, W * 0.16, hz - H * 0.3, '#05060a'); K.line(W * 0.155, hz - H * 0.2, W * 0.09, hz - H * 0.26, '#05060a'); K.line(W * 0.158, hz - H * 0.24, W * 0.22, hz - H * 0.3, '#05060a');
+      for (let i = 0; i < 7; i++) { const x = W * (0.06 + i * 0.145), y = hz - H * 0.02; K.r(x - 5, y - 16, 10, 16, '#454b58'); K.circ(x, y - 16, 5, '#454b58'); }
+      K.vg(0, hz, W, H - hz, '#122224', '#04080a');
+      for (let i = 0; i < 6; i++) { const x = W * (0.08 + i * 0.17), y = hz + (H - hz) * (0.2 + (i & 1) * 0.14); K.circ(x, y, 9, '#ff7a1a'); K.r(x - 1.5, y - 13, 3, 5, '#2a5a20'); K.r(x - 4, y - 3, 2.4, 2.4, '#3a1404'); K.r(x + 2, y - 3, 2.4, 2.4, '#3a1404'); K.r(x - 4, y + 3, 8, 1.6, '#3a1404'); K.glow(x, y, 20, '#ffb02a', 0.36); }
+      const sy = hz + (H - hz) * 0.42; K.glow(cx, sy - 10, H * 0.24, '#ffb02a', 0.24); K.glow(cx, sy - 6, 22, acc, 0.4);
+      K.fog(hz - 3, '#8affc8', 0.14); K.dots(20, '#ffb02a', 0, H * 0.5, W, H * 0.5); K.vig(0.55); }
   };
   let PV = false;
   function tapestry(K, cls, acc, cx, y, w) { if (PV) return; const h = Math.round(w * 1.46), x = Math.round(cx - w / 2); K.r(x - 4, y - 3, w + 8, 3, '#5a3a1e'); K.r(x - 2, y, w + 4, h + 4, '#d8b04a');
