@@ -1,9 +1,11 @@
 {
- "version": "49",
- "date": "2026-10-27",
+ "version": "50",
+ "date": "2026-10-28",
  "minLauncher": "2.0.0",
  "notes": [
-  "Tidy-up: fixed the Pumpseed creature animation so it really winds up, and repaired several out-of-date tests (quests timing, evolution card, controller menu route, PC layout, performance limit). No gameplay changes otherwise."
+  "Run Twists! On the map screen, tap the new Twists bar to bend the rules of your next run and earn bonus Shards.",
+  "Pick up to 3 of 10: Glass Cannon, Swarm, Giants, Hasty, Bloodless, Fast Learner, Eternal Night, Bomb Party, Frenzy and Paper Tigers. Tap Random for a surprise, or Daily for the same two twists everyone gets today (your best Daily time is remembered).",
+  "Your twists show as little icons at the top of the screen during the run and are listed on the results screen."
  ],
  "files": [
   {
@@ -28,8 +30,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "b7d6a67733af9ca2555481b882e220dde13457e3e32873f1c12fb4d16f68e2c6",
-   "size": 2434643
+   "sha256": "c03d65bb938243848cafe18638a2d3ed274c757df7fc340ef37a17fb55c0954b",
+   "size": 2443070
   },
   {
    "name": "manifest.webmanifest",
@@ -38,7 +40,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "f7765322f6f8e7ac56d5e9d6b90681295d7012bf8cf62760cba3db9c67620d67",
+   "sha256": "51175195ff9f06baddd70912c0d331c53bec30debe6ad34e9d9f339c55534e0c",
    "size": 1466
   }
  ]

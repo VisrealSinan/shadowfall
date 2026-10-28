@@ -1236,6 +1236,17 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
 .tlock{font-size:12px;letter-spacing:-.04em;white-space:nowrap}
 #selStage .plate span{font-size:12px}
 /* v38: hover = the existing .pc gold-glow hover (brightness + gold ring), unchanged - it already matches the new chrome */
+#modBox{margin:6px auto 4px;max-width:min(520px,94%);text-align:center}
+#modBox .modhd{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#c9b6ff;margin-bottom:4px}
+#modBox .modhd span{color:#8f7fb0;text-transform:none;letter-spacing:0;margin-left:6px}
+#modBox .modrow,#modBox .modrow2{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-bottom:6px}
+.modchip{display:inline-flex;align-items:center;gap:5px;min-height:44px;padding:4px 10px;border-radius:12px;border:1px solid rgba(180,130,255,.35);background:rgba(30,18,50,.7);color:#e8dcff;font:inherit;font-size:13px;cursor:pointer}
+.modchip i{font-style:normal;font-size:18px}.modchip b{font-weight:600}
+.modchip.on{background:rgba(255,210,74,.18);border-color:#ffd24a;color:#fff3c4}
+.modchip.act{border-style:dashed}
+#modBox .modinfo{font-size:12px;color:#a593c4;line-height:1.5;min-height:16px}
+#modBadge{position:fixed;left:50%;top:max(6px,env(safe-area-inset-top));transform:translateX(-50%);z-index:30;font-size:16px;letter-spacing:2px;padding:1px 8px;border-radius:10px;background:rgba(10,6,20,.55);pointer-events:none;display:none}
+.modtog{margin:0 auto 6px;max-width:100%}.modtog b{font-size:13px}.modtog u{text-decoration:none;color:#a593c4}
 </style>
 </head>
 <body>
@@ -1291,6 +1302,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
 <div id="mapsel" class="screen panel">
  <h2 style="margin-bottom:2px">Choose Your Map</h2>
  <div class="mapsub" id="mapSub"></div>
+ <div id="modBox"></div>
  <div id="mapList"></div>
  <div class="spacer" style="min-height:0"></div>
  <div class="selfoot">
@@ -8195,7 +8207,7 @@ function newRun(cls) {
   G = { cls, t: 0, kills: 0, level: 1, xp: 0, xpNext: xpNeed(1), weapons: [], passives: {}, gear: emptyGear(), rerolls: 1 + mr('quick'),
     pending: 0, shardsPicked: 0, salvage: 0, bossKills: 0, elites: 0, nextElite: 50, nextBoss: 180, bossIdx: 0, nextSurge: 70, spawnAcc: 0,
     revived: false, wasNight: false, outfit: save.outfit, shake: 0, later: [], healPool: 0, bondPool: 0, critBuffT: 0, minionKills: 0, moved: false, dyingT: 0, boss: null, hurtFlash: 0, lowT: 0, achRun: {}, achNew: [], achT: 0, quests: [], qNext: 60, qStats: { done: 0, failed: 0, shards: 0, gear: 0 }, qN: 0, evo: {}, dm: {}, dmTot: 0, catPool: 0, gold: 0, goldEarned: 0, goldSpent: 0, npcs: [], npcNext: 90, npcN: 0, npcBuys: 0, npcVisits: 0, npcSeen: 0 };
-  G.obSeed = (Math.random() * 1e9) | 0; G.obGone = {}; obReset(); G.map = selMap36(); mapApply();
+  G.mods = modsForRun50(); G.daily = !!save.modDaily && G.mods.length > 0; G.obSeed = (Math.random() * 1e9) | 0; G.obGone = {}; obReset(); G.map = selMap36(); mapApply();
   hookSrc();
   P = { x: 0, y: 0, r: 11, hp: 100, maxHp: 0, facing: 1, aim: 0, moving: false, inv: 0, atk: 0 };
   G.race = raceOf(save.race); G.tal = talentFx(cls); G.tf = G.tal.f;
@@ -8253,6 +8265,7 @@ function recalc() {
   s.dr = Math.min(0.7, s.dr);
   s.cd = Math.max(0.35, s.cd); s.dodge = Math.min(0.6, s.dodge); s.crit = Math.min(1, s.crit);
   s.maxHp += G.npcHp || 0; /* v44: +max HP bought from traders lasts the whole run */
+  modRecalc(s);
   const old = P.maxHp; Object.assign(P, s);
   P.spdPx = 118 * s.speed; P.pickR = 95 * s.pickup; // v29: base pickup radius 62 -> 95 now that XP is a gem you collect
   if (old) P.hp = Math.min(P.maxHp, P.hp + Math.max(0, P.maxHp - old));
@@ -8279,7 +8292,7 @@ const RUN_STATES = { play: 1, paused: 1, levelup: 1, gear: 1, countdown: 1, equi
 const r1 = v => Math.round(v * 10) / 10;
 function serializeRun() {
   const g = {}; for (const k of ['cls', 'race', 'outfit', 't', 'kills', 'level', 'xp', 'xpNext', 'passives', 'gear', 'pending', 'shardsPicked', 'salvage', 'bossKills', 'elites', 'nextElite', 'nextBoss',
-    'map', 'w28', 'bossIdx', 'bossBag', 'bossLast', 'nextSurge', 'spawnAcc', 'revived', 'wasNight', 'healPool', 'bondPool', 'critBuffT', 'minionKills', 'moved', 'pendingChest', 'nextLoot', 'rushT', 'aegisT', 'kept', 'luChoices', 'tal', 'undyingUsed', 'tollT', 'rwT', 'sgT', 'achRun', 'achNew', 'dv', 'ancCd', 'frzCd', 'wsT', 'mcT', 'mwT', 'mvT', 'arc', 'stage', 'nextMini', 'surgeN', 'quests', 'qNext', 'qStats', 'qN', 'qLast', 'evo', 'dm', 'catPool', 'catRefund', 'obSeed', 'obGone', 'rerolls', 'gold', 'goldEarned', 'goldSpent', 'npcs', 'npcNext', 'npcN', 'npcLast', 'npcBuys', 'npcVisits', 'npcSeen', 'bufE', 'bufH', 'bufA', 'deathward', 'goldBud', 'portal', 'portalNext', 'townVisits', 'npcHp', 'mimic45']) g[k] = G[k];
+    'map', 'mods', 'daily', 'w28', 'bossIdx', 'bossBag', 'bossLast', 'nextSurge', 'spawnAcc', 'revived', 'wasNight', 'healPool', 'bondPool', 'critBuffT', 'minionKills', 'moved', 'pendingChest', 'nextLoot', 'rushT', 'aegisT', 'kept', 'luChoices', 'tal', 'undyingUsed', 'tollT', 'rwT', 'sgT', 'achRun', 'achNew', 'dv', 'ancCd', 'frzCd', 'wsT', 'mcT', 'mwT', 'mvT', 'arc', 'stage', 'nextMini', 'surgeN', 'quests', 'qNext', 'qStats', 'qN', 'qLast', 'evo', 'dm', 'catPool', 'catRefund', 'obSeed', 'obGone', 'rerolls', 'gold', 'goldEarned', 'goldSpent', 'npcs', 'npcNext', 'npcN', 'npcLast', 'npcBuys', 'npcVisits', 'npcSeen', 'bufE', 'bufH', 'bufA', 'deathward', 'goldBud', 'portal', 'portalNext', 'townVisits', 'npcHp', 'mimic45']) g[k] = G[k];
   g.weapons = G.weapons.map(w => [w.id, w.lvl]);
   /* v27: inside the Safe Haven the real battlefield is stashed in G.town.st - save that world (and where you left it) plus the town itself */
   const TW = G.town, st = TW && TW.st, EN = st ? st.enemies : enemies, BOSS = st ? st.boss : G.boss, PK = st ? st.picks : picks; if (st) g.npcs = st.npcs;
@@ -8366,7 +8379,7 @@ function abandonSavedRun() { // award what was earned (like retreating), exactly
 function saveGems(L) { L = L.filter(g => !g.dead && g.v > 0); if (!L.length) return 0; // v29: uncollected XP gems survive save/resume (oldest ones folded into the last)
   const out = L.slice(-60).map(g => [Math.round(g.x * 10) / 10, Math.round(g.y * 10) / 10, Math.round(g.v * 100) / 100, g.big ? 1 : 0]), rest = L.slice(0, Math.max(0, L.length - 60)).reduce((a, g) => a + g.v, 0);
   if (rest > 0) out[out.length - 1][2] = Math.round((out[out.length - 1][2] + rest) * 100) / 100; return out; }
-function heal(h, natural) { if (h <= 0 || P.hp >= P.maxHp) return; if (!natural) h *= P.healMul || 1; else if (G.race === 'troll') achAdd('r_troll_regen', Math.min(h, P.maxHp - P.hp)); P.hp = Math.min(P.maxHp, P.hp + h); } // natural = own regeneration (Troll penalty skips it)
+function heal(h, natural) { if (h <= 0 || P.hp >= P.maxHp) return; h *= modHeal(); if (!natural) h *= P.healMul || 1; else if (G.race === 'troll') achAdd('r_troll_regen', Math.min(h, P.maxHp - P.hp)); P.hp = Math.min(P.maxHp, P.hp + h); } // natural = own regeneration (Troll penalty skips it)
 
 /* ----- particles / numbers ----- */
 function smokeOf(c) { let s = SPR.smokeT[c]; if (!s) { s = mkCanvas(32, 32); const g = s.getContext('2d'); g.drawImage(SPR.smoke, 0, 0); g.globalCompositeOperation = 'source-in'; g.fillStyle = c; g.fillRect(0, 0, 32, 32); SPR.smokeT[c] = s; } return s; }
@@ -8448,6 +8461,7 @@ function spawnEnemy(type, o = {}) {
     if (e.aff.includes('hasted')) e.spd *= 1.45; if (e.aff.includes('shielded')) e.sh = e.shMax = hp * 0.5; }
   if (d.shield) { e.shMax += hp * d.shield; e.sh = e.shMax; }
   if (d.ai === 'burrower') { e.st = 'under'; e.under = 1; }
+  modEnemy(e);
   enemies.push(e); return e;
 }
 const RANGED = { seer: 22, spitter: 22, healer: 10, caller: 8, sprite: 26, bellshade: 22, chimewisp: 22, lantern: 10, hwraith: 26 }; // ranged/support types hold back; capped so they can't clog the enemy cap
@@ -8468,7 +8482,7 @@ function spawnDirector(dt) {
   const night = isNight(t), rate = (1.0 + t * 0.04 + Math.pow(t / 60, 1.7) * 0.55) * (night ? 1.25 : 1);
   G.isNight = night;
   if (night !== G.wasNight) { if (G.t > 1) Snd.play('shimmer'); if (G.t > 1) toast(night ? '☾ Night falls' : '☀ Dawn breaks', night ? '#9fb4ff' : '#ffd24a', 3, night ? 'Monsters grow bolder' : ''); G.wasNight = night; }
-  G.spawnAcc += rate * dt;
+  G.spawnAcc += rate * modRate() * dt;
   while (G.spawnAcc >= 1) { G.spawnAcc -= 1; if (enemies.length < ECAP) { const ty = pickType(t), d = ETYPES[ty];
       if (d.pack) { G.spawnAcc -= (d.pack - 1) * 0.6; const [x, y] = spawnPos(); for (let i = 0; i < d.pack; i++) spawnEnemy(ty, { x: x + rand(-22, 22), y: y + rand(-22, 22) }); }
       else spawnEnemy(ty, t > 600 && Math.random() < Math.min(0.02, (t - 600) / 30000) ? { elite: true } : {}); } }
@@ -8785,7 +8799,7 @@ function mimicDie45(e) { for (const c of ['#c898ff', '#80d0f0', '#ffe060', '#ff5
   picks.push({ k: 'chest', x: e.x, y: e.y }); dropGold(e.x, e.y + 14, 25 + G.t / 20, 6); toast('🎁 The mimic coughs up its treasure!', '#c898ff', 2.4); }
 function killEnemy(e) {
   if (e.dead) return; e.dead = true; G.kills++; questKill(e); if (P.killRush) G.sclT = 1.5; achAdd('c_' + G.cls + '_k', 1); achAdd('r_' + G.race + '_k', 1); achAdd('g_kills', 1);
-  const def = ETYPES[e.type]; if (e.type === 'surprisemimic') mimicDie45(e);
+  modKill(e); const def = ETYPES[e.type]; if (e.type === 'surprisemimic') mimicDie45(e);
   if (SPR.enemy[e.type]) { while (corpses.length >= V31P.cap()) corpses.shift(); const ds = V31P.dstyle(e); corpses.push({ k: e.type, x: e.x, y: e.y, f: e.face < 0 ? -1 : 1, sc: e.sc || 1, t: 0, d: (e.boss ? 1.4 : e.elite || e.mini ? 0.9 : 0.55) * (ds === 'dis' ? 1.3 : ds === 'b36' ? 1.45 : ds === 'gift45' ? 1.7 : 1), el: !!(e.elite || e.boss), s: ds, sd: Math.random() }); }
   burst(e.x, e.y, def.puff, e.boss ? 40 : e.elite ? 20 : 7, e.boss ? 220 : 110, e.boss ? 5 : 3, 0.55);
   burst(e.x, e.y, '#120818', 4, 60, 4, 0.6);
@@ -9285,7 +9299,7 @@ function updateMinions(dt) {
 /* ================= v25: +1 skill slot, 2 new skills per class (+2 per Druid form), 3 new Summoner minions, Summoner auto-attack,
    12 new passives, softer XP. Built from a few reusable skill shapes (bolt / ring / strike / zone / chain / claw). ================= */
 const XP_PICKUP = 0.85;                      // v25: every XP pickup is worth 15% less
-function xpMul() { return XP_PICKUP; } // v33: the v25 minute-8 XP falloff is gone; XP per gem is the same all run
+function xpMul() { return XP_PICKUP * modXp(); } // v33: the v25 minute-8 XP falloff is gone; XP per gem is the same all run
 const SK25 = [
   // ---- rogue
   { id: 'viper', name: 'Viper Fangs', ic: '⚚', cls: 'rogue', t: 'bolt', dmg: 8, n: 1, sp: 460, range: 360, pierce: 0, cd: 0.8, col: '#7dff5a', el: 'bleed', st: 4, snd: 'knife', unit: 'fang', base: 'Venom-tipped fangs that make foes bleed', cap: 'Fangs pierce 2 foes and bleed harder' },
@@ -12711,7 +12725,7 @@ const dayPhase = t => ((t + 20) / DAY_LEN) % 1;
 function skyAt(t) { const p = dayPhase(t); let i = 0; while (i < SKY.length - 2 && p > SKY[i + 1][0]) i++;
   const A = SKY[i], B = SKY[i + 1], f = clamp((p - A[0]) / (B[0] - A[0] || 1), 0, 1), L = (a, b) => a + (b - a) * f;
   return { p, dc: A[1].map((v, k) => Math.round(L(v, B[1][k]))), da: L(A[2], B[2]), wc: A[3].map((v, k) => Math.round(L(v, B[3][k]))), wa: L(A[4], B[4]) }; }
-const isNight = t => { const p = dayPhase(t); return p > 0.62 && p < 0.96; };
+const isNight = t => (typeof G !== 'undefined' && G && Array.isArray(G.mods) && G.mods.includes('night')) || (() => { const p = dayPhase(t); return p > 0.62 && p < 0.96; })();
 function phaseName(t) { const p = dayPhase(t); return p < 0.1 ? 'Dawn' : p < 0.5 ? 'Day' : p < 0.62 ? 'Dusk' : p < 0.96 ? 'Night' : 'Dawn'; }
 let LM = null, WL = null;
 function warmLight() { if (WL) return WL; const c = mkCanvas(128, 128), g = c.getContext('2d'), gr = g.createRadialGradient(64, 64, 0, 64, 64, 64);
@@ -15102,8 +15116,79 @@ const MAPINFO39 = [
   { k: 'castle', ic: '♜', col: '#ffb46a', bg: 'linear-gradient(180deg,#1a0806,#4a2214)', bl: 'A burning ruin of ash, slag and brass.', mobs: 'Cinder hounds, pyromancers, slag golems', boss: '5 bosses · Molten Tyrant, Ashen Warden…', town: 'Cinderkeep Bastion', need: 'Survive 15:00 in Gloomwood', open: () => castleOpen() },
   { k: 'heart', ic: '♡', col: '#ff9ac0', bg: 'linear-gradient(180deg,#05031a,#2e1a4e)', bl: 'Stained glass over the dark, under a heart-shaped moon.', mobs: 'Hushlings, bellshades, heart thieves', boss: '5 bosses · Clockwarden, Heartmaw, Nocturna…', town: 'Vesper Clocktown', need: 'Survive 15:00 in the Ashen Citadel', open: () => heartOpen() },
 ];
+/* ===== v50 run twists ===== */
+/* v50: RUN TWISTS — pick up to 3 before a run; each bends the rules and pays a Shard bonus. Daily Twists = same 2 twists for everyone, per date. */
+const MODS50 = {
+  glass:   { ic: '🔪', n: 'Glass Cannon', d: 'You hit 60% harder but have half the health.', b: 15 },
+  swarm:   { ic: '🐜', n: 'Swarm', d: 'Far more foes, each a bit weaker.', b: 20 },
+  giants:  { ic: '🗿', n: 'Giants', d: 'Foes are bigger and much tougher, but slower.', b: 15 },
+  hasty:   { ic: '💨', n: 'Hasty', d: 'Everyone moves faster, you included.', b: 10 },
+  bloodless: { ic: '🩸', n: 'Bloodless', d: 'Healing is 70% weaker, but you learn 40% faster.', b: 10 },
+  scholar: { ic: '📖', n: 'Fast Learner', d: 'You gain 60% more XP, but foes hit 30% harder.', b: 10 },
+  night:   { ic: '🌑', n: 'Eternal Night', d: 'It never becomes day.', b: 20 },
+  bomb:    { ic: '💥', n: 'Bomb Party', d: 'Foes explode when they die. Keep your distance.', b: 15 },
+  frenzy:  { ic: '🌪', n: 'Frenzy', d: 'You attack 30% faster; foes have 35% more health.', b: 5 },
+  paper:   { ic: '🧊', n: 'Paper Tigers', d: 'Foes die in half the hits, but hit nearly twice as hard.', b: 10 },
+};
+const MODS50_ORDER = Object.keys(MODS50);
+const modOn = id => typeof G !== 'undefined' && G && Array.isArray(G.mods) && G.mods.includes(id);
+function modRecalc(s) {
+  if (modOn('glass')) { s.dmg *= 1.6; s.maxHp = Math.round(s.maxHp * 0.5); }
+  if (modOn('hasty')) s.speed *= 1.25;
+  if (modOn('frenzy')) s.cd *= 0.7;
+}
+function modEnemy(e) {
+  if (!G || !G.mods || !G.mods.length) return;
+  const m = (hp, dmg, spd, sc) => { if (hp !== 1) { e.hp *= hp; e.maxHp *= hp; if (e.sh) { e.sh *= hp; e.shMax *= hp; } } if (dmg !== 1) e.dmg *= dmg; if (spd !== 1) e.spd *= spd; if (sc && sc !== 1 && !e.boss) { e.r *= sc; e.sc *= sc; } };
+  if (modOn('swarm')) m(0.75, 1, 1);
+  if (modOn('giants')) m(1.8, 1, 0.8, 1.3);
+  if (modOn('hasty')) m(1, 1, 1.25);
+  if (modOn('scholar')) m(1, 1.3, 1);
+  if (modOn('frenzy')) m(1.35, 1, 1);
+  if (modOn('paper')) m(0.5, 1.8, 1);
+}
+const modRate = () => modOn('swarm') ? 1.6 : 1;
+const modXp = () => (modOn('bloodless') ? 1.4 : 1) * (modOn('scholar') ? 1.6 : 1);
+const modHeal = () => modOn('bloodless') ? 0.3 : 1;
+function modKill(e) {
+  if (!modOn('bomb') || !P || e.boss) return;
+  const R = 58 + (e.elite ? 20 : 0); burst(e.x, e.y, '#ff9a3d', e.elite ? 16 : 9, 150, 3, 0.45);
+  if ((P.x - e.x) ** 2 + (P.y - e.y) ** 2 < (R + P.r) ** 2) hurtPlayer(Math.max(4, e.dmg * 1.1), 'bomb');
+}
+const modShard = () => 1 + Math.min(0.6, ((G && G.mods) || []).reduce((a, k) => a + (MODS50[k] ? MODS50[k].b : 0), 0) / 100);
+function modLine() { return G && G.mods && G.mods.length ? `<div><span>${G.daily ? '📅 Daily ' : ''}Twists ${G.mods.map(k => MODS50[k].ic).join('')}</span><b style="color:#ffd24a">+${Math.round((modShard() - 1) * 100)}% ◆</b></div>` : ''; }
+/* ---- daily: same twists for everyone on a given date ---- */
+function dailyKey50() { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+function dailyMods50(key = dailyKey50()) { let h = 2166136261; for (const c of key) h = Math.imul(h ^ c.charCodeAt(0), 16777619) >>> 0;
+  const pool = MODS50_ORDER.slice(), out = []; for (let i = 0; i < 2; i++) { h = Math.imul(h ^ (h >>> 15), 2246822519) >>> 0; out.push(pool.splice(h % pool.length, 1)[0]); } return out; }
+function modsForRun50() { const s = save.mods; return Array.isArray(s) ? s.filter(k => MODS50[k]).slice(0, 3) : []; }
+let modOpen50 = false;
+function renderMods50() {
+  const box = $('modBox'); if (!box) return; const sel = new Set(modsForRun50()), dm = dailyMods50(), isDaily = !!save.modDaily && dm.length === sel.size && dm.every(k => sel.has(k));
+  const best = save.dailyBest && save.dailyBest.d === dailyKey50() ? ' · best ' + fmtTime(save.dailyBest.t) : '';
+  const bonus = Math.round((([...sel].reduce((a, k) => a + MODS50[k].b, 0)) > 60 ? 60 : [...sel].reduce((a, k) => a + MODS50[k].b, 0)));
+  const head = sel.size ? [...sel].map(k => MODS50[k].ic).join('') + ' ' + (isDaily ? 'Daily · ' : '') + sel.size + '/3 · +' + bonus + '% ◆' : 'none · pays bonus Shards';
+  box.innerHTML = `<button class="modchip act modtog${sel.size ? ' on' : ''}" id="modToggle" aria-expanded="${modOpen50}"><i>🎲</i><b>Twists: ${head}</b><u>${modOpen50 ? '▴' : '▾'}</u></button>` + (!modOpen50 ? '' :
+    `<div class="modrow">` +
+    MODS50_ORDER.map(k => `<button class="modchip${sel.has(k) ? ' on' : ''}" data-mod="${k}" aria-pressed="${sel.has(k)}" title="${MODS50[k].d}"><i>${MODS50[k].ic}</i><b>${MODS50[k].n}</b></button>`).join('') +
+    `</div><div class="modrow2"><button class="modchip act${isDaily ? ' on' : ''}" id="modDaily" title="Same two twists for everyone today"><i>📅</i><b>Daily${best}</b></button><button class="modchip act" id="modRand"><i>🎲</i><b>Random</b></button><button class="modchip act" id="modClear"><i>✕</i><b>None</b></button></div>` +
+    `<div class="modinfo">${sel.size ? [...sel].map(k => MODS50[k].ic + ' ' + MODS50[k].d).join('<br>') : 'Twists bend the rules of a run and pay extra Shards.'}</div>`);
+  $('modToggle').onclick = () => { Snd.init(); modOpen50 = !modOpen50; renderMods50(); };
+  const setMods = (arr, daily) => { save.mods = arr.slice(0, 3); save.modDaily = !!daily; persist(); renderMods50(); };
+  box.querySelectorAll('[data-mod]').forEach(b => b.onclick = () => { Snd.init(); const k = b.dataset.mod, a = modsForRun50(); const i = a.indexOf(k); if (i >= 0) a.splice(i, 1); else if (a.length < 3) a.push(k); else { toast('Only 3 twists at once', '#ff9a9a', 1.5); return; } Snd.play('deal'); setMods(a, false); });
+  if (!modOpen50) return;
+  $('modDaily').onclick = () => { Snd.init(); Snd.play('deal'); setMods(isDaily ? [] : dm, !isDaily); };
+  $('modRand').onclick = () => { Snd.init(); Snd.play('deal'); const p = MODS50_ORDER.slice(), a = []; for (let i = 0; i < 2; i++) a.push(p.splice(Math.floor(Math.random() * p.length), 1)[0]); setMods(a, false); };
+  $('modClear').onclick = () => { Snd.init(); setMods([], false); };
+}
+function modBadge50() { let b = $('modBadge'); if (!b) { b = document.createElement('div'); b.id = 'modBadge'; document.body.appendChild(b); }
+  const on = G && G.mods && G.mods.length && (state === 'play' || state === 'paused' || state === 'countdown');
+  const txt = on ? (G.daily ? '📅' : '') + G.mods.map(k => MODS50[k].ic).join('') : ''; if (b.textContent !== txt) b.textContent = txt; b.style.display = on ? 'block' : 'none';
+  if (on) b.title = G.mods.map(k => MODS50[k].n).join(', '); }
+setInterval(() => { try { modBadge50(); } catch (e) { } }, 400);
+
 function goMaps() { state = 'maps'; show('mapsel'); renderMaps(); }
-function renderMaps() { const cur = selMap36(), L = $('mapList'), c = CLASSES[selClass]; L.innerHTML = '';
+function renderMaps() { const cur = selMap36(), L = $('mapList'), c = CLASSES[selClass]; L.innerHTML = ''; renderMods50();
   $('mapSub').textContent = (c ? c.name : 'Your hero') + ' · pick where to fight';
   for (const m of MAPINFO39.concat(ZN39_ORDER.filter(k => !ZN39[k].secret || ZN39[k].open()).map(k => Object.assign({ k, col: ZN39[k].col, ic: ZN39[k].ic, open: ZN39[k].open, need: ZN39[k].need }, ZN39[k].info)))) { const open = m.open(), b = document.createElement('button'); b.className = 'mapcard' + (open ? '' : ' locked') + (open && m.k === cur ? ' on' : ''); b.style.setProperty('--mc', m.col); b.dataset.map = m.k;
     const pu = (typeof mapPreview39 === 'function' && mapPreview39(m.k, 240, 130)) || '';
@@ -15536,7 +15621,8 @@ function showGameOver(quit) {
   { const nb = G.t > save.best && G.t >= 5; if (quit) Snd.music('victory'); else if (nb) setTimeout(() => { if (state === 'over') Snd.music('victory'); }, 2600); }
   const t = G.t, base = Math.floor(t / 10) + Math.floor(G.kills / 20) + G.bossKills * 15 + G.elites * 2, found = G.shardsPicked + G.salvage;
   const goldSh = Math.min(15, Math.floor((G.gold || 0) / 40)); /* v22: leftover gold → a tiny Shard tip (max +15, never multiplied) */
-  const total = Math.round((base + found) * (1 + 0.1 * mr('fortune') + ((P && P.shardMul) || 1) - 1)) + goldSh;
+  const total = Math.round((base + found) * (1 + 0.1 * mr('fortune') + ((P && P.shardMul) || 1) - 1) * modShard()) + goldSh;
+  if (G.daily && t >= 5) { const dk = dailyKey50(); if (!save.dailyBest || save.dailyBest.d !== dk || t > save.dailyBest.t) save.dailyBest = { d: dk, t }; }
   const newBest = t > save.best && t >= 5;
   const cls = G.cls, before = classLevel(cls).lvl, cx = Math.round(t * 0.9 + G.kills * 0.35 + G.bossKills * 40 + G.elites * 6);
   if (TALENTS[cls]) save.cxp[cls] = (save.cxp[cls] || 0) + cx; const after = classLevel(cls);
@@ -15549,7 +15635,7 @@ function showGameOver(quit) {
   $('overTime').textContent = fmtTime(t);
   $('overBest').innerHTML = newBest ? '<div class="newbest">★ NEW BEST ★</div>' : `<div class="lbl" style="margin-top:2px">Best ${fmtTime(save.best)}</div>`;
   $('overRes').innerHTML = (G.goldEarned ? `<div style="font-size:13px"><span>Gold ● earned / spent</span><b style="color:#ffd24a">${G.goldEarned} / ${G.goldSpent || 0}${goldSh ? ` · leftover +${goldSh} ◆` : ''}</b></div>` : '') + `<div><span>Foes banished</span><b>${G.kills}</b></div><div><span>Level reached</span><b>${G.level}</b></div>` +
-    `<div><span>Elites / Bosses slain</span><b>${G.elites} / ${G.bossKills}</b></div>` + questSummary() + `<div><span>Shards found</span><b>${found}</b></div>` +
+    `<div><span>Elites / Bosses slain</span><b>${G.elites} / ${G.bossKills}</b></div>` + questSummary() + `<div><span>Shards found</span><b>${found}</b></div>` + modLine() +
     `<div style="border-top:1px solid rgba(180,130,255,.3);margin-top:4px;padding-top:4px"><span>Shards earned</span><b class="shard">+${total} ◆</b></div>` +
     `<div style="font-size:13px;color:#a593c4"><span>Total Shards</span><span>◆ ${save.shards}</span></div>` +
     (TALENTS[cls] ? `<div style="border-top:1px solid rgba(180,130,255,.3);margin-top:4px;padding-top:4px"><span>${CLASSES[cls].name} XP</span><b style="color:#9fe8ff">+${cx}</b></div>` +
