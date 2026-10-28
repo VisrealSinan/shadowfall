@@ -1,13 +1,9 @@
 {
- "version": "48",
+ "version": "49",
  "date": "2026-10-27",
  "minLauncher": "2.0.0",
  "notes": [
-  "A new class: River! Made by (and for) a very special player",
-  "River is a sneaky, fast and tough fire-and-flower fighter in a black and pink crop top and shorts, playable as any race. She flicks burning petals, cracks briar whips, slips through the shadows, and plants gardens of flame",
-  "Her signature move is a deafening scream that sends foes running in terror (scared foes take extra damage)",
-  "Easter egg: wherever fire burns out, flowers bloom in the flames. And when she levels up, she has something to say",
-  "Full kit: 8 skills with evolutions, 3 talent trees, 5 armor sets, 5 achievements, an ultimate (Midnight Scream), her own select scene and sounds. Costs 1200 Shards"
+  "Tidy-up: fixed the Pumpseed creature animation so it really winds up, and repaired several out-of-date tests (quests timing, evolution card, controller menu route, PC layout, performance limit). No gameplay changes otherwise."
  ],
  "files": [
   {
@@ -32,8 +28,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "229333e7916373b74055047eb825c1d7eab9af072ea1651569cb299e8f3a6240",
-   "size": 2434633
+   "sha256": "b7d6a67733af9ca2555481b882e220dde13457e3e32873f1c12fb4d16f68e2c6",
+   "size": 2434643
   },
   {
    "name": "manifest.webmanifest",
@@ -42,7 +38,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "37304ab4bb43a48aed22b5b895eafca830207fb88523e96fcdf48d7dc2c07b5b",
+   "sha256": "f7765322f6f8e7ac56d5e9d6b90681295d7012bf8cf62760cba3db9c67620d67",
    "size": 1466
   }
  ]
