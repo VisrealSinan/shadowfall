@@ -1,12 +1,13 @@
 {
- "version": "47",
- "date": "2026-10-25",
+ "version": "48",
+ "date": "2026-10-27",
  "minLauncher": "2.0.0",
  "notes": [
-  "New: a secret Halloween map is hidden somewhere in the dark. Keep an eye out for a light that doesn't belong... it is easier to find around Halloween",
-  "New (once found): The Hallowmoon Patch, a moonlit pumpkin field with graveyards, scarecrows and a lantern tree, with its own monsters, weather, music and eerie sounds",
-  "New (once found): 5 rotating Hallowmoon bosses, a scarecrow mini-boss, and Candlewick Crossroads, a candle-lit rest stop with Hot Apple Cider and Trick-or-Treat Bags",
-  "New: once found, the secret map stays unlocked for good and shows up on the Map page"
+  "A new class: River! Made by (and for) a very special player",
+  "River is a sneaky, fast and tough fire-and-flower fighter in a black and pink crop top and shorts, playable as any race. She flicks burning petals, cracks briar whips, slips through the shadows, and plants gardens of flame",
+  "Her signature move is a deafening scream that sends foes running in terror (scared foes take extra damage)",
+  "Easter egg: wherever fire burns out, flowers bloom in the flames. And when she levels up, she has something to say",
+  "Full kit: 8 skills with evolutions, 3 talent trees, 5 armor sets, 5 achievements, an ultimate (Midnight Scream), her own select scene and sounds. Costs 1200 Shards"
  ],
  "files": [
   {
@@ -31,8 +32,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "e12da874603ef5b2e6fdee2f38820ddbd3c19873aa46ac75578e3aaa11c03080",
-   "size": 2404461
+   "sha256": "229333e7916373b74055047eb825c1d7eab9af072ea1651569cb299e8f3a6240",
+   "size": 2434633
   },
   {
    "name": "manifest.webmanifest",
@@ -41,7 +42,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "74de773916595ef26e3a086cd49f012efd1a4ccb66dd12b3e024da7aa1d093cf",
+   "sha256": "37304ab4bb43a48aed22b5b895eafca830207fb88523e96fcdf48d7dc2c07b5b",
    "size": 1466
   }
  ]

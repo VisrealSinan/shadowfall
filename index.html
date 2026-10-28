@@ -1811,6 +1811,7 @@ const SND32 = (() => {
     summon(c, o, t, p) { N(c, o, t, 0.3, 0.07 * p.v, 500 * p.f, 0.9, 'bandpass', 2600 * p.f, 0.12); T(c, o, t + 0.05, 360 * p.f, 0.28, 'sine', 0.045 * p.v, 820 * p.f); T(c, o, t + 0.12, 720 * p.f, 0.2, 'triangle', 0.02 * p.v, 1300 * p.f); },
     gun(c, o, t, p) { const f = p.f; N(c, o, t, 0.05, 0.13 * p.v, 2200 * f, 1.4, 'bandpass', 900 * f, 0.002); T(c, o, t, 140 * f, 0.11, 'sine', 0.07 * p.v, 55); N(c, o, t + 0.02, 0.16, 0.035 * p.v, 900 * f, 0.7, 'lowpass', 300); T(c, o, t + 0.12 * p.k + 0.05, 4200 * f, 0.05, 'sine', 0.012 * p.v, 3900 * f); },
     ric(c, o, t, p) { const f = p.f; T(c, o, t, 2400 * f, 0.22, 'sine', 0.035 * p.v, 900 * f); T(c, o, t + 0.01, 3600 * f, 0.16, 'triangle', 0.014 * p.v, 1800 * f); N(c, o, t, 0.04, 0.05 * p.v, 5200 * f, 3, 'bandpass', 3000 * f, 0.002); },
+    scream(c, o, t, p) { const f = p.f; T(c, o, t, 620 * f, 0.6, 'sawtooth', 0.07 * p.v, 1500 * f); T(c, o, t + 0.02, 940 * f, 0.55, 'square', 0.03 * p.v, 2100 * f); T(c, o, t, 1240 * f, 0.5, 'triangle', 0.025 * p.v, 2800 * f); N(c, o, t, 0.5, 0.06 * p.v, 1800 * f, 1.2, 'bandpass', 3200 * f, 0.02); },
     hush(c, o, t, p) { const f = p.f; N(c, o, t, 0.22, 0.06 * p.v, 2600 * f, 2.2, 'bandpass', 1400 * f, 0.06); N(c, o, t + 0.05, 0.12, 0.03 * p.v, 5200 * f, 3, 'bandpass', 3800 * f, 0.03); T(c, o, t, 1900 * f, 0.07, 'triangle', 0.012 * p.v, 2600 * f); },
     shriek(c, o, t, p) { const f = p.f; T(c, o, t, 980 * f, 0.42, 'sawtooth', 0.018 * p.v, 420 * f); T(c, o, t, 1040 * f, 0.42, 'sine', 0.035 * p.v, 455 * f); T(c, o, t + 0.03, 1470 * f, 0.3, 'triangle', 0.014 * p.v, 690 * f); N(c, o, t, 0.36, 0.035 * p.v, 1800 * f, 1.6, 'bandpass', 700 * f, 0.03); },
     bell(c, o, t, p) { const f = p.f; for (let i = 0; i < 4; i++) { T(c, o, t + i * 0.045, (i & 1 ? 1180 : 1440) * f, 0.05, 'square', 0.012 * p.v); T(c, o, t + i * 0.045, (i & 1 ? 2360 : 2880) * f, 0.04, 'sine', 0.01 * p.v); } },
@@ -1838,12 +1839,13 @@ const SND32 = (() => {
     beatpulse: 'synth', holoneko: 'synth:beast', subwoofer: 'synth:boom', glitchstep: 'synth:holy', promptstorm: 'glitch:shock', neuralnet: 'synth:arcane', vinyl: 'scratch', autotune: 'synth:wind', thedrop: 'synth:earth',
     fraybolt: 'thread', plaguebloom: 'thread:poison', hexfire: 'thread:fire', withering: 'thread:shadow', threadsnare: 'thread:chain', snap: 'thread:blade', spindle: 'thread:time', blackpall: 'thread:void', unravel: 'thread:boom',
     sixguns: 'gun', fanhammer: 'gun:metal', ricochet: 'gun:ric', smokeroll: 'wind:ric', deadeye: 'ric:gun', trickshot: 'ric:glass', explosive: 'gun:boom', highnoon: 'ric:boom',
+    embers: 'fire', flare: 'fire:boom', briar: 'nature:blade', slip: 'shadow:wind', bloomtrap: 'fire:nature', garden: 'fire:nature', veil: 'shadow:holy', scream: 'scream:boom',
     hushblades: 'hush', stalk: 'hush:shadow', behindyou: 'shadow:hush', knifefan: 'throw:hush', dreadwail: 'shriek', lastcall: 'bell:boom', stalkwake: 'hush:ghost', lightsout: 'shriek:void',
   };
   // very frequent casts: quieter, throttled harder
-  const FREQ = { hushblades: 1, sixguns: 1, fangs: 1, knives: 1, bow: 1, rivetgun: 1, orbs: 1, familiars: 1, hounds: 1, lute: 1, fraybolt: 1, clockhand: 1, seedbolt: 1, mbolt: 1, flask: 1, bloodblade: 1, shieldbash: 1, chakram: 1, blightbolt: 1, beatpulse: 1, archers: 1, imps: 1, catform: 1, shred: 1, px_dagger: 1, turret: 1, drone: 1, eclipse: 1 };
+  const FREQ = { embers: 1, hushblades: 1, sixguns: 1, fangs: 1, knives: 1, bow: 1, rivetgun: 1, orbs: 1, familiars: 1, hounds: 1, lute: 1, fraybolt: 1, clockhand: 1, seedbolt: 1, mbolt: 1, flask: 1, bloodblade: 1, shieldbash: 1, chakram: 1, blightbolt: 1, beatpulse: 1, archers: 1, imps: 1, catform: 1, shred: 1, px_dagger: 1, turret: 1, drone: 1, eclipse: 1 };
   const ULF = { rogue: 'blade:shadow:0', warlock: 'shadow:poison:0', summoner: 'summon:bone:0', ranger: 'bow:hawk:1', reaper: 'shadow:blade:0', rift: 'void:arcane:1', druid: 'nature:earth:1', druid_cat: 'beast:blade:0', druid_tree: 'earth:nature:1',
-    mage: 'arcane:fire:1', paragon: 'holy:void:1', paladin: 'holy:metal:1', engineer: 'boom:metal:1', alchemist: 'glass:fire:1', bard: 'horn:lute:1', bloodknight: 'blood:boom:0', chrono: 'time:void:1', maestro: 'synth:glitch:0', unraveler: 'thread:void:0', gunslinger: 'gun:boom:0', visage: 'hush:shriek:0' };
+    mage: 'arcane:fire:1', paragon: 'holy:void:1', paladin: 'holy:metal:1', engineer: 'boom:metal:1', alchemist: 'glass:fire:1', bard: 'horn:lute:1', bloodknight: 'blood:boom:0', chrono: 'time:void:1', maestro: 'synth:glitch:0', unraveler: 'thread:void:0', gunslinger: 'gun:boom:0', river: 'scream:fire:0', visage: 'hush:shriek:0' };
   const spec = id => SK[id] || (SIG[id] && SIG[id][1]) || FAMS[(hsh(id) * FAMS.length) | 0] + ':' + FAMS[(hsh(id + '#') * FAMS.length) | 0];
   const par = id => { const a = hsh(id), b = hsh(id + '~'); return { f: 0.8 + a * 0.5, k: b, v: 1 }; };
   function skillRec(id, evo) { const [f1, f2] = spec(id).split(':'), p = par(id);
@@ -2309,6 +2311,8 @@ const TALENTS = {
     passive: 'Loose Threads', pdesc: 'Plague, Burning and Curses stack on foes and tick for visible damage. Each distinct affliction on a foe makes it take +10% damage, and every Curse stack amplifies the other afflictions by 8%. Afflicted foes pass on part of their stacks when they die (Contagion). Afflicted kills wind the Loom: when it is full, a wave of every affliction rolls out', stats: { maxHp: 90, armor: 0, speed: 1.02 }, chips: ['♥ 90', '⚸ Afflictions', '⚵ Contagion'] },
   gunslinger: { name: 'Gunslinger', role: 'Rapid Fire · Dual Pistols & Trick Shots', flavor: '“Two guns, twelve shots, no second chances.”', desc: 'A dust-caked drifter with a revolver in each hand and a wanted poster in every town. Both guns bark in a rapid left-right rhythm, bullets ricochet from foe to foe, fanned volleys and explosive rounds clear the road, and when the sun hits High Noon every marked outlaw on screen falls at once.', weapon: 'sixguns', wname: 'Twin Six-Shooters', tint: '#ffc85a', cost: 1200,
     passive: 'True Grit', pdesc: 'Every hit builds Grit; kills build more (triple on marked foes). At 100 Grit you go on a Hot Streak for 5s: both revolvers fire much faster, every shot is doubled and you deal +15% damage. Every 6th pistol shot is a guaranteed crit, and foes Marked by Deadeye or High Noon take +25% damage from you', stats: { maxHp: 95, armor: 0, crit: 0.05, speed: 1.06 }, chips: ['♥ 95', '✵ High Noon', '⊕ Deadeye Marks'] },
+  river: { name: 'River', role: 'Fast & Tough · Fire, Flowers & a Very Loud Yell', flavor: '“Underestimate me. Everybody does. Once.”', desc: 'A sneaky little menace in a pink crop top and short shorts, quick on her feet and tougher than she looks. She flicks burning petals, whips briars of fire, slips through the shadows, and plants gardens of flame that bloom into flowers. And when the crowd closes in, she screams so loud that everyone runs.', weapon: 'embers', wname: 'Ember Petals', tint: '#ff5fae', cost: 1200,
+    passive: 'Wildbloom', pdesc: 'Every hit builds Fury, and burning or terrified foes give more when they fall. At 100 Fury you go into a Wildbloom for 5s: you deal +15% damage and your petals fly faster. Terrified foes run away and take +15% damage from you, and wherever fire burns out, flowers bloom there and heal you a little', stats: { maxHp: 118, armor: 1, crit: 0.06, speed: 1.12 }, chips: ['♥ 118', '✹ River’s Scream', '✿ Fire & Flowers'] },
   visage: { name: 'Hollow Visage', role: 'Secret Stalker · Thrown Blades, Backstabs & Dread', flavor: '“Pick up. I can see you.”', desc: 'Nobody remembers sending for it. A hooded shape in a black robe, its pale mask stretched long into a silent wail, it answers a phone that should not ring and follows you out into the dark. It fades into shadow, throws hush-blades into turned backs, appears right behind the foes it frightens, and when its Dread boils over every monster on screen forgets how to be brave.', weapon: 'hushblades', wname: 'Hush Blades', tint: '#c8d4ff', cost: 0, secret: 1,
     passive: 'Dread & Backstab', pdesc: 'Hits that land on a foe’s turned back (or on a frightened, staggered foe, or from the shadows) are Backstabs: +35% damage. Your first hit on an unhurt foe is an Ambush: +20% damage. Every hit builds Dread, Backstab kills build more. At 100 Dread you become Terror for 5s: every hit is a Backstab and nearby foes flee from you', stats: { maxHp: 100, armor: 0, crit: 0.07, speed: 1.08 }, chips: ['♥ 100', '⊘ Lights Out', '☎ Secret Class'] },
 }); CLASSES.paragon = _pg; }
@@ -2319,7 +2323,7 @@ Object.assign(CLS_COL, { paladin: '#d8b04a',
  bloodknight: '#e0203a',
  chrono: '#5ab0ff',
  maestro: '#3af0ff',
- unraveler: '#b05aff', gunslinger: '#ff9a3a', visage: '#c8d4ff',});
+ unraveler: '#b05aff', gunslinger: '#ff9a3a', visage: '#c8d4ff', river: '#ff5fae',});
 Object.assign(TALENTS, {
   paladin: [ // v30 Knight (Paladin): Bulwark (defence) · Zeal (charge & smite) · Radiance (holy light)
     TTREE('Bulwark', '⛊', '#c9d4ea', [
@@ -2546,6 +2550,31 @@ Object.assign(TALENTS, {
       ['gs_keg', 'Powder Keg', '✸', {}, { f: 'gKeg', d: 'Explosive Rounds blasts are {12}% bigger' }], ['gs_ghost', 'Ghost in the Smoke', '☁', {}, { f: 'gGhost', d: 'After a Smoke Roll your next {3} shots are guaranteed crits' }],
       ['gs_ex2', 'Nitro', '✹', { sd_explosive: 0.06 }], ['gs_reg3', 'Whiskey', '✚', { regen: 0.2 }],
       ['gs_wild', 'Wild Bunch', '✺', {}, { f: 'gWild', d: 'CAPSTONE: explosive blasts throw out 3 burning shrapnel bullets that ricochet into nearby foes' }]])],
+  river: [ // v44 River: Wildfire (petals, Fury & Wildbloom) · Nightbloom (flowers, gardens & healing) · Shriek (fear, the scream & sneaking)
+    TTREE('Wildfire', '❀', '#ff8a2a', [
+      ['rv_emb', 'Hot Petals', '❀', { sd_embers: 0.06 }], ['rv_hp', 'Thick Skin', '♥', { maxHp: 5 }],
+      ['rv_pet', 'Twin Petals', '❀', {}, { f: 'rvPet', d: 'Ember Petals flicks {1} more petal' }], ['rv_cd', 'Quick Fingers', '↯', { cd: 0.015 }], ['rv_flare', 'Big Flames', '✺', { sd_flare: 0.08 }],
+      ['rv_kin', 'Kindling', '❣', {}, { f: 'rvKin', d: 'You build Fury {10}% faster' }], ['rv_scorch', 'Slow Burn', '♨', {}, { f: 'rvScorch', d: 'Your burns last {30}% longer' }], ['rv_spd', 'Light Feet', '»', { speed: 0.02 }],
+      ['rv_hotb', 'Long Bloom', '❁', {}, { f: 'rvHotB', d: 'Wildbloom lasts {20}% longer' }], ['rv_dmg', 'Spark', '✦', { dmg: 0.012 }], ['rv_crit', 'Cinder Eye', '◈', { crit: 0.01 }],
+      ['rv_arm', 'Leather Shorts', '⛊', { armor: 0.4 }], ['rv_fl3', 'Triple Flare', '✺', {}, { f: 'rvFlareN', d: 'Pink Flare hurls {1} more fireball' }],
+      ['rv_flare2', 'Pink Blaze', '✺', { sd_flare: 0.06 }], ['rv_reg', 'Warm Tea', '✚', { regen: 0.2 }],
+      ['rv_inf', 'Wildfire Heart', '✹', {}, { f: 'rvInferno', d: 'CAPSTONE: during Wildbloom every petal bursts into a small flame blast, and starting Wildbloom takes 2s off all your other cooldowns' }]]),
+    TTREE('Nightbloom', '✿', '#ff5fae', [
+      ['rv_bl', 'Sharp Thorns', '⚘', { sd_bloomtrap: 0.08 }], ['rv_hp2', 'Tough Stems', '♥', { maxHp: 4 }],
+      ['rv_bn', 'Double Bloom', '❁', {}, { f: 'rvBloomN', d: 'Wildfire Bloom plants {1} more flower' }], ['rv_gd', 'Rich Soil', '✿', { sd_garden: 0.1 }], ['rv_wide', 'Wide Garden', '◍', {}, { f: 'rvWide', d: 'Cinder Garden is {20}% bigger' }],
+      ['rv_nect', 'Sweet Nectar', '✚', {}, { f: 'rvNectar', d: 'Flowers heal you {50}% more' }], ['rv_long', 'Evergreen', '◔', {}, { f: 'rvLong', d: 'Cinder Garden lasts {1}s longer' }], ['rv_arm2', 'Bark Skin', '⛊', { armor: 0.4 }],
+      ['rv_thorn', 'Thorny Roses', '⚘', {}, { f: 'rvThorn', d: 'Foes in your garden take {12}% more burn damage' }], ['rv_area', 'Spreading Roots', '◍', { area: 0.015 }], ['rv_dodge', 'Duck and Weave', '»', { dodge: 0.008 }],
+      ['rv_br', 'Briar Patch', '⚘', { sd_briar: 0.08 }], ['rv_dr', 'Hard Petals', '⛨', { dr: 0.008 }],
+      ['rv_bl2', 'Deadly Bouquet', '❁', { sd_bloomtrap: 0.06 }], ['rv_reg2', 'Morning Dew', '✚', { regen: 0.2 }],
+      ['rv_wild', 'Garden of Embers', '✿', {}, { f: 'rvWild', d: 'CAPSTONE: when a Cinder Garden ends, its flowers burst into 6 burning petals that seek out foes' }]]),
+    TTREE('Shriek', '✹', '#c04aff', [
+      ['rv_sc', 'Sharp Pipes', '✹', { sd_scream: 0.08 }], ['rv_cm', 'Raised Voice', '◈', { critMul: 0.03 }],
+      ['rv_lung', 'Big Lungs', '✹', {}, { f: 'rvLungs', d: 'River’s Scream reaches {15}% farther' }], ['rv_vl', 'Velvet Dark', '☾', { sd_veil: 0.1 }], ['rv_terr', 'Long Fright', '!', {}, { f: 'rvTerror', d: 'Scared foes run for {1}s longer' }],
+      ['rv_scare', 'Scared Stiff', '☠', {}, { f: 'rvScare', d: 'Terrified foes take {10}% more damage from you' }], ['rv_hush', 'Silent Type', '☾', {}, { f: 'rvHush', d: 'Midnight Veil gives {2} more sneak attacks' }], ['rv_elite', 'Big Bully', '♛', { eliteDmg: 0.04 }],
+      ['rv_slip', 'Slip Away', '≈', { sd_slip: 0.08 }], ['rv_hp3', 'Thick Hide', '♥', { maxHp: 4 }], ['rv_spd2', 'Quiet Step', '»', { speed: 0.02 }],
+      ['rv_ghost', 'Ghost Step', '≈', {}, { f: 'rvGhost', d: 'Shadow Slip carries you {15}% farther' }], ['rv_fd', 'Frightful', '☠', { dmg: 0.012 }],
+      ['rv_cm2', 'Cry Havoc', '◈', { critMul: 0.03 }], ['rv_reg3', 'Deep Breath', '✚', { regen: 0.2 }],
+      ['rv_ban', 'Banshee', '✹', {}, { f: 'rvBanshee', d: 'CAPSTONE: every River’s Scream is followed by a second, quieter echo scream that frightens foes all over again' }]])],
   visage: [ // v46 Hollow Visage (secret): Stalker (shadows & ambush) · Knifework (thrown blades) · Night Terror (fear & Dread)
     TTREE('Stalker', '◐', '#c8d4ff', [
       ['vs_stalk', 'Soft Footfalls', '◐', { sd_stalk: 0.1 }], ['vs_hp', 'Thick Robe', '♥', { maxHp: 5 }],
@@ -2634,6 +2663,9 @@ Object.assign(ARMOR_SETS, {
   gunslinger: [AS('gs_duster', 'Dust-Road Duster', '#6a4a2a', '#2a1a0e', '#e8b050', 'studs', '#a8282a'), AS('gs_bounty', 'Bounty Hunter Leathers', '#3a2a1a', '#140c06', '#cfc6b8', 'studs', '#ff8a2a'),
     AS('gs_noon', 'High Noon Poncho', '#c87a3a', '#4a2410', '#ffe0a0', 'stars', '#2a4a8a'), AS('gs_outlaw', 'Outlaw Blacks', '#1a1418', '#08060a', '#ff4a3a', 'runes', '#c8c0b0'),
     AS('gs_legend', 'Legend of the West', '#f0e0c0', '#6a4a2a', '#ffc85a', 'filigree', '#a8282a', '#ffd890')],
+  river: [AS('rv_crop', 'Crop & Cinder', '#ff4fa3', '#1a1018', '#ffd070', 'studs', '#ff8a2a'), AS('rv_night', 'Nightbloom Fit', '#1a1018', '#0a060c', '#ff9ad0', 'runes', '#ff4fa3'),
+    AS('rv_ember', 'Ember Garden Set', '#ff7a1e', '#3a0a1a', '#ffe0a0', 'filigree', '#ff4fa3'), AS('rv_thorn', 'Thornlight Leathers', '#3a1030', '#12060e', '#ff5fae', 'studs', '#c04aff'),
+    AS('rv_queen', 'Scream Queen', '#fff0f6', '#ff4fa3', '#ff8a2a', 'stars', '#1a1018', '#ffd0e8')],
   visage: [AS('vs_robe', 'Hollow Visage Robe', '#141018', '#050308', '#c8d4ff', 'runes', '#4a1a2a'), AS('vs_shift', 'Graveyard Shift', '#22262e', '#0a0c10', '#8a96aa', 'studs', '#3a4a6a'),
     AS('vs_prank', 'Midnight Prankster', '#2a0a14', '#0e0306', '#ff3a5a', 'stars', '#e8e0f0'), AS('vs_static', 'Dial-Tone Static', '#1a1a22', '#08080c', '#a07aff', 'runes', '#c8d4ff'),
     AS('vs_legend', 'The Last Caller', '#e8e4f0', '#3a3448', '#ff3a5a', 'filigree', '#141018', '#ff6a8a')],
@@ -2734,6 +2766,7 @@ Object.assign(ACH_NAMES, {
   chrono: ['Borrowed Hours', 'Time Thief', 'Paradox Resolved', 'Keeper of Clocks', 'Lord of Eternity'],
   maestro: ['Prompt Accepted', 'Nya Squad', 'Bass Face', 'Hype Train Conductor', 'Neural Maestro'],
   unraveler: ['Loose Threads', 'Pandemic', 'Triple Affliction', 'Unravelled', 'Visreal the Unraveler'],
+  river: ['Loud and Proud', 'Burn Notice', 'Garden of Cinders', 'Scream Queen', 'Midnight Bloom'],
   gunslinger: ['Quick on the Draw', 'Bounty Collector', 'Showdown at Sundown', 'Fastest Gun in the West', 'Legend of the Dust Road'],
   visage: ['Is Anyone There?', 'Don’t Look Behind You', 'Lights Out', 'Seven Rings', 'Nobody Hangs Up on Me'],
 });
@@ -5810,6 +5843,30 @@ const HAWK32 = (() => {
     front(c) { const { b, an, f, hipX, hipY } = c; if (an !== 'atk') return; const k = f / 3; // spent brass flicking out of the cylinders
       b.set(hipX + 6 - k * 4, hipY - 20 + k * 12, BRS[4]); b.set(hipX + 6.6 - k * 4, hipY - 19.4 + k * 12, BRS[2]); if (f >= 2) { b.set(hipX + 2 + (f - 2) * 2, hipY - 22 + (f - 2) * 9, BRS[3]); } }
   }; }
+  /* ======================= RIVER (v44): black and pink. Crop top, short shorts over black leggings, a flaming flower in her hand, a flower in her hair ======================= */
+  { const PNK = R(['#5a0a34', '#b01870', '#ff4fa3', '#ff9ad0', '#ffe8f4']), FLM = R(['#6a1004', '#c23a0a', '#ff7a1e', '#ffc05a', '#fff2c8'], 1), BLK = R(['#0a060c', '#161018', '#241a28', '#34283a', '#4a3c54']);
+    PXA.kits.river = {
+      look(L) { L.cape = false; },
+      cape: false,
+      pose(P, an, f) { if (an === 'atk') { // 0 breath in · 1 flick · 2 flick · 3 recover
+          P.af = [{ u: -1.2, e: 0.6 }, { u: 1.6, e: 0.1 }, { u: 1.75, e: 0.05 }, { u: 1.1, e: 0.3 }][f]; P.ab = [{ u: -0.9, e: 0.9 }, { u: -1.5, e: 0.3 }, { u: -1.2, e: 0.2 }, { u: -0.5, e: 0.5 }][f];
+          P.lean = [-0.1, 0.14, 0.18, 0.06][f]; P.lf = { a: 0.5, b: 0.3 }; P.lb = { a: -0.45, b: 0.25 }; P.hair = [0, 2, 3, 1][f]; } },
+      backHand(c) { const { b, AB } = c; PX.glow(b, AB.hx, AB.hy, 1.8, FLM); },
+      torso(c) { const { b, up, Rm } = c; PX.torso(c, Rm.skin); // bare midriff under a pink crop top, black shorts with a pink waistband
+        b.poly([...up(-4.4, -20), ...up(3.8, -20.2), ...up(4.6, -14.6), ...up(-4.8, -14.2)], PNK, 2, 1); b.tint((x, y) => x < up(-1.6, 0)[0], ch => PNK.includes(ch) ? PXA.step(ch, -1) : 0);
+        b.line(...up(-3.6, -19.6), ...up(-1.2, -24.4), PNK[1]); b.line(...up(2.6, -19.8), ...up(1, -24.4), PNK[1]); b.set(...up(0.4, -16.6), PNK[4]); b.set(...up(1.8, -17.6), PNK[3]);
+        b.set(...up(0.6, -10.4), Rm.skin[1]); // navel
+        b.poly([...up(-4.2, -7.4), ...up(3.8, -7.6), ...up(4.2, -2.6), ...up(-4.4, -2.4)], BLK, 2, 1); b.cap(...up(-4.2, -7.2), ...up(3.8, -7.4), 0.9, 0.9, PNK, 3); b.set(...up(1.6, -7.2), PNK[4]); },
+      skirt(c) { const { b, hipX, hipY, P } = c, sw = P.lf.a - P.lb.a; // short shorts: cuffs over the leggings
+        for (const [x, a] of [[hipX - 1.8, P.lb.a], [hipX + 1.6, P.lf.a]]) { const kx = x + Math.sin(a) * 4.8, ky = hipY + Math.cos(a) * 4.8; b.cap(x, hipY - 1, kx, ky, 2.6, 2.4, BLK, a === P.lf.a ? 3 : 2); b.line(x - 2, ky + 0.8, x + 2, ky + 0.8, PNK[2]); }
+        PX.skirt(c, BLK, { flare: 0.5, len: 2.5, zig: 2 }); },
+      headFront(c, hx, hy) { const { b } = c; // a pink flower tucked over her ear, a spark of flame in its heart
+        for (let i = 0; i < 5; i++) { const a = i / 5 * TAU; b.ell(hx + 3.2 + Math.cos(a) * 2.4, hy - 5.4 + Math.sin(a) * 2.1, 1.7, 1.5, PNK, i % 2 ? 3 : 2, 1); } b.ell(hx + 3.2, hy - 5.4, 1.2, 1.2, FLM, 3, 1); b.set(hx + 3.2, hy - 6.2, FLM[4]);
+        b.line(hx - 4, hy - 4.2, hx + 4.4, hy - 4.8, PNK[2]); },
+      weapon(c) { const { b, AF, an, f } = c, hot = an === 'atk' && f >= 1; // a flaming flower held in the hand
+        for (let i = 0; i < 5; i++) { const a = i / 5 * TAU + 0.4; b.ell(AF.hx + 1.6 + Math.cos(a) * 2.8, AF.hy - 1.4 + Math.sin(a) * 2.4, 1.8, 1.6, PNK, i % 2 ? 3 : 2, 1); } PX.glow(b, AF.hx + 1.6, AF.hy - 1.4, 2.4 + (hot ? 1.4 : 0), FLM); if (hot) PX.sparkle(b, AF.hx + 6, AF.hy - 3, FLM, 1); },
+      front(c) { const { b, an, f, hipX, hipY } = c; if (an !== 'atk') return; const k = f / 3; b.set(hipX + 8 + k * 6, hipY - 22 - k * 4, FLM[3]); b.set(hipX + 11 + k * 6, hipY - 24 - k * 6, PNK[3]); if (f >= 2) { b.set(hipX + 16, hipY - 26, FLM[4]); b.set(hipX + 14, hipY - 20, PNK[4]); } }
+    }; }
   /* ======================= HOLLOW VISAGE (v46 secret): long ragged black robe, tall drooping hood, a pale stretched wailing mask, throwing knives ======================= */
   { const MASK = R(['#5a5468', '#9e9ab0', '#cfcddc', '#ecebf4', '#ffffff']), INKV = R(['#020104', '#06030a', '#0c0612', '#140a1c', '#1e1028']), STEEL = R(['#1a1c24', '#3a3e4c', '#6a7080', '#a8b0c0', '#eef2ff'], 1), HILT = R(['#0a0408', '#1e0a12', '#3a1220', '#5a1a2e', '#7a2a40']);
     const knife = (b, H, hot, back) => { const dx = Math.sin(H.fa), dy = Math.cos(H.fa), tx = H.hx + dx * 7, ty = H.hy + dy * 7; // reverse-grip-free: blade runs along the forearm line past the fist
@@ -10502,6 +10559,106 @@ evo30('deadeye', 'insight', 'Dead Aim', '#ff4a3a', 1.4, 0.85, 1.1, 'execute', '+
 evo30('trickshot', 'expanse', 'Silver Dollar Show', '#fff4d8', 1.4, 0.85, 1.15, 'crit', '+40% damage; +20% crit chance');
 evo30('explosive', 'vigor', 'Nitro Express', '#ff8a2a', 1.4, 0.85, 1.2, 'nova', '+40% damage; every blast rings out a shockwave');
 evo30('highnoon', 'ward', 'Sundown', '#ffc85a', 1.3, 0.85, 1.15, 'execute', 'SIGNATURE EVO: +30% damage, faster; High Noon executes weakened foes outright');
+/* ================= v44 RIVER: a sneaky, fast, tough fire-and-flower fighter. Her yell scares foes into running. Fire burns out and flowers bloom in the flames. ================= */
+Object.assign(GCLS, { river: ['crit', 'critMul', 'cd', 'speed'] }); Object.assign(GCLSN, { river: 'Cinderbloom' }); Object.assign(GPAL, { river: ['#2a0a1c', '#ff5fae', '#ff8a2a'] });
+Object.assign(CLASS_PAL, { river: { cloak: '#1a1018', cloak2: '#241a28', trim: '#ff8ac8', acc: '#ff4fa3', acc2: '#6a1a4a', eye: '#ff8ac8', name: 'Crop & Cinder' } });
+Object.assign(CLASS_LOOK, { river: { acc: '#ff4fa3', acc2: '#6a1a4a', body: 'tunic', hood: 'none' } });
+const RV = { p: '#ff5fae', h: '#ff9ad0', o: '#ff8a2a', y: '#ffd070', f: '#ff4a3a', w: '#fff0f6', k: '#1a1018' };
+const rvLv = id => { const w = G.weapons.find(q => q.id === id); return w ? w.lvl : 0; };
+const rvScared = e => !!e && e.rv44 > gtime;
+/* fear: a scared foe runs away from River for t seconds (bosses only wobble) and takes a little extra damage */
+function rvFear(e, t) { if (!e || e.dead) return; if (e.boss) t *= 0.4; const S = v30S(); t += tf30('rvTerror'); const was = rvScared(e); e.rv44 = Math.max(e.rv44 || 0, gtime + t); slow30(e, e.boss ? 0.5 : 0.92, t); if (!was) { S.fear = S.fear || []; if (S.fear.length < 80) S.fear.push(e); } }
+function rvFury(S, n) { if (!S || S.bloomT > 0) return; S.fury = (S.fury || 0) + n * (1 + 0.1 * tf30('rvKin')); if (S.fury >= 100) rvBloomOn(S); }
+function rvBloomOn(S) { S.fury = 0; S.bloomMax = 5 * (1 + 0.2 * tf30('rvHotB')); S.bloomT = S.bloomMax; S.blooms = (S.blooms || 0) + 1;
+  if (tf30('rvInferno')) for (const w of G.weapons) if (w.id !== 'embers' && w.t > 0) w.t = Math.max(0, w.t - 2);
+  ring30(P.x, P.y, 90, RV.p, 0.5, { w: 4 }); ring30(P.x, P.y, 60, RV.o, 0.4, { w: 2 }); txt30(P.x, P.y - 44, 'WILDBLOOM', RV.p, { sz: 12 }); Snd.play('fire'); }
+/* THE EASTER EGG: wherever fire burns out, flowers bloom in the flames (and heal River a little) */
+function rvFlower(x, y, S, n, noHeal) { n = n || 1; for (let i = 0; i < n; i++) u30('rflower', { x: x + (n > 1 ? (Math.random() - 0.5) * 34 : 0), y: y + (n > 1 ? (Math.random() - 0.5) * 22 : 0), life: 2.4, max: 2.4, sd: Math.random() * 9, src: 'bloom' });
+  if (!noHeal && S && (S.flT || 0) < gtime) { S.flT = gtime + 0.15; S.fl = (S.fl || 0) + 1; heal(P.maxHp * 0.006 * (1 + 0.5 * tf30('rvNectar'))); } }
+function rvShot(x, y, a, d, o) { return bolt30(x, y, a, 560, d, Object.assign({ col: RV.o, r: 4, life: 0.6, src: 'embers' }, o)); }
+function rvBlast(e, S, L, k) { const r = 44 * Math.sqrt(P.area), old = G.srcW; G.srcW = 'embers'; area30(e.x, e.y, r, 9 * dm30(L) * (k || 1), 30, q => applyBurn(q, 2 * dm30(L), 1.5), { src: 'embers', col: RV.p }); boom30(e.x, e.y, r, RV.p); G.srcW = old; }
+function rvGardenEnd(x, y, r, L) { const S = v30S(), old = G.srcW; G.srcW = 'garden'; area30(x, y, r, 10 * dm30(L), 50, q => slow30(q, 0.5, 1.2), { src: 'garden', col: RV.p }); ring30(x, y, r, RV.h, 0.6, { w: 4 }); rvFlower(x, y, S, 5);
+  if (Math.hypot(P.x - x, P.y - y) < r * 1.4) heal(P.maxHp * 0.04 * (1 + 0.5 * tf30('rvNectar')));
+  if (tf30('rvWild')) for (const q of nearestN(x, y, 6, 320)) rvShot(x, y, Math.atan2(q.y - y, q.x - x), 9 * dm30(L), { src: 'garden', col: RV.h, r: 4, life: 0.8 });
+  Snd.play('shimmer'); G.srcW = old; }
+function rvGarden(x, y, L, r0) { const r = (r0 || (L >= 3 ? 96 : 78)) * (1 + 0.2 * tf30('rvWide')) * Math.sqrt(P.area), life = (4 + (L >= 5 ? 1 : 0) + tf30('rvLong')) * P.dur;
+  u30('rgarden', { x, y, r, L, tk: 0, life, max: life, src: 'garden', sd: Math.random() * 9 }); G.later.push({ t: life, src: 'garden', f: () => rvGardenEnd(x, y, r, L) }); }
+/* ---- units ---- */
+UK30.rflower = { gr: 1, upd() {}, draw(u) { const a = Math.min(1, u.life / 0.8, u.t / 0.15); ctx.save(); ctx.globalCompositeOperation = 'lighter'; glowAt(RV.h, u.x, u.y, 16, 0.3 * a); ctx.restore(); ctx.save(); ctx.globalAlpha = a;
+  for (let i = 0; i < 6; i++) { const an = u.sd + i * TAU / 6 + u.t * 0.4; ctx.fillStyle = i % 2 ? RV.p : RV.h; ctx.beginPath(); ctx.ellipse(u.x + Math.cos(an) * 4.5, u.y + Math.sin(an) * 3, 3.2, 2.2, an, 0, TAU); ctx.fill(); }
+  ctx.fillStyle = RV.y; ctx.beginPath(); ctx.arc(u.x, u.y, 2, 0, TAU); ctx.fill(); ctx.restore(); } };
+UK30.rseed = { top: 1, upd() {}, draw(u) { const k = Math.min(1, u.t / u.max); ctx.save(); ctx.globalCompositeOperation = 'lighter'; glowAt(RV.o, u.x, u.y - 4, 10 + 14 * k, 0.4 + 0.4 * k); ctx.restore(); ctx.fillStyle = RV.p; ctx.beginPath(); ctx.ellipse(u.x, u.y - 4, 3 + 2 * k, 4 + 3 * k, 0, 0, TAU); ctx.fill(); ctx.fillStyle = RV.y; ctx.fillRect(u.x - 1, u.y - 6 - 3 * k, 2, 3); } };
+UK30.rgarden = { gr: 1, upd(u, dt) { if ((u.tk -= dt) > 0) return; u.tk = 0.5; const old = G.srcW; G.srcW = 'garden'; area30(u.x, u.y, u.r, 5 * dm30(u.L) * (1 + 0.12 * tf30('rvThorn')), 0, e => applyBurn(e, 3 * dm30(u.L), 1.5), { src: 'garden', dot: 1, col: RV.o }); G.srcW = old; },
+  draw(u) { const a = Math.min(1, u.life / 0.8, u.t / 0.25); ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = 'rgba(255,90,170,.12)'; ctx.beginPath(); ctx.ellipse(u.x, u.y, u.r, u.r * 0.66, 0, 0, TAU); ctx.fill();
+    for (let i = 0; i < 12; i++) { const q = u.sd + i * 0.9, rr = u.r * (0.25 + 0.6 * ((i * 37) % 10) / 10), x = u.x + Math.cos(q) * rr, y = u.y + Math.sin(q) * rr * 0.6, f = Math.sin(gtime * 9 + i * 2) * 2;
+      ctx.fillStyle = i % 3 ? RV.o : RV.y; ctx.beginPath(); ctx.moveTo(x - 3, y); ctx.quadraticCurveTo(x, y - 12 - f, x + 3, y); ctx.fill(); if (i % 4 === 0) { ctx.fillStyle = RV.p; ctx.beginPath(); ctx.arc(x + 5, y + 1, 2.4, 0, TAU); ctx.fill(); } }
+    ctx.strokeStyle = hexA(RV.p, 0.55); ctx.lineWidth = 1.5; ctx.setLineDash([6, 6]); ctx.lineDashOffset = -gtime * 12; ctx.beginPath(); ctx.ellipse(u.x, u.y, u.r, u.r * 0.66, 0, 0, TAU); ctx.stroke(); ctx.setLineDash([]); ctx.restore(); } };
+V30.river = { dm: 2.05, cols: [RV.p, RV.o, RV.f, RV.h, RV.w],
+  start(S) { S.fury = 0; S.bloomT = 0; S.bloomMax = 5; S.blooms = 0; S.shots = 0; S.sneak = 0; S.veilT = 0; S.fear = []; S.fl = 0; S.roll = null; S.screams = 0; S.rolls = 0; },
+  dmg(e, o, sk) { const S = G.v30 || {}; let m = 1; if (rvScared(e)) m *= 1.15 + 0.1 * tf30('rvScare'); if (S.bloomT > 0) m *= 1.15; if (!(o && o.dot) && sk !== ULT_SRC) rvFury(S, 0.55); return m; },
+  kill(e, S) { rvFury(S, e.bnT > 0 ? 2.5 : 1); if (e.bnT > 0 || rvScared(e)) rvFlower(e.x, e.y, S, 1); },
+  tick(dt, S) { if (S.bloomT > 0) { S.bloomT -= dt; if (S.bloomT <= 0) { S.bloomT = 0; S.fury = 0; } } if (S.veilT > 0) S.veilT -= dt;
+    if (S.fear && S.fear.length) { for (let i = S.fear.length - 1; i >= 0; i--) { const e = S.fear[i]; if (e.dead || !rvScared(e)) { S.fear.splice(i, 1); continue; } const dx = e.x - P.x, dy = e.y - P.y, d = Math.hypot(dx, dy) || 1, sp = (e.spd || 50) * (e.boss ? 0.5 : 1.25) * dt; e.x += dx / d * sp; e.y += dy / d * sp; } }
+    const R = S.roll; if (R) { const nx = P.x + R.vx * dt, ny = P.y + R.vy * dt, q = nearestN(nx, ny, 1, 60)[0];
+      if (q && Math.hypot(q.x - nx, q.y - ny) < (q.r || 10) + P.r + 4 && Math.hypot(q.x - nx, q.y - ny) < Math.hypot(q.x - P.x, q.y - P.y)) R.t = 0;
+      else { P.x = nx; P.y = ny; if (typeof obFree === 'function') obFree(P, P.r); }
+      if (parts.length < 360) burst(P.x, P.y + 4, RV.p, 2, 40, 3, 0.4, false); R.t -= dt; if (R.t <= 0) { S.roll = null; if (R.end) rvGarden(P.x, P.y, R.L, 64); } } },
+  over(S) { ctx.save(); let n = 0; for (const e of S.fear || []) { if (n >= 30) break; if (e.dead || !rvScared(e) || !inView(e.x, e.y, 20)) continue; n++; ctx.fillStyle = hexA(RV.h, 0.95); ctx.font = '900 14px system-ui,sans-serif'; ctx.textAlign = 'center'; ctx.fillText('!', e.x, e.y - (e.r || 10) - 12 + Math.sin(gtime * 14 + n) * 2); }
+    if (S.bloomT > 0) { ctx.globalCompositeOperation = 'lighter'; glowAt(RV.p, P.x, P.y - 12, 34, 0.35 + 0.15 * Math.sin(gtime * 12)); }
+    if (S.veilT > 0) { ctx.globalCompositeOperation = 'lighter'; glowAt('#3a0a2a', P.x, P.y - 12, 30, 0.4); }
+    ctx.restore(); },
+  hud(S) { if (S.veilT > 0) { ctx.fillStyle = `rgba(40,0,30,${(0.12 * Math.min(1, S.veilT)).toFixed(3)})`; ctx.fillRect(0, 0, W, H); } },
+  meter: S => S.bloomT > 0 ? { v: S.bloomT, max: S.bloomMax || 5, col: RV.p } : { v: S.fury || 0, max: 100, col: RV.o } };
+/* ---- skills ---- */
+sk30('embers', { name: 'Ember Petals', ic: '✾', cls: 'river', desc: ['Flick burning petals at the nearest foe in a fast stream: they pierce one foe and leave it Burning', '+20% damage', '+1 petal per flick', '+20% damage, 12% faster', 'The petals fan out wide', 'Every 5th flick is a guaranteed critical that bursts into a flower of flame'] }, w => {
+  const L = w.lvl, S = v30S(), { t, a } = aim30(400); if (!t) return -1; S.shots = (S.shots || 0) + 1; const sneak = S.sneak > 0; if (sneak) S.sneak--; const hot = S.bloomT > 0, fifth = L >= 6 && S.shots % 5 === 0, cr = sneak || fifth;
+  const n = 1 + (L >= 3 ? 1 : 0) + tf30('rvPet'), d = 8 * dm30(L) * (cr ? P.critMul : 1);
+  for (let i = 0; i < n; i++) rvShot(P.x, P.y - 12, a + (i - (n - 1) / 2) * (L >= 5 ? 0.28 : 0.12) + (Math.random() - 0.5) * 0.05, d, { pierce: 1, col: cr ? RV.w : hot ? RV.p : RV.o, r: cr ? 5.5 : 4,
+    on: e => { applyBurn(e, 2.2 * dm30(L), 2 * (1 + 0.3 * tf30('rvScorch'))); if (fifth) rvBlast(e, S, L); if (hot && tf30('rvInferno')) rvBlast(e, S, L, 0.5); } });
+  P.atk = 1; return (hot ? 0.7 : 1) * 0.26 * cd30(L); });
+sk30('flare', { name: 'Pink Flare', ic: '✽', cls: 'river', desc: ['Hurl 2 big pink fireballs that explode on the first foe they touch and set the blast Burning', '+20% damage', '+1 fireball and a bigger blast', '+20% damage, 12% faster', 'Much bigger explosions', 'Every flare blast leaves flowers blooming'] }, w => {
+  const L = w.lvl, S = v30S(), { t, a } = aim30(420); if (!t) return -1; const n = 2 + (L >= 3 ? 1 : 0) + tf30('rvFlareN'), d = 13 * dm30(L);
+  for (let i = 0; i < n; i++) rvShot(P.x, P.y - 12, a + (i - (n - 1) / 2) * 0.35, d, { src: 'flare', col: RV.p, r: 6, life: 0.7, on: e => { const r = (L >= 5 ? 66 : L >= 3 ? 56 : 46) * Math.sqrt(P.area), old = G.srcW; G.srcW = 'flare';
+    area30(e.x, e.y, r, d * 0.7, 50, q => applyBurn(q, 3 * dm30(L), 2), { src: 'flare', col: RV.p }); boom30(e.x, e.y, r, RV.p); if (L >= 6) rvFlower(e.x, e.y, S, 1); G.srcW = old; } });
+  Snd.play('fire'); P.atk = 1; return 2.6 * cd30(L); });
+sk30('briar', { name: 'Briar Lash', ic: '✰', cls: 'river', desc: ['Crack a whip of burning briars in front of you: it hurts, slows and sets foes Burning', '+20% damage', 'A longer, wider lash', '+20% damage, 12% faster', 'Lash twice in a row', 'Lashed foes are scared stiff for 1s'] }, w => {
+  const L = w.lvl, { t, a } = aim30(220); if (!t) return -1;
+  for (let r = 0; r < (L >= 5 ? 2 : 1); r++) G.later.push({ t: r * 0.3, src: 'briar', f: () => { G.srcW = 'briar'; const q = aim30(220), aa = q.t ? q.a : a, x = P.x + Math.cos(aa) * 46, y = P.y + Math.sin(aa) * 46 - 6;
+    area30(x, y, (L >= 3 ? 84 : 68) * Math.sqrt(P.area), 17 * dm30(L), 70, e => { slow30(e, 0.4, 1.5); applyBurn(e, 2.5 * dm30(L), 2); if (L >= 6) rvFear(e, 1); }, { src: 'briar', col: RV.p });
+    zap30(P.x, P.y - 12, x + Math.cos(aa) * 40, y + Math.sin(aa) * 40, RV.p); ring30(x, y, 60, RV.p, 0.3, { w: 3 }); P.atk = 1; Snd.play('knife'); } });
+  return 2.4 * cd30(L); });
+sk30('slip', { name: 'Shadow Slip', ic: '⚐', cls: 'river', desc: ['When foes crowd you, slip away through the shadows: a quick scared-foe-scattering dash that never runs into enemies, and you cannot be hurt while you move', '+20% damage', 'A longer slip', '+20% damage, 12% faster', 'A Cinder Garden blooms where you land', 'Foes around where you vanish run away in fright'] }, w => {
+  const L = w.lvl, S = v30S(), q = nearestN(P.x, P.y, 1, 120)[0]; if (!q || Math.hypot(q.x - P.x, q.y - P.y) > (q.r || 10) + 70) return -1;
+  const dist = (L >= 3 ? 135 : 110) * (1 + 0.15 * tf30('rvGhost')), a = gsRollDir(dist); S.rolls = (S.rolls || 0) + 1; G.srcW = 'slip'; area30(P.x, P.y, 70, 6 * dm30(L), 60, e => { if (L >= 6) rvFear(e, 1.5); }, { src: 'slip', col: RV.p }); ring30(P.x, P.y, 56, RV.p, 0.3, { w: 2 });
+  if (a !== null) { S.roll = { vx: Math.cos(a) * dist / 0.26, vy: Math.sin(a) * dist / 0.26, t: 0.26, end: L >= 5, L }; P.inv = Math.max(P.inv, 0.26 + 0.4); } else P.inv = Math.max(P.inv, 0.7); txt30(P.x, P.y - 34, 'SLIP', RV.h, { sz: 10 }); Snd.play('whoosh'); return 6 * cd30(L); });
+sk30('bloomtrap', { name: 'Wildfire Bloom', ic: '❉', cls: 'river', desc: ['Plant a fire-flower bud under a foe: a moment later it blooms in a burst of flame, then leaves real flowers behind', '+20% damage', '+1 flower and a bigger bloom', '+20% damage, 12% faster', '+1 more flower', 'Each bloom leaves a lot more flowers and scares nearby foes'] }, w => {
+  const L = w.lvl, S = v30S(), foes = nearestN(P.x, P.y, 8, 380); if (!foes.length) return -1; const n = 1 + (L >= 3 ? 1 : 0) + (L >= 5 ? 1 : 0) + tf30('rvBloomN');
+  for (let i = 0; i < n; i++) { const e = foes[i % foes.length], x = e.x + (Math.random() - 0.5) * 20, y = e.y + (Math.random() - 0.5) * 14; u30('rseed', { x, y, life: 0.7, max: 0.7, src: 'bloomtrap' });
+    G.later.push({ t: 0.7, src: 'bloomtrap', f: () => { G.srcW = 'bloomtrap'; const r = (L >= 3 ? 80 : 64) * Math.sqrt(P.area); area30(x, y, r, 22 * dm30(L), 90, q => { applyBurn(q, 3.5 * dm30(L), 2.5); if (L >= 6) rvFear(q, 1.2); }, { src: 'bloomtrap', col: RV.o });
+      boom30(x, y, r, RV.o); ring30(x, y, r, RV.p, 0.5, { w: 3 }); rvFlower(x, y, S, L >= 6 ? 8 : L >= 3 ? 5 : 3); Snd.play('boom'); } }); }
+  P.atk = 1; return 4.2 * cd30(L); });
+sk30('garden', { name: 'Cinder Garden', ic: '✭', cls: 'river', desc: ['Sow a garden of low flames on the ground: foes inside burn. When the flames die down, flowers bloom there, healing you and slowing foes', '+20% damage', 'A bigger garden', '+20% damage, 12% faster', 'The garden lasts 1s longer', 'A second garden blooms around you'] }, w => {
+  const L = w.lvl, { t } = aim30(330); if (!t) return -1; rvGarden(t.x, t.y, L); if (L >= 6) rvGarden(P.x, P.y, L, 70); P.atk = 1; Snd.play('fire'); return 7 * cd30(L); });
+sk30('veil', { name: 'Midnight Veil', ic: '☯', cls: 'river', desc: ['Melt into the dark: foes near you jump in fright, you cannot be hurt for a moment, and your next 4 petals are guaranteed critical sneak attacks', '+20% damage', '+2 sneak attacks', '+20% damage, 12% faster', 'Stay hidden a little longer', 'Slipping into the dark fills a third of your Fury'] }, w => {
+  const L = w.lvl, S = v30S(); if (!nearestN(P.x, P.y, 1, 200)[0]) return -1; S.sneak = 4 + (L >= 3 ? 2 : 0) + 2 * tf30('rvHush'); S.veilT = 3 + (L >= 5 ? 1 : 0); P.inv = Math.max(P.inv, 0.6 + (L >= 5 ? 0.4 : 0));
+  G.srcW = 'veil'; area30(P.x, P.y, 90 * Math.sqrt(P.area), 10 * dm30(L), 50, e => rvFear(e, 1.5), { src: 'veil', col: RV.k }); ring30(P.x, P.y, 80, '#3a0a2a', 0.4, { w: 4 }); if (L >= 6) rvFury(S, 33); txt30(P.x, P.y - 34, 'VEIL', RV.h, { sz: 10 }); Snd.play('whoosh'); return 9 * cd30(L); });
+sk30('scream', { name: 'River’s Scream', ic: '✬', cls: 'river', desc: ['SIGNATURE: “AAAAAAAH!” — River lets out a deafening yell. A shockwave rolls out, hurting every foe nearby, setting them alight and sending them running in terror', '+20% damage', 'A bigger shockwave', '+20% damage, 12% faster', 'A second, bigger scream follows right behind', 'Terrified foes leave flowers where they stood, and every scream fills your Fury'] }, w => {
+  const L = w.lvl, S = v30S(), tg = nearestN(P.x, P.y, 30, 260); if (tg.length < 3) return -1;
+  const run = (k, t0) => G.later.push({ t: t0, src: 'scream', f: () => { G.srcW = 'scream'; const r = (180 + (L >= 3 ? 45 : 0)) * (1 + 0.15 * tf30('rvLungs')) * Math.sqrt(P.area) * k;
+    area30(P.x, P.y, r, 26 * dm30(L) * k, 130, e => { rvFear(e, (2.5 + (L >= 6 ? 1 : 0)) * (k >= 1 ? 1 : 0.7)); applyBurn(e, 3 * dm30(L), 2.5); if (L >= 6) rvFlower(e.x, e.y, S, 1); }, { src: 'scream', col: RV.p });
+    ring30(P.x, P.y - 10, r, RV.p, 0.6, { w: 5 }); ring30(P.x, P.y - 10, r * 0.7, RV.o, 0.5, { w: 3 }); boom30(P.x, P.y, r * 0.5, RV.p); txt30(P.x, P.y - 52, 'AAAAAH!', RV.p, { sz: 14 }); Snd.play('scream'); S.screams = (S.screams || 0) + 1; P.inv = Math.max(P.inv, 0.5); P.atk = 1; } });
+  run(1, 0.25); if (L >= 5) run(1.25, 0.9); if (tf30('rvBanshee')) run(0.6, 1.5); if (L >= 6) rvFury(S, 40); return 15 * cd30(L); });
+pas30('shrill', { name: 'Shrill Voice', ic: '✫', desc: '+1.5% crit chance and +2% damage', max: 5, cls: ['river'] }, { crit: 0.015, dmg: 0.02 }, ['c', { dmg: 0.03 }]);
+evo30('embers', 'haste', 'Wildflower Barrage', '#ff9ad0', 1.35, 0.85, 1, 'crit', 'EVOLVED: +35% damage, faster flicks, +20% crit chance on every petal');
+evo30('flare', 'might', 'Supernova Rose', '#ff5fae', 1.4, 0.85, 1.1, 'burst', '+40% damage; every flare blast bursts again');
+evo30('briar', 'reach', 'Thorned Tempest', '#ff9ad0', 1.4, 0.85, 1.1, 'chain', '+40% damage; the lash reaches even farther');
+evo30('slip', 'swift', 'Smoke and Ember', '#3a0a2a', 1.4, 0.8, 1.2, 'slow', '+40% damage; the shadows hold foes in place');
+evo30('bloomtrap', 'insight', 'Deathbloom', '#ff4a3a', 1.4, 0.85, 1.1, 'execute', '+40% damage; blooms execute weakened foes');
+evo30('garden', 'expanse', 'Eternal Garden', '#ff9ad0', 1.4, 0.85, 1.15, 'slow', '+40% damage; the garden holds foes in place');
+evo30('veil', 'vigor', 'Nightfall', '#3a0a2a', 1.4, 0.85, 1.2, 'crit', '+40% damage; +20% crit chance');
+evo30('scream', 'ward', 'Banshee Bloom', '#ff5fae', 1.3, 0.85, 1.15, 'execute', 'SIGNATURE EVO: +30% damage, faster; the scream frightens weakened foes to death');
+/* River's level-up line */
+function rvLevelQuip() { try { txt30(P.x, P.y - 62, 'I’m just a girl', RV.p, { sz: 13, life: 1.6, max: 1.6 }); rvFlower(P.x, P.y + 6, null, 3, true); } catch (e) {} }
 /* ================= v46 HOLLOW VISAGE (secret class): stealth, backstabs & ambushes, thrown hush-blades, Dread & fear ================= */
 Object.assign(GCLS, { visage: ['crit', 'critMul', 'speed', 'dodge'] }); Object.assign(GCLSN, { visage: 'Night Terror' }); Object.assign(GPAL, { visage: ['#141018', '#c8d4ff', '#ff3a5a'] });
 Object.assign(CLASS_PAL, { visage: { cloak: '#141018', cloak2: '#050308', trim: '#c8d4ff', acc: '#4a1a2a', acc2: '#1a060c', eye: '#ff3a5a', name: 'Hollow Visage Robe' } });
@@ -10878,6 +11035,14 @@ const ULTS = {
       uLater(3.9, () => { const tg = uScr(30); for (let c = 0; c < 4; c++) { const an = -Math.PI / 2 + (c - 1.5) * 0.9, x1 = P.x + Math.cos(an) * 900, y1 = P.y + Math.sin(an) * 900; uBeam(P.x, P.y - 14, x1, y1, 10, c % 2 ? '#ff4a3a' : '#ffc85a', 0.7); }
         for (const e of tg) { uHit(e, uD(5.2), { col: '#fff4d8' }); uSpark(e.x, e.y, '#ffc85a', 6, 130); }
         uRing(P.x, P.y, uR(380), '#ffc85a', 0.7, 8); uGlyph(P.x, P.y - 90, 'DEAD MAN’S HAND', 26, '#ffc85a', 1.3, { grow: 1 }); Snd.play('boom'); }); } },
+  river: { n: 'Midnight Scream', ic: '❁', col: '#ff5fae', d: 'River draws one enormous breath and SCREAMS: every foe on screen is set alight and runs in terror as shockwave after shockwave rolls out, and then flowers bloom across the whole battlefield, healing you',
+    cast() { uFlash('#3a0a2a', 0.4, 0.35); P.inv = Math.max(P.inv, 4.2); const S = v30S();
+      uGlyph(P.x, P.y - 86, 'AAAAAAAAH!', 24, '#ff9ad0', 1.8, { grow: 1 });
+      for (let i = 0; i < 7; i++) uLater(0.3 + i * 0.42, () => { uRing(P.x, P.y - 10, uR(220 + i * 70), i % 2 ? '#ff5fae' : '#ff8a2a', 0.7, 7); uSpark(P.x, P.y, '#ff9ad0', 10, 200);
+        for (const e of uScr(40)) { uHit(e, uD(0.7), { col: '#ffd0e8' }); rvFear(e, 3.5); applyBurn(e, uD(0.15), 3); } Snd.play('scream'); });
+      uFx(3.4, (f, kk, a) => uLit(() => { glowAt('#ff5fae', P.x, P.y - 14, 110, 0.5 * a); ctx.strokeStyle = hexA('#ff9ad0', 0.6 * a); ctx.lineWidth = 2; for (let i = 0; i < 6; i++) { const an = gtime * 5 + i * TAU / 6; ctx.beginPath(); ctx.arc(P.x, P.y - 14, 34, an, an + 0.5); ctx.stroke(); } }));
+      uLater(3.3, () => { for (const e of uScr(40)) { uHit(e, uD(5.2), { col: '#fff0f6' }); uSpark(e.x, e.y, '#ff5fae', 6, 130); rvFlower(e.x, e.y, S, 1, true); }
+        heal(P.maxHp * 0.3); uRing(P.x, P.y, uR(420), '#ff9ad0', 0.8, 9); uGlyph(P.x, P.y - 90, 'FULL BLOOM', 26, '#ff9ad0', 1.3, { grow: 1 }); Snd.play('boom'); }); } },
   visage: { n: 'Jump Scare', ic: '⊛', col: '#f4f2ff', d: 'The lights cut out. Silence. Then the Hollow Visage’s mask fills the whole screen with a shriek: every foe on screen staggers, is frightened out of its wits and takes massive damage, then a storm of hush-blades hunts down the stragglers',
     cast() { P.inv = Math.max(P.inv, 4); const S = v30S(); S.outT = 1.05; Snd.play('hush46');
       uLater(1.0, () => { uFlash('#f4f2ff', 0.22, 0.45); Snd.play('scare46'); const tg = uScr(30);
@@ -12035,7 +12200,7 @@ function updateEffects(dt) {
 }
 function collect(g) {
   G.xp += g.v * P.xp * xpMul(); if (g.x !== undefined) { if (gtime - GEM_SND > 0.05) { GEM_SND = gtime; Snd.play('gem'); } } else Snd.play('gem');
-  while (G.xp >= G.xpNext) { G.xp -= G.xpNext; G.level++; G.xpNext = xpNeed(G.level); G.pending++; if (G.level % 5 === 0) { G.rerolls = (G.rerolls || 0) + 1; toast('↻ +1 Reroll (' + G.rerolls + ')', '#ffe08a', 2.4); } } /* v20: +1 reroll every 5 levels */
+  while (G.xp >= G.xpNext) { G.xp -= G.xpNext; G.level++; if (G.cls === 'river' && typeof rvLevelQuip === 'function') rvLevelQuip(); G.xpNext = xpNeed(G.level); G.pending++; if (G.level % 5 === 0) { G.rerolls = (G.rerolls || 0) + 1; toast('↻ +1 Reroll (' + G.rerolls + ')', '#ffe08a', 2.4); } } /* v20: +1 reroll every 5 levels */
 }
 function updatePickups(dt) {
   const pr2 = P.pickR * P.pickR, cr2 = (P.r + 8) ** 2;
@@ -14844,7 +15009,7 @@ addEventListener('freeze', () => saveRun());
 let dmExp = false, dmSig = '', dmUiT = 0, dmHist = [], dmHistG = null;
 const DM_LBL = { '@fox': ['✺', 'Fox-fire', '#ff9a3c'], '@g_ember': ['✹', 'Ember (gear)', '#ff8a3c'], '@g_storm': ['↯', 'Storm (gear)', '#9fdcff'], '@g_thorns': ['✸', 'Thorns (gear)', '#9de07a'],
   '@bark': ['♣', 'Bark reflect', '#9de07a'], '@ult': ['✷', 'Ultimates', '#ffe23a'], '@apex': ['✹', 'Ultimate move', '#ffffff'], '@talent': ['✦', 'Talent procs', '#e0b0ff'], '@grave': ['✹', 'Grave Burst', '#b56bff'], '@other': ['•', 'Other', '#a593c4'] };
-const DM_CC = { rogue: '#ff6a8a', warlock: '#b98aff', summoner: '#5ff0d0', ranger: '#9dff6a', reaper: '#d8d0e8', rift: '#6fc8ff', druid: '#9dff6a', mage: '#8fb4ff', paragon: '#ffd36a', paladin: '#ffe08a', engineer: '#ffc860', alchemist: '#9af07a', bard: '#ffc0e8', bloodknight: '#ff5a6a', chrono: '#8ad0ff', maestro: '#3af0ff', unraveler: '#b05aff', gunslinger: '#ff9a3a', visage: '#c8d4ff' };
+const DM_CC = { rogue: '#ff6a8a', warlock: '#b98aff', summoner: '#5ff0d0', ranger: '#9dff6a', reaper: '#d8d0e8', rift: '#6fc8ff', druid: '#9dff6a', mage: '#8fb4ff', paragon: '#ffd36a', paladin: '#ffe08a', engineer: '#ffc860', alchemist: '#9af07a', bard: '#ffc0e8', bloodknight: '#ff5a6a', chrono: '#8ad0ff', maestro: '#3af0ff', unraveler: '#b05aff', gunslinger: '#ff9a3a', visage: '#c8d4ff', river: '#ff5fae' };
 function dmLabel(k) { const d = WDEF[k]; if (d) { const ev = G && G.evo && G.evo[k] && EVO[k]; return [d.ic, ev ? ev.n : d.name, ev ? ev.col : d.dir === 'feral' || d.form === 'cat' ? '#ff7a96' : (DM_CC[d.cls] || '#b56bff'), !!ev]; } return DM_LBL[k] || ['•', k, '#a593c4', false]; }
 function fmtK(n) { n = +n || 0; return n >= 1e6 ? (n / 1e6).toFixed(n >= 1e7 ? 0 : 1) + 'M' : n >= 1e4 ? Math.round(n / 1e3) + 'k' : n >= 1e3 ? (n / 1e3).toFixed(1) + 'k' : String(Math.round(n)); }
 function dmSorted() { const D = (G && G.dm) || {}; return Object.keys(D).filter(k => D[k][0] >= 1).sort((a, b) => D[b][0] - D[a][0]); }
@@ -15704,7 +15869,7 @@ const TI = (() => {
     archers: 'bow', wraiths: 'ghost', corpse: 'tomb', brute: 'fist', grasp: 'hand', bow: 'bow', ballista: 'arrow', traps: 'trap', hawk: 'feather', volley: 'arrows', arrowrain: 'arrowdown', reap: 'scythe', scythethrow: 'scythe', chains: 'chain',
     skulls: 'skull', wail: 'bell', nova: 'burst', chakram: 'trap', orbs: 'orb', spiral: 'vortex', lance: 'beam', blink: 'gem', singularity: 'vortex', talons: 'claw', pounce: 'paw', shred: 'moon', seedbolt: 'leaf', starseed: 'star', stampede: 'antler',
     briars: 'thorn', tempest: 'cloud', quake: 'mountain', boulder: 'rock', mcinder: 'flame', mwake: 'flame', mcomet: 'comet', mmeteor: 'comet', mshards: 'crystal', mnova: 'snow', mward: 'shield', morbs: 'orb', mbeam: 'beam', mblink: 'gem', mbolt: 'star',
-    eclipse: 'moon', px_dagger: 'dagger', px_hex: 'vine', px_thrall: 'ghost', px_volley: 'arrows', px_scythe: 'scythe', px_rift: 'gem', px_gale: 'cloud', px_spell: 'flame', px_conv: 'star8', sixguns: 'crosshair', fanhammer: 'fan', ricochet: 'trap', smokeroll: 'cloud', deadeye: 'eye', trickshot: 'gem', explosive: 'burst', highnoon: 'sun', hushblades: 'dagger', stalk: 'moon', behindyou: 'ghost', knifefan: 'fan', dreadwail: 'eye', lastcall: 'burst', stalkwake: 'trap', lightsout: 'star8' };
+    eclipse: 'moon', px_dagger: 'dagger', px_hex: 'vine', px_thrall: 'ghost', px_volley: 'arrows', px_scythe: 'scythe', px_rift: 'gem', px_gale: 'cloud', px_spell: 'flame', px_conv: 'star8', sixguns: 'crosshair', fanhammer: 'fan', ricochet: 'trap', smokeroll: 'cloud', deadeye: 'eye', trickshot: 'gem', explosive: 'burst', highnoon: 'sun', embers: 'flame', flare: 'burst', briar: 'vine', slip: 'cloud', bloomtrap: 'star8', garden: 'flame', veil: 'moon', scream: 'sun', hushblades: 'dagger', stalk: 'moon', behindyou: 'ghost', knifefan: 'fan', dreadwail: 'eye', lastcall: 'burst', stalkwake: 'trap', lightsout: 'star8' };
   const EMB = ['skull', 'sword', 'mask', 'flask', 'spores', 'drop', 'bone', 'link', 'crown', 'eye', 'wing', 'arrows', 'scythe', 'tomb', 'bell', 'vortex', 'pulse', 'crosshair', 'claw', 'leaf', 'tree', 'flame', 'snow', 'star', 'moon', 'rose', 'sun'];
   function cands(n) { const nm = n.n.toLowerCase(), out = []; const add = m => { if (m && M[m] && !out.includes(m)) out.push(m); };
     for (const [re, m] of KW) if (re.test(nm)) add(m);
@@ -15980,6 +16145,15 @@ const BGA = (() => {
       for (let i = 0; i < 6; i++) { const x = 20 + K.R() * (W - 40), y = 134 + K.R() * 18; K.ring(x, y, 2 + K.R() * 2, K.rgba('#c8a070', 0.35)); }
       K.dots(26, K.rgba('#e8c090', 0.55), 0, 100, W, 158, 1); K.glow(cx, 150, 30, th, 0.18);
       K.vig(0.5); K.frame('wood', '#5a3418', '#a8743a', th); },
+    /* River (v44): a night garden on fire: huge moon, glowing pink flowers with flames in their hearts, drifting embers */
+    river(K, tc, bi) { const { W, H } = K, cx = W / 2, th = P3(bi, '#ff5fae', '#ff8a2a', '#ff9ad0');
+      K.sky(P3(bi, ['#0e0618', '#3a0e3a', '#8a2a5a', '#1a0a1a'], ['#0a0414', '#2a0a2e', '#6a1a4a', '#120614'], ['#14061c', '#4a1240', '#a83a5a', '#220a1c']));
+      K.glow(cx - 28, 64, 50, '#ffb0d8', 0.45); K.circ(cx - 28, 64, 10, '#fff0f6'); K.hills(100, 3, '#2a0e2a', 0.07); K.haze('#ff5fae', 0.12, 60, 110);
+      for (const [x, s2] of [[18, 1], [W - 22, 1], [cx - 46, 0.7], [cx + 52, 0.8]]) { const h = 40 * s2; K.r(x, 134 - h, 2, h, '#1a3a22'); for (let i = 0; i < 6; i++) { const a = i / 6 * Math.PI * 2; K.circ(x + 1 + Math.cos(a) * 7 * s2, 134 - h + Math.sin(a) * 6 * s2, 5 * s2, i % 2 ? '#ff4fa3' : '#ff9ad0'); } K.circ(x + 1, 134 - h, 4 * s2, '#ff8a2a'); K.glow(x + 1, 134 - h, 18 * s2, th, 0.4); }
+      for (const x of [cx - 20, cx + 8, cx + 30]) { K.px(x, 120, '#ffd070'); K.px(x + 1, 118, '#ff8a2a'); K.px(x, 116, '#ff4a3a'); K.glow(x, 118, 10, '#ff8a2a', 0.4); }
+      K.floor(132, '#2a1230', '#0e0612', cx, '#5a2a50'); K.r(0, 130, W, 3, '#3a1a3a');
+      K.dots(34, K.rgba('#ffb070', 0.6), 0, 40, W, 158, 1); K.dots(18, K.rgba('#ff9ad0', 0.5), 0, 60, W, 158, 1); K.glow(cx, 150, 30, th, 0.2);
+      K.vig(0.5); K.frame('vine', '#3a1a3a', '#ff5fae', th); },
     /* Hollow Visage (v46): a quiet house at midnight: faded wallpaper, a moonlit window, a phone ringing on the hall table, and a hooded figure in the open doorway */
     visage(K, tc, bi) { const { W, H } = K, cx = W / 2, th = P3(bi, '#c8d4ff', '#ff3a5a', '#a07aff');
       K.sky(['#06040c', '#0e0a18', '#140e20', '#08060e']); K.vg(0, 0, W, 132, '#1a1426', '#0c0814');
@@ -16109,8 +16283,8 @@ const BGA = (() => {
       K.vig(0.5); K.frame('gold', '#1e1a30', '#ffd36a', tc); },
   };
   /* themed node frames + connectors (CSS reads data-th) */
-  const TH = { paladin: 'stone', engineer: 'brass', alchemist: 'wood', bard: 'gold', bloodknight: 'iron', chrono: 'brass', maestro: 'neon', unraveler: 'thread', gunslinger: 'wood', visage: 'iron', druid: 'vine', reaper: 'bone', rogue: 'iron', warlock: 'bone', summoner: 'crystal', ranger: 'wood', rift: 'crystal', mage: 'gold', paragon: 'gold' };
-  const AMB = { rogue: 'mote', warlock: 'ember', summoner: 'wisp', ranger: 'leaf', reaper: 'mote', rift: 'star', druid: 'wisp', mage: 'ember', paragon: 'star', paladin: 'mote', engineer: 'ember', alchemist: 'bub', bard: 'star', bloodknight: 'ember', chrono: 'star', maestro: 'bub', unraveler: 'wisp', gunslinger: 'ember', visage: 'wisp', mt0: 'ember', mt1: 'mote', mt2: 'star', mt3: 'mote' };
+  const TH = { paladin: 'stone', engineer: 'brass', alchemist: 'wood', bard: 'gold', bloodknight: 'iron', chrono: 'brass', maestro: 'neon', unraveler: 'thread', gunslinger: 'wood', river: 'vine', visage: 'iron', druid: 'vine', reaper: 'bone', rogue: 'iron', warlock: 'bone', summoner: 'crystal', ranger: 'wood', rift: 'crystal', mage: 'gold', paragon: 'gold' };
+  const AMB = { rogue: 'mote', warlock: 'ember', summoner: 'wisp', ranger: 'leaf', reaper: 'mote', rift: 'star', druid: 'wisp', mage: 'ember', paragon: 'star', paladin: 'mote', engineer: 'ember', alchemist: 'bub', bard: 'star', bloodknight: 'ember', chrono: 'star', maestro: 'bub', unraveler: 'wisp', gunslinger: 'ember', river: 'ember', visage: 'wisp', mt0: 'ember', mt1: 'mote', mt2: 'star', mt3: 'mote' };
   /* ---------- Armory: stone wall, weapon racks, shields, banners, torches, forge ---------- */
   const ARM = [
     (K) => { K.bricks(0, K.H, '#3a2a24', '#22160f', 12, 6); const cx = K.W / 2, cy = K.H - 40; K.r(cx - 22, cy - 10, 44, 50, '#1a1210'); K.circ(cx, cy - 10, 22, '#1a1210'); K.glow(cx, cy + 10, 36, '#ff7a2a', 0.85); K.r(cx - 16, cy + 18, 32, 6, '#ffb03a'); for (let i = 0; i < 8; i++) K.r(cx - 14 + i * 4, cy + 10 + (i % 3) * 2, 2, 8, i % 2 ? '#ff5a1a' : '#ffd23a');
@@ -16146,7 +16320,7 @@ const BGA = (() => {
   function armory() { const s = typeof $ === 'function' && $('shop'); if (!s || s.dataset.bga) return; const url = paint('armory', 240, 150, wall); if (!url) return; s.dataset.bga = 1; s.classList.add('armory'); s.style.setProperty('--abg', `url(${url})`); }
   /* ---------- v32: race homeland vignettes + class-select hero hall (painted once per key, cached as dataURL) ---------- */
   const ACC = { rogue: '#ff4a6a', warlock: '#b05aff', summoner: '#3ae0d0', ranger: '#8ad85a', reaper: '#cfc6e6', rift: '#6a7aff', druid: '#9ae04a', mage: '#4aa8ff',
-    paladin: '#ffd76a', engineer: '#ffa040', alchemist: '#6aff9a', bard: '#ffcf4a', bloodknight: '#ff3a4a', chrono: '#e8c070', maestro: '#ff4ae0', unraveler: '#c890ff', gunslinger: '#ffc85a', visage: '#c8d4ff', paragon: '#fff0a0' };
+    paladin: '#ffd76a', engineer: '#ffa040', alchemist: '#6aff9a', bard: '#ffcf4a', bloodknight: '#ff3a4a', chrono: '#e8c070', maestro: '#ff4ae0', unraveler: '#c890ff', gunslinger: '#ffc85a', river: '#ff5fae', visage: '#c8d4ff', paragon: '#fff0a0' };
   const RC = { cat: '#ffb0d8', elf: '#7affc0', ogre: '#d8b048', dwarf: '#ffb040', troll: '#6ad8ff', kitsune: '#ff8a3a', scale: '#4ae0b0', shade: '#b07aff', human: '#ffd890' };
   const RPT = { cat: 'fly', elf: 'fly', ogre: 'ember', dwarf: 'ember', troll: 'fly', kitsune: 'petal', scale: 'fly', shade: 'void', human: 'fly' };
   const dims = () => (innerWidth < innerHeight ? [135, 240] : [240, 150]);
@@ -16403,7 +16577,7 @@ const BGA = (() => {
     paladin: ['#ffd76a', '#8a7650', '#2a2418', '#120f0a', '#fff4d0'], engineer: ['#ffb050', '#a8641e', '#2a1a0c', '#120a04', '#e8c890'],
     alchemist: ['#9aff8a', '#b07a2a', '#1a2410', '#0a1006', '#ffc65a'], bard: ['#ffcf4a', '#8a2a3a', '#2a1210', '#120806', '#ffb0c0'],
     bloodknight: ['#ff5a6a', '#8a1020', '#2a060c', '#120204', '#ffb0a0'], chrono: ['#e8c070', '#2a8a8a', '#0e2424', '#061010', '#ffe0a0'],
-    maestro: ['#ff4ae0', '#7a1a8a', '#1a0626', '#08020e', '#4ae0ff'], unraveler: ['#c890ff', '#6a3aa8', '#1e0e34', '#0c0618', '#ff9ad8'], gunslinger: ['#ffc85a', '#a8582a', '#2a160a', '#120a06', '#ff4a3a'], visage: ['#c8d4ff', '#4a3a6a', '#141018', '#06040a', '#ff3a5a'],
+    maestro: ['#ff4ae0', '#7a1a8a', '#1a0626', '#08020e', '#4ae0ff'], unraveler: ['#c890ff', '#6a3aa8', '#1e0e34', '#0c0618', '#ff9ad8'], gunslinger: ['#ffc85a', '#a8582a', '#2a160a', '#120a06', '#ff4a3a'], river: ['#ff5fae', '#8a1a5a', '#2a0a1c', '#0c0409', '#ff8a2a'], visage: ['#c8d4ff', '#4a3a6a', '#141018', '#06040a', '#ff3a5a'],
     paragon: ['#fff0a0', '#8a5a7a', '#261a24', '#0e0a0e', '#ffffff'] };
   function talPage(cls, spec) { const s = typeof $ === 'function' && $('talents'); if (!s) return; const P = TPAL[cls] || TPAL.rogue;
     ['--t1', '--t2', '--t3', '--t4', '--t5'].forEach((k, i) => s.style.setProperty(k, P[i])); s.classList.add('tp32'); s.dataset.tcls = cls;
