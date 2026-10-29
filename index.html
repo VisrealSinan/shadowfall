@@ -1529,7 +1529,7 @@ const fmtTime = s => { s = Math.floor(s); return Math.floor(s / 60) + ':' + Stri
 const SAVE_KEY = 'visreal_shadowfall_save_v1';
 // v1 saves keyed classes by weapon (daggers/staff/scythe/chakram); v2 keys them by class id.
 const OLD_CLASS = { daggers: 'rogue', staff: 'warlock', scythe: 'reaper', chakram: 'rift' };
-const START_CLASSES = { rogue: 1, warlock: 1, summoner: 1, ranger: 1, druid: 1, mage: 1 }; // v9: Druid is free for everyone · v13: Mage too
+const START_CLASSES = { bearlina: 1, rogue: 1, warlock: 1, summoner: 1, ranger: 1, druid: 1, mage: 1 }; // v9: Druid is free for everyone · v13: Mage too
 const migClass = id => OLD_CLASS[id] || id;
 const defSave = () => ({ sex: {}, v: 2, stash: {}, autoEquip: true, gearOver: false, shards: 0, best: 0, bestKills: 0, bestLevel: 0, runs: 0, totalKills: 0, meta: {},
   classes: Object.assign({}, START_CLASSES), outfits: { crimson: 1 }, outfit: 'crimson', lastClass: 'rogue', race: 'elf', muted: false, cxp: {}, talents: {}, ach: null, cos: { armor: {}, race: {}, eye: '', aura: '' }, audio: { music: 0.6, sfx: 0.7, musicOn: true, sfxOn: true } });
@@ -1832,6 +1832,7 @@ const SND32 = (() => {
   const SIG = { '@summonbolt': ['summoner', 'shadow:summon'] }; // class signature attacks that are not WDEF skills
   /* ---- skill -> 'fam' or 'fam:fam2' ---- */
   const SK = {
+    be_paws: 'beast:blade', be_hug: 'beast:earth', be_cheeks: 'wind:beast', be_briar: 'nature:wood', be_honey: 'nature', be_charge: 'beast:wind', be_roar: 'beast', be_breakfast: 'nature:holy',
     fangs: 'blade', knives: 'throw', bladefan: 'throw:blade', smoke: 'wind:shadow', mark: 'shadow:shock', clone: 'shadow:wind', viper: 'blade:poison', cyclone: 'wind:blade',
     reap: 'blade:shadow', nova: 'shadow:boom', skulls: 'bone:shadow', wail: 'ghost', scythethrow: 'blade:wind', chains: 'chain:shadow', harvest: 'shadow:blood', spikes: 'earth:bone',
     chakram: 'void:metal', orbs: 'void', lance: 'void:shock', singularity: 'void:boom', blink: 'void:wind', spiral: 'void:arcane', voidrip: 'void:blade', starfall: 'ice:boom',
@@ -1856,7 +1857,7 @@ const SND32 = (() => {
   };
   // very frequent casts: quieter, throttled harder
   const FREQ = { embers: 1, hushblades: 1, sixguns: 1, fangs: 1, knives: 1, bow: 1, rivetgun: 1, orbs: 1, familiars: 1, hounds: 1, lute: 1, fraybolt: 1, clockhand: 1, seedbolt: 1, mbolt: 1, flask: 1, bloodblade: 1, shieldbash: 1, chakram: 1, blightbolt: 1, beatpulse: 1, archers: 1, imps: 1, catform: 1, shred: 1, px_dagger: 1, turret: 1, drone: 1, eclipse: 1 };
-  const ULF = { rogue: 'blade:shadow:0', warlock: 'shadow:poison:0', summoner: 'summon:bone:0', ranger: 'bow:hawk:1', reaper: 'shadow:blade:0', rift: 'void:arcane:1', druid: 'nature:earth:1', druid_cat: 'beast:blade:0', druid_tree: 'earth:nature:1',
+  const ULF = { bearlina: 'beast:nature:1', rogue: 'blade:shadow:0', warlock: 'shadow:poison:0', summoner: 'summon:bone:0', ranger: 'bow:hawk:1', reaper: 'shadow:blade:0', rift: 'void:arcane:1', druid: 'nature:earth:1', druid_cat: 'beast:blade:0', druid_tree: 'earth:nature:1',
     mage: 'arcane:fire:1', paragon: 'holy:void:1', paladin: 'holy:metal:1', engineer: 'boom:metal:1', alchemist: 'glass:fire:1', bard: 'horn:lute:1', bloodknight: 'blood:boom:0', chrono: 'time:void:1', maestro: 'synth:glitch:0', unraveler: 'thread:void:0', gunslinger: 'gun:boom:0', river: 'scream:fire:0', visage: 'hush:shriek:0' };
   const spec = id => SK[id] || (SIG[id] && SIG[id][1]) || FAMS[(hsh(id) * FAMS.length) | 0] + ':' + FAMS[(hsh(id + '#') * FAMS.length) | 0];
   const par = id => { const a = hsh(id), b = hsh(id + '~'); return { f: 0.8 + a * 0.5, k: b, v: 1 }; };
@@ -2613,6 +2614,16 @@ Object.assign(TALENTS, {
       ['vs_call2', 'Collect Call', '☎', { sd_lastcall: 0.06 }], ['vs_reg3', 'Sleepless', '✚', { regen: 0.2 }],
       ['vs_panic', 'Mass Panic', '☠', {}, { f: 'vPanic', d: 'CAPSTONE: foes that die while frightened let out a scream that frightens every foe within 90px for 1.5s, and Terror starts with a free Dread Wail all around you' }]])],
 });
+/* v52: Bearlina is free on new and existing saves. */
+CLASSES.bearlina = { name: 'Bearlina', ic: '🐻', role: 'Bear · Bruiser · Nature', flavor: '“The whole forest. The whole bakery.”', desc: 'Permanently a bear: bleeding claws, honey traps, thorny hide and oversized haunches. Every race has its own bear look. Full Moon never shakes the screen.', weapon: 'be_paws', wname: 'Heavy Paws', art: 'branch', tint: '#54783d', cost: 0,
+  passive: 'Unbearable', pdesc: 'Claw hits build Ferocity. At 100: 5s of 45% faster paw cooldown recovery and 50% stronger Briarhide thorns.', stats: { maxHp: 135, armor: 2, speed: 0.95, regen: 0.2 }, chips: ['♥ 135', '🐻 Bear Only', '☾ Full Moon'] };
+CLS_COL.bearlina = '#a7cf78';
+TALENTS.bearlina = [
+TTREE("Savage Paws","🐾","#e9ba78",[["be_0_0", "Heavy Claws", "🐾", {"sd_be_paws": 0.04}], ["be_0_1", "Keen Instinct", "🐾", {"crit": 0.008}], ["be_0_2", "Thick Muscle", "🐾", {"maxHp": 5}], ["be_0_3", "Crushing Embrace", "🐾", {"sd_be_hug": 0.06}], ["be_0_4", "Fleet Paws", "🐾", {"speed": 0.015}], ["be_0_5", "Deep Wounds", "🐾", {"bleed": 0.05}], ["be_0_6", "Feral Heart", "🐾", {"feral": 0.05}], ["be_0_7", "Bounding Charge", "🐾", {"sd_be_charge": 0.06}], ["be_0_8", "Swift Swipes", "🐾", {"sc_be_paws": 0.04}], ["be_0_9", "Predatory Reach", "🐾", {"area": 0.015}], ["be_0_10", "Hug Mastery", "🐾", {"sc_be_hug": 0.04}], ["be_0_11", "Savage Roar", "🐾", {"sd_be_roar": 0.05}], ["be_0_12", "Hunter Endurance", "🐾", {"regen": 0.15}], ["be_0_13", "Dire Claws", "🐾", {"sd_be_paws": 0.05}], ["be_0_14", "Primal Force", "🐾", {"critMul": 0.06}], ["be_0_15", "Unending Appetite", "🐾", {"sd_be_paws": 0.12, "sc_be_paws": 0.08}]]),
+TTREE("Briar Guardian","♣","#9cda87",[["be_1_0", "Tough Hide", "♣", {"armor": 0.2}], ["be_1_1", "Healthy Haunches", "♣", {"maxHp": 6}], ["be_1_2", "Bark Layers", "♣", {"dr": 0.01}], ["be_1_3", "Thorn Tips", "♣", {"sd_be_briar": 0.06}], ["be_1_4", "Quick Growth", "♣", {"sc_be_briar": 0.025}], ["be_1_5", "Rooted Strength", "♣", {"regen": 0.2}], ["be_1_6", "Deep Reserves", "♣", {"maxHp": 12}], ["be_1_7", "Sweeping Defense", "♣", {"sc_be_cheeks": 0.035}], ["be_1_8", "Thorned Embrace", "♣", {"sd_be_hug": 0.05}], ["be_1_9", "Weathered Fur", "♣", {"dr": 0.012}], ["be_1_10", "Moonlit Reach", "♣", {"area": 0.02}], ["be_1_11", "Solid Stance", "♣", {"armor": 0.25}], ["be_1_12", "Wide Sweep", "♣", {"sd_be_cheeks": 0.06}], ["be_1_13", "Ancient Hide", "♣", {"maxHp": 8}], ["be_1_14", "Ironwood Heart", "♣", {"regen": 0.25}], ["be_1_15", "Living Fortress", "♣", {"dr": 0.06, "maxHp": 25}]]),
+TTREE("Moonberry Grove","☾","#c8aeef",[["be_2_0", "Sweet Harvest", "☾", {"sc_be_breakfast": 0.025}], ["be_2_1", "Natural Affinity", "☾", {"nature": 0.03}], ["be_2_2", "Gathering Paws", "☾", {"pickup": 0.025}], ["be_2_3", "Honey Season", "☾", {"sc_be_honey": 0.03}], ["be_2_4", "Moonlit Study", "☾", {"xp": 0.02}], ["be_2_5", "Grove Renewal", "☾", {"regen": 0.2}], ["be_2_6", "Winding Roots", "☾", {"area": 0.04}], ["be_2_7", "Roaring Moon", "☾", {"sc_be_roar": 0.035}], ["be_2_8", "Berry Reserves", "☾", {"maxHp": 6}], ["be_2_9", "Honeyed Steps", "☾", {"speed": 0.015}], ["be_2_10", "Wildflower Spirit", "☾", {"nature": 0.04}], ["be_2_11", "Restful Grove", "☾", {"regen": 0.2}], ["be_2_12", "Second Helping", "☾", {"sc_be_breakfast": 0.04}], ["be_2_13", "Lunar Rhythm", "☾", {"cd": 0.015}], ["be_2_14", "Bountiful Harvest", "☾", {"regen": 0.3}], ["be_2_15", "Heart of the Grove", "☾", {"nature": 0.12, "regen": 0.6}]]),
+];
+
 const TAL_BY_ID = {}; for (const c in TALENTS) TALENTS[c].forEach((tr, bi) => tr.nodes.forEach(n => { TAL_BY_ID[c + ':' + n.id] = n; n.bi = bi; }));
 const cxpNeed = l => l <= 20 ? 120 + 90 * (l - 1) : 1830 + 45 * (l - 20);            // class XP for level l -> l+1 (v19: same curve, cap raised 42 -> 51)
 function classLevel(id) { let x = save.cxp[id] || 0, l = 0; while (l < CLASS_LV_MAX && x >= cxpNeed(l + 1)) { x -= cxpNeed(l + 1); l++; } return { lvl: l, into: x, need: l >= CLASS_LV_MAX ? 0 : cxpNeed(l + 1) }; }
@@ -2862,6 +2873,7 @@ function previewCos(id) { // the look a reward unlocks, on a fitting hero
 function cosPortrait(canvas, cls, race, cos, scale = 1.35, t = 0.4) {
   const r = Math.min(3, window.devicePixelRatio || 1), w = canvas.clientWidth || 64, h = canvas.clientHeight || 64;
   if (canvas.width !== w * r) { canvas.width = w * r; canvas.height = h * r; } const g = canvas.getContext('2d'); g.setTransform(r, 0, 0, r, 0, 0); g.clearRect(0, 0, w, h);
+  if (cls === 'bearlina') { const k = Math.min(w / 86, h / 62) * 0.9; g.translate(w / 2 - 3 * k, h - 6 - 18 * k); g.scale(k, k); drawBearlina(g, { t, cls, outfit: save.outfit, race, cos }); return; }
   const bust = w <= 72, k = scale * 0.8 * w / 64 * (bust ? 1.3 : 0.92); g.translate(w / 2, h / 2 + (bust ? 17 : 11) * k); g.scale(k, k); /* v13: taller heroes; small icons show a head-and-shoulders bust */ drawHero(g, { t, cls, race, outfit: save.outfit, cos }); }
 const tRank = (tr, n) => Math.max(0, Math.min(n.m, (tr && +tr[n.id]) || 0));
 function talentPoints(id, tr) { tr = tr || save.talents[id] || {}; let spent = 0; for (const b of TALENTS[id] || []) for (const n of b.nodes) spent += tRank(tr, n); const total = classLevel(id).lvl; return { total, spent, free: Math.max(0, total - spent) }; }
@@ -3333,6 +3345,7 @@ function foxTails(g, R, C, t, n, sc) { // fluffy kitsune tails (count grows with
     g.restore(); }
 }
 function drawHero(g, o) {
+  if (o.cls === 'bearlina') return drawBearlina(g, o);
   if (PXA.hero.ok(o)) return PXA.hero.vec(g, o); // v32: Shade has a pixel body now; the vector ghost stays for the classic-art setting
   if (!o._gh && raceOf(o.race || (typeof save !== 'undefined' && save && save.race)) === 'shade') return drawGhost(g, o);
   if (o.form === 'cat' || o.form === 'tree') { g.save(); g.translate(0, 17); g.scale(1.22, 1.22); g.translate(0, -17); o.form === 'cat' ? drawCatForm(g, o) : drawTreeForm(g, o); g.restore(); return; }
@@ -8252,6 +8265,7 @@ function heroSexChosen(race) { const m = save && save.sex; return !!(m && (m[rac
 function heroPortrait(canvas, cls, outfit, scale = 1.35, race, gear) {
   const r = Math.min(3, window.devicePixelRatio || 1), w = canvas.clientWidth || 64, h = canvas.clientHeight || 64;
   canvas.width = w * r; canvas.height = h * r; const g = canvas.getContext('2d'); g.scale(r, r);
+  if (cls === 'bearlina') { const k = Math.min(w / 86, h / 62) * 0.9; g.translate(w / 2 - 3 * k, h - 6 - 18 * k); g.scale(k, k); drawBearlina(g, { t: 0.4, cls, outfit, race: race || save.race, gear }); return; }
   const bust = w <= 72, k = scale * 0.8 * w / 64 * (bust ? 1.3 : 0.92); g.translate(w / 2, h / 2 + (bust ? 17 : 11) * k); g.scale(k, k); /* v13: taller heroes; small icons show a head-and-shoulders bust */ /* framed for tall class/race looks (cowls, ears, helms) */ drawHero(g, { t: 0.4, cls, outfit, race: race || save.race, gear, gearOver: save.gearOver });
   if (cls === 'summoner' && scale > 1.3 && !race) { g.save(); g.translate(-15, 12); g.scale(0.6, 0.6); MDRAW.shade(g, 0); g.restore(); }
 }
@@ -14610,7 +14624,7 @@ function render(dt) {
   ctx.fillStyle = '#07040c'; ctx.fillRect(0, 0, cv.width, cv.height);
   const z = DPR * ZOOM;
   if (!G || state === 'title' || state === 'select' || state === 'maps' || state === 'shop' || state === 'how' || state === 'talents' || (state === 'equip' && eqMode === 'stash')) { renderMenuBg(z); return; }
-  let sx = 0, sy = 0; if (G.shake > 0) { sx = rand(-1, 1) * G.shake * 16; sy = rand(-1, 1) * G.shake * 16; }
+  let sx = 0, sy = 0; if (G.shake > 0 && !(G.cls === 'bearlina' && G.beNoShakeU > gtime)) { sx = rand(-1, 1) * G.shake * 16; sy = rand(-1, 1) * G.shake * 16; }
   const cx = P.x + sx, cy = P.y + sy; QCX = cx; QCY = cy;
   ctx.setTransform(z, 0, 0, z, DPR * W / 2 - cx * z, DPR * H / 2 - cy * z);
   if (G.town) drawTownWorld(cx, cy); else { drawWorldBg(cx, cy); drawPortals(); }
@@ -15254,7 +15268,7 @@ addEventListener('freeze', () => saveRun());
 let dmExp = false, dmSig = '', dmUiT = 0, dmHist = [], dmHistG = null;
 const DM_LBL = { '@fox': ['✺', 'Fox-fire', '#ff9a3c'], '@g_ember': ['✹', 'Ember (gear)', '#ff8a3c'], '@g_storm': ['↯', 'Storm (gear)', '#9fdcff'], '@g_thorns': ['✸', 'Thorns (gear)', '#9de07a'],
   '@bark': ['♣', 'Bark reflect', '#9de07a'], '@ult': ['✷', 'Ultimates', '#ffe23a'], '@apex': ['✹', 'Ultimate move', '#ffffff'], '@talent': ['✦', 'Talent procs', '#e0b0ff'], '@grave': ['✹', 'Grave Burst', '#b56bff'], '@other': ['•', 'Other', '#a593c4'] };
-const DM_CC = { rogue: '#ff6a8a', warlock: '#b98aff', summoner: '#5ff0d0', ranger: '#9dff6a', reaper: '#d8d0e8', rift: '#6fc8ff', druid: '#9dff6a', mage: '#8fb4ff', paragon: '#ffd36a', paladin: '#ffe08a', engineer: '#ffc860', alchemist: '#9af07a', bard: '#ffc0e8', bloodknight: '#ff5a6a', chrono: '#8ad0ff', maestro: '#3af0ff', unraveler: '#b05aff', gunslinger: '#ff9a3a', visage: '#c8d4ff', river: '#ff5fae' };
+const DM_CC = { bearlina: '#b6d88b', rogue: '#ff6a8a', warlock: '#b98aff', summoner: '#5ff0d0', ranger: '#9dff6a', reaper: '#d8d0e8', rift: '#6fc8ff', druid: '#9dff6a', mage: '#8fb4ff', paragon: '#ffd36a', paladin: '#ffe08a', engineer: '#ffc860', alchemist: '#9af07a', bard: '#ffc0e8', bloodknight: '#ff5a6a', chrono: '#8ad0ff', maestro: '#3af0ff', unraveler: '#b05aff', gunslinger: '#ff9a3a', visage: '#c8d4ff', river: '#ff5fae' };
 function dmLabel(k) { const d = WDEF[k]; if (d) { const ev = G && G.evo && G.evo[k] && EVO[k]; return [d.ic, ev ? ev.n : d.name, ev ? ev.col : d.dir === 'feral' || d.form === 'cat' ? '#ff7a96' : (DM_CC[d.cls] || '#b56bff'), !!ev]; } return DM_LBL[k] || ['•', k, '#a593c4', false]; }
 function fmtK(n) { n = +n || 0; return n >= 1e6 ? (n / 1e6).toFixed(n >= 1e7 ? 0 : 1) + 'M' : n >= 1e4 ? Math.round(n / 1e3) + 'k' : n >= 1e3 ? (n / 1e3).toFixed(1) + 'k' : String(Math.round(n)); }
 function dmSorted() { const D = (G && G.dm) || {}; return Object.keys(D).filter(k => D[k][0] >= 1).sort((a, b) => D[b][0] - D[a][0]); }
@@ -16031,6 +16045,135 @@ function resize() {
   readSafe(); buildVignette();
   const nrs = clamp(Math.ceil(DPR * ZOOM), 1, 3); if (nrs !== RS || !groundTile) buildArt();
 }
+/* v52 Bearlina: permanent bear form, eight skills and a motion-safe ultimate. */
+GCLS.bearlina = ['maxHp', 'armor', 'feral', 'bleed', 'nature'];
+GCLSN.bearlina = 'Moonhaunch'; GPAL.bearlina = ['#73502e', '#3f713d', '#aa793e'];
+CLASS_PAL.bearlina = { cloak: '#73502e', cloak2: '#352319', trim: '#a8d871', acc: '#487639', acc2: '#254326', eye: '#b3f88b', name: 'Moonhaunch Hide' };
+CLASS_LOOK.bearlina = { acc: '#487639', acc2: '#254326', body: 'tunic', hood: 'none' };
+const BEAR_GREEN = '#a7ed83', BEAR_MOON = '#d8c2ff';
+function bearShield(S, amount, seconds) { S.shield = Math.min(P.maxHp * 0.4, Math.max(S.shield || 0, amount)); S.shieldT = Math.max(S.shieldT || 0, seconds); }
+function bearFerocity(S, amount) { if (S.furyT > 0) return; S.ferocity = Math.min(100, (S.ferocity || 0) + amount); if (S.ferocity >= 100) { S.ferocity = 0; S.furyT = 5 + tf30('beLongFury'); txt30(P.x, P.y - 38, 'UNBEARABLE', BEAR_GREEN); } }
+function bearBleed(e, amount, dur) { applyBleed(e, amount * (P.bleed || 1), dur, false); }
+V30.bearlina = {
+  cols: [BEAR_GREEN, BEAR_MOON, '#e6ae48'],
+  start(S) { S.ferocity = 0; S.furyT = 0; S.barkT = 0; S.shield = 0; S.shieldT = 0; },
+  dmg(e, o, sk) { if (!o.dot && sk === 'be_paws') bearFerocity(v30S(), 4 + tf30('beFuryGain'));
+    return (e.beHoneyU > gtime && sk === 'be_paws' ? 1.25 : 1) * (o.dot && e.beRoarU > gtime ? 1.35 : 1); },
+  hurt(d, src, S) { if (S.barkT > 0) { d *= 0.75 - 0.02 * tf30('beBark'); if (!S.thornU || S.thornU <= gtime) { S.thornU = gtime + 0.3; const old = G.srcW; G.srcW = 'be_briar'; area30(P.x, P.y, 78 * P.area, 7 * dm30(wl30('be_briar')) * (S.furyT > 0 ? 1.5 : 1) * (P.nature || 1), 20); G.srcW = old; } }
+    const soak = Math.min(d, S.shield || 0); S.shield = Math.max(0, (S.shield || 0) - soak); return d - soak; },
+  tick(dt, S) { S.furyT = Math.max(0, S.furyT - dt); S.barkT = Math.max(0, S.barkT - dt); S.shieldT = Math.max(0, S.shieldT - dt); if (!S.shieldT) S.shield = 0;
+    if (S.furyT > 0) { const w = G.weapons.find(w => w.id === 'be_paws'); if (w) w.t -= dt * 0.45; }
+    if (S.dash) dashTick30(S, dt, 28 * P.area, S.dash.dmg, 150, BEAR_GREEN);
+  },
+  meter: S => ({ v: S.furyT > 0 ? 100 : S.ferocity, max: 100, col: S.furyT > 0 ? BEAR_MOON : BEAR_GREEN }),
+  over(S) { if (S.barkT > 0 || S.shield > 0) { ctx.save(); ctx.strokeStyle = S.shield > 0 ? BEAR_MOON : BEAR_GREEN; ctx.lineWidth = 2; ctx.globalAlpha = 0.6; ctx.beginPath(); ctx.ellipse(P.x, P.y - 5, 30, 25, 0, 0, TAU); ctx.stroke(); ctx.restore(); } }
+};
+const bearDesc = (base, cap) => [base, '+20% power', '+15% reach or duration', '+20% power, 12% shorter cooldown', '+20% power', cap];
+sk30('be_paws', { name: 'Heavy Paws', ic: '🐾', cls: 'bearlina', desc: bearDesc('Wide claw swipes that bleed foes and build Ferocity', 'MASTERY: triple swipe') }, w => {
+  const A = aim30(140); if (!A.t) return -1; const L = w.lvl, r = 78 * P.area * (L >= 3 ? 1.15 : 1), dmg = 15 * dm30(L) * (P.feral || 1), S = v30S();
+  const swipe = () => { arc30(A.a, r, 2.5, BEAR_GREEN); cone30(P.x, P.y, A.a, r, 2.5, dmg, 45, e => bearBleed(e, 2.5 * dm30(L), 3)); P.atk = 1; };
+  swipe(); if (L >= 6) for (let i = 1; i <= 2; i++) G.later.push({ t: i * 0.12, src: w.id, f: swipe });
+  return 0.9 * cd30(L);
+});
+sk30('be_hug', { name: 'Bear Hug', ic: '♥', cls: 'bearlina', desc: bearDesc('Crush the strongest close foe; pin normal foes, slow bosses', 'MASTERY: crush a second foe') }, w => {
+  const L = w.lvl, tg = nearestN(P.x, P.y, 12, 105 * P.area * (L >= 3 ? 1.15 : 1)).sort((a, b) => b.hp - a.hp).slice(0, L >= 6 ? 2 : 1); if (!tg.length) return -1;
+  for (const e of tg) { damage(e, 48 * dm30(L) * (P.feral || 1)); if (e.boss) slow30(e, 0.25, 2); else stun30(e, 1.2); ring30(e.x, e.y, 28, BEAR_MOON, 0.4); } P.atk = 1; return 5 * cd30(L);
+});
+sk30('be_cheeks', { name: 'Cheek Sweep', ic: '◕', cls: 'bearlina', desc: bearDesc('A broad rear sweep knocks foes away; collisions hurt other foes', 'MASTERY: full-circle sweep') }, w => {
+  const A = aim30(150); if (!A.t) return -1; const L = w.lvl, r = 105 * P.area * (L >= 3 ? 1.15 : 1), arc = L >= 6 ? TAU : 3.8;
+  v30S().cheekU = gtime + 0.4; arc30(A.a, r, arc, BEAR_MOON);
+  const collisions = []; cone30(P.x, P.y, A.a, r, arc, 26 * dm30(L), 210, e => { if (collisions.length < 6) collisions.push({ e, x: e.x, y: e.y }); });
+  for (const q of collisions) query(q.x, q.y, 35, e => { if (e !== q.e && !e.dead && in30(e, q.x, q.y, 25)) damage(e, 7 * dm30(L), { src: w.id }); });
+  P.atk = 1; return 4 * cd30(L);
+});
+sk30('be_briar', { name: 'Briarhide', ic: '♣', cls: 'bearlina', desc: bearDesc('For 4s take 25% less damage and retaliate with nearby thorns', 'MASTERY: gain a 10% max-health shield') }, w => {
+  const S = v30S(), L = w.lvl; S.barkT = (L >= 3 ? 4.6 : 4); if (L >= 6) bearShield(S, P.maxHp * 0.1, S.barkT); ring30(P.x, P.y, 42, BEAR_GREEN, 0.5); return 10 * cd30(L);
+});
+UK30.be_honey = { gr: 1, upd(u, dt) { if ((u.tk -= dt) > 0) return; u.tk = 0.25; query(u.x, u.y, u.r + 30, e => { if (!in30(e, u.x, u.y, u.r)) return; slow30(e, 0.45, 0.5); e.beHoneyU = gtime + 0.7; }); },
+  draw(u) { ctx.save(); ctx.fillStyle = hexA('#e6ae48', Math.min(0.3, u.life * 0.3)); ctx.beginPath(); ctx.ellipse(u.x, u.y, u.r, u.r * 0.6, 0, 0, TAU); ctx.fill(); ctx.restore(); } };
+sk30('be_honey', { name: 'Honeytrap', ic: '⬡', cls: 'bearlina', desc: ['Drop honey: slows foes 45%; Heavy Paws deals 25% more damage to them', 'Patches last 1s longer', '15% wider patches', '12% shorter cooldown', 'Patches last another 1s', 'MASTERY: drop three patches'] }, w => {
+  const L = w.lvl, n = L >= 6 ? 3 : 1; for (let i = 0; i < n; i++) { const a = i * TAU / n, r = n > 1 ? 45 : 0; u30('be_honey', { x: P.x + Math.cos(a) * r, y: P.y + Math.sin(a) * r, r: 65 * P.area * (L >= 3 ? 1.15 : 1), life: 4 + (L >= 2 ? 1 : 0) + (L >= 5 ? 1 : 0), tk: 0 }); } return 7 * cd30(L);
+});
+sk30('be_charge', { name: 'Rumbling Charge', ic: '➠', cls: 'bearlina', desc: bearDesc('Charge through foes with protective dash frames; no screen shake', 'MASTERY: charge hits also bleed') }, w => {
+  const A = aim30(280), S = v30S(), L = w.lvl; if (!A.t || S.dash) return -1;
+  dash30(S, A.a, Math.min(230, Math.hypot(A.t.x - P.x, A.t.y - P.y) + 30) * (L >= 3 ? 1.15 : 1), 0.3, e => { if (L >= 6) bearBleed(e, 6 * dm30(L), 3); }); S.dash.dmg = 27 * dm30(L) * (P.feral || 1); return 6 * cd30(L);
+});
+sk30('be_roar', { name: 'Rending Roar', ic: '◉', cls: 'bearlina', desc: bearDesc('Roar hurts nearby foes and increases their bleed damage by 35% for 4s', 'MASTERY: normal foes are briefly stunned') }, w => {
+  if (!nearestN(P.x, P.y, 1, 190).length) return -1; const L = w.lvl, r = 160 * P.area * (L >= 3 ? 1.15 : 1);
+  area30(P.x, P.y, r, 19 * dm30(L), 25, e => { e.beRoarU = gtime + 4; if (L >= 6 && !e.boss) stun30(e, 0.6); }); ring30(P.x, P.y, r, BEAR_GREEN, 0.6); return 8 * cd30(L);
+});
+sk30('be_breakfast', { name: 'Second Breakfast', ic: '✿', cls: 'bearlina', desc: ['Grow and eat a berry: heal 6% max HP; at full health gain an 8% shield for 6s', 'Healing and shield +20%', 'Shield lasts 7s', 'Healing and shield +20%, 12% shorter cooldown', 'Healing and shield +20%', 'MASTERY: also refresh Briarhide for 2s if learned'] }, w => {
+  const S = v30S(), L = w.lvl, power = dm30(L) * (G.evo && G.evo.be_breakfast ? 1.3 : 1); if (P.hp >= P.maxHp) bearShield(S, P.maxHp * 0.08 * power, L >= 3 ? 7 : 6); else heal(P.maxHp * 0.06 * power);
+  if (L >= 6 && wl30('be_briar')) S.barkT = Math.max(S.barkT, 2); txt30(P.x, P.y - 25, '✿', '#ef9aca', { sz: 15 }); return 12 * cd30(L);
+});
+ULTS.bearlina = { n: 'Full Moon', ic: '☾', col: BEAR_MOON, d: 'Leap and land rear-first on a moon rune; crush, root and shield. No screen shake.', cast() {
+  const S = v30S(); S.moonStart = gtime; S.moonU = gtime + 1.1; G.beNoShakeU = gtime + 2; G.shake = 0;
+  P.inv = Math.max(P.inv, 0.9); uRing(P.x, P.y, uR(190), BEAR_MOON, 0.65, 4);
+  uLater(0.55, () => { const n = uArea(P.x, P.y, uR(190), uD(6), 65, e => { if (e.boss) slow30(e, 0.3, 3); else { stun30(e, 1); slow30(e, 0.85, 3); } });
+    bearShield(S, P.maxHp * Math.min(0.3, 0.08 + 0.025 * n), 6); uRing(P.x, P.y, uR(235), BEAR_GREEN, 0.8, 4); uSpark(P.x, P.y, BEAR_GREEN, 24, 140); Snd.play('land'); G.shake = 0;
+    for (let i = 0; i < 8; i++) { const a = i * TAU / 8; uBeam(P.x, P.y, P.x + Math.cos(a) * uR(175), P.y + Math.sin(a) * uR(105), 3, BEAR_GREEN, 0.65); }
+  });
+} };
+
+for (const [id,p,n] of [['be_paws','might','Direbear Claws'],['be_hug','might','Crushing Cuddle'],['be_cheeks','expanse','Bakery Cyclone'],['be_briar','vigor','Ironbriar Hide'],['be_honey','expanse','Golden Grove'],['be_charge','swift','Moonlit Stampede'],['be_roar','haste','Call of the Great Bear'],['be_breakfast','renewal','Midnight Feast']])
+  evo30(id,p,n,BEAR_MOON,1.3,0.8,1.15,'', '30% more damage, 20% shorter cooldown and 15% more attack area');
+
+EVO.be_honey.d = '20% shorter cooldown and 15% wider honey patches';
+EVO.be_breakfast.d = '20% shorter cooldown; berry healing and shields are 30% stronger';
+
+/* Approved racial sprite atlas. Labels lie outside each source rectangle. */
+const BEAR_ATLAS = new Image(), BEAR_SPRITES = {};
+function bearExtractAtlas() { // Isolate each connected bear so overlapping atlas bounds cannot leak neighbors or labels.
+  const c = document.createElement('canvas'); c.width=BEAR_ATLAS.width;c.height=BEAR_ATLAS.height;const g=c.getContext('2d',{willReadFrequently:true});g.drawImage(BEAR_ATLAS,0,0);
+  const src=g.getImageData(0,0,c.width,c.height), W=c.width, H=c.height, marks=new Uint8Array(W*H), queue=new Int32Array(W*H);
+  for(const [ri,race] of ['cat','elf','ogre','dwarf','troll','kitsune','scale','shade'].entries()) { const row=ri>=4?1:0, top=row?510:24, bottom=row?938:450, seed=(row?730:260)*W+Math.floor((ri%4)*384+200), tag=ri+1;
+    let head=0,tail=0,x0=W,y0=H,x1=0,y1=0;queue[tail++]=seed;marks[seed]=tag;
+    while(head<tail){const n=queue[head++],x=n%W,y=Math.floor(n/W);x0=Math.min(x0,x);x1=Math.max(x1,x);y0=Math.min(y0,y);y1=Math.max(y1,y);
+      for(const q of [n-1,n+1,n-W,n+W]){const qx=q%W,qy=Math.floor(q/W);if(q<0||q>=W*H||Math.abs(qx-x)+Math.abs(qy-y)!==1||qy<top||qy>=bottom||marks[q]||src.data[q*4+3]<=80)continue;marks[q]=tag;queue[tail++]=q;}}
+    const out=document.createElement('canvas');out.width=x1-x0+1;out.height=y1-y0+1;const og=out.getContext('2d'), data=og.createImageData(out.width,out.height);
+    for(let y=0;y<out.height;y++)for(let x=0;x<out.width;x++){const q=(y+y0)*W+x+x0;if(marks[q]!==tag)continue;const d=(y*out.width+x)*4;data.data.set(src.data.subarray(q*4,q*4+4),d);}og.putImageData(data,0,0);BEAR_SPRITES[race]=out;
+  }
+}
+BEAR_ATLAS.onload = () => { bearExtractAtlas(); if (state === 'select') { const st = $('selStage'); if (st) delete st.dataset.k; renderSelect(); } else if (state === 'race') renderRace(); else if (state === 'talents') renderTalents(); };
+BEAR_ATLAS.src = 'assets/bearlina-races.png';
+
+/* Small native bear rig, used in every preview and in the world in both art modes. */
+function drawBearlina(g, o) {
+  const race = raceOf(o.race || save.race), t = o.t || 0, mv = o.moving ? 1 : 0;
+  const pal = { cat: ['#c68b42','#714423','#ffe0a0'], elf: ['#785434','#3b3022','#c5a77a'], ogre: ['#78895b','#39462d','#aebf7c'], dwarf: ['#b55e31','#62361f','#e3b075'], troll: ['#398f96','#234954','#91d9ca'], kitsune: ['#dd7f33','#8b4325','#ffe8bc'], scale: ['#398a70','#204a44','#b8d87c'], shade: ['#7960b0','#342951','#c6acfa'] }[race];
+  const S = typeof G !== 'undefined' && G && G.cls === 'bearlina' ? G.v30 : null;
+  const moon = S && S.moonU > gtime ? Math.sin(Math.min(1, (gtime - S.moonStart) / 0.55) * Math.PI) * 22 : 0;
+  const bob = mv ? Math.abs(Math.sin(t * 9)) * 1.7 : Math.sin(t * 2.5) * 0.5;
+  if (BEAR_ATLAS.complete && BEAR_ATLAS.naturalWidth) {
+    const ix = ['cat','elf','ogre','dwarf','troll','kitsune','scale','shade'].indexOf(race), row = ix >= 4 ? 1 : 0;
+    g.save(); if (!o.noShadow) { g.fillStyle = 'rgba(18,12,24,.25)'; g.beginPath(); g.ellipse(0,18,25,4,0,0,TAU);g.fill(); }
+    g.translate(0,-bob-moon); const attack = o.atk || 0, sway = mv ? Math.sin(t*9)*.025 : 0;
+    g.translate(0,18);g.rotate(sway + attack*.04);g.scale(1+attack*.035,1-attack*.025);g.translate(0,-18);
+    const outfit = OUTFITS[o.outfit || save.outfit]; if (o.outfit && o.outfit !== 'crimson' && outfit) g.filter = o.outfit === 'midnight' ? 'hue-rotate(165deg) saturate(.8)' : o.outfit === 'ashen' ? 'grayscale(.8)' : 'sepia(.3) saturate(1.4)';
+    const sprite=BEAR_SPRITES[race]; if(sprite) {const h=70*sprite.height/sprite.width;g.drawImage(sprite,-35,18-h,70,h);}g.filter='none';
+    if (attack > 0) {g.strokeStyle='#c8f5ac';g.lineWidth=1.2;for(let i=0;i<3;i++){g.beginPath();g.moveTo(24+i*3,-10);g.lineTo(31+i*3,-2);g.stroke();}}
+    g.restore();return;
+  }
+  const ell = (x,y,rx,ry,c) => { g.fillStyle = c; g.beginPath(); g.ellipse(x,y,rx,ry,0,0,TAU); g.fill(); g.strokeStyle='#251a2d'; g.lineWidth=0.9; g.stroke(); };
+  g.save(); if (!o.noShadow) ell(0,18,25,3,'#251a2d'); g.translate(0,-bob-moon);
+  if (race === 'ogre') g.scale(1.08,1.04); if (race === 'dwarf') g.scale(1.06,0.9);
+  const cheek = S && S.cheekU > gtime ? Math.sin((S.cheekU-gtime)*15)*2 : 0;
+  for (let i=0;i<4;i++) { const x=[-18,-7,10,20][i], walk=mv*Math.sin(t*9+i*Math.PI)*3; ell(x,10+walk,5,9,pal[1]); ell(x+2,17+walk,6,3,pal[0]); for(let k=0;k<3;k++){g.fillStyle='#e6d8bd';g.fillRect(x+3+k*1.6,17+walk,1,2);} }
+  ell(-3,-2,24,17,pal[0]); ell(-19+cheek,-2,13,17,pal[0]); ell(-13+cheek,2,10,14,pal[0]); ell(-27,-8,4,4,pal[0]);
+  ell(14,-6,13,17,pal[0]); ell(23,-16,11,11,pal[0]); ell(17,-25,4,4,pal[0]); ell(28,-25,3,4,pal[0]); ell(31,-12,7,5,pal[2]); ell(36,-14,2,2,'#241e2a');
+  g.fillStyle=race==='shade'?'#f0dcff':'#b7ff8a'; g.fillRect(26,-19,3,2);
+  if(race==='cat'){g.strokeStyle=pal[1];g.lineWidth=2;for(let i=0;i<6;i++){g.beginPath();g.moveTo(-23+i*5,-14);g.lineTo(-19+i*5,-6);g.stroke();}}
+  if(race==='elf'||race==='ogre'){for(let i=0;i<8;i++)ell(-23+i*5,-16-Math.sin(i)*2,4,2,race==='elf'?'#5c9c48':'#9aaf4a');}
+  if(race==='dwarf'){for(let i=0;i<4;i++){ell(15,-7+i*4,2,3,'#dd9354');} for(let i=0;i<3;i++)ell(-14+i*8,-16,4,3,'#92999e');}
+  if(race==='troll'){g.fillStyle='#ee7838';for(let i=0;i<7;i++){g.beginPath();g.moveTo(-22+i*6,-16);g.lineTo(-19+i*6,-25);g.lineTo(-16+i*6,-16);g.fill();}g.fillStyle='#f5e6c1';g.beginPath();g.moveTo(26,-10);g.lineTo(27,-2);g.lineTo(30,-10);g.fill();}
+  if(race==='scale'){for(let i=0;i<12;i++)ell(-20+(i%6)*6,-13+Math.floor(i/6)*6,3,2,i%3?'#70b98a':'#e6c55e');}
+  if(race==='kitsune'){g.fillStyle=pal[2];g.beginPath();g.moveTo(15,-24);g.lineTo(15,-33);g.lineTo(21,-25);g.fill();for(let i=0;i<2;i++)ell(-18+i*12,-25+Math.sin(t*4+i)*3,2,4,'#a0c9ff');}
+  if(race==='shade'){g.strokeStyle='#b38bff';g.lineWidth=1.4;for(let i=0;i<4;i++){g.beginPath();g.moveTo(-22+i*10,-13);g.quadraticCurveTo(-30+i*10,-25,-20+i*10,-29+Math.sin(t*3+i)*4);g.stroke();}}
+  g.strokeStyle='#7fb263';g.lineWidth=2;g.beginPath();g.moveTo(11,-14);g.lineTo(18,1);g.stroke();ell(18,1,3.5,4,'#c0a65a');ell(18,1,1.6,2,'#9ded8d');
+  if(o.atk>0){g.strokeStyle='#dcf9bc';g.lineWidth=1.2;for(let i=0;i<3;i++){g.beginPath();g.moveTo(28+i*3,-4);g.lineTo(34+i*3,4);g.stroke();}}
+  g.restore();
+}
+
 addEventListener('resize', resize); addEventListener('orientationchange', () => setTimeout(resize, 200));
 if (canPC() && (matchMedia('(pointer: fine)').matches || navigator.maxTouchPoints === 0)) { PC = true; document.body.classList.add('pc'); } // v16
 if (IS_APP) document.body.classList.add('desktopapp'); // v17: running inside the Windows/desktop app
@@ -16338,6 +16481,20 @@ const BGA = (() => {
   }
   const P3 = (bi, a, b, c) => [a, b, c][bi] || a;
   const T = {
+    bearlina(K, tc, bi) { const { W,H,R }=K, cx=W/2, hz=H*.68;
+      const sky=['#251329','#15231c','#19132f'][bi%3], glow=['#efb66e','#9cda87','#c8aeef'][bi%3];
+      K.sky([sky,'#1a2930','#35483b']); K.stars(28,'#dceacb',H*.5);
+      K.circ(W*.73,H*.18,12,'#e8d8ff'); K.circ(W*.73-5,H*.18-3,10,sky); K.glow(W*.73,H*.18,35,glow,.3);
+      for(const x of [W*.1,W*.9]){K.r(x-5,0,10,hz,'#493728');for(let i=0;i<4;i++)K.circ(x-10+i*6,10+i*6,13,'#263e29');}
+      K.floor(hz,'#384733','#111b19',cx,'#68725a'); K.arch(cx,hz-48,62,66,'#49372f',0); K.arch(cx,hz-43,50,61,'#101317',0);
+      K.glow(cx,hz-12,50,glow,.22); for(let i=0;i<5;i++){K.circ(cx-18+i*9,hz+5,6,'#7d8866');K.px(cx-18+i*9,hz+3,glow);}
+      if(bi===0){for(let i=0;i<3;i++)K.line(cx-8+i*7,hz-29,cx-4+i*7,hz-14,'#efb66e');}
+      else if(bi===1){for(let i=0;i<7;i++)K.circ(cx-24+i*8,hz-32-(i%2)*6,4,'#86b46b');}
+      else {for(let i=0;i<7;i++){K.r(cx-24+i*8,hz-8,2,6,'#6e9e61');K.circ(cx-24+i*8,hz-10,3,'#d69acc');}}
+      K.circ(cx,hz-18,5,glow); for(const [x,y] of [[-7,-25],[0,-28],[7,-25]])K.circ(cx+x,hz+y,2.5,glow);
+      K.dots(22,glow,0,H*.2,W,H*.8);K.fog(hz,'#bacf9b',.1);K.vig(.5);
+    },
+
     /* Knight (Paladin): cathedral nave, stained glass, pillars, banners, pews, light shafts */
     paladin(K, tc, bi) { const { W, H } = K, cx = W / 2;
       const pal = P3(bi, ['#3a5aa8', '#6a8ad8', '#c9d4ea', '#d8b04a', '#2a3a78'], ['#a8302a', '#ffb04a', '#e0603a', '#ffe08a', '#6a1a1a'], ['#d8b04a', '#fff2a0', '#ffe08a', '#ffffff', '#a87a2a']);
@@ -16600,8 +16757,8 @@ const BGA = (() => {
       K.vig(0.5); K.frame('gold', '#1e1a30', '#ffd36a', tc); },
   };
   /* themed node frames + connectors (CSS reads data-th) */
-  const TH = { paladin: 'stone', engineer: 'brass', alchemist: 'wood', bard: 'gold', bloodknight: 'iron', chrono: 'brass', maestro: 'neon', unraveler: 'thread', gunslinger: 'wood', river: 'vine', visage: 'iron', druid: 'vine', reaper: 'bone', rogue: 'iron', warlock: 'bone', summoner: 'crystal', ranger: 'wood', rift: 'crystal', mage: 'gold', paragon: 'gold' };
-  const AMB = { rogue: 'mote', warlock: 'ember', summoner: 'wisp', ranger: 'leaf', reaper: 'mote', rift: 'star', druid: 'wisp', mage: 'ember', paragon: 'star', paladin: 'mote', engineer: 'ember', alchemist: 'bub', bard: 'star', bloodknight: 'ember', chrono: 'star', maestro: 'bub', unraveler: 'wisp', gunslinger: 'ember', river: 'ember', visage: 'wisp', mt0: 'ember', mt1: 'mote', mt2: 'star', mt3: 'mote' };
+  const TH = { bearlina: 'vine', paladin: 'stone', engineer: 'brass', alchemist: 'wood', bard: 'gold', bloodknight: 'iron', chrono: 'brass', maestro: 'neon', unraveler: 'thread', gunslinger: 'wood', river: 'vine', visage: 'iron', druid: 'vine', reaper: 'bone', rogue: 'iron', warlock: 'bone', summoner: 'crystal', ranger: 'wood', rift: 'crystal', mage: 'gold', paragon: 'gold' };
+  const AMB = { bearlina: 'leaf', rogue: 'mote', warlock: 'ember', summoner: 'wisp', ranger: 'leaf', reaper: 'mote', rift: 'star', druid: 'wisp', mage: 'ember', paragon: 'star', paladin: 'mote', engineer: 'ember', alchemist: 'bub', bard: 'star', bloodknight: 'ember', chrono: 'star', maestro: 'bub', unraveler: 'wisp', gunslinger: 'ember', river: 'ember', visage: 'wisp', mt0: 'ember', mt1: 'mote', mt2: 'star', mt3: 'mote' };
   /* ---------- Armory: stone wall, weapon racks, shields, banners, torches, forge ---------- */
   const ARM = [
     (K) => { K.bricks(0, K.H, '#3a2a24', '#22160f', 12, 6); const cx = K.W / 2, cy = K.H - 40; K.r(cx - 22, cy - 10, 44, 50, '#1a1210'); K.circ(cx, cy - 10, 22, '#1a1210'); K.glow(cx, cy + 10, 36, '#ff7a2a', 0.85); K.r(cx - 16, cy + 18, 32, 6, '#ffb03a'); for (let i = 0; i < 8; i++) K.r(cx - 14 + i * 4, cy + 10 + (i % 3) * 2, 2, 8, i % 2 ? '#ff5a1a' : '#ffd23a');
@@ -16636,7 +16793,7 @@ const BGA = (() => {
     if (!url) return; el.classList.add('bga', 'amb-' + (AMB[mt ? 'mt' + bi : cls] || 'mote')); el.style.setProperty('--tbg', `url(${url})`); if (!mt && TH[cls]) el.dataset.th = TH[cls]; if (mt) armory(); }
   function armory() { const s = typeof $ === 'function' && $('shop'); if (!s || s.dataset.bga) return; const url = paint('armory', 240, 150, wall); if (!url) return; s.dataset.bga = 1; s.classList.add('armory'); s.style.setProperty('--abg', `url(${url})`); }
   /* ---------- v32: race homeland vignettes + class-select hero hall (painted once per key, cached as dataURL) ---------- */
-  const ACC = { rogue: '#ff4a6a', warlock: '#b05aff', summoner: '#3ae0d0', ranger: '#8ad85a', reaper: '#cfc6e6', rift: '#6a7aff', druid: '#9ae04a', mage: '#4aa8ff',
+  const ACC = { bearlina: '#b6d88b', rogue: '#ff4a6a', warlock: '#b05aff', summoner: '#3ae0d0', ranger: '#8ad85a', reaper: '#cfc6e6', rift: '#6a7aff', druid: '#9ae04a', mage: '#4aa8ff',
     paladin: '#ffd76a', engineer: '#ffa040', alchemist: '#6aff9a', bard: '#ffcf4a', bloodknight: '#ff3a4a', chrono: '#e8c070', maestro: '#ff4ae0', unraveler: '#c890ff', gunslinger: '#ffc85a', river: '#ff5fae', visage: '#c8d4ff', paragon: '#fff0a0' };
   const RC = { cat: '#ffb0d8', elf: '#7affc0', ogre: '#d8b048', dwarf: '#ffb040', troll: '#6ad8ff', kitsune: '#ff8a3a', scale: '#4ae0b0', shade: '#b07aff', human: '#ffd890' };
   const RPT = { cat: 'fly', elf: 'fly', ogre: 'ember', dwarf: 'ember', troll: 'fly', kitsune: 'petal', scale: 'fly', shade: 'void', human: 'fly' };
@@ -16894,7 +17051,7 @@ const BGA = (() => {
     b.setAttribute('aria-label', b.getAttribute('aria-label') + (bi < 0 ? ` ${CLASSES[cls].name} card.` : ` ${tr.name} tree.`));
   } catch (e) {} }
   /* ---------- v32: the whole talent screen takes its class palette + a dimmed, blurred copy of the class scene ---------- */
-  const TPAL = { // accent, mid, dark, deepest, second accent
+  const TPAL = { bearlina: ['#c8aeef','#64814b','#1c2a1a','#0c130c','#e9ba78'], // accent, mid, dark, deepest, second accent
     rogue: ['#ff6a7a', '#8a2a3a', '#2a0e16', '#12060a', '#c8c0d8'], warlock: ['#9aff5a', '#3a7a1a', '#101c0a', '#050805', '#c86aff'],
     summoner: ['#5af0d8', '#1c7d70', '#0a2a26', '#041210', '#b0ffe8'], ranger: ['#a8e070', '#5a7a2a', '#1c2a10', '#0a1206', '#e0b878'],
     reaper: ['#e0d8f0', '#5e5868', '#1e1a24', '#0c0a10', '#9affc8'], rift: ['#e08aff', '#6a2a9a', '#1c0a2c', '#0a0414', '#7ae8ff'],

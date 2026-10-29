@@ -1,11 +1,11 @@
 {
- "version": "51",
- "date": "2026-10-28",
+ "version": "52",
+ "date": "2026-10-29",
  "minLauncher": "2.0.0",
  "notes": [
-  "A new map: The Neural Foundry! Survive 15:00 in Gourdmas Hollow to unlock it.",
-  "A cold machine-city of slate floors and glowing teal circuits, with 5 new enemies, 5 new bosses, its own town (The Quiet Terminal) and music.",
-  "All nine older maps also get 27 new scenery props (3 per map) scattered around, such as the organ and clock in the Heart. Scenery is decoration only."
+  "Bearlina is a free playable class: permanent bear form with eight racial looks.",
+  "Eight six-rank skills, Ferocity, three talent trees and the Full Moon ultimate. Full Moon never shakes the camera.",
+  "Unique moonlit-den artwork across talent trees, skill cards and class-selection banners."
  ],
  "files": [
   {
@@ -30,8 +30,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "6de54b34483b9378eedd79a20d5026a2faf868f45aa372bdba3e5dcb5d627ff5",
-   "size": 2793087
+   "sha256": "598be1d1a25c490d6315470272e96e537bbdc7a02336ef0ac9efd11bb9c9bfc0",
+   "size": 2813905
   },
   {
    "name": "manifest.webmanifest",
@@ -40,8 +40,8 @@
   },
   {
    "name": "sw.js",
-   "sha256": "ef2a9eb30e7777e7d20b9c2f93a6457cadbfc37c84550798b7e4c19827e0bfc2",
-   "size": 1466
+   "sha256": "98a87351310237b369dae9952b6d2f63c5ffb7f1c48f4c1ecfa12ec7da15b037",
+   "size": 1497
   }
  ]
 }
