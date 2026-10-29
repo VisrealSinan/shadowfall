@@ -42,6 +42,11 @@
    "name": "sw.js",
    "sha256": "98a87351310237b369dae9952b6d2f63c5ffb7f1c48f4c1ecfa12ec7da15b037",
    "size": 1497
+  },
+  {
+   "name": "assets/bearlina-races.png",
+   "sha256": "0b79fa9929bd0fd9690bc00160308a2fb4dd07d310aba14c7b314672102de07d",
+   "size": 2947813
   }
  ]
 }
