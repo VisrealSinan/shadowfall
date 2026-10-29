@@ -1,0 +1,77 @@
+{
+  "filename": "Bearlina-Claude-Handoff.zip",
+  "bytes": 6993020,
+  "sha256": "18bbc1f3d8e634f6ed7f72dc014b07d9939c2d51b8ecfffcaa030f05eb2508c4",
+  "parts": [
+    {
+      "name": "Bearlina-Claude-Handoff.zip.part001",
+      "bytes": 500000,
+      "sha256": "83437ccac3a1650a413600016d1161556199526266b20699b44c9830ba556209"
+    },
+    {
+      "name": "Bearlina-Claude-Handoff.zip.part002",
+      "bytes": 500000,
+      "sha256": "9596ca7bebc706919f5b6cebb030fa38564ba6430aa28b8b07bd455b53ee5377"
+    },
+    {
+      "name": "Bearlina-Claude-Handoff.zip.part003",
+      "bytes": 500000,
+      "sha256": "5b0e7b6a8a0ff835ac5cb62d5f90fcb66cf6787d0fcdb838802e5e2f81911075"
+    },
+    {
+      "name": "Bearlina-Claude-Handoff.zip.part004",
+      "bytes": 500000,
+      "sha256": "92d714c63ba3b60cf72ac38287d64b605a26325b4cb470aba4d0ab4f6d3a393d"
+    },
+    {
+      "name": "Bearlina-Claude-Handoff.zip.part005",
+      "bytes": 500000,
+      "sha256": "3713bbc5ae334dde585f7c5d794a0877c3fae299c8de920b84c7bc2bd9eeea51"
+    },
+    {
+      "name": "Bearlina-Claude-Handoff.zip.part006",
+      "bytes": 500000,
+      "sha256": "d36d2f8c32ffdb579d6d759ee4ea85768e9134981f5d47fdefb063159b7abf41"
+    },
+    {
+      "name": "Bearlina-Claude-Handoff.zip.part007",
+      "bytes": 500000,
+      "sha256": "eb0b07420bb6cd812b524757238e3b2e055304c12165d724971d53db5fffccfe"
+    },
+    {
+      "name": "Bearlina-Claude-Handoff.zip.part008",
+      "bytes": 500000,
+      "sha256": "41b2b5ad7cc7d6d788a1d8fead93be345df5a1b66978b69ad74b28a1c36389a9"
+    },
+    {
+      "name": "Bearlina-Claude-Handoff.zip.part009",
+      "bytes": 500000,
+      "sha256": "a8374fc0976f8da6fbf1bf31727c0fcd7699bf331b8a47c8084dba460be19014"
+    },
+    {
+      "name": "Bearlina-Claude-Handoff.zip.part010",
+      "bytes": 500000,
+      "sha256": "f96679829ec1aeb8063907e16cf24f74b9bbf6f60aed4a9bb9667d027afa45f9"
+    },
+    {
+      "name": "Bearlina-Claude-Handoff.zip.part011",
+      "bytes": 500000,
+      "sha256": "4dd455e06dbefabeb058efdb18543d96cb491108fef106758d63afb5bbec16e0"
+    },
+    {
+      "name": "Bearlina-Claude-Handoff.zip.part012",
+      "bytes": 500000,
+      "sha256": "4e718d4033bb4d4adcfdf5052a7c331b7d5e20b2e7e1800dcbf9bb1ecde9ed2d"
+    },
+    {
+      "name": "Bearlina-Claude-Handoff.zip.part013",
+      "bytes": 500000,
+      "sha256": "bf4292436077ca996ef59fdc69c4b5e403afbbd91f189654ab72e7fb25749c62"
+    },
+    {
+      "name": "Bearlina-Claude-Handoff.zip.part014",
+      "bytes": 493020,
+      "sha256": "13a304dcfbb02ddb2ca900b44346ca18ebf123942cf21a58f05b587fe858d458"
+    }
+  ]
+}
