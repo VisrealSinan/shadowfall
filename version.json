@@ -1,11 +1,11 @@
 {
- "version": "50",
+ "version": "51",
  "date": "2026-10-28",
  "minLauncher": "2.0.0",
  "notes": [
-  "Run Twists! On the map screen, tap the new Twists bar to bend the rules of your next run and earn bonus Shards.",
-  "Pick up to 3 of 10: Glass Cannon, Swarm, Giants, Hasty, Bloodless, Fast Learner, Eternal Night, Bomb Party, Frenzy and Paper Tigers. Tap Random for a surprise, or Daily for the same two twists everyone gets today (your best Daily time is remembered).",
-  "Your twists show as little icons at the top of the screen during the run and are listed on the results screen."
+  "A new map: The Neural Foundry! Survive 15:00 in Gourdmas Hollow to unlock it.",
+  "A cold machine-city of slate floors and glowing teal circuits, with 5 new enemies, 5 new bosses, its own town (The Quiet Terminal) and music.",
+  "All nine older maps also get 27 new scenery props (3 per map) scattered around, such as the organ and clock in the Heart. Scenery is decoration only."
  ],
  "files": [
   {
@@ -30,8 +30,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "c03d65bb938243848cafe18638a2d3ed274c757df7fc340ef37a17fb55c0954b",
-   "size": 2443070
+   "sha256": "6de54b34483b9378eedd79a20d5026a2faf868f45aa372bdba3e5dcb5d627ff5",
+   "size": 2793087
   },
   {
    "name": "manifest.webmanifest",
@@ -40,7 +40,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "51175195ff9f06baddd70912c0d331c53bec30debe6ad34e9d9f339c55534e0c",
+   "sha256": "ef2a9eb30e7777e7d20b9c2f93a6457cadbfc37c84550798b7e4c19827e0bfc2",
    "size": 1466
   }
  ]
