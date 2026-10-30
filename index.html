@@ -1501,6 +1501,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
  <div class="keynote"><b>Install:</b> in Chrome or Edge use the address-bar <b>Install</b> icon (or menu, then Install Shadowfall) to play in its own window, offline too. Your progress is stored in this browser on this device; it doesn't sync with your phone.</div>
  <button class="btn" id="btnKeysBack" data-kh="Esc">Back</button>
 </div>
+<script src="assets/actor-animation-manifest.js"></script>
+<script src="assets/actor-animations.js"></script>
 <script>
 'use strict';
 /* =========================================================
@@ -3345,6 +3347,7 @@ function foxTails(g, R, C, t, n, sc) { // fluffy kitsune tails (count grows with
     g.restore(); }
 }
 function drawHero(g, o) {
+  if (ActorAnimations.draw(g, o)) return;
   if (o.cls === 'bearlina') return drawBearlina(g, o);
   if (PXA.hero.ok(o)) return PXA.hero.vec(g, o); // v32: Shade has a pixel body now; the vector ghost stays for the classic-art setting
   if (!o._gh && raceOf(o.race || (typeof save !== 'undefined' && save && save.race)) === 'shade') return drawGhost(g, o);
@@ -11321,7 +11324,7 @@ Object.assign(MSRC, { hound: 'hounds', imp: 'imps', colossus: 'colossus' });
 WTICK.hounds = WTICK.imps = WTICK.colossus = () => { };
 function sumAuto(dt) { // v25: the Summoner now auto-attacks with shadow bolts
   G.sat = (G.sat || 0) - dt; if (G.sat > 0) return; const tg = nearestN(P.x, P.y, 1, 380)[0]; if (!tg) { G.sat = 0.15; return; } G.sat = Math.max(0.35, 0.8 - 0.01 * G.level) * P.cd;
-  const a = Math.atan2(tg.y - P.y, tg.x - P.x); G.srcW = '@summonbolt'; projs.push({ k: 'gbolt', x: P.x, y: P.y - 6, vx: Math.cos(a) * 480, vy: Math.sin(a) * 480, a, r: 7, dmg: (9 + 0.9 * G.level) * (1 + 0.5 * (P.minion - 1)), pierce: 0, life: 0.85, hit: new Set(), col: '#b56bff', src: '@summonbolt' }); G.srcW = null; P.atk = 1; Snd.play(SND32.key('@summonbolt') || 'zap'); // v32: Summoner signature bolt voice
+  const a = Math.atan2(tg.y - P.y, tg.x - P.x); G.srcW = '@summonbolt'; projs.push({ k: 'gbolt', x: P.x, y: P.y - 6, vx: Math.cos(a) * 480, vy: Math.sin(a) * 480, a, r: 7, dmg: (9 + 0.9 * G.level) * (1 + 0.5 * (P.minion - 1)), pierce: 0, life: 0.85, hit: new Set(), col: '#b56bff', src: '@summonbolt' }); G.srcW = null; P.atk = 1; ActorAnimations.cue('attack'); Snd.play(SND32.key('@summonbolt') || 'zap'); // v32: Summoner signature bolt voice
 }
 /* ================= v25 SAFE HAVEN: a portal opens every ~3-4 min; step in to reach a walled town with all four shops where nothing can hurt you.
    You get 30 seconds (the clock pauses while a shop window is open), then the portal throws you back where you left. ================= */
@@ -13049,7 +13052,8 @@ function drawWorldBg(cx, cy) {
   ctx.imageSmoothingEnabled = true;
 }
 let HB = null, HB2 = null;
-function drawHeroLit(o, x, y, facing, sc) { if (PXA.hero.ok(o)) return PXA.hero.world(o, x, y, facing, sc); // hero is drawn into a small buffer, then shaded (multi-tone + rim light from the sky colour) and stamped into the world
+function drawHeroLit(o, x, y, facing, sc) {
+  if (ActorAnimations.variant(o)) { ctx.save(); ctx.translate(x,y); ctx.scale(facing * sc, sc); const drawn = ActorAnimations.draw(ctx, Object.assign({},o,{world:true})); ctx.restore(); if (drawn) return; } if (PXA.hero.ok(o)) return PXA.hero.world(o, x, y, facing, sc); // hero is drawn into a small buffer, then shaded (multi-tone + rim light from the sky colour) and stamped into the world
   const z = Math.min(4, DPR * ZOOM), bw = 92 * sc, bh = 104 * sc, ox = bw / 2, oy = 78 * sc, pw = Math.ceil(bw * z), ph = Math.ceil(bh * z);
   if (!HB || HB.width !== pw || HB.height !== ph) { HB = mkCanvas(pw, ph); HB2 = mkCanvas(pw, ph); }
   const g = HB.getContext('2d'); g.setTransform(1, 0, 0, 1, 0, 0); g.globalCompositeOperation = 'source-over'; g.clearRect(0, 0, pw, ph);
@@ -13079,7 +13083,7 @@ const JUMP_D = 0.52, JUMP_A = 0.08, JUMP_L = 0.42;
 function triggerJump(big, manual) { if (!P || !G || state === 'dying' || G.ended) return false; const now = G.t, e = P.jAt == null ? 1e9 : now - P.jAt;
   if (manual) { /* v21: manual jump (Space / A / phone button) — purely cosmetic; no throttle: chain as soon as you touch down, a press mid-air is buffered */
     if (e >= 0 && e < JUMP_L) { P.jQ = 1; return false; }
-    P.jAt = now; P.jBig = 0; P.jDust = 0; P.jM = 1; P.jQ = 0; if (now - (P.jIAt ?? -9) > 1) { P.jIAt = now; P.jInv = now + 0.2; } /* v31 dodge-hop i-frame */ P.jN = (P.jN || 0) + 1; G.jumps = (G.jumps || 0) + 1; if (save.jumpSfx !== false) Snd.play('hop'); return true; }
+    P.jAt = now; P.jBig = 0; P.jDust = 0; P.jM = 1; P.jQ = 0; ActorAnimations.cue('dodge'); if (now - (P.jIAt ?? -9) > 1) { P.jIAt = now; P.jInv = now + 0.2; } /* v31 dodge-hop i-frame */ P.jN = (P.jN || 0) + 1; G.jumps = (G.jumps || 0) + 1; if (save.jumpSfx !== false) Snd.play('hop'); return true; }
   if (e < 1 && e >= 0) return false; P.jAt = now; P.jBig = big ? 1 : 0; P.jDust = 0; P.jM = 0; return true; }
 const jumpHeld = () => !!((keys.has('Space') && JB.kb) || GP.aHeld || JB.held); // only presses that started in the run chain (not a held menu confirm)
 function jumpTick() { /* v21: buffered / held manual jumps fire the moment you land (bunny-hop chain) */
@@ -13169,7 +13173,7 @@ const V31P = (() => {
   // vertical facing from the move direction (sticky while idle / attacking)
   function face() { if (P.moving) { const ax = Math.abs(P.vx || 0), ay = Math.abs(P.vy || 0); P.vf = ay > ax * 1.15 ? (P.vy < 0 ? -1 : 1) : 0; } return P.vf | 0; }
   // dodge: a manual jump while moving is a dodge-hop - lean into the move + two afterimages (and a brief i-frame, see triggerJump)
-  function dodge(jp) { if (!jp || !P.jM || !P.moving || !PXA.hero.ok({ cls: G.cls, race: G.race, form: G.form })) return 0;
+  function dodge(jp) { if (ActorAnimations.variant({cls:G.cls,race:G.race,form:G.form})) return 0; if (!jp || !P.jM || !P.moving || !PXA.hero.ok({ cls: G.cls, race: G.race, form: G.form })) return 0;
     const o = heroO({ jp: PXA.glue.jumpPhase() }), [an, f] = PXA.hero.frameOf(o); let S = PXA.hero.get(o, an, f); if (o.vf) S = view(S, () => PXA.hero.look(o), o.vf, !!o.form);
     const col = CLS_COL[G.cls] || '#b56bff'; if (!S.dg || S.dgc !== col) { S.dg = PXA.sil(S, col); S.dgc = col; }
     const ga = ctx.globalAlpha, sc = G.ancientT > 0 ? 1.55 : 1; ctx.globalCompositeOperation = 'lighter';
@@ -15946,6 +15950,12 @@ function renderWard() {
   const B = $('wardBody'); B.innerHTML = '';
   const sec = t => B.insertAdjacentHTML('beforeend', `<div class="wsec">${t}</div>`);
   const row = () => { const d = document.createElement('div'); d.className = 'wrow'; B.appendChild(d); return d; };
+  if (wardCls !== 'bearlina' && Object.keys(ACTOR_ANIMATION_MANIFEST.variants).some(k => k.startsWith(wardCls + '/'))) {
+    sec('Character appearance'); const choices = row();
+    for (const sex of ['male','female']) choices.appendChild(mk(sex, sex === 'male' ? 'Male' : 'Female', ActorAnimations.gender(wardCls) === sex, () => {
+      save.spriteGender = save.spriteGender || {}; save.spriteGender[wardCls] = sex; persist(); renderWard();
+    }));
+  }
   const base = () => Object.assign(heroCos(wardCls, wardRace));
   const sw = (R, name, on, locked, cos, fn, hint, outfit) => { const b = document.createElement('button'); b.className = 'wsw' + (on ? ' on' : '') + (locked ? ' lock' : '');
     b.innerHTML = `<canvas></canvas>${name}` + (locked ? '<span class="lk">🔒</span>' : ''); b.title = hint || '';
@@ -16139,6 +16149,7 @@ BEAR_ATLAS.src = 'assets/bearlina-races.png';
 
 /* Small native bear rig, used in every preview and in the world in both art modes. */
 function drawBearlina(g, o) {
+  if (ActorAnimations.draw(g, o)) return;
   const race = raceOf(o.race || save.race), t = o.t || 0, mv = o.moving ? 1 : 0;
   const pal = { cat: ['#c68b42','#714423','#ffe0a0'], elf: ['#785434','#3b3022','#c5a77a'], ogre: ['#78895b','#39462d','#aebf7c'], dwarf: ['#b55e31','#62361f','#e3b075'], troll: ['#398f96','#234954','#91d9ca'], kitsune: ['#dd7f33','#8b4325','#ffe8bc'], scale: ['#398a70','#204a44','#b8d87c'], shade: ['#7960b0','#342951','#c6acfa'] }[race];
   const S = typeof G !== 'undefined' && G && G.cls === 'bearlina' ? G.v30 : null;
@@ -16173,6 +16184,15 @@ function drawBearlina(g, o) {
   if(o.atk>0){g.strokeStyle='#dcf9bc';g.lineWidth=1.2;for(let i=0;i<3;i++){g.beginPath();g.moveTo(28+i*3,-4);g.lineTo(34+i*3,4);g.stroke();}}
   g.restore();
 }
+
+/* Animation cues follow successful gameplay actions; cooldowns and damage are unchanged. */
+for (const id of Object.keys(WFIRE)) { const fire = WFIRE[id]; WFIRE[id] = function(w) {
+  const result = fire(w);
+  if (result >= 0 && WDEF[id] && WDEF[id].cls === G.cls) ActorAnimations.cue(['fangs','knives','blightbolt','bow','be_paws'].includes(id) ? 'attack' : 'casting');
+  return result;
+}; }
+const actorUltCast = ultCast;
+ultCast = function(...args) { const result = actorUltCast(...args); if (result) ActorAnimations.cue(G.cls === 'bearlina' ? 'ultimate' : 'casting'); return result; };
 
 addEventListener('resize', resize); addEventListener('orientationchange', () => setTimeout(resize, 200));
 if (canPC() && (matchMedia('(pointer: fine)').matches || navigator.maxTouchPoints === 0)) { PC = true; document.body.classList.add('pc'); } // v16

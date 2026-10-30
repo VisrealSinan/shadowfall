@@ -1,11 +1,12 @@
 {
- "version": "52",
+ "version": "53",
  "date": "2026-10-29",
  "minLauncher": "2.0.0",
  "notes": [
-  "Bearlina is a free playable class: permanent bear form with eight racial looks.",
-  "Eight six-rank skills, Ferocity, three talent trees and the Full Moon ultimate. Full Moon never shakes the camera.",
-  "Unique moonlit-den artwork across talent trees, skill cards and class-selection banners."
+  "First animation preview: completed action sets for Rogue, Warlock, Summoner, selected Ranger races, and all eight Bearlina forms.",
+  "Idle, running, attack, class ability and dodge animations; Bearlina Full Moon stays free of screen shake.",
+  "Male and female appearance choices in the wardrobe for supported classes.",
+  "Missing or unavailable sprite sets use existing artwork. Artistic review remains in progress."
  ],
  "files": [
   {
@@ -30,23 +31,353 @@
   },
   {
    "name": "index.html",
-   "sha256": "598be1d1a25c490d6315470272e96e537bbdc7a02336ef0ac9efd11bb9c9bfc0",
-   "size": 2813905
+   "sha256": "1c3937a011aeb4408a228b3531057d86ea87dfe164f7baebc4ec1acfe55040ee",
+   "size": 2832714
   },
   {
    "name": "manifest.webmanifest",
-   "sha256": "d2b3df22d037ebfbd8d964751e95166b193e806271d9ce771f389b2952e42d9d",
-   "size": 964
+   "sha256": "14bfbc497cf6c1d4ab084a0014d3c3f9e9384e88ac5cf82e8b6ce38f21674dee",
+   "size": 1007
   },
   {
    "name": "sw.js",
-   "sha256": "98a87351310237b369dae9952b6d2f63c5ffb7f1c48f4c1ecfa12ec7da15b037",
-   "size": 1497
+   "sha256": "33a8dee202374486063f55d695bd227dc9a5737df0a889a950ef056347d897f2",
+   "size": 1594
+  },
+  {
+   "name": "assets/actor-animation-manifest.js",
+   "sha256": "8b27199ea2fc977dff7d3dd9c3f86eb0aac808fd6499a5404fd45f47b68da479",
+   "size": 38157
+  },
+  {
+   "name": "assets/actor-animations.js",
+   "sha256": "b88009dd5664e6df16082c78a30dacaf8ca320eda899a9520a89d5d6b7022e30",
+   "size": 2701
+  },
+  {
+   "name": "assets/bearlina-cat-bear-form.png",
+   "sha256": "6380a2d698a27488c681c8f41db530b12fc4d6cc61d739faa2593b026df67e0a",
+   "size": 1572656
+  },
+  {
+   "name": "assets/bearlina-dwarf-bear-form.png",
+   "sha256": "3b979e7a72457bcd5b5de92d76220c9074a44be1cbbaccfc41a63885fb27cd1e",
+   "size": 1661753
+  },
+  {
+   "name": "assets/bearlina-elf-bear-form.png",
+   "sha256": "b49003698ff3c56cc3de80c82f9f5e7c3374a0c80289b8c966f04a4ccac4551a",
+   "size": 1988311
+  },
+  {
+   "name": "assets/bearlina-kitsune-bear-form.png",
+   "sha256": "6c744d6e01d82bf7e50b12f721251473d831850e757c09486ab0e81b9a4ac45a",
+   "size": 1629406
+  },
+  {
+   "name": "assets/bearlina-ogre-bear-form.png",
+   "sha256": "1d2368c5bbccb0a55df71cf76505db0cd2de8eb2d89dc40d669893fc7b99fdc0",
+   "size": 1840275
   },
   {
    "name": "assets/bearlina-races.png",
    "sha256": "0b79fa9929bd0fd9690bc00160308a2fb4dd07d310aba14c7b314672102de07d",
    "size": 2947813
+  },
+  {
+   "name": "assets/bearlina-scale-bear-form.png",
+   "sha256": "d8d7dea35bc3a5260fcab40e659713a07c285979a94ac5c6169cef2cb3f1b672",
+   "size": 1923851
+  },
+  {
+   "name": "assets/bearlina-shade-bear-form.png",
+   "sha256": "4cf9d4a8d3b608a7b1e6acc310d88cf901a6f99448ac9ea385b361dcd8737402",
+   "size": 1608065
+  },
+  {
+   "name": "assets/bearlina-troll-bear-form.png",
+   "sha256": "d0d2e239ad2e84a06f5c55846d3081831e6da1011ae21b04ac2025e07a863a25",
+   "size": 1969020
+  },
+  {
+   "name": "assets/ranger-cat-female.png",
+   "sha256": "1944a9c15f4a2a7a13e372cb4656f7278be91f1af1813cb97f8489a78b73fa16",
+   "size": 1559412
+  },
+  {
+   "name": "assets/ranger-cat-male.png",
+   "sha256": "f701000a40afcb6e7d203c053337ef5644a4022eba128ac09db04eba18ea9c92",
+   "size": 1510632
+  },
+  {
+   "name": "assets/ranger-elf-female.png",
+   "sha256": "018287e295bba13c11bc107e415517e6fc46c7b962af7f1f9ea883515b690b08",
+   "size": 1352925
+  },
+  {
+   "name": "assets/ranger-elf-male.png",
+   "sha256": "aef4a4b0fe982e680f14d6cb196f73b23df6b9d53c807e964727c649e3252937",
+   "size": 1271294
+  },
+  {
+   "name": "assets/ranger-ogre-female.png",
+   "sha256": "5dcea5fe492cc821b1610b5f611c67d3ab11656bb5ee64a07e6aa74446acc39f",
+   "size": 1320214
+  },
+  {
+   "name": "assets/ranger-ogre-male.png",
+   "sha256": "b27bfd60d33f0e49a500697112a205e673663bcb9d3fe1f014f34f616940607f",
+   "size": 1378677
+  },
+  {
+   "name": "assets/ranger-troll-female.png",
+   "sha256": "a8499604580fcb6b815a7a5934e02913457573b3f91ac08e6c536d46d11586c1",
+   "size": 1120198
+  },
+  {
+   "name": "assets/ranger-troll-male.png",
+   "sha256": "661190a5b084f1d5eb73f2830947d8cc710f64894da55f11c07b06c009c43180",
+   "size": 1675396
+  },
+  {
+   "name": "assets/rogue-cat-female.png",
+   "sha256": "b68b793013a6776ba929873e69e19965d22f99e7b6174d3d3a58207b1f217ea8",
+   "size": 1039775
+  },
+  {
+   "name": "assets/rogue-cat-male.png",
+   "sha256": "0eaaa1782208b39a22ce596dd947d8cc8b6209fe70a1105cd130781f944d9116",
+   "size": 1434202
+  },
+  {
+   "name": "assets/rogue-dwarf-female.png",
+   "sha256": "7d921094cc745c6b53a38484bc70d3925c8e1066e61e0574a190628a255c849b",
+   "size": 1166803
+  },
+  {
+   "name": "assets/rogue-dwarf-male.png",
+   "sha256": "94d5d99cfbc2a8fe64b0fe109c638db9dc4f864ee9f4236864b7202dd703e45d",
+   "size": 1076386
+  },
+  {
+   "name": "assets/rogue-elf-female.png",
+   "sha256": "cbcf390f64a1c2e8d1901b32fa0b2e63e288c892e830416649a5f4340407794e",
+   "size": 1514491
+  },
+  {
+   "name": "assets/rogue-elf-male.png",
+   "sha256": "ca4a2af6ac43c86b6387a73df45b0e7d6be87cd9fd27bb779280752d2c162b9d",
+   "size": 1158756
+  },
+  {
+   "name": "assets/rogue-kitsune-female.png",
+   "sha256": "a727bac1a876a98e4b035dfc851175cee4f3d868eed4493da93ac5a39545256b",
+   "size": 1502201
+  },
+  {
+   "name": "assets/rogue-kitsune-male.png",
+   "sha256": "59b7479372c15ef0eb1b43e68460a007159485bc537aa461d5bc1c293066d185",
+   "size": 1768581
+  },
+  {
+   "name": "assets/rogue-ogre-female.png",
+   "sha256": "d74c737c5aa7a68a857802ef40d67828ab75504f56f1c4d9b9151e1779ae523c",
+   "size": 1315543
+  },
+  {
+   "name": "assets/rogue-ogre-male.png",
+   "sha256": "83fe599b166018a47825b7d31f199caf348a69a52d89f1548d5cea79b66b5212",
+   "size": 1105714
+  },
+  {
+   "name": "assets/rogue-scale-female.png",
+   "sha256": "10dbf47e49f570a8d95846ecb010bf18dfe5770b37c7327beeea6a2e43874030",
+   "size": 1247230
+  },
+  {
+   "name": "assets/rogue-scale-male.png",
+   "sha256": "4a8f66103c7791c3b7051985e9f242afef1a17d877575b4f571896d49e2d9934",
+   "size": 1395102
+  },
+  {
+   "name": "assets/rogue-shade-female.png",
+   "sha256": "282cc5e7e74bf6ba3181c37254cb63ad43639117f9b5e05363742b99e320a8a7",
+   "size": 1517116
+  },
+  {
+   "name": "assets/rogue-shade-male.png",
+   "sha256": "b3f3b8818774d82b042387d46e6c94f2aecf11ec9da8d7f1a04ddbc531dd2537",
+   "size": 1414748
+  },
+  {
+   "name": "assets/rogue-troll-female.png",
+   "sha256": "b0a5bc076d3c82c01d6668b11a680d69c9ff73ea1bf66327ad899156e09c7964",
+   "size": 1474966
+  },
+  {
+   "name": "assets/rogue-troll-male.png",
+   "sha256": "9071a31ca5c9b56d335330798e379b72090b898289383e50d20cb7ce177968bf",
+   "size": 1136181
+  },
+  {
+   "name": "assets/summoner-cat-female.png",
+   "sha256": "363ff7b47e09036fc88d4a3a9e7c3a39a85b2d3680735d3c9750b236cffe34a4",
+   "size": 1765196
+  },
+  {
+   "name": "assets/summoner-cat-male.png",
+   "sha256": "fcf62565418e2ed6937e82b377ec0bd3e80e138cd90cabc7d2d1c7c226bbffec",
+   "size": 1398757
+  },
+  {
+   "name": "assets/summoner-dwarf-female.png",
+   "sha256": "80f609b9a7e8f4651ea051e1650a1d731b90ddab765838062687595e83a9a1f9",
+   "size": 1744014
+  },
+  {
+   "name": "assets/summoner-dwarf-male.png",
+   "sha256": "95fbe99257b2e933ff1cb981fe9c40232c9b81e355f9c79e3b3d2a8c9ab724e3",
+   "size": 1550036
+  },
+  {
+   "name": "assets/summoner-elf-female.png",
+   "sha256": "128c0010a372f449a9627cd64465ada541c33788071f53755885a8a7fa1c14e1",
+   "size": 1291822
+  },
+  {
+   "name": "assets/summoner-elf-male.png",
+   "sha256": "ee47413fb6cba4ef283f1630722a39a8f94e35dcc41105291c4515073e2f9813",
+   "size": 1391749
+  },
+  {
+   "name": "assets/summoner-kitsune-female.png",
+   "sha256": "aa1616cb7dc41400fba6cbb5e3cd4b89fda3b2e6cf286103b3a8edbc582b78a5",
+   "size": 1651774
+  },
+  {
+   "name": "assets/summoner-kitsune-male.png",
+   "sha256": "ebfbec07d38303ed7499f4c3819c8e5c73193f58cd4c8d1d9c155d86d993fc00",
+   "size": 1521164
+  },
+  {
+   "name": "assets/summoner-ogre-female.png",
+   "sha256": "bbb1fa018f097b71cb9070f8659d0da2682d02c879314fcd78066c2a14d10f80",
+   "size": 1697459
+  },
+  {
+   "name": "assets/summoner-ogre-male.png",
+   "sha256": "4cb39940c3838f754fd35510a76db34f2e68f32d31440e8ad0fcd1250333db2e",
+   "size": 1488318
+  },
+  {
+   "name": "assets/summoner-scale-female.png",
+   "sha256": "5fb2b377a9c709c7ae66e5f7a2b887434429631a2d6c9309a864ab436429f199",
+   "size": 1229530
+  },
+  {
+   "name": "assets/summoner-scale-male.png",
+   "sha256": "6353db39ff9b47be14cc2ea68e84d76a26251fc7074b3bf1497c83a054f64606",
+   "size": 1755225
+  },
+  {
+   "name": "assets/summoner-shade-female.png",
+   "sha256": "501ef0dc349361a410e1272a7a09861126d55faa4c5829e638fd71d87ccc8ea2",
+   "size": 1693016
+  },
+  {
+   "name": "assets/summoner-shade-male.png",
+   "sha256": "71f990ef4d78f0479aa7fcf951d2e69c369b8d6600af4de45d2cdeeef7fb5da1",
+   "size": 1727657
+  },
+  {
+   "name": "assets/summoner-troll-female.png",
+   "sha256": "a10ea36def31e041e6c462f8e5fe43144ef8c07ae6110cdd2bcbfc52a2404204",
+   "size": 1584006
+  },
+  {
+   "name": "assets/summoner-troll-male.png",
+   "sha256": "72d1d03e0c66e5133307f1935553743230ae6d150815088d90554956a5b69548",
+   "size": 1759639
+  },
+  {
+   "name": "assets/warlock-cat-female.png",
+   "sha256": "7d6d2afc01bf50944581bf5c51db60d81a030bb235c29dd6d8272ce1e9ba479f",
+   "size": 938521
+  },
+  {
+   "name": "assets/warlock-cat-male.png",
+   "sha256": "0225803df1c91ea5e7c7075cb351645045ed54ae0a3a3c07749d60cd98778241",
+   "size": 1469612
+  },
+  {
+   "name": "assets/warlock-dwarf-female.png",
+   "sha256": "095927b0347ef38dbb08bcc718b1a71520505e03da06ffbf3daf1ae18de29750",
+   "size": 958049
+  },
+  {
+   "name": "assets/warlock-dwarf-male.png",
+   "sha256": "1860b43951e44d47db306a9022dc475f01f6a9a65b500182f871072b5e75f054",
+   "size": 1466290
+  },
+  {
+   "name": "assets/warlock-elf-female.png",
+   "sha256": "dd4104474c09e6e5c2161d60658dba23aef88620415ef55351fb3f72a3af507c",
+   "size": 1282338
+  },
+  {
+   "name": "assets/warlock-elf-male.png",
+   "sha256": "6e1deef2dd5173eea56c96f462a832c5773081d70ba75fc31aeba2becb898eec",
+   "size": 1299528
+  },
+  {
+   "name": "assets/warlock-kitsune-female.png",
+   "sha256": "f787b5e59cefcb8a10a49b054d856a3fabd39dc6dedf321becc4359fbc3c8da4",
+   "size": 1682102
+  },
+  {
+   "name": "assets/warlock-kitsune-male.png",
+   "sha256": "8ae15b10735e06a692a994d0f4def26c6a354b49a14f7e8bc5257c42095007e0",
+   "size": 1442452
+  },
+  {
+   "name": "assets/warlock-ogre-female.png",
+   "sha256": "a68eaf01ed9bc24228da179d89959e96459cb3f96be5f63ea1503157ea7751eb",
+   "size": 1502387
+  },
+  {
+   "name": "assets/warlock-ogre-male.png",
+   "sha256": "09d8ca2aa2ce6fb5dd2672679eed95d47e083a05bd5bdc413655d0b812edd919",
+   "size": 865535
+  },
+  {
+   "name": "assets/warlock-scale-female.png",
+   "sha256": "dad2a292c7ad404231e78c8b7e70c9c46025b5b3fab526cd11bd260cd618b8c8",
+   "size": 1582459
+  },
+  {
+   "name": "assets/warlock-scale-male.png",
+   "sha256": "b678329a1a19eac6c1b3d7f2b53233c1ca65c9dcfe98c017921c86e8dc873a82",
+   "size": 1473626
+  },
+  {
+   "name": "assets/warlock-shade-female.png",
+   "sha256": "910937699847d74abb575444f3964e7b2614dcd60a20824944a48038479f0560",
+   "size": 1217062
+  },
+  {
+   "name": "assets/warlock-shade-male.png",
+   "sha256": "1148f6569351310cea21dec35cd071feac2a8e4b4cc0addae49b89f2ebbe820e",
+   "size": 1714648
+  },
+  {
+   "name": "assets/warlock-troll-female.png",
+   "sha256": "1807d42077fd3fbbf619dca9b7bb6749e16fb260414f876fec60e275bf4bfddf",
+   "size": 1340832
+  },
+  {
+   "name": "assets/warlock-troll-male.png",
+   "sha256": "a4250fa5454257174bd91fed815d0a8492ee6dc8161ca8eabd2f0a3846cee0fb",
+   "size": 1510933
   }
  ]
 }
