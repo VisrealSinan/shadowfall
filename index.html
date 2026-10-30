@@ -1247,6 +1247,40 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
 #modBox .modinfo{font-size:12px;color:#a593c4;line-height:1.5;min-height:16px}
 #modBadge{position:fixed;left:50%;top:max(6px,env(safe-area-inset-top));transform:translateX(-50%);z-index:30;font-size:16px;letter-spacing:2px;padding:1px 8px;border-radius:10px;background:rgba(10,6,20,.55);pointer-events:none;display:none}
 .modtog{margin:0 auto 6px;max-width:100%}.modtog b{font-size:13px}.modtog u{text-decoration:none;color:#a593c4}
+
+/* v55: moonlit title hall. Controls remain native buttons for touch, keys and pads. */
+#title{justify-content:center;gap:18px;background:radial-gradient(ellipse at 50% 55%,transparent 15%,rgba(5,4,12,.3) 78%);padding-top:max(22px,env(safe-area-inset-top));padding-bottom:max(18px,env(safe-area-inset-bottom))}
+.pc #title{zoom:1}
+#title .logo{margin:0;flex:none;font-family:Georgia,'Palatino Linotype',serif;filter:none}
+#title .logo .crest{width:40px;height:40px;margin:0 auto 10px;filter:drop-shadow(0 0 12px #b7985866)}
+#title .logo .l1.solo{font-family:Georgia,'Palatino Linotype',serif;font-size:clamp(34px,6.1vw,88px);font-weight:700;letter-spacing:.12em;padding-left:.12em;line-height:1.12;-webkit-text-stroke:.4px #c4a26a;background:linear-gradient(180deg,#fff8db 10%,#e0c08a 47%,#a67c46 70%,#f6dba6);background-clip:text;-webkit-background-clip:text;filter:drop-shadow(0 3px 1px #090511) drop-shadow(0 0 22px #a8996633)}
+#title .logo .tag{font:italic 13px Georgia,serif;letter-spacing:.1em;color:#c5b9d1;margin-top:12px;text-shadow:0 2px 4px #000}
+#title .logo .spark{display:none}
+.title-menu{width:min(380px,100%);flex:none;padding:18px 22px 16px;border:1px solid #ae8a4f66;border-radius:3px;background:linear-gradient(155deg,rgba(27,22,39,.94),rgba(10,10,20,.94));box-shadow:0 18px 70px #0009,inset 0 0 0 4px #c8a67508;position:relative}
+.title-menu:before,.title-menu:after{content:'';position:absolute;left:calc(50% - 26px);width:52px;height:1px;background:linear-gradient(90deg,transparent,#d8bd85,transparent)}
+.title-menu:before{top:-1px}.title-menu:after{bottom:-1px}
+#title .title-kicker{font-size:10px;letter-spacing:.24em;color:#bda879;text-align:center;margin:0 0 10px}
+#title .stats{background:none;font-size:12px;line-height:1.5;padding:0;margin:0 0 10px;color:#aea3bb;text-shadow:none}
+#title .stats b{color:#e9d8b4}
+#title .title-menu .btn{width:100%;border:1px solid #b49a6655;border-radius:3px;background:linear-gradient(180deg,#292331,#17141f);box-shadow:inset 0 1px 0 #ffffff08;color:#e5dbce;font-family:Georgia,serif;font-size:16px;letter-spacing:.06em;padding:11px 12px;min-height:44px;margin:4px 0;transform:none}
+#title .title-menu .btn.primary{border-color:#d9bb79;background:linear-gradient(180deg,#b3945e,#715329);color:#fff8e4;text-shadow:0 1px 2px #30200c;box-shadow:inset 0 1px 0 #ffe8ae66,0 0 20px #a7823c22}
+#title .title-menu .btn:hover,#title .title-menu .btn:focus-visible{border-color:#f2d59a;filter:brightness(1.18);outline:2px solid #e8cf9477;outline-offset:3px}
+#title .title-menu .row{width:100%;gap:8px;margin:2px 0}
+#title .title-menu .row .btn{width:auto;flex:1;font-family:inherit;font-size:12px;letter-spacing:0;padding:9px 5px}
+#title #btnKeys::before{display:none}
+#title .title-menu .cont .cs{font:11px -apple-system,system-ui,sans-serif;color:#e8dec5;letter-spacing:0}
+#title .title-download{width:min(380px,100%);text-align:center;color:#b9a98a;font-size:12px;flex:none}
+#title .title-download summary{cursor:pointer;min-height:44px;display:flex;align-items:center;justify-content:center;list-style:none;letter-spacing:.07em}
+#title .title-download summary::-webkit-details-marker{display:none}
+#title .title-download summary:after{content:' +';margin-left:8px;color:#e4c58a}
+#title .title-download[open] summary:after{content:' −'}
+#title .title-download .dlwin{width:100%;margin:0}
+#title .title-download .dlbtn{background:#24212b;border:1px solid #a58b5455;border-radius:3px;color:#ddcfb8}
+#title .title-download .dlnote{font-size:12px;color:#b2a9bd}
+#title .title-edition{font:10px Georgia,serif;letter-spacing:.2em;color:#9b8fa9;margin:0;text-align:center}
+@media(max-width:600px){#title{gap:14px}#title .title-menu{width:min(340px,100%);padding:15px 18px}#title .logo .l1.solo{font-size:clamp(30px,9.3vw,52px)}#title .logo .tag{font-size:11px;letter-spacing:.05em}#title .logo .crest{width:32px;height:32px;margin-bottom:8px}}
+@media(max-height:600px){#title{justify-content:flex-start;gap:12px}#title .logo .crest{display:none}#title .logo .tag{margin-top:6px}#title .logo .l1.solo{font-size:36px}}
+
 </style>
 </head>
 <body>
@@ -1262,7 +1296,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
 
 <div id="title" class="screen">
  <div class="logo"><svg class="crest" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="cg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff6c8"/><stop offset=".55" stop-color="#f2c94c"/><stop offset="1" stop-color="#a8771e"/></linearGradient></defs><path d="M38 8a24 24 0 1 0 18 34A20 20 0 1 1 38 8z" fill="url(#cg)" stroke="#2a0a14" stroke-width="2.5"/><path d="M40 20l3 8 8 3-8 3-3 8-3-8-8-3 8-3z" fill="#d42a4c" stroke="#2a0a14" stroke-width="2"/></svg><span class="spark" style="left:6%;top:30%;animation-delay:.2s"></span><span class="spark" style="right:8%;top:12%;animation-delay:1s"></span><span class="spark" style="right:20%;top:62%;animation-delay:1.6s"></span><span class="spark" style="left:24%;top:4%;animation-delay:.7s"></span><div class="l1 solo">SHADOWFALL</div><div class="tag">The night is endless. So is the hunt.</div></div>
- <div class="spacer"></div>
+ <div class="title-menu"><p class="title-kicker">A DARK FANTASY SURVIVOR</p>
  <div class="stats" id="titleStats"></div>
  <button class="btn primary cont hidden" id="btnCont" data-kh="Enter"><span>Continue Run</span><span class="cs" id="contSum"></span></button>
  <button class="btn primary" id="btnPlay" data-kh="Enter">Begin the Hunt</button>
@@ -1270,7 +1304,9 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
  <div class="row"><button class="btn small" id="btnAch">★ Achievements</button><button class="btn small" id="btnWard">✦ Wardrobe</button></div>
  <div class="row"><button class="btn small" id="btnMuteT">♪ Audio</button><button class="btn small" id="btnHow">How to Play</button><button class="btn small pconly" id="btnKeys" data-kh="H">⌨ Controls</button></div>
  <button class="btn small apponly" id="btnQuitApp" style="width:min(80vw,300px)">⏻ Quit Game</button>
- <div class="dlwin pconly webonly" id="dlWin"><a class="btn small dlbtn" id="btnDl" href="https://github.com/VisrealSinan/shadowfall/releases/download/v2.0.0/Shadowfall-Setup-2.0.0.exe" download="Shadowfall-Setup-2.0.0.exe" rel="noopener">⬇ Download for Windows</a><a class="dlsub" id="lnkRel" href="https://github.com/VisrealSinan/shadowfall/releases/latest" target="_blank" rel="noopener noreferrer">All downloads &amp; versions ↗</a><div class="dlnote">Windows may warn because the app isn't signed yet: click <b>More info</b>, then <b>Run anyway</b>.</div></div>
+ </div>
+ <details class="title-download pconly webonly"><summary>Play on Windows</summary><div class="dlwin" id="dlWin"><a class="btn small dlbtn" id="btnDl" href="https://github.com/VisrealSinan/shadowfall/releases/download/v2.0.0/Shadowfall-Setup-2.0.0.exe" download="Shadowfall-Setup-2.0.0.exe" rel="noopener">⬇ Download for Windows</a><a class="dlsub" id="lnkRel" href="https://github.com/VisrealSinan/shadowfall/releases/latest" target="_blank" rel="noopener noreferrer">All downloads &amp; versions ↗</a><div class="dlnote">Windows may warn because the app isn't signed yet: click <b>More info</b>, then <b>Run anyway</b>.</div></div></details>
+ <p class="title-edition">BENEATH AN ENDLESS MOON</p>
 </div>
 
 <div id="race" class="screen panel">
@@ -15053,7 +15089,45 @@ function drawJoy() {
   const g = ctx.createRadialGradient(joy.kx - 5, joy.ky - 5, 2, joy.kx, joy.ky, 24); g.addColorStop(0, 'rgba(230,200,255,.9)'); g.addColorStop(1, 'rgba(120,50,200,.7)');
   ctx.fillStyle = g; ctx.beginPath(); ctx.arc(joy.kx, joy.ky, 22, 0, TAU); ctx.fill();
 }
+/* v55: cached native pixel scenery; no generated image or external font required. */
+let titleScene55 = null;
+const titleStill55 = matchMedia('(prefers-reduced-motion: reduce)').matches;
+function renderTitleScene() {
+  if (!titleScene55) {
+    const c = document.createElement('canvas'); c.width = 960; c.height = 540;
+    const g = c.getContext('2d'), sky = g.createLinearGradient(0,0,0,540);
+    sky.addColorStop(0,'#090b19'); sky.addColorStop(.45,'#282139'); sky.addColorStop(1,'#080e12');g.fillStyle=sky;g.fillRect(0,0,960,540);
+    const moon=g.createRadialGradient(480,108,20,480,108,190);moon.addColorStop(0,'#b3b9d24a');moon.addColorStop(.5,'#78639018');moon.addColorStop(1,'#78639000');g.fillStyle=moon;g.fillRect(240,0,480,320);
+    for(let i=0;i<94;i++){const x=(i*137+31)%960,y=(i*i*17+13)%275;g.fillStyle=i%4?'#aaa6bb55':'#e8debb88';g.fillRect(x,y,i%7?1:2,1);}
+    g.fillStyle='#cbc8d2';g.beginPath();g.arc(480,108,57,0,Math.PI*2);g.fill();g.fillStyle='#b2afc5';for(let i=0;i<9;i++){g.beginPath();g.arc(450+(i*29)%60,75+(i*19)%70,3+i%5,0,Math.PI*2);g.fill();}g.fillStyle='#141628';g.beginPath();g.arc(496,96,54,0,Math.PI*2);g.fill();
+    const ridge=(base,step,col)=>{g.fillStyle=col;g.beginPath();g.moveTo(0,540);for(let x=0;x<=960;x+=step)g.lineTo(x,base+Math.sin(x*.013)*25+Math.cos(x*.029)*16);g.lineTo(960,540);g.fill();};ridge(285,12,'#252538');ridge(325,10,'#171f2c');
+    // The broken bell tower and citadel rise behind the central menu.
+    g.fillStyle='#121525';g.fillRect(338,250,280,125);
+    const tower=(x,y,w,h)=>{g.fillStyle='#131523';g.fillRect(x,y,w,h);g.fillStyle='#292638';g.fillRect(x,y,3,h);for(let i=0;i<w;i+=12)g.fillRect(x+i,y-8,7,10);g.fillStyle='#594e5977';for(let k=0;k<3;k++)g.fillRect(x+10+k*14,y+20,4,12);};
+    tower(355,209,48,160);tower(557,227,48,145);tower(449,182,54,190);g.fillStyle='#111523';g.beginPath();g.moveTo(443,182);g.lineTo(473,139);g.lineTo(485,157);g.lineTo(479,166);g.lineTo(509,182);g.fill();
+    g.fillStyle='#080d17';g.fillRect(469,213,14,31);g.fillStyle='#72778b33';g.fillRect(471,217,2,20);g.fillStyle='#d5b47244';g.fillRect(378,262,3,9);g.fillRect(577,279,3,9);
+    g.fillStyle='#0b151b';g.beginPath();g.moveTo(0,378);g.lineTo(350,360);g.lineTo(610,360);g.lineTo(960,378);g.lineTo(960,540);g.lineTo(0,540);g.fill();
+    // A receding flagstone path: low contrast so it never competes with controls.
+    g.strokeStyle='#84918a13';g.lineWidth=1;for(let i=0;i<9;i++){let y=371+i*i*2.6;g.beginPath();g.moveTo(480-(y-330)*1.5,y);g.lineTo(480+(y-330)*1.5,y);g.stroke();}for(const x of [-1,-.5,0,.5,1]){g.beginPath();g.moveTo(480+x*55,360);g.lineTo(480+x*380,540);g.stroke();}
+    function tree(x,y,h,lean){g.strokeStyle='#080d16';g.lineWidth=10;g.beginPath();g.moveTo(x,y);g.lineTo(x+lean*.4,y-h*.5);g.lineTo(x+lean,y-h);g.stroke();for(let j=1;j<7;j++){const by=y-h*(.18+j*.1),bx=x+lean*(.18+j*.1),side=j%2?1:-1;g.lineWidth=5-j*.45;g.beginPath();g.moveTo(bx,by);g.lineTo(bx+side*(50-j*4),by-25);g.lineTo(bx+side*(80-j*5),by-55);g.stroke();}}
+    for(const [x,h,l] of [[22,335,28],[92,284,-26],[169,215,24],[922,350,-34],[852,275,32],[783,218,-22]])tree(x,473,h,l);
+    ridge(498,8,'#070e12');g.fillStyle='#20302b';for(let i=0;i<55;i++){const x=(i*73)%960,y=476+(i*37)%62;g.fillRect(x,y,8+i%12,2);}
+    titleScene55=c;
+  }
+  ctx.setTransform(DPR,0,0,DPR,0,0);ctx.save();ctx.imageSmoothingEnabled=false;
+  const k=Math.max(W/960,H/540);ctx.drawImage(titleScene55,(W-960*k)/2,(H-540*k)/2,960*k,540*k);
+  const t=titleStill55?0:gtime;
+  ctx.globalCompositeOperation='lighter';
+  for(let i=0;i<16;i++){const x=((i*153+t*(2+i%3))%(W+30))-15,y=H*.36+((i*71+t*3)%(H*.58));ctx.globalAlpha=.18+.12*Math.sin(t+i);glowAt(i%3?'#6b96a1':'#b397bf',x,y,3+i%3,.25);}
+  ctx.globalAlpha=1;ctx.globalCompositeOperation='source-over';
+  const wide=W>760, scale=wide?Math.min(H/210,W/310):Math.min(W/205,H/440), base=wide?H*.85:H*.94;
+  const actors=[{cls:'rogue',race:'elf',gender:'female',x:wide?W*.19:W*.09,f:1},{cls:'bearlina',race:'elf',x:wide?W*.82:W*.91,f:-1}];
+  for(const o of actors){ctx.save();ctx.translate(o.x,base);ctx.scale(scale*o.f,scale);drawHero(ctx,{...o,t,atk:0,outfit:'crimson',noShadow:1});ctx.restore();}
+  const shade=ctx.createLinearGradient(0,H*.8,0,H);shade.addColorStop(0,'#05070b00');shade.addColorStop(1,'#05070bd9');ctx.fillStyle=shade;ctx.fillRect(0,H*.8,W,H*.2);ctx.restore();
+}
+
 function renderMenuBg(z) {
+  if (state === 'title') { renderTitleScene(); return; }
   const cx = gtime * 14, cy = gtime * 7;
   ctx.setTransform(z, 0, 0, z, DPR * W / 2 - cx * z, DPR * H / 2 - cy * z);
   drawWorldBg(cx, cy);
@@ -15063,11 +15137,7 @@ function renderMenuBg(z) {
   for (let i = 0; i < 36; i++) { const x = ((i * 97.3 + gtime * (8 + i % 5 * 4)) % (W + 40)) - 20, y = H - ((i * 151.7 + gtime * (14 + i % 4 * 6)) % (H + 40)) + 20; glowAt(i % 3 ? '#ffe23a' : i % 2 ? '#4fd4ff' : '#ff3d6e', x, y, 8 + (i % 4) * 4, 0.6); }
   ctx.globalCompositeOperation = 'source-over';
   if (vignette) ctx.drawImage(vignette, 0, 0, W, H);
-  if (state === 'title') {
-    const wide = PC && W > H * 1.2, s = wide ? H / 118 : Math.min(W, H) / 105, hx = wide ? W * 0.22 : W / 2, hy = wide ? H * 0.56 : H * 0.5; // v16: hero stands beside the menu on wide screens
-    ctx.globalCompositeOperation = 'lighter'; glowAt('#b56bff', hx, hy - 10 * s, 70 * s, 0.35); glowAt('#ff3d6e', hx, hy + 10 * s, 50 * s, 0.15); ctx.globalCompositeOperation = 'source-over';
-    ctx.save(); ctx.translate(hx, hy); ctx.scale(s, s); drawHero(ctx, { t: gtime, cls: CLASSES[save.lastClass] && save.classes[save.lastClass] ? save.lastClass : 'rogue', outfit: save.outfit }); ctx.restore();
-  }
+
 }
 
 /* ================= INPUT ================= */
