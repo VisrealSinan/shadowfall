@@ -1,12 +1,12 @@
 {
- "version": "55",
+ "version": "56",
  "date": "2026-10-29",
  "minLauncher": "2.0.0",
  "notes": [
-  "A new moonlit title screen: eclipsed moon, ruined citadel, shadowed forest and the updated Rogue and Bearlina artwork.",
-  "Gold title lettering and a compact central menu, fitted for desktop, phones and landscape screens.",
-  "Continue Run, Armory, Wardrobe, Audio and the existing menu controls remain available. Windows downloads are under Play on Windows.",
-  "Cached scenery and reduced-motion support keep the new screen lightweight."
+  "Neural Foundry enemies and bosses now use the original artwork from the Neural Foundry art ZIP, preserving richer colors and finer details.",
+  "Updated five enemy designs, all five bosses, and the shielded sentinel variant that shares the Firewall design.",
+  "Improved sprite padding preserves full silhouettes during wind-ups. Existing movement, hit flashes and death silhouettes remain.",
+  "Embedded artwork remains available if the original PNGs cannot load or are not cached offline."
  ],
  "files": [
   {
@@ -31,8 +31,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "01fdc63e5889bda661ac993475f6e0d1b6d2f8ec740e70d04f2fca51e8e6a6d4",
-   "size": 2823534
+   "sha256": "15d4a9b33e46012ba50fb6b9702730cfef78b8ce1d67b2926d3ec8cc7d9850b5",
+   "size": 2824371
   },
   {
    "name": "manifest.webmanifest",
@@ -41,7 +41,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "b02440207afbb728f851b33f83eff6d725fe18094f76005cae964d82bf69bdfb",
+   "sha256": "cf382ac05adec573e5e113b5b86afac49962790ff2c0e96da989ae81647e4659",
    "size": 1569
   },
   {
@@ -98,6 +98,56 @@
    "name": "assets/bearlina-troll-bear-form.png",
    "sha256": "d0d2e239ad2e84a06f5c55846d3081831e6da1011ae21b04ac2025e07a863a25",
    "size": 1969020
+  },
+  {
+   "name": "assets/enemy-archivist.png",
+   "sha256": "60bb4ce285b416777646a726a60af740f787696b98e1457e6400824ac98473e1",
+   "size": 302001
+  },
+  {
+   "name": "assets/enemy-assemblysaint.png",
+   "sha256": "802e0ce1daf51500124d4601f5352db4f5f74b43258e2e8ce9509b0d306b672e",
+   "size": 439261
+  },
+  {
+   "name": "assets/enemy-cacheskit.png",
+   "sha256": "1230ce0545a66fdeb486dd12c8e6cf391c45907b572f0c72c7ce1703a83686dc",
+   "size": 139337
+  },
+  {
+   "name": "assets/enemy-compiler.png",
+   "sha256": "e63f8e8a6d9d078ae5f8e8d77f44090749a6792e4d99d8d37a74bd167c20dd12",
+   "size": 174291
+  },
+  {
+   "name": "assets/enemy-falseoracle.png",
+   "sha256": "5c55cdbd83bbc36544a81570ca26724fff7a989bfd4a19ad2ad620b927341729",
+   "size": 238146
+  },
+  {
+   "name": "assets/enemy-firewall.png",
+   "sha256": "78d8f4e2776f8484c9ef397276b1c02277ca390f3c24e147ea4bb02b5194803d",
+   "size": 208750
+  },
+  {
+   "name": "assets/enemy-gatekeeper.png",
+   "sha256": "19829abac1505f23cba7e3acc9a80730221a449821139449b56e413f63485dc3",
+   "size": 419040
+  },
+  {
+   "name": "assets/enemy-huskproc.png",
+   "sha256": "aed8620ea5cb89eba14d983057d58d7a9fbade9d569107b25a68525544da4c56",
+   "size": 172706
+  },
+  {
+   "name": "assets/enemy-sovereign.png",
+   "sha256": "226dea47f416f2afe58a3f177dcfd68b7797c1087a6a8d4661138f7427658425",
+   "size": 502024
+  },
+  {
+   "name": "assets/enemy-watchmote.png",
+   "sha256": "75820f8cd17baefd145ab5480dd3c8a5f368b33e3266a10d9520853ff32b48b0",
+   "size": 131703
   },
   {
    "name": "assets/ranger-cat-female.png",

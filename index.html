@@ -6149,8 +6149,26 @@ const HAWK32 = (() => {
      it still gets the game's walk bob, wind-up lunge, ground shadow pool, hit-flash and death silhouette. */
   const IMG51M = { watchmote: ['watchmote', 0.92, 1], huskproc: ['huskproc', 0.96], cacheskit: ['cacheskit', 1], compiler: ['compiler', 0.96], firewall: ['firewall', 0.96], sentprime: ['firewall', 0.97, 0, 'rgba(255,120,30,.26)'],
     gatekeeper: ['gatekeeper', 0.96], archivist: ['archivist', 0.97, 1], assemblysaint: ['assemblysaint', 0.97], falseoracle: ['falseoracle', 0.97, 1], sovereign: ['sovereign', 0.97, 1] };
-  function img51Frame(k, i) { const m = IMG51M[k], src = img51(m[0]), n = Math.round(eSz(k)), K = PXA_K || 1, Wd = Math.round(n * K), c = mkCanvas(Wd, Wd), g = c.getContext('2d');
-    const t = i < 4 ? i / 4 * TAU : 0, w = i === 4, sc = m[1] * n * K / Math.max(src.width, src.height) * (w ? 1.06 : 1);
+  // Original ZIP artwork. The embedded palette sprites remain the offline/load fallback.
+  const enemyArt56Images = new Map();
+  function enemyArt56(key) {
+    let im = enemyArt56Images.get(key);
+    if (!im) {
+      im = new Image(); enemyArt56Images.set(key, im);
+      im.onload = () => {
+        for (const [type, m] of Object.entries(IMG51M)) if (m[0] === key) {
+          for (let i = 0; i < 5; i++) PXA.cache.delete('M' + type + i);
+          const d = Object.getOwnPropertyDescriptor(SPR.enemy,type);
+          if (d && !d.get) for (let i = 0; i < 5; i++) SPR.rq.push([type,i]);
+        }
+      };
+      im.src = 'assets/enemy-' + key + '.png';
+    }
+    return im.complete && im.naturalWidth ? im : null;
+  }
+  PXA.enemyArt56 = {types: Object.keys(IMG51M), image: enemyArt56};
+  function img51Frame(k, i) { const m = IMG51M[k], src = enemyArt56(m[0]) || img51(m[0]), n = Math.round(eSz(k)), K = PXA_K || 1, Wd = Math.round(n * K), c = mkCanvas(Wd, Wd), g = c.getContext('2d');
+    const t = i < 4 ? i / 4 * TAU : 0, w = i === 4, sc = Math.min(m[1] * (w ? 1.03 : 1), m[2] ? 0.90 : 0.88) * n * K / Math.max(src.width, src.height);
     const dw = src.width * sc, dh = src.height * sc, by = m[2] ? n * 0.54 + Math.sin(t) * 2.4 - (w ? 1.5 : 0) : n * 0.94 - Math.abs(Math.sin(t * 2)) * 1.5 + (w ? 1 : 0);   // art px
     g.imageSmoothingEnabled = true; g.imageSmoothingQuality = 'high';
     const cy = m[2] ? by * K + dh / 2 : by * K; g.drawImage(src, Wd / 2 - dw / 2, cy - dh, dw, dh);
