@@ -31,18 +31,18 @@
   },
   {
    "name": "index.html",
-   "sha256": "1c3937a011aeb4408a228b3531057d86ea87dfe164f7baebc4ec1acfe55040ee",
-   "size": 2832714
+   "sha256": "ec685930c12d6e3d239e96f198151f674c582e7687f28905e4c9ea55ac036008",
+   "size": 2815487
   },
   {
    "name": "manifest.webmanifest",
-   "sha256": "14bfbc497cf6c1d4ab084a0014d3c3f9e9384e88ac5cf82e8b6ce38f21674dee",
-   "size": 1007
+   "sha256": "d2b3df22d037ebfbd8d964751e95166b193e806271d9ce771f389b2952e42d9d",
+   "size": 964
   },
   {
    "name": "sw.js",
-   "sha256": "33a8dee202374486063f55d695bd227dc9a5737df0a889a950ef056347d897f2",
-   "size": 1594
+   "sha256": "dd9c2935016cb344b4fae22d58ae0819c2a8d1b6e33946e28737de84c96aed8b",
+   "size": 1569
   },
   {
    "name": "assets/actor-animation-manifest.js",
