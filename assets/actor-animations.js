@@ -1,4 +1,4 @@
-/* Completed draft atlases. Missing variants retain the native renderer. */
+/* Full action sets take priority; run-only drafts use a still idle pose. */
 const ActorAnimations = (() => {
   const images = new Map();
   const variants = ACTOR_ANIMATION_MANIFEST.variants;
@@ -12,7 +12,9 @@ const ActorAnimations = (() => {
     if (images.has(v.src)) { const im = images.get(v.src); images.delete(v.src); images.set(v.src, im); return im; }
     const im = new Image(); images.set(v.src, im);
     // Bound decoded atlas memory; only visible/recent actors stay resident.
-    if (images.size > 12) images.delete(images.keys().next().value);
+    // The class selector can display all 21 classes together. Retain enough
+    // images for that view so load callbacks cannot cause eviction/reload loops.
+    if (images.size > 32) images.delete(images.keys().next().value);
     im.onload = () => { if (state === 'select') renderSelect(); else if (state === 'race') renderRace(); };
     im.src = v.src;
     return im;
@@ -31,7 +33,7 @@ const ActorAnimations = (() => {
     if (c && v.animations[c.action]) {
       const a = v.animations[c.action], age = gtime - c.at;
       if (age >= 0 && age < a.frames * a.frame_duration_ms / 1000) { action = c.action; elapsed = age; }
-    } else if (o.atk > 0) { action = 'attack'; elapsed = (1 - o.atk) * .6; }
+    } else if (o.atk > 0 && v.animations.attack) { action = 'attack'; elapsed = (1 - o.atk) * .6; }
     const a = v.animations[action], n = Math.floor(elapsed * 1000 / a.frame_duration_ms);
     return {action, row:a.row, column:a.loop ? ((n % a.frames) + a.frames) % a.frames : Math.min(a.frames - 1, Math.max(0,n))};
   }

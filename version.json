@@ -1,12 +1,13 @@
 {
- "version": "53",
+ "version": "54",
  "date": "2026-10-29",
  "minLauncher": "2.0.0",
  "notes": [
-  "First animation preview: completed action sets for Rogue, Warlock, Summoner, selected Ranger races, and all eight Bearlina forms.",
-  "Idle, running, attack, class ability and dodge animations; Bearlina Full Moon stays free of screen shake.",
-  "Male and female appearance choices in the wardrobe for supported classes.",
-  "Missing or unavailable sprite sets use existing artwork. Artistic review remains in progress."
+  "Updated character artwork now covers all 320 class/race/gender combinations, plus all eight Bearlina forms.",
+  "The 64 complete action sets are preserved; the remaining 264 variants use six-frame running drafts and a still idle pose.",
+  "Male and female appearance selection is available in the wardrobe for all 20 humanoid classes.",
+  "Missing attack, cast and dodge frames use the available character pose while existing skill effects and gameplay continue.",
+  "These new running sheets are draft artwork; some frame consistency issues remain under review."
  ],
  "files": [
   {
@@ -41,18 +42,18 @@
   },
   {
    "name": "sw.js",
-   "sha256": "dd9c2935016cb344b4fae22d58ae0819c2a8d1b6e33946e28737de84c96aed8b",
+   "sha256": "c10cde31d32599a6c6e942fb80a74c3a697543ad123454d24272a103930c3196",
    "size": 1569
   },
   {
    "name": "assets/actor-animation-manifest.js",
-   "sha256": "8b27199ea2fc977dff7d3dd9c3f86eb0aac808fd6499a5404fd45f47b68da479",
-   "size": 38157
+   "sha256": "9e00cd8c02bfe45137dad0896bedda49b9c84c9ca446576f53b6c4974264b79d",
+   "size": 142479
   },
   {
    "name": "assets/actor-animations.js",
-   "sha256": "b88009dd5664e6df16082c78a30dacaf8ca320eda899a9520a89d5d6b7022e30",
-   "size": 2701
+   "sha256": "143bf7957b35d8f07bb572d82b10eff43fd81309220c82ccdde0927a389d909a",
+   "size": 2884
   },
   {
    "name": "assets/bearlina-cat-bear-form.png",
@@ -218,6 +219,1326 @@
    "name": "assets/rogue-troll-male.png",
    "sha256": "9071a31ca5c9b56d335330798e379b72090b898289383e50d20cb7ce177968bf",
    "size": 1136181
+  },
+  {
+   "name": "assets/run-alchemist-cat-female.png",
+   "sha256": "e7b03508c59dba6313710ccaea8d9dc4a5dfe788e45506d764ca6e6e2bcbd4d0",
+   "size": 297590
+  },
+  {
+   "name": "assets/run-alchemist-cat-male.png",
+   "sha256": "1bf619333afa73a8efc462dd40a052c9a85d5548f99da33b7dadae4a427fea05",
+   "size": 272475
+  },
+  {
+   "name": "assets/run-alchemist-dwarf-female.png",
+   "sha256": "6328068496d72a808a32abbc6cb4bdb9600918976bc297f48bc68d26a0440ae4",
+   "size": 310629
+  },
+  {
+   "name": "assets/run-alchemist-dwarf-male.png",
+   "sha256": "7512537abab38583e797c8814ae0e15c5f1c9d42119dcff91915be5729306135",
+   "size": 264337
+  },
+  {
+   "name": "assets/run-alchemist-elf-female.png",
+   "sha256": "4d2385eea999b3bd74e5b06badda953b05e61048e801052ca2c4a9709efe654f",
+   "size": 329995
+  },
+  {
+   "name": "assets/run-alchemist-elf-male.png",
+   "sha256": "4849a18ed0e86bc11c9d06415cf6cfdc6aca16b696fe3d98b8e38eae4d6b693d",
+   "size": 302842
+  },
+  {
+   "name": "assets/run-alchemist-kitsune-female.png",
+   "sha256": "31dcb80bd5290fcec3f897e057cdd9bc224a82c78480700895df0525e5eb0f1f",
+   "size": 327036
+  },
+  {
+   "name": "assets/run-alchemist-kitsune-male.png",
+   "sha256": "89eb6721b7306db6d23fc61bdfa19223e3be38657a4e25532909fe17c3669711",
+   "size": 325352
+  },
+  {
+   "name": "assets/run-alchemist-ogre-female.png",
+   "sha256": "f79d6213033800c70aca5d698201f144f77ddb212081e5e1714d99b7066f814c",
+   "size": 324519
+  },
+  {
+   "name": "assets/run-alchemist-ogre-male.png",
+   "sha256": "d3ff4260f86e231c7aa71b5fc9f7d6692e00f6e297671656dd400d952a688e89",
+   "size": 307626
+  },
+  {
+   "name": "assets/run-alchemist-scale-female.png",
+   "sha256": "0397fa060f593f3d1a9113532569542a90c1e7f6afac7c008c57d26b89f4dfa9",
+   "size": 329562
+  },
+  {
+   "name": "assets/run-alchemist-scale-male.png",
+   "sha256": "e348785d666344232e89e40aa8feef069542dfdbd50ce778d4b24eb5d6076f93",
+   "size": 316254
+  },
+  {
+   "name": "assets/run-alchemist-shade-female.png",
+   "sha256": "daabce7161ef046e8697ce1f484a7b660d91f3d4e861bd93d98abf1127a1e5f6",
+   "size": 354000
+  },
+  {
+   "name": "assets/run-alchemist-shade-male.png",
+   "sha256": "4f2dbaa4746763c00385e95d86e7183c8b702358945bc2711bbbe06b38233c3e",
+   "size": 328972
+  },
+  {
+   "name": "assets/run-alchemist-troll-female.png",
+   "sha256": "686c11d079731c7221095ee82ce0c8d6139b6ef59c666e3e933ad37e3b82f587",
+   "size": 335141
+  },
+  {
+   "name": "assets/run-alchemist-troll-male.png",
+   "sha256": "21a920d4d4dea71fc5c30e05d702588ad356577cee1beb2bc4ac23a3c43509d0",
+   "size": 321095
+  },
+  {
+   "name": "assets/run-bard-cat-female.png",
+   "sha256": "fdb6149eed02c4c4c4f43000556395cd6e83955f9ac089d2221046eb05df5ae3",
+   "size": 294959
+  },
+  {
+   "name": "assets/run-bard-cat-male.png",
+   "sha256": "b43a9297eb39e97cca1f25be5c8a6677d1ed472b7a0f995b79826dda65baea34",
+   "size": 304541
+  },
+  {
+   "name": "assets/run-bard-dwarf-female.png",
+   "sha256": "30eed135d1052ddc13854c38c773f3676542f833ee5ee710706d45a105950f8a",
+   "size": 333944
+  },
+  {
+   "name": "assets/run-bard-dwarf-male.png",
+   "sha256": "263d883a574b8a43ed73a5161c2a3125e316058d6310e2faf33d5aba6fb192e4",
+   "size": 294863
+  },
+  {
+   "name": "assets/run-bard-elf-female.png",
+   "sha256": "b6dc5f43dbd95daea34a1865aebfd1b9a267b2118ec347f33fe8c4193a927595",
+   "size": 324421
+  },
+  {
+   "name": "assets/run-bard-elf-male.png",
+   "sha256": "63684989eb9a48f58285bafc3c2def4d9258682474c7b92020584fcbd1db0bcc",
+   "size": 343143
+  },
+  {
+   "name": "assets/run-bard-kitsune-female.png",
+   "sha256": "d3b9d06af1235a897ca6994ff0c4887140ef04bfe847c9f440d59336dc28bd68",
+   "size": 340721
+  },
+  {
+   "name": "assets/run-bard-kitsune-male.png",
+   "sha256": "6edd41c398ec9d4f02141a48dcf7bf59d58025f42774d965d9754a6948846a9b",
+   "size": 347707
+  },
+  {
+   "name": "assets/run-bard-ogre-female.png",
+   "sha256": "98bce07fca831a3d20a140908688da1e2c018f7fffc8e2aecd377455b13634f1",
+   "size": 316273
+  },
+  {
+   "name": "assets/run-bard-ogre-male.png",
+   "sha256": "75203295d68e9f0feca5f21ce12f19787b7afd90df49b066741fb69c1c7c15f0",
+   "size": 320078
+  },
+  {
+   "name": "assets/run-bard-scale-female.png",
+   "sha256": "05c5226dd3ce205943672de683f8b4e56376a8b201f2670481801eecdaeef16f",
+   "size": 334142
+  },
+  {
+   "name": "assets/run-bard-scale-male.png",
+   "sha256": "2eb88b1ad4483d01e6255a70a8c694fdeb34134162efa1471887a16a724ab4dd",
+   "size": 329790
+  },
+  {
+   "name": "assets/run-bard-shade-female.png",
+   "sha256": "dfd9ce216143d6ab75965d8a19fef25a8d8ee080e05905211f7a56362cadcc2d",
+   "size": 329269
+  },
+  {
+   "name": "assets/run-bard-shade-male.png",
+   "sha256": "7d52e050c62c05910bc5934a8773ffe689017be7ea8afe51e7f0f8825d22cd7b",
+   "size": 334798
+  },
+  {
+   "name": "assets/run-bard-troll-female.png",
+   "sha256": "d57e5468cf4cfbdf59ae264b44539c47196b7bd770a2cdbc4d52af43e275c240",
+   "size": 350912
+  },
+  {
+   "name": "assets/run-bard-troll-male.png",
+   "sha256": "c7c90f433b24ac24a28cd6bc8a957548be9f16532317fe541618451159f53e27",
+   "size": 342161
+  },
+  {
+   "name": "assets/run-bloodknight-cat-female.png",
+   "sha256": "60a699829a6d3984b08ac309b245dfe25cbc88c2fa2f6df7a287ccea2c4da545",
+   "size": 262655
+  },
+  {
+   "name": "assets/run-bloodknight-cat-male.png",
+   "sha256": "c15aa87fa82741649c4f13aebf8f00c90a75e86f8e9bbd6f39887d0298117a46",
+   "size": 269679
+  },
+  {
+   "name": "assets/run-bloodknight-dwarf-female.png",
+   "sha256": "519011e4930a6187178262b915928674f52e09ed3d70450522a73e1bf88cac35",
+   "size": 284154
+  },
+  {
+   "name": "assets/run-bloodknight-dwarf-male.png",
+   "sha256": "7e8c930b2e3784f5982c06c35b1db8442cc9977cb9f75fa95be996a434fec95a",
+   "size": 287474
+  },
+  {
+   "name": "assets/run-bloodknight-elf-female.png",
+   "sha256": "46b5a4ea145af34c12236e3df3fd931842a75a2b028bf12b64abf54cb8cb4fd8",
+   "size": 293857
+  },
+  {
+   "name": "assets/run-bloodknight-elf-male.png",
+   "sha256": "18a8336409f50349246cb63d0e3967a1d2c72ffbae17f914d54131b1485b3501",
+   "size": 271127
+  },
+  {
+   "name": "assets/run-bloodknight-kitsune-female.png",
+   "sha256": "c3459d9361d6acd563a3a1706082ba5ff556283ea4be0a278266b2be411d651d",
+   "size": 304524
+  },
+  {
+   "name": "assets/run-bloodknight-kitsune-male.png",
+   "sha256": "3daa27595486e6acb8e422e58164ff07e0a4f45c22984adf9b32ccd4233ada81",
+   "size": 299194
+  },
+  {
+   "name": "assets/run-bloodknight-ogre-female.png",
+   "sha256": "973979e30067b80e436c829af415b8c0f34e357fded471e9ac9999c9fc4a62ea",
+   "size": 308113
+  },
+  {
+   "name": "assets/run-bloodknight-ogre-male.png",
+   "sha256": "047bcb07244eac3c85d40b9472240dbb87837de2f280fa19e2531bdded53a248",
+   "size": 314461
+  },
+  {
+   "name": "assets/run-bloodknight-scale-female.png",
+   "sha256": "ea9fe75e8b4e1e67a567bff711eae1bebfb72a18b56c27f000439b82d8d9bf9e",
+   "size": 286229
+  },
+  {
+   "name": "assets/run-bloodknight-scale-male.png",
+   "sha256": "42b21e3c1c3c9e19d5f8ff5ecd81fb90ce6a476bcfbff65bd22ac0d6cd88d042",
+   "size": 290364
+  },
+  {
+   "name": "assets/run-bloodknight-shade-female.png",
+   "sha256": "7c3c99ef1f82779d4a08a81b372c37abc746b0e4dae6f82cd6c2da6dc5b94f78",
+   "size": 328891
+  },
+  {
+   "name": "assets/run-bloodknight-shade-male.png",
+   "sha256": "c1ab7642c90203533156d1bfe449d0572123882b040ac5e9bdeef78da774ca94",
+   "size": 314756
+  },
+  {
+   "name": "assets/run-bloodknight-troll-female.png",
+   "sha256": "2641c864683424962a2468ab54ebfde0a0c6f9ff184247901cf3c1b72a5f2032",
+   "size": 296745
+  },
+  {
+   "name": "assets/run-bloodknight-troll-male.png",
+   "sha256": "6f345e102df7ea1ba462dffe7faf7fb6cbece3b13af84986cdca985a869c5e31",
+   "size": 307348
+  },
+  {
+   "name": "assets/run-chrono-cat-female.png",
+   "sha256": "11bcda66cc39307377c14524bfb0b474c691eeb0f61b5e8bc54d6ab26f6202b8",
+   "size": 289972
+  },
+  {
+   "name": "assets/run-chrono-cat-male.png",
+   "sha256": "e6dc82c0a3d38c26cc7630b8cfed2e6d2a3c3e9b911483b31ffafbf4e4ff21fa",
+   "size": 284616
+  },
+  {
+   "name": "assets/run-chrono-dwarf-female.png",
+   "sha256": "356fcc3225a6e32729a0334691cc3fc3ac7ce052362876a23bf35a7a0a0fee0d",
+   "size": 300493
+  },
+  {
+   "name": "assets/run-chrono-dwarf-male.png",
+   "sha256": "1909a2581f1f03aa8c7336987cb712f232836393b619c9d7832b8c3e719e0de4",
+   "size": 310118
+  },
+  {
+   "name": "assets/run-chrono-elf-female.png",
+   "sha256": "92b13edc681fb62caeed481cce13614acbc9469d0c4bfbb24d57881d8887d5c1",
+   "size": 309853
+  },
+  {
+   "name": "assets/run-chrono-elf-male.png",
+   "sha256": "af51d288d09701985c15e912c0f6f3062201cacaa220069c2d59d0ee44995ce7",
+   "size": 323287
+  },
+  {
+   "name": "assets/run-chrono-kitsune-female.png",
+   "sha256": "9f12ef8361ffad4f3a3d4004cece7afb395f4bd7533dd4384fd0d7ae64788be2",
+   "size": 346637
+  },
+  {
+   "name": "assets/run-chrono-kitsune-male.png",
+   "sha256": "d90c6684c0336b6aac9ea2a32ef8a3abaa52d582406fb9342ef0bba4e9d6c192",
+   "size": 338726
+  },
+  {
+   "name": "assets/run-chrono-ogre-female.png",
+   "sha256": "f1e5d6002a2d30b36d2c2761fe0a7c4be65adba1c7f5ef6f234e476ddc848020",
+   "size": 325387
+  },
+  {
+   "name": "assets/run-chrono-ogre-male.png",
+   "sha256": "c88c1452abc4dbe23991b5cd483e2d83ab45cda652cad2bb924560d648a23ddd",
+   "size": 320176
+  },
+  {
+   "name": "assets/run-chrono-scale-female.png",
+   "sha256": "f37828e4b1eddc83056f68850a7c5f1663cb38be26d1bc77f128ec7ac260226d",
+   "size": 332037
+  },
+  {
+   "name": "assets/run-chrono-scale-male.png",
+   "sha256": "9fddb8125d1525749637301bdee5cef756db2f1e3ec23d1b97f2bdb82db19357",
+   "size": 341860
+  },
+  {
+   "name": "assets/run-chrono-shade-female.png",
+   "sha256": "678f8e1bd279ce4de651c724ce0cd85000e29a539c424a9605fff81fd27cd4be",
+   "size": 337398
+  },
+  {
+   "name": "assets/run-chrono-shade-male.png",
+   "sha256": "931d12b270bbdbd49d68594c96448f98ef116585077c149eeca326a2044848fd",
+   "size": 353344
+  },
+  {
+   "name": "assets/run-chrono-troll-female.png",
+   "sha256": "b2bd0da11143c8b3b7d7073ff33ca4f5b27c460f786961e2c0f78128f42308ba",
+   "size": 330334
+  },
+  {
+   "name": "assets/run-chrono-troll-male.png",
+   "sha256": "6bcce8af41320d8e8dcd41459ea12bef3bde1b329ccda3d4f401dd95fbbd0f0c",
+   "size": 329024
+  },
+  {
+   "name": "assets/run-druid-cat-female.png",
+   "sha256": "94c16a50dc7535360f53babcfc6810c925b230e74225bd129bd78291289e04f5",
+   "size": 271710
+  },
+  {
+   "name": "assets/run-druid-cat-male.png",
+   "sha256": "d4fd25cd10bacff959e0603e3d8aab97ad87d3202c93bccd0f7ed63b1e9fac2e",
+   "size": 272870
+  },
+  {
+   "name": "assets/run-druid-dwarf-female.png",
+   "sha256": "5fd210b4d4a5fdf1efed676760e294b381e6d48fc9869dafe97c961cc27cc902",
+   "size": 271588
+  },
+  {
+   "name": "assets/run-druid-dwarf-male.png",
+   "sha256": "8bfcc8095d6f3410732e3d8613923875e7653038e0a8ac1da98d1f2a565543a3",
+   "size": 289229
+  },
+  {
+   "name": "assets/run-druid-elf-female.png",
+   "sha256": "def6538e09965f9322d55a59fad92dbda70551dc6b216e4146fe941d3df48b85",
+   "size": 288211
+  },
+  {
+   "name": "assets/run-druid-elf-male.png",
+   "sha256": "3d31b0d98641d2c51e3d1df16b13da7311a233c63025caa32a1f8f3c2847afbb",
+   "size": 292872
+  },
+  {
+   "name": "assets/run-druid-kitsune-female.png",
+   "sha256": "37fe013aaecc2a5ac784cc633a991a527b5f42a4ddfc8417781f7c991fe36a45",
+   "size": 308757
+  },
+  {
+   "name": "assets/run-druid-kitsune-male.png",
+   "sha256": "8baaf76d0d460c8db939fb8a54c9d7c51701e6c0b5b0e15514b676630d46e348",
+   "size": 312346
+  },
+  {
+   "name": "assets/run-druid-ogre-female.png",
+   "sha256": "645c59607c06cb376b84fc43c235cf291477357704343376c587bd6a4cb7c394",
+   "size": 306716
+  },
+  {
+   "name": "assets/run-druid-ogre-male.png",
+   "sha256": "e1b8af30ad5b2f6503aa261bcaa8cba4639573f80fcb622297bb9f1473fec583",
+   "size": 311389
+  },
+  {
+   "name": "assets/run-druid-scale-female.png",
+   "sha256": "8b5ef40d84a6865eba642221eb0f14af8f177ca211fef43f24f5e90cd4921f50",
+   "size": 354238
+  },
+  {
+   "name": "assets/run-druid-scale-male.png",
+   "sha256": "046186ec16d2714f5cf8fc7f56df7b56fd68ea0bf0b38e36c284d32754770ca8",
+   "size": 314429
+  },
+  {
+   "name": "assets/run-druid-shade-female.png",
+   "sha256": "35b4189d90ef9aa26d8fbc333a2ea338d991c13c8d6853ddccfd8c75944f58fc",
+   "size": 245765
+  },
+  {
+   "name": "assets/run-druid-shade-male.png",
+   "sha256": "3dde8a0ab2843bbd9a182bd89ad9343ca510ccb610bb9441942d78bc7d5cf749",
+   "size": 330893
+  },
+  {
+   "name": "assets/run-druid-troll-female.png",
+   "sha256": "0ec9a10fefbe173676eb8171c58ac31ad34d3735630eee64e6d98fdb464e3753",
+   "size": 284071
+  },
+  {
+   "name": "assets/run-druid-troll-male.png",
+   "sha256": "ce574b42ca779f5b513fdaca98fa0ffd27bdf99d5cf6ba4df7c94ad91e655470",
+   "size": 319388
+  },
+  {
+   "name": "assets/run-engineer-cat-female.png",
+   "sha256": "8accabbcc985e414d824a18ff127cb9b3c96ef89c116f0e7e49b7d5169b452db",
+   "size": 242143
+  },
+  {
+   "name": "assets/run-engineer-cat-male.png",
+   "sha256": "a94baa6c16e2218837717d1dc3fbdc15179270ea8c6349c8a40e0bdd94531dbf",
+   "size": 253525
+  },
+  {
+   "name": "assets/run-engineer-dwarf-female.png",
+   "sha256": "b90c4781a6580cab1b8656e468edfb26f646248dd2f36b80848e0b3b8cf3bb4c",
+   "size": 266862
+  },
+  {
+   "name": "assets/run-engineer-dwarf-male.png",
+   "sha256": "2b512fa98bd80578523c288e92840d8a0e7c417644632d8a667e7cbd8e3ef0c4",
+   "size": 264452
+  },
+  {
+   "name": "assets/run-engineer-elf-female.png",
+   "sha256": "13410e1692f87b2b123225611274915e3d11160f6f9004bd6f8461253be55119",
+   "size": 275253
+  },
+  {
+   "name": "assets/run-engineer-elf-male.png",
+   "sha256": "12757543da84872615d2f89d422fc034f209866b81a4a3567956b8382d120f26",
+   "size": 288764
+  },
+  {
+   "name": "assets/run-engineer-kitsune-female.png",
+   "sha256": "22ad14d5769ef18e558e61a714327ffe9b3ef1a6706b872c27cacd70d04fe539",
+   "size": 293501
+  },
+  {
+   "name": "assets/run-engineer-kitsune-male.png",
+   "sha256": "ee663de239e2c54105350d9abbb1523c9d232cfd56610529a607e6cbc18081d7",
+   "size": 319938
+  },
+  {
+   "name": "assets/run-engineer-ogre-female.png",
+   "sha256": "be6f5e623abfcd89d7776e9a6df88eff61d7f31ada60610d7fcbdfccba8e5ec0",
+   "size": 261633
+  },
+  {
+   "name": "assets/run-engineer-ogre-male.png",
+   "sha256": "a9a1b283a1de6083d841d24f5c8dd40d2eec0f1c4add57c53415f34066f74a75",
+   "size": 284229
+  },
+  {
+   "name": "assets/run-engineer-scale-female.png",
+   "sha256": "8d3ee770382144a87ee9b48803278159ca97590d49e8c1cab638410de448e6fc",
+   "size": 267457
+  },
+  {
+   "name": "assets/run-engineer-scale-male.png",
+   "sha256": "f8a82a9ac523d5213da55ec3dc0bb7cbc7f7d8cc6fbbad0ed4e541e22212da0d",
+   "size": 304359
+  },
+  {
+   "name": "assets/run-engineer-shade-female.png",
+   "sha256": "8321deadae03efbe79d2779f987487576599fde7801de0045440c109cf209302",
+   "size": 311008
+  },
+  {
+   "name": "assets/run-engineer-shade-male.png",
+   "sha256": "b291c41e7a65b8e07e383cfba16f0f54f06a584cc00aff85e3ab5e169f429b61",
+   "size": 313525
+  },
+  {
+   "name": "assets/run-engineer-troll-female.png",
+   "sha256": "b8909080e58291181f50e48631de2a3ec4893b94e3e178ab5db2f1240ee50cae",
+   "size": 270703
+  },
+  {
+   "name": "assets/run-engineer-troll-male.png",
+   "sha256": "31c481dc29021a0d3d1a60732ab4098f3e14affea8a99a951551a1c8bf4c92ae",
+   "size": 300932
+  },
+  {
+   "name": "assets/run-gunslinger-cat-female.png",
+   "sha256": "a30a5326c142f91a6f3d000064ddef547c849e2ca963ec53d3c4c51190bf102a",
+   "size": 269774
+  },
+  {
+   "name": "assets/run-gunslinger-cat-male.png",
+   "sha256": "37f1edd6685acd9128e7f1af7df19b24ac0ecd1e9ec77a48575805e029904a74",
+   "size": 282394
+  },
+  {
+   "name": "assets/run-gunslinger-dwarf-female.png",
+   "sha256": "986558e2db4d25a0f2075dbf0f9694e0d5e305fb220d295c5d1d74a6f4e9bd18",
+   "size": 341056
+  },
+  {
+   "name": "assets/run-gunslinger-dwarf-male.png",
+   "sha256": "8c7e7e2d05b5cc8b0952e2a629819f50d174f37186e8fa3d3015b523b7b2354d",
+   "size": 303690
+  },
+  {
+   "name": "assets/run-gunslinger-elf-female.png",
+   "sha256": "0600ecb81108d264202c6b6b1ca5c41ccaa81e00a8d4b354c38574d451092315",
+   "size": 316039
+  },
+  {
+   "name": "assets/run-gunslinger-elf-male.png",
+   "sha256": "8472d19f48228356cfa2f591a4af8a2dea41080a58a063acac4346c5c370e4a2",
+   "size": 310961
+  },
+  {
+   "name": "assets/run-gunslinger-kitsune-female.png",
+   "sha256": "5f52baa33f28e46e5a825d33c5472e4f336a6c9a3ed306ea07c686a5ed4b00d5",
+   "size": 322164
+  },
+  {
+   "name": "assets/run-gunslinger-kitsune-male.png",
+   "sha256": "2bca2a0f7c96dc2563bac61090a43287a82f3ec3f0fbeaea30f027b505b94bec",
+   "size": 317178
+  },
+  {
+   "name": "assets/run-gunslinger-ogre-female.png",
+   "sha256": "fcdaf5a263aee1422a50b9b7de4544235d65e7ee148acd7cda65351c424af76b",
+   "size": 310618
+  },
+  {
+   "name": "assets/run-gunslinger-ogre-male.png",
+   "sha256": "3854076d2ac172d9a51c9e28ad2afe557d781a669a06ec85e3f8e43a2654e7c5",
+   "size": 326031
+  },
+  {
+   "name": "assets/run-gunslinger-scale-female.png",
+   "sha256": "2ea17738c4498a05dcdb7346b6e73c71b3d405a322d151fcd0ff18257aa4bddd",
+   "size": 298232
+  },
+  {
+   "name": "assets/run-gunslinger-scale-male.png",
+   "sha256": "4e8126c38196e9f6ab6d5bfe54cc3cad2d41df3cfb6ce41b6b4b151277cbac51",
+   "size": 292132
+  },
+  {
+   "name": "assets/run-gunslinger-shade-female.png",
+   "sha256": "1fe6cfc61477e5ced1ac7451d47732a1f0b8171b800a2d2c35f7fd2ce0bb9325",
+   "size": 339625
+  },
+  {
+   "name": "assets/run-gunslinger-shade-male.png",
+   "sha256": "afc7bbda7001881d351ceba4d60994b5fb973d58a0acc26609e454bc6e6e0370",
+   "size": 339929
+  },
+  {
+   "name": "assets/run-gunslinger-troll-female.png",
+   "sha256": "321d3fb773ada3e20635cd15c82f1c897a750503a3793f097682f214a17fd14a",
+   "size": 300977
+  },
+  {
+   "name": "assets/run-gunslinger-troll-male.png",
+   "sha256": "5c0791b74dc228905a42a7f9e32f0c063baaa72d8d2d8296d39101180e4f1c55",
+   "size": 290414
+  },
+  {
+   "name": "assets/run-maestro-cat-female.png",
+   "sha256": "ecf76e8949e4c28356c4e4cc975e4e9bd2323deffa507db24685ed74968ccb6f",
+   "size": 322788
+  },
+  {
+   "name": "assets/run-maestro-cat-male.png",
+   "sha256": "0ce381c3a257ed91b4484ac69142a869e1b250ad01c3b46f3a9ba2ec7c320d5f",
+   "size": 297551
+  },
+  {
+   "name": "assets/run-maestro-dwarf-female.png",
+   "sha256": "be754bc9da5182190edf299359c88230e4786676ce460fb370bdddf7a50ff2d4",
+   "size": 316210
+  },
+  {
+   "name": "assets/run-maestro-dwarf-male.png",
+   "sha256": "199520eaf7ed9fc98df2ec16255e9f532220b9e89b54fac0e604f3a283fadc9a",
+   "size": 297412
+  },
+  {
+   "name": "assets/run-maestro-elf-female.png",
+   "sha256": "1613c5176bedb815e31cfefc8d4738c6a5fdb599347040f6b994c2f74d778733",
+   "size": 337877
+  },
+  {
+   "name": "assets/run-maestro-elf-male.png",
+   "sha256": "4308db36d222652c496898f47c4a82651d2e32f45034ff207a0137a96efdd557",
+   "size": 304893
+  },
+  {
+   "name": "assets/run-maestro-kitsune-female.png",
+   "sha256": "a03a3c8c6f0733217b64be0589f17d1be0a8ccc14ba60ce03014d98a3bda718c",
+   "size": 337786
+  },
+  {
+   "name": "assets/run-maestro-kitsune-male.png",
+   "sha256": "66cb5d6c04291e090937c8a876c17cb2363f19a05a955ab98fd4659b66b76b9a",
+   "size": 314281
+  },
+  {
+   "name": "assets/run-maestro-ogre-female.png",
+   "sha256": "dc478a7695dd5843be5f9142e4756350c3e63137957cac7a66148dc00a77a8b0",
+   "size": 319475
+  },
+  {
+   "name": "assets/run-maestro-ogre-male.png",
+   "sha256": "3eee5a9932e6ff578c5b147d816d774814097725c2d12a2b24baf6f9b238306c",
+   "size": 322030
+  },
+  {
+   "name": "assets/run-maestro-scale-female.png",
+   "sha256": "8ac0a4b1ef218f59ccf11761f9668f301c5e9622f59ed1f040f0b9fc71d5bb5e",
+   "size": 334430
+  },
+  {
+   "name": "assets/run-maestro-scale-male.png",
+   "sha256": "0388c1f4d11499aa5e0d40f82911142f91228d004122939d8cd4fb760bcc1f8c",
+   "size": 309761
+  },
+  {
+   "name": "assets/run-maestro-shade-female.png",
+   "sha256": "6af118ecd78e607a6c6745cb353c32842ac0c3c4088ec2b94faffcfe92db9805",
+   "size": 346733
+  },
+  {
+   "name": "assets/run-maestro-shade-male.png",
+   "sha256": "d34964c24cd5419d7050aafff1fd1642be5f0efadb725ebf22c047041fcd6547",
+   "size": 333012
+  },
+  {
+   "name": "assets/run-maestro-troll-female.png",
+   "sha256": "7049410804e3925dbb607968b8302ece6c1ab2857d6ed16bc627141158228176",
+   "size": 319427
+  },
+  {
+   "name": "assets/run-maestro-troll-male.png",
+   "sha256": "d63b66cbd4b49adb8a9a53bb6f267ed7fd14d9e3d6f33949279d626635fd8e1a",
+   "size": 314937
+  },
+  {
+   "name": "assets/run-mage-cat-female.png",
+   "sha256": "5a1435a4b90dac9d522f6851af2793913185c8f7cfdb9be0861fab5c8c4fa807",
+   "size": 299733
+  },
+  {
+   "name": "assets/run-mage-cat-male.png",
+   "sha256": "1387aeb08b2edb4ed20a7bb1bd5bff3cf62ac34f952d3e8da1fc271a16a785ff",
+   "size": 303422
+  },
+  {
+   "name": "assets/run-mage-dwarf-female.png",
+   "sha256": "5d47a43576fd55a8371d5fdbd62aa3f6e8cffca9a5f31144ee44bbe7e2aa8811",
+   "size": 311854
+  },
+  {
+   "name": "assets/run-mage-dwarf-male.png",
+   "sha256": "5d92f16af206815b1a171ae8a23e30e00d979320c0d6a8e06e443de4182a3e77",
+   "size": 278436
+  },
+  {
+   "name": "assets/run-mage-elf-female.png",
+   "sha256": "0e06d6d1c11a860023afbcb9a1a6128e152a2c463d7ba3188d20e787cac78623",
+   "size": 303249
+  },
+  {
+   "name": "assets/run-mage-elf-male.png",
+   "sha256": "12dda6f92a155d386d91440cf1ec264fe46361be4feea188b82db03e65de771b",
+   "size": 303725
+  },
+  {
+   "name": "assets/run-mage-kitsune-female.png",
+   "sha256": "cb04e78027cbdcbdb78e0cab62246df28e15022110466a3b38e1741760b6efe5",
+   "size": 331553
+  },
+  {
+   "name": "assets/run-mage-kitsune-male.png",
+   "sha256": "30faf3939b89b5e772525251beae2ff97ecbc36f87cb74f5e92f4dc8387a4d71",
+   "size": 325033
+  },
+  {
+   "name": "assets/run-mage-ogre-female.png",
+   "sha256": "8c60c14f81010d17fb68ab7366f1e507f00efac2c6c812acae2a2fb5672eb925",
+   "size": 295465
+  },
+  {
+   "name": "assets/run-mage-ogre-male.png",
+   "sha256": "dfc7bbd3c261c1b2cac468de1ae1ebf7f4039a8369cc72fa96d981d33de782d3",
+   "size": 312041
+  },
+  {
+   "name": "assets/run-mage-scale-female.png",
+   "sha256": "a8388f3fe3e58d37b48407c154556085a46017c047b72e98e81a56180d20bbf2",
+   "size": 331077
+  },
+  {
+   "name": "assets/run-mage-scale-male.png",
+   "sha256": "791d9e626ffff7019dcbc0b15e7d959e71f30e4709e5f6718d3c044f9d7b85ff",
+   "size": 325223
+  },
+  {
+   "name": "assets/run-mage-shade-female.png",
+   "sha256": "8188e24de883dc53014642ca4c6466eea29df97e3c33e40ddba9e5be0917599b",
+   "size": 328146
+  },
+  {
+   "name": "assets/run-mage-shade-male.png",
+   "sha256": "fed0a667ddd7782afa14299dc8864028b0d96f08a0fcf1d41997b09c04672b84",
+   "size": 342379
+  },
+  {
+   "name": "assets/run-mage-troll-female.png",
+   "sha256": "d75f0a69e3f4c51e81ef8460dcf394dd564da90c1cbf639b762f7163a555e4e0",
+   "size": 301913
+  },
+  {
+   "name": "assets/run-mage-troll-male.png",
+   "sha256": "09d09dcac04974ad950a6c14f2cf898d213db5037f79c8a7b1c0b207ca756155",
+   "size": 321643
+  },
+  {
+   "name": "assets/run-paladin-cat-female.png",
+   "sha256": "93358485bc9908abf826aabc1c7d3b1749bce41c120ca8fe67756e43b1f0267f",
+   "size": 280503
+  },
+  {
+   "name": "assets/run-paladin-cat-male.png",
+   "sha256": "56832f7c9498e772e7224b5755b7a2c558a0ca1b30a4c19fb7e6c636f7c476e8",
+   "size": 254732
+  },
+  {
+   "name": "assets/run-paladin-dwarf-female.png",
+   "sha256": "ee9e7afaaee4a68cfb91ef32a62471f2b7b71844f5503227a842bc55762b845a",
+   "size": 289119
+  },
+  {
+   "name": "assets/run-paladin-dwarf-male.png",
+   "sha256": "0c1d694d00f4687d3017c6fbfc4d8af540d7df57c09db9fe68e5ad0a9fabb96b",
+   "size": 267234
+  },
+  {
+   "name": "assets/run-paladin-elf-female.png",
+   "sha256": "c4f43a489822bf798ed967afe44f229f8b2350a7936260f8889d71bcabab1ca5",
+   "size": 298256
+  },
+  {
+   "name": "assets/run-paladin-elf-male.png",
+   "sha256": "20143bc47e300e9f983f0e3948183a9227e0cd5a91bc57d6a2a5b9bac63c7fa3",
+   "size": 278545
+  },
+  {
+   "name": "assets/run-paladin-kitsune-female.png",
+   "sha256": "bc5ca57118922455f61bb45a1263db7912742d5bf4c1d862cec54c93b3b0a11f",
+   "size": 311197
+  },
+  {
+   "name": "assets/run-paladin-kitsune-male.png",
+   "sha256": "d01ac5e6b35b35e5443c692803f56b96b648aea28fe7d5dd78e35407aa1a3aaa",
+   "size": 293035
+  },
+  {
+   "name": "assets/run-paladin-ogre-female.png",
+   "sha256": "0518d73c73342b9751a67f93f92ed691ef946351dfb4da283162fdfd8292cd25",
+   "size": 304270
+  },
+  {
+   "name": "assets/run-paladin-ogre-male.png",
+   "sha256": "0548e321d44ae79cfc81153b42f1708346576da3adc767a2d19ae0e53143e56d",
+   "size": 289974
+  },
+  {
+   "name": "assets/run-paladin-scale-female.png",
+   "sha256": "03fd0a3c5cbf850007649b20730a183f7755b05f5d6142527ea380efebde0fd6",
+   "size": 306399
+  },
+  {
+   "name": "assets/run-paladin-scale-male.png",
+   "sha256": "bee4c602a0f646e17033b522eb60a1c17177aafe830f55041512e450069f2670",
+   "size": 295317
+  },
+  {
+   "name": "assets/run-paladin-shade-female.png",
+   "sha256": "c7ec97b90398bf37f57e7b91de4bea0d75e91bcb075ed9d6e7fa624853f157b7",
+   "size": 317296
+  },
+  {
+   "name": "assets/run-paladin-shade-male.png",
+   "sha256": "0b5d3c3d3f9e20f87de68445226c40d7c16bd2ccbdeae0d2acc503232ca224cb",
+   "size": 322443
+  },
+  {
+   "name": "assets/run-paladin-troll-female.png",
+   "sha256": "03ea3a0f3faa6b83511b00fca48135322945093031db9578aaa00a2cc672242d",
+   "size": 309874
+  },
+  {
+   "name": "assets/run-paladin-troll-male.png",
+   "sha256": "01cd3d6820ec9ed5b3b0964630c44dc2a4059fbd09e2c07ad08eae51f87a572e",
+   "size": 301032
+  },
+  {
+   "name": "assets/run-paragon-cat-female.png",
+   "sha256": "e19f9037627f7b24db57417a65da8ee6e84ead10a0523904ebdd287fa39d5f00",
+   "size": 312325
+  },
+  {
+   "name": "assets/run-paragon-cat-male.png",
+   "sha256": "b7c09634e112e1c7e927ad471e31b69f967fdbfb59ca3dfc60c2332baf62b3ae",
+   "size": 290807
+  },
+  {
+   "name": "assets/run-paragon-dwarf-female.png",
+   "sha256": "99dc8d69cd9baffbe424d9da485747fcbc73853fb3f6126300a94b4802903a61",
+   "size": 299182
+  },
+  {
+   "name": "assets/run-paragon-dwarf-male.png",
+   "sha256": "f60662285cee2d3b166daaa43acc4036c7fac876e959f204777bce7618d62d24",
+   "size": 304540
+  },
+  {
+   "name": "assets/run-paragon-elf-female.png",
+   "sha256": "7eeaa655fa5a76769716558c3bbade1fff19ea928e88e24f7ac28f7bac475511",
+   "size": 331936
+  },
+  {
+   "name": "assets/run-paragon-elf-male.png",
+   "sha256": "dd20fb1154ce91176f9027aa0732e0e138af23eab4221a3f6fa3c6d88c073c31",
+   "size": 312094
+  },
+  {
+   "name": "assets/run-paragon-kitsune-female.png",
+   "sha256": "2c32891de9df02411349f56d7e71641821e1ba1583afb521bc5880b69a3c0f0a",
+   "size": 334834
+  },
+  {
+   "name": "assets/run-paragon-kitsune-male.png",
+   "sha256": "7eb91a6a3dc30cd7935f0616458ceb009cb84749872bb246db0c9f3f1f5a624f",
+   "size": 354062
+  },
+  {
+   "name": "assets/run-paragon-ogre-female.png",
+   "sha256": "30d830cbb329e6d9789797d11620bb3cde37c35dc25974133a8004560660759c",
+   "size": 350068
+  },
+  {
+   "name": "assets/run-paragon-ogre-male.png",
+   "sha256": "737e8616234b66d2f13a1e712674742f69e524d3d8ac7804d9651979bb7816d2",
+   "size": 325828
+  },
+  {
+   "name": "assets/run-paragon-scale-female.png",
+   "sha256": "32e3684692fe1f1c1fc80b702a4b80218a0b01dc7f43a31041a2b895e33884d7",
+   "size": 296902
+  },
+  {
+   "name": "assets/run-paragon-scale-male.png",
+   "sha256": "aa5b8983723b717f51baf46e2fa9e6be0b6df950534a88b0aaedac930072d406",
+   "size": 339980
+  },
+  {
+   "name": "assets/run-paragon-shade-female.png",
+   "sha256": "72c3e13831cbddfba3a2cb1c2a79c109fa12d4829b6c6ab11541ed144d8a8fd5",
+   "size": 349742
+  },
+  {
+   "name": "assets/run-paragon-shade-male.png",
+   "sha256": "1721adc7918c2c958de25ad0386d73a4e829081971d7b8ad5a22e31c5ff4de0f",
+   "size": 361465
+  },
+  {
+   "name": "assets/run-paragon-troll-female.png",
+   "sha256": "5eef159a12b0152ebf02f8eeabee824ebf2ea922b45bb1c34fc03b6a256b13b6",
+   "size": 308020
+  },
+  {
+   "name": "assets/run-paragon-troll-male.png",
+   "sha256": "4326c53c1ac1fc80384551adadba6f0b8d00d0db99f4727c83ec4c8e70826e44",
+   "size": 340293
+  },
+  {
+   "name": "assets/run-ranger-dwarf-female.png",
+   "sha256": "05b9c4de82b3b083405093bef96dc06f352664f6717d45638721d6f42a5cdb76",
+   "size": 294825
+  },
+  {
+   "name": "assets/run-ranger-dwarf-male.png",
+   "sha256": "9ee6bbd735a92117a89d31a125b9b5a000cff0ab3316bc6756929c1201cb3530",
+   "size": 265214
+  },
+  {
+   "name": "assets/run-ranger-kitsune-female.png",
+   "sha256": "145e055a9e9d0f35564e66d6119d2cc96bdd8511ab542e47e23d9a7c3d5042ff",
+   "size": 318165
+  },
+  {
+   "name": "assets/run-ranger-kitsune-male.png",
+   "sha256": "08bbe8b58013cca7d370a59cf67497fe1625bffff9899b2b37098e766082ec6b",
+   "size": 309104
+  },
+  {
+   "name": "assets/run-ranger-scale-female.png",
+   "sha256": "3a46fec3fdec8b2044bf306d4cb89da70b96f37f2efd1b74c23d78c51b4fec96",
+   "size": 290042
+  },
+  {
+   "name": "assets/run-ranger-scale-male.png",
+   "sha256": "139dc8f67dda4f05a657706adc69325aef4371e337882a80a61f8c3591f37a9c",
+   "size": 305394
+  },
+  {
+   "name": "assets/run-ranger-shade-female.png",
+   "sha256": "82d3bb9dab1cae00068337d05084cdfac63cda0495f6ffd046ff3d8a06e67f0c",
+   "size": 321292
+  },
+  {
+   "name": "assets/run-ranger-shade-male.png",
+   "sha256": "ad5be2937a9bb0fd8193b65890d59c897aca2986df82c0d12cef9b754e8ff1ae",
+   "size": 313089
+  },
+  {
+   "name": "assets/run-reaper-cat-female.png",
+   "sha256": "ace47247d30f94248e511cfd3acb93005c05e868d2ae04d3a4864f065b53aa26",
+   "size": 257817
+  },
+  {
+   "name": "assets/run-reaper-cat-male.png",
+   "sha256": "279784e74495b52c5b65eef6431e452e97c698a4dbc80c7b687224f45cc3b88f",
+   "size": 282518
+  },
+  {
+   "name": "assets/run-reaper-dwarf-female.png",
+   "sha256": "45d06230de604a019611fd51649bec07909652a6858f2ea1433bce5cd918885f",
+   "size": 260028
+  },
+  {
+   "name": "assets/run-reaper-dwarf-male.png",
+   "sha256": "4645f46579afd0e78043ed0366651c48523940d96dda2c572a99d67dfb4a48f0",
+   "size": 308200
+  },
+  {
+   "name": "assets/run-reaper-elf-female.png",
+   "sha256": "9a99c3c699adb63f9a88ffe2cab7550e53586bd1ff6837cc063e31d5f164ac63",
+   "size": 258932
+  },
+  {
+   "name": "assets/run-reaper-elf-male.png",
+   "sha256": "490f930d2d5730257bef08bfd172eb79aeebebb4bbe9ff11a61ac34c2d2a6ec0",
+   "size": 303873
+  },
+  {
+   "name": "assets/run-reaper-kitsune-female.png",
+   "sha256": "08d03f5ea2ae34d570265189e76c327597adb412d9d451f4289e23d9073c88e0",
+   "size": 307559
+  },
+  {
+   "name": "assets/run-reaper-kitsune-male.png",
+   "sha256": "2e23111845f2250d2dd6a9441133cf7ddcade65b5a66a93a7ed006521cbf4e0a",
+   "size": 346195
+  },
+  {
+   "name": "assets/run-reaper-ogre-female.png",
+   "sha256": "1e2d02cb643a38574bc8b35b6511712057ca34eade8768aaf5bdb39c4e2da0c6",
+   "size": 271802
+  },
+  {
+   "name": "assets/run-reaper-ogre-male.png",
+   "sha256": "3cd9c14827f083f66b197a6822df8f469a1cec55887c7ea86db64616eb8cdd4c",
+   "size": 326274
+  },
+  {
+   "name": "assets/run-reaper-scale-female.png",
+   "sha256": "ffe7fa6c4412544566cb2139b7769339d617b41c7d4b4a0fa2645acb07aa4301",
+   "size": 285435
+  },
+  {
+   "name": "assets/run-reaper-scale-male.png",
+   "sha256": "26b00ab21f1ce98a62dc443279631ddf7df72814dbe8d62021f437b37a87eee0",
+   "size": 333796
+  },
+  {
+   "name": "assets/run-reaper-shade-female.png",
+   "sha256": "a5f66cc197b5d0f8333eb562cfc239781fcbde0cfb8d9d4404768d5af4cc0cb9",
+   "size": 311520
+  },
+  {
+   "name": "assets/run-reaper-shade-male.png",
+   "sha256": "143248bc4b1e96b79b25ca1ac043cc589ec8844dfbf40cf727ec14a29ff9453b",
+   "size": 339463
+  },
+  {
+   "name": "assets/run-reaper-troll-female.png",
+   "sha256": "8cd860b462c6072f85886da61cfbb640b649d4a7fe9be611d133cc1cc5e547fb",
+   "size": 275710
+  },
+  {
+   "name": "assets/run-reaper-troll-male.png",
+   "sha256": "37a0d063e8d20051212e1911d1651b4ba5b4e8d5a5f4d3b5769d0b1b2d2162ec",
+   "size": 317100
+  },
+  {
+   "name": "assets/run-rift-cat-female.png",
+   "sha256": "ae2af2b8c21241ac51dfb219b93315b0de879bfbc2fc09b1f0aaa0912562dd68",
+   "size": 303779
+  },
+  {
+   "name": "assets/run-rift-cat-male.png",
+   "sha256": "e8975ba5d06b73db63b0a269247443152387dc62dd5a6add86e8e09f18054a2a",
+   "size": 283488
+  },
+  {
+   "name": "assets/run-rift-dwarf-female.png",
+   "sha256": "ca19f326ec4650a1fdd1e6c3e837305f86ea3f4f2e770f7b80f0bcfb3821765b",
+   "size": 293434
+  },
+  {
+   "name": "assets/run-rift-dwarf-male.png",
+   "sha256": "f8bf508b84053d58e993ceaa1d16a5c11a5860b361e1f7e51fba1cd7b1c8a540",
+   "size": 280309
+  },
+  {
+   "name": "assets/run-rift-elf-female.png",
+   "sha256": "27dbd60482b63f1b462a326cf12558ce60dac6e9da59f9004775de5bc1783ef4",
+   "size": 320150
+  },
+  {
+   "name": "assets/run-rift-elf-male.png",
+   "sha256": "5fdfbb7c484090a8522aa13f512f3b61c404a0b560712d42d76feba8cd95e0af",
+   "size": 327428
+  },
+  {
+   "name": "assets/run-rift-kitsune-female.png",
+   "sha256": "70ad6e43251eaec58221089c15ae07fb47e40cf3274626afab22a82947c7d8a7",
+   "size": 334145
+  },
+  {
+   "name": "assets/run-rift-kitsune-male.png",
+   "sha256": "8ff37691e9d9efaf5ea54425f293483a4b19424da37769ae8733dd101fd18dba",
+   "size": 328286
+  },
+  {
+   "name": "assets/run-rift-ogre-female.png",
+   "sha256": "f4cac399cc8eb9078c487f89dfc73a6b2602e59b61fb204e4e7e63de3ad1584f",
+   "size": 322586
+  },
+  {
+   "name": "assets/run-rift-ogre-male.png",
+   "sha256": "2767ee6081fc4272346a2c0f1d0ecbe7967d15a256e59839d45b230ac90b89a2",
+   "size": 326943
+  },
+  {
+   "name": "assets/run-rift-scale-female.png",
+   "sha256": "0ecafb2f5960fdb72d24ae75a22cef3461ffbf0dbc2422d2a4b5bf3239f47aee",
+   "size": 325194
+  },
+  {
+   "name": "assets/run-rift-scale-male.png",
+   "sha256": "5d9dd41c0b6c31e57c10363f46712c9a48e3cf248049d02f25d2cb698adbcda8",
+   "size": 321012
+  },
+  {
+   "name": "assets/run-rift-shade-female.png",
+   "sha256": "77d2463b5cfd24fbae61d41f953f6b91ec529db4dd9526b557a438189cb28703",
+   "size": 355343
+  },
+  {
+   "name": "assets/run-rift-shade-male.png",
+   "sha256": "58a6230551d2e6d9d67c792d83c7212e0521b18ee4e2a1457e4097033f53c4d5",
+   "size": 325860
+  },
+  {
+   "name": "assets/run-rift-troll-female.png",
+   "sha256": "1877fc73c079de920648f35ba9b5b967830ab800911abeabcb0333a741c645f4",
+   "size": 334321
+  },
+  {
+   "name": "assets/run-rift-troll-male.png",
+   "sha256": "04b238a4131139f2bd3b35bbd531154a602dbdaf85e8efc95c0e79b043b87652",
+   "size": 352484
+  },
+  {
+   "name": "assets/run-river-cat-female.png",
+   "sha256": "51d8e3844f75dcce959f5f22ad037ee4db6861aa495664c1396acf1b7c0d0767",
+   "size": 283620
+  },
+  {
+   "name": "assets/run-river-cat-male.png",
+   "sha256": "be81915928a05a07eda78827c119572304e77ffedceaf0eca5518112c05728aa",
+   "size": 275720
+  },
+  {
+   "name": "assets/run-river-dwarf-female.png",
+   "sha256": "1c12357edb61a59be84713a0c41111575a228969399e236745dffee62a1e5724",
+   "size": 287319
+  },
+  {
+   "name": "assets/run-river-dwarf-male.png",
+   "sha256": "c2298652a88472017868488f382650f47265d88dfebe77af40e76c1c205ae70a",
+   "size": 326367
+  },
+  {
+   "name": "assets/run-river-elf-female.png",
+   "sha256": "62c08720f05b375b996ca649e1c3defc2646f9dcdc244d5da3353ab9147558e3",
+   "size": 297417
+  },
+  {
+   "name": "assets/run-river-elf-male.png",
+   "sha256": "24322b70697c765de706cb88cc32d633369ae4f190a86f96d12be505a713e730",
+   "size": 330204
+  },
+  {
+   "name": "assets/run-river-kitsune-female.png",
+   "sha256": "15387f3ef74cdefea58f7527e9dacca9de02cad2a004855193d0f4ac1d288079",
+   "size": 338031
+  },
+  {
+   "name": "assets/run-river-kitsune-male.png",
+   "sha256": "a53aeefacaaeaa5e23770e4fa00ee8dd84db02692760396db1596f1b463936a0",
+   "size": 334795
+  },
+  {
+   "name": "assets/run-river-ogre-female.png",
+   "sha256": "d63e36ece2911546021077ba2b6e213057a7047750a72949c4afd28d4cdc0795",
+   "size": 301253
+  },
+  {
+   "name": "assets/run-river-ogre-male.png",
+   "sha256": "85d68fd2b681e3bcf9b9e28bf3ab39c21b37bd44be03b53dfeb2d25242b5e264",
+   "size": 330690
+  },
+  {
+   "name": "assets/run-river-scale-female.png",
+   "sha256": "83d3ee5c126a032ecd9772621b7961069d9a857789fa13cc9bf13ac4db65c49b",
+   "size": 315943
+  },
+  {
+   "name": "assets/run-river-scale-male.png",
+   "sha256": "24ed8259831a7f094c49640bced525b2edbdb5047df7b151c1497345deda0ebb",
+   "size": 332218
+  },
+  {
+   "name": "assets/run-river-shade-female.png",
+   "sha256": "6eaa29e3d06a8747f27d3f8641e880bb98b1d93ed979dc9b1807eb714dfa1b4c",
+   "size": 335195
+  },
+  {
+   "name": "assets/run-river-shade-male.png",
+   "sha256": "d871cb1af610d8c97747a9aaaab10dd3b82886f9788d917ad0820fdfdb3793c4",
+   "size": 341590
+  },
+  {
+   "name": "assets/run-river-troll-female.png",
+   "sha256": "e962c1b7f731890c26ecf6ef96cb78c13efabc4d55b4914ad141dbc95d8372b9",
+   "size": 314830
+  },
+  {
+   "name": "assets/run-river-troll-male.png",
+   "sha256": "cb115651f9c752f4a27477a793e5cf2f6c9c3cb89b4aab7338fe7ee9167b4f00",
+   "size": 328784
+  },
+  {
+   "name": "assets/run-unraveler-cat-female.png",
+   "sha256": "18869390386f6661e30893cdd2922d4474f4dfa191d4a2487778500ca0920c0f",
+   "size": 295778
+  },
+  {
+   "name": "assets/run-unraveler-cat-male.png",
+   "sha256": "93ab267fe77ccb232ef8c91f50f2c44c4919951735893b6dacb9dd6c16750ee3",
+   "size": 286857
+  },
+  {
+   "name": "assets/run-unraveler-dwarf-female.png",
+   "sha256": "ea4554e84f86a3df0efb71310c461bda54780fc5df05b524596d1c8ca5919ebb",
+   "size": 276614
+  },
+  {
+   "name": "assets/run-unraveler-dwarf-male.png",
+   "sha256": "6314448832589481971b96d57e857eda795334782215c66d0ae32ced95c7fed1",
+   "size": 296946
+  },
+  {
+   "name": "assets/run-unraveler-elf-female.png",
+   "sha256": "f17e9fbc1dafcf61133e08d26a45cd1e51e0c2d7c0de0901204e69e395a69719",
+   "size": 296346
+  },
+  {
+   "name": "assets/run-unraveler-elf-male.png",
+   "sha256": "72d365582e059bf0f43904d70d3fe34d95d3e8a9709bfed5df57ed773c388688",
+   "size": 314085
+  },
+  {
+   "name": "assets/run-unraveler-kitsune-female.png",
+   "sha256": "a364ec496f5048162ddfc141fcd0e364dbf8ab65144d7cf1c03af751fff162ee",
+   "size": 329438
+  },
+  {
+   "name": "assets/run-unraveler-kitsune-male.png",
+   "sha256": "dcfea9897a9d379734f5eefd64f2808ae5fee9405ce2aa236a6c2cb0e0e85d22",
+   "size": 340612
+  },
+  {
+   "name": "assets/run-unraveler-ogre-female.png",
+   "sha256": "fa93c85ba9b7aca7ee1ae0a585ebc346d8fa19cc4b3dd228fe1675c51a9df905",
+   "size": 299591
+  },
+  {
+   "name": "assets/run-unraveler-ogre-male.png",
+   "sha256": "402403d3becae45eaff078821687df5670232ec1fa75dd2aca810a8b78c4beea",
+   "size": 341237
+  },
+  {
+   "name": "assets/run-unraveler-scale-female.png",
+   "sha256": "79b1e94b18a66dde2b2f266c8e38b2c83ab3ebf35a7e6f32246740dbad8aeb80",
+   "size": 324289
+  },
+  {
+   "name": "assets/run-unraveler-scale-male.png",
+   "sha256": "97893dd7ba19ad5ec6f26622f223c8976b2b5d7a6646d0dd7881eb28745815c5",
+   "size": 348103
+  },
+  {
+   "name": "assets/run-unraveler-shade-female.png",
+   "sha256": "aa45f48ead9c5e169be07282009e726ae0d0f5ea37dd74802807dc6ad1908a0f",
+   "size": 307819
+  },
+  {
+   "name": "assets/run-unraveler-shade-male.png",
+   "sha256": "bc8c515ff1cf44ec9301a6ab1859d0a7a2fc515de947a4e30a6dae5b18494f3a",
+   "size": 337070
+  },
+  {
+   "name": "assets/run-unraveler-troll-female.png",
+   "sha256": "13154bcf0ab4133a128a6aeead54dbcea73d0202cf411bf09affc20faa05f153",
+   "size": 311739
+  },
+  {
+   "name": "assets/run-unraveler-troll-male.png",
+   "sha256": "1926ca58e716598a27dbbfd9b5b702db577c36198cc3096a3e4ca8b18d4b5954",
+   "size": 320994
+  },
+  {
+   "name": "assets/run-visage-cat-female.png",
+   "sha256": "d0c147ea06e96604834464a4dbc3409ebc631b3754eeb2d708a389843c163d12",
+   "size": 284534
+  },
+  {
+   "name": "assets/run-visage-cat-male.png",
+   "sha256": "91adf73aba97865a7afc73f4cc9395d87daef9c106f1b1d4d47ef2b9e548af32",
+   "size": 284027
+  },
+  {
+   "name": "assets/run-visage-dwarf-female.png",
+   "sha256": "292be9feafb490c72ef3996d0590d9cc8360ebf09965f97ac687cb983062b114",
+   "size": 267969
+  },
+  {
+   "name": "assets/run-visage-dwarf-male.png",
+   "sha256": "6d415347edea509be49080801d60a0ff6db2ac615eb0973e47f6026fc8f786ef",
+   "size": 257986
+  },
+  {
+   "name": "assets/run-visage-elf-female.png",
+   "sha256": "239bf441d06d85894924993dd16709e3f3880e75063a13a79a19c482f10fa7eb",
+   "size": 302146
+  },
+  {
+   "name": "assets/run-visage-elf-male.png",
+   "sha256": "5f1a96e0fee1627680e3cb02dc7c9e6f013fc5ad2ba08abde2cca039e7042bb2",
+   "size": 292404
+  },
+  {
+   "name": "assets/run-visage-kitsune-female.png",
+   "sha256": "b08c302b4e46a05c98681937cd8a8058abf7f30ae330bea5bb725879d95f0606",
+   "size": 343047
+  },
+  {
+   "name": "assets/run-visage-kitsune-male.png",
+   "sha256": "a6af3a6705931ac3f0ed2044907fbcce32a9055534092b0aa6a7cb1bb80be6cc",
+   "size": 302248
+  },
+  {
+   "name": "assets/run-visage-ogre-female.png",
+   "sha256": "ec81510f936dab8b075abb48f3d285ea25588b80f55e4d6bef944ec19b8b8835",
+   "size": 298474
+  },
+  {
+   "name": "assets/run-visage-ogre-male.png",
+   "sha256": "5558aea1f7cb5eb551c86aa09868a369532ca549c0671044e679e75159cbbb01",
+   "size": 284125
+  },
+  {
+   "name": "assets/run-visage-scale-female.png",
+   "sha256": "bb2d69d893e26a04bb113e9c8dde2d4ec09460b886996634b16dff6131340117",
+   "size": 308313
+  },
+  {
+   "name": "assets/run-visage-scale-male.png",
+   "sha256": "4cf1399417fd258505edddfb84981a15fa0aad1c460ce052b5b1c8d330b23261",
+   "size": 289550
+  },
+  {
+   "name": "assets/run-visage-shade-female.png",
+   "sha256": "eccdcaf204d972b50deb9acc5d66803274cfe3fde97851479e16af9ca8c36c68",
+   "size": 335303
+  },
+  {
+   "name": "assets/run-visage-shade-male.png",
+   "sha256": "59f0883ef84a30b9bb4feaf60d087c22bf702410a55411f5bea0444b29d94ab8",
+   "size": 317380
+  },
+  {
+   "name": "assets/run-visage-troll-female.png",
+   "sha256": "422b7d643752b6ce574fbd47758a1e77c51a81a2efb87bd34ce1c088570cbbfa",
+   "size": 327353
+  },
+  {
+   "name": "assets/run-visage-troll-male.png",
+   "sha256": "e9fd07d3e24000a5037fbaea36680b142e6eda043c9b2b3e1de115a46d15adf4",
+   "size": 313108
   },
   {
    "name": "assets/summoner-cat-female.png",
