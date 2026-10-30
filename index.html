@@ -1537,6 +1537,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
  <div class="keynote"><b>Install:</b> in Chrome or Edge use the address-bar <b>Install</b> icon (or menu, then Install Shadowfall) to play in its own window, offline too. Your progress is stored in this browser on this device; it doesn't sync with your phone.</div>
  <button class="btn" id="btnKeysBack" data-kh="Esc">Back</button>
 </div>
+<script src="assets/enemy-art-manifest.js"></script>
+<script src="assets/enemy-art.js"></script>
 <script src="assets/actor-animation-manifest.js"></script>
 <script src="assets/actor-animations.js"></script>
 <script>
@@ -4817,7 +4819,7 @@ const eFloats = k => !!(ETYPES[k].fly || k === 'ghost' || k === 'wisp' || k === 
 function darkOf(src) { const c = mkCanvas(src.width, src.height), g = c.getContext('2d'); g.drawImage(src, 0, 0); g.globalCompositeOperation = 'source-atop'; g.fillStyle = '#140a1e'; g.fillRect(0, 0, c.width, c.height); return c; }
 function addContact(c, k, sz) { const g = c.getContext('2d'), s = sz / 100, rx = (CSHW[k] || 22) * s; g.save(); g.globalCompositeOperation = 'destination-over'; g.setTransform(RS, 0, 0, RS, 0, 0); g.translate(sz / 2, sz / 2 + 44 * s); g.scale(1, 0.3);
   const gr = g.createRadialGradient(0, 0, 0, 0, 0, rx * 1.25); gr.addColorStop(0, 'rgba(12,6,20,.62)'); gr.addColorStop(0.6, 'rgba(12,6,20,.38)'); gr.addColorStop(1, 'rgba(12,6,20,0)'); g.fillStyle = gr; g.beginPath(); g.arc(0, 0, rx * 1.25, 0, TAU); g.fill(); g.restore(); return c; }
-function bakeEnemyFrame(k, i) { if (PXA.on && PXA.mobs.has(k)) return PXA.mobs.frame(k, i); const sz = eSz(k), L = KEYL[SPR.keyPh] || KEYL.Day;
+function bakeEnemyFrame(k, i) { const updated = PXA.on && EnemyArtwork.frame(k,i); if (updated) return updated; if (PXA.on && PXA.mobs.has(k)) return PXA.mobs.frame(k, i); const sz = eSz(k), L = KEYL[SPR.keyPh] || KEYL.Day;
   const raw = makeSprite(g => { g.scale(sz / 100, sz / 100); EDRAW[k](g, { p: i < 4 ? i / 4 : 0, w: i === 4 ? 1 : 0 }); }, sz);
   const c = outlineSprite(paintSprite(raw, L[0], L[1], L[2], L[3], L[4]), SPR.olw), fl = i === 0 ? flashOf(c) : null, dk = i === 0 ? darkOf(c) : null;
   if (!eFloats(k)) { addContact(c, k, sz); if (fl) addContact(fl, k, sz); } return { img: c, flash: fl, dark: dk }; }
@@ -8617,7 +8619,7 @@ function spawnEnemy(type, o = {}) {
   if (d.shield) { e.shMax += hp * d.shield; e.sh = e.shMax; }
   if (d.ai === 'burrower') { e.st = 'under'; e.under = 1; }
   modEnemy(e);
-  enemies.push(e); return e;
+  enemies.push(e); EnemyArtwork.load(type); return e;
 }
 const RANGED = { seer: 22, spitter: 22, healer: 10, caller: 8, sprite: 26, bellshade: 22, chimewisp: 22, lantern: 10, hwraith: 26 }; // ranged/support types hold back; capped so they can't clog the enemy cap
 Object.assign(RANGED, { sobber: 22, sobwisp: 22, wickling: 10, drowned: 26 }); /* v39: Cellarborn */
