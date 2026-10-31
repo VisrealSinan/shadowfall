@@ -1,12 +1,12 @@
 {
- "version": "62",
+ "version": "63",
  "date": "2026-10-30",
  "minLauncher": "2.0.0",
  "notes": [
-  "Added temporary idle, attack, casting and dodge motion for all 62 character variants awaiting dedicated action sheets.",
-  "Covers Druid, Neural Maestro, Hollow Visage and the remaining Chronomancer variants, for both male and female characters.",
-  "Includes small class-specific nature, audio, clock and shadow effects; existing running and completed action sheets remain in use.",
-  "Dedicated sprite sheets can replace this motion later. Combat timing, enemy health scaling and smaller waves remain in place."
+  "Added six-state procedural animation sequences for all 207 updated enemies, including all 50 bosses: idle, movement, wind-up, attack, hit reaction and death.",
+  "Walkers, heavy enemies, winged/hovering creatures, casters and oozes now use distinct movement profiles with clearer attack follow-through and hit recoil.",
+  "Animations follow actual AI attacks and player hits; frozen enemies stop animating. Special boss and mimic death effects remain in use.",
+  "Uses existing artwork with a bounded on-demand frame cache. Dedicated drawn animation sheets can replace it later; enemy health and wave balance remain in place."
  ],
  "files": [
   {
@@ -31,8 +31,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "36a511d55bc5a9f49514273d6910f18e7286df7e8c225dc53379d2b1bf56f969",
-   "size": 2824836
+   "sha256": "d792bf192acfcdb747243fb285850007b3267c4411477355398753ac1346be3c",
+   "size": 2825126
   },
   {
    "name": "manifest.webmanifest",
@@ -41,7 +41,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "7a35327a02649b7ea47625ab66c9f4544c8bfdca7393993499ac1eb29ddd13f0",
+   "sha256": "a9adb1c089553439a5302e150045c2682a32c73cb83b0cee0c62915e06461e30",
    "size": 1628
   },
   {
@@ -361,8 +361,8 @@
   },
   {
    "name": "assets/enemy-art.js",
-   "sha256": "ec3227ac23054e3d8fb0b4db2517152e2b599e55b53f91f49800c14c5ee9fd81",
-   "size": 3070
+   "sha256": "1a31a23ad2c766420e05a003d92a5544606c2325a375fd7ce66c645904ac2008",
+   "size": 8507
   },
   {
    "name": "assets/enemy-assemblysaint.png",

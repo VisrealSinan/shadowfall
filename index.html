@@ -8669,6 +8669,7 @@ function updateEnemies(dt, dying) {
   const vw = W / ZOOM, vh = H / ZOOM, farD = Math.hypot(vw, vh) / 2 + 160;
   for (const e of enemies) {
     if (e.dead) continue;
+    EnemyArtwork.track(e);
     const def = ETYPES[e.type];
     let dx = P.x - e.x, dy = P.y - e.y; const d = Math.hypot(dx, dy) || 1; dx /= d; dy /= d;
     let sp = e.spd * (e.slowT > 0 ? 1 - e.slow : 1) * (e.chlT > 0 ? 1 - 0.09 * e.chl : 1);
@@ -8766,6 +8767,7 @@ function updateEnemies(dt, dying) {
         break;
       default: { const h = AI28[def.ai]; if (h) { const o = h(e, def, d, dx, dy, sp, dt, dying); if (o) { dx = o[0]; dy = o[1]; sp = o[2]; } } }
     }
+    EnemyArtwork.update(e,sp,effects.length>_ne0||eprojs.length>_np0);
     if (e.boss || def.mini) { for (let i = _ne0; i < effects.length; i++) effects[i].bossSrc = 1; for (let i = _np0; i < eprojs.length; i++) eprojs[i].bossSrc = 1; }
     if (e.dead) continue;
     if (e.fear46 > gtime && !e.boss && !def.mini) { const fx = e.x - P.x, fy = e.y - P.y, fl = Math.hypot(fx, fy) || 1; dx = fx / fl; dy = fy / fl; sp = Math.max(sp, e.spd * 0.25 * (e.slowT > 0 ? 1 - e.slow : 1)); } // v46: terrified foes run away
@@ -8776,7 +8778,7 @@ function updateEnemies(dt, dying) {
     const kd = Math.min(1, dt * 8); e.kbx -= e.kbx * kd; e.kby -= e.kby * kd;
     if (Math.abs(dx) > 0.15) e.face = dx < 0 ? -1 : 1;
     if (e.rotT > 0 || e.agT > 0 || e.volT > 0 || e.blT > 0) { if (tickAff(e, dt)) continue; }
-    if (!dying && !e.under && !def.totem && !(e.frzT > 0) && e.dmg > 0 && d < e.r + P.r) { const h0 = P.hp; hurtPlayer(e.dmg, e.boss || def.mini ? 'boss' : 'melee'); if (e.elite && P.hp < h0 && e.aff.includes('vampiric')) { e.hp = Math.min(e.maxHp, e.hp + (h0 - P.hp) * 4 + e.maxHp * 0.04); burst(e.x, e.y, '#ff3d6e', 5, 60, 2, 0.4, true); } }
+    if (!dying && !e.under && !def.totem && !(e.frzT > 0) && e.dmg > 0 && d < e.r + P.r) { EnemyArtwork.attack(e); const h0 = P.hp; hurtPlayer(e.dmg, e.boss || def.mini ? 'boss' : 'melee'); if (e.elite && P.hp < h0 && e.aff.includes('vampiric')) { e.hp = Math.min(e.maxHp, e.hp + (h0 - P.hp) * 4 + e.maxHp * 0.04); burst(e.x, e.y, '#ff3d6e', 5, 60, 2, 0.4, true); } }
     if (d > farD && !e.boss && !def.totem) { // relocate ahead of the player
       const mvA = P.moving ? Math.atan2(P.vy, P.vx) : rand(TAU), a = mvA + rand(-0.9, 0.9), rr = Math.hypot(vw, vh) / 2 + 40;
       e.x = P.x + Math.cos(a) * rr; e.y = P.y + Math.sin(a) * rr;
@@ -8826,7 +8828,7 @@ function damage(e, base, o = {}) {
   if (e.wardT > 0) d *= 0.65;
   let ab = 0;
   if (e.sh > 0) { ab = Math.min(e.sh, d); e.sh -= ab; d -= ab; e.shT = 0;
-    if (d <= 0) { dmRec(sk, ab, false); if (!o.dot) { e.flash = 0.05; addNum(e.x, e.y - e.r, Math.round(ab), '#9fc8ff', 11); Snd.play('hit'); } return ab; } }
+    if (d <= 0) { dmRec(sk, ab, false); if (!o.dot) { e.flash = 0.05; EnemyArtwork.hit(e); addNum(e.x, e.y - e.r, Math.round(ab), '#9fc8ff', 11); Snd.play('hit'); } return ab; } }
   const hp0 = e.hp; e.hp -= d; const eff = Math.min(d, Math.max(0, hp0)); dmRec(sk, eff + ab, e.hp <= 0);
   if (P.lifesteal > 0) G.healPool = Math.min(25, G.healPool + d * P.lifesteal);
   if (P.catLs > 0 && CAT_MELEE[sk]) G.catPool = Math.min(P.maxHp * 0.3, (G.catPool || 0) + eff * P.catLs * (o.dot ? 0.5 : 1)); // v18 Sanguine Maw lifesteal
@@ -8837,7 +8839,7 @@ function damage(e, base, o = {}) {
       if (tg) { const x0 = e.x, y0 = e.y - 6, cd = base * 0.45; G.later.push({ t: 0.06, src: sk, f: () => { if (tg.dead) return; effects.push({ k: 'bolt', x: tg.x, y: tg.y, x0, y0, life: 0.2, max: 0.2, seed: Math.random() * 99, col: ev.col }); damage(tg, cd, { evc: 1, src: sk }); } }); } } }
   if (o.dot) { e.dotAcc += d; if (gtime - e.dotT > 0.5 && e.dotAcc >= 1) { addNum(e.x, e.y - e.r, Math.round(e.dotAcc), o.col || '#d18bff', 11); e.dotAcc = 0; e.dotT = gtime; } }
   else {
-    e.flash = 0.08;
+    e.flash = 0.08; EnemyArtwork.hit(e);
     addNum(e.x, e.y - e.r, Math.round(d), crit ? '#ffcf4a' : '#ffffff', crit ? 17 : 12);
     if (crit) burst(e.x, e.y, '#ffcf4a', 4, 120, 2, 0.3, true);
     Snd.play('hit');
@@ -13256,7 +13258,7 @@ const V31P = (() => {
   const cap = () => PC ? 48 : 24;
   const POP = { splitter: 1, oozelet: 1, bomber: 1, spitter: 1, sprite: 1, imp: 1, hornet: 1 };
   function dstyle(e) { if (e.type === 'surprisemimic') return 'gift45'; if (e.boss) return BOSS36[e.type] && BOSS36[e.type].death !== 'col' ? 'b36' : 'col'; if (ETYPES[e.type] && ETYPES[e.type].hush && !e.mini) return 'hush'; if (eFloats(e.type) || e.type === 'ghost' || e.type === 'wisp') return 'dis'; if (POP[e.type] || e.elite || e.mini) return 'pop'; return (Math.abs(e.x * 0.37 + e.y * 0.71) | 0) % 3 === 0 ? 'dis' : 'col'; }
-  function corpse(c) { const def = ETYPES[c.k], sz = eSz(c.k) * c.sc, A = SPR.enemy[c.k]; if (!A || !A.dark || !inView(c.x, c.y, sz)) return; const u = Math.min(1, c.t / c.d), img = A[0].img, iw = img.width, ih = img.height, flt = eFloats(c.k);
+  function corpse(c) { const def = ETYPES[c.k], sz = eSz(c.k) * c.sc, A = SPR.enemy[c.k]; if (!A || !A.dark || !inView(c.x, c.y, sz)) return; if(PXA.on&&EnemyArtwork.death(ctx,c))return; const u = Math.min(1, c.t / c.d), img = A[0].img, iw = img.width, ih = img.height, flt = eFloats(c.k);
     if (img.px) ctx.imageSmoothingEnabled = false;
     if (c.s === 'dis') { const keep = 1 - u, by = c.y + sz / 2 - (flt ? sz * 0.08 : 0);
       if (keep > 0.03) { ctx.save(); ctx.translate(c.x, by); ctx.scale(c.f, 1); ctx.globalAlpha = Math.min(1, 1.5 - u); ctx.drawImage(img, 0, ih * u, iw, ih * keep, -sz / 2, -sz * keep, sz, sz * keep); ctx.globalAlpha *= Math.min(1, u * 2.5); ctx.drawImage(A.dark, 0, ih * u, iw, ih * keep, -sz / 2, -sz * keep, sz, sz * keep); ctx.restore(); }
@@ -13279,7 +13281,7 @@ const V31P = (() => {
       if (u > 0.3) { ctx.fillStyle = `rgba(20,8,30,${0.35 * a})`; ctx.beginPath(); ctx.ellipse(c.x, c.y + sz * 0.44, sz * (0.2 + 0.25 * u), sz * (0.06 + 0.07 * u), 0, 0, TAU); ctx.fill(); } }
     ctx.imageSmoothingEnabled = true; ctx.globalAlpha = 1; }
   // one enemy body: left/right flip, up = shaded back, up/down = slightly narrower (turned), wind-up = pulsing red heat
-  function eBody(e, A, fr, img, wind, jx, by, dw, dh, bob, tilt) { const vf = eFace(e), w2 = vf ? dw * 0.9 : dw, im = vf < 0 && e.flash <= 0 ? back(fr, fr.img) || img : img;
+  function eBody(e, A, fr, img, wind, jx, by, dw, dh, bob, tilt) { const vf = eFace(e); if(PXA.on&&EnemyArtwork.draw(ctx,e,{wind,jx,by,dw,dh,bob,tilt,vf}))return; const w2 = vf ? dw * 0.9 : dw, im = vf < 0 && e.flash <= 0 ? back(fr, fr.img) || img : img;
     const rd = wind && e.flash <= 0 ? red(fr, fr.img) : null, ra = rd ? ctx.globalAlpha * (0.16 + 0.14 * Math.sin(gtime * 22 + (e.ph || 0))) : 0;
     if (e.face < 0 || tilt) { ctx.save(); ctx.translate(e.x + jx, by); if (tilt) ctx.rotate(tilt); if (e.face < 0) ctx.scale(-1, 1); ctx.drawImage(im, -w2 / 2, -dh - bob, w2, dh); if (rd) { ctx.globalAlpha = ra; ctx.drawImage(rd, -w2 / 2, -dh - bob, w2, dh); } ctx.restore(); }
     else { ctx.drawImage(im, e.x + jx - w2 / 2, by - dh - bob, w2, dh); if (rd) { const ga = ctx.globalAlpha; ctx.globalAlpha = ra; ctx.drawImage(rd, e.x + jx - w2 / 2, by - dh - bob, w2, dh); ctx.globalAlpha = ga; } } }
