@@ -2,10 +2,18 @@
 const ActorAnimations = (() => {
   const images = new Map();
   const variants = ACTOR_ANIMATION_MANIFEST.variants;
-  function gender(cls) { return (save.spriteGender || {})[cls] || 'male'; }
+  function gender(cls, race) {
+    return (save.spriteGender || {})[cls] || ((save.sex || {})[race || save.race] === 'f' ? 'female' : 'male');
+  }
+  function setGender(cls, race, sex) {
+    save.spriteGender = save.spriteGender || {};
+    save.spriteGender[cls] = sex;
+    save.sex = save.sex || {};
+    save.sex[race] = sex === 'female' ? 'f' : 'm';
+  }
   function variant(o) {
     if (o.form) return null;
-    const sex = o.cls === 'bearlina' ? 'bear-form' : (o.gender || gender(o.cls));
+    const sex = o.cls === 'bearlina' ? 'bear-form' : (o.gender || gender(o.cls, o.race));
     return variants[[o.cls, o.race || save.race, sex].join('/')] || null;
   }
   function image(v) {
@@ -48,5 +56,5 @@ const ActorAnimations = (() => {
       -v.anchor[0]*k, 18-v.anchor[1]*k, v.cell_width*k, v.cell_height*k);
     g.restore(); return true;
   }
-  return {variant, gender, frame, cue, draw};
+  return {variant, gender, setGender, frame, cue, draw};
 })();

@@ -5067,7 +5067,7 @@ const PXA = (() => {
   const SCARF = '#b0203a';
   function look0(o) { const cls = o.cls === 'paragon' || PXA.kits[o.cls] ? o.cls : 'rogue', race = raceOf(o.race || save.race), C = o.cos || heroCos(cls, race), RL = raceLook(race, C), of = classOutfit(o.outfit || 'crimson', cls, C.armor, C.eye);
     const sig = (o.outfit || 'crimson') === 'crimson' && !of.set;
-    const sex = o.sex === 'f' || o.sex === 'm' ? o.sex : heroSex(race);
+    const sex = o.sex === 'f' || o.sex === 'm' ? o.sex : (ActorAnimations.gender(cls, race) === 'female' ? 'f' : 'm');
     return { cls, race, sex, RL, of, key: [cls, race, o.outfit, C.armor, C.eye, C.tone, C.hair, C.frill, sex].join('|'),
       skin: R(RL.skin || '#fbe8da'), fur: RL.fur ? R(RL.fur) : null,
       hair: RL.hair ? R(RL.hair) : race === 'cat' || race === 'kitsune' ? R(RL.fur) : cls === 'paragon' ? HAIRM : HAIRW,
@@ -15440,10 +15440,10 @@ function renderRace() {
   D.innerHTML = `<canvas></canvas><div class="tx"><div class="nm">${r.ic} ${r.name}<span class="role">${r.role}</span></div><div class="fl">${r.flavor}</div>` +
     `<div class="rchips">${r.buffs.map(x => `<i class="bf">▲ ${x}</i>`).join('')}${r.debuffs.map(x => `<i class="df">▼ ${x}</i>`).join('')}</div></div>`;
   heroPortrait(D.querySelector('canvas'), selClass, save.outfit, 1.42, raceOf(selRace)); if (MENU_HOP) { MENU_HOP = 0; menuHop(D.querySelector('canvas')); }
-  { const X = $('raceSex'), rid = raceOf(selRace), cur = heroSex(rid); X.innerHTML = '<span class="lb">Body</span>';
-    for (const [sx, lab] of [['m', '♂ Male <small>classic</small>'], ['f', '♀ Female']]) { const b = document.createElement('button'); b.className = 'sxb' + (cur === sx ? ' on' : ''); b.dataset.sex = sx;
+  { const X = $('raceSex'), rid = raceOf(selRace), cur = ActorAnimations.gender(selClass, rid) === 'female' ? 'f' : 'm'; X.innerHTML = '<span class="lb">Body</span>';
+    for (const [sx, lab] of [['m', '♂ Male'], ['f', '♀ Female']]) { const b = document.createElement('button'); b.className = 'sxb' + (cur === sx ? ' on' : ''); b.dataset.sex = sx;
       b.setAttribute('aria-pressed', cur === sx ? 'true' : 'false'); b.innerHTML = lab;
-      b.onclick = () => { Snd.init(); if (heroSex(rid) === sx && heroSexChosen(rid)) return; save.sex = Object.assign({}, save.sex || {}); save.sex[rid] = sx; persist(); Snd.play('click'); MENU_HOP = 1; renderRace(); };
+      b.onclick = () => { Snd.init(); ActorAnimations.setGender(selClass, rid, sx === 'f' ? 'female' : 'male'); persist(); Snd.play('click'); MENU_HOP = 1; renderRace(); };
       X.appendChild(b); } }
 }
 let MENU_HOP = 0;
@@ -16042,8 +16042,8 @@ function renderWard() {
   const row = () => { const d = document.createElement('div'); d.className = 'wrow'; B.appendChild(d); return d; };
   if (wardCls !== 'bearlina' && Object.keys(ACTOR_ANIMATION_MANIFEST.variants).some(k => k.startsWith(wardCls + '/'))) {
     sec('Character appearance'); const choices = row();
-    for (const sex of ['male','female']) choices.appendChild(mk(sex, sex === 'male' ? 'Male' : 'Female', ActorAnimations.gender(wardCls) === sex, () => {
-      save.spriteGender = save.spriteGender || {}; save.spriteGender[wardCls] = sex; persist(); renderWard();
+    for (const sex of ['male','female']) choices.appendChild(mk(sex, sex === 'male' ? 'Male' : 'Female', ActorAnimations.gender(wardCls, wardRace) === sex, () => {
+      ActorAnimations.setGender(wardCls, wardRace, sex); persist(); renderWard();
     }));
   }
   const base = () => Object.assign(heroCos(wardCls, wardRace));

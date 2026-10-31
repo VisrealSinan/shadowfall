@@ -1,12 +1,12 @@
 {
- "version": "57",
- "date": "2026-10-29",
+ "version": "58",
+ "date": "2026-10-30",
  "minLauncher": "2.0.0",
  "notes": [
-  "Updated artwork for all 207 enemy and boss entries from Shadowfall-Updated-Static-Sprites, including all 50 bosses.",
-  "Preserved each enemy identity, stats, hitbox, AI, spawning and progression.",
-  "Static designs use procedural movement and attack wind-up effects, with matching hit flashes and death silhouettes.",
-  "Enemy artwork loads as types appear and is cached; native art remains available if an image cannot load."
+  "Male and female character sprites are available for all 20 humanoid classes across all eight races.",
+  "Body choices on the race screen now select the updated sprites and stay in sync with the wardrobe for that class.",
+  "Existing saved body choices are respected when a class has no wardrobe override.",
+  "Includes all 207 updated enemy and boss designs from v57."
  ],
  "files": [
   {
@@ -31,8 +31,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "c7b9da743872087d4b7d2c3ea2659801558fd321c92556868b4abc0afc6c1fc8",
-   "size": 2824573
+   "sha256": "08891b40ddbc092fc6b371d7dfc9794622d2986c06cf1eeb9b636363767b69bc",
+   "size": 2824582
   },
   {
    "name": "manifest.webmanifest",
@@ -41,7 +41,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "d66169f7e01055fd1f935891a6e975810010dcba16e73c19f89d83736391a117",
+   "sha256": "35b4eaf78d10fe88290d24e7976f8e093d55615351c5c034950fe9e466aae36a",
    "size": 1628
   },
   {
@@ -51,8 +51,8 @@
   },
   {
    "name": "assets/actor-animations.js",
-   "sha256": "143bf7957b35d8f07bb572d82b10eff43fd81309220c82ccdde0927a389d909a",
-   "size": 2884
+   "sha256": "66c19847a8475ff67f52ab169a4cef975a8d77de8f54969d9df41ba3665e4aab",
+   "size": 3182
   },
   {
    "name": "assets/bearlina-cat-bear-form.png",
