@@ -1302,6 +1302,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
 @media(max-height:600px){#title{justify-content:flex-start;gap:12px}#title .logo .crest{display:none}#title .logo .tag{margin-top:6px}#title .logo .l1.solo{font-size:36px}}
 
 </style>
+<link rel="stylesheet" href="assets/progression.css">
 </head>
 <body>
 <canvas id="c"></canvas>
@@ -1320,6 +1321,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
  <div class="stats" id="titleStats"></div>
  <button class="btn primary cont hidden" id="btnCont" data-kh="Enter"><span>Continue Run</span><span class="cs" id="contSum"></span></button>
  <button class="btn primary" id="btnPlay" data-kh="Enter">Begin the Hunt</button>
+ <div class="row hunt-entry"><button class="btn small" id="btnDaily70">☾ Daily Challenge</button><button class="btn small" id="btnMastery70">✦ Class Mastery</button></div>
  <button class="btn" id="btnShop">Armory</button>
  <div class="row"><button class="btn small" id="btnAch">★ Achievements</button><button class="btn small" id="btnWard">✦ Wardrobe</button></div>
  <div class="row"><button class="btn small" id="btnMuteT">♪ Audio</button><button class="btn small" id="btnHow">How to Play</button><button class="btn small pconly" id="btnKeys" data-kh="H">⌨ Controls</button></div>
@@ -1351,10 +1353,22 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
  <div class="spacer" style="min-height:0"></div>
  <div class="selfoot">
   <button class="btn primary" id="btnGo" style="margin-top:0" data-kh="Enter">Enter the Dark</button>
-  <div class="row"><button class="btn small" id="btnTalents" data-kh="T">✦ Talents</button><button class="btn small" id="btnStash" data-kh="G">⚔ Gear</button><button class="btn small" id="btnCodex" data-kh="C">⇪ Codex</button><button class="btn small" id="btnSelBack" data-kh="Esc">Back</button></div>
+  <div class="row"><button class="btn small" id="btnSelMastery70">Mastery</button><button class="btn small" id="btnTalents" data-kh="T">✦ Talents</button><button class="btn small" id="btnStash" data-kh="G">⚔ Gear</button><button class="btn small" id="btnCodex" data-kh="C">⇪ Codex</button><button class="btn small" id="btnSelBack" data-kh="Esc">Back</button></div>
  </div>
 </div>
 
+<div id="daily" class="screen panel hunt-screen">
+ <h2>Daily Challenge</h2><p class="hunt-sub" id="dailySub70"></p>
+ <div id="dailyContent70" class="hunt-content"></div>
+ <div class="selfoot"><button class="btn small hunt-back" id="btnDailyBack70" data-kh="Esc">Back</button><button class="btn primary" id="btnDailyStart70">Begin Daily Challenge</button></div>
+</div>
+<div id="mastery" class="screen panel hunt-screen">
+ <h2>Class Mastery</h2><p class="hunt-sub" id="masterySub70"></p>
+ <div class="hunt-content mastery-layout"><nav id="masteryClasses70" class="mastery-classes" aria-label="Choose mastery class"></nav><main id="masteryMain70" class="mastery-main"></main></div>
+ <div id="masteryMessage70" class="hunt-sub" role="status" aria-live="polite"></div>
+ <div class="selfoot"><button class="btn small" id="btnMasteryBack70" data-kh="Esc">Back</button></div>
+</div>
+<button id="dailyTrack70" class="hidden" aria-label="Daily challenge progress; pause run"></button>
 <div id="mapsel" class="screen panel">
  <h2 style="margin-bottom:2px">Choose Your Map</h2>
  <div class="mapsub" id="mapSub"></div>
@@ -1463,7 +1477,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
  <button class="btn" id="btnKeep" style="display:none">✦ Keep 1 item as a Keepsake</button>
  <button class="btn primary" id="btnRetry" data-kh="Enter">Hunt Again</button>
  <div class="row"><button class="btn small" id="btnOverSel">Change Class</button><button class="btn small" id="btnOverShop">Armory</button></div>
- <button class="btn" id="btnOverTitle" data-kh="Esc">Title</button>
+ <button class="btn small" id="btnOverMastery70">✦ Class Mastery</button><button class="btn" id="btnOverTitle" data-kh="Esc">Title</button>
  <div class="spacer"></div>
 </div>
 
@@ -1564,6 +1578,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
 <script src="assets/enemy-art.js"></script>
 <script src="assets/actor-animation-manifest.js"></script>
 <script src="assets/actor-animations.js"></script>
+<script src="assets/progression.js"></script>
+<script src="assets/progression-ui.js"></script>
 <script>
 'use strict';
 /* =========================================================
@@ -2777,7 +2793,7 @@ const GEN_COS = [{ id: 'eye_ember', name: 'Ember Eyes', slot: 'eye', v: '#ff9a3c
 const GEN_BY_ID = {}; for (const c of GEN_COS) GEN_BY_ID[c.id] = c;
 /* resolve what a hero wears: o.cos overrides (previews), otherwise the player's equipped looks */
 function heroCos(cls, race) { const c = (typeof save !== 'undefined' && save && save.cos) || {}, rc = (c.race && c.race[race]) || {};
-  return { armor: (c.armor && c.armor[cls]) || '', tone: rc.tone || '', hair: rc.hair || '', helm: rc.helm || '', acc: rc.acc || '', paint: rc.paint || '', frill: rc.frill || '', mask: rc.mask || '', tail: rc.tail || '', eye: c.eye || '', aura: c.aura || '' }; }
+  return { armor: (c.armor && c.armor[cls]) || '', tone: rc.tone || '', hair: rc.hair || '', helm: rc.helm || '', acc: rc.acc || '', paint: rc.paint || '', frill: rc.frill || '', mask: rc.mask || '', tail: rc.tail || '', eye: c.eye || '', aura: masteryAura70(cls) || c.aura || '' }; }
 const _rlCache = {};
 function raceLook(race, C) { const k = race + '|' + C.tone + '|' + C.hair + '|' + (C.frill || ''); if (_rlCache[k]) return _rlCache[k]; const R = Object.assign({}, RACES[race].look);
   const tn = RACE_COS_BY_ID[C.tone], hr = RACE_COS_BY_ID[C.hair], fr = RACE_COS_BY_ID[C.frill];
@@ -2810,6 +2826,7 @@ function drawPrestige(g, set, t, front) { const c = set.prestige;
     glowDot(g, x, y, 5, c, 0.6); g.fillStyle = '#fff'; g.beginPath(); g.moveTo(x, y - s * 1.8); g.lineTo(x + s * 0.5, y); g.lineTo(x, y + s * 1.8); g.lineTo(x - s * 0.5, y); g.closePath(); g.fill();
     g.beginPath(); g.moveTo(x - s * 1.8, y); g.lineTo(x, y + s * 0.5); g.lineTo(x + s * 1.8, y); g.lineTo(x, y - s * 0.5); g.closePath(); g.fill(); } }
 function drawAura(g, aura, t, front) {
+  if (drawMasteryAura70(g, aura, t, front)) return;
   if (aura === 'aura_prism') { const C = ['#ff5ad0', '#4fd4ff', '#ffe23a', '#9dff3b', '#c56bff']; for (let i = 0; i < 5; i++) { const a = t * 1.9 + i * TAU / 5, x = Math.cos(a) * 15, y = 2 + Math.sin(a) * 6 + Math.sin(t * 3 + i * 2) * 3, isF = Math.sin(a) > 0; if (isF !== front) continue;
       glowDot(g, x, y, 5, C[i], 0.75); g.fillStyle = '#fff'; g.beginPath(); g.arc(x, y, 1, 0, TAU); g.fill(); } return; }
   if (aura === 'aura_crown') { if (front) { g.save(); g.translate(0, -27 + Math.sin(t * 2) * 1.2); g.scale(1, 0.32); g.strokeStyle = 'rgba(255,226,58,.95)'; g.lineWidth = 2.2; g.beginPath(); g.arc(0, 0, 9, 0, TAU); g.stroke(); g.restore(); glowDot(g, 0, -27, 9, '#ffe23a', 0.35);
@@ -2962,7 +2979,7 @@ function talDesc(n, r) { const out = []; if (n.d) out.push(n.d.replace(/\{([\d.]
     const s = TSTAT[k]; if (s) out.push(s[0] + tfmt(v * s[2]) + s[1] + (s[2] === 1 && v > 1 && /stack|Familiar|arrow$|infection/.test(s[1]) ? 's' : '')); }
   return out.join(' · '); }
 const metaCost = (m, r) => Math.round(m.base * Math.pow(m.grow, r));
-const mr = id => save.meta[id] || 0;
+const mr = id => G && G.challengeDate && !G.ended ? 0 : save.meta[id] || 0;
 
 const W_MIGRATE = { hexbolt: 'blightbolt', aura: 'creep', hexring: 'plaguereap', rain: 'volatile' }; // v7 run saves → v8 Warlock kit (levels kept)
 const WDEF = {
@@ -8381,22 +8398,26 @@ function paragonTick(dt) { const tf = G.tf; if (G.totT > 0) G.totT -= dt; /* v21
       v.slice(0, 8).forEach((e, i) => { const c = PX_COLS[i % 8]; effects.push({ k: 'bolt', x: e.x, y: e.y, x0: P.x, y0: P.y - 20, life: 0.35, max: 0.35, seed: Math.random() * 99, col: c });
         effects.push({ k: 'boom', x: e.x, y: e.y, r: 40 * P.area, life: 0.3, max: 0.3, col: c }); damage(e, 70 + 7 * G.level); }); } }
 }
-function newRun(cls) {
+function newRun(cls, challenge = null) {
   cls = clsOf(cls); pxInit();
   corpses = []; minions = []; enemies = []; gems = []; picks = []; projs = []; eprojs = []; effects = []; parts = []; nums = []; toasts = []; bannerQ = [];
   G = { cls, t: 0, kills: 0, level: 1, xp: 0, xpNext: xpNeed(1), weapons: [], passives: {}, gear: emptyGear(), rerolls: 1 + mr('quick'),
     pending: 0, shardsPicked: 0, salvage: 0, bossKills: 0, elites: 0, nextElite: 50, nextBoss: 180, bossIdx: 0, nextSurge: 70, spawnAcc: 0,
     revived: false, wasNight: false, outfit: save.outfit, shake: 0, later: [], healPool: 0, bondPool: 0, critBuffT: 0, minionKills: 0, moved: false, dyingT: 0, boss: null, hurtFlash: 0, lowT: 0, achRun: {}, achNew: [], achT: 0, quests: [], qNext: 60, qStats: { done: 0, failed: 0, shards: 0, gear: 0 }, qN: 0, evo: {}, dm: {}, dmTot: 0, catPool: 0, gold: 0, goldEarned: 0, goldSpent: 0, npcs: [], npcNext: 90, npcN: 0, npcBuys: 0, npcVisits: 0, npcSeen: 0 };
-  G.mods = modsForRun50(); G.daily = !!save.modDaily && G.mods.length > 0; G.obSeed = (Math.random() * 1e9) | 0; G.obGone = {}; obReset(); G.map = selMap36(); mapApply();
+  G.challengeDate = challenge ? challenge.date : ''; G.daily = !!challenge;
+  G.mods = challenge ? dailyMods50(challenge.date) : modsForRun50();
+  G.outfit = challenge ? 'crimson' : save.outfit;
+  G.rerolls = challenge ? 1 : 1 + mr('quick') + (masteryRank70(cls) >= 2 ? 1 : 0);
+  G.obSeed = challenge ? challenge.seed | 0 : (Math.random() * 1e9) | 0; G.obGone = {}; obReset(); G.map = challenge ? challenge.map : selMap36(); mapApply();
   hookSrc();
   P = { x: 0, y: 0, r: 11, hp: 100, maxHp: 0, facing: 1, aim: 0, moving: false, inv: 0, atk: 0 };
-  G.race = raceOf(save.race); G.tal = talentFx(cls); G.tf = G.tal.f;
+  G.race = challenge ? challenge.race : raceOf(save.race); G.tal = challenge ? { f: {} } : talentFx(cls); G.tf = G.tal.f;
   save.ach.played.cls[cls] = 1; save.ach.played.race[G.race] = 1;
   addWeapon(CLASSES[cls].weapon);
-  applyKeepsakes(cls);
+  if (!challenge) applyKeepsakes(cls);
   if (G.tf.startArcher) addWeapon('archers'); if (G.tf.startBrute) addWeapon('brute'); if (G.tf.startRain) addWeapon('arrowrain');
   w28Start(); recalc(); P.hp = P.maxHp;
-  save.lastClass = cls; save.runs++; persist();
+  if (!challenge) save.lastClass = cls; save.runs++; persist();
 }
 const CLS_DMG34 = { rogue: 1.1, ranger: 1.1, mage: 1.1 }; // v34 balance buff
 function recalc() {
@@ -8472,7 +8493,7 @@ const RUN_STATES = { play: 1, paused: 1, levelup: 1, gear: 1, countdown: 1, equi
 const r1 = v => Math.round(v * 10) / 10;
 function serializeRun() {
   const g = {}; for (const k of ['cls', 'race', 'outfit', 't', 'kills', 'level', 'xp', 'xpNext', 'passives', 'gear', 'pending', 'shardsPicked', 'salvage', 'bossKills', 'elites', 'nextElite', 'nextBoss',
-    'map', 'mods', 'daily', 'w28', 'bossIdx', 'bossBag', 'bossLast', 'nextSurge', 'spawnAcc', 'revived', 'wasNight', 'healPool', 'bondPool', 'critBuffT', 'minionKills', 'moved', 'pendingChest', 'nextLoot', 'rushT', 'aegisT', 'kept', 'luChoices', 'tal', 'undyingUsed', 'tollT', 'rwT', 'sgT', 'achRun', 'achNew', 'dv', 'ancCd', 'frzCd', 'wsT', 'mcT', 'mwT', 'mvT', 'arc', 'stage', 'nextMini', 'surgeN', 'quests', 'qNext', 'qStats', 'qN', 'qLast', 'evo', 'dm', 'catPool', 'catRefund', 'obSeed', 'obGone', 'rerolls', 'gold', 'goldEarned', 'goldSpent', 'npcs', 'npcNext', 'npcN', 'npcLast', 'npcBuys', 'npcVisits', 'npcSeen', 'bufE', 'bufH', 'bufA', 'deathward', 'goldBud', 'portal', 'portalNext', 'townVisits', 'npcHp', 'mimic45']) g[k] = G[k];
+    'map', 'mods', 'daily', 'challengeDate', 'w28', 'bossIdx', 'bossBag', 'bossLast', 'nextSurge', 'spawnAcc', 'revived', 'wasNight', 'healPool', 'bondPool', 'critBuffT', 'minionKills', 'moved', 'pendingChest', 'nextLoot', 'rushT', 'aegisT', 'kept', 'luChoices', 'tal', 'undyingUsed', 'tollT', 'rwT', 'sgT', 'achRun', 'achNew', 'dv', 'ancCd', 'frzCd', 'wsT', 'mcT', 'mwT', 'mvT', 'arc', 'stage', 'nextMini', 'surgeN', 'quests', 'qNext', 'qStats', 'qN', 'qLast', 'evo', 'dm', 'catPool', 'catRefund', 'obSeed', 'obGone', 'rerolls', 'gold', 'goldEarned', 'goldSpent', 'npcs', 'npcNext', 'npcN', 'npcLast', 'npcBuys', 'npcVisits', 'npcSeen', 'bufE', 'bufH', 'bufA', 'deathward', 'goldBud', 'portal', 'portalNext', 'townVisits', 'npcHp', 'mimic45']) g[k] = G[k];
   g.weapons = G.weapons.map(w => [w.id, w.lvl]);
   /* v27: inside the Safe Haven the real battlefield is stashed in G.town.st - save that world (and where you left it) plus the town itself */
   const TW = G.town, st = TW && TW.st, EN = st ? st.enemies : enemies, BOSS = st ? st.boss : G.boss, PK = st ? st.picks : picks; if (st) g.npcs = st.npcs;
@@ -8505,6 +8526,7 @@ function restoreRun(r) {
   if (!G.tal || typeof G.tal !== 'object') G.tal = talentFx(cls); G.tal.f = G.tal.f || {}; G.tf = G.tal.f;
   const wmig = (g.weapons || []).map(([id, lvl]) => [W_MIGRATE[id] || id, lvl]).filter(([id], i, a) => a.findIndex(q => q[0] === id) === i);
   if (cls === 'warlock' && !g.dv) { G.tal = talentFx(cls); G.tal.f = G.tal.f || {}; G.tf = G.tal.f; } // v7 Warlock runs: talents were reworked & refunded
+  if (G.challengeDate) { G.tal = { f: {} }; G.tf = G.tal.f; }
   G.dv = 8;
   hookSrc(); G.noPurge = 1;
   for (const [id, lvl] of wmig) if (WDEF[id]) { addWeapon(id); G.weapons[G.weapons.length - 1].lvl = clamp(lvl | 0, 1, WDEF[id].max || 6); }
@@ -8536,7 +8558,7 @@ function restoreRun(r) {
   if (r.boss >= 0 && enemies[r.boss] && enemies[r.boss].boss) G.boss = enemies[r.boss]; else G.boss = enemies.find(e => e.boss) || null;
   for (const q of (r.gems || [])) gems.push({ x: q[0], y: q[1], v: q[2], tier: q[3] ? 3 : gemTier(q[2]), big: !!q[3], pull: false, sp: 0, pop: 0 });
   for (const q of (r.picks || [])) picks.push(q[0] === 'chest' ? { k: 'chest', x: q[1], y: q[2], boss: !!q[4] } : { k: q[0] === 'gold' ? 'gold' : 'shard', x: q[1], y: q[2], v: q[3] || 1 });
-  save.lastClass = cls; persist();
+  if (!G.challengeDate) save.lastClass = cls; persist();
 }
 function runSummary(r) { const c = CLASSES[clsOf(r.G.cls)]; return `${RACES[raceOf(r.G.race || save.race)].name} ${c ? c.name : 'Hunter'} · ${fmtTime(r.G.t || 0)} survived · Lv ${r.G.level || 1} · ☠ ${r.G.kills || 0}`; }
 function continueRun() {
@@ -15018,7 +15040,7 @@ function drawHUD() {
    They stack in one column under the HUD (below the quest tracker, DPS button, quest/achievement popups and event timer),
    the stage/boss banner first, then up to 2 (phone) / 3 (PC) toasts; the rest wait their turn. Nothing goes below mid-screen. */
 function msgDomBottom() { if (MSG_DOMT > gtime - 0.2 && MSG_DOMT <= gtime) return MSG_DOM; MSG_DOMT = gtime; let m = 0;
-  for (const id of ['qBan', 'achBanner', 'dmgBtn']) { const el = $(id); if (!el || el.classList.contains('hidden')) continue; if (id !== 'dmgBtn' && !el.classList.contains('on')) continue;
+  for (const id of ['qBan', 'achBanner', 'dmgBtn', 'dailyTrack70']) { const el = $(id); if (!el || el.classList.contains('hidden')) continue; if (['qBan','achBanner'].includes(id) && !el.classList.contains('on')) continue;
     const r = el.getBoundingClientRect(); if (!r.height || r.bottom <= 0) continue; const mw = Math.min(W - 24, PC && W >= 700 ? 620 : 560);
     if (id === 'dmgBtn' && (r.left > W / 2 + mw / 2 || r.top > H * 0.4)) continue; m = Math.max(m, r.bottom); }
   return (MSG_DOM = m); }
@@ -15229,6 +15251,7 @@ const KNAV = {
   gear: { Enter: 'btnEquip', Space: 'btnEquip', KeyE: 'btnEquip', KeyX: 'btnSalvage' },
   equip: { Escape: 'btnEqBack' }, npc: { Escape: 'btnNpcLeave', KeyE: 'btnNpcLeave', Backspace: 'btnNpcLeave' }, pause: { Enter: 'btnResume', Space: 'btnResume', KeyH: 'btnKeysP', F1: 'btnKeysP' },
   over: { Enter: () => visBtn('btnRetry'), Space: () => visBtn('btnRetry'), Escape: 'btnOverTitle' },
+  daily: { Escape: 'btnDailyBack70', Enter: 'btnDailyStart70' }, mastery: { Escape: 'btnMasteryBack70' },
   ach: { Escape: 'btnAchBack' }, ward: { Escape: 'btnWardBack' }, audio: { Escape: 'btnAudBack' },
   how: { Escape: 'btnHowBack', Enter: 'btnHowBack', KeyH: 'btnKeysH' }, keys: { Escape: 'btnKeysBack', Enter: 'btnKeysBack', KeyH: 'btnKeysBack' } };
 function topScreen() { for (let i = SCREENS.length - 1; i >= 0; i--) if ($(SCREENS[i]).classList.contains('on')) return SCREENS[i]; return null; }
@@ -15237,6 +15260,11 @@ function keyNav(code) { // returns true when handled
   if (sc === 'levelup') { const C = $('choices').children, n = C.length, dg = /^(Digit|Numpad)([1-9])$/.exec(code);
     if (dg && +dg[2] <= n) { C[+dg[2] - 1].click(); return true; }
     if ((code === 'ArrowLeft' || code === 'ArrowRight' || code === 'KeyA' || code === 'KeyD') && n) { let i = [...C].findIndex(c => c.classList.contains('pickd')); i = i < 0 ? (code === 'ArrowLeft' || code === 'KeyA' ? n - 1 : 0) : (i + (code === 'ArrowLeft' || code === 'KeyA' ? n - 1 : 1)) % n; if (!C[i].classList.contains('pickd')) C[i].click(); return true; } }
+  if (sc === 'daily' || sc === 'mastery') {
+    const items = gfItems($(sc)), at = items.indexOf(document.activeElement);
+    if (['Tab','ArrowDown','ArrowUp','ArrowLeft','ArrowRight'].includes(code)) { const prev = code === 'ArrowUp' || code === 'ArrowLeft' || (code === 'Tab' && (keys.has('ShiftLeft') || keys.has('ShiftRight'))); const i = at < 0 ? 0 : (at + (prev ? -1 : 1) + items.length) % items.length; if (items[i]) { items[i].focus(); items[i].scrollIntoView({block:'nearest'}); } return true; }
+    if (['Enter','Space','NumpadEnter'].includes(code) && at >= 0) { items[at].click(); return true; }
+  }
   if (sc === 'talents' && talKey(code)) return true;
   if (sc === 'npc') { /* v22 trader: 1–4 buy, ↑/↓ move, Enter/Space use the focused button */
     const B = [...$('npcOffers').children], dg = /^(Digit|Numpad)([1-9])$/.exec(code);
@@ -15442,7 +15470,7 @@ function renderCodex() {
       `<div class="ce"><span class="cst">${ok ? '✓' : '◇'}</span><b style="color:${ok ? E.col : '#cbb8ea'}">${E.n}</b>${tag}</div><div class="cd">${ok ? E.d : E.d + ' — not yet discovered'}</div></div>`; }).join('');
 }
 /* ================= UI ================= */
-const SCREENS = ['mapsel', 'talents', 'codex', 'title', 'race', 'select', 'ach', 'ward', 'audio', 'shop', 'levelup', 'gear', 'equip', 'npc', 'pause', 'over', 'how', 'keys'];
+const SCREENS = ['daily', 'mastery', 'mapsel', 'talents', 'codex', 'title', 'race', 'select', 'ach', 'ward', 'audio', 'shop', 'levelup', 'gear', 'equip', 'npc', 'pause', 'over', 'how', 'keys'];
 function show(id) { if (PC && document.activeElement && document.activeElement.blur) document.activeElement.blur(); for (const s of SCREENS) $(s).classList.toggle('on', s === id); $('pauseBtn').classList.toggle('hidden', id !== null); if (id) $(id).scrollTop = 0; }
 function hudOnly() { for (const s of SCREENS) $(s).classList.remove('on'); $('pauseBtn').classList.remove('hidden'); }
 function bind(id, fn) { $(id).addEventListener('click', e => { Snd.init(); Snd.play('click'); fn(e); }); }
@@ -15526,26 +15554,25 @@ function modKill(e) {
 const modShard = () => 1 + Math.min(0.6, ((G && G.mods) || []).reduce((a, k) => a + (MODS50[k] ? MODS50[k].b : 0), 0) / 100);
 function modLine() { return G && G.mods && G.mods.length ? `<div><span>${G.daily ? '📅 Daily ' : ''}Twists ${G.mods.map(k => MODS50[k].ic).join('')}</span><b style="color:#ffd24a">+${Math.round((modShard() - 1) * 100)}% ◆</b></div>` : ''; }
 /* ---- daily: same twists for everyone on a given date ---- */
-function dailyKey50() { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+function dailyKey50() { return HuntProgress.day(); }
 function dailyMods50(key = dailyKey50()) { let h = 2166136261; for (const c of key) h = Math.imul(h ^ c.charCodeAt(0), 16777619) >>> 0;
   const pool = MODS50_ORDER.slice(), out = []; for (let i = 0; i < 2; i++) { h = Math.imul(h ^ (h >>> 15), 2246822519) >>> 0; out.push(pool.splice(h % pool.length, 1)[0]); } return out; }
 function modsForRun50() { const s = save.mods; return Array.isArray(s) ? s.filter(k => MODS50[k]).slice(0, 3) : []; }
 let modOpen50 = false;
 function renderMods50() {
-  const box = $('modBox'); if (!box) return; const sel = new Set(modsForRun50()), dm = dailyMods50(), isDaily = !!save.modDaily && dm.length === sel.size && dm.every(k => sel.has(k));
-  const best = save.dailyBest && save.dailyBest.d === dailyKey50() ? ' · best ' + fmtTime(save.dailyBest.t) : '';
+  const box = $('modBox'); if (!box) return; const sel = new Set(modsForRun50());
   const bonus = Math.round((([...sel].reduce((a, k) => a + MODS50[k].b, 0)) > 60 ? 60 : [...sel].reduce((a, k) => a + MODS50[k].b, 0)));
-  const head = sel.size ? [...sel].map(k => MODS50[k].ic).join('') + ' ' + (isDaily ? 'Daily · ' : '') + sel.size + '/3 · +' + bonus + '% ◆' : 'none · pays bonus Shards';
+  const head = sel.size ? [...sel].map(k => MODS50[k].ic).join('') + ' ' + sel.size + '/3 · +' + bonus + '% ◆' : 'none · pays bonus Shards';
   box.innerHTML = `<button class="modchip act modtog${sel.size ? ' on' : ''}" id="modToggle" aria-expanded="${modOpen50}"><i>🎲</i><b>Twists: ${head}</b><u>${modOpen50 ? '▴' : '▾'}</u></button>` + (!modOpen50 ? '' :
     `<div class="modrow">` +
     MODS50_ORDER.map(k => `<button class="modchip${sel.has(k) ? ' on' : ''}" data-mod="${k}" aria-pressed="${sel.has(k)}" title="${MODS50[k].d}"><i>${MODS50[k].ic}</i><b>${MODS50[k].n}</b></button>`).join('') +
-    `</div><div class="modrow2"><button class="modchip act${isDaily ? ' on' : ''}" id="modDaily" title="Same two twists for everyone today"><i>📅</i><b>Daily${best}</b></button><button class="modchip act" id="modRand"><i>🎲</i><b>Random</b></button><button class="modchip act" id="modClear"><i>✕</i><b>None</b></button></div>` +
+    `</div><div class="modrow2"><button class="modchip act" id="modDaily" title="Open today's shared Daily Challenge"><i>📅</i><b>Daily Challenge</b></button><button class="modchip act" id="modRand"><i>🎲</i><b>Random</b></button><button class="modchip act" id="modClear"><i>✕</i><b>None</b></button></div>` +
     `<div class="modinfo">${sel.size ? [...sel].map(k => MODS50[k].ic + ' ' + MODS50[k].d).join('<br>') : 'Twists bend the rules of a run and pay extra Shards.'}</div>`);
   $('modToggle').onclick = () => { Snd.init(); modOpen50 = !modOpen50; renderMods50(); };
   const setMods = (arr, daily) => { save.mods = arr.slice(0, 3); save.modDaily = !!daily; persist(); renderMods50(); };
   box.querySelectorAll('[data-mod]').forEach(b => b.onclick = () => { Snd.init(); const k = b.dataset.mod, a = modsForRun50(); const i = a.indexOf(k); if (i >= 0) a.splice(i, 1); else if (a.length < 3) a.push(k); else { toast('Only 3 twists at once', '#ff9a9a', 1.5); return; } Snd.play('deal'); setMods(a, false); });
   if (!modOpen50) return;
-  $('modDaily').onclick = () => { Snd.init(); Snd.play('deal'); setMods(isDaily ? [] : dm, !isDaily); };
+  $('modDaily').onclick = () => { Snd.init(); Snd.play('deal'); goDaily70(); };
   $('modRand').onclick = () => { Snd.init(); Snd.play('deal'); const p = MODS50_ORDER.slice(), a = []; for (let i = 0; i < 2; i++) a.push(p.splice(Math.floor(Math.random() * p.length), 1)[0]); setMods(a, false); };
   $('modClear').onclick = () => { Snd.init(); setMods([], false); };
 }
@@ -15592,7 +15619,7 @@ function renderSelect() {
     if (nextGroup !== group) { group = nextGroup; const heading = document.createElement('h3'); heading.className = 'class-group'; heading.textContent = group === 'free' ? 'Free classes' : 'Shard unlocks'; L.appendChild(heading); }
     const b = document.createElement('button'); b.className = 'ccard' + (owned ? '' : ' locked') + (sel ? ' sel' : ''); b.dataset.cls = id;
     const lvl = classLevel(id).lvl;
-    b.innerHTML = `<canvas></canvas><div class="tx"><div class="nm">${c.name}<span class="role">${c.role}</span></div>` +
+    b.innerHTML = `<canvas></canvas><div class="tx"><div class="nm">${c.name}<span class="role">${c.role}</span>${masteryTitle70(id) ? `<span class="mastery-badge">✦ ${masteryTitle70(id)}</span>` : ''}</div>` +
       (sel ? `<div class="fl">${c.flavor}</div>` : '') + `<div class="ds">${c.desc}</div>` +
       (sel ? `<div class="pa"><b>${c.passive}:</b> ${c.pdesc}</div><div class="chips"><i>${WDEF[c.weapon].ic}\uFE0E ${WDEF[c.weapon].name}</i>${c.chips.map(x => `<i>${x}</i>`).join('')}</div>` : '') + `</div>` +
       (owned ? (TALENTS[id] ? `<span class="lvb">Lv ${lvl}</span>` : '') : `<span class="lockb">🔒 Locked</span>`);
@@ -15727,8 +15754,8 @@ function renderShop() {
     const d = row('<canvas></canvas>', o.name, '', o.bonus, btn); heroPortrait(d.querySelector('canvas'), clsOf(save.lastClass), id);
   }
 }
-function startRun(cls) {
-  clearRun(); Snd.init(); newRun(cls); SND32.prep(G.cls, G.race); state = 'play'; hudOnly(); setJoy(false); keys.clear();
+function startRun(cls, challenge = null) {
+  clearRun(); Snd.init(); newRun(cls, challenge); SND32.prep(G.cls, G.race); state = 'play'; hudOnly(); setJoy(false); keys.clear();
 }
 function pauseGame() { if (state !== 'play' && state !== 'countdown') return; if (state === 'countdown') G.countdownNext = true; state = 'paused'; setJoy(false); show('pause'); muteLabel(); renderBuild(); $('pauseTitle').textContent = 'Paused'; $('btnResume').textContent = 'Resume'; saveRun(); }
 let resumeAt = 0, joyEndAt = 0; // pause-button guards: just-closed popup / thumb just lifted off the joystick
@@ -15988,12 +16015,13 @@ function keepBtn() { const b = $('btnKeep'); if (!b || !G) return; const ok = GS
 function gearLook(gear, cls) { if (!gear) return null; const o = {}; let n = 0; for (const s of ['head', 'shoulders', 'chest', 'hands', 'waist', 'feet', 'neck', 'legs']) { const it = gear[s]; if (it) { o[s] = { c: shade(it.col, 0.18), a: GRAR[it.r].c, lk: it.look | 0, r: it.r }; n++; } } return n ? o : null; }
 /* game over */
 function showGameOver(quit) {
-  clearRun(); if (G.ended) return; G.ended = true; qBanClear();
+  clearRun(); if (G.ended) return; achMax('c_' + G.cls + '_t', Math.floor(G.t)); G.ended = true; qBanClear();
   { const nb = G.t > save.best && G.t >= 5; if (quit) Snd.music('victory'); else if (nb) setTimeout(() => { if (state === 'over') Snd.music('victory'); }, 2600); }
   const t = G.t, base = Math.floor(t / 10) + Math.floor(G.kills / 20) + G.bossKills * 15 + G.elites * 2, found = G.shardsPicked + G.salvage;
   const goldSh = Math.min(15, Math.floor((G.gold || 0) / 40)); /* v22: leftover gold → a tiny Shard tip (max +15, never multiplied) */
-  const total = Math.round((base + found) * (1 + 0.1 * mr('fortune') + ((P && P.shardMul) || 1) - 1) * modShard()) + goldSh;
-  if (G.daily && t >= 5) { const dk = dailyKey50(); if (!save.dailyBest || save.dailyBest.d !== dk || t > save.dailyBest.t) save.dailyBest = { d: dk, t }; }
+  const dailyResult70 = G.challengeDate ? HuntProgress.settleDaily(save, G) : { shards: 0 };
+  const total = Math.round((base + found) * (1 + 0.1 * (G.challengeDate ? 0 : mr('fortune')) + ((P && P.shardMul) || 1) - 1) * modShard()) + goldSh + dailyResult70.shards;
+  if (G.daily && t >= 5) { const dk = G.challengeDate || dailyKey50(); if (!save.dailyBest || save.dailyBest.d !== dk || t > save.dailyBest.t) save.dailyBest = { d: dk, t }; }
   const newBest = t > save.best && t >= 5;
   const cls = G.cls, before = classLevel(cls).lvl, cx = Math.round(t * 0.9 + G.kills * 0.35 + G.bossKills * 40 + G.elites * 6);
   if (TALENTS[cls]) save.cxp[cls] = (save.cxp[cls] || 0) + cx; const after = classLevel(cls);
@@ -16012,6 +16040,7 @@ function showGameOver(quit) {
     (TALENTS[cls] ? `<div style="border-top:1px solid rgba(180,130,255,.3);margin-top:4px;padding-top:4px"><span>${CLASSES[cls].name} XP</span><b style="color:#9fe8ff">+${cx}</b></div>` +
       `<div style="font-size:13px;color:#a593c4"><span>Class level ${after.lvl}</span><span>${after.lvl > before ? '<b style="color:#ffd24a">+' + (after.lvl - before) + ' talent pt!</b>' : after.need ? after.into + '/' + after.need : 'MAX'}</span></div>` : '') +
     (achRunNew.length ? `<div class="achsum"><div class="ast">★ Achievements unlocked (${achRunNew.length})</div>${achRunNew.map(id => { const a = ACH_BY_ID[id]; return a ? `<div class="asi"><span>${a.ic}\uFE0E ${a.name}</span><b>${rewardName(a.rw)}</b></div>` : ''; }).join('')}<div class="asf">Equip new looks in the Wardrobe</div></div>` : '');
+  $('overRes').insertAdjacentHTML('beforeend', progressionSummary70(dailyResult70, cls));
   $('overDmg').innerHTML = dmSummaryHTML(); $('overDmg').style.display = $('overDmg').innerHTML ? '' : 'none';
   for (const a of achEnd) achBanner(a);
   keepBtn();
@@ -16149,7 +16178,7 @@ bind('btnEquip', () => closeGear(true)); bind('btnEqP', () => goEquip('run', 'pa
 $('chkAuto').addEventListener('change', e => { save.autoEquip = e.target.checked; persist(); }); $('eqAuto').addEventListener('change', e => { save.autoEquip = e.target.checked; persist(); });
 $('eqLook').addEventListener('change', e => { save.gearOver = e.target.checked; persist(); renderEquip(); });
  $('btnPick').addEventListener('click', () => { Snd.init(); confirmPick(); }); $('btnReroll').addEventListener('click', () => { Snd.init(); luReroll(); }); bind('btnSalvage', () => closeGear(false));
-bind('btnRetry', () => startRun(G ? G.cls : selClass)); bind('btnOverSel', goSelect); bind('btnOverShop', () => goShop('over')); bind('btnOverTitle', goTitle);
+bind('btnRetry', () => G && G.challengeDate ? startDaily70() : startRun(G ? G.cls : selClass)); bind('btnOverSel', goSelect); bind('btnOverShop', () => goShop('over')); bind('btnOverTitle', goTitle);
 
 /* ================= v11 touch feedback + scroll affordance ================= */
 const PRESS_SEL = 'button, .gslot, label.chk, .wsw, .sw';
@@ -17323,6 +17352,7 @@ const wlRefund = (function migrateWarlockTalents() { // v8: Warlock tree reworke
   let had = false; for (const k of Object.keys(tr)) if (!ok.has(k)) { delete tr[k]; had = true; }
   if (had) { save.notice = Object.assign({}, save.notice, { wl8: 1 }); persist(); } return had; })();
 function showNotice(txt) { const n = $('notice'); n.textContent = txt; n.classList.add('on'); clearTimeout(n._t); n._t = setTimeout(() => n.classList.remove('on'), 8000); n.onclick = () => n.classList.remove('on'); }
+initHunts70();
 goTitle();
 if (achRetro.length) setTimeout(() => titleNote(`${achRetro.length} achievement${achRetro.length > 1 ? 's' : ''} unlocked from your past hunts — see Achievements & Wardrobe`), 400);
 if (save.notice && save.notice.tal19 === 1) { setTimeout(() => showNotice('✦ Talents are now full talent trees — all your points were refunded, spend them again (level cap raised to 51)'), 700); save.notice.tal19 = 2; if (save.notice.wl8 === 1) save.notice.wl8 = 2; persist(); }

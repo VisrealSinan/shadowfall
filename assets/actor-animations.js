@@ -37,7 +37,7 @@ const ActorAnimations = (() => {
     // The class selector can display all 21 classes together. Retain enough
     // images for that view so load callbacks cannot cause eviction/reload loops.
     if (images.size > 32) images.delete(images.keys().next().value);
-    im.onload = () => { if (state === 'select') renderSelect(); else if (state === 'race') renderRace(); };
+    im.onload = () => { if (state === 'select') renderSelect(); else if (state === 'race') renderRace(); else if (state === 'daily' || state === 'mastery') refreshProgressPortrait70(); };
     im.src = v.src;
     return im;
   }
@@ -101,6 +101,8 @@ const ActorAnimations = (() => {
     const v = variant(o); if (!v) return false;
     const im = image(v); if (!im.complete || !im.naturalWidth) return false;
     const f = frame(o,v), k = (o.cls === 'bearlina' ? 88 : 76) / v.cell_height * (v.display_scale || 1);
+    const look = o.cos || heroCos(o.cls, raceOf(o.race || save.race));
+    g.save(); if (look.aura) drawAura(g, look.aura, o.t || 0, false); g.restore();
     g.save(); g.imageSmoothingEnabled = false;
     if (o.outfit === 'ashen') g.filter = 'grayscale(.8)';
     else if (o.outfit === 'midnight') g.filter = 'hue-rotate(165deg) saturate(.8)';
@@ -110,7 +112,9 @@ const ActorAnimations = (() => {
       -v.anchor[0]*k, 18-v.anchor[1]*k, v.cell_width*k, v.cell_height*k);
     g.restore();
     if (f.procedural && motionStyles[o.cls]) motionEffect(g,o.cls,f);
-    g.restore(); return true;
+    g.restore();
+    g.save(); if (look.aura) drawAura(g, look.aura, o.t || 0, true); g.restore();
+    return true;
   }
   return {variant, gender, setGender, frame, cue, draw};
 })();

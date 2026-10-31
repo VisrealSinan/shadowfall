@@ -1,12 +1,12 @@
 {
- "version": "69",
+ "version": "70",
  "date": "2026-10-30",
  "minLauncher": "2.0.0",
  "notes": [
-  "New desktop launcher 2.0.2 with a crimson-and-plum design, updated character artwork, a stronger Play button and a separate patch notes panel.",
-  "Clearer download progress and a home-screen Restart and install button when a launcher update is ready.",
-  "Refreshed display settings, keyboard focus and controller navigation; patch notes keep their scroll position during downloads.",
-  "The launcher fits the desktop work area and can be resized. Includes all recent game, animation and talent menu updates."
+  "Daily Challenges: a shared class, race, map and two twists rotate every day at midnight UTC. Every player starts with the same standard loadout.",
+  "Earn Bronze, Silver and Gold challenge rewards once per day, track your personal best, and safely continue attempts across midnight.",
+  "Class Mastery: claim four ranks for each class using class XP, kills, survival and boss milestones. Existing progress counts across all races and male/female models.",
+  "Mastery rewards include Shards, equipable titles, an extra normal-hunt starting reroll, Mastery Motes and a Mastery Crown. Find them in Class Mastery on the title screen, class selection and run results."
  ],
  "files": [
   {
@@ -36,8 +36,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "393dcaa3da219586e9ac8e0b8eb12751bb07cac3e75e0962518960dbf8bb80da",
-   "size": 2832522
+   "sha256": "2a0fe4f0d8e19e2f82a3b4a0a064b47b7e59e9581831b8acba70c0c5cdaf2bcb",
+   "size": 2835378
   },
   {
    "name": "manifest.webmanifest",
@@ -46,8 +46,8 @@
   },
   {
    "name": "sw.js",
-   "sha256": "c0ed31445435b3d1c71bd112824a8103e81744116ff103dc6e957af9362048ec",
-   "size": 1642
+   "sha256": "b92714f6411084d5e6831619255aa3108d03bf83bf86ce08a6436a6de7a23492",
+   "size": 1727
   },
   {
    "name": "assets/actor-animation-manifest.js",
@@ -56,8 +56,8 @@
   },
   {
    "name": "assets/actor-animations.js",
-   "sha256": "ed61905c83d692ee5de97db94a4ed805cdcb637e995dc02a9d09a2e02383ce54",
-   "size": 6600
+   "sha256": "db4e14c937e8bff8b025f6d3b5e06d4d188d76c90668a7664a619355b10e260e",
+   "size": 6920
   },
   {
    "name": "assets/alchemist-cat-female.png",
@@ -1848,6 +1848,21 @@
    "name": "assets/paragon-troll-male.png",
    "sha256": "e7b43bb6a05551e2216369668a66ee35992152825ba912c59e4e9536b3e2d4e5",
    "size": 1090916
+  },
+  {
+   "name": "assets/progression-ui.js",
+   "sha256": "2d2fc193e6d6aa2533f058bfb40e73ca1d0b7aa70009437ca2087374d516fcbb",
+   "size": 11889
+  },
+  {
+   "name": "assets/progression.css",
+   "sha256": "0b1c05523f7c6b546503917820a39084da7c51816adf94d5f020bf2f3430a156",
+   "size": 5445
+  },
+  {
+   "name": "assets/progression.js",
+   "sha256": "66957483c1b20945d69a8739b34186a70313654ca2e212b2faa231f5bc742cb7",
+   "size": 4300
   },
   {
    "name": "assets/ranger-cat-female.png",
