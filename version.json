@@ -1,12 +1,12 @@
 {
- "version": "70",
- "date": "2026-10-30",
+ "version": "71",
+ "date": "2026-10-31",
  "minLauncher": "2.0.0",
  "notes": [
-  "Daily Challenges: a shared class, race, map and two twists rotate every day at midnight UTC. Every player starts with the same standard loadout.",
-  "Earn Bronze, Silver and Gold challenge rewards once per day, track your personal best, and safely continue attempts across midnight.",
-  "Class Mastery: claim four ranks for each class using class XP, kills, survival and boss milestones. Existing progress counts across all races and male/female models.",
-  "Mastery rewards include Shards, equipable titles, an extra normal-hunt starting reroll, Mastery Motes and a Mastery Crown. Find them in Class Mastery on the title screen, class selection and run results."
+  "Full hero animation coverage: the remaining 62 variants now have dedicated idle, run, attack, skill-casting and dodge sheets.",
+  "Includes all 16 Druids, 14 remaining Chronomancers, 16 Neural Maestros and 16 Hollow Visages, across male and female race choices.",
+  "All 328 hero variants now have full action sheets: 1,648 six-frame sequences including Bearlina's Full Moon animations.",
+  "Daily Challenges, Class Mastery rewards and your saved appearance choices continue to work with the updated sprites."
  ],
  "files": [
   {
@@ -46,13 +46,13 @@
   },
   {
    "name": "sw.js",
-   "sha256": "b92714f6411084d5e6831619255aa3108d03bf83bf86ce08a6436a6de7a23492",
+   "sha256": "02ddc7ba053317073ac21e539ce7d0d5b9d00569c4f552094c89c45f04388b00",
    "size": 1727
   },
   {
    "name": "assets/actor-animation-manifest.js",
-   "sha256": "b8543d8f1050a7517ea29f2fa210de8c846ecc35721eadf6da4ff511555f0dba",
-   "size": 187142
+   "sha256": "f3f1bac587916e3485b889d3d06a9f702057f9579dae06e040968b79f1fcec6c",
+   "size": 200210
   },
   {
    "name": "assets/actor-animations.js",
@@ -353,6 +353,156 @@
    "name": "assets/chrono-cat-male.png",
    "sha256": "7500fd76a6007d757b3d8eae07e02d109febf8190482b0855f185a1f03ebe35c",
    "size": 1157890
+  },
+  {
+   "name": "assets/chrono-dwarf-female.png",
+   "sha256": "ac3f0d6c0725246c749a9ae3f041c13298836e2b8a724118a4ae2d9bbde008e6",
+   "size": 1021996
+  },
+  {
+   "name": "assets/chrono-dwarf-male.png",
+   "sha256": "7b8161c79be06368b2a1d7b3ec9f71c95a9f8461a22d075dfe4f209b281172e4",
+   "size": 894126
+  },
+  {
+   "name": "assets/chrono-elf-female.png",
+   "sha256": "54e028792c156e8c12b6b85f26129bdb43130c14425bebae31b92495daa0b166",
+   "size": 1161941
+  },
+  {
+   "name": "assets/chrono-elf-male.png",
+   "sha256": "1b5e7e019af8b4e2df3ef0d1b339369bafecd45b4a7e08acfd9857f1e40a69c1",
+   "size": 1274564
+  },
+  {
+   "name": "assets/chrono-kitsune-female.png",
+   "sha256": "8b497b97f6f2fa789ffc1b7ccd099358ea8ac7f2d56bed78cc75f60aa0a2ba27",
+   "size": 1520374
+  },
+  {
+   "name": "assets/chrono-kitsune-male.png",
+   "sha256": "06eb472cabe7a5f0a12c356852fe6a3cf613f18a5724d452f17e07c603ed1597",
+   "size": 1013189
+  },
+  {
+   "name": "assets/chrono-ogre-female.png",
+   "sha256": "84184cb619d53d4fc50408b3d063b371a27be2e9b11be57dae32cd326189a60c",
+   "size": 805141
+  },
+  {
+   "name": "assets/chrono-ogre-male.png",
+   "sha256": "bdc9b99a33f919092883a7716aac9939c7aefac59b1761c4e03bea8c40f62834",
+   "size": 1123773
+  },
+  {
+   "name": "assets/chrono-scale-female.png",
+   "sha256": "e636bad9c9c62b6d5b9f0e845c6e596f04acb21df3a978b002851ea5ee595ec1",
+   "size": 1150181
+  },
+  {
+   "name": "assets/chrono-scale-male.png",
+   "sha256": "4255fb299b2f2f378d9d51ab2e8c8cb56922318cbd19cb39a163b9763419a795",
+   "size": 1069359
+  },
+  {
+   "name": "assets/chrono-shade-female.png",
+   "sha256": "f69544395d5d2b76b061a8871682baff8a134b176723c47ee9a96f77ba33008d",
+   "size": 1197488
+  },
+  {
+   "name": "assets/chrono-shade-male.png",
+   "sha256": "485efe9ba1cd4919b9a76ab6ba7e95b1e542c785fb284613c41c14ed90634548",
+   "size": 937004
+  },
+  {
+   "name": "assets/chrono-troll-female.png",
+   "sha256": "61ca5228bab2404edf150b34b749a60055914e5685308c311d7e9c39e3bc33a8",
+   "size": 1251572
+  },
+  {
+   "name": "assets/chrono-troll-male.png",
+   "sha256": "67e145113f1fcfc555eca80fac65f7527beb178503a4f18396acbfc65b24a0ad",
+   "size": 1384001
+  },
+  {
+   "name": "assets/druid-cat-female.png",
+   "sha256": "1df60b2bb3644a65ca20c2381be354b1b92e5c93fed886693115498d687cb65d",
+   "size": 932787
+  },
+  {
+   "name": "assets/druid-cat-male.png",
+   "sha256": "fe74127c21e61fbf2e930cb8f2cc7401871d24f6f922406236fed21e3c6800c8",
+   "size": 1217436
+  },
+  {
+   "name": "assets/druid-dwarf-female.png",
+   "sha256": "b05b3458a27d3a60b7a266327a7343c4eaafe713d047e97cef1ea82c5349b59c",
+   "size": 1274124
+  },
+  {
+   "name": "assets/druid-dwarf-male.png",
+   "sha256": "4e0416d850c9f76637496b28f2360b9d5527cfbd3e77ca4b146be6eae8e6c95d",
+   "size": 654507
+  },
+  {
+   "name": "assets/druid-elf-female.png",
+   "sha256": "e02e7ac83ab78ba6845f5bfeade6aa8491f348232988d45afd7e4189f450846c",
+   "size": 1260652
+  },
+  {
+   "name": "assets/druid-elf-male.png",
+   "sha256": "a41ae37b0ded76115ad03370f36d2e32f1496816fe2f99a0a83d167fd595884e",
+   "size": 1198406
+  },
+  {
+   "name": "assets/druid-kitsune-female.png",
+   "sha256": "52f6383b8a44bdd00cae90e4f6dead902c9622536a319a32a75a67e0a9fa44c1",
+   "size": 1193753
+  },
+  {
+   "name": "assets/druid-kitsune-male.png",
+   "sha256": "4a8ffdea27d95efa497b0e2376382655ea569f3e067ca0fb3876782e1a8b6009",
+   "size": 1170069
+  },
+  {
+   "name": "assets/druid-ogre-female.png",
+   "sha256": "1214b7302c1734b2760cf15812fa053fd9bf04da5f38fb8401d20ff260b41ff2",
+   "size": 999724
+  },
+  {
+   "name": "assets/druid-ogre-male.png",
+   "sha256": "d8cb1422bc3663d7db946b44d3d0dfdf79e22bdd1edbbeec006e71d2e7038385",
+   "size": 1133936
+  },
+  {
+   "name": "assets/druid-scale-female.png",
+   "sha256": "2c7a30e77cabb5df5e1ee100bbc9caf840bd6dbfb32cb8895f4d57c661c9d239",
+   "size": 917108
+  },
+  {
+   "name": "assets/druid-scale-male.png",
+   "sha256": "4c4ad4d91b1ec089d12973309ee26b8c701b6d179c6f5eb135c56918551c0cec",
+   "size": 1021201
+  },
+  {
+   "name": "assets/druid-shade-female.png",
+   "sha256": "fae55a8a0bf8fbc85e6ab2a53e76fa7ed48c4aaf1fcee8107738c25056e10fe0",
+   "size": 923034
+  },
+  {
+   "name": "assets/druid-shade-male.png",
+   "sha256": "bcbd77160b4893dfdca63eed338114b176dd4b58e3961cb1ae3daa7d7231d493",
+   "size": 1053843
+  },
+  {
+   "name": "assets/druid-troll-female.png",
+   "sha256": "d21f1300a2c724e90d58899093b7947c3faa1f890f33e6504b811dbffe18d23b",
+   "size": 1200706
+  },
+  {
+   "name": "assets/druid-troll-male.png",
+   "sha256": "31af647c73e216e789d8525dc640178d0012e12148b6ff41b0b94be3d2c01176",
+   "size": 1115117
   },
   {
    "name": "assets/enemy-archivist.png",
@@ -1608,6 +1758,86 @@
    "name": "assets/gunslinger-troll-male.png",
    "sha256": "8d33b15dcc65950bc3b88f6f76cb53fa721b14158758e4534902012c0392aa7d",
    "size": 1088068
+  },
+  {
+   "name": "assets/maestro-cat-female.png",
+   "sha256": "1cb331ca47e2da6bee1378d25d600a6b032a1ed2457eb4623659c513645b6c80",
+   "size": 948461
+  },
+  {
+   "name": "assets/maestro-cat-male.png",
+   "sha256": "bc90b3992fb5bafeb8517f6ff7b58deae016c0304f2dd3e0327eaf1ebe8744e4",
+   "size": 1050281
+  },
+  {
+   "name": "assets/maestro-dwarf-female.png",
+   "sha256": "cb662a4b8976140888487adc16571b30096b9134558bcd1adb4b582ea3941014",
+   "size": 1535341
+  },
+  {
+   "name": "assets/maestro-dwarf-male.png",
+   "sha256": "d9996778010c1e244267523f35dd0c8174d9784574ee6ecd30b603c4c1a58ed5",
+   "size": 1148459
+  },
+  {
+   "name": "assets/maestro-elf-female.png",
+   "sha256": "f429d2c90cc8d573e66ec8bd11a8e74de4ce3d20beaf1517953a918b14a0f995",
+   "size": 937840
+  },
+  {
+   "name": "assets/maestro-elf-male.png",
+   "sha256": "f994dc75f42f9d534abc2043dfe46c9ce4bdfd288bb241b311e6f7354f7b1d36",
+   "size": 1218084
+  },
+  {
+   "name": "assets/maestro-kitsune-female.png",
+   "sha256": "377ec4933bd073c00ffa2fb0c27372e44f421cdb1f8715d26a0809b7a6b5c52f",
+   "size": 1442622
+  },
+  {
+   "name": "assets/maestro-kitsune-male.png",
+   "sha256": "31528b84cf128e862dbb5edd53eb7a83b37d6c1c24e912c2b7d3a8106d5c45b8",
+   "size": 1476957
+  },
+  {
+   "name": "assets/maestro-ogre-female.png",
+   "sha256": "22c272c8c32bab4a88771b0441cb28e76c6938e4f9a4a17655642fc379a0c803",
+   "size": 1445661
+  },
+  {
+   "name": "assets/maestro-ogre-male.png",
+   "sha256": "5777fe600b1512c11f15843fb55b177acbd252a29626873e079f489abc943d72",
+   "size": 1252157
+  },
+  {
+   "name": "assets/maestro-scale-female.png",
+   "sha256": "f481ac93826e28f804909ae49b6aaf626bb50f4460ed8add3edc05c4c4bb75b7",
+   "size": 1277116
+  },
+  {
+   "name": "assets/maestro-scale-male.png",
+   "sha256": "60e72f9e91d81c09c4cf9c742e8e1db37e32ce549cdde3a2bd18f1cfb6ed91dc",
+   "size": 893131
+  },
+  {
+   "name": "assets/maestro-shade-female.png",
+   "sha256": "ad2a6acef6bb176c7e980456adf794dc2f0e55d735c6b5a1086796e478d40c63",
+   "size": 892532
+  },
+  {
+   "name": "assets/maestro-shade-male.png",
+   "sha256": "ed8cc1c4086f42329430b2528935630c43e7b8187b1f3cec3ddfaf2821eb670f",
+   "size": 1189965
+  },
+  {
+   "name": "assets/maestro-troll-female.png",
+   "sha256": "b9564aec480713d2bb34a3b891df68857e65a83f6c091b247a87cb9bf1d38b23",
+   "size": 1431789
+  },
+  {
+   "name": "assets/maestro-troll-male.png",
+   "sha256": "ec615490f509afa4a97cd6bdc986eacaa2e85e75b1184dd19388f4c28ed994be",
+   "size": 1551886
   },
   {
    "name": "assets/mage-cat-female.png",
@@ -3743,6 +3973,86 @@
    "name": "assets/unraveler-troll-male.png",
    "sha256": "41b08eb3f56513c14a367280d6842d7eff9084627eb38a992b380fec50a8c574",
    "size": 1289446
+  },
+  {
+   "name": "assets/visage-cat-female.png",
+   "sha256": "f7cc1fa39d387b8284c2f8101cebd60ce5fc04b032e0562627e89c7bf589d567",
+   "size": 538294
+  },
+  {
+   "name": "assets/visage-cat-male.png",
+   "sha256": "c8828a923d00403eec67c8a13ba93f78131b3981e05750c2dab69325ab3477dd",
+   "size": 513426
+  },
+  {
+   "name": "assets/visage-dwarf-female.png",
+   "sha256": "ea98a62b3b3255d6739361d30881f891ce1c15fe050ebb35db56d85f53aef89e",
+   "size": 1063429
+  },
+  {
+   "name": "assets/visage-dwarf-male.png",
+   "sha256": "6004fe958102d3d6cb940c2aa728baa9432a00854a55fcfa3a25256ee9c87dde",
+   "size": 837535
+  },
+  {
+   "name": "assets/visage-elf-female.png",
+   "sha256": "c53a5cca75ee7be13004ff029222ba753c89301ac5a61bb64d6352d1729498ca",
+   "size": 718538
+  },
+  {
+   "name": "assets/visage-elf-male.png",
+   "sha256": "aebcdf32ee7b6adc9cc4aff04af8f075529805dfd67f1be015cce300c1f1ce21",
+   "size": 823205
+  },
+  {
+   "name": "assets/visage-kitsune-female.png",
+   "sha256": "3f87a23383fa588207b94d62818f72a7668973496f2ee2be7c391ab65536fced",
+   "size": 1118495
+  },
+  {
+   "name": "assets/visage-kitsune-male.png",
+   "sha256": "5e2aa84f33e1be3b76bb019d6e20ac8201f5e55c80efbec82973d97dda178afc",
+   "size": 1013573
+  },
+  {
+   "name": "assets/visage-ogre-female.png",
+   "sha256": "4f235c706e7d3f774c0a9d44713a944caf0507f97b8bd8b2207b3cebe3c22b35",
+   "size": 1011707
+  },
+  {
+   "name": "assets/visage-ogre-male.png",
+   "sha256": "fffdc0bfffe8c34205d9472dc4729dc97ab431c64dd218e103a933dd97c35831",
+   "size": 977595
+  },
+  {
+   "name": "assets/visage-scale-female.png",
+   "sha256": "dd47ea1f151a01adfd2570fb4dbf4409356286d144e4bc293948e79595cc58f3",
+   "size": 1024886
+  },
+  {
+   "name": "assets/visage-scale-male.png",
+   "sha256": "f7d0f6dd16b58ce701eea4706109b0ea6f8472acab8fb71599292547e1d7cb8f",
+   "size": 775936
+  },
+  {
+   "name": "assets/visage-shade-female.png",
+   "sha256": "8f46db013921aee72848ab1bd3053d0e15d29ccfa6100b8b94518fd17a0ea33e",
+   "size": 681079
+  },
+  {
+   "name": "assets/visage-shade-male.png",
+   "sha256": "b6aa02af5c1412db5aa611bc23661bca7cdcd97f30f38e20b1f05ba0251ac422",
+   "size": 609665
+  },
+  {
+   "name": "assets/visage-troll-female.png",
+   "sha256": "61ec8bfd2bd00dd4e097a3e65146609415d0d38be549b3ab6b7460e082846b7c",
+   "size": 1071437
+  },
+  {
+   "name": "assets/visage-troll-male.png",
+   "sha256": "13a12b26f89b2758011a75e3452835e5f096a44826114cba3902c53e06c5295a",
+   "size": 1033776
   },
   {
    "name": "assets/warlock-cat-female.png",
