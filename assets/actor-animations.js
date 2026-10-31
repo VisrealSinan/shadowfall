@@ -48,7 +48,7 @@ const ActorAnimations = (() => {
   function draw(g, o) {
     const v = variant(o); if (!v) return false;
     const im = image(v); if (!im.complete || !im.naturalWidth) return false;
-    const f = frame(o,v), k = (o.cls === 'bearlina' ? 88 : 76) / v.cell_height;
+    const f = frame(o,v), k = (o.cls === 'bearlina' ? 88 : 76) / v.cell_height * (v.display_scale || 1);
     g.save(); g.imageSmoothingEnabled = false;
     if (o.outfit === 'ashen') g.filter = 'grayscale(.8)';
     else if (o.outfit === 'midnight') g.filter = 'hue-rotate(165deg) saturate(.8)';
