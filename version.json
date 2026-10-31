@@ -1,12 +1,12 @@
 {
- "version": "68",
+ "version": "69",
  "date": "2026-10-30",
  "minLauncher": "2.0.0",
  "notes": [
-  "New Shadowfall icon: a crimson hood, gold trim, violet eyes and a luminous dagger, drawn locally without image generation.",
-  "Updated browser, installed web app, Apple touch and Windows launcher icon assets, including small favicon and multi-resolution Windows ICO support.",
-  "Windows downloads now point to launcher 2.0.1, which includes the new icon and the current game.",
-  "Includes the polished talent class browser and all recent animation, enemy, wave and menu updates."
+  "New desktop launcher 2.0.2 with a crimson-and-plum design, updated character artwork, a stronger Play button and a separate patch notes panel.",
+  "Clearer download progress and a home-screen Restart and install button when a launcher update is ready.",
+  "Refreshed display settings, keyboard focus and controller navigation; patch notes keep their scroll position during downloads.",
+  "The launcher fits the desktop work area and can be resized. Includes all recent game, animation and talent menu updates."
  ],
  "files": [
   {
@@ -36,7 +36,7 @@
   },
   {
    "name": "index.html",
-   "sha256": "f521404fd3923099efaa1635717dfcc3f9667325a94dc5c7a0685972890eb5dd",
+   "sha256": "393dcaa3da219586e9ac8e0b8eb12751bb07cac3e75e0962518960dbf8bb80da",
    "size": 2832522
   },
   {
@@ -46,7 +46,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "d1d624f960ccd7210dbf48faaa614dbf54dd6401d7e85c7db267a8c1b3d8fdf3",
+   "sha256": "c0ed31445435b3d1c71bd112824a8103e81744116ff103dc6e957af9362048ec",
    "size": 1642
   },
   {
