@@ -16281,7 +16281,7 @@ function drawBearlina(g, o) {
 /* Animation cues follow successful gameplay actions; cooldowns and damage are unchanged. */
 for (const id of Object.keys(WFIRE)) { const fire = WFIRE[id]; WFIRE[id] = function(w) {
   const result = fire(w);
-  if (result >= 0 && WDEF[id] && WDEF[id].cls === G.cls) ActorAnimations.cue(['fangs','knives','blightbolt','bow','be_paws'].includes(id) ? 'attack' : 'casting');
+  if (result >= 0 && WDEF[id] && WDEF[id].cls === G.cls) ActorAnimations.cue(['fangs','knives','blightbolt','bow','be_paws','seedbolt','beatpulse','hushblades','clockhand'].includes(id) ? 'attack' : 'casting');
   return result;
 }; }
 const actorUltCast = ultCast;

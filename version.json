@@ -1,11 +1,12 @@
 {
- "version": "61",
+ "version": "62",
  "date": "2026-10-30",
  "minLauncher": "2.0.0",
  "notes": [
-  "Reduced regular and horde wave sizes by about 15% for a little more breathing room.",
-  "Regular waves now peak at 31 enemies and horde waves at 46; heavy-enemy waves receive the same reduction.",
-  "Wave timing and the increasing enemy health from v60 remain in place."
+  "Added temporary idle, attack, casting and dodge motion for all 62 character variants awaiting dedicated action sheets.",
+  "Covers Druid, Neural Maestro, Hollow Visage and the remaining Chronomancer variants, for both male and female characters.",
+  "Includes small class-specific nature, audio, clock and shadow effects; existing running and completed action sheets remain in use.",
+  "Dedicated sprite sheets can replace this motion later. Combat timing, enemy health scaling and smaller waves remain in place."
  ],
  "files": [
   {
@@ -30,8 +31,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "aae8da9d93141466c7f462a6bc5e568304cd09652a68e63f812622bdf18e26f1",
-   "size": 2824788
+   "sha256": "36a511d55bc5a9f49514273d6910f18e7286df7e8c225dc53379d2b1bf56f969",
+   "size": 2824836
   },
   {
    "name": "manifest.webmanifest",
@@ -40,7 +41,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "2e45afe664ce7fe608f20a78c012d02aad6378c44457aa2131d94dce4666ff48",
+   "sha256": "7a35327a02649b7ea47625ab66c9f4544c8bfdca7393993499ac1eb29ddd13f0",
    "size": 1628
   },
   {
@@ -50,8 +51,8 @@
   },
   {
    "name": "assets/actor-animations.js",
-   "sha256": "127dfe4193ca09df954cdba46cd2134f0d62fa117675373516fa56e038285774",
-   "size": 3207
+   "sha256": "ed61905c83d692ee5de97db94a4ed805cdcb637e995dc02a9d09a2e02383ce54",
+   "size": 6600
   },
   {
    "name": "assets/alchemist-cat-female.png",
