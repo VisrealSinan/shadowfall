@@ -123,6 +123,8 @@ h3{margin:14px 0 6px;font-size:13px;letter-spacing:.2em;text-transform:uppercase
 .ccard{width:min(92vw,380px);display:flex;align-items:flex-start;gap:11px;padding:10px 11px;margin:5px 0;border-radius:18px;position:relative;
  background:linear-gradient(180deg,rgba(44,20,72,.9),rgba(22,10,38,.95));border:1px solid rgba(180,130,255,.3);box-shadow:0 6px 16px rgba(0,0,0,.4);text-align:left;color:inherit;font-family:inherit;touch-action:manipulation}
 .ccard:active{transform:scale(.985)}
+#classList .class-group{grid-column:1/-1;width:100%;box-sizing:border-box;margin:18px 0 6px;padding:0 2px 8px;border-bottom:1px solid rgba(180,130,255,.25);color:#ead8ff;font-size:13px;letter-spacing:.12em}
+#classList .class-group:first-child{margin-top:6px}
 .ccard canvas{flex:0 0 62px;width:62px;height:62px;border-radius:14px;background:radial-gradient(circle at 50% 38%,#4a2272,#120818);border:1px solid rgba(220,180,255,.25)}
 .ccard.sel{border-color:#ff5c86;box-shadow:0 0 0 2px rgba(255,80,130,.45),0 0 22px rgba(255,60,120,.28);background:linear-gradient(180deg,rgba(70,26,90,.95),rgba(30,10,44,.97))}
 .ccard.sel canvas{flex-basis:84px;width:84px;height:84px}
@@ -10979,6 +10981,7 @@ const PH46_LINES = [[0.3, '*click*'], [0.9, '…'], [1.6, 'I’ve been watching 
 const PH46_SCARE = 5.8, PH46_END = 7.2;
 function hasVis46() { return !!(save && save.classes && save.classes.visage); }
 function hid46(id) { return !!(id && CLASSES[id] && CLASSES[id].secret && !(save && save.classes && save.classes[id])); }
+function menuClassIds() { return Object.keys(CLASSES).filter(id => !hid46(id)).sort((a,b) => (CLASSES[a].cost || 0) - (CLASSES[b].cost || 0)); }
 function ph46Sv() { return save.ph46 || (save.ph46 = { dry: 0, rang: 0, miss: 0, unl: 0, seen: 0 }); }
 function ph46Plan() { G.ph46 = { at: -1, st: 'off' }; if (hasVis46() || (DEBUG && !window.__PH46)) return; const s = ph46Sv(), lucky = window.__PH46 === 2 || Math.random() < PH46.chance || (s.dry | 0) >= PH46.pity;
   if (lucky) G.ph46.at = window.__PH46 === 2 ? 0 : PH46.t0 + Math.random() * (PH46.t1 - PH46.t0); else { s.dry = (s.dry | 0) + 1; persist(); } }
@@ -15221,10 +15224,10 @@ function keyNav(code) { // returns true when handled
     if (up || code === 'ArrowDown' || code === 'KeyS') { const i = fi < 0 ? (up ? all.length - 1 : 0) : (fi + (up ? -1 : 1) + all.length) % all.length; all[i].focus(); return true; }
     if ((code === 'Enter' || code === 'NumpadEnter' || code === 'Space') && fi >= 0) { all[fi].click(); return true; } }
   if (sc === 'select') { /* v21: ↑/↓ walk the class cards (owned ones are selected), Enter/Space on a locked card = buy it */
-    const C = [...$('classList').children], fi = C.indexOf(document.activeElement), up = code === 'ArrowUp' || code === 'KeyW';
+    const C = [...$('classList').querySelectorAll('button[data-cls]')], fi = C.indexOf(document.activeElement), up = code === 'ArrowUp' || code === 'KeyW';
     if (up || code === 'ArrowDown' || code === 'KeyS') { let i = fi < 0 ? C.findIndex(c => c.classList.contains('sel')) : fi; i = (i + (up ? -1 : 1) + C.length) % C.length;
-      if (!C[i].classList.contains('locked')) C[i].click(); const el = $('classList').children[i]; if (el) { el.focus({ preventScroll: true }); el.scrollIntoView({ block: 'nearest' }); } return true; }
-    if ((code === 'Enter' || code === 'NumpadEnter' || code === 'Space') && fi >= 0 && (C[fi].classList.contains('locked') || !C[fi].classList.contains('sel'))) { C[fi].click(); const el = $('classList').children[fi]; if (el) el.focus({ preventScroll: true }); return true; } }
+      if (!C[i].classList.contains('locked')) C[i].click(); const el = $('classList').querySelectorAll('button[data-cls]')[i]; if (el) { el.focus({ preventScroll: true }); el.scrollIntoView({ block: 'nearest' }); } return true; }
+    if ((code === 'Enter' || code === 'NumpadEnter' || code === 'Space') && fi >= 0 && (C[fi].classList.contains('locked') || !C[fi].classList.contains('sel'))) { C[fi].click(); const el = $('classList').querySelectorAll('button[data-cls]')[fi]; if (el) el.focus({ preventScroll: true }); return true; } }
   const m = sc && KNAV[sc]; let id = m && m[code]; if (typeof id === 'function') id = id();
   if (id && visBtn(id)) { $(id).click(); return true; }
   return false; }
@@ -15408,7 +15411,7 @@ function renderCodex() {
   const S = evoSeen(), all = Object.keys(EVO), seen = all.filter(id => S[id]).length;
   $('cdxCount').textContent = `Discovered ${seen} / ${all.length}`; $('cdxPct').textContent = Math.round(seen / all.length * 100) + '%';
   const tabs = $('cdxTabs'); tabs.innerHTML = '';
-  for (const c in CLASSES) { if (hid46(c)) continue; const ids = all.filter(id => WDEF[id].cls === c), n = ids.filter(id => S[id]).length, bt = document.createElement('button');
+  for (const c of menuClassIds()) { const ids = all.filter(id => WDEF[id].cls === c), n = ids.filter(id => S[id]).length, bt = document.createElement('button');
     bt.textContent = CLASSES[c].name + (n ? ` ${n}/${ids.length}` : ''); bt.className = c === codexCls ? 'on' : ''; bt.onclick = () => { codexCls = c; Snd.play('click'); renderCodex(); }; tabs.appendChild(bt); }
   const run = codexFrom === 'pause' && G && !G.ended && G.cls === codexCls, er = run ? evoReady() : [];
   $('cdxList').innerHTML = all.filter(id => WDEF[id].cls === codexCls).map(id => { const E = EVO[id], d = WDEF[id], p = PDEF[E.p], ok = !!S[id];
@@ -15561,8 +15564,11 @@ function renderSelect() {
     for (const zk of ZN39_ORDER) { const z = ZN39[zk]; if (z.open() && !save.zoneSeen39[zk]) { save.zoneSeen39[zk] = 1; persist(); mb.classList.add('new39'); setTimeout(() => selMapMsg(z.ic + ' ' + z.name + ' unlocked! Tap Map to choose it'), 300); break; } }
     if (hOpen && !save.heartSeen36) { save.heartSeen36 = 1; persist(); mb.classList.add('new36'); setTimeout(() => selMapMsg('♡ Heartfall Belfry unlocked! Tap Map to choose it'), 300); } }
   const L = $('classList'); L.innerHTML = '';
-  for (const id in CLASSES) { if (hid46(id)) continue;
+  let group = null;
+  for (const id of menuClassIds()) {
     const c = CLASSES[id], owned = !!save.classes[id], sel = selClass === id && owned;
+    const nextGroup = c.cost > 0 ? 'shards' : 'free';
+    if (nextGroup !== group) { group = nextGroup; const heading = document.createElement('h3'); heading.className = 'class-group'; heading.textContent = group === 'free' ? 'Free classes' : 'Shard unlocks'; L.appendChild(heading); }
     const b = document.createElement('button'); b.className = 'ccard' + (owned ? '' : ' locked') + (sel ? ' sel' : ''); b.dataset.cls = id;
     const lvl = classLevel(id).lvl;
     b.innerHTML = `<canvas></canvas><div class="tx"><div class="nm">${c.name}<span class="role">${c.role}</span></div>` +
@@ -15688,7 +15694,7 @@ function renderShop() {
     const pips = '<div class="pips">' + Array.from({ length: m.max }, (_, i) => `<i class="${i < r ? 'f' : ''}"></i>`).join('') + '</div>';
     row(`<div class="ic">${m.ic}\uFE0E</div>`, m.name, '', m.desc + pips, mkBtn(max ? 'MAX' : `${cost}◆`, !max && save.shards >= cost, () => { save.shards -= cost; save.meta[m.id] = r + 1; persist(); Snd.play('buy'); renderShop(); }));
   }
-  if (shopTab === 'wp') for (const id in CLASSES) {
+  if (shopTab === 'wp') for (const id of menuClassIds()) {
     if (hid46(id)) continue; const c = CLASSES[id], owned = !!save.classes[id];
     const d = row('<canvas></canvas>', c.name, `<div class="sub">${c.role}</div>`, c.desc + `<br><span style="color:#ffd98a">${c.passive}: ${c.pdesc}</span>`, mkBtn(owned ? 'Owned' : `${c.cost}◆`, !owned && save.shards >= c.cost, () => { save.shards -= c.cost; save.classes[id] = 1; persist(); Snd.play('buy'); renderShop(); }));
     heroPortrait(d.querySelector('canvas'), id, save.outfit);
@@ -15928,7 +15934,7 @@ function goEquip(mode, from) {
 function renderEquip() {
   const gr = eqGear(), cn = CLASSES[eqCls].name, tabs = $('eqTabs');
   tabs.innerHTML = ''; tabs.style.display = eqMode === 'stash' ? '' : 'none';
-  if (eqMode === 'stash') for (const id in CLASSES) { if (!save.classes[id]) continue; const b = document.createElement('button'); b.textContent = CLASSES[id].name; b.className = id === eqCls ? 'on' : ''; b.onclick = () => { eqCls = id; const g2 = eqGear(); eqSel = GSLOTS.find(s => g2[s]) || 'head'; Snd.play('click'); renderEquip(); }; tabs.appendChild(b); }
+  if (eqMode === 'stash') for (const id of menuClassIds()) { if (!save.classes[id]) continue; const b = document.createElement('button'); b.textContent = CLASSES[id].name; b.className = id === eqCls ? 'on' : ''; b.onclick = () => { eqCls = id; const g2 = eqGear(); eqSel = GSLOTS.find(s => g2[s]) || 'head'; Snd.play('click'); renderEquip(); }; tabs.appendChild(b); }
   $('eqTitle').textContent = eqMode === 'keep' ? 'Choose a Keepsake' : eqMode === 'stash' ? 'Keepsakes' : 'Equipment';
   $('eqSub').innerHTML = eqMode === 'run' ? `${cn} · gear found this run. Tap a slot to inspect. ✦ = keepsake (60%).`
     : eqMode === 'stash' ? `Your <b>${cn}</b> keepsakes. Each run you may keep <b>1 item</b> at game over; keepsakes are worn at <b>60% power</b> at the start of every ${cn} run.`
@@ -16019,7 +16025,7 @@ function renderAch() {
   $('achCount').innerHTML = `Unlocked <b style="color:#ffe08a">${nd} / ${ACH.length}</b> · looks are visual only`; $('achPct').textContent = Math.round(nd / ACH.length * 100) + '%';
   for (const b of $('achTabs').children) b.classList.toggle('on', b.dataset.t === achTab);
   const F = $('achFilter'); F.innerHTML = '';
-  const keys = achTab === 'class' ? Object.keys(ARMOR_SETS).filter(k => !hid46(k)) : achTab === 'race' ? RACE_IDS : [];
+  const keys = achTab === 'class' ? menuClassIds().filter(k => ARMOR_SETS[k]) : achTab === 'race' ? RACE_IDS : [];
   if (keys.length) for (const k of ['all', ...keys]) { const b = document.createElement('button'); b.textContent = k === 'all' ? 'All' : (CLASSES[k] || RACES[k]).name; b.className = achKey === k ? 'on' : ''; b.onclick = () => { achKey = k; Snd.play('click'); renderAch(); }; F.appendChild(b); }
   const L = $('achList'); L.innerHTML = '';
   const list = ACH.filter(a => a.cat === achTab && !hid46(a.key) && (achKey === 'all' || !a.key || a.key === achKey));
@@ -16040,7 +16046,7 @@ function goWard(from) { wardFrom = from || 'title'; wardCls = clsOf(save.lastCla
 function cosSlotObj(race) { return save.cos.race[race] = save.cos.race[race] || {}; }
 function renderWard() {
   const mk = (id, txt, on, fn) => { const b = document.createElement('button'); b.textContent = txt; b.className = on ? 'on' : ''; b.onclick = () => { Snd.play('click'); fn(); }; return b; };
-  const WC = $('wardCls'); WC.innerHTML = ''; for (const c in CLASSES) if (!hid46(c)) WC.appendChild(mk(c, CLASSES[c].name, wardCls === c, () => { wardCls = c; renderWard(); }));
+  const WC = $('wardCls'); WC.innerHTML = ''; for (const c of menuClassIds()) WC.appendChild(mk(c, CLASSES[c].name, wardCls === c, () => { wardCls = c; renderWard(); }));
   const WR = $('wardRace'); WR.innerHTML = ''; for (const r of RACE_IDS) WR.appendChild(mk(r, RACES[r].name, wardRace === r, () => { wardRace = r; renderWard(); }));
   const B = $('wardBody'); B.innerHTML = '';
   const sec = t => B.insertAdjacentHTML('beforeend', `<div class="wsec">${t}</div>`);
@@ -17185,7 +17191,7 @@ const BGA = (() => {
 
 function renderTalents() {
   const tabs = $('talTabs'); tabs.innerHTML = '';
-  for (const id in TALENTS) { if (hid46(id)) continue; const b = document.createElement('button'); const fp = talentPoints(id).free; b.innerHTML = CLASSES[id].name + (fp ? ` <i class="tfp">${fp}</i>` : ''); b.className = id === talCls ? 'on' : ''; b.dataset.id = id; b.onclick = () => talSetClass(id); tabs.appendChild(b); }
+  for (const id of menuClassIds().filter(id => TALENTS[id])) { const b = document.createElement('button'); const fp = talentPoints(id).free; b.innerHTML = CLASSES[id].name + (fp ? ` <i class="tfp">${fp}</i>` : ''); b.className = id === talCls ? 'on' : ''; b.dataset.id = id; b.onclick = () => talSetClass(id); tabs.appendChild(b); }
   const cl = classLevel(talCls), tp = talentPoints(talCls, talDraft), pend = talPend(), T = TALENTS[talCls];
   $('talHead').innerHTML = `<canvas></canvas><div class="lv"><b>${CLASSES[talCls].name}</b> · Class Lv ${cl.lvl}/${CLASS_LV_MAX}<div class="bar"><i style="width:${cl.need ? Math.round(cl.into / cl.need * 100) : 100}%"></i></div>` +
     `<span class="xp">${cl.need ? cl.into + ' / ' + cl.need + ' class XP' : 'Max level'}</span></div>` +

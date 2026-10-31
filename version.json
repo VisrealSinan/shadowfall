@@ -1,12 +1,12 @@
 {
- "version": "63",
+ "version": "64",
  "date": "2026-10-30",
  "minLauncher": "2.0.0",
  "notes": [
-  "Added six-state procedural animation sequences for all 207 updated enemies, including all 50 bosses: idle, movement, wind-up, attack, hit reaction and death.",
-  "Walkers, heavy enemies, winged/hovering creatures, casters and oozes now use distinct movement profiles with clearer attack follow-through and hit recoil.",
-  "Animations follow actual AI attacks and player hits; frozen enemies stop animating. Special boss and mimic death effects remain in use.",
-  "Uses existing artwork with a bounded on-demand frame cache. Dedicated drawn animation sheets can replace it later; enemy health and wave balance remain in place."
+  "Free classes now appear first, followed by shard classes sorted by unlock cost.",
+  "The class selection screen has separate Free classes and Shard unlocks sections on desktop and mobile.",
+  "Wardrobe, Armory, talents, Codex, keepsakes and class achievement filters use the same class order.",
+  "Existing unlocks, prices, selected characters and secret-class visibility are preserved."
  ],
  "files": [
   {
@@ -31,8 +31,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "d792bf192acfcdb747243fb285850007b3267c4411477355398753ac1346be3c",
-   "size": 2825126
+   "sha256": "af6a3e1471569b26e43dd6cca4da7194d922967edab0255394d584dfe7426077",
+   "size": 2825894
   },
   {
    "name": "manifest.webmanifest",
@@ -41,7 +41,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "a9adb1c089553439a5302e150045c2682a32c73cb83b0cee0c62915e06461e30",
+   "sha256": "9b77c8800ebb93ec92ae60b6440c6a33546870bfd7564089113124e9aa17dae4",
    "size": 1628
   },
   {
