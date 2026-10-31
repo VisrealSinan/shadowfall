@@ -1,5 +1,5 @@
 // Shadowfall — offline service worker
-const CACHE = 'shadowfall-v59';
+const CACHE = 'shadowfall-v60';
 const ASSETS = ['./assets/enemy-art-manifest.js', './assets/enemy-art.js', './assets/actor-animation-manifest.js', './assets/actor-animations.js', './assets/bearlina-races.png', './', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
