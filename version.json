@@ -1,12 +1,11 @@
 {
- "version": "66",
+ "version": "67",
  "date": "2026-10-30",
  "minLauncher": "2.0.0",
  "notes": [
-  "Replaced the clipped talent class strip with a readable class browser showing full names, unlock status, available talent points and a clear selected checkmark.",
-  "Desktop shows a wrapping class grid; phones have an expandable class list with visible vertical scrolling and large touch targets.",
-  "Class cycling now follows the same free-first order as the menus. Keyboard arrows, Enter and Escape work in the class browser.",
-  "Talent choices, pending-change confirmation, saved builds and all recent game updates are preserved."
+  "Includes the polished talent class browser: full class names, a wrapping desktop grid, an expandable phone list and clear selection and talent-point badges.",
+  "Phone class browsing has a visible scrolling cue, and the tree's separate scroll hint stays hidden while the class list is open.",
+  "Free classes stay first; keyboard class cycling matches the menu order. Pending talent changes retain Apply/Discard protection."
  ],
  "files": [
   {
@@ -31,8 +30,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "74362695dcdd11e9fa629adc31cacc2b045b536fcc6a912cc4c70dacf4de4192",
-   "size": 2832451
+   "sha256": "6285f2550fc18c8eed91982a0a945dd9f67f78a97d0d7db569c8670f6d5dd782",
+   "size": 2832468
   },
   {
    "name": "manifest.webmanifest",
@@ -41,7 +40,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "b5a4913842da448a68077027996b62f446a25fa9a2d27d6dd2b0ec913c22aac6",
+   "sha256": "3d1987a86b83e60d316025cd4d0fce5b58981b5a0834d5cb7eced932a01c230f",
    "size": 1628
   },
   {

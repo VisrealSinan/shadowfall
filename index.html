@@ -17260,7 +17260,7 @@ function talFit() { // v33: squeeze row pitch (taps stay >=44px) so the tree fit
   const over = track.offsetHeight - view.clientHeight;
   if (over > 0) { const rp = Math.max(52, 55 - Math.ceil(over / 6)); sc.style.setProperty('--rp', rp + 'px'); if (rp < 54) sc.style.setProperty('--ns', '44px'); }
   talSHUpd(); }
-function talSHUpd() { const h = $('talSH'), v = $('talView'); if (!h || !v) return; const more = !PC && $('talents').classList.contains('on') && v.scrollHeight - v.clientHeight - v.scrollTop > 6;
+function talSHUpd() { const h = $('talSH'), v = $('talView'); if (!h || !v) return; const more = !PC && !talClassOpen && $('talents').classList.contains('on') && v.scrollHeight - v.clientHeight - v.scrollTop > 6;
   v.classList.toggle('shd', more); h.classList.toggle('on', more); if (!more) return; const r = v.getBoundingClientRect(); h.style.left = (r.left + r.width / 2) + 'px'; h.style.top = (r.bottom - 30) + 'px'; }
 $('talView').addEventListener('scroll', talSHUpd, { passive: true });
 addEventListener('resize', () => { if (state === 'talents') setTimeout(talFit, 60); });
