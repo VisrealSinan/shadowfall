@@ -1,12 +1,12 @@
 {
- "version": "65",
+ "version": "66",
  "date": "2026-10-30",
  "minLauncher": "2.0.0",
  "notes": [
-  "Fixed the release packaging mismatch that caused the desktop launcher to reject game updates after v57.",
-  "Includes all completed character animation updates, both male and female variants, all 207 updated enemies and their procedural action animations.",
-  "Includes stronger health scaling for longer runs, smaller enemy waves, and the free-first class menu cleanup.",
-  "All release files are normalized before hashing and checked against their committed bytes. Existing launcher 2.0.0 remains compatible."
+  "Replaced the clipped talent class strip with a readable class browser showing full names, unlock status, available talent points and a clear selected checkmark.",
+  "Desktop shows a wrapping class grid; phones have an expandable class list with visible vertical scrolling and large touch targets.",
+  "Class cycling now follows the same free-first order as the menus. Keyboard arrows, Enter and Escape work in the class browser.",
+  "Talent choices, pending-change confirmation, saved builds and all recent game updates are preserved."
  ],
  "files": [
   {
@@ -31,8 +31,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "af6a3e1471569b26e43dd6cca4da7194d922967edab0255394d584dfe7426077",
-   "size": 2825894
+   "sha256": "74362695dcdd11e9fa629adc31cacc2b045b536fcc6a912cc4c70dacf4de4192",
+   "size": 2832451
   },
   {
    "name": "manifest.webmanifest",
@@ -41,7 +41,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "46893bbb393a1840dfd985a53ab3eeb682d698db6590e63c66025a4276935812",
+   "sha256": "b5a4913842da448a68077027996b62f446a25fa9a2d27d6dd2b0ec913c22aac6",
    "size": 1628
   },
   {

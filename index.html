@@ -805,6 +805,23 @@ body:not(.pc) #talents>.spacer{flex:1 1 0;min-height:0}
 .pc #talents .talfoot .row{width:auto;flex:0 0 auto;margin:0}.pc #talents .talfoot .row .btn{min-width:120px;margin:0}
 .pc .ttree .tnode:hover{filter:brightness(1.25)}.pc .ttree .tnode.lock:hover{filter:saturate(.3) brightness(.85)}
 
+/* Talent class browser: complete names, visible scrolling, no clipped tab strip. */
+#talClassPicker{position:relative;flex:0 0 auto;width:min(92vw,380px);max-width:100%;margin:0 0 8px;z-index:25}
+#btnTalClasses{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:52px;padding:8px 12px;border:1px solid rgba(220,190,255,.45);border-radius:14px;background:linear-gradient(135deg,#292039,#171223);color:#faf4ff;font:700 14px system-ui,sans-serif;text-align:left;cursor:pointer;touch-action:manipulation;box-shadow:0 3px 12px #0004}
+#btnTalClasses .tcp-title{display:flex;align-items:center;gap:9px;min-width:0}#btnTalClasses .tcp-title small{font:800 10px system-ui;letter-spacing:.12em;color:#c6b4dc}#btnTalClasses b{font:800 14px system-ui;line-height:1.25}
+#talClassToggle{flex:0 0 auto;color:#ffe1a0;font:700 11px system-ui;line-height:1.4;text-align:right}
+#talClassPicker #talTabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));position:absolute;top:calc(100% + 6px);left:0;width:100%;box-sizing:border-box;max-height:min(62dvh,520px);margin:0;padding:10px;gap:7px;overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#ad8fca #181120;border:1px solid #80658f;border-radius:14px;background:#181222;box-shadow:0 18px 44px #000b;touch-action:pan-y}
+#talClassPicker #talTabs::-webkit-scrollbar{display:block;width:7px}#talClassPicker #talTabs::-webkit-scrollbar-thumb{background:#ad8fca;border-radius:7px}
+#talClassPicker #talTabs::after{content:'End of class list';position:sticky;bottom:-10px;grid-column:1/-1;margin:0 -10px -10px;padding:7px 4px;background:#21182ff2;color:#ffe1a0;text-align:center;font:700 11px/16px system-ui;z-index:1}
+#talClassPicker #talTabs.more::after{content:'Scroll for more classes ↓'}
+#talClassPicker:not(.open) #talTabs{display:none}
+#talClassPicker #talTabs button{display:flex;align-items:center;justify-content:space-between;gap:6px;flex:none;min-width:0;min-height:50px;margin:0;padding:9px 10px;border-radius:10px;font:700 13px/1.25 system-ui;text-align:left;white-space:normal;overflow-wrap:normal}
+#talClassPicker #talTabs .tcn{flex:1;min-width:0}#talClassPicker #talTabs .tcmeta{display:flex;align-items:center;gap:4px;flex:0 0 auto;font-size:11px}#talClassPicker #talTabs .tcmark{display:none;color:#ffe7a3;font-weight:900}#talClassPicker #talTabs button.on .tcmark{display:inline}
+#talClassPicker #talTabs button:focus-visible,#btnTalClasses:focus-visible{outline:3px solid #ffe1a0;outline-offset:2px}
+.pc #talClassPicker{width:980px;max-width:100%}.pc #talClassPicker #talTabs{position:relative;top:auto;grid-template-columns:repeat(5,minmax(0,1fr));max-height:none;margin-top:7px;padding:9px;background:#15101ec9;box-shadow:none}.pc #talClassPicker #talTabs button{min-height:48px}
+.pc #talClassPicker #talTabs::after{display:none}
+@media (orientation:landscape) and (max-height:560px){body:not(.pc) #talClassPicker{grid-column:2;grid-row:1;width:100%;margin:0 0 4px}body:not(.pc) #talClassPicker #talTabs{max-height:calc(100dvh - 100px)}}
+
 /* v20 loadout panels (pause = interactive 44px tiles, level-up = compact strip) */
 .loadout{width:min(94vw,380px);background:rgba(30,14,50,.6);border-radius:14px;padding:8px 8px 6px;margin:6px 0 0;box-sizing:border-box}
 .lorow{display:flex;align-items:center;gap:8px;justify-content:flex-start;flex-wrap:nowrap}.lorow+.lorow{margin-top:8px}
@@ -1360,7 +1377,10 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
 
 <div id="talents" class="screen panel">
  <h2 style="margin-bottom:2px">Talents</h2>
- <div class="tabs" id="talTabs"></div>
+ <div id="talClassPicker">
+  <button id="btnTalClasses" type="button" aria-expanded="false" aria-controls="talTabs"><span class="tcp-title"><small>CLASS</small><b id="talClassName">Rogue</b></span><span id="talClassToggle">Choose class ▾</span></button>
+  <div class="tabs" id="talTabs" role="group" aria-label="Choose a class"></div>
+ </div>
  <div class="talhead" id="talHead"></div>
  <div class="tspecs" id="talSpecs"></div>
  <div id="talView"><div id="talTree"></div><div class="talhov" id="talHov"></div></div>
@@ -16316,18 +16336,24 @@ function frame(now) {
   } catch (err) { console.error(err); }
 }
 /* talents screen — v19 WoW-style trees. Changes go into a draft; Apply commits them (Reset = full respec, also via Apply). */
-let talCls = 'rogue', talPick = null, talFrom = 'select', talDraft = {}, talSpec = 0, talOv = false, talTouchSel = null, talMsg = '';
+let talCls = 'rogue', talPick = null, talFrom = 'select', talDraft = {}, talSpec = 0, talOv = false, talTouchSel = null, talMsg = '', talClassOpen = false;
 const talNodes = c => TALENTS[c].flatMap(t => t.nodes);
 const talComm = () => save.talents[talCls] || {};
 function talPend() { let add = 0, rem = 0; const a = talComm(); for (const n of talNodes(talCls)) { const d = tRank(talDraft, n) - tRank(a, n); if (d > 0) add += d; else rem -= d; } return { add, rem, any: add + rem > 0 }; }
 function talBestSpec() { let b = 0, bs = 0; TALENTS[talCls].forEach((t, i) => { const s = treeSpent(talCls, i, talDraft); if (s > bs) { bs = s; b = i; } }); return b; }
 function talLoad(cls) { talCls = TALENTS[cls] ? cls : 'rogue'; talDraft = Object.assign({}, save.talents[talCls] || {}); talPick = null; talTouchSel = null; talMsg = ''; talSpec = talBestSpec(); }
-function goTalents(cls, from) { talFrom = from || 'select'; talLoad(cls); talOv = false; state = 'talents'; show('talents'); renderTalents(); $('talents').scrollTop = 0; }
+function goTalents(cls, from) { talFrom = from || 'select'; talLoad(cls); talOv = false; talClassOpen = PC; state = 'talents'; show('talents'); renderTalents(); $('talents').scrollTop = 0; }
 function talGuard(go) { // pending changes? ask Apply / Discard (Cancel stays)
   const p = talPend(); if (!p.any) return go();
   askConfirm('Apply talent changes?', `You have ${p.add ? p.add + ' new point' + (p.add > 1 ? 's' : '') : ''}${p.add && p.rem ? ' and ' : ''}${p.rem ? p.rem + ' refunded point' + (p.rem > 1 ? 's' : '') : ''} not applied yet.`, '✔ Apply', () => { talApply(); go(); }, 'Discard', () => { talDraft = Object.assign({}, talComm()); go(); }); }
-function talSetClass(id) { if (id === talCls) return; talGuard(() => { talLoad(id); Snd.play('click'); renderTalents(); }); }
-function talCycleClass(d) { const ks = Object.keys(TALENTS).filter(k => !hid46(k)); talSetClass(ks[(ks.indexOf(talCls) + d + ks.length) % ks.length]); }
+function talSetClass(id) { if (id === talCls) { if(!PC)talToggleClasses(false); return; } talGuard(() => { talLoad(id); if(!PC)talClassOpen=false; Snd.play('click'); renderTalents(); const target=PC?$('talTabs').querySelector('button.on'):$('btnTalClasses'); if(target)target.focus({preventScroll:true}); }); }
+function talCycleClass(d) { const ks = menuClassIds().filter(k => TALENTS[k]); talSetClass(ks[(ks.indexOf(talCls) + d + ks.length) % ks.length]); }
+function talClassMore(){const list=$('talTabs');list.classList.toggle('more',list.scrollHeight-list.clientHeight-list.scrollTop>10);}
+function talClassInView(button){const list=$('talTabs'),a=button.getBoundingClientRect(),b=list.getBoundingClientRect(),pad=PC?8:38;if(a.top<b.top+8)list.scrollTop-=b.top+8-a.top;else if(a.bottom>b.bottom-pad)list.scrollTop+=a.bottom-b.bottom+pad;talClassMore();}
+function talToggleClasses(open=!talClassOpen){talClassOpen=open;renderTalClassPicker();talFit();const target=open?$('talTabs').querySelector('button.on'):$('btnTalClasses');if(target){target.focus({preventScroll:true});if(open)talClassInView(target);}}
+bind('btnTalClasses',()=>talToggleClasses());
+$('talTabs').addEventListener('scroll',talClassMore,{passive:true});
+addEventListener('pointerdown',e=>{if(state==='talents'&&!PC&&talClassOpen&&!$('talClassPicker').contains(e.target))talToggleClasses(false);});
 function talSetSpec(i, focus) { talSpec = (i + 3) % 3; talOv = false; Snd.play('click'); renderTalents();
   if (focus && GP.conn) { const n = TALENTS[talCls][talSpec].nodes, sel = talPick && n.find(x => x.id === talPick) || n[0], el = $('tn_' + sel.id); if (el) gfSet(el, true); talHover(sel.id); } }
 function talNodeState(n) { const r = tRank(talDraft, n), c = tRank(talComm(), n), free = talentPoints(talCls, talDraft).free;
@@ -17189,9 +17215,16 @@ const BGA = (() => {
   return { tree, armory, themes: Object.keys(T), frames: TH, _cache: cache, race: raceScene, stage, ACC, RC, HOME, card, specOf, talPage, TPAL };
 })();
 
+function renderTalClassPicker(){
+  const tabs=$('talTabs'),scroll=tabs.scrollTop,ids=menuClassIds().filter(id=>TALENTS[id]);tabs.innerHTML='';
+  $('talClassPicker').classList.toggle('open',talClassOpen);$('btnTalClasses').setAttribute('aria-expanded',String(talClassOpen));
+  $('talClassName').textContent=CLASSES[talCls].name;$('talClassToggle').textContent=talClassOpen?`${ids.length} classes · Hide ▴`:`All ${ids.length} classes ▾`;
+  $('btnTalClasses').setAttribute('aria-label',`Choose class, ${CLASSES[talCls].name} selected, ${ids.length} classes`);
+  for(const id of ids){const b=document.createElement('button'),fp=talentPoints(id).free,owned=!!save.classes[id];b.type='button';b.innerHTML=`<span class="tcn">${CLASSES[id].name}</span><span class="tcmeta"><span class="tcmark" aria-hidden="true">✓</span>${owned?'':'<span aria-hidden="true">🔒</span>'}${fp?`<i class="tfp">${fp}</i>`:''}</span>`;b.className=id===talCls?'on':'';b.dataset.id=id;b.setAttribute('aria-pressed',String(id===talCls));b.setAttribute('aria-label',`${CLASSES[id].name}${owned?'':', not unlocked'}${fp?`, ${fp} available talent points`:''}`);b.onclick=()=>talSetClass(id);tabs.appendChild(b);}
+  tabs.scrollTop=scroll;talClassMore();
+}
 function renderTalents() {
-  const tabs = $('talTabs'); tabs.innerHTML = '';
-  for (const id of menuClassIds().filter(id => TALENTS[id])) { const b = document.createElement('button'); const fp = talentPoints(id).free; b.innerHTML = CLASSES[id].name + (fp ? ` <i class="tfp">${fp}</i>` : ''); b.className = id === talCls ? 'on' : ''; b.dataset.id = id; b.onclick = () => talSetClass(id); tabs.appendChild(b); }
+  renderTalClassPicker();
   const cl = classLevel(talCls), tp = talentPoints(talCls, talDraft), pend = talPend(), T = TALENTS[talCls];
   $('talHead').innerHTML = `<canvas></canvas><div class="lv"><b>${CLASSES[talCls].name}</b> · Class Lv ${cl.lvl}/${CLASS_LV_MAX}<div class="bar"><i style="width:${cl.need ? Math.round(cl.into / cl.need * 100) : 100}%"></i></div>` +
     `<span class="xp">${cl.need ? cl.into + ' / ' + cl.need + ' class XP' : 'Max level'}</span></div>` +
@@ -17239,6 +17272,16 @@ function talMoveSel(dx, dy) { // keyboard: arrows walk the grid (and across tree
   if (!best && !PC && dx) { talSpec = (talSpec + dx + 3) % 3; best = T[talSpec].nodes.slice().sort((a, b) => Math.abs(a.t - n.t) - Math.abs(b.t - n.t) || (dx > 0 ? a.c - b.c : b.c - a.c))[0]; }
   if (best) { talPick = best.id; talSpec = best.bi; Snd.play('click'); renderTalents(); } }
 function talKey(code) { // talents-screen keys; true = handled
+  const focus=document.activeElement,picker=$('talClassPicker');
+  if(talClassOpen&&code==='Escape'&&(!PC||picker.contains(focus))){talToggleClasses(false);return true;}
+  if(picker.contains(focus)){
+    if(['Enter','NumpadEnter','Space'].includes(code)){focus.click();return true;}
+    const buttons=[...$('talTabs').querySelectorAll('button')],at=buttons.indexOf(focus),cols=getComputedStyle($('talTabs')).gridTemplateColumns.split(' ').length;
+    const step={ArrowLeft:-1,ArrowRight:1,ArrowUp:-cols,ArrowDown:cols}[code];
+    if(step&&!talClassOpen){talToggleClasses(true);return true;}
+    if(step&&talClassOpen){const target=buttons[Math.max(0,Math.min(buttons.length-1,(at<0?0:at)+step))];target.focus({preventScroll:true});talClassInView(target);return true;}
+    if(code==='Tab'){const back=keys.has('ShiftLeft')||keys.has('ShiftRight'),next=at+(back?-1:1);const target=talClassOpen&&next>=0&&next<buttons.length?buttons[next]:back?(at<0?$('btnTalBack'):$('btnTalClasses')):document.querySelector(PC?'#talTree .tnode':'#talSpecs button');if(target){target.focus({preventScroll:true});if(buttons.includes(target))talClassInView(target);}return true;}
+  }
   if (code === 'KeyQ' || code === 'PageUp') { talSetSpec(talSpec - 1); return true; } if (code === 'KeyE' || code === 'PageDown') { talSetSpec(talSpec + 1); return true; }
   if (code === 'BracketLeft') { talCycleClass(-1); return true; } if (code === 'BracketRight') { talCycleClass(1); return true; }
   const mv = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] }[code];
