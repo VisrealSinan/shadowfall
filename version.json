@@ -1,12 +1,12 @@
 {
- "version": "64",
+ "version": "65",
  "date": "2026-10-30",
  "minLauncher": "2.0.0",
  "notes": [
-  "Free classes now appear first, followed by shard classes sorted by unlock cost.",
-  "The class selection screen has separate Free classes and Shard unlocks sections on desktop and mobile.",
-  "Wardrobe, Armory, talents, Codex, keepsakes and class achievement filters use the same class order.",
-  "Existing unlocks, prices, selected characters and secret-class visibility are preserved."
+  "Fixed the release packaging mismatch that caused the desktop launcher to reject game updates after v57.",
+  "Includes all completed character animation updates, both male and female variants, all 207 updated enemies and their procedural action animations.",
+  "Includes stronger health scaling for longer runs, smaller enemy waves, and the free-first class menu cleanup.",
+  "All release files are normalized before hashing and checked against their committed bytes. Existing launcher 2.0.0 remains compatible."
  ],
  "files": [
   {
@@ -41,13 +41,13 @@
   },
   {
    "name": "sw.js",
-   "sha256": "9b77c8800ebb93ec92ae60b6440c6a33546870bfd7564089113124e9aa17dae4",
+   "sha256": "46893bbb393a1840dfd985a53ab3eeb682d698db6590e63c66025a4276935812",
    "size": 1628
   },
   {
    "name": "assets/actor-animation-manifest.js",
-   "sha256": "93b789ba2234886e15d09a4bfc77ae276db0a69b8a24927b3162090537229df4",
-   "size": 187143
+   "sha256": "b8543d8f1050a7517ea29f2fa210de8c846ecc35721eadf6da4ff511555f0dba",
+   "size": 187142
   },
   {
    "name": "assets/actor-animations.js",
