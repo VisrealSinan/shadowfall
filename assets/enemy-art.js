@@ -1,4 +1,4 @@
-/* Updated artwork with cached procedural action sequences and native fallback. */
+/* Dedicated enemy action sheets, with static-art motion and native fallbacks. */
 const EnemyArtwork = (() => {
   const images = new Map(), frames = new Map(), poses = new Map(), actors = new WeakMap();
   let posePixels=0;
@@ -24,17 +24,24 @@ const EnemyArtwork = (() => {
       for (const key of poses.keys()) if (key.startsWith(type+'|')) discardPose(key);
       const d = Object.getOwnPropertyDescriptor(SPR.enemy,type);
       if (d && !d.get) for (let i=0;i<5;i++) SPR.rq.push([type,i]);
+      // Bound decoded atlas memory as well as the number of cached enemies.
+      let pixels=0;for(const im of images.values())pixels+=im.naturalWidth*im.naturalHeight;
+      for(const [key,im] of images){if(pixels<=32*1024*1024)break;if(im===image)continue;pixels-=im.naturalWidth*im.naturalHeight;images.delete(key);}
     };
-    image.src = entry.src;
+    image.enemySheet=entry.action_sheet||null;
+    image.onerror=()=>{if(image.enemySheet){image.enemySheet=null;image.src=entry.src;}};
+    image.src = image.enemySheet?.src || entry.src;
     return image;
   }
   function pose(type,action,index) {
-    const image=images.get(type);
-    if (!image || !image.complete || !image.naturalWidth || !actions.includes(action)) return null;
+    if (!actions.includes(action)) return null;
     const K=PXA_K||1, size=Math.round(eSz(type));
     index=Math.max(0,Math.min(5,Math.floor(index)));
     const key=[type,action,index,K].join('|');
     if (poses.has(key)) {const record=poses.get(key);poses.delete(key);poses.set(key,record);return record;}
+    const image=images.get(type);
+    if (!image || !image.complete || !image.naturalWidth) return null;
+    const sheet=image.enemySheet;
     const c=document.createElement('canvas');c.width=c.height=Math.round(size*K);
     const g=c.getContext('2d'), p=index/5, cycle=index/6*Math.PI*2, wave=Math.sin(Math.PI*p), kind=profile(type);
     const floating=kind==='hover'||kind==='winged', heavy=kind==='heavy'||kind==='rooted';
@@ -53,6 +60,19 @@ const EnemyArtwork = (() => {
     if(action==='hurt'){dx=-size*K*.025*(1-p);angle=-(heavy?.04:.10)*(1-p);sx+=wave*.04;sy-=wave*.05;}
     if(action==='death'){alpha=1-p;sy=1-p*(floating?.38:.65);sx=1+p*.10;angle=(floating?.12:.20)*p;dy=floating?-size*K*p*.05:0;}
     g.imageSmoothingEnabled=true;g.imageSmoothingQuality='high';
+    if(sheet){
+      const a=sheet.animations[action],cellW=sheet.cell_width,cellH=sheet.cell_height;
+      const bounds=sheet.bounds,span=Math.max(bounds[2]-bounds[0],bounds[3]-bounds[1]);
+      // Fit asymmetric weapons/tails around the shared anchor as well as the
+      // overall bounds. A wide pose must not push its opposite edge off-canvas.
+      const radius=Math.max(1,sheet.anchor[0]-bounds[0],bounds[2]-sheet.anchor[0]);
+      const s=Math.min(.76*size*K/span,.46*size*K/radius,
+        floating?Infinity:.90*size*K/Math.max(1,sheet.anchor[1]-bounds[1]),
+        floating?Infinity:.04*size*K/Math.max(1,bounds[3]-sheet.anchor[1]));
+      const x=c.width/2-sheet.anchor[0]*s;
+      const y=floating?c.height/2-(bounds[1]+bounds[3])/2*s:size*.94*K-sheet.anchor[1]*s;
+      g.drawImage(image,index*cellW,a.row*cellH,cellW,cellH,x,y,cellW*s,cellH*s);
+    }else{
     g.save();g.globalAlpha=alpha;g.translate(c.width/2+dx,bottom+dy);g.rotate(angle);g.scale(sx,sy);
     // Horizontal bands add a small stride/wing ripple without cutting out limbs.
     if(action==='walk'&&!heavy){
@@ -64,6 +84,7 @@ const EnemyArtwork = (() => {
       }
     }else g.drawImage(image,-w/2,-h,w,h);
     g.restore();
+    }
     if(action==='hurt'){g.globalCompositeOperation='source-atop';g.fillStyle=`rgba(255,245,230,${.65*(1-p)})`;g.fillRect(0,0,c.width,c.height);g.globalCompositeOperation='source-over';}
     if(action==='windup'){g.globalCompositeOperation='source-atop';g.fillStyle='rgba(255,145,95,.2)';g.fillRect(0,0,c.width,c.height);g.globalCompositeOperation='source-over';}
     c.k=K;c.px=0;
@@ -76,7 +97,7 @@ const EnemyArtwork = (() => {
       g.translate(x,y);g.scale(1,ry/rx);const grad=g.createRadialGradient(0,0,0,0,0,rx);
       grad.addColorStop(0,'rgba(5,4,12,.45)');grad.addColorStop(1,'rgba(5,4,12,0)');g.fillStyle=grad;g.beginPath();g.arc(0,0,rx,0,Math.PI*2);g.fill();g.restore();
     }
-    const record={img:c,flash,dark,heat,external:true,action,index,profile:kind,pixels:c.width*c.height*(heat?4:3)};poses.set(key,record);posePixels+=record.pixels;
+    const record={img:c,flash,dark,heat,external:true,dedicated:!!sheet,action,index,profile:kind,pixels:c.width*c.height*(heat?4:3)};poses.set(key,record);posePixels+=record.pixels;
     while(poses.size>1&&(poses.size>192||posePixels>8*1024*1024))discardPose(poses.keys().next().value);
     return record;
   }
@@ -118,7 +139,7 @@ const EnemyArtwork = (() => {
   function death(g,c){
     // Preserve the special boss, hush and mimic death choreography.
     if(['b36','hush','gift45'].includes(c.s))return false;
-    const u=Math.min(1,c.t/c.d),f=pose(c.k,'death',Math.floor(u*5));if(!f)return false;
+    const u=Math.min(1,c.t/c.d),f=pose(c.k,'death',Math.min(5,Math.floor(u*6)));if(!f)return false;
     const size=eSz(c.k)*c.sc;
     g.save();g.translate(c.x,c.y+size/2);g.scale(c.f,1);g.globalAlpha*=1-u;
     g.drawImage(f.img,-size/2,-size,size,size);

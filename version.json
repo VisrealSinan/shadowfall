@@ -1,12 +1,12 @@
 {
- "version": "71",
+ "version": "72",
  "date": "2026-10-31",
  "minLauncher": "2.0.0",
  "notes": [
-  "Full hero animation coverage: the remaining 62 variants now have dedicated idle, run, attack, skill-casting and dodge sheets.",
-  "Includes all 16 Druids, 14 remaining Chronomancers, 16 Neural Maestros and 16 Hollow Visages, across male and female race choices.",
-  "All 328 hero variants now have full action sheets: 1,648 six-frame sequences including Bearlina's Full Moon animations.",
-  "Daily Challenges, Class Mastery rewards and your saved appearance choices continue to work with the updated sprites."
+  "Dedicated animation sheets for 132 enemy types, including 28 bosses.",
+  "Adds 792 six-frame sequences for idle, movement, windup, attacks, hit reactions and defeat poses.",
+  "Improved frame fitting keeps weapons, wings and tails within their rendered frames.",
+  "75 enemy types await the next artwork pass; the completed sprites are ready to play now."
  ],
  "files": [
   {
@@ -46,7 +46,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "02ddc7ba053317073ac21e539ce7d0d5b9d00569c4f552094c89c45f04388b00",
+   "sha256": "910b3efe13c5c5537ead655a83a4888aa24c99fe32f24e0bff3c4cfb0192ba3d",
    "size": 1727
   },
   {
@@ -505,19 +505,679 @@
    "size": 1115117
   },
   {
+   "name": "assets/enemy-actions-archer.png",
+   "sha256": "dcc83d7d3f2c165325395e6d2ebbda3c8c08b41d7c6c556fe68dcda0fee71058",
+   "size": 480673
+  },
+  {
+   "name": "assets/enemy-actions-armor.png",
+   "sha256": "bcdb3b0c674ecf9d792163bcee475bd64b85f6cf1ddfa2a1f39551f365038a9f",
+   "size": 297536
+  },
+  {
+   "name": "assets/enemy-actions-automaton.png",
+   "sha256": "9676cb6f3d7253f4c1ed854765772b5782f4084dcac52d13ea780e0376f5107e",
+   "size": 448177
+  },
+  {
+   "name": "assets/enemy-actions-bat.png",
+   "sha256": "a4966443d88c7ae2ffee3ee16d7b6935d79ba37add618cc63c36f23fddcdf090",
+   "size": 365907
+  },
+  {
+   "name": "assets/enemy-actions-bellimp.png",
+   "sha256": "2f54c458e4c7ab7cf42dc0144432a428d94d5cb9e2683acb1c4bd8de0082afe9",
+   "size": 366001
+  },
+  {
+   "name": "assets/enemy-actions-bellshade.png",
+   "sha256": "008abd21b03d07c6f5c68124f9450107b72017fc4a0f9bc15331d69b5e7cbb5b",
+   "size": 320780
+  },
+  {
+   "name": "assets/enemy-actions-blinker.png",
+   "sha256": "9d9c0b1a58af5d987c1250e7b97b4884593aaa9b77513d7a1aaaed9d857d9df6",
+   "size": 275294
+  },
+  {
+   "name": "assets/enemy-actions-bloater.png",
+   "sha256": "1e7f3a478b0d7e1c654ce166ffff266ad91b9018295182bb27def974d082daef",
+   "size": 372547
+  },
+  {
+   "name": "assets/enemy-actions-bomber.png",
+   "sha256": "c5b103f5df5c2085efdd16e06e59f29406b8aaed425e6b723066465fe513af05",
+   "size": 244958
+  },
+  {
+   "name": "assets/enemy-actions-bone.png",
+   "sha256": "7a36152bc02ce31dfb7291a2c2372650fad0304c859095ef32cc4dada421bf36",
+   "size": 257896
+  },
+  {
+   "name": "assets/enemy-actions-bouncer.png",
+   "sha256": "3970df322c5c6931b575838e508aa0057590a6ac289c7a3b3d551573d1d5d1d4",
+   "size": 336110
+  },
+  {
+   "name": "assets/enemy-actions-broodmatron.png",
+   "sha256": "63e8c71fa47abd1a499f9dbd358dbe1ad867d2784a98d193bc186873bf67d84d",
+   "size": 1648411
+  },
+  {
+   "name": "assets/enemy-actions-burrower.png",
+   "sha256": "2a94b6b901b070ddd9f0126f6e6417b22979798b99956209a3101619ddc36737",
+   "size": 382960
+  },
+  {
+   "name": "assets/enemy-actions-bushpeeker.png",
+   "sha256": "ee8223d67adf6550ef5d154a6a56026b9d6b5eace5b3ada2760276e9bf7e9ef2",
+   "size": 366504
+  },
+  {
+   "name": "assets/enemy-actions-caller.png",
+   "sha256": "e2faef812ded5f83a35c4dca4d5649c96bb58b8d5d4e87cb8403fc2e16e0b6c8",
+   "size": 466623
+  },
+  {
+   "name": "assets/enemy-actions-cbutcher.png",
+   "sha256": "6bca2ae223b266eed730c03c55cf81088e39868674720b2cf1ee5c50e2c11ad4",
+   "size": 448359
+  },
+  {
+   "name": "assets/enemy-actions-chandeli.png",
+   "sha256": "ceed282668ce3249b5fe05f8f779874abf6435bceeaea2c6848ce06643a59fb2",
+   "size": 344451
+  },
+  {
+   "name": "assets/enemy-actions-charger.png",
+   "sha256": "7c055df6483dd1346bba43498437f3881a562b152f71d666d21a0c9940be5852",
+   "size": 326051
+  },
+  {
+   "name": "assets/enemy-actions-chimewisp.png",
+   "sha256": "6e91c581383530d9cb137d91ba8e83cd31e2193b31096586b02672d972a7d326",
+   "size": 360068
+  },
+  {
+   "name": "assets/enemy-actions-cinderhound.png",
+   "sha256": "141876f9fbe81f5ec2331c26a016c1b05101609440136fd45bc9fd546163f776",
+   "size": 369701
+  },
+  {
+   "name": "assets/enemy-actions-cleaver2.png",
+   "sha256": "21d1f0f134061db4881f66a6e48bd934290ebdaf4031ca8df21397bcf52de416",
+   "size": 436312
+  },
+  {
+   "name": "assets/enemy-actions-cleric.png",
+   "sha256": "4225291d5b06f93fc5a757682b51f926205db39fe1fd20b22ac5390f2502fe5a",
+   "size": 533433
+  },
+  {
+   "name": "assets/enemy-actions-clockwarden.png",
+   "sha256": "f5eb43e72b36b0da8f30af58a7ca84a034ef4482f7514de0a285e3b540e17463",
+   "size": 1953811
+  },
+  {
+   "name": "assets/enemy-actions-colossus.png",
+   "sha256": "33a585529fd25cf85a064147baf7fe0920cbdb0d672c55f536d53a643275ae42",
+   "size": 1903301
+  },
+  {
+   "name": "assets/enemy-actions-confetti.png",
+   "sha256": "1c9bcb7e9d6b9cae850932e74f6964ee9c5d3d4f9dfc7807a995b0804c0e56e4",
+   "size": 438706
+  },
+  {
+   "name": "assets/enemy-actions-cprime.png",
+   "sha256": "f4b08afd65505e180f4775d28a7e0ca4dd4d1ceac012a80c52264c4208167573",
+   "size": 334835
+  },
+  {
+   "name": "assets/enemy-actions-crystalbit.png",
+   "sha256": "8f5625f4d7de4a47507657e4f564733b791b8019e79633a7a3895c019a59c7f1",
+   "size": 288520
+  },
+  {
+   "name": "assets/enemy-actions-dancer.png",
+   "sha256": "db2f71087e9971c24945f4cfd185fa6a9dda82257637795869954d7e05456051",
+   "size": 396536
+  },
+  {
+   "name": "assets/enemy-actions-dimweaver.png",
+   "sha256": "41c2371dd23c85db9aff4b4e37726c608933581718f7cafd58a4570482ee9aa2",
+   "size": 1325393
+  },
+  {
+   "name": "assets/enemy-actions-direpack.png",
+   "sha256": "3f72453edc726e619136706c3d65d60704415963901e38d56b5c238878a7f7c0",
+   "size": 234278
+  },
+  {
+   "name": "assets/enemy-actions-drake.png",
+   "sha256": "c4bdb9677e2215f38da4465b3436d5e502e4e30ee8fd5ed14168c4713a055360",
+   "size": 516778
+  },
+  {
+   "name": "assets/enemy-actions-flitter.png",
+   "sha256": "61253eea438be8760248a53ff149163464f1e637dde167fe7f5f3de9e3149631",
+   "size": 307172
+  },
+  {
+   "name": "assets/enemy-actions-gargoyle.png",
+   "sha256": "6aa58d3843cdd22c9486fb7f76f18b3afb3e4e34f6049a493068b3175b2cf3ad",
+   "size": 483969
+  },
+  {
+   "name": "assets/enemy-actions-ghost.png",
+   "sha256": "d67769207734599f8b355a059335fa592ad931afc4b309c65bb2a67f9994aeef",
+   "size": 316836
+  },
+  {
+   "name": "assets/enemy-actions-glimmer.png",
+   "sha256": "66b030eb8adc177ac8d7dbed2192db92a0cf7b36a9769ae67cee486150426abc",
+   "size": 330013
+  },
+  {
+   "name": "assets/enemy-actions-gloamwing.png",
+   "sha256": "daa967041d243275002a3ea39213ec4245b72cdf7ed9f98acfca6f832224586f",
+   "size": 303755
+  },
+  {
+   "name": "assets/enemy-actions-gnat.png",
+   "sha256": "2b5edfcbb4aaead2682a7b81a393d222d2f5a5ae93b795a898c622b9ea73e4c7",
+   "size": 310072
+  },
+  {
+   "name": "assets/enemy-actions-gnatswarm.png",
+   "sha256": "17736e5d8ddc534c79fe51e753af53552a365db33c524a9eef4ee880e7178f7b",
+   "size": 486346
+  },
+  {
+   "name": "assets/enemy-actions-golem.png",
+   "sha256": "eb48970c6506a32ae7e9fd621f2d866a38dfb7287b855bab52e05765c7f57bf5",
+   "size": 355839
+  },
+  {
+   "name": "assets/enemy-actions-gorgeworm.png",
+   "sha256": "ee6e3d32fa56eccbfc02f6d158e5aaedfd316e222306fce405972efd9fae4c10",
+   "size": 906941
+  },
+  {
+   "name": "assets/enemy-actions-gremlin.png",
+   "sha256": "0536a0e0e7f51c8718ce3aaa4368333adae2a7b63bbdc0232f98a4fbf4ee18e1",
+   "size": 446392
+  },
+  {
+   "name": "assets/enemy-actions-grub.png",
+   "sha256": "872c73e8d2c664c83422177d06b343a71c1fe35e99f9d6c17b790d36095a6e3f",
+   "size": 442332
+  },
+  {
+   "name": "assets/enemy-actions-grublet.png",
+   "sha256": "b4c2a3bffc57e6f9a79edfd05d544c6805c934fd24a6ba4f3a84cfb19e94bbe7",
+   "size": 444756
+  },
+  {
+   "name": "assets/enemy-actions-gutling.png",
+   "sha256": "4c98d47e31979d6b6850959e5eec4d3ed7bc33bc0885e10c9faa31281e6cad20",
+   "size": 411926
+  },
+  {
+   "name": "assets/enemy-actions-harpy.png",
+   "sha256": "3c429981d76501b9175dc1aa1fe3c0efc5864c7b4759c5a3dc497857880ea449",
+   "size": 285713
+  },
+  {
+   "name": "assets/enemy-actions-hbrute.png",
+   "sha256": "08c1b950cd90a198b45414f3ad83895877f2783d648a0bbf4a717186ff82787c",
+   "size": 406548
+  },
+  {
+   "name": "assets/enemy-actions-hbrute2.png",
+   "sha256": "1b34a21f0c8f3b332410c8de191548e3bb700dc262871a3689dfa50559045f3e",
+   "size": 270283
+  },
+  {
+   "name": "assets/enemy-actions-healer.png",
+   "sha256": "fcdecc59c21b505829bd4aef2ff8e42fb1d0c85b3907f8f5f212454cc0782bda",
+   "size": 456753
+  },
+  {
+   "name": "assets/enemy-actions-heartmaw.png",
+   "sha256": "4bf8e44137b3fe7953c5848c899f26116f809096205da3d21539b8aeabeeb0c9",
+   "size": 1328624
+  },
+  {
+   "name": "assets/enemy-actions-heartthief.png",
+   "sha256": "39c14a714eba2106601eb7c9d820aa17e363f29a4702291d6809742f09db403a",
+   "size": 179519
+  },
+  {
+   "name": "assets/enemy-actions-hellhound.png",
+   "sha256": "9e7e34b4f53268eced099e5d07faff6d50cdad741c07d7e51e5e945e99d037e0",
+   "size": 409954
+  },
+  {
+   "name": "assets/enemy-actions-hknight.png",
+   "sha256": "a6e51dc747a6e1c369e1f8fb5c2b4cc14689b482992afde2d51b80b47a7379cc",
+   "size": 231380
+  },
+  {
+   "name": "assets/enemy-actions-hoarder.png",
+   "sha256": "6052399194302b1cca1264dc5d55f99915d7282110412370f0ff342fe8b1fe76",
+   "size": 831622
+  },
+  {
+   "name": "assets/enemy-actions-hogcleaver.png",
+   "sha256": "4552052966b703d2c7c10ce02e5b0f91f21afe01d3b4cc3715c52fa72148d6ee",
+   "size": 1862812
+  },
+  {
+   "name": "assets/enemy-actions-hollowking.png",
+   "sha256": "f7c90b1d345801dba4193d2b7dc66e26ff66b0c8f11a0cb0dd53fd9ab23f6d61",
+   "size": 969998
+  },
+  {
+   "name": "assets/enemy-actions-hollowlantern.png",
+   "sha256": "cb35615b95bf3f2bc7ddeb92a259d8f1a1be30ed132efe347d4e8d16154fc1fa",
+   "size": 489679
+  },
+  {
+   "name": "assets/enemy-actions-hornet.png",
+   "sha256": "97bd41b89fab143c3cb9c78ff76ba27cbb206aa749905e37951566a029afe8ee",
+   "size": 420752
+  },
+  {
+   "name": "assets/enemy-actions-hprime.png",
+   "sha256": "d0b446e20da3ea4d0c3ed1ceeb0f4cabab20a2ab73ffdc3de830fba19c9b87d2",
+   "size": 516557
+  },
+  {
+   "name": "assets/enemy-actions-hsentinel.png",
+   "sha256": "2a1d4fc17f72f1c0ed2899223634df6dae16f4dd4f40d3e2d8fed97c5a8db854",
+   "size": 345471
+  },
+  {
+   "name": "assets/enemy-actions-hstag.png",
+   "sha256": "7899ce929005191bdbf0bc05da5d64c13bc4c8c92c62c220e7ad4b841b4d2c6d",
+   "size": 358638
+  },
+  {
+   "name": "assets/enemy-actions-hushling.png",
+   "sha256": "152aa3910ed93f49433bab448f5ba2659d213977d0528d250571d0d79dec749c",
+   "size": 224704
+  },
+  {
+   "name": "assets/enemy-actions-hushmite.png",
+   "sha256": "8b33f9261333be6dddef14b5c01495924588169f1970dac082db33393242bafa",
+   "size": 341119
+  },
+  {
+   "name": "assets/enemy-actions-hwraith.png",
+   "sha256": "750f2a3a7bf2a787cd787488835764fb2037b404ead62661aface9f072b18a72",
+   "size": 327441
+  },
+  {
+   "name": "assets/enemy-actions-ignar.png",
+   "sha256": "6b7a6e9d42db75b55c4b64bb9fb5f7c9315a62fda4d39232b4b8b6f6334c1e16",
+   "size": 2280020
+  },
+  {
+   "name": "assets/enemy-actions-imp.png",
+   "sha256": "be2fa3771254127fe833948260da88bf74fc96d25a978a9fbfbd33a386befc65",
+   "size": 313183
+  },
+  {
+   "name": "assets/enemy-actions-inquisitor.png",
+   "sha256": "6317b79523f574ce7fb3708109ba0d0b7f6ef19e0d255a8dc73386708598105d",
+   "size": 1230543
+  },
+  {
+   "name": "assets/enemy-actions-juggernaut.png",
+   "sha256": "52c1ae6d5ac9b3b8cffb021b5c08378d7244775fdb23934ce1b93cb85716d936",
+   "size": 542021
+  },
+  {
+   "name": "assets/enemy-actions-keybearer.png",
+   "sha256": "190066500c141765ed1c24ea10c0c23ce4175d1e0100f00fd60c16f28d2f8ede",
+   "size": 1325337
+  },
+  {
+   "name": "assets/enemy-actions-knellbomb.png",
+   "sha256": "19392c0606e93af019269a1efecaca1bc73c3299b714bbed90b4eb005cfdf735",
+   "size": 371662
+  },
+  {
+   "name": "assets/enemy-actions-lantern.png",
+   "sha256": "6f9fed46210df3a357db5e77fcb1d47dc4b553de414a9f01b8fd42e1f0148278",
+   "size": 520919
+  },
+  {
+   "name": "assets/enemy-actions-legionary.png",
+   "sha256": "eae500dbac1d17cfa70db77150593d7276cbef9468124ef3a82cd58eb3cf9ffc",
+   "size": 425960
+  },
+  {
+   "name": "assets/enemy-actions-lidless.png",
+   "sha256": "3090f0540de13c3b9d7710a1f6fa9cf65f870b0aa8d351d259f48d523c629341",
+   "size": 2005385
+  },
+  {
+   "name": "assets/enemy-actions-lurker.png",
+   "sha256": "76c50d2872e23e20446f21dd3adc700f570df1938a93ee1b352ec788aaf49c86",
+   "size": 327642
+  },
+  {
+   "name": "assets/enemy-actions-marshlizard.png",
+   "sha256": "91d7b1b5a4640f09bee816e72c82b4ced9096e7ba2fefcaa18921b5673841739",
+   "size": 458814
+  },
+  {
+   "name": "assets/enemy-actions-mirehag.png",
+   "sha256": "89b7cd964d4eea08fedfd03e5fd892272e65a1ac3c52f1a8df9be3402627f9b7",
+   "size": 1809327
+  },
+  {
+   "name": "assets/enemy-actions-mosslet.png",
+   "sha256": "217c4ce66a3bdc7e3a99df43aed3ef8f9f3965f4fa44f482833c75f4f7f23ce4",
+   "size": 506512
+  },
+  {
+   "name": "assets/enemy-actions-moth.png",
+   "sha256": "803d9cbef3519c0c358c468635ed296c555f9203ce81612c07ea01fcaf23fcf8",
+   "size": 1282341
+  },
+  {
+   "name": "assets/enemy-actions-mother.png",
+   "sha256": "ce0f4648d833d0416c70425c222e6ab3826ce0011500f6ecaef3c1cc3be27f9d",
+   "size": 1380767
+  },
+  {
+   "name": "assets/enemy-actions-muckheap.png",
+   "sha256": "9115a3bb495ac041d61b9266dad9fae9afe65c03e30ddc4db6de9352b363dee1",
+   "size": 453905
+  },
+  {
+   "name": "assets/enemy-actions-neonmoth.png",
+   "sha256": "740435026810040f1abdb14767eb288c3de8dbdde06e9837a14d8f96239c1695",
+   "size": 455092
+  },
+  {
+   "name": "assets/enemy-actions-oldtusk.png",
+   "sha256": "42589237438dd696afe9127423528a5bcdc07e633acff00f0e6852d90698b67f",
+   "size": 445419
+  },
+  {
+   "name": "assets/enemy-actions-oozelet.png",
+   "sha256": "5aed568e5ca07de47b9c5b98bb57763bcb02fad3a8cea6ea291ec2070a743650",
+   "size": 473477
+  },
+  {
+   "name": "assets/enemy-actions-penitent.png",
+   "sha256": "ac5fd59fc5c7c82ee3d03dadb9cf660cd65e77c07c9f50dabeb84f9256554918",
+   "size": 311662
+  },
+  {
+   "name": "assets/enemy-actions-podbomber.png",
+   "sha256": "ee290d305aaa38dd445011561a50cac3fc04ffae31bb447c776ef927a5baa4e9",
+   "size": 388412
+  },
+  {
+   "name": "assets/enemy-actions-puffcap.png",
+   "sha256": "6b358354a4459be467213371bfb02a4848fa007f24c0ab9bc0b565b15271984c",
+   "size": 497287
+  },
+  {
+   "name": "assets/enemy-actions-pyromancer.png",
+   "sha256": "60fb15124e01e9adecc6a3773dd55c1e5edadd3d7480bbd205b7609acd3c8378",
+   "size": 387804
+  },
+  {
+   "name": "assets/enemy-actions-raider.png",
+   "sha256": "26100daf9e781b836f29c53b3ea7dff1a072d83f575eb689cf2d4849fe0c47be",
+   "size": 472772
+  },
+  {
+   "name": "assets/enemy-actions-recruit.png",
+   "sha256": "6fa50757f66c1c26683299b09c8d9088fb52ff66501d51636a138262a0ee900a",
+   "size": 336550
+  },
+  {
+   "name": "assets/enemy-actions-rockspitter.png",
+   "sha256": "60ae06872806e9ae62a634c711bc54c0cdad8a6e2a1c8db4902aa690f6506bf3",
+   "size": 314625
+  },
+  {
+   "name": "assets/enemy-actions-roomcart.png",
+   "sha256": "0460843e40d8907f2a09d14331d12e236b1abab2511fd10cda8c56ddc4361464",
+   "size": 343587
+  },
+  {
+   "name": "assets/enemy-actions-rotwood.png",
+   "sha256": "c4d1e3c5479571fb8efb45833ced1f1d03e39cef7c0d35d2357800884b505b53",
+   "size": 1251369
+  },
+  {
+   "name": "assets/enemy-actions-sapper.png",
+   "sha256": "a168ade2e0d1f5873363431ea933624a53e0d9a3b6629c452317ff972ceccdf5",
+   "size": 485062
+  },
+  {
+   "name": "assets/enemy-actions-seer.png",
+   "sha256": "7172a8d3e579d51cd2feb7b17b57358b30c6f12613180dcf74bc7ad2718e7411",
+   "size": 309557
+  },
+  {
+   "name": "assets/enemy-actions-seraph.png",
+   "sha256": "acc21288044cc162118133cedc39322101c295cbef8ebe2e27764e75812532a3",
+   "size": 1863142
+  },
+  {
+   "name": "assets/enemy-actions-shaman.png",
+   "sha256": "7f6c552e7a027aac7d5f7a1d4d89ed25f0dd63c4b37cd5acf68e166ad5daf17a",
+   "size": 628184
+  },
+  {
+   "name": "assets/enemy-actions-shield.png",
+   "sha256": "ed947e005d0cc18e60c1c5b680a2e8a383f36a233a7af8e800157bcd645c06ee",
+   "size": 426050
+  },
+  {
+   "name": "assets/enemy-actions-shieldwall.png",
+   "sha256": "214ce00b5703d0cbd9c8767a677353eac809c5203f656ad440692b2b9063db33",
+   "size": 444731
+  },
+  {
+   "name": "assets/enemy-actions-signghost.png",
+   "sha256": "83f612c6b6df9b76b7ab8529eb8c3969d74fe4096c91544b07e17770bf66ce3d",
+   "size": 422864
+  },
+  {
+   "name": "assets/enemy-actions-skitter.png",
+   "sha256": "504975988011ff4f48cf7fef020274353b27f70a0d15799a6f1827f147544e67",
+   "size": 356794
+  },
+  {
+   "name": "assets/enemy-actions-skitterpack.png",
+   "sha256": "f24826bd58d2593e790cf884e44c6adee986ef0530d9600f5e1019ef1248dc4e",
+   "size": 269770
+  },
+  {
+   "name": "assets/enemy-actions-skyhawk.png",
+   "sha256": "efbef9dc482984eb0b1a5b614ee5476621526ffae26eae4a6545bf498ab6fdcd",
+   "size": 1381622
+  },
+  {
+   "name": "assets/enemy-actions-slag.png",
+   "sha256": "e37c9db99fa68cfb684eaa9a703de011a981fadd70fdff3b15cda410b47fe6cb",
+   "size": 360795
+  },
+  {
+   "name": "assets/enemy-actions-slaglet.png",
+   "sha256": "6d7c2297b1f763d15e95e53aff13a66755d05d1308e5c63900671327d9b50979",
+   "size": 407394
+  },
+  {
+   "name": "assets/enemy-actions-slimegrub.png",
+   "sha256": "617fdd104d6a4b27e9acbaf61693aa30f75c54cad8d0acabb3d39e4776df8e66",
+   "size": 522690
+  },
+  {
+   "name": "assets/enemy-actions-slotmimic.png",
+   "sha256": "ad13aef9655dc5b65b9bd58cf8f3115c2a195a14832be0eb60b95363eb3f349f",
+   "size": 615496
+  },
+  {
+   "name": "assets/enemy-actions-sobber.png",
+   "sha256": "ed02668a249a493920b33976e4fe36a0f08253b4500818649733a57a9a69a0ef",
+   "size": 516294
+  },
+  {
+   "name": "assets/enemy-actions-sobwisp.png",
+   "sha256": "0ddd83dc89115aa169f303f1df0c8624cc54ef4af4a2b506718476bdf1a79668",
+   "size": 377403
+  },
+  {
+   "name": "assets/enemy-actions-spitter.png",
+   "sha256": "564ac08ebbb3d9ccd4635644ad2aad24547ea3e5a0b3b3b0e072d93fffe0991c",
+   "size": 335954
+  },
+  {
+   "name": "assets/enemy-actions-splitter.png",
+   "sha256": "c49e274c1f866e74efc43f3bd1ccb16e51cb98b5d0d90dbc2d2ec6f4febc1cb0",
+   "size": 250879
+  },
+  {
+   "name": "assets/enemy-actions-sprite.png",
+   "sha256": "21a5aef3fd1ae5a26d197c3590461ebe3b0f60af480d3826dda48131095e3fbf",
+   "size": 264525
+  },
+  {
+   "name": "assets/enemy-actions-sproutling.png",
+   "sha256": "e12e485388ca474b6db43c882f1c45a870ca3064a75f4cbf97ef4a78377d9064",
+   "size": 364241
+  },
+  {
+   "name": "assets/enemy-actions-squire.png",
+   "sha256": "539870b6106c8ce5b60e25ba23a3c4e2fb2d174c108b420438b6da3df9f94059",
+   "size": 238936
+  },
+  {
+   "name": "assets/enemy-actions-stagking.png",
+   "sha256": "a8384917e5b5faeec411a72154a730ee0f9ce2ac9bb9c2b7f9d3543e26667f72",
+   "size": 1621858
+  },
+  {
+   "name": "assets/enemy-actions-statichead.png",
+   "sha256": "7200aaa321a0cafbf0d04221b6c8011fe7e7c981fe5ba1bbe284b437658125c0",
+   "size": 394266
+  },
+  {
+   "name": "assets/enemy-actions-stoneling.png",
+   "sha256": "73c094fa6f5cac9e6c09e56b639bf57a60b8b9bc6ba6dcd8731954284b102213",
+   "size": 320133
+  },
+  {
+   "name": "assets/enemy-actions-stormcolossus.png",
+   "sha256": "70059560e12bbf8266ff0b628a5081e97d12e0b5d6f499083d7c6f76145f992b",
+   "size": 1096513
+  },
+  {
+   "name": "assets/enemy-actions-tallow.png",
+   "sha256": "fe91569e6f6f83a1d0f60e7ee9b70c4ca94fd2db21e2af2349f5981ae7fcea58",
+   "size": 1701198
+  },
+  {
+   "name": "assets/enemy-actions-thief.png",
+   "sha256": "2089cd0233f044fad94dc5c9bbf6b89db86da40de4b10f667c2f3f0268c7c1b4",
+   "size": 497024
+  },
+  {
+   "name": "assets/enemy-actions-thornqueen.png",
+   "sha256": "c6bbe199a1873de77e6f06ef0d22ecde43da47210384b58cf0bf8f2971151fc9",
+   "size": 993579
+  },
+  {
+   "name": "assets/enemy-actions-totem.png",
+   "sha256": "4b58a0ea82a78c3c56afdc5cf4d62b3af393b9d9282f0dc2d5fcb4b7ae29b4e1",
+   "size": 480602
+  },
+  {
+   "name": "assets/enemy-actions-tuskguard.png",
+   "sha256": "7802349b1d2522e3b86b79ac6e92d80d065cf4f65f8ae9c721a22ae97e2f1fa3",
+   "size": 456127
+  },
+  {
+   "name": "assets/enemy-actions-tyrant.png",
+   "sha256": "0577ae6a17ed8aaf103bae947946c4cd2b818384fd4d0767316578a11b29d2f2",
+   "size": 1975086
+  },
+  {
+   "name": "assets/enemy-actions-valdrek.png",
+   "sha256": "150e00113aca03ca1bbb5c8e2bb4451d945ac91c8eaa6685b2851c7a831ebf7b",
+   "size": 548837
+  },
+  {
+   "name": "assets/enemy-actions-vellistra.png",
+   "sha256": "54dbcbd4c026a91863212569adaa7eb1adbb857d7ffb14d5b274d0318c2c0527",
+   "size": 1351342
+  },
+  {
+   "name": "assets/enemy-actions-warboar.png",
+   "sha256": "314092de576c4f9ee9ddf8b5c48e4e6bbfd52fca7003a9ee693a814a792a7bb5",
+   "size": 497766
+  },
+  {
+   "name": "assets/enemy-actions-warden.png",
+   "sha256": "b03bc968613081cc8ca13d7c87c0349f6c340ff60ae13efdb85b3d00d24eb71e",
+   "size": 1140471
+  },
+  {
+   "name": "assets/enemy-actions-weeper.png",
+   "sha256": "7477e50a8572ea006a5cbc93728f7d2c660c02efa10396210e06df7d8a24a2ff",
+   "size": 354795
+  },
+  {
+   "name": "assets/enemy-actions-weepmass.png",
+   "sha256": "3868cb7dbe11146757945affb8d67ea6e6e24fe2e9baff07606df590fa07ad87",
+   "size": 1433280
+  },
+  {
+   "name": "assets/enemy-actions-whelp.png",
+   "sha256": "fca0422bcf354c7ee65c9dc2143e6cac087a22604fb1a73f370687b4c1eb4ea6",
+   "size": 458017
+  },
+  {
+   "name": "assets/enemy-actions-wickling.png",
+   "sha256": "9b8f2022c98c1c09c34e8644cbcd652cb7709677ae730d3b3763650e83cb4a91",
+   "size": 231819
+  },
+  {
+   "name": "assets/enemy-actions-wisp.png",
+   "sha256": "ada049a926bfc56fa88431895e365cb91584e0d5cfde98278142822c90979264",
+   "size": 256305
+  },
+  {
+   "name": "assets/enemy-actions-wolf.png",
+   "sha256": "7a8f9e90d07aeabe356c4168c9915eff23c5f9044f353126a8802ee22ea98dff",
+   "size": 294793
+  },
+  {
    "name": "assets/enemy-archivist.png",
    "sha256": "60bb4ce285b416777646a726a60af740f787696b98e1457e6400824ac98473e1",
    "size": 302001
   },
   {
    "name": "assets/enemy-art-manifest.js",
-   "sha256": "819f4e6b7bbd3c5614b845073992dd138a95187fc4892fc17d2c3d2ab3e83df6",
-   "size": 17653
+   "sha256": "a32284a9294b12045268a42f3a7b8a9643564e339d623eef0ea7c87da73508ab",
+   "size": 108820
   },
   {
    "name": "assets/enemy-art.js",
-   "sha256": "1a31a23ad2c766420e05a003d92a5544606c2325a375fd7ce66c645904ac2008",
-   "size": 8507
+   "sha256": "c921884b8453ec1cdede416ec725019e91bb9d89aef29774caf582fb111f2f83",
+   "size": 9948
   },
   {
    "name": "assets/enemy-assemblysaint.png",
