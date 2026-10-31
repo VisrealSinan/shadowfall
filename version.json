@@ -1,12 +1,11 @@
 {
- "version": "60",
+ "version": "61",
  "date": "2026-10-30",
  "minLauncher": "2.0.0",
  "notes": [
-  "Enemy health keeps ramping in longer runs, with an additional 25% health per five minutes after 10:00 on top of existing scaling.",
-  "The extra health applies to newly spawned regular enemies, elites, minibosses and bosses on every map.",
-  "At 15:00 enemies have 25% extra health, at 20:00 50% extra, and at 30:00 twice the previous health for that time; the ramp has no cap.",
-  "Enemy shields use the same increased health basis. Enemies already in combat keep their current health."
+  "Reduced regular and horde wave sizes by about 15% for a little more breathing room.",
+  "Regular waves now peak at 31 enemies and horde waves at 46; heavy-enemy waves receive the same reduction.",
+  "Wave timing and the increasing enemy health from v60 remain in place."
  ],
  "files": [
   {
@@ -31,8 +30,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "fc2567c9fcf052ae6edc0fd135c0ceb000be118494079039927d06d523a13d36",
-   "size": 2824756
+   "sha256": "aae8da9d93141466c7f462a6bc5e568304cd09652a68e63f812622bdf18e26f1",
+   "size": 2824788
   },
   {
    "name": "manifest.webmanifest",
@@ -41,7 +40,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "bdbdff96cdd414e0ab4dbc00ace409102e8c9aabd226f98805bdc44b8954246d",
+   "sha256": "2e45afe664ce7fe608f20a78c012d02aad6378c44457aa2131d94dce4666ff48",
    "size": 1628
   },
   {
