@@ -1,11 +1,11 @@
 {
- "version": "75",
- "date": "2026-10-31",
+ "version": "76",
+ "date": "2026-11-01",
  "minLauncher": "2.0.0",
  "notes": [
-  "Adds the invincible 15-minute Michael Myers pursuit and a mortal unlockable Michael Myers.",
-  "Adds the hidden Tibo and Poteto duo, two late-run enemy types, and 150 new skills across all classes and Druid forms.",
-  "Includes five Shard outfits per class, difficulty and endless progression, spell visibility, random builds, and starting-form talents."
+  "Main game update: Lost Shadows, Shard outfits, secret survivors and 150 new class/form skills.",
+  "Adds final-boss victory/endless choices, map difficulty, late-run enemies, spell visibility, random builds and Druid starting forms.",
+  "Standard launcher content update; no separate expansion required. Includes verified asset manifest."
  ],
  "files": [
   {
@@ -45,7 +45,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "14984ad20563639ad2391c9dc47c5ac4bba599c737cd81a96cb6a46d43dd1e95",
+   "sha256": "afa5fc64212092beb28290b38229585e03850f03e49f00282c0f839875b50871",
    "size": 1819
   },
   {

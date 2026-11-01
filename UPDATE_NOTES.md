@@ -1,6 +1,6 @@
-# Lost Shadows expansion
+# Shadowfall v76 game update
 
-Implementation branch: `feature/lost-shadows-expansion`.
+These features are integrated into the main Shadowfall game and delivered through the standard launcher content update. No separate expansion or installation is required.
 
 ## Progression and encounters
 
@@ -35,6 +35,6 @@ node --test tests/*.test.cjs
 
 The headless smoke harness runs the actual game scripts with inert browser, canvas and audio APIs. It starts, updates, renders and casts the new skills for all 23 classes; checks encounter persistence, mortality, victory, Druid form costs and restoration. This checks code paths, not image appearance or real-time balance. Visual playtesting was unavailable because browser access to the local preview was denied. Combat balance and the procedural character/outfit art still need human playtesting.
 
-`version.json` includes the new browser assets and refreshed SHA-256 hashes; `sw.js` updates the offline cache. GitHub changes do not replace the currently installed Electron executable or publish a Windows installer. Merge and normal release/deployment are still required for distribution.
+`version.json` includes the game assets and refreshed SHA-256 hashes; `sw.js` updates the offline cache. The launcher downloads the main game update from GitHub Pages. The existing launcher executable remains compatible.
 
 The global leaderboard is deliberately deferred at the user's request until the future website work.
