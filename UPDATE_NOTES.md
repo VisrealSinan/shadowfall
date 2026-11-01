@@ -1,6 +1,12 @@
-# Shadowfall v82 game update
+# Shadowfall v83 game update
 
 These features are integrated into the main Shadowfall game and delivered through the standard launcher content update. No separate expansion or installation is required.
+
+## Settings in and outside a hunt (v83)
+
+- A dedicated Settings button appears on the main menu and pause menu. The shared Settings screen groups music, sound effects, jump sound, player spell visibility, controller rumble and the phone jump button into Audio, Visibility and Controls panels.
+- Settings opened during a hunt keep the run paused. Back/Escape returns to the pause menu; Resume is a separate choice. Settings opened from the main menu return there. The keyboard/controller reference returns to Settings with the same context.
+- Preferences retain their existing saved values and apply immediately. Native keyboard slider adjustment, Tab navigation and toggle activation work inside Settings. Controller navigation and adjustment remain supported.
 
 ## Origins, Callings and the Night Atlas (v82)
 

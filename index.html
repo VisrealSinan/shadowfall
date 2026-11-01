@@ -1306,6 +1306,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
 <link rel="stylesheet" href="assets/achievement-hall.css">
 <link rel="stylesheet" href="assets/journey-scenes.css">
 <link rel="stylesheet" href="assets/selection-scenes.css">
+<link rel="stylesheet" href="assets/settings.css">
 </head>
 <body>
 <canvas id="c"></canvas>
@@ -1327,7 +1328,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
  <div class="row hunt-entry"><button class="btn small" id="btnDaily70">☾ Daily Challenge</button><button class="btn small" id="btnMastery70">✦ Class Mastery</button></div>
  <button class="btn" id="btnShop">Armory</button>
  <div class="row"><button class="btn small" id="btnAch">★ Achievements</button><button class="btn small" id="btnWard">✦ Wardrobe</button></div>
- <div class="row"><button class="btn small" id="btnMuteT">♪ Audio</button><button class="btn small" id="btnHow">How to Play</button><button class="btn small pconly" id="btnKeys" data-kh="H">⌨ Controls</button></div>
+ <button class="btn small settings-entry" id="btnMuteT">⚙ Settings</button>
+ <div class="row"><button class="btn small" id="btnHow">How to Play</button><button class="btn small pconly" id="btnKeys" data-kh="H">⌨ Controls</button></div>
  <button class="btn small apponly" id="btnQuitApp" style="width:min(80vw,300px)">⏻ Quit Game</button>
  </div>
  <details class="title-download pconly webonly"><summary>Play on Windows</summary><div class="dlwin" id="dlWin"><a class="btn small dlbtn" id="btnDl" href="https://github.com/VisrealSinan/shadowfall/releases/download/v2.0.2/Shadowfall-Setup-2.0.2.exe" download="Shadowfall-Setup-2.0.2.exe" rel="noopener">⬇ Download for Windows</a><a class="dlsub" id="lnkRel" href="https://github.com/VisrealSinan/shadowfall/releases/latest" target="_blank" rel="noopener noreferrer">All downloads &amp; versions ↗</a><div class="dlnote">Windows may warn because the app isn't signed yet: click <b>More info</b>, then <b>Run anyway</b>.</div></div></details>
@@ -1447,7 +1449,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
  <div class="loadout" id="loadoutP" aria-label="Your skills and passives"></div>
  <div class="build" id="buildInfo"></div>
  <button class="btn primary" id="btnResume" data-kh="Esc">Resume</button>
- <div class="row"><button class="btn small" id="btnEqP">⚔ Equipment</button><button class="btn small" id="btnCodexP">⇪ Codex</button><button class="btn small" id="btnMuteP">♪ Audio</button><button class="btn small pconly" id="btnKeysP" data-kh="H">⌨ Controls</button></div>
+ <button class="btn small settings-entry" id="btnMuteP">⚙ Settings</button>
+ <div class="row"><button class="btn small" id="btnEqP">⚔ Equipment</button><button class="btn small" id="btnCodexP">⇪ Codex</button><button class="btn small pconly" id="btnKeysP" data-kh="H">⌨ Controls</button></div>
  <button class="btn danger" id="btnQuit">⏏ Exit Run</button>
  <div class="spacer"></div>
 </div>
@@ -1507,24 +1510,20 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
  <div class="selfoot"><div class="row"><button class="btn small" id="btnWardAch">★ Achievements</button><button class="btn small" id="btnWardBack" data-kh="Esc">Back</button></div></div>
 </div>
 
-<div id="audio" class="screen panel">
- <h2 style="margin-bottom:6px">Audio</h2>
- <div class="audbox">
-  <div class="audrow" id="row_music"><div class="audhd"><span class="audic">♪</span><b>Music</b><span class="audval" id="val_music"></span><button class="audtog" id="tog_music">On</button></div>
-   <input type="range" min="0" max="100" step="1" id="vol_music" aria-label="Music volume"></div>
-  <div class="audrow" id="row_sfx"><div class="audhd"><span class="audic">✦</span><b>Sound Effects</b><span class="audval" id="val_sfx"></span><button class="audtog" id="tog_sfx">On</button></div>
-   <input type="range" min="0" max="100" step="1" id="vol_sfx" aria-label="Sound effects volume"></div>
-  <button class="btn small" id="btnAudTest" style="width:100%;margin-top:4px">▶ Test sounds</button>
-  <div class="audrow" id="row_rumble"><div class="audhd"><span class="audic">🎮︎</span><b>Controller rumble</b><span class="audval" id="val_pad">No controller</span><button class="audtog" id="tog_rumble">On</button></div></div>
-  <div class="audrow" id="row_jsfx"><div class="audhd"><span class="audic">⤒</span><b>Jump sound</b><span class="audval">soft hop when you jump</span><button class="audtog" id="tog_jsfx">On</button></div></div>
-  <div class="audrow" id="row_jbtn"><div class="audhd"><span class="audic">⬆︎</span><b>Phone jump button</b><span class="audval">touch screens</span><button class="audtog" id="tog_jbtn">Off</button></div></div>
-  <div class="audnote">All music &amp; sounds are generated live on your device. On iPhone, sound follows the silent switch and starts after your first tap.</div>
-  <div class="audnote webonly"><b>Playing on PC?</b> Open the same address in Chrome or Edge: keyboard (WASD / arrows, Esc to pause, 1–3 for cards), mouse and gamepad all work, and the address-bar <b>Install</b> button adds Shadowfall as a desktop app. Progress is saved per browser/device.</div>
-  <div class="dlwin pconly webonly" id="dlWinA"><a class="btn small dlbtn" id="btnDlA" href="https://github.com/VisrealSinan/shadowfall/releases/download/v2.0.2/Shadowfall-Setup-2.0.2.exe" download="Shadowfall-Setup-2.0.2.exe" rel="noopener">⬇ Download for Windows</a><a class="dlsub" id="lnkRelA" href="https://github.com/VisrealSinan/shadowfall/releases/latest" target="_blank" rel="noopener noreferrer">All downloads &amp; versions ↗</a><div class="dlnote">Windows may warn because the app isn't signed yet: click <b>More info</b>, then <b>Run anyway</b>.</div></div>
- </div>
- <div class="spacer" style="min-height:0"></div>
- <div class="selfoot"><button class="btn primary" id="btnAudBack" style="margin-top:0" data-kh="Esc">Done</button></div>
-</div>
+<div id="audio" class="screen panel settings-screen"><div class="settings-shell">
+<header class="settings-heading"><span>MAKE THE NIGHT YOUR OWN</span><h2>Settings</h2><p>Sound, visibility and the way you play.</p><i aria-hidden="true">⚙</i><div class="settings-state" id="settingsContext" role="status"></div></header>
+<div class="settings-layout"><section class="settings-card"><header><i aria-hidden="true">♪</i><div><h3>Audio</h3><p>Set the atmosphere. Keep the warnings clear.</p></div></header>
+<div class="audrow" id="row_music"><div class="audhd"><span class="audic">♪</span><b>Music</b><span class="audval" id="val_music"></span><button class="audtog" id="tog_music" aria-label="Music enabled" aria-pressed="true">On</button></div><input type="range" min="0" max="100" step="1" id="vol_music" aria-label="Music volume"></div>
+<div class="audrow" id="row_sfx"><div class="audhd"><span class="audic">✦</span><b>Sound effects</b><span class="audval" id="val_sfx"></span><button class="audtog" id="tog_sfx" aria-label="Sound effects enabled" aria-pressed="true">On</button></div><input type="range" min="0" max="100" step="1" id="vol_sfx" aria-label="Sound effects volume"></div>
+<div class="audrow" id="row_jsfx"><div class="audhd"><span class="audic">⤒</span><b>Jump sound</b><span class="audval">A soft hop when you jump</span><button class="audtog" id="tog_jsfx" aria-label="Jump sound enabled" aria-pressed="true">On</button></div></div>
+<button class="btn small settings-action" id="btnAudTest">▷ Test sounds</button><p class="audnote">Music and sounds are generated on your device. On iPhone, audio follows the silent switch and starts after your first tap.</p></section>
+<div class="settings-column"><section class="settings-card"><header><i aria-hidden="true">◐</i><div><h3>Visibility</h3><p>Keep your path through the horde in sight.</p></div></header><div id="settingsVisibility"></div><div class="settings-range-labels"><span>Less clutter</span><span>Full effects</span></div></section>
+<section class="settings-card"><header><i aria-hidden="true">✥</i><div><h3>Controls</h3><p>Your controller and touch preferences.</p></div></header>
+<div class="audrow" id="row_rumble"><div class="audhd"><span class="audic">✥</span><b>Controller rumble</b><span class="audval" id="val_pad">No controller</span><button class="audtog" id="tog_rumble" aria-label="Controller rumble enabled" aria-pressed="true">On</button></div></div>
+<div class="audrow" id="row_jbtn"><div class="audhd"><span class="audic">⬆</span><b>Phone jump button</b><span class="audval">Touch screens</span><button class="audtog" id="tog_jbtn" aria-label="Phone jump button enabled" aria-pressed="false">Off</button></div></div>
+<button class="btn small settings-action pconly" id="btnSettingsControls">⌨ View keyboard &amp; controller controls</button></section></div></div>
+<footer class="selfoot settings-footer"><span>Preferences save automatically.</span><button class="btn primary" id="btnAudBack" data-kh="Esc">Back to main menu</button></footer>
+</div></div>
 
 <div id="notice" role="status"></div>
 <div id="cfm" role="dialog" aria-modal="true" aria-labelledby="cfmT"><div class="cfb"><h3 id="cfmT">Are you sure?</h3><p id="cfmB"></p><div class="row"><button class="btn" id="cfmNo" data-kh="Esc" data-gp="B">Cancel</button><button class="btn danger" id="cfmYes">OK</button></div></div></div>
@@ -1535,7 +1534,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
  <div class="how">
   <p><b>Move:</b> touch anywhere and drag — a joystick appears under your thumb.</p>
   <p><b>On PC:</b> move with <b>WASD</b> / arrow keys (or hold the left mouse button), <b>Space</b> jumps (just for fun), <b>Esc</b> pauses, <b>1–3</b> pick level-up cards. Gamepads work too. <span class="webonly">Install it from Chrome/Edge's address bar for a desktop window, or get the Windows app from the title screen.</span> <span class="pconly" style="color:#ffe08a">Full list: Controls.</span></p>
-  <p><b>Jump:</b> press <b>Space</b> (gamepad <b>A</b>) to hop whenever you like — hold it to bunny-hop. Phones can turn on a ⤒ jump button in Audio &amp; Settings. Jumping is just for fun: it never dodges or changes your hitbox.</p>
+  <p><b>Jump:</b> press <b>Space</b> (gamepad <b>A</b>) to hop whenever you like — hold it to bunny-hop. Phones can turn on a ⤒ jump button in Settings. Jumping is just for fun: it never dodges or changes your hitbox.</p>
   <p><b>Attack:</b> automatic! Your hero strikes the nearest foes on their own.</p>
   <p><b>Grow:</b> every foe you slay feeds you its soul (XP) instantly. Level up, then pick 1 of 3 cards — new skills or stronger stats. Don't like the cards? <b>Reroll</b> them (1 per run, +1 every 5 levels). Maxed passives keep upgrading endlessly with diminishing returns. Your skills and passives show in the top-left corner.</p>
   <p><b>Classes:</b> nine classes (the hybrid <b>Eclipse Paragon</b> is unlocked with Shards), each with its own costume, skills and three <b>Talent trees</b> (T). Playing a class earns class XP → 1 talent point per class level (up to 51). Every 5 points in a tree unlocks its next tier; the 7th tier holds a build-defining capstone. Respec any time with Reset.</p>
@@ -1563,7 +1562,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
   <tr><td>Treasure</td><td><kbd>Enter</kbd> / <kbd>E</kbd> equip · <kbd>X</kbd> salvage · gamepad <kbd>A</kbd> equip</td></tr>
   <tr><td>Class select</td><td><kbd>↑</kbd><kbd>↓</kbd> choose a class · <kbd>Enter</kbd> on a locked class (e.g. Eclipse Paragon) buys it with Shards, otherwise starts the hunt · gamepad D-pad + <kbd>A</kbd></td></tr>
   <tr><td>Menus</td><td>Mouse click, scroll wheel on lists · <kbd>Enter</kbd> confirm / start · <kbd>Esc</kbd> back · gamepad <kbd>A</kbd> / <kbd>B</kbd></td></tr>
-  <tr><td>Controller</td><td>Xbox / PlayStation pads work on every screen: left stick or D-pad moves (and moves the yellow menu focus), <kbd>A</kbd>/<kbd>✕</kbd> select, <kbd>B</kbd>/<kbd>○</kbd> back, <kbd>LB</kbd>/<kbd>RB</kbd> switch tabs, <kbd>Start</kbd> pause, <kbd>View</kbd>/<kbd>Select</kbd> damage meter. Rumble can be turned off in Audio</td></tr>
+  <tr><td>Controller</td><td>Xbox / PlayStation pads work on every screen: left stick or D-pad moves (and moves the yellow menu focus), <kbd>A</kbd>/<kbd>✕</kbd> select, <kbd>B</kbd>/<kbd>○</kbd> back, <kbd>LB</kbd>/<kbd>RB</kbd> switch tabs, <kbd>Start</kbd> pause, <kbd>View</kbd>/<kbd>Select</kbd> damage meter. Rumble can be turned off in Settings</td></tr>
   <tr><td>Exit a run</td><td>Pause, then <b>⏏ Exit Run</b> and confirm: you get the run summary and keep everything earned</td></tr>
   <tr><td>Shortcuts</td><td><kbd>T</kbd> / <kbd>Tab</kbd> talents, <kbd>G</kbd> gear and <kbd>C</kbd> evolution codex (class select) · <kbd>H</kbd> this screen</td></tr>
  </table>
@@ -15304,6 +15303,9 @@ function keyNav(code) { // returns true when handled
   if (id && visBtn(id)) { $(id).click(); return true; }
   return false; }
 addEventListener('keydown', e => {
+  if ((e.code === 'Escape' || e.key === 'Escape') && $('audio').classList.contains('on')) { e.preventDefault(); closeSettings(); return; }
+  if (e.code === 'Tab' && $('audio').classList.contains('on')) return;
+  if (e.target && e.target.closest && e.target.closest('#audio') && ['INPUT','BUTTON'].includes(e.target.tagName) && e.code !== 'Escape') return;
   if (e.target && e.target.closest && e.target.closest('#ach') && ['INPUT','SELECT'].includes(e.target.tagName)) return;
   if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space', 'Tab'].includes(e.code) || (e.code === 'Enter' && topScreen())) e.preventDefault();
   keys.add(e.code); Snd.init();
@@ -15499,7 +15501,7 @@ function show(id) { if (PC && document.activeElement && document.activeElement.b
 function hudOnly() { for (const s of SCREENS) $(s).classList.remove('on'); $('pauseBtn').classList.remove('hidden'); }
 function bind(id, fn) { $(id).addEventListener('click', e => { Snd.init(); Snd.play('click'); fn(e); }); }
 setTimeout(() => { bind('btnNpcLeave', () => { const n = npcCur; if (n) { npcSayMsg(NPCS[n.nt].bye); } npcClose(); }); $('npcTalk').addEventListener('click', () => { Snd.init(); if (NPC_NEAR) npcOpen(NPC_NEAR); }); }, 0); /* v22 */
-function muteLabel() { const a = Snd.A, t = '♪ Audio' + (!a.musicOn && !a.sfxOn ? ' (muted)' : ''); $('btnMuteT').textContent = t; $('btnMuteP').textContent = t; }
+function muteLabel() { $('btnMuteT').textContent = '⚙ Settings'; $('btnMuteP').textContent = '⚙ Settings'; }
 function goTitle() {
   state = 'title'; G = null; show('title'); muteLabel(); Snd.music('title');
   const run = loadRun(); $('btnCont').classList.toggle('hidden', !run); $('btnPlay').classList.toggle('primary', !run);
@@ -16080,23 +16082,32 @@ function showGameOver(quit) {
 
 bind('btnPlay', () => { if (loadRun()) { askConfirm('Abandon current run?', 'You keep the Shards and class XP earned so far, as if you retreated.', 'Abandon', () => { if (abandonSavedRun()) return; goRace(); }); return; } goRace(); });
 bind('btnCont', continueRun); bind('btnShop', () => goShop('title'));
-let audFrom = 'title';
-function goAudio(from) { audFrom = from; show('audio'); if (from === 'pause') $('pauseBtn').classList.add('hidden'); renderAudio(); }
+let settingsFrom = 'title';
+function goSettings(from = 'title') {
+  if (from === 'pause' && (state === 'play' || state === 'countdown')) pauseGame();
+  settingsFrom = from === 'pause' && state === 'paused' ? 'pause' : 'title'; keys.clear(); show('audio');
+  $('settingsContext').textContent = settingsFrom === 'pause' ? 'Your hunt is paused. Return to the pause menu when you are ready.' : 'Preferences apply to this device and are kept between hunts.';
+  $('btnAudBack').textContent = settingsFrom === 'pause' ? '← Back to pause' : '← Back to main menu';
+  $('spellVisibilityExpansion').value = expansionOpacity(); $('spellVisibilityValueExpansion').textContent = expansionOpacity() + '%';
+  renderAudio(); jumpLbl(); rumbleLbl();
+}
+function closeSettings() { persist(); keys.clear(); muteLabel(); if (settingsFrom === 'pause' && state === 'paused') show('pause'); else goTitle(); }
 function renderAudio() { const a = Snd.A;
   for (const k of ['music', 'sfx']) { $('vol_' + k).value = Math.round(a[k] * 100); $('val_' + k).textContent = Math.round(a[k] * 100) + '%'; const b = $('tog_' + k), on = a[k + 'On'];
-    b.textContent = on ? 'On' : 'Muted'; b.classList.toggle('off', !on); $('row_' + k).classList.toggle('muted', !on); } }
+    b.textContent = on ? 'On' : 'Muted'; b.setAttribute('aria-pressed', String(on)); b.classList.toggle('off', !on); $('row_' + k).classList.toggle('muted', !on); } }
 for (const k of ['music', 'sfx']) {
   $('vol_' + k).addEventListener('input', e => { const a = Snd.A; a[k] = e.target.value / 100; if (a[k] > 0) a[k + 'On'] = true; save.muted = !a.musicOn && !a.sfxOn; Snd.init(); Snd.applyVol(); renderAudio(); if (k === 'sfx') Snd.play('pick'); });
   $('vol_' + k).addEventListener('change', () => persist());
   bind('tog_' + k, () => { const a = Snd.A; a[k + 'On'] = !a[k + 'On']; save.muted = !a.musicOn && !a.sfxOn; persist(); Snd.applyVol(); renderAudio(); muteLabel(); }); }
 bind('btnAudTest', () => { const l = ['swish', 'zap', 'summon', 'twang', 'scythe', 'hum', 'kill', 'levelup']; l.forEach((n, i) => setTimeout(() => Snd.play(n), i * 260)); });
-bind('btnAudBack', () => { persist(); muteLabel(); if (audFrom === 'pause' && state === 'paused') { show('pause'); } else goTitle(); });
-bind('btnMuteT', () => goAudio('title')); bind('btnMuteP', () => goAudio('pause'));
+bind('btnAudBack', closeSettings);
+bind('btnMuteT', () => goSettings('title')); bind('btnMuteP', () => goSettings('pause'));
+bind('btnSettingsControls', () => goKeys('settings'));
 bind('btnHow', () => { state = 'how'; show('how'); }); bind('btnHowBack', goTitle);
 let keysFrom = 'title';
 function goKeys(from) { keysFrom = from; show('keys'); if (from === 'pause') $('pauseBtn').classList.add('hidden'); }
 bind('btnKeys', () => goKeys('title')); bind('btnKeysP', () => goKeys('pause')); bind('btnKeysH', () => goKeys('how'));
-bind('btnKeysBack', () => { if (keysFrom === 'pause' && state === 'paused') show('pause'); else if (keysFrom === 'how') show('how'); else goTitle(); });
+bind('btnKeysBack', () => { if (keysFrom === 'settings') return goSettings(settingsFrom); if (keysFrom === 'pause' && state === 'paused') show('pause'); else if (keysFrom === 'how') show('how'); else goTitle(); });
 bind('btnGo', goMaps); bind('btnMapGo', goRunPrep); bind('btnMapBack', goSelect); bind('btnSelBack', goRace); bind('btnSelRace', goRace);
 bind('btnRaceNext', () => { save.race = selRace; persist(); goSelect(); }); bind('btnRaceBack', goTitle);
 /* ---- Achievements screen ---- */
@@ -16165,7 +16176,7 @@ $('cfm').addEventListener('click', e => { if (e.target.id === 'cfm') cfmClose(fa
 bind('tog_rumble', () => { save.rumble = save.rumble === false; persist(); rumbleLbl(); if (save.rumble) padRumble(0.4, 0.6, 160); });
 bind('tog_jsfx', () => { save.jumpSfx = save.jumpSfx === false; persist(); jumpLbl(); if (save.jumpSfx) Snd.play('hop'); });
 bind('tog_jbtn', () => { save.jumpBtn = !save.jumpBtn; persist(); jumpLbl(); });
-function jumpLbl() { for (const [id, on] of [['tog_jsfx', save.jumpSfx !== false], ['tog_jbtn', !!save.jumpBtn]]) { const t = $(id); if (!t) continue; t.textContent = on ? 'On' : 'Off'; t.classList.toggle('off', !on); } } jumpLbl();
+function jumpLbl() { for (const [id, on] of [['tog_jsfx', save.jumpSfx !== false], ['tog_jbtn', !!save.jumpBtn]]) { const t = $(id); if (!t) continue; t.textContent = on ? 'On' : 'Off'; t.setAttribute('aria-pressed', String(on)); t.classList.toggle('off', !on); } } jumpLbl();
 { const ub = $('ultBtn'); /* v30 Ultimate button: never starts the joystick */
   ub.addEventListener('pointerdown', e => { e.stopPropagation(); e.preventDefault(); Snd.init(); if (state === 'play') ultCast(true); });
   ub.addEventListener('click', e => { e.stopPropagation(); if (e.detail === 0 && state === 'play') ultCast(true); }); }
@@ -16173,7 +16184,7 @@ function jumpLbl() { for (const [id, on] of [['tog_jsfx', save.jumpSfx !== false
   jb.addEventListener('pointerdown', e => { e.stopPropagation(); e.preventDefault(); JB.held = 1; if (state === 'play') triggerJump(false, true); });
   for (const ev of ['pointerup', 'pointercancel', 'pointerleave']) jb.addEventListener(ev, () => { JB.held = 0; });
   jb.addEventListener('click', e => { e.stopPropagation(); if (e.detail === 0 && state === 'play') triggerJump(false, true); }); }
-function rumbleLbl() { const t = $('tog_rumble'); if (!t) return; const on = save.rumble !== false; t.textContent = on ? 'On' : 'Off'; t.classList.toggle('off', !on); } rumbleLbl();
+function rumbleLbl() { const t = $('tog_rumble'); if (!t) return; const on = save.rumble !== false; t.textContent = on ? 'On' : 'Off'; t.setAttribute('aria-pressed', String(on)); t.classList.toggle('off', !on); } rumbleLbl();
 { // v14 quest tracker: deliberate taps toggle details; a steering drag never lands here (the canvas holds pointer capture)
   const tb = $('qTrack'); let pd = null; const tog = () => { qExp = !qExp; qExpT = 6; qSig = ''; if (qExp && dmExp) { dmExp = false; dmSig = ''; } Snd.init(); Snd.play('click'); };
   tb.addEventListener('pointerdown', e => { e.stopPropagation(); pd = { x: e.clientX, y: e.clientY, t: performance.now(), ok: !joy.on }; });

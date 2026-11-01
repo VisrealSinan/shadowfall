@@ -1,11 +1,11 @@
 {
- "version": "82",
+ "version": "83",
  "date": "2026-11-01",
  "minLauncher": "2.0.0",
  "notes": [
-  "New Origins, Callings and Night Atlas selection scenes.",
-  "Full customized hero showcases, class dossiers and destination previews.",
-  "Polished navigation and responsive layouts throughout hunt selection."
+  "Settings is now available on the main menu and pause menu.",
+  "Audio, spell visibility and controller/touch preferences in one redesigned screen.",
+  "Settings keep your hunt paused and preserve your saved preferences."
  ],
  "files": [
   {
@@ -35,8 +35,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "af1f6ad3b0b8452f89d8d61201cc461f7303bd3b717ac4fb0e55f82df869c3e9",
-   "size": 2848352
+   "sha256": "7345b5d2984abae446b120cbd7d979e2dbc29c1fcf5dc33272cb225058b9093e",
+   "size": 2850000
   },
   {
    "name": "manifest.webmanifest",
@@ -45,8 +45,8 @@
   },
   {
    "name": "sw.js",
-   "sha256": "e0a9f755b4f37193a32593dac163d696961032ba73edc2a905e01f667e6b3913",
-   "size": 2146
+   "sha256": "c2e91e18cc391da12ca24e9339c6254a8246d86a6396fc733dbf7ecfa4f37942",
+   "size": 2171
   },
   {
    "name": "assets/actor-animation-manifest.js",
@@ -4800,8 +4800,8 @@
   },
   {
    "name": "assets/expansion-ui.js",
-   "sha256": "6ef5ea959c4f78a31dec3011f8e2c5d23341b68e73e25100e95beb38a06274e4",
-   "size": 10932
+   "sha256": "63af07b1e2edc54a9fb3428c6c3048f03e3ebc5412956de0efdd757c0524bac5",
+   "size": 10935
   },
   {
    "name": "assets/expansion-content.js",
@@ -4862,6 +4862,11 @@
    "name": "assets/selection-scenes.css",
    "sha256": "4ec05976160e8c715ca6c5a30fae700717b52b2742d63be60ceeb8ac3ea9233f",
    "size": 21181
+  },
+  {
+   "name": "assets/settings.css",
+   "sha256": "5dc6a1edd9d64c6947b24991c38d01a9b74d7d472aebdfcc58be70b6a0c09a91",
+   "size": 6535
   }
  ]
 }

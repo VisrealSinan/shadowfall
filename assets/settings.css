@@ -1,0 +1,46 @@
+#audio.settings-screen{align-items:stretch;padding:30px 30px 0;background:radial-gradient(ellipse at 10% 10%,#34445644,transparent 60%),#11161d;color:#dce0dc}
+.settings-shell{width:min(1050px,100%);min-height:100%;margin:0 auto;display:flex;flex-direction:column}
+.settings-heading{position:relative;padding:0 0 25px;margin-bottom:24px;border-bottom:1px solid #b3b7a82e}
+.settings-heading>span{font-size:9px;letter-spacing:.23em;color:#b9b59b}
+#audio .settings-heading h2{font:400 clamp(36px,4vw,50px)/1.15 Georgia,serif;letter-spacing:-.035em;text-align:left;text-transform:none;background:none;color:#ede5d1;margin:10px 0}
+.settings-heading>p{font-size:12px;color:#94a1a5;margin:0;line-height:1.7}
+.settings-heading>i{position:absolute;right:12px;top:5px;font:64px Georgia,serif;color:#b9b59b55;font-style:normal}
+.settings-layout{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start;flex:1}
+.settings-column{display:grid;gap:22px;min-width:0}
+.settings-card{min-width:0;border:1px solid #aeb6ad30;border-radius:5px;background:linear-gradient(140deg,#26313a88,#151d25);padding:22px}
+.settings-card>header{display:flex;gap:13px;align-items:center;margin-bottom:19px}
+.settings-card>header>i{display:grid;place-items:center;flex:0 0 35px;height:35px;border:1px solid #bdb79c40;border-radius:50%;color:#c9c6a5;font-size:18px;font-style:normal}
+#audio.settings-screen .settings-card h3{font:400 25px/1.2 Georgia,serif;letter-spacing:-.02em;text-transform:none;color:#e1dcc9;margin:0 0 4px}
+.settings-card>header p{font-size:10px;color:#87999f;line-height:1.5;margin:0}
+#audio.settings-screen .audrow{padding:15px 0;border-bottom:1px solid #aeb6ad25;margin:0;width:100%;background:none;box-shadow:none}
+#audio.settings-screen .audrow:last-child{border-bottom:0;padding-bottom:0}
+#audio.settings-screen .audhd{gap:9px;flex-wrap:wrap}
+#audio.settings-screen .audhd>b{font-size:12px;color:#d7ddd4;font-weight:500}
+#audio.settings-screen .audic{font-size:15px;color:#a4b4ad;min-width:17px}
+#audio.settings-screen .audval{font-size:10px;color:#8e9ea0;font-weight:400;margin-left:auto}
+#audio.settings-screen .audtog{min-width:53px;min-height:34px;padding:7px 10px;font-size:10px;font-weight:500;border:1px solid #b9c7a455;border-radius:3px;color:#d7e0c3;background:#344139;box-shadow:none}
+#audio.settings-screen .audtog.off{background:#302e31;border-color:#9b929637;color:#a7a0a4}
+#audio.settings-screen input[type=range]{appearance:none;width:100%;height:32px;margin:12px 0 0;background:transparent;cursor:pointer;accent-color:#b9c5ab}
+#audio.settings-screen input[type=range]::-webkit-slider-runnable-track{height:5px;border-radius:3px;background:linear-gradient(90deg,#657f83,#bfc5a4)}
+#audio.settings-screen input[type=range]::-webkit-slider-thumb{appearance:none;width:18px;height:18px;border-radius:50%;border:3px solid #3b4c4b;margin-top:-6.5px;background:#e7e4c6;box-shadow:0 0 12px #c7d0ac22}
+#audio.settings-screen .audnote{font-size:10px;line-height:1.8;color:#82959c;text-align:left;margin:15px 0 0}
+#audio.settings-screen .settings-action{min-height:38px;border:1px solid #adb99d3d;border-radius:3px;background:#28353a;color:#c2ccbf;font:500 11px system-ui;box-shadow:none;margin:16px 0 0;padding:10px 13px;letter-spacing:0;width:100%}
+.settings-visibility>label{display:inline-block;font-size:12px;color:#d7ddd4;margin-top:3px}
+.settings-visibility>output{float:right;color:#d8d5b5;font:400 19px Georgia,serif}
+.settings-visibility>p{font-size:10px;line-height:1.8;color:#8f9fa0;margin:8px 0 0}
+.settings-range-labels{display:flex;justify-content:space-between;color:#7f9399;font-size:9px;margin:1px 0 0}
+.settings-state{display:flex;align-items:center;gap:8px;margin-top:18px;padding:12px 14px;border:1px solid #aeb6ad25;border-radius:3px;background:#122027;color:#9eada7;font-size:10px;line-height:1.7}
+.settings-state:before{content:"";flex:0 0 5px;height:5px;border-radius:50%;background:#bdc799;box-shadow:0 0 9px #bdc79944}
+#audio.settings-screen .settings-footer{position:sticky;bottom:0;display:flex;flex-direction:row;justify-content:space-between;align-items:center;gap:18px;width:100%;max-width:none;padding:17px 0;margin:25px 0 0;border-top:1px solid #aeb6ad30;background:linear-gradient(0deg,#11161d 85%,#11161def);box-shadow:none;z-index:5}
+.settings-footer>span{font-size:10px;color:#84979a}
+#audio.settings-screen .settings-footer .btn{width:auto;margin:0;min-width:190px;min-height:44px;padding:12px 18px;border:1px solid #b3c09e66;border-radius:4px;background:linear-gradient(120deg,#526450,#354d47);color:#efe9cc;box-shadow:none;font-size:12px;letter-spacing:0}
+#audio.settings-screen .settings-footer:before,#audio.settings-screen .settings-footer:after,#audio.settings-screen .btn:before,#audio.settings-screen .btn:after{display:none}
+#audio.settings-screen button:focus-visible,#audio.settings-screen input:focus-visible{outline:2px solid #d1d2a8;outline-offset:4px}
+#btnMuteT.settings-entry,#btnMuteP.settings-entry{width:min(80vw,300px);margin:4px 0;font-size:14px}
+@media(min-width:1200px){.pc #audio.settings-screen{zoom:1.15}}
+@media(max-width:700px){#audio.settings-screen{padding:23px 16px 0}.settings-heading{padding-bottom:20px;margin-bottom:20px}.settings-heading>i{font-size:48px;right:0}.settings-heading>p{max-width:80%}.settings-layout{grid-template-columns:1fr;gap:18px}.settings-column{gap:18px}.settings-card{padding:20px}.settings-footer>span{max-width:40%;line-height:1.6}#audio.settings-screen .settings-footer .btn{min-width:0;font-size:11px}#audio.settings-screen .audhd>b{font-size:12px}#audio.settings-screen .audval{font-size:9px}}
+@media(prefers-reduced-motion:reduce){.settings-screen *{animation:none!important;transition:none!important}}
+
+#audio.settings-screen .audic{background:none;border:0;box-shadow:none;width:20px;height:24px;border-radius:0}#audio.settings-screen input[type=range]::-webkit-slider-runnable-track{border:0}.settings-visibility{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;column-gap:14px}.settings-visibility>label{grid-column:1;grid-row:1}.settings-visibility>output{grid-column:2;grid-row:1;float:none}.settings-visibility>input{grid-column:1/-1;grid-row:2}.settings-visibility>p{grid-column:1/-1;grid-row:3}.settings-heading{padding-bottom:19px;margin-bottom:20px}.settings-state{padding:10px 13px;margin-top:14px}#audio.settings-screen .audrow{padding:11px 0}
+
+body:has(#audio.settings-screen.on) :is(#dailyTrack70,#modBadge,#qTrack,#dmgBtn,#huntTimerExpansion,#jumpBtn,#ultBtn){display:none!important}

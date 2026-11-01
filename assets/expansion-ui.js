@@ -106,8 +106,8 @@ function expansionWard(body) {
 }
 function expansionInitControls() {
   const p=ShadowExpansion.profile(save);
-  const settings=document.createElement('div');settings.className='stats';settings.innerHTML='<label for="spellVisibilityExpansion">Player spell visibility</label><input id="spellVisibilityExpansion" type="range" min="5" max="100" step="5" value="'+expansionOpacity()+'"><output id="spellVisibilityValueExpansion">'+expansionOpacity()+'%</output><p>Fades your spells and decorative particles. Enemy attacks and warning zones stay visible.</p>';
-  $('audio').insertBefore(settings,$('audio').children[1]);$('spellVisibilityExpansion').oninput=e=>{save.spellVisibilityExpansion=+e.target.value;$('spellVisibilityValueExpansion').textContent=e.target.value+'%';persist();};
+  const settings=document.createElement('div');settings.className='settings-visibility';settings.innerHTML='<label for="spellVisibilityExpansion">Player spell visibility</label><input id="spellVisibilityExpansion" type="range" min="5" max="100" step="5" value="'+expansionOpacity()+'"><output id="spellVisibilityValueExpansion">'+expansionOpacity()+'%</output><p>Fades your spells and decorative particles. Enemy attacks and warning zones stay visible.</p>';
+  $('settingsVisibility').appendChild(settings);$('spellVisibilityExpansion').oninput=e=>{save.spellVisibilityExpansion=+e.target.value;$('spellVisibilityValueExpansion').textContent=e.target.value+'%';persist();};
   const random=document.createElement('label');random.className='selection-random';random.innerHTML='<input id="randomBuildExpansion" type="checkbox" '+(save.randomBuildExpansion?'checked':'')+'> Random build · auto-pick skills and passives every level';$('selectionRandom').appendChild(random);$('randomBuildExpansion').onchange=e=>{save.randomBuildExpansion=e.target.checked;persist();};
   const palettes=[['Moonlit','#28386a','#080d22','#a8dfff','stars'],['Ember','#a43a20','#270905','#ffd08a','stripes'],['Verdant','#28543d','#061e11','#b5ff9a','scales'],['Ivory','#c4bbc9','#36303b','#fff3cf','filigree'],['Voidbound','#38224d','#0e0417','#ee9dff','runes']];
   for(const cls of Object.keys(CLASSES)){
