@@ -11,6 +11,7 @@ test('every launcher content file has the advertised size and SHA-256', () => {
     assert.ok(!seen.has(file.name), 'duplicate ' + file.name);
     seen.add(file.name);
     const data = fs.readFileSync(path.join(root, file.name));
+    if (/\.(js|html|json|css|svg|txt|webmanifest)$/.test(file.name)) assert.ok(!data.includes(13), file.name + ' must use LF to match GitHub hosting');
     assert.equal(data.length, file.size, file.name + ' size');
     assert.equal(crypto.createHash('sha256').update(data).digest('hex'), file.sha256, file.name + ' hash');
   }

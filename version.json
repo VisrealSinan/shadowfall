@@ -1,11 +1,11 @@
 {
- "version": "76",
+ "version": "77",
  "date": "2026-11-01",
  "minLauncher": "2.0.0",
  "notes": [
   "Main game update: Lost Shadows, Shard outfits, secret survivors and 150 new class/form skills.",
   "Adds final-boss victory/endless choices, map difficulty, late-run enemies, spell visibility, random builds and Druid starting forms.",
-  "Standard launcher content update; no separate expansion required. Includes verified asset manifest."
+  "Normal launcher update with consistent file verification on Windows and GitHub hosting."
  ],
  "files": [
   {
@@ -45,7 +45,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "afa5fc64212092beb28290b38229585e03850f03e49f00282c0f839875b50871",
+   "sha256": "84ff8ec3fb2d2ebd1357c85e61917be5a1b90f9d812eed282e3386ba168a3131",
    "size": 1819
   },
   {
@@ -4795,18 +4795,18 @@
   },
   {
    "name": "assets/expansion-rules.js",
-   "sha256": "ba282ef65c63204c153ec1e325fdda5b86feac025b76eb8ef7b25a740a669fc5",
-   "size": 1318
+   "sha256": "d54166e99ae5923071e66e1a0e68083af8a111cff6a7f01eb8c10db879e3e7d2",
+   "size": 1317
   },
   {
    "name": "assets/expansion-ui.js",
-   "sha256": "ef6ca027d417b38ab718242065f563af328cc1681a2c93d7383d6c52e612d8bd",
-   "size": 11635
+   "sha256": "865183805ed0d59cfb49be6cf9aa9b106f7b66d6648bd2457f63d78b2b4317ad",
+   "size": 11632
   },
   {
    "name": "assets/expansion-content.js",
-   "sha256": "a9256c50137c19379cf575a478a556e2b5c5ae4fc76139feba9cb169f915207b",
-   "size": 11175
+   "sha256": "8aec7e76715b5e224765c9d5fe70728d7d44aeebd17c9919ef6ecdd59304634c",
+   "size": 11173
   }
  ]
 }

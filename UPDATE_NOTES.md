@@ -1,4 +1,4 @@
-# Shadowfall v76 game update
+# Shadowfall v77 game update
 
 These features are integrated into the main Shadowfall game and delivered through the standard launcher content update. No separate expansion or installation is required.
 
