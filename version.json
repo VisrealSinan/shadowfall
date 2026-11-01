@@ -1,12 +1,11 @@
 {
- "version": "72",
+ "version": "73",
  "date": "2026-10-31",
  "minLauncher": "2.0.0",
  "notes": [
-  "Dedicated animation sheets for 132 enemy types, including 28 bosses.",
-  "Adds 792 six-frame sequences for idle, movement, windup, attacks, hit reactions and defeat poses.",
-  "Improved frame fitting keeps weapons, wings and tails within their rendered frames.",
-  "75 enemy types await the next artwork pass; the completed sprites are ready to play now."
+  "Lost Shadows appear every 500 kills on every map and award cosmetic Outfit Shards.",
+  "Adds a 15-minute final boss with an End Round or Continue Endless choice.",
+  "Map-specific difficulty unlocks at 15 minutes; tougher enemies at 15 minutes and stronger hits after 20 minutes."
  ],
  "files": [
   {
@@ -36,8 +35,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "2a0fe4f0d8e19e2f82a3b4a0a064b47b7e59e9581831b8acba70c0c5cdaf2bcb",
-   "size": 2835378
+   "sha256": "c16ea9ab436d96b99b03a55526c05f8818c26167437bf220429e3f9c332d0155",
+   "size": 2836059
   },
   {
    "name": "manifest.webmanifest",
@@ -4793,6 +4792,16 @@
    "name": "assets/warlock-troll-male.png",
    "sha256": "a4250fa5454257174bd91fed815d0a8492ee6dc8161ca8eabd2f0a3846cee0fb",
    "size": 1510933
+  },
+  {
+   "name": "assets/expansion-rules.js",
+   "sha256": "ba282ef65c63204c153ec1e325fdda5b86feac025b76eb8ef7b25a740a669fc5",
+   "size": 1318
+  },
+  {
+   "name": "assets/expansion-ui.js",
+   "sha256": "a570d4fea54ca9d90974d32d28a7a0f05a5733f1c513d861fddfa2fe856e4f45",
+   "size": 4869
   }
  ]
 }

@@ -1578,6 +1578,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
 <script src="assets/enemy-art.js"></script>
 <script src="assets/actor-animation-manifest.js"></script>
 <script src="assets/actor-animations.js"></script>
+<script src="assets/expansion-rules.js"></script>
+<script src="assets/expansion-ui.js"></script>
 <script src="assets/progression.js"></script>
 <script src="assets/progression-ui.js"></script>
 <script>
@@ -8405,6 +8407,7 @@ function newRun(cls, challenge = null) {
     pending: 0, shardsPicked: 0, salvage: 0, bossKills: 0, elites: 0, nextElite: 50, nextBoss: 180, bossIdx: 0, nextSurge: 70, spawnAcc: 0,
     revived: false, wasNight: false, outfit: save.outfit, shake: 0, later: [], healPool: 0, bondPool: 0, critBuffT: 0, minionKills: 0, moved: false, dyingT: 0, boss: null, hurtFlash: 0, lowT: 0, achRun: {}, achNew: [], achT: 0, quests: [], qNext: 60, qStats: { done: 0, failed: 0, shards: 0, gear: 0 }, qN: 0, evo: {}, dm: {}, dmTot: 0, catPool: 0, gold: 0, goldEarned: 0, goldSpent: 0, npcs: [], npcNext: 90, npcN: 0, npcBuys: 0, npcVisits: 0, npcSeen: 0 };
   G.challengeDate = challenge ? challenge.date : ''; G.daily = !!challenge;
+  G.expansion = expansionNew(challenge);
   G.mods = challenge ? dailyMods50(challenge.date) : modsForRun50();
   G.outfit = challenge ? 'crimson' : save.outfit;
   G.rerolls = challenge ? 1 : 1 + mr('quick') + (masteryRank70(cls) >= 2 ? 1 : 0);
@@ -8489,11 +8492,11 @@ function catPurge(quiet) { // v18: Shadowcat is pure melee — shed every ranged
   if (!quiet) toast(`🐾 Pure melee: ${names.length > 2 ? names.length + ' nature skills' : names.join(' & ')} shed → +${n} free pick${n > 1 ? 's' : ''}`, '#ff9ab8', 3.4);
   return n; }
 const SKILL_SLOTS = 6; // v25: a hero carries up to 6 skills (v27: named so tools/sim_balance.py can read it)
-const RUN_STATES = { play: 1, paused: 1, levelup: 1, gear: 1, countdown: 1, equip: 1, npc: 1 };
+const RUN_STATES = { victory: 1, play: 1, paused: 1, levelup: 1, gear: 1, countdown: 1, equip: 1, npc: 1 };
 const r1 = v => Math.round(v * 10) / 10;
 function serializeRun() {
   const g = {}; for (const k of ['cls', 'race', 'outfit', 't', 'kills', 'level', 'xp', 'xpNext', 'passives', 'gear', 'pending', 'shardsPicked', 'salvage', 'bossKills', 'elites', 'nextElite', 'nextBoss',
-    'map', 'mods', 'daily', 'challengeDate', 'w28', 'bossIdx', 'bossBag', 'bossLast', 'nextSurge', 'spawnAcc', 'revived', 'wasNight', 'healPool', 'bondPool', 'critBuffT', 'minionKills', 'moved', 'pendingChest', 'nextLoot', 'rushT', 'aegisT', 'kept', 'luChoices', 'tal', 'undyingUsed', 'tollT', 'rwT', 'sgT', 'achRun', 'achNew', 'dv', 'ancCd', 'frzCd', 'wsT', 'mcT', 'mwT', 'mvT', 'arc', 'stage', 'nextMini', 'surgeN', 'quests', 'qNext', 'qStats', 'qN', 'qLast', 'evo', 'dm', 'catPool', 'catRefund', 'obSeed', 'obGone', 'rerolls', 'gold', 'goldEarned', 'goldSpent', 'npcs', 'npcNext', 'npcN', 'npcLast', 'npcBuys', 'npcVisits', 'npcSeen', 'bufE', 'bufH', 'bufA', 'deathward', 'goldBud', 'portal', 'portalNext', 'townVisits', 'npcHp', 'mimic45']) g[k] = G[k];
+    'expansion', 'map', 'mods', 'daily', 'challengeDate', 'w28', 'bossIdx', 'bossBag', 'bossLast', 'nextSurge', 'spawnAcc', 'revived', 'wasNight', 'healPool', 'bondPool', 'critBuffT', 'minionKills', 'moved', 'pendingChest', 'nextLoot', 'rushT', 'aegisT', 'kept', 'luChoices', 'tal', 'undyingUsed', 'tollT', 'rwT', 'sgT', 'achRun', 'achNew', 'dv', 'ancCd', 'frzCd', 'wsT', 'mcT', 'mwT', 'mvT', 'arc', 'stage', 'nextMini', 'surgeN', 'quests', 'qNext', 'qStats', 'qN', 'qLast', 'evo', 'dm', 'catPool', 'catRefund', 'obSeed', 'obGone', 'rerolls', 'gold', 'goldEarned', 'goldSpent', 'npcs', 'npcNext', 'npcN', 'npcLast', 'npcBuys', 'npcVisits', 'npcSeen', 'bufE', 'bufH', 'bufA', 'deathward', 'goldBud', 'portal', 'portalNext', 'townVisits', 'npcHp', 'mimic45']) g[k] = G[k];
   g.weapons = G.weapons.map(w => [w.id, w.lvl]);
   /* v27: inside the Safe Haven the real battlefield is stashed in G.town.st - save that world (and where you left it) plus the town itself */
   const TW = G.town, st = TW && TW.st, EN = st ? st.enemies : enemies, BOSS = st ? st.boss : G.boss, PK = st ? st.picks : picks; if (st) g.npcs = st.npcs;
@@ -8566,7 +8569,8 @@ function continueRun() {
   Snd.init(); setJoy(false); keys.clear();
   try { restoreRun(r); } catch (err) { console.warn('run restore failed', err); clearRun(); goTitle(); return; }
   if (r.town && typeof r.town === 'object') try { restoreTown(r.town); } catch (err) { console.warn('town restore failed', err); }
-  if (r.ui === 'levelup' && G.pending > 0) openLevelUp(true);
+  if (expansionState().finalDefeated && !expansionState().endless) expansionVictory();
+  else if (r.ui === 'levelup' && G.pending > 0) openLevelUp(true);
   else if (r.ui === 'gear' && r.item && (r.item.slot || r.item.t)) openGear('elite', r.item);
   else { state = 'paused'; show('pause'); muteLabel(); renderBuild(); $('pauseTitle').textContent = 'Run Restored'; $('btnResume').textContent = 'Tap to Resume'; G.countdownNext = true; }
   toast('Run restored', '#9fe8ff', 2.2); if (G.catMig) { G.catMig = 0; toast('🐾 Shadowcat is now pure melee — nature spells refunded as free picks', '#ff9ab8', 3.6); }
@@ -8666,6 +8670,7 @@ function spawnEnemy(type, o = {}) {
     if (e.aff.includes('hasted')) e.spd *= 1.45; if (e.aff.includes('shielded')) e.sh = e.shMax = hp * 0.5; }
   if (d.shield) { e.shMax += hp * d.shield; e.sh = e.shMax; }
   if (d.ai === 'burrower') { e.st = 'under'; e.under = 1; }
+  expansionEnemy(e);
   modEnemy(e);
   enemies.push(e); EnemyArtwork.load(type); return e;
 }
@@ -8682,6 +8687,7 @@ function pickType(t) {
     return Math.min(d.cap || 3, 0.8 + (t - d.t0) / 50) * (d.hp < 20 ? Math.max(0.35, 1 - Math.max(0, t - d.t0 - 480) / 900) : 1); });
 }
 function spawnDirector(dt) {
+  expansionDirector();
   if (G.town) return;
   const t = G.t;
   if ((G.typeT = (G.typeT || 0) - dt) <= 0) { G.typeT = 0.5; const c = {}; for (const e of enemies) if (!e.dead) c[e.type] = (c[e.type] || 0) + 1; G.typeN = c; }
@@ -8703,7 +8709,7 @@ function spawnDirector(dt) {
   if (t >= G.nextElite) { G.nextElite += Math.max(22, 45 - t / 50); const e = spawnEnemy(pickType(t), { elite: true }); toast('★ Elite monster' + (e.aff.length ? ': ' + e.aff.map(a => EAFF[a].n).join(' ') : ''), '#ffd24a', 3, 'Kill it for a treasure chest'); Snd.play('elite'); }
   if (G.nextMini === undefined) G.nextMini = 480;
   if (t >= G.nextMini) { G.nextMini += 240; w28Mini(); }
-  if (t >= G.nextBoss) { G.nextBoss += 180; if (t < 1200 && G.nextBoss > 1200) G.nextBoss = 1200; /* v45: the first boss pair arrives at exactly 20:00 */ const twin = t >= 1200, list = [bossNext36()]; if (twin) list.push(bossNext36());
+  if (t >= G.nextBoss && (t < 900 || (G.expansion && G.expansion.endless))) { G.nextBoss += 180; if (t < 1200 && G.nextBoss > 1200) G.nextBoss = 1200; /* v45: the first boss pair arrives at exactly 20:00 */ const twin = t >= 1200, list = [bossNext36()]; if (twin) list.push(bossNext36());
     for (const type of list) { const b = spawnEnemy(type); if (!G.boss || G.boss.dead) G.boss = b; G.bossIdx++; }
     if (t >= 900) spawnEnemy('juggernaut');
     announce((list.length > 1 ? '☠ BOSSES: ' : '☠ BOSS: ') + list.map(k => ETYPES[k].name).join(' & '), twin ? 'Two bosses at once · dodge the red zones' : 'Dodge the red warning zones', '#ff5a5a', 'boss'); G.shake = 0.5; }
@@ -8840,7 +8846,7 @@ function updateEnemies(dt, dying) {
   }
 }
 function damage(e, base, o = {}) {
-  if (e.dead) return 0;
+  if (e.dead || ETYPES[e.type].invincible) return 0;
   const sk = pxId(o.src || (o.msrc ? MSRC[o.msrc] : null) || G.srcW || (o.minion ? 'familiars' : '@other')), ev = G.evo && G.evo[sk] ? EVO[sk] : null; if (!o.dot && SND32.aura[sk]) SND32.touch(sk, o.msrc); // v18: damage source (meter) & evolution; v32: aura/minion skill voices
   let d = base * P.dmg * (ev ? ev.dmg : 1) * (1 + ((P.skd && P.skd[sk]) || 0)), crit = false;
   const cl = G.cls;
@@ -9006,7 +9012,8 @@ function mimicCheck45() { if (!G || G.town || !P) return; while ((G.mimic45 | 0)
 function mimicDie45(e) { for (const c of ['#c898ff', '#80d0f0', '#ffe060', '#ff5ad8']) burst(e.x, e.y - 12, c, 7, 170, 3, 0.9, true);
   picks.push({ k: 'chest', x: e.x, y: e.y }); dropGold(e.x, e.y + 14, 25 + G.t / 20, 6); toast('🎁 The mimic coughs up its treasure!', '#c898ff', 2.4); }
 function killEnemy(e) {
-  if (e.dead) return; e.dead = true; G.kills++; questKill(e); if (P.killRush) G.sclT = 1.5; achAdd('c_' + G.cls + '_k', 1); achAdd('r_' + G.race + '_k', 1); achAdd('g_kills', 1);
+  if (ETYPES[e.type].invincible) return;
+  if (e.dead) return; expansionKill(e); e.dead = true; G.kills++; questKill(e); if (P.killRush) G.sclT = 1.5; achAdd('c_' + G.cls + '_k', 1); achAdd('r_' + G.race + '_k', 1); achAdd('g_kills', 1);
   modKill(e); const def = ETYPES[e.type]; if (e.type === 'surprisemimic') mimicDie45(e);
   if (SPR.enemy[e.type]) { while (corpses.length >= V31P.cap()) corpses.shift(); const ds = V31P.dstyle(e); corpses.push({ k: e.type, x: e.x, y: e.y, f: e.face < 0 ? -1 : 1, sc: e.sc || 1, t: 0, d: (e.boss ? 1.4 : e.elite || e.mini ? 0.9 : 0.55) * (ds === 'dis' ? 1.3 : ds === 'b36' ? 1.45 : ds === 'gift45' ? 1.7 : 1), el: !!(e.elite || e.boss), s: ds, sd: Math.random() }); }
   burst(e.x, e.y, def.puff, e.boss ? 40 : e.elite ? 20 : 7, e.boss ? 220 : 110, e.boss ? 5 : 3, 0.55);
@@ -12491,6 +12498,7 @@ function updatePickups(dt) {
   picks = picks.filter(p => !p.dead); picks.push = obPush;
 }
 function update(dt, dying) {
+  if (!dying && !G.town) expansionTick(dt);
   for (let i = corpses.length - 1; i >= 0; i--) if ((corpses[i].t += dt) >= corpses[i].d) corpses.splice(i, 1);
   if (!dying) { if (!G.town) { G.t += dt; if (G.t >= 900 && G.map !== 'castle' && G.map !== 'heart' && !ZN39[G.map] && !save.ach.p.f15) { save.ach.p.f15 = 1; achCheck(false); } if (G.t >= 900 && G.map === 'castle' && !save.ach.p.c15) { save.ach.p.c15 = 1; achCheck(false); persist(); G.later.push({ t: 2.5, f: heartUnlocked36 }); toast('♡ Heartfall Belfry unlocked!', '#ff8ab0', 3.2); } for (const zk of ZN39_ORDER) { const z = ZN39[zk]; if (G.t >= 900 && G.map === z.prev && !save.ach.p[z.prog]) { save.ach.p[z.prog] = 1; achCheck(false); persist(); G.later.push({ t: 2.5, f: () => zoneUnlocked39(z) }); toast(z.ic + ' ' + z.name + ' unlocked!', z.col, 3.2); } } } jumpTick(); }
   if (!dying) { const want = G.town ? 'title' : musicName(); if (!Snd.cur || Snd.cur.name !== want) Snd.music(want); }
@@ -12539,7 +12547,8 @@ function update(dt, dying) {
   if (G.boss && G.boss.dead) G.boss = enemies.find(e => e.boss && !e.dead) || null;
 
   if (!dying && state === 'play') {
-    if (G.pendingChest && G.pendingChest.length) gearDrop(G.pendingChest.shift());
+    if (expansionState().finalDefeated && !expansionState().endless) expansionVictory();
+    else if (G.pendingChest && G.pendingChest.length) gearDrop(G.pendingChest.shift());
     else if (G.pending > 0) openLevelUp();
   }
 }
@@ -14819,7 +14828,7 @@ function render(dt) {
       ctx.beginPath(); ctx.ellipse(e.x, ry, sz * 0.42, sz * 0.14, 0, 0, TAU); ctx.stroke(); ctx.setLineDash([]); ctx.strokeStyle = hexA(gc, 0.25); ctx.beginPath(); ctx.ellipse(e.x, ry, sz * 0.5, sz * 0.17, 0, 0, TAU); ctx.stroke(); }
     if (e.st === 'blink') ctx.globalAlpha = 0.45;
     // v15: 4-step walk/flap cycle paced to speed, wind-up pose before attacks, flinch tilt on hit; squash only for oozes, hover bob for floaters
-    const A = SPR.enemy[e.type], frz = e.frzT > 0, flt = eFloats(e.type), wind = !frz && eWind(e, def),
+    const A = SPR.enemy[e.type] || SPR.enemy[def.artBase] || SPR.enemy.warden, frz = e.frzT > 0, flt = eFloats(e.type), wind = !frz && eWind(e, def),
       fi = frz ? 0 : Math.floor(gtime * (flt ? 7 : clamp(4 * e.spd / (def.size * 0.55), 2.5, 9) * (e.st === 'charge' || e.st === 'dash' ? 2 : 1)) + e.seed * 4) & 3;
     const fr = wind ? A.wind : A[fi], img = e.flash > 0 ? fr.flash : fr.img;
     if (e.type === 'ghost') ctx.globalAlpha = 0.85;
@@ -15597,6 +15606,7 @@ function goSelect() {
   renderSelect();
 }
 function renderSelect() {
+  expansionSelect();
   $('selShards').textContent = '◆ ' + save.shards; const rc = RACES[raceOf(save.race)];
   $('btnSelRace').innerHTML = `Race: <b>${rc.name}</b> <span>change ›</span>`;
   { const open = castleOpen() || moonOpen47(), hOpen = heartOpen(), cur = selMap36(), mb = $('btnSelMap'); mb.classList.toggle('locked', !open); mb.dataset.map = cur;
@@ -16015,7 +16025,7 @@ function keepBtn() { const b = $('btnKeep'); if (!b || !G) return; const ok = GS
 function gearLook(gear, cls) { if (!gear) return null; const o = {}; let n = 0; for (const s of ['head', 'shoulders', 'chest', 'hands', 'waist', 'feet', 'neck', 'legs']) { const it = gear[s]; if (it) { o[s] = { c: shade(it.col, 0.18), a: GRAR[it.r].c, lk: it.look | 0, r: it.r }; n++; } } return n ? o : null; }
 /* game over */
 function showGameOver(quit) {
-  clearRun(); if (G.ended) return; achMax('c_' + G.cls + '_t', Math.floor(G.t)); G.ended = true; qBanClear();
+  clearRun(); if (G.ended) return; expansionSettle(); achMax('c_' + G.cls + '_t', Math.floor(G.t)); G.ended = true; qBanClear();
   { const nb = G.t > save.best && G.t >= 5; if (quit) Snd.music('victory'); else if (nb) setTimeout(() => { if (state === 'over') Snd.music('victory'); }, 2600); }
   const t = G.t, base = Math.floor(t / 10) + Math.floor(G.kills / 20) + G.bossKills * 15 + G.elites * 2, found = G.shardsPicked + G.salvage;
   const goldSh = Math.min(15, Math.floor((G.gold || 0) / 40)); /* v22: leftover gold → a tiny Shard tip (max +15, never multiplied) */
@@ -17352,6 +17362,7 @@ const wlRefund = (function migrateWarlockTalents() { // v8: Warlock tree reworke
   let had = false; for (const k of Object.keys(tr)) if (!ok.has(k)) { delete tr[k]; had = true; }
   if (had) { save.notice = Object.assign({}, save.notice, { wl8: 1 }); persist(); } return had; })();
 function showNotice(txt) { const n = $('notice'); n.textContent = txt; n.classList.add('on'); clearTimeout(n._t); n._t = setTimeout(() => n.classList.remove('on'), 8000); n.onclick = () => n.classList.remove('on'); }
+initExpansion();
 initHunts70();
 goTitle();
 if (achRetro.length) setTimeout(() => titleNote(`${achRetro.length} achievement${achRetro.length > 1 ? 's' : ''} unlocked from your past hunts — see Achievements & Wardrobe`), 400);
