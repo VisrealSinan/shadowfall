@@ -1305,6 +1305,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
 <link rel="stylesheet" href="assets/progression.css">
 <link rel="stylesheet" href="assets/achievement-hall.css">
 <link rel="stylesheet" href="assets/journey-scenes.css">
+<link rel="stylesheet" href="assets/selection-scenes.css">
 </head>
 <body>
 <canvas id="c"></canvas>
@@ -1333,31 +1334,20 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
  <p class="title-edition">BENEATH AN ENDLESS MOON</p>
 </div>
 
-<div id="race" class="screen panel">
- <h2 style="margin-bottom:4px">Choose Your Race</h2>
- <div class="topbar"><span style="color:#cfe0ff;font-size:13px">Every race works with every class</span><span class="shard" id="raceShards"></span></div>
- <div id="raceList"></div>
- <div id="raceDetail" class="rdet"></div>
- <div id="raceSex" class="rsex" role="group" aria-label="Body"></div>
- <div class="spacer" style="min-height:0"></div>
- <div class="selfoot">
-  <button class="btn primary" id="btnRaceNext" style="margin-top:0" data-kh="Enter">Choose Class ›</button>
-  <div class="row"><button class="btn small" id="btnRaceTalents">✧ Ancestry</button><button class="btn small" id="btnRaceBack" data-kh="Esc">Back</button></div>
- </div>
-</div>
+<div id="race" class="screen panel selection-scene"><div class="selection-shell">
+<header class="selection-header"><div><span class="selection-kicker">CHAPTER I · THE BLOOD REMEMBERS</span><h2>Choose your <em>Origin</em></h2><p>Eight bloodlines. A different beginning for every legend.</p></div><nav class="selection-steps" aria-label="Hunt preparation"><span class="current" aria-current="step"><i>1</i>Origin</span><span><i>2</i>Calling</span><span><i>3</i>Destination</span></nav></header>
+<div class="selection-layout"><aside class="selection-showcase origin-showcase"><div class="selection-portrait"><canvas id="originHero" aria-label="Selected race appearance"></canvas></div><div class="selection-identity"><span id="originRole"></span><h3 id="originName"></h3><p id="originFlavor"></p><small id="originPoints"></small></div><div id="raceSex" class="rsex" role="group" aria-label="Body"></div></aside>
+<main class="selection-content"><div class="selection-section-label"><span>THE EIGHT ORIGINS</span><span class="shard" id="raceShards"></span></div><div id="raceList" aria-label="Choose race"></div><div id="raceDetail" class="rdet"></div><p class="origin-note"><b>Bloodline is only the beginning.</b> Every race can follow any class. Shape your heritage through three ancestry paths, with points earned by playing.</p></main></div>
+<footer class="selfoot selection-footer"><div class="row"><button class="btn small" id="btnRaceBack" data-kh="Esc">← Return</button><button class="btn small" id="btnRaceTalents">✧ Explore ancestry</button></div><button class="btn primary" id="btnRaceNext" data-kh="Enter">Choose your class → <kbd>Enter</kbd></button></footer><span id="raceSelectedLabel" class="journey-sr" role="status" aria-live="polite"></span>
+</div></div>
 
-<div id="select" class="screen panel">
- <h2 style="margin-bottom:4px">Choose Your Class</h2>
- <div class="topbar seltop"><button class="racepill" id="btnSelRace"></button><button class="racepill" id="btnSelMap" aria-describedby="selMapMsg"></button><span class="shard" id="selShards"></span></div><div class="selmapmsg" id="selMapMsg" role="status" aria-live="polite"></div><button class="maplock36" id="heartLock36" hidden><i class="hm" aria-hidden="true"></i><span class="t"><b>Heartfall Belfry</b><span>🔒 Survive 15:00 in the Ashen Citadel to unlock</span></span></button><button class="maplock36" id="cellarLock39" hidden><i class="hm" aria-hidden="true"></i><span class="t"><b>The Weeping Cellar</b><span>🔒 Survive 15:00 in the Heartfall Belfry to unlock</span></span></button>
- <div id="classList"></div>
- <h3 style="align-self:center;margin-top:8px">Outfit</h3>
- <div class="swatches" id="outfitPick"></div>
- <div class="spacer" style="min-height:0"></div>
- <div class="selfoot">
-  <button class="btn primary" id="btnGo" style="margin-top:0" data-kh="Enter">Enter the Dark</button>
-  <div class="row"><button class="btn small" id="btnSelMastery70">Mastery</button><button class="btn small" id="btnTalents" data-kh="T">✦ Talents</button><button class="btn small" id="btnStash" data-kh="G">⚔ Gear</button><button class="btn small" id="btnCodex" data-kh="C">⇪ Codex</button><button class="btn small" id="btnSelBack" data-kh="Esc">Back</button></div>
- </div>
-</div>
+<div id="select" class="screen panel selection-scene"><div class="selection-shell">
+<header class="selection-header"><div><span class="selection-kicker">CHAPTER II · THE WAY YOU FIGHT</span><h2>Find your <em>Calling</em></h2><p>A weapon, a gift, a reason to face the dark.</p></div><nav class="selection-steps" aria-label="Hunt preparation"><span><i>1</i>Origin</span><span class="current" aria-current="step"><i>2</i>Calling</span><span><i>3</i>Destination</span></nav></header>
+<div class="selection-layout"><aside class="selection-showcase calling-showcase"><div class="selection-portrait"><canvas id="callingHero" aria-label="Your customized class appearance"></canvas></div><div class="selection-identity"><span id="callingRole"></span><h3 id="callingName"></h3><p id="callingFlavor"></p><small><span id="callingRace"></span> · <span id="callingLevel"></span></small></div><div class="calling-dossier"><p id="callingDescription"></p><span>SIGNATURE PASSIVE</span><b id="callingPassive"></b><small id="callingPassiveText"></small></div><div class="calling-outfits"><span>OUTFIT COLOURS</span><div class="swatches" id="outfitPick"></div></div></aside>
+<main class="selection-content"> <div class="topbar seltop"><button class="racepill" id="btnSelRace"></button><button class="racepill" id="btnSelMap" aria-describedby="selMapMsg"></button><span class="shard" id="selShards"></span></div><div class="selmapmsg" id="selMapMsg" role="status" aria-live="polite"></div><button class="maplock36" id="heartLock36" hidden><i class="hm" aria-hidden="true"></i><span class="t"><b>Heartfall Belfry</b><span>🔒 Survive 15:00 in the Ashen Citadel to unlock</span></span></button><button class="maplock36" id="cellarLock39" hidden><i class="hm" aria-hidden="true"></i><span class="t"><b>The Weeping Cellar</b><span>🔒 Survive 15:00 in the Heartfall Belfry to unlock</span></span></button>
+<div id="selectionRandom"></div><div id="classList" aria-label="Choose class"></div></main></div>
+<footer class="selfoot selection-footer class-footer"><div class="row"><button class="btn small" id="btnSelBack" data-kh="Esc">← Origin</button><button class="btn small" id="btnSelMastery70">Mastery</button><button class="btn small" id="btnTalents" data-kh="T">✦ Talents</button><button class="btn small" id="btnStash" data-kh="G">⚔ Gear</button><button class="btn small" id="btnCodex" data-kh="C">⇪ Codex</button></div><button class="btn primary" id="btnGo" data-kh="Enter">Choose destination → <kbd>Enter</kbd></button></footer><span id="classSelectedLabel" class="journey-sr" role="status" aria-live="polite"></span>
+</div></div>
 
 <div id="daily" class="screen panel hunt-screen">
  <h2>Daily Challenge</h2><p class="hunt-sub" id="dailySub70"></p>
@@ -1371,17 +1361,12 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
  <div class="selfoot"><button class="btn small" id="btnMasteryBack70" data-kh="Esc">Back</button></div>
 </div>
 <button id="dailyTrack70" class="hidden" aria-label="Daily challenge progress; pause run"></button>
-<div id="mapsel" class="screen panel">
- <h2 style="margin-bottom:2px">Choose Your Map</h2>
- <div class="mapsub" id="mapSub"></div>
- <div id="modBox"></div>
- <div id="mapList"></div>
- <div class="spacer" style="min-height:0"></div>
- <div class="selfoot">
-  <button class="btn primary" id="btnMapGo" style="margin-top:0" data-kh="Enter">Prepare Hunt →</button>
-  <div class="row"><button class="btn small" id="btnMapBack" data-kh="Esc">Back</button></div>
- </div>
-</div>
+<div id="mapsel" class="screen panel selection-scene"><div class="selection-shell">
+<header class="selection-header"><div><span class="selection-kicker">CHAPTER III · BEYOND THE FIRELIGHT</span><h2>The Night <em>Atlas</em></h2><p>Every road leads into darkness. Choose yours.</p></div><nav class="selection-steps" aria-label="Hunt preparation"><span><i>1</i>Origin</span><span><i>2</i>Calling</span><span class="current" aria-current="step"><i>3</i>Destination</span></nav></header>
+<section class="atlas-feature" aria-label="Selected destination"><div id="atlasArt"></div><div class="atlas-copy"><span>YOUR NEXT DESTINATION</span><h3 id="atlasName"></h3><p id="atlasDescription"></p><div class="atlas-record"><small>Longest survived here</small><b id="atlasRecord"></b></div></div><div class="atlas-facts"><div><small>WHAT HUNTS YOU</small><p id="atlasFoes"></p></div><div><small>THE GREATER THREATS</small><p id="atlasBosses"></p></div><div><small>A MOMENT OF RESPITE</small><p id="atlasHaven"></p></div></div></section>
+<div class="selection-section-label"><span>KNOWN DESTINATIONS</span><span id="atlasCount"></span></div><div class="mapsub" id="mapSub" role="status" aria-live="polite"></div><div id="modBox"></div><main id="mapList" aria-label="Choose destination"></main>
+<footer class="selfoot selection-footer"><div class="row"><button class="btn small" id="btnMapBack" data-kh="Esc">← Calling</button></div><button class="btn primary" id="btnMapGo" data-kh="Enter">Prepare your hunt → <kbd>Enter</kbd></button></footer><span id="mapSelectedLabel" class="journey-sr" role="status" aria-live="polite"></span>
+</div></div>
 
 <div id="shop" class="screen panel">
  <h2>Armory</h2>
@@ -1601,6 +1586,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
 <script src="assets/run-prep.js"></script>
 <script src="assets/race-talents.js"></script>
 <script src="assets/journey-scenes.js"></script>
+<script src="assets/selection-scenes.js"></script>
 <script>
 'use strict';
 /* =========================================================
@@ -15540,6 +15526,7 @@ function renderRace() {
       b.setAttribute('aria-pressed', cur === sx ? 'true' : 'false'); b.innerHTML = lab;
       b.onclick = () => { Snd.init(); ActorAnimations.setGender(selClass, rid, sx === 'f' ? 'female' : 'male'); persist(); Snd.play('click'); MENU_HOP = 1; renderRace(); };
       X.appendChild(b); } }
+  selectionRaceScene();
 }
 let MENU_HOP = 0;
 function menuHop(el, big) { if (!el) return; el.classList.remove('hop', 'hopbig'); void el.offsetWidth; el.classList.add(big ? 'hopbig' : 'hop'); setTimeout(() => el.classList.remove('hop', 'hopbig'), 700); }
@@ -15625,10 +15612,10 @@ function renderMaps() { const cur = selMap36(), L = $('mapList'), c = CLASSES[se
   $('mapSub').textContent = (c ? c.name : 'Your hero') + ' · pick where to fight';
   for (const m of MAPINFO39.concat(ZN39_ORDER.filter(k => !ZN39[k].secret || ZN39[k].open()).map(k => Object.assign({ k, col: ZN39[k].col, ic: ZN39[k].ic, open: ZN39[k].open, need: ZN39[k].need }, ZN39[k].info)))) { const open = m.open(), b = document.createElement('button'); b.className = 'mapcard' + (open ? '' : ' locked') + (open && m.k === cur ? ' on' : ''); b.style.setProperty('--mc', m.col); b.dataset.map = m.k;
     const pu = (typeof mapPreview39 === 'function' && mapPreview39(m.k, 240, 130)) || '';
-    b.innerHTML = `<div class="pv" style="background:${pu ? `#000 url(${pu}) center 50%/cover` : m.bg}"><i></i><b>${open ? m.ic : '🔒'}</b></div><div class="tx"><h4>${MAPNAME36[m.k]}</h4><span>${m.bl}</span><span>Foes: ${m.mobs}</span><span>${m.boss}</span><span>Safe haven: ${m.town}</span>${open ? '' : `<span class="lk">🔒 ${m.need} to unlock</span>`}</div>`;
+    b.innerHTML = `<div class="pv" style="background:${pu ? `#000 url(${pu}) center 50%/cover` : m.bg}"><i></i><b>${open ? m.ic : '🔒'}</b></div><div class="tx"><h4>${MAPNAME36[m.k]}</h4><span>${m.bl}</span>${open ? `<span class="map-state">${m.k === cur ? '✧ Selected destination' : 'Open for the hunt'}</span>` : `<span class="lk">🔒 ${m.need} to unlock</span>`}</div>`;
     b.setAttribute('aria-label', MAPNAME36[m.k] + (open ? (m.k === cur ? ', selected' : '') : ', locked. ' + m.need + ' to unlock'));
     b.onclick = () => { Snd.init(); Snd.play('click'); if (!open) { b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake'); $('mapSub').textContent = '🔒 ' + m.need + ' to unlock ' + MAPNAME36[m.k]; return; } save.map = m.k; persist(); renderMaps(); };
-    L.appendChild(b); } }
+    L.appendChild(b); } selectionMapScene(); }
 function goSelect() {
   state = 'select'; show('select');
   if (save.classes[save.lastClass] && CLASSES[save.lastClass]) selClass = save.lastClass;
@@ -15667,7 +15654,7 @@ function renderSelect() {
     if (c.secret) sec46(b, sel, id);
     L.appendChild(b); heroPortrait(b.querySelector('canvas'), id, save.outfit, 1.42); if (sel && MENU_HOP) { MENU_HOP = 0; menuHop(b.querySelector('canvas')); }
   }
-  BGA.stage(selClass); /* v32 hero hall + pedestal */
+  /* The calling showcase draws the complete customized hero. */
   const tp = TALENTS[selClass] ? talentPoints(selClass).free : 0;
   $('btnTalents').textContent = TALENTS[selClass] ? `✦ Talents${tp ? ' ' + tp : ''}` : '✦ Talents'; $('btnTalents').disabled = !TALENTS[selClass];
   const O = $('outfitPick'); O.innerHTML = '';
@@ -15678,6 +15665,7 @@ function renderSelect() {
   if (selClass === 'maestro') { const b = document.createElement('button'), o = save.chSex, cur = mxSex(); b.className = 'sw chsx'; b.id = 'btnChSex';
     b.innerHTML = `<b>${cur === 'm' ? '♂' : '♀'}</b>Cat Humans: ${o === 'f' ? 'Female' : o === 'm' ? 'Male' : 'Auto'}<br><small style="font-size:12px;opacity:.75">tap to change</small>`; b.title = 'Hologram body: Auto matches your hero (Female by default)';
     b.onclick = () => { save.chSex = !o ? 'f' : o === 'f' ? 'm' : undefined; if (!save.chSex) delete save.chSex; persist(); Snd.play('click'); renderSelect(); }; O.appendChild(b); }
+  selectionClassScene();
 }
 let shopTab = 'up', shopFrom = 'title';
 function goShop(from) { shopFrom = from || 'title'; state = 'shop'; BGA.armory(); show('shop'); renderShop(); }
@@ -16387,7 +16375,7 @@ function frame(now) {
     if (state === 'play') update(dt, false);
     else if (state === 'countdown') { G.cdT -= dt; if (G.cdT <= 0) state = 'play'; }
     else if (state === 'dying') { G.dyingT -= dt; update(dt * 0.3, true); if (G.dyingT <= 0) showGameOver(false); }
-    render(dt); runPrepTick(); expansionHUD(); questUI(dt); dmgUI(dt); jumpBtnUI(); ultUI(); npcUI(); if (state === 'ward') wardTick();
+    render(dt); runPrepTick(); selectionSceneTick(); expansionHUD(); questUI(dt); dmgUI(dt); jumpBtnUI(); ultUI(); npcUI(); if (state === 'ward') wardTick();
     { const ms = $('audio').classList.contains('on') ? 'n' : state === 'paused' ? 'p' : (state === 'levelup' || state === 'gear' || state === 'npc') ? 'd' : 'n';
       if (ms !== Snd.ms && Snd.ac) { Snd.ms = ms; if (ms === 'p') Snd.pauseMusic(true); else { Snd.pauseMusic(false); Snd.duck(ms === 'd' ? 0.45 : 1, 0.4); } } }
     if (RUN_STATES[state] && now - lastRunSave > 6000) saveRun();   // periodic autosave

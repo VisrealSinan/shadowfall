@@ -1,6 +1,13 @@
-# Shadowfall v81 game update
+# Shadowfall v82 game update
 
 These features are integrated into the main Shadowfall game and delivered through the standard launcher content update. No separate expansion or installation is required.
+
+## Origins, Callings and the Night Atlas (v82)
+
+- Race selection is now Origins: a full animated character showcase, bloodline cards, clear racial strengths and tradeoffs, body choices and direct ancestry access.
+- Class selection is now Callings: a compact roster beside a customized hero, class description, signature passive, earned talent budget and outfit colours. Existing class unlock confirmations, gear, mastery, talents, Codex and random-build controls are retained.
+- Map selection is now the Night Atlas: a large selected destination preview, recorded map best, enemies, bosses and safe haven, with a compact grid of open and locked destinations. Twists and the post-map preparation/difficulty flow remain available.
+- All three scenes share chapter navigation, restrained colour palettes, serif headings, keyboard/controller controls, visible focus, reduced-motion support and layouts for smaller screens.
 
 ## Hall of Echoes, preparation and ancestry (v81)
 

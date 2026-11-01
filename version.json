@@ -1,11 +1,11 @@
 {
- "version": "81",
+ "version": "82",
  "date": "2026-11-01",
  "minLauncher": "2.0.0",
  "notes": [
-  "Hall of Echoes: a new achievement archive with search, filters and nearest-goal sorting.",
-  "After map selection, prepare your hero with map records and escalating difficulty rewards.",
-  "Eight race ancestry trees with an earned 30-point cap; class talent cap is 51. Armory unchanged."
+  "New Origins, Callings and Night Atlas selection scenes.",
+  "Full customized hero showcases, class dossiers and destination previews.",
+  "Polished navigation and responsive layouts throughout hunt selection."
  ],
  "files": [
   {
@@ -35,8 +35,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "e271469eedcd28dff3f74606e137c1b7ff1f596b6e580acf51d5149d44a86de3",
-   "size": 2844785
+   "sha256": "af1f6ad3b0b8452f89d8d61201cc461f7303bd3b717ac4fb0e55f82df869c3e9",
+   "size": 2848352
   },
   {
    "name": "manifest.webmanifest",
@@ -45,8 +45,8 @@
   },
   {
    "name": "sw.js",
-   "sha256": "84ee7e05e7128d7f31f68d3c90956ee5f7a3ec63a4b80b1db301e55d22c2d5fb",
-   "size": 2081
+   "sha256": "e0a9f755b4f37193a32593dac163d696961032ba73edc2a905e01f667e6b3913",
+   "size": 2146
   },
   {
    "name": "assets/actor-animation-manifest.js",
@@ -4800,8 +4800,8 @@
   },
   {
    "name": "assets/expansion-ui.js",
-   "sha256": "bd68fef5c12b6ccc63ba6da2ecb3bfe53d30d75a1c68429c471df87382807509",
-   "size": 10952
+   "sha256": "6ef5ea959c4f78a31dec3011f8e2c5d23341b68e73e25100e95beb38a06274e4",
+   "size": 10932
   },
   {
    "name": "assets/expansion-content.js",
@@ -4852,6 +4852,16 @@
    "name": "assets/journey-scenes.css",
    "sha256": "ddb5c6d51a78dfe601e78fe587397738611d92a5fe9b2cc28eca3d8e2cae8d9b",
    "size": 10385
+  },
+  {
+   "name": "assets/selection-scenes.js",
+   "sha256": "6c39a2a0ade8025dbe05029c83ea0d3db268c6c312ddb7ff27784b0b39b65242",
+   "size": 2114
+  },
+  {
+   "name": "assets/selection-scenes.css",
+   "sha256": "4ec05976160e8c715ca6c5a30fae700717b52b2742d63be60ceeb8ac3ea9233f",
+   "size": 21181
   }
  ]
 }
