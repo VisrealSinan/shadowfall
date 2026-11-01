@@ -7,7 +7,7 @@ version.version = next;
 version.date = new Date().toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
 if (process.argv.length > 3) version.notes = process.argv.slice(3);
 fs.writeFileSync('sw.js', fs.readFileSync('sw.js', 'utf8').replace(/shadowfall-v\d+/, 'shadowfall-v' + next));
-const names = new Set([...version.files.map(file => file.name), 'index.html', 'sw.js', 'assets/expansion-content.js', 'assets/expansion-rules.js', 'assets/expansion-ui.js', 'assets/actor-animations.js', 'assets/actor-outfits.js']);
+const names = new Set([...version.files.map(file => file.name), 'index.html', 'sw.js', 'assets/expansion-content.js', 'assets/expansion-rules.js', 'assets/expansion-ui.js', 'assets/actor-animations.js', 'assets/actor-outfits.js', 'assets/nightforge.js', 'assets/nightforge-ui.js']);
 for (const name of names) {
   // GitHub normalizes text to LF. Verify and publish those identical bytes locally.
   if (/\.(js|html|json|css|svg|txt|webmanifest)$/.test(name)) {

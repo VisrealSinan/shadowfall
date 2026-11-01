@@ -1,6 +1,13 @@
-# Shadowfall v78 game update
+# Shadowfall v79 game update
 
 These features are integrated into the main Shadowfall game and delivered through the standard launcher content update. No separate expansion or installation is required.
+
+## New achievements and Nightforge (v79)
+
+- 79 new achievements bring the total to 233. Goals include 30-minute survival and 10,000 kills for each class; longer global survival; lifetime kills, bosses and quests; Lost Shadows; final bosses; higher-difficulty victories; endless choices; outfit collecting; map exploration; and Nightforge milestones. Rewards include regular Shards and 29 eye/aura cosmetics. Every Shard reward is awarded once. Existing recorded kill/survival/class/map/outfit progress counts immediately. New encounter counters start tracking in v79.
+- Armory → Nightforge provides repeatable investments using **regular Shards**, with 1-, 5- and 10-rank purchases. Outfit Shards are untouched. Prices are 500 + 150r + 50r² per rank in a track. Benefits are Lr/(r+50): Soul Vessel approaches +60 max HP, Shadow Edge +30% damage, and Soul Magnet +75% pickup range. Ranks remain repeatable while gains diminish. Purchases are permanent and are not refundable.
+- Bonuses are captured at the start of each new normal run. Active/resumed runs keep their original bonus snapshot, and Daily Challenges exclude these bonuses.
+- Achievement lists now support Shard-only rewards and map unlocks without attempting to draw a missing cosmetic.
 
 ## Progression and encounters
 

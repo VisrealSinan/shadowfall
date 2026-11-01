@@ -1384,7 +1384,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
 <div id="shop" class="screen panel">
  <h2>Armory</h2>
  <div class="topbar"><span style="color:#a593c4">Permanent power</span><span class="shard" id="shopShards"></span></div>
- <div class="tabs" id="shopTabs"><button data-t="up" class="on">Upgrades</button><button data-t="wp">Classes</button><button data-t="of">Outfits</button></div>
+ <div class="tabs" id="shopTabs"><button data-t="up" class="on">Upgrades</button><button data-t="wp">Classes</button><button data-t="of">Outfits</button><button data-t="forge">Nightforge</button></div>
  <div id="shopList"></div>
  <div style="height:6px"></div>
  <button class="btn" id="btnShopBack" data-kh="Esc">Back</button>
@@ -1584,6 +1584,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
 <script src="assets/expansion-ui.js"></script>
 <script src="assets/progression.js"></script>
 <script src="assets/progression-ui.js"></script>
+<script src="assets/nightforge.js"></script>
+<script src="assets/nightforge-ui.js"></script>
 <script>
 'use strict';
 /* =========================================================
@@ -2830,6 +2832,7 @@ function drawPrestige(g, set, t, front) { const c = set.prestige;
     glowDot(g, x, y, 5, c, 0.6); g.fillStyle = '#fff'; g.beginPath(); g.moveTo(x, y - s * 1.8); g.lineTo(x + s * 0.5, y); g.lineTo(x, y + s * 1.8); g.lineTo(x - s * 0.5, y); g.closePath(); g.fill();
     g.beginPath(); g.moveTo(x - s * 1.8, y); g.lineTo(x, y + s * 0.5); g.lineTo(x + s * 1.8, y); g.lineTo(x, y - s * 0.5); g.closePath(); g.fill(); } }
 function drawAura(g, aura, t, front) {
+  if (nightforgeAura(g, aura, t, front)) return;
   if (drawMasteryAura70(g, aura, t, front)) return;
   if (aura === 'aura_prism') { const C = ['#ff5ad0', '#4fd4ff', '#ffe23a', '#9dff3b', '#c56bff']; for (let i = 0; i < 5; i++) { const a = t * 1.9 + i * TAU / 5, x = Math.cos(a) * 15, y = 2 + Math.sin(a) * 6 + Math.sin(t * 3 + i * 2) * 3, isF = Math.sin(a) > 0; if (isF !== front) continue;
       glowDot(g, x, y, 5, C[i], 0.75); g.fillStyle = '#fff'; g.beginPath(); g.arc(x, y, 1, 0, TAU); g.fill(); } return; }
@@ -2926,7 +2929,7 @@ function rewardName(id) { const x = ARMOR_BY_ID[id] || RACE_COS_BY_ID[id] || GEN
 function rewardKind(id) { return ARMOR_BY_ID[id] ? CLASSES[ARMOR_BY_ID[id].cls].name + ' armor' : RACE_COS_BY_ID[id] ? RACES[RACE_COS_BY_ID[id].race].name + ' look' : 'Look for everyone'; }
 function cosOwned(id) { if (ShadowExpansion.profile(save).looks[id]) return true; for (const a of ACH) if (a.rw === id) return !!save.ach.done[a.id]; return false; }
 function achCheck(silent) { const got = [];
-  for (const a of ACH) { if (save.ach.done[a.id]) continue; const v = a.f ? a.f() : achEff(a.k); if (v >= a.goal) { save.ach.done[a.id] = Date.now(); got.push(a); } }
+  for (const a of ACH) { if (save.ach.done[a.id]) continue; const v = a.f ? a.f() : achEff(a.k); if (v >= a.goal) { save.ach.done[a.id] = Date.now(); if (a.shards) save.shards += a.shards; got.push(a); } }
   if (got.length) { persist(); if (G && G.achNew && !G.ended) for (const a of got) G.achNew.push(a.id); if (!silent) for (const a of got) achBanner(a); }
   return got; }
 function achInit() { // v5 saves have no achievement data: start at zero, retro-grant what existing data proves
@@ -2943,7 +2946,7 @@ function achBanner(a) { _achQ.push(a); if (!_achBusy) _achNext(); }
 const POPHOLD45 = { npc: 1, gear: 1, shop: 1 }; let _achCur = null, _achT = 0; function popHold45() { return !!POPHOLD45[state]; } // v45
 function _achNext() { clearTimeout(_achT); if (_achQ.length && popHold45()) { _achBusy = true; _achT = setTimeout(_achNext, 300); return; } const a = _achQ.shift(), el = $('achBanner'); if (!a) { _achBusy = false; return; } _achBusy = true; _achCur = a;
   el.style.top = (state === 'play' || state === 'countdown') && G ? `calc(env(safe-area-inset-top,0px) + ${G.boss && !G.boss.dead ? 150 : 128}px)` : ''; // v11: in-run, sit below the HUD (pause button, danger, boss bar)
-  el.innerHTML = `<div class="abic">${a.ic}\uFE0E</div><div class="abtx"><div class="abt">${a.abt || 'Achievement Unlocked!'}</div><div class="abn">${a.name}</div><div class="abr">${a.rw ? `Reward: <b>${rewardName(a.rw)}</b>` : a.un ? `Unlocks: <b>${a.un}</b>` : ''}</div></div>`;
+  el.innerHTML = `<div class="abic">${a.ic}\uFE0E</div><div class="abtx"><div class="abt">${a.abt || 'Achievement Unlocked!'}</div><div class="abn">${a.name}</div><div class="abr">${a.rw || a.shards ? `Reward: <b>${newAchievementReward(a)}</b>` : a.un ? `Unlocks: <b>${a.un}</b>` : ''}</div></div>`;
   el.classList.toggle('creep46', !!a.creep); el.classList.remove('on'); void el.offsetWidth; el.classList.add('on'); try { Snd.play(a.creep ? 'ring46' : 'ach'); } catch (e) { }
   _achT = setTimeout(() => { el.classList.remove('on'); _achCur = null; _achT = setTimeout(_achNext, 380); }, 3000); }
 setInterval(() => { if (!popHold45()) return; const el = $('achBanner'), q = $('qBan'); // v45: a window opened under a banner -> the banner steps aside and replays afterwards
@@ -8410,6 +8413,7 @@ function newRun(cls, challenge = null) {
     pending: 0, shardsPicked: 0, salvage: 0, bossKills: 0, elites: 0, nextElite: 50, nextBoss: 180, bossIdx: 0, nextSurge: 70, spawnAcc: 0,
     revived: false, wasNight: false, outfit: save.outfit, shake: 0, later: [], healPool: 0, bondPool: 0, critBuffT: 0, minionKills: 0, moved: false, dyingT: 0, boss: null, hurtFlash: 0, lowT: 0, achRun: {}, achNew: [], achT: 0, quests: [], qNext: 60, qStats: { done: 0, failed: 0, shards: 0, gear: 0 }, qN: 0, evo: {}, dm: {}, dmTot: 0, catPool: 0, gold: 0, goldEarned: 0, goldSpent: 0, npcs: [], npcNext: 90, npcN: 0, npcBuys: 0, npcVisits: 0, npcSeen: 0 };
   G.challengeDate = challenge ? challenge.date : ''; G.daily = !!challenge;
+  G.nightforgeBonus = challenge ? {} : Nightforge.bonuses(save);
   G.expansion = expansionNew(challenge);
   G.mods = challenge ? dailyMods50(challenge.date) : modsForRun50();
   G.outfit = challenge ? 'crimson' : save.outfit;
@@ -8430,6 +8434,7 @@ function recalc() {
   const c = CLASSES[G.cls].stats;
   const s = { maxHp: c.maxHp || 100, dmg: 1, cd: 1, area: c.area || 1, speed: c.speed || 1, pickup: 1, crit: c.crit || 0.05, critMul: 2, armor: c.armor || 0,
     regen: 0, dodge: c.dodge || 0, lifesteal: c.lifesteal || 0, xp: 1, dur: c.dur || 1, dot: 1, minion: c.minion || 1, minionHp: 1, pierce: 0, arrowDmg: 1, range: 1, tick: 1, spread: c.spread || 0, rotMax: 0, feral: 1, nature: 1, bleed: 1, dr: 0, fire: 1, frost: 1, arcane: 1, burn: 1, burnDur: 0, burnSpread: 0, frzDur: 0, shatter: 0, arcMax: 0 };
+  if (!G.challengeDate && G.nightforgeBonus) { const b = G.nightforgeBonus; s.maxHp += b.maxHp || 0; s.dmg += b.dmg || 0; s.pickup += b.pickup || 0; }
   s.regen += c.regen || 0;
   s.cd *= c.cd || 1; s.pickup *= c.pickup || 1;
   s.maxHp += 10 * mr('vit'); s.dmg += 0.05 * mr('might'); s.speed += 0.04 * mr('swift'); s.pickup += 0.15 * mr('reach'); s.xp += 0.03 * mr('reach'); s.cd -= 0.04 * mr('haste');
@@ -8499,7 +8504,7 @@ const RUN_STATES = { victory: 1, play: 1, paused: 1, levelup: 1, gear: 1, countd
 const r1 = v => Math.round(v * 10) / 10;
 function serializeRun() {
   const g = {}; for (const k of ['cls', 'race', 'outfit', 't', 'kills', 'level', 'xp', 'xpNext', 'passives', 'gear', 'pending', 'shardsPicked', 'salvage', 'bossKills', 'elites', 'nextElite', 'nextBoss',
-    'expansion', 'map', 'mods', 'daily', 'challengeDate', 'w28', 'bossIdx', 'bossBag', 'bossLast', 'nextSurge', 'spawnAcc', 'revived', 'wasNight', 'healPool', 'bondPool', 'critBuffT', 'minionKills', 'moved', 'pendingChest', 'nextLoot', 'rushT', 'aegisT', 'kept', 'luChoices', 'tal', 'undyingUsed', 'tollT', 'rwT', 'sgT', 'achRun', 'achNew', 'dv', 'ancCd', 'frzCd', 'wsT', 'mcT', 'mwT', 'mvT', 'arc', 'stage', 'nextMini', 'surgeN', 'quests', 'qNext', 'qStats', 'qN', 'qLast', 'evo', 'dm', 'catPool', 'catRefund', 'obSeed', 'obGone', 'rerolls', 'gold', 'goldEarned', 'goldSpent', 'npcs', 'npcNext', 'npcN', 'npcLast', 'npcBuys', 'npcVisits', 'npcSeen', 'bufE', 'bufH', 'bufA', 'deathward', 'goldBud', 'portal', 'portalNext', 'townVisits', 'npcHp', 'mimic45']) g[k] = G[k];
+    'nightforgeBonus', 'expansion', 'map', 'mods', 'daily', 'challengeDate', 'w28', 'bossIdx', 'bossBag', 'bossLast', 'nextSurge', 'spawnAcc', 'revived', 'wasNight', 'healPool', 'bondPool', 'critBuffT', 'minionKills', 'moved', 'pendingChest', 'nextLoot', 'rushT', 'aegisT', 'kept', 'luChoices', 'tal', 'undyingUsed', 'tollT', 'rwT', 'sgT', 'achRun', 'achNew', 'dv', 'ancCd', 'frzCd', 'wsT', 'mcT', 'mwT', 'mvT', 'arc', 'stage', 'nextMini', 'surgeN', 'quests', 'qNext', 'qStats', 'qN', 'qLast', 'evo', 'dm', 'catPool', 'catRefund', 'obSeed', 'obGone', 'rerolls', 'gold', 'goldEarned', 'goldSpent', 'npcs', 'npcNext', 'npcN', 'npcLast', 'npcBuys', 'npcVisits', 'npcSeen', 'bufE', 'bufH', 'bufA', 'deathward', 'goldBud', 'portal', 'portalNext', 'townVisits', 'npcHp', 'mimic45']) g[k] = G[k];
   g.weapons = G.weapons.map(w => [w.id, w.lvl]);
   /* v27: inside the Safe Haven the real battlefield is stashed in G.town.st - save that world (and where you left it) plus the town itself */
   const TW = G.town, st = TW && TW.st, EN = st ? st.enemies : enemies, BOSS = st ? st.boss : G.boss, PK = st ? st.picks : picks; if (st) g.npcs = st.npcs;
@@ -12507,7 +12512,7 @@ function update(dt, dying) {
   for (let i = corpses.length - 1; i >= 0; i--) if ((corpses[i].t += dt) >= corpses[i].d) corpses.splice(i, 1);
   if (!dying) { if (!G.town) { G.t += dt; if (G.t >= 900 && G.map !== 'castle' && G.map !== 'heart' && !ZN39[G.map] && !save.ach.p.f15) { save.ach.p.f15 = 1; achCheck(false); } if (G.t >= 900 && G.map === 'castle' && !save.ach.p.c15) { save.ach.p.c15 = 1; achCheck(false); persist(); G.later.push({ t: 2.5, f: heartUnlocked36 }); toast('♡ Heartfall Belfry unlocked!', '#ff8ab0', 3.2); } for (const zk of ZN39_ORDER) { const z = ZN39[zk]; if (G.t >= 900 && G.map === z.prev && !save.ach.p[z.prog]) { save.ach.p[z.prog] = 1; achCheck(false); persist(); G.later.push({ t: 2.5, f: () => zoneUnlocked39(z) }); toast(z.ic + ' ' + z.name + ' unlocked!', z.col, 3.2); } } } jumpTick(); }
   if (!dying) { const want = G.town ? 'title' : musicName(); if (!Snd.cur || Snd.cur.name !== want) Snd.music(want); }
-  if (!dying && (G.achT -= dt) <= 0) { G.achT = 0.5; const t = Math.floor(G.t); achMax('c_' + G.cls + '_t', t); achMax('r_' + G.race + '_t', t);
+  if (!dying && (G.achT -= dt) <= 0) { G.achT = 0.5; nightforgeRunStats(); const t = Math.floor(G.t); achMax('c_' + G.cls + '_t', t); achMax('r_' + G.race + '_t', t);
     if (G.race === 'elf' && G.t < 360) achMax('r_elf_fast', G.level); achCheck(false); }
   // input
   let mx = 0, my = 0;
@@ -15752,6 +15757,7 @@ function renderShop() {
   const row = (icHtml, nm, sub, ds, btn) => { const d = document.createElement('div'); d.className = 'card'; d.innerHTML = `${icHtml}<div class="tx"><div class="nm">${nm}</div>${sub}<div class="ds">${ds}</div></div>`; d.appendChild(btn); L.appendChild(d); return d; };
   const mkBtn = (label, enabled, fn, cls = '') => { const b = document.createElement('button'); b.className = 'buy ' + cls; b.innerHTML = label; b.disabled = !enabled; b.onclick = () => { Snd.init(); fn(); }; return b; };
   if (shopTab === 'up') renderMetaTree(L);
+  if (shopTab === 'forge') renderNightforge(L);
   if (false) for (const m of META) {
     const r = mr(m.id), max = r >= m.max, cost = metaCost(m, r);
     const pips = '<div class="pips">' + Array.from({ length: m.max }, (_, i) => `<i class="${i < r ? 'f' : ''}"></i>`).join('') + '</div>';
@@ -16090,13 +16096,14 @@ let achTab = 'class', achKey = 'all', achFrom = 'title';
 function goAch(from) { achFrom = from || 'title'; state = 'ach'; show('ach'); renderAch(); }
 function renderAch() {
   const nd = ACH.filter(a => save.ach.done[a.id]).length;
-  $('achCount').innerHTML = `Unlocked <b style="color:#ffe08a">${nd} / ${ACH.length}</b> · looks are visual only`; $('achPct').textContent = Math.round(nd / ACH.length * 100) + '%';
+  $('achCount').innerHTML = `Unlocked <b style="color:#ffe08a">${nd} / ${ACH.length}</b> · cosmetics and Shard rewards`; $('achPct').textContent = Math.round(nd / ACH.length * 100) + '%';
   for (const b of $('achTabs').children) b.classList.toggle('on', b.dataset.t === achTab);
   const F = $('achFilter'); F.innerHTML = '';
   const keys = achTab === 'class' ? menuClassIds().filter(k => ARMOR_SETS[k]) : achTab === 'race' ? RACE_IDS : [];
   if (keys.length) for (const k of ['all', ...keys]) { const b = document.createElement('button'); b.textContent = k === 'all' ? 'All' : (CLASSES[k] || RACES[k]).name; b.className = achKey === k ? 'on' : ''; b.onclick = () => { achKey = k; Snd.play('click'); renderAch(); }; F.appendChild(b); }
   const L = $('achList'); L.innerHTML = '';
   const list = ACH.filter(a => a.cat === achTab && !hid46(a.key) && (achKey === 'all' || !a.key || a.key === achKey));
+  if (achTab === 'class') { const order = menuClassIds(); list.sort((a,b) => order.indexOf(a.key) - order.indexOf(b.key)); }
   let grp = null;
   for (const a of list) {
     if (a.key && a.key !== grp) { grp = a.key; const n = ACH.filter(x => x.key === grp); L.insertAdjacentHTML('beforeend', `<div class="ahead"><span>${(CLASSES[grp] || RACES[grp]).name}</span><span>${n.filter(x => save.ach.done[x.id]).length}/${n.length}</span></div>`); }
@@ -16104,8 +16111,8 @@ function renderAch() {
     const fmt = v => a.time ? fmtTime(v) : v.toLocaleString('en-US');
     const d = document.createElement('div'); d.className = 'aent' + (done ? ' done' : '') + (a.prestige ? ' prest' : ''); d.dataset.ach = a.id;
     d.innerHTML = `<div class="aic">${a.ic}\uFE0E</div><div class="atx"><div class="an">${a.name}</div><div class="ad">${a.desc}</div><div class="apb"><i style="width:${pct}%"></i></div>` +
-      `<div class="apn"><span>${fmt(cur)} / ${fmt(a.goal)}</span><b>${done ? '✓ Unlocked' : '🔒 Locked'}</b></div></div><div class="arw"><canvas></canvas>${rewardName(a.rw)}</div>`;
-    L.appendChild(d); const pv = previewCos(a.rw); cosPortrait(d.querySelector('canvas'), pv.cls, pv.race, pv.cos, 1.25);
+      `<div class="apn"><span>${fmt(cur)} / ${fmt(a.goal)}</span><b>${done ? '✓ Unlocked' : '🔒 Locked'}</b></div></div><div class="arw">${a.rw ? '<canvas></canvas>' : '<span class="aic">◆</span>'}${newAchievementReward(a)}</div>`;
+    L.appendChild(d); if (a.rw) { const pv = previewCos(a.rw); cosPortrait(d.querySelector('canvas'), pv.cls, pv.race, pv.cos, 1.25); }
   }
 }
 /* ---- Wardrobe (appearance) screen with live preview ---- */
@@ -17361,6 +17368,7 @@ function talKey(code) { // talents-screen keys; true = handled
   view.addEventListener('mouseleave', () => { if (PC) talHover(talPick); });
 })();
 initExpansion();
+initNightforge();
 const talMig = (function migrateTalents19() { // v19: WoW-style trees — every point spent in the old 3-branch trees comes back unspent (and the level cap rises 42 -> 51)
   let had = false; save.talents = save.talents || {};
   if ((save.talV | 0) < TAL_V) { for (const c in save.talents) { const tr = save.talents[c]; if (tr && Object.keys(tr).some(k => tr[k])) had = true; save.talents[c] = {}; } save.talV = TAL_V; }

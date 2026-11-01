@@ -1,11 +1,11 @@
 {
- "version": "78",
+ "version": "79",
  "date": "2026-11-01",
  "minLauncher": "2.0.0",
  "notes": [
-  "Outfits now use the current animated character sheets instead of falling back to older artwork.",
-  "Applies armor-set palettes across 328 race/body sheet variants, preserving existing action animations.",
-  "Fixes wardrobe image loading and caches outfit frames within a fixed memory limit."
+  "Adds 79 achievements with one-time Shard prizes and 29 cosmetic eye/aura rewards.",
+  "Armory Nightforge lets you invest surplus regular Shards in repeatable health, damage and pickup upgrades.",
+  "Includes bulk purchases, diminishing returns, preserved run bonuses and standard Daily Challenge balance."
  ],
  "files": [
   {
@@ -35,8 +35,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "e1a3fa239243ce842ca9e6a111206943c9e58df6cafe53936ec76bde5ea59183",
-   "size": 2838213
+   "sha256": "718bec0f6afd496a09ff1824377ae44c5a90ffbe642c26e737ce81e64fb31dc1",
+   "size": 2838975
   },
   {
    "name": "manifest.webmanifest",
@@ -45,8 +45,8 @@
   },
   {
    "name": "sw.js",
-   "sha256": "74e648e23fb4f57be383143c71e57ce5715459a9807e2c416dca3d930ca2908c",
-   "size": 1848
+   "sha256": "c645fc82c0335c16b581cc3ce825d2ebfcd1c88adbb7e4db61124eaca95ae378",
+   "size": 1903
   },
   {
    "name": "assets/actor-animation-manifest.js",
@@ -4800,8 +4800,8 @@
   },
   {
    "name": "assets/expansion-ui.js",
-   "sha256": "865183805ed0d59cfb49be6cf9aa9b106f7b66d6648bd2457f63d78b2b4317ad",
-   "size": 11632
+   "sha256": "9b9e5ec855163ca40468242c1b7ff31dd887dd1d852718dfebc68c8b2eacc390",
+   "size": 11759
   },
   {
    "name": "assets/expansion-content.js",
@@ -4812,6 +4812,16 @@
    "name": "assets/actor-outfits.js",
    "sha256": "5c265b9c5bdc7eab296952581000b65d256f3a70d71461f96b29f6af3e43fa1b",
    "size": 4004
+  },
+  {
+   "name": "assets/nightforge.js",
+   "sha256": "faf4d2af39e3b48ea13cf6668c9b3897ba3993336ba8e8d9f0dbf576fcba23d4",
+   "size": 2028
+  },
+  {
+   "name": "assets/nightforge-ui.js",
+   "sha256": "9aaff69e8335b8e4694acaf7fb7402a0aa360b73888772a98541607ec9854a3b",
+   "size": 7651
   }
  ]
 }

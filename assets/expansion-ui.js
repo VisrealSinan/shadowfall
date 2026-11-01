@@ -30,10 +30,11 @@ function expansionDirector() {
 function expansionKill(e) {
   const d = ETYPES[e.type], x = expansionState();
   if (d.lostShadow) {
+    achAdd('nf_lost', 1);
     ShadowExpansion.profile(save).shards++; persist();
     toast('◆ Outfit Shard earned · spend in Wardrobe', '#d9a0ff', 3);
   }
-  if (e.type === 'lost_sovereign') { x.finalDefeated = true; }
+  if (e.type === 'lost_sovereign' && !x.finalDefeated) { nightforgeRecordFinal(); x.finalDefeated = true; }
 }
 function expansionTick(dt) {
   expansionHuntTick(dt);
@@ -74,7 +75,7 @@ function initExpansion() {
   document.body.appendChild(screen);
   buildArt(); // Register lazy art entries for the newly added enemies.
   $('endExpansion').onclick = () => showGameOver(true);
-  $('endlessExpansion').onclick = () => { expansionState().endless = true; G.nextBoss = G.t + 180; resumeGame(); };
+  $('endlessExpansion').onclick = () => { if (!expansionState().endless) achAdd('nf_endless', 1); expansionState().endless = true; G.nextBoss = G.t + 180; resumeGame(); };
 }
 function expansionOpacity() { return Math.max(5, Math.min(100, Number(save.spellVisibilityExpansion) || 100)); }
 function expansionStart() {
