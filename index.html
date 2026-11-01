@@ -2922,7 +2922,7 @@ function achAdd(k, v) { if (G && G.achRun && !G.ended) G.achRun[k] = (G.achRun[k
 function achMax(k, v) { if (G && G.achRun && !G.ended) G.achRun[k] = Math.max(G.achRun[k] || 0, v); }
 function rewardName(id) { const x = ARMOR_BY_ID[id] || RACE_COS_BY_ID[id] || GEN_BY_ID[id]; return x ? x.name : id; }
 function rewardKind(id) { return ARMOR_BY_ID[id] ? CLASSES[ARMOR_BY_ID[id].cls].name + ' armor' : RACE_COS_BY_ID[id] ? RACES[RACE_COS_BY_ID[id].race].name + ' look' : 'Look for everyone'; }
-function cosOwned(id) { for (const a of ACH) if (a.rw === id) return !!save.ach.done[a.id]; return false; }
+function cosOwned(id) { if (ShadowExpansion.profile(save).looks[id]) return true; for (const a of ACH) if (a.rw === id) return !!save.ach.done[a.id]; return false; }
 function achCheck(silent) { const got = [];
   for (const a of ACH) { if (save.ach.done[a.id]) continue; const v = a.f ? a.f() : achEff(a.k); if (v >= a.goal) { save.ach.done[a.id] = Date.now(); got.push(a); } }
   if (got.length) { persist(); if (G && G.achNew && !G.ended) for (const a of got) G.achNew.push(a.id); if (!silent) for (const a of got) achBanner(a); }
@@ -2961,7 +2961,7 @@ const tRank = (tr, n) => Math.max(0, Math.min(n.m, (tr && +tr[n.id]) || 0));
 function talentPoints(id, tr) { tr = tr || save.talents[id] || {}; let spent = 0; for (const b of TALENTS[id] || []) for (const n of b.nodes) spent += tRank(tr, n); const total = classLevel(id).lvl; return { total, spent, free: Math.max(0, total - spent) }; }
 function treeSpent(id, bi, tr, below) { let s = 0; for (const n of TALENTS[id][bi].nodes) if (below == null || n.t < below) s += tRank(tr, n); return s; }
 const talNeed = n => TPER * (n.t - 1);
-function talCanAdd(id, n, tr, free) { if (tRank(tr, n) >= n.m) return 'max'; if (treeSpent(id, n.bi, tr, n.t) < talNeed(n)) return 'tier';
+function talCanAdd(id, n, tr, free) { if (n.startForm && TALENTS.druid.some(b => b.nodes.some(q => q.startForm && q.id !== n.id && tRank(tr, q)))) return 'max'; if (tRank(tr, n) >= n.m) return 'max'; if (treeSpent(id, n.bi, tr, n.t) < talNeed(n)) return 'tier';
   if (n.req) { const q = TAL_BY_ID[id + ':' + n.req]; if (tRank(tr, q) < q.m) return 'req'; } return free > 0 ? '' : 'pts'; }
 function talValid(id, tr) { for (const b of TALENTS[id]) for (const n of b.nodes) { if (!tRank(tr, n)) continue; if (treeSpent(id, n.bi, tr, n.t) < talNeed(n)) return false;
   if (n.req) { const q = TAL_BY_ID[id + ':' + n.req]; if (tRank(tr, q) < q.m) return false; } } return true; }
@@ -3429,7 +3429,7 @@ function foxTails(g, R, C, t, n, sc) { // fluffy kitsune tails (count grows with
 function drawHero(g, o) {
   if (ActorAnimations.draw(g, o)) return;
   if (o.cls === 'bearlina') return drawBearlina(g, o);
-  if (PXA.hero.ok(o)) return PXA.hero.vec(g, o); // v32: Shade has a pixel body now; the vector ghost stays for the classic-art setting
+  if (!(o.cos || heroCos(o.cls, raceOf(o.race || save.race))).armor && PXA.hero.ok(o)) return PXA.hero.vec(g, o); // v32: Shade has a pixel body now; the vector ghost stays for the classic-art setting
   if (!o._gh && raceOf(o.race || (typeof save !== 'undefined' && save && save.race)) === 'shade') return drawGhost(g, o);
   if (o.form === 'cat' || o.form === 'tree') { g.save(); g.translate(0, 17); g.scale(1.22, 1.22); g.translate(0, -17); o.form === 'cat' ? drawCatForm(g, o) : drawTreeForm(g, o); g.restore(); return; }
   const cls = CLASSES[o.cls] ? o.cls : 'rogue', art = CLASSES[cls].art, L = CLASS_LOOK[cls];
@@ -8419,7 +8419,7 @@ function newRun(cls, challenge = null) {
   addWeapon(CLASSES[cls].weapon);
   if (!challenge) applyKeepsakes(cls);
   if (G.tf.startArcher) addWeapon('archers'); if (G.tf.startBrute) addWeapon('brute'); if (G.tf.startRain) addWeapon('arrowrain');
-  w28Start(); recalc(); P.hp = P.maxHp;
+  w28Start(); expansionStart(); recalc(); P.hp = P.maxHp;
   if (!challenge) save.lastClass = cls; save.runs++; persist();
 }
 const CLS_DMG34 = { rogue: 1.1, ranger: 1.1, mage: 1.1 }; // v34 balance buff
@@ -14760,7 +14760,7 @@ function render(dt) {
     const s = p.k === 'chest' ? (p.boss ? 58 : 46) : 34; ctx.drawImage(SPR.pick[p.k], p.x - s / 2, p.y - s / 2 + Math.sin(gtime * 3 + p.x) * 2, s, s); }
   // ground effects
   for (const m of minions) if (MBASE(m) === 'brute' && !m.dead) { const R = minionStats()[m.type].tauntR; ctx.strokeStyle = 'rgba(255,80,130,.18)'; ctx.lineWidth = 1.5; ctx.setLineDash([4, 8]); ctx.lineDashOffset = gtime * 12; ctx.beginPath(); ctx.ellipse(m.x, m.y + 10, R, R * 0.8, 0, 0, TAU); ctx.stroke(); ctx.setLineDash([]); }
-  for (const f of effects) {
+  for (const f of effects) { ctx.save(); try { if (f.src && f.k !== 'warn' && f.k !== 'goo') ctx.filter = 'opacity(' + expansionOpacity() + '%)'; 
     if (f.k === 'warn') { const p = 1 - Math.max(0, f.life) / f.max, col = f.col || '#ff3d3d';
       ctx.fillStyle = hexA(col, 0.1 + 0.12 * p); ctx.strokeStyle = hexA(col, 0.55 + 0.35 * Math.sin(gtime * 24) ** 2); ctx.lineWidth = 2;
       if (f.line) { ctx.save(); ctx.translate(f.x, f.y); ctx.rotate(f.ang); ctx.fillRect(0, -f.w / 2, f.len, f.w); ctx.fillStyle = hexA(col, 0.3); ctx.fillRect(0, -f.w / 2, f.len * p, f.w); ctx.strokeRect(0, -f.w / 2, f.len, f.w); ctx.restore(); }
@@ -14799,7 +14799,7 @@ function render(dt) {
       else if (f.fire) { ctx.globalCompositeOperation = 'lighter'; glowAt('#ff8a3c', f.x, f.y, f.r * 1.7, 0.3 * a); for (let i = 0; i < 4; i++) { const an = i * 1.9 + f.x, fx = f.x + Math.cos(an) * f.r * 0.5, fy = f.y + Math.sin(an) * f.r * 0.35, fl = (0.6 + 0.4 * Math.sin(gtime * 14 + i * 3 + f.y)) * a * (f.r / 22);
           ctx.fillStyle = hexA('#ff6a2a', 0.55 * a); ctx.beginPath(); ctx.moveTo(fx - 4 * fl, fy); ctx.quadraticCurveTo(fx, fy - 16 * fl, fx + 4 * fl, fy); ctx.fill(); ctx.fillStyle = hexA('#ffd36a', 0.6 * a); ctx.beginPath(); ctx.moveTo(fx - 2 * fl, fy); ctx.quadraticCurveTo(fx, fy - 9 * fl, fx + 2 * fl, fy); ctx.fill(); } ctx.globalCompositeOperation = 'source-over'; }
       else for (let i = 0; i < 3; i++) { const an = gtime * 0.8 + i * 2.1; ctx.fillStyle = hexA(f.col, 0.12 * a); ctx.beginPath(); ctx.arc(f.x + Math.cos(an) * f.r * 0.35, f.y + Math.sin(an) * f.r * 0.3, f.r * 0.55, 0, TAU); ctx.fill(); } }
-  }
+   } finally { ctx.restore(); } }
   drawQuestWorld(); w28World(); ph46Draw(); hm47Draw();
   // v15: time-of-day key light re-bake (incremental)
   { const kp = phaseName(G.t || 0); if (kp !== SPR.keyPh) relightEnemies(kp); if (SPR.rq.length) tickRelight(); }
@@ -14866,7 +14866,7 @@ function render(dt) {
   }
   ctx.globalCompositeOperation = 'source-over';
   // projectiles
-  for (const p of projs) {
+  for (const p of projs) { ctx.save(); try { if (true) ctx.filter = 'opacity(' + expansionOpacity() + '%)'; 
     if (!inView(p.x, p.y, 30)) continue;
     if (p.src && G.evo[p.src]) { ctx.globalCompositeOperation = 'lighter'; glowAt(EVO[p.src].col, p.x, p.y, 30 + p.r * 2.4, 0.55 + 0.2 * Math.sin(gtime * 14 + p.x * 0.1)); ctx.globalCompositeOperation = 'source-over'; } // v18 evolved glow
     if (p.k === 'mbolt') { const c = MCOL[p.el] || '#c56bff', a = Math.atan2(p.vy, p.vx); ctx.globalCompositeOperation = 'lighter'; glowAt(c === '#7fd6ff' ? '#7fd6ff' : c, p.x, p.y, 30); glowAt('#ffffff', p.x, p.y, 9);
@@ -14916,10 +14916,10 @@ function render(dt) {
       ctx.fillStyle = '#120a24'; ctx.beginPath(); ctx.arc(0, 0, 4.2, 0, TAU); ctx.fill(); ctx.strokeStyle = '#ffd36a'; ctx.lineWidth = 1.4; ctx.stroke(); ctx.restore(); }
     else if (p.k === 'scy') { ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.spin); ctx.globalCompositeOperation = 'lighter'; glowAt('#ff3d6e', 0, 0, 34, 0.5); ctx.globalCompositeOperation = 'source-over';
       ctx.fillStyle = '#e9e4f2'; ctx.beginPath(); ctx.arc(0, 0, 12, -0.3, Math.PI * 0.9); ctx.arc(3, -2, 9, Math.PI * 0.9, -0.3, true); ctx.closePath(); ctx.fill(); ctx.strokeStyle = '#3a2a30'; ctx.lineWidth = 2.4; ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(-8, 8); ctx.stroke(); ctx.restore(); }
-  }
+   } finally { ctx.restore(); } }
   for (const p of eprojs) { if (!inView(p.x, p.y, 20)) continue; ctx.globalCompositeOperation = 'lighter'; glowAt(SPR.glow[p.c] ? p.c : '#9dff3b', p.x, p.y, 28); ctx.globalCompositeOperation = 'source-over'; ctx.fillStyle = '#0a0610'; ctx.beginPath(); ctx.arc(p.x, p.y, 3.5, 0, TAU); ctx.fill(); }
   // effects (over)
-  for (const f of effects) {
+  for (const f of effects) { ctx.save(); try { if (f.src && f.k !== 'warn' && f.k !== 'goo') ctx.filter = 'opacity(' + expansionOpacity() + '%)'; 
     const p = 1 - Math.max(0, f.life) / f.max, a = 1 - p;
     if (f.src && G.evo[f.src] && f.k !== 'bolt' && f.k !== 'leap' && f.k !== 'mark' && f.life > 0) { const ev = EVO[f.src], fw = f.follow || f.k === 'cone' || f.k === 'reap', fx = fw ? P.x : f.x, fy = fw ? P.y : f.y, r0 = f.k === 'nova' ? Math.max(f.r, 20) : (f.r || 30); // v18 evolved tint
       if (fx !== undefined) { ctx.globalCompositeOperation = 'lighter'; glowAt(ev.col, fx, fy, r0 * 2.3, (f.k === 'zone' ? 0.24 : 0.42) * Math.min(1, a * 1.6));
@@ -14968,11 +14968,11 @@ function render(dt) {
       glowAt('#ff4fd8', 0, 0, f.r * 1.4, 0.3 * a); for (let k = 0; k < 3; k++) { ctx.rotate(TAU / 3); for (let i = -1; i <= 1; i++) { const rr = f.r * 0.92 + i * 6; ctx.strokeStyle = `rgba(255,${110 + 50 * (i + 1)},${200 + 20 * i},${0.85 * a})`; ctx.lineWidth = 3 - Math.abs(i); ctx.beginPath(); ctx.arc(0, 0, rr, -0.55 * f.dir, 0.55 * f.dir, f.dir < 0); ctx.stroke(); } }
       ctx.restore(); ctx.globalCompositeOperation = 'source-over'; }
     else if (f.k === 'leap') { ctx.strokeStyle = f.col ? hexA(f.col, a) : `rgba(200,130,255,${a})`; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(f.x, f.y); ctx.quadraticCurveTo((f.x + f.x2) / 2, Math.min(f.y, f.y2) - 30, f.x2, f.y2); ctx.stroke(); }
-  }
+   } finally { ctx.restore(); } }
   // particles
-  for (const p of parts) { if (p.glow) continue; const lf = Math.max(0, p.life / p.max); if (p.smoke) { const sz = p.s * (1 + 2.2 * (1 - lf)); ctx.globalAlpha = lf * (p.sa || 0.4); ctx.drawImage(smokeOf(p.c), p.x - sz, p.y - sz, sz * 2, sz * 2); continue; } ctx.globalAlpha = lf; ctx.fillStyle = p.c; ctx.fillRect(p.x - p.s / 2, p.y - p.s / 2, p.s, p.s); }
+  for (const p of parts) { ctx.save(); try { if (true) ctx.filter = 'opacity(' + expansionOpacity() + '%)';  if (p.glow) continue; const lf = Math.max(0, p.life / p.max); if (p.smoke) { const sz = p.s * (1 + 2.2 * (1 - lf)); ctx.globalAlpha = lf * (p.sa || 0.4); ctx.drawImage(smokeOf(p.c), p.x - sz, p.y - sz, sz * 2, sz * 2); continue; } ctx.globalAlpha = lf; ctx.fillStyle = p.c; ctx.fillRect(p.x - p.s / 2, p.y - p.s / 2, p.s, p.s);  } finally { ctx.restore(); } }
   ctx.globalCompositeOperation = 'lighter';
-  for (const p of parts) { if (!p.glow) continue; ctx.globalAlpha = Math.max(0, p.life / p.max); ctx.fillStyle = p.c; ctx.beginPath(); ctx.arc(p.x, p.y, p.s, 0, TAU); ctx.fill(); }
+  for (const p of parts) { ctx.save(); try { if (true) ctx.filter = 'opacity(' + expansionOpacity() + '%)';  if (!p.glow) continue; ctx.globalAlpha = Math.max(0, p.life / p.max); ctx.fillStyle = p.c; ctx.beginPath(); ctx.arc(p.x, p.y, p.s, 0, TAU); ctx.fill();  } finally { ctx.restore(); } }
   ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
   w28Air();
   // numbers
@@ -15103,7 +15103,7 @@ function loItems() { /* [skills[], passives[]] with display info; shared by the 
   const ps = Object.keys(G.passives).filter(id => PDEF[id]).map(id => { const d = PDEF[id], l = G.passives[id]; return { k: 'p', id, ic: d.ic, lv: l, max: l >= d.max, endless: l > d.max, col: loPCol(id) }; });
   return [ws, ps]; }
 function drawLoadout(x0, y0, S, gp) { const [ws, ps] = loItems(), rows = [[ws, Math.max(5, ws.length)], [ps, Math.max(6, ps.length)]]; let y = y0; LO_RECTS = [];
-  ctx.save(); for (const [L, n] of rows) { for (let i = 0; i < n; i++) { const it = L[i], x = x0 + i * (S + gp); if (it) { loTile(x, y, S, it.ic, it.lv, it); LO_RECTS.push([x, y, S, S]); } else loTile(x, y, S, '', '', { empty: 1 }); } y += S + gp; }
+  ctx.save(); for (const [L, n] of rows) { for (let i = 0; i < n; i++) { const it = L[i], x = x0 + i * (S + gp); if (it) { loTile(x, y, S, it.ic, it.lv, it); LO_RECTS.push([x, y, S, S, it]); } else loTile(x, y, S, '', '', { empty: 1 }); } y += S + gp; }
   ctx.restore(); return y - gp; }
 function loDetail(it) { /* plain-text-ish HTML detail for a loadout entry */
   if (it.k === 'w') { const d = WDEF[it.id], w = G.weapons.find(w => w.id === it.id), E = EVO[it.id], er = evoReady();
@@ -15781,12 +15781,13 @@ function renderBuild() {
 let luOpenAt = 0;
 function openLevelUp(restored) { state = 'levelup'; setJoy(false); if (!restored) { Snd.play('levelup'); padRumble(0.35, 0.6, 220); burst(P.x, P.y, '#ffd24a', 24, 160, 3, 0.7, true); } setTimeout(() => Snd.play('deal'), restored ? 60 : 280); show('levelup'); $('pauseBtn').classList.add('hidden'); buildChoices(); saveRun(); }
 function buildChoices() {
+  expansionRandomControl();
   luOpenAt = performance.now();
   $('luTitle').textContent = 'Level ' + (G.level - G.pending + 1) + '!';
   const opts = [], owned = new Set(G.weapons.map(w => w.id));
   for (const w of G.weapons) if (w.lvl < WDEF[w.id].max) opts.push({ k: 'w', id: w.id, w: 3 });
   if (G.weapons.length < SKILL_SLOTS) for (const id in WDEF) { if (owned.has(id)) continue; const d = WDEF[id]; if (d.cls !== G.cls) continue;   // class-only weapon pool
-    if (d.form && druidForm()) continue;                                             // one form per run: taking Cat or Tree removes the other
+    if (d.form && (druidForm() || expansionState().startForm)) continue;                                             // one form per run: taking Cat or Tree removes the other
     if (d.cat && druidForm() !== 'cat') continue; if (druidForm() === 'cat' && catBan(id)) continue; // v18: Sanguine Maw is cat-only; the Cat never gets ranged nature spells
     if (d.tree && druidForm() !== 'tree') continue;                                  // v19: Uprooted Boulder is tree-only
     opts.push({ k: 'w', id, w: d.cat || d.tree ? 4 : d.form ? 2.8 : 2.4 }); }
@@ -15804,6 +15805,7 @@ function buildChoices() {
     while (ch.length < 3 && pool.length) { const o = wpick(pool, o => o.w); ch.push(o); pool.splice(pool.indexOf(o), 1); }
     if (ch.length < 3) ch.push({ k: 'heal' }); if (ch.length < 3) ch.push({ k: 'shard' });
     G.luChoices = ch.map(o => ({ k: o.k, id: o.id })); }
+  expansionAutoChoice(ch);
   const C = $('choices'); C.innerHTML = ''; luSel = null; $('btnPick').disabled = true; $('btnPick').textContent = 'Tap a card';
   { const rb = $('btnReroll'), rr = G.rerolls || 0; rb.textContent = '↻ Reroll (' + rr + ')'; rb.disabled = !rr; rb.setAttribute('aria-label', 'Reroll cards, ' + rr + ' left'); }
   if (typeof renderLoadoutDom === 'function') renderLoadoutDom($('luLoad'), false);
@@ -16126,6 +16128,7 @@ function renderWard() {
   // outfits (existing system: colours + small bonus); an armour set overrides the colours for that class
   sec('Outfit <span style="color:#bcd0ff;letter-spacing:0;text-transform:none;font-weight:700">· base colours & bonus</span>'); let r = row();
   for (const id in OUTFITS) { const o = OUTFITS[id], own = !!save.outfits[id]; sw(r, o.name + (o.b && Object.keys(o.b).length ? ` (${o.bonus})` : ''), save.outfit === id, !own, Object.assign(base(), { armor: '' }), () => { save.outfit = id; persist(); }, own ? '' : `Buy ${o.name} in the Armory`, id); }
+  expansionWard(B);
   sec(`${CLASSES[wardCls].name} armor set`); r = row();
   sw(r, 'Outfit colours', !save.cos.armor[wardCls], false, Object.assign(base(), { armor: '' }), () => { delete save.cos.armor[wardCls]; persist(); });
   for (const st of ARMOR_SETS[wardCls]) sw(r, (st.prestige ? '★ ' : '') + st.name, save.cos.armor[wardCls] === st.id, !cosOwned(st.id), Object.assign(base(), { armor: st.id }), () => { save.cos.armor[wardCls] = st.id; persist(); }, hintFor(st.id));
@@ -16316,7 +16319,9 @@ function drawBearlina(g, o) {
   const S = typeof G !== 'undefined' && G && G.cls === 'bearlina' ? G.v30 : null;
   const moon = S && S.moonU > gtime ? Math.sin(Math.min(1, (gtime - S.moonStart) / 0.55) * Math.PI) * 22 : 0;
   const bob = mv ? Math.abs(Math.sin(t * 9)) * 1.7 : Math.sin(t * 2.5) * 0.5;
-  if (BEAR_ATLAS.complete && BEAR_ATLAS.naturalWidth) {
+  const costumeExpansion = ARMOR_BY_ID[(o.cos || heroCos('bearlina', race)).armor];
+  if (costumeExpansion) { pal[0] = costumeExpansion.cloak; pal[1] = costumeExpansion.cloak2; pal[2] = costumeExpansion.trim; }
+  if (!costumeExpansion && BEAR_ATLAS.complete && BEAR_ATLAS.naturalWidth) {
     const ix = ['cat','elf','ogre','dwarf','troll','kitsune','scale','shade'].indexOf(race), row = ix >= 4 ? 1 : 0;
     g.save(); if (!o.noShadow) { g.fillStyle = 'rgba(18,12,24,.25)'; g.beginPath(); g.ellipse(0,18,25,4,0,0,TAU);g.fill(); }
     g.translate(0,-bob-moon); const attack = o.atk || 0, sway = mv ? Math.sin(t*9)*.025 : 0;

@@ -56,6 +56,8 @@ function expansionSelect() {
 }
 function initExpansion() {
   SCREENS.push('victoryExpansion');
+  expansionInitControls();
+  expansionInitControls();
   const bases = ['colossus', 'warden', 'mother'];
   const names = ['Lost Shadow: Hollow Titan', 'Lost Shadow: Cinder Knight', 'Lost Shadow: Veil Mother'];
   ShadowExpansion.LOST.forEach((id,i) => { ETYPES[id] = { ...ETYPES[bases[i]], name: names[i], hp: ETYPES[bases[i]].hp * 1.6, artBase: bases[i], t0: 1e9, lostShadow: true }; });
@@ -69,4 +71,53 @@ function initExpansion() {
   document.body.appendChild(screen);
   $('endExpansion').onclick = () => showGameOver(true);
   $('endlessExpansion').onclick = () => { expansionState().endless = true; G.nextBoss = G.t + 180; resumeGame(); };
+}
+function expansionOpacity() { return Math.max(5, Math.min(100, Number(save.spellVisibilityExpansion) || 100)); }
+function expansionStart() {
+  const x = expansionState(); x.randomAll = !G.challengeDate && !!save.randomBuildExpansion;
+  if (G.cls === 'druid') {
+    x.startForm = G.tf.startCat ? 'cat' : G.tf.startTree ? 'tree' : G.tf.startCaster ? 'caster' : '';
+    const f = G.tf.startCat ? 'catform' : G.tf.startTree ? 'treeform' : '';
+    if (f && !G.weapons.some(w=>w.id===f)) addWeapon(f);
+  }
+  if (x.randomAll) {
+    const pool = Object.keys(WDEF).filter(id => WDEF[id].cls === G.cls && !WDEF[id].form && (!WDEF[id].cat || druidForm()==='cat') && (!WDEF[id].tree || druidForm()==='tree') && !(druidForm()==='cat' && catBan(id)));
+    if (pool.length) { const i=G.weapons.findIndex(w=>w.id===CLASSES[G.cls].weapon); if(i>=0)G.weapons.splice(i,1); addWeapon(pick(pool)); }
+  }
+}
+function expansionRandomControl() {
+  let b = $('randomPassiveExpansion');
+  if (!b) { b=document.createElement('button'); b.id='randomPassiveExpansion'; b.className='btn small'; $('levelup').insertBefore(b,$('choices')); }
+  const x=expansionState(),ready=ShadowExpansion.passiveReady(G,WDEF,SKILL_SLOTS);
+  b.hidden=!ready; b.textContent=x.randomPassives?'Random passives: ON':'Randomize all future passives';
+  b.onclick=()=>{x.randomPassives=!x.randomPassives; buildChoices();saveRun();};
+}
+function expansionAutoChoice(ch) {
+  const x=expansionState(),ready=ShadowExpansion.passiveReady(G,WDEF,SKILL_SLOTS);
+  const pool=x.randomAll?ch: x.randomPassives&&ready?ch.filter(o=>o.k==='p'):[];
+  if(!pool.length)return;
+  const run=G,choices=G.luChoices,o=pick(pool);
+  setTimeout(()=>{if(G===run&&state==='levelup'&&G.luChoices===choices&&G.pending>0)applyChoice(o);},20);
+}
+function expansionWard(body) {
+  const p=ShadowExpansion.profile(save),items=(ARMOR_SETS[wardCls]||[]).filter(o=>o.outfitShardCost);
+  const section=document.createElement('section');section.className='stats';
+  section.innerHTML='<h3>Lost Shadow outfits</h3><p>◆ '+p.shards+' Outfit Shards · cosmetic only · earned from Lost Shadows</p>';
+  for(const o of items){const own=!!p.looks[o.id],eq=save.cos.armor[wardCls]===o.id,b=document.createElement('button');b.className='btn small';b.textContent=o.name+' · '+(eq?'Worn':own?'Wear':o.outfitShardCost+' ◆');b.disabled=eq||(!own&&p.shards<o.outfitShardCost);b.onclick=()=>{if(!p.looks[o.id]){if(p.shards<o.outfitShardCost)return;p.shards-=o.outfitShardCost;p.looks[o.id]=1;}save.cos.armor[wardCls]=o.id;persist();renderWard();};section.appendChild(b);}
+  body.appendChild(section);
+}
+function expansionInitControls() {
+  const p=ShadowExpansion.profile(save);
+  const settings=document.createElement('div');settings.className='stats';settings.innerHTML='<label for="spellVisibilityExpansion">Player spell visibility</label><input id="spellVisibilityExpansion" type="range" min="5" max="100" step="5" value="'+expansionOpacity()+'"><output id="spellVisibilityValueExpansion">'+expansionOpacity()+'%</output><p>Fades your spells and decorative particles. Enemy attacks and warning zones stay visible.</p>';
+  $('audio').insertBefore(settings,$('audio').children[1]);$('spellVisibilityExpansion').oninput=e=>{save.spellVisibilityExpansion=+e.target.value;$('spellVisibilityValueExpansion').textContent=e.target.value+'%';persist();};
+  const random=document.createElement('label');random.className='stats';random.innerHTML='<input id="randomBuildExpansion" type="checkbox" '+(save.randomBuildExpansion?'checked':'')+'> Random build · auto-pick skills and passives every level';$('select').appendChild(random);$('randomBuildExpansion').onchange=e=>{save.randomBuildExpansion=e.target.checked;persist();};
+  const palettes=[['Moonlit','#28386a','#080d22','#a8dfff','stars'],['Ember','#a43a20','#270905','#ffd08a','stripes'],['Verdant','#28543d','#061e11','#b5ff9a','scales'],['Ivory','#c4bbc9','#36303b','#fff3cf','filigree'],['Voidbound','#38224d','#0e0417','#ee9dff','runes']];
+  for(const cls of Object.keys(CLASSES)){
+    ARMOR_SETS[cls] ||= [];
+    palettes.forEach(([name,main,shade,trim,motif],i)=>{const id='lostlook_'+cls+'_'+i;if(ARMOR_BY_ID[id])return;const o={...AS(id,name+' '+CLASSES[cls].name,main,shade,trim,motif),cls,outfitShardCost:i+1};ARMOR_SETS[cls].push(o);ARMOR_BY_ID[id]=o;});
+  }
+  const forms=[['cat','Shadowcat','startCat'],['caster','Wildcaller','startCaster'],['tree','Elderbark','startTree']];
+  forms.forEach(([form,name,flag],bi)=>{const n={id:'d_start_'+form,n:'Start as '+name,name:'Start as '+name,ic:bi===0?'🐾':bi===1?'✿':'♣',t:1,c:0,m:1,e:{},f:flag,startForm:form,bi,slot:-1,d:'Choose your starting form. Only one starting form talent may be selected. Costs 1 talent point.'};TALENTS.druid[bi].nodes.unshift(n);TAL_BY_ID['druid:'+n.id]=n;});
+  const tip=document.createElement('div');tip.id='skillHoverExpansion';Object.assign(tip.style,{position:'fixed',display:'none',pointerEvents:'none',zIndex:1000,maxWidth:'320px',padding:'12px',border:'1px solid #ba8be8',borderRadius:'10px',background:'#140b24',fontSize:'13px',color:'#eee6ff'});document.body.appendChild(tip);
+  cv.addEventListener('pointermove',e=>{const r=cv.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top,it=LO_RECTS.find(b=>x>=b[0]&&x<=b[0]+b[2]&&y>=b[1]&&y<=b[1]+b[3]);if(state!=='play'||!it){tip.style.display='none';return;}tip.innerHTML=loDetail(it[4]);tip.style.display='block';tip.style.left=Math.max(8,Math.min(innerWidth-330,e.clientX+12))+'px';tip.style.top=Math.min(innerHeight-tip.offsetHeight-8,e.clientY+16)+'px';});cv.addEventListener('pointerleave',()=>tip.style.display='none');
 }

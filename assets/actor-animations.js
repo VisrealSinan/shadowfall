@@ -26,7 +26,7 @@ const ActorAnimations = (() => {
     save.sex[race] = sex === 'female' ? 'f' : 'm';
   }
   function variant(o) {
-    if (o.form) return null;
+    if (o.form || (o.cos || heroCos(o.cls, raceOf(o.race || save.race))).armor) return null;
     const sex = o.cls === 'bearlina' ? 'bear-form' : (o.gender || gender(o.cls, o.race));
     return variants[[o.cls, o.race || save.race, sex].join('/')] || null;
   }
