@@ -9,6 +9,7 @@ function expansionState() {
 }
 function expansionEnemy(e) {
   const m = ShadowExpansion.multipliers(G.t, expansionState().difficulty);
+  e.biteExpansion = G.t >= 1200;
   e.hp *= m.hp; e.maxHp = e.hp; e.dmg *= m.damage; e.spd *= m.speed;
 }
 function expansionDirector() {
@@ -35,6 +36,7 @@ function expansionKill(e) {
   if (e.type === 'lost_sovereign') { x.finalDefeated = true; }
 }
 function expansionTick(dt) {
+  expansionHuntTick(dt);
   const x = expansionState(), p = ShadowExpansion.profile(save);
   if (G.t >= 900 && !p.clears[G.map] && !G.challengeDate) { p.clears[G.map] = 1; persist(); toast('Map cleared · Difficulty unlocked', '#ffd24a', 3); }
 }
@@ -49,14 +51,15 @@ function expansionSettle() {
 }
 function expansionSelect() {
   let panel = $('runOptionsExpansion');
-  if (!panel) { panel = document.createElement('div'); panel.id = 'runOptionsExpansion'; panel.className = 'stats'; $('select').appendChild(panel); }
+  if (!panel) { panel = document.createElement('div'); panel.id = 'runOptionsExpansion'; panel.className = 'stats'; $('select').insertBefore(panel, $('select').querySelector('.selfoot')); }
   const p = ShadowExpansion.profile(save), cleared = !!p.clears[selMap36()];
   panel.innerHTML = '<label>Difficulty <input id="difficultyExpansion" type="range" min="1" max="5" step="1" value="'+(cleared ? p.difficulty || 1 : 1)+'" '+(!cleared?'disabled':'')+'><output id="difficultyValueExpansion">'+(cleared ? p.difficulty || 1 : 1)+'</output></label><div>'+(cleared?'Higher difficulty increases enemy health and damage.':'Survive 15 minutes on this map to unlock difficulty.')+'</div>';
   $('difficultyExpansion').oninput = e => { p.difficulty = +e.target.value; $('difficultyValueExpansion').textContent = p.difficulty; persist(); };
 }
 function initExpansion() {
   SCREENS.push('victoryExpansion');
-  expansionInitControls();
+  expansionInitSecrets();
+  expansionInitSkills();
   expansionInitControls();
   const bases = ['colossus', 'warden', 'mother'];
   const names = ['Lost Shadow: Hollow Titan', 'Lost Shadow: Cinder Knight', 'Lost Shadow: Veil Mother'];
@@ -69,6 +72,7 @@ function initExpansion() {
   const screen = document.createElement('div'); screen.id = 'victoryExpansion'; screen.className = 'screen dim';
   screen.innerHTML = '<div class="spacer"></div><h2>Round Complete</h2><p>The Lost Sovereign has fallen.</p><p id="victoryStatsExpansion" class="stats"></p><button class="btn primary" id="endExpansion">End Round · Bank Rewards</button><button class="btn" id="endlessExpansion">Continue · Endless</button><p class="stats">Endless continues this run. Enemies hit harder after 20 minutes.</p><div class="spacer"></div>';
   document.body.appendChild(screen);
+  buildArt(); // Register lazy art entries for the newly added enemies.
   $('endExpansion').onclick = () => showGameOver(true);
   $('endlessExpansion').onclick = () => { expansionState().endless = true; G.nextBoss = G.t + 180; resumeGame(); };
 }
@@ -78,10 +82,10 @@ function expansionStart() {
   if (G.cls === 'druid') {
     x.startForm = G.tf.startCat ? 'cat' : G.tf.startTree ? 'tree' : G.tf.startCaster ? 'caster' : '';
     const f = G.tf.startCat ? 'catform' : G.tf.startTree ? 'treeform' : '';
-    if (f && !G.weapons.some(w=>w.id===f)) addWeapon(f);
+    if (f && !G.weapons.some(w=>w.id===f)) { if (f === 'catform') G.weapons = G.weapons.filter(w=>w.id !== CLASSES.druid.weapon); addWeapon(f); }
   }
   if (x.randomAll) {
-    const pool = Object.keys(WDEF).filter(id => WDEF[id].cls === G.cls && !WDEF[id].form && (!WDEF[id].cat || druidForm()==='cat') && (!WDEF[id].tree || druidForm()==='tree') && !(druidForm()==='cat' && catBan(id)));
+    const pool = Object.keys(WDEF).filter(id => WDEF[id].cls === G.cls && !WDEF[id].form && (!WDEF[id].cat || druidForm()==='cat') && (!WDEF[id].tree || druidForm()==='tree') && (!WDEF[id].caster || !druidForm()) && !(druidForm()==='cat' && catBan(id)));
     if (pool.length) { const i=G.weapons.findIndex(w=>w.id===CLASSES[G.cls].weapon); if(i>=0)G.weapons.splice(i,1); addWeapon(pick(pool)); }
   }
 }
@@ -110,7 +114,7 @@ function expansionInitControls() {
   const p=ShadowExpansion.profile(save);
   const settings=document.createElement('div');settings.className='stats';settings.innerHTML='<label for="spellVisibilityExpansion">Player spell visibility</label><input id="spellVisibilityExpansion" type="range" min="5" max="100" step="5" value="'+expansionOpacity()+'"><output id="spellVisibilityValueExpansion">'+expansionOpacity()+'%</output><p>Fades your spells and decorative particles. Enemy attacks and warning zones stay visible.</p>';
   $('audio').insertBefore(settings,$('audio').children[1]);$('spellVisibilityExpansion').oninput=e=>{save.spellVisibilityExpansion=+e.target.value;$('spellVisibilityValueExpansion').textContent=e.target.value+'%';persist();};
-  const random=document.createElement('label');random.className='stats';random.innerHTML='<input id="randomBuildExpansion" type="checkbox" '+(save.randomBuildExpansion?'checked':'')+'> Random build · auto-pick skills and passives every level';$('select').appendChild(random);$('randomBuildExpansion').onchange=e=>{save.randomBuildExpansion=e.target.checked;persist();};
+  const random=document.createElement('label');random.className='stats';random.innerHTML='<input id="randomBuildExpansion" type="checkbox" '+(save.randomBuildExpansion?'checked':'')+'> Random build · auto-pick skills and passives every level';$('select').insertBefore(random, $('select').querySelector('.selfoot'));$('randomBuildExpansion').onchange=e=>{save.randomBuildExpansion=e.target.checked;persist();};
   const palettes=[['Moonlit','#28386a','#080d22','#a8dfff','stars'],['Ember','#a43a20','#270905','#ffd08a','stripes'],['Verdant','#28543d','#061e11','#b5ff9a','scales'],['Ivory','#c4bbc9','#36303b','#fff3cf','filigree'],['Voidbound','#38224d','#0e0417','#ee9dff','runes']];
   for(const cls of Object.keys(CLASSES)){
     ARMOR_SETS[cls] ||= [];
@@ -120,4 +124,9 @@ function expansionInitControls() {
   forms.forEach(([form,name,flag],bi)=>{const n={id:'d_start_'+form,n:'Start as '+name,name:'Start as '+name,ic:bi===0?'🐾':bi===1?'✿':'♣',t:1,c:0,m:1,e:{},f:flag,startForm:form,bi,slot:-1,d:'Choose your starting form. Only one starting form talent may be selected. Costs 1 talent point.'};TALENTS.druid[bi].nodes.unshift(n);TAL_BY_ID['druid:'+n.id]=n;});
   const tip=document.createElement('div');tip.id='skillHoverExpansion';Object.assign(tip.style,{position:'fixed',display:'none',pointerEvents:'none',zIndex:1000,maxWidth:'320px',padding:'12px',border:'1px solid #ba8be8',borderRadius:'10px',background:'#140b24',fontSize:'13px',color:'#eee6ff'});document.body.appendChild(tip);
   cv.addEventListener('pointermove',e=>{const r=cv.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top,it=LO_RECTS.find(b=>x>=b[0]&&x<=b[0]+b[2]&&y>=b[1]&&y<=b[1]+b[3]);if(state!=='play'||!it){tip.style.display='none';return;}tip.innerHTML=loDetail(it[4]);tip.style.display='block';tip.style.left=Math.max(8,Math.min(innerWidth-330,e.clientX+12))+'px';tip.style.top=Math.min(innerHeight-tip.offsetHeight-8,e.clientY+16)+'px';});cv.addEventListener('pointerleave',()=>tip.style.display='none');
+}
+function expansionHUD() {
+  let el=$('huntTimerExpansion');if(!el){el=document.createElement('div');el.id='huntTimerExpansion';Object.assign(el.style,{position:'fixed',left:'50%',bottom:'130px',transform:'translateX(-50%)',pointerEvents:'none',fontSize:'13px',color:'#e8e2f5',background:'#160c24dd',padding:'5px 10px',borderRadius:'8px',zIndex:4});document.body.appendChild(el);}
+  const x=G&&G.expansion,on=x&&x.huntStarted!==undefined&&!x.huntComplete&&['play','paused','countdown'].includes(state);el.style.display=on?'block':'none';if(on)el.textContent='Michael Myers · survive '+fmtTime(Math.max(0,180-(x.huntElapsed||0)));
+  const tip=$('skillHoverExpansion');if(tip&&state!=='play')tip.style.display='none';
 }

@@ -1,11 +1,11 @@
 {
- "version": "74",
+ "version": "75",
  "date": "2026-10-31",
  "minLauncher": "2.0.0",
  "notes": [
-  "Five cosmetic Lost Shadow outfits per class, purchased with Outfit Shards.",
-  "Player spell visibility slider preserves enemy attacks and warning zones.",
-  "Adds random builds, automatic passive picks, skill hover details, and Druid starting-form talents."
+  "Adds the invincible 15-minute Michael Myers pursuit and a mortal unlockable Michael Myers.",
+  "Adds the hidden Tibo and Poteto duo, two late-run enemy types, and 150 new skills across all classes and Druid forms.",
+  "Includes five Shard outfits per class, difficulty and endless progression, spell visibility, random builds, and starting-form talents."
  ],
  "files": [
   {
@@ -35,8 +35,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "b4df3b5699cad78a7c090b8be0a5a6cc137c3d59303d9940442fb45f29aa1dbd",
-   "size": 2837298
+   "sha256": "e9db65921190d35a57a56ec6b10348bc0bb2e726ae4ae404fa55e41747175818",
+   "size": 2838165
   },
   {
    "name": "manifest.webmanifest",
@@ -4800,8 +4800,13 @@
   },
   {
    "name": "assets/expansion-ui.js",
-   "sha256": "7c62c09ac577ef832af995abe51835f7cbd13a00274f08df08877e668eb7da23",
-   "size": 10555
+   "sha256": "ef6ca027d417b38ab718242065f563af328cc1681a2c93d7383d6c52e612d8bd",
+   "size": 11635
+  },
+  {
+   "name": "assets/expansion-content.js",
+   "sha256": "a9256c50137c19379cf575a478a556e2b5c5ae4fc76139feba9cb169f915207b",
+   "size": 11175
   }
  ]
 }

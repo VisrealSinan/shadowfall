@@ -1545,7 +1545,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
   <p><b>Classes:</b> nine classes (the hybrid <b>Eclipse Paragon</b> is unlocked with Shards), each with its own costume, skills and three <b>Talent trees</b> (T). Playing a class earns class XP → 1 talent point per class level (up to 51). Every 5 points in a tree unlocks its next tier; the 7th tier holds a build-defining capstone. Respec any time with Reset.</p>
   <p><b>Gold &amp; traders:</b> foes sometimes drop gold coins <span style="color:#ffd24a">●</span> (elites, bosses, chests and quests give more). Gold only lasts for the current run. Every few minutes a wandering trader appears for about a minute: follow the arrow and walk into them (or press <b>E</b> / gamepad <b>X</b> / the Trade button). The game pauses while you shop: the Merchant sells tonics and lessons, the Gambler rolls the bones, the Runesmith sharpens your skills, and a rare Mysterious Stranger offers pricey pacts.</p>
   <p><b>Gear:</b> elites and bosses drop treasure for 12 slots. Small upgrades equip themselves; Epic and Legendary finds open a compare card. At game over you may keep 1 item as a <b>keepsake</b>.</p>
-  <p><b>Survive:</b> the danger meter climbs every few minutes — new foes, elite affixes, hordes, and a boss every 3 minutes.</p>
+  <p><b>Survive:</b> the danger meter climbs every few minutes — new foes, elite affixes, hordes, and a boss every 3 minutes. At 15:00, defeat the final boss to end the round or continue endlessly. Lost Shadows appear every 500 kills and drop Outfit Shards for cosmetic outfits. After 15:00 new enemies join the hunt; after 20:00 enemies hit 50% harder.</p><p><b>Whispers:</b> the invincible Shape arrives at 15:00. Survive his chase for three minutes to unlock a mortal survivor. Two signals seek a shared name — whisper their names together during a hunt.</p>
   <p><b>Pause:</b> tap the round ❚❚ button at the top right.</p>
   <p><b>Shards</b> <span class="shard">◆</span> are kept after each run — spend them in the Armory on permanent upgrades, classes and outfits.</p>
   <p><b>Tip:</b> add this page to your Home Screen (Share → Add to Home Screen) for full-screen offline play.</p>
@@ -1579,6 +1579,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
 <script src="assets/actor-animation-manifest.js"></script>
 <script src="assets/actor-animations.js"></script>
 <script src="assets/expansion-rules.js"></script>
+<script src="assets/expansion-content.js"></script>
 <script src="assets/expansion-ui.js"></script>
 <script src="assets/progression.js"></script>
 <script src="assets/progression-ui.js"></script>
@@ -3427,6 +3428,7 @@ function foxTails(g, R, C, t, n, sc) { // fluffy kitsune tails (count grows with
     g.restore(); }
 }
 function drawHero(g, o) {
+  if (o.cls === 'myers' || o.cls === 'tibopoteto') return drawExpansionHero(g, o);
   if (ActorAnimations.draw(g, o)) return;
   if (o.cls === 'bearlina') return drawBearlina(g, o);
   if (!(o.cos || heroCos(o.cls, raceOf(o.race || save.race))).armor && PXA.hero.ok(o)) return PXA.hero.vec(g, o); // v32: Shade has a pixel body now; the vector ghost stays for the classic-art setting
@@ -8720,6 +8722,7 @@ function updateEnemies(dt, dying) {
   const vw = W / ZOOM, vh = H / ZOOM, farD = Math.hypot(vw, vh) / 2 + 160;
   for (const e of enemies) {
     if (e.dead) continue;
+    if (ETYPES[e.type].invincible) { expansionHunterMove(e, dt, dying); continue; }
     EnemyArtwork.track(e);
     const def = ETYPES[e.type];
     let dx = P.x - e.x, dy = P.y - e.y; const d = Math.hypot(dx, dy) || 1; dx /= d; dy /= d;
@@ -9038,6 +9041,7 @@ function killEnemy(e) {
   const fx = P.fx; if (fx) { if (fx.soul && !(G.soulT > 0)) { G.soulT = 0.25; heal(1.2 * fx.soul); } if (fx.rush && Math.random() < 0.04 * fx.rush) { if (!(G.rushT > 0)) addNum(P.x, P.y - 30, 'BLOODRUSH', '#ff3d6e', 12); G.rushT = 4; } }
 }
 function hurtPlayer(dmg, src) {
+  if (G && G.expansion && G.expansion.finalDefeated && !G.expansion.endless) return;
   if (P.inv > 0 || GOD || state !== 'play' || G.tstopT > 0 || (P.jInv && G.t < P.jInv)) return;
   if (src && P.projDR && (src === 'proj' || src === 'poison')) { const red = dmg * P.projDR; dmg -= red; achAdd('r_scale_block', red); } // Scaleborn scales
   if (P.bossDmg && (src === 'boss' || src === 'bossproj')) dmg *= 1 + P.bossDmg; // Shade: bosses' light burns
@@ -15789,6 +15793,7 @@ function buildChoices() {
   if (G.weapons.length < SKILL_SLOTS) for (const id in WDEF) { if (owned.has(id)) continue; const d = WDEF[id]; if (d.cls !== G.cls) continue;   // class-only weapon pool
     if (d.form && (druidForm() || expansionState().startForm)) continue;                                             // one form per run: taking Cat or Tree removes the other
     if (d.cat && druidForm() !== 'cat') continue; if (druidForm() === 'cat' && catBan(id)) continue; // v18: Sanguine Maw is cat-only; the Cat never gets ranged nature spells
+    if (d.caster && druidForm()) continue;
     if (d.tree && druidForm() !== 'tree') continue;                                  // v19: Uprooted Boulder is tree-only
     opts.push({ k: 'w', id, w: d.cat || d.tree ? 4 : d.form ? 2.8 : 2.4 }); }
   const pc = Object.keys(G.passives).length;
@@ -16041,7 +16046,7 @@ function showGameOver(quit) {
   const achRunNew = (G.achNew || []).slice(); achMergeRun(); G.achNew = []; const achEnd = achCheck(true); for (const a of achEnd) achRunNew.push(a.id);
   save.shards += total; save.best = Math.max(save.best, t); save.bestKills = Math.max(save.bestKills, G.kills); save.bestLevel = Math.max(save.bestLevel, G.level); save.totalKills += G.kills; persist();
   state = 'over'; setJoy(false); show('over'); $('pauseBtn').classList.add('hidden');
-  $('overTitle').textContent = quit ? 'Retreat into the Night' : 'Swallowed by Shadow';
+  $('overTitle').textContent = quit && G.expansion && G.expansion.finalDefeated ? 'Round Complete' : quit ? 'Retreat into the Night' : 'Swallowed by Shadow';
   { const oh = $('overHero'); requestAnimationFrame(() => { heroPortrait(oh, cls, G.outfit || save.outfit, 1.25, G.race); setTimeout(() => menuHop(oh, newBest), 350); }); } /* v20: small celebratory hop on the run summary */
   $('overTime').textContent = fmtTime(t);
   $('overBest').innerHTML = newBest ? '<div class="newbest">★ NEW BEST ★</div>' : `<div class="lbl" style="margin-top:2px">Best ${fmtTime(save.best)}</div>`;
@@ -16374,7 +16379,7 @@ function frame(now) {
     if (state === 'play') update(dt, false);
     else if (state === 'countdown') { G.cdT -= dt; if (G.cdT <= 0) state = 'play'; }
     else if (state === 'dying') { G.dyingT -= dt; update(dt * 0.3, true); if (G.dyingT <= 0) showGameOver(false); }
-    render(dt); questUI(dt); dmgUI(dt); jumpBtnUI(); ultUI(); npcUI(); if (state === 'ward') wardTick();
+    render(dt); expansionHUD(); questUI(dt); dmgUI(dt); jumpBtnUI(); ultUI(); npcUI(); if (state === 'ward') wardTick();
     { const ms = $('audio').classList.contains('on') ? 'n' : state === 'paused' ? 'p' : (state === 'levelup' || state === 'gear' || state === 'npc') ? 'd' : 'n';
       if (ms !== Snd.ms && Snd.ac) { Snd.ms = ms; if (ms === 'p') Snd.pauseMusic(true); else { Snd.pauseMusic(false); Snd.duck(ms === 'd' ? 0.45 : 1, 0.4); } } }
     if (RUN_STATES[state] && now - lastRunSave > 6000) saveRun();   // periodic autosave
@@ -17354,6 +17359,7 @@ function talKey(code) { // talents-screen keys; true = handled
   view.addEventListener('mouseover', e => { if (!PC) return; const b = e.target.closest('.tnode'); if (b) talHover(b.dataset.node); });
   view.addEventListener('mouseleave', () => { if (PC) talHover(talPick); });
 })();
+initExpansion();
 const talMig = (function migrateTalents19() { // v19: WoW-style trees — every point spent in the old 3-branch trees comes back unspent (and the level cap rises 42 -> 51)
   let had = false; save.talents = save.talents || {};
   if ((save.talV | 0) < TAL_V) { for (const c in save.talents) { const tr = save.talents[c]; if (tr && Object.keys(tr).some(k => tr[k])) had = true; save.talents[c] = {}; } save.talV = TAL_V; }
@@ -17367,7 +17373,6 @@ const wlRefund = (function migrateWarlockTalents() { // v8: Warlock tree reworke
   let had = false; for (const k of Object.keys(tr)) if (!ok.has(k)) { delete tr[k]; had = true; }
   if (had) { save.notice = Object.assign({}, save.notice, { wl8: 1 }); persist(); } return had; })();
 function showNotice(txt) { const n = $('notice'); n.textContent = txt; n.classList.add('on'); clearTimeout(n._t); n._t = setTimeout(() => n.classList.remove('on'), 8000); n.onclick = () => n.classList.remove('on'); }
-initExpansion();
 initHunts70();
 goTitle();
 if (achRetro.length) setTimeout(() => titleNote(`${achRetro.length} achievement${achRetro.length > 1 ? 's' : ''} unlocked from your past hunts — see Achievements & Wardrobe`), 400);
