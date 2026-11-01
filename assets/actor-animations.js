@@ -26,7 +26,7 @@ const ActorAnimations = (() => {
     save.sex[race] = sex === 'female' ? 'f' : 'm';
   }
   function variant(o) {
-    if (o.form || (o.cos || heroCos(o.cls, raceOf(o.race || save.race))).armor) return null;
+    if (o.form) return null;
     const sex = o.cls === 'bearlina' ? 'bear-form' : (o.gender || gender(o.cls, o.race));
     return variants[[o.cls, o.race || save.race, sex].join('/')] || null;
   }
@@ -37,7 +37,7 @@ const ActorAnimations = (() => {
     // The class selector can display all 21 classes together. Retain enough
     // images for that view so load callbacks cannot cause eviction/reload loops.
     if (images.size > 32) images.delete(images.keys().next().value);
-    im.onload = () => { if (state === 'select') renderSelect(); else if (state === 'race') renderRace(); else if (state === 'daily' || state === 'mastery') refreshProgressPortrait70(); };
+    im.onload = () => { if (state === 'select') renderSelect(); else if (state === 'race') renderRace(); else if (state === 'daily' || state === 'mastery') refreshProgressPortrait70(); else if (state === 'ward') renderWard(); else if (state === 'ach') renderAch(); else if (state === 'equip') renderEquip(); else if (state === 'shop') renderShop(); };
     im.src = v.src;
     return im;
   }
@@ -99,16 +99,18 @@ const ActorAnimations = (() => {
   }
   function draw(g, o) {
     const v = variant(o); if (!v) return false;
-    const im = image(v); if (!im.complete || !im.naturalWidth) return false;
+    const im = image(v); if (!im.complete || !im.naturalWidth) { g.save(); g.fillStyle = '#cdbde6'; g.font = '12px sans-serif'; g.textAlign = 'center'; g.fillText('…', 0, -15); g.restore(); return true; }
     const f = frame(o,v), k = (o.cls === 'bearlina' ? 88 : 76) / v.cell_height * (v.display_scale || 1);
     const look = o.cos || heroCos(o.cls, raceOf(o.race || save.race));
     g.save(); if (look.aura) drawAura(g, look.aura, o.t || 0, false); g.restore();
     g.save(); g.imageSmoothingEnabled = false;
-    if (o.outfit === 'ashen') g.filter = 'grayscale(.8)';
-    else if (o.outfit === 'midnight') g.filter = 'hue-rotate(165deg) saturate(.8)';
+    const armor = ARMOR_BY_ID[look.armor];
+    if (!armor && o.outfit === 'ashen') g.filter = 'grayscale(.8)';
+    else if (!armor && o.outfit === 'midnight') g.filter = 'hue-rotate(165deg) saturate(.8)';
     g.save();
     if (f.procedural && motionStyles[o.cls]) motion(g,o.cls,f);
-    g.drawImage(im, f.column*v.cell_width, f.row*v.cell_height, v.cell_width, v.cell_height,
+    const sheetFrame = armor ? ActorOutfits.frame(im, v, f, armor) : im;
+    g.drawImage(sheetFrame, armor ? 0 : f.column*v.cell_width, armor ? 0 : f.row*v.cell_height, v.cell_width, v.cell_height,
       -v.anchor[0]*k, 18-v.anchor[1]*k, v.cell_width*k, v.cell_height*k);
     g.restore();
     if (f.procedural && motionStyles[o.cls]) motionEffect(g,o.cls,f);

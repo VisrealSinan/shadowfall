@@ -1,11 +1,11 @@
 {
- "version": "77",
+ "version": "78",
  "date": "2026-11-01",
  "minLauncher": "2.0.0",
  "notes": [
-  "Main game update: Lost Shadows, Shard outfits, secret survivors and 150 new class/form skills.",
-  "Adds final-boss victory/endless choices, map difficulty, late-run enemies, spell visibility, random builds and Druid starting forms.",
-  "Normal launcher update with consistent file verification on Windows and GitHub hosting."
+  "Outfits now use the current animated character sheets instead of falling back to older artwork.",
+  "Applies armor-set palettes across 328 race/body sheet variants, preserving existing action animations.",
+  "Fixes wardrobe image loading and caches outfit frames within a fixed memory limit."
  ],
  "files": [
   {
@@ -35,8 +35,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "e9db65921190d35a57a56ec6b10348bc0bb2e726ae4ae404fa55e41747175818",
-   "size": 2838165
+   "sha256": "e1a3fa239243ce842ca9e6a111206943c9e58df6cafe53936ec76bde5ea59183",
+   "size": 2838213
   },
   {
    "name": "manifest.webmanifest",
@@ -45,8 +45,8 @@
   },
   {
    "name": "sw.js",
-   "sha256": "84ff8ec3fb2d2ebd1357c85e61917be5a1b90f9d812eed282e3386ba168a3131",
-   "size": 1819
+   "sha256": "74e648e23fb4f57be383143c71e57ce5715459a9807e2c416dca3d930ca2908c",
+   "size": 1848
   },
   {
    "name": "assets/actor-animation-manifest.js",
@@ -55,8 +55,8 @@
   },
   {
    "name": "assets/actor-animations.js",
-   "sha256": "1713c2df8b2bf466d80df8140b92286bbdc5976e899a3637ba3fe6ee4aa180cb",
-   "size": 6984
+   "sha256": "cd124f5405c958ab741e4d52e2bea5ddbaf5f7d7b87bca138333ed69f056152f",
+   "size": 7382
   },
   {
    "name": "assets/alchemist-cat-female.png",
@@ -4807,6 +4807,11 @@
    "name": "assets/expansion-content.js",
    "sha256": "8aec7e76715b5e224765c9d5fe70728d7d44aeebd17c9919ef6ecdd59304634c",
    "size": 11173
+  },
+  {
+   "name": "assets/actor-outfits.js",
+   "sha256": "5c265b9c5bdc7eab296952581000b65d256f3a70d71461f96b29f6af3e43fa1b",
+   "size": 4004
   }
  ]
 }

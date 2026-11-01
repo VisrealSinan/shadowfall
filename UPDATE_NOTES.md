@@ -1,4 +1,4 @@
-# Shadowfall v77 game update
+# Shadowfall v78 game update
 
 These features are integrated into the main Shadowfall game and delivered through the standard launcher content update. No separate expansion or installation is required.
 
@@ -10,6 +10,10 @@ These features are integrated into the main Shadowfall game and delivered throug
 - After 15 minutes, new Night Revenants and Dread Hounds join all maps; newly spawned enemies gain 35% health and 8% speed. At 20 minutes enemy damage rises by 50%, including living enemies.
 - Michael Myers begins an invincible, crowd-control-immune pursuit at 15:00. He moves at 36 base speed, slower than a Bone Walker's 40. Survive 180 active seconds to unlock a mortal, armored melee Michael Myers. Pauses and Safe Haven visits do not advance the chase. Ending the round before then does not unlock him; continue endless to finish the pursuit.
 - Tibo & Poteto are a fictional two-person survivor with shared health. During a hunt, type `tibopoteto` to unlock the duo. Their teal/violet procedural art and named skills reference Codex and Grok. Source references: https://x.com/thsottiaux and https://x.com/poteto. X blocked fetching Poteto's profile; her characterization uses the user's description.
+
+## Outfit artwork refresh (v78)
+
+All 328 modern sheet variants now stay active when an armor set is selected, covering the 21 sheet-backed classes, their races, bodies and existing actions. Outfit colors are generated from the current artwork with a bounded frame cache; they preserve the existing silhouette and are not newly drawn clothing designs. Wardrobe, achievement, shop and equipment portraits refresh after a sheet loads. The two procedural secret characters and Druid transformations retain their existing dedicated renderers.
 
 ## Appearance and controls
 
