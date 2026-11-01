@@ -6,10 +6,14 @@ if (!/^\d+$/.test(next || '')) throw new Error('Pass a numeric version');
 version.version = next;
 version.date = new Date().toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
 if (process.argv.length > 3) version.notes = process.argv.slice(3);
-// Write the service worker before hashing it into the launcher's manifest.
-const sw = fs.readFileSync('sw.js', 'utf8').replace(/shadowfall-v\d+/, 'shadowfall-v' + next);
-fs.writeFileSync('sw.js', sw);
-for (const name of ['index.html', 'sw.js', 'assets/expansion-content.js', 'assets/expansion-rules.js', 'assets/expansion-ui.js', 'assets/actor-animations.js']) {
+fs.writeFileSync('sw.js', fs.readFileSync('sw.js', 'utf8').replace(/shadowfall-v\d+/, 'shadowfall-v' + next));
+const names = new Set([...version.files.map(file => file.name), 'index.html', 'sw.js', 'assets/expansion-content.js', 'assets/expansion-rules.js', 'assets/expansion-ui.js', 'assets/actor-animations.js']);
+for (const name of names) {
+  // GitHub normalizes text to LF. Verify and publish those identical bytes locally.
+  if (/\.(js|html|json|css|svg|txt|webmanifest)$/.test(name)) {
+    const text = fs.readFileSync(name, 'utf8');
+    if (text.includes('\r')) fs.writeFileSync(name, text.replace(/\r\n?/g, '\n'));
+  }
   const data = fs.readFileSync(name);
   const entry = { name, sha256: crypto.createHash('sha256').update(data).digest('hex'), size: data.length };
   const index = version.files.findIndex(file => file.name === name);
