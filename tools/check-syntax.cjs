@@ -1,0 +1,1 @@
+const fs=require('fs'),vm=require('vm');const h=fs.readFileSync('index.html','utf8');for(const m of h.matchAll(/<script([^>]*)>([\s\S]*?)<\/script>/g)){const src=/src="([^"]+)"/.exec(m[1]);new vm.Script(src?fs.readFileSync(src[1],'utf8'):m[2],{filename:src?src[1]:'index-inline.js'});}console.log('All game scripts parse.');

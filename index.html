@@ -1545,7 +1545,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
   <p><b>Classes:</b> nine classes (the hybrid <b>Eclipse Paragon</b> is unlocked with Shards), each with its own costume, skills and three <b>Talent trees</b> (T). Playing a class earns class XP → 1 talent point per class level (up to 51). Every 5 points in a tree unlocks its next tier; the 7th tier holds a build-defining capstone. Respec any time with Reset.</p>
   <p><b>Gold &amp; traders:</b> foes sometimes drop gold coins <span style="color:#ffd24a">●</span> (elites, bosses, chests and quests give more). Gold only lasts for the current run. Every few minutes a wandering trader appears for about a minute: follow the arrow and walk into them (or press <b>E</b> / gamepad <b>X</b> / the Trade button). The game pauses while you shop: the Merchant sells tonics and lessons, the Gambler rolls the bones, the Runesmith sharpens your skills, and a rare Mysterious Stranger offers pricey pacts.</p>
   <p><b>Gear:</b> elites and bosses drop treasure for 12 slots. Small upgrades equip themselves; Epic and Legendary finds open a compare card. At game over you may keep 1 item as a <b>keepsake</b>.</p>
-  <p><b>Survive:</b> the danger meter climbs every few minutes — new foes, elite affixes, hordes, and a boss every 3 minutes.</p>
+  <p><b>Survive:</b> the danger meter climbs every few minutes — new foes, elite affixes, hordes, and a boss every 3 minutes. At 15:00, defeat the final boss to end the round or continue endlessly. Lost Shadows appear every 500 kills and drop Outfit Shards for cosmetic outfits. After 15:00 new enemies join the hunt; after 20:00 enemies hit 50% harder.</p><p><b>Whispers:</b> the invincible Shape arrives at 15:00. Survive his chase for three minutes to unlock a mortal survivor. Two signals seek a shared name — whisper their names together during a hunt.</p>
   <p><b>Pause:</b> tap the round ❚❚ button at the top right.</p>
   <p><b>Shards</b> <span class="shard">◆</span> are kept after each run — spend them in the Armory on permanent upgrades, classes and outfits.</p>
   <p><b>Tip:</b> add this page to your Home Screen (Share → Add to Home Screen) for full-screen offline play.</p>
@@ -1578,6 +1578,9 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
 <script src="assets/enemy-art.js"></script>
 <script src="assets/actor-animation-manifest.js"></script>
 <script src="assets/actor-animations.js"></script>
+<script src="assets/expansion-rules.js"></script>
+<script src="assets/expansion-content.js"></script>
+<script src="assets/expansion-ui.js"></script>
 <script src="assets/progression.js"></script>
 <script src="assets/progression-ui.js"></script>
 <script>
@@ -2920,7 +2923,7 @@ function achAdd(k, v) { if (G && G.achRun && !G.ended) G.achRun[k] = (G.achRun[k
 function achMax(k, v) { if (G && G.achRun && !G.ended) G.achRun[k] = Math.max(G.achRun[k] || 0, v); }
 function rewardName(id) { const x = ARMOR_BY_ID[id] || RACE_COS_BY_ID[id] || GEN_BY_ID[id]; return x ? x.name : id; }
 function rewardKind(id) { return ARMOR_BY_ID[id] ? CLASSES[ARMOR_BY_ID[id].cls].name + ' armor' : RACE_COS_BY_ID[id] ? RACES[RACE_COS_BY_ID[id].race].name + ' look' : 'Look for everyone'; }
-function cosOwned(id) { for (const a of ACH) if (a.rw === id) return !!save.ach.done[a.id]; return false; }
+function cosOwned(id) { if (ShadowExpansion.profile(save).looks[id]) return true; for (const a of ACH) if (a.rw === id) return !!save.ach.done[a.id]; return false; }
 function achCheck(silent) { const got = [];
   for (const a of ACH) { if (save.ach.done[a.id]) continue; const v = a.f ? a.f() : achEff(a.k); if (v >= a.goal) { save.ach.done[a.id] = Date.now(); got.push(a); } }
   if (got.length) { persist(); if (G && G.achNew && !G.ended) for (const a of got) G.achNew.push(a.id); if (!silent) for (const a of got) achBanner(a); }
@@ -2959,7 +2962,7 @@ const tRank = (tr, n) => Math.max(0, Math.min(n.m, (tr && +tr[n.id]) || 0));
 function talentPoints(id, tr) { tr = tr || save.talents[id] || {}; let spent = 0; for (const b of TALENTS[id] || []) for (const n of b.nodes) spent += tRank(tr, n); const total = classLevel(id).lvl; return { total, spent, free: Math.max(0, total - spent) }; }
 function treeSpent(id, bi, tr, below) { let s = 0; for (const n of TALENTS[id][bi].nodes) if (below == null || n.t < below) s += tRank(tr, n); return s; }
 const talNeed = n => TPER * (n.t - 1);
-function talCanAdd(id, n, tr, free) { if (tRank(tr, n) >= n.m) return 'max'; if (treeSpent(id, n.bi, tr, n.t) < talNeed(n)) return 'tier';
+function talCanAdd(id, n, tr, free) { if (n.startForm && TALENTS.druid.some(b => b.nodes.some(q => q.startForm && q.id !== n.id && tRank(tr, q)))) return 'max'; if (tRank(tr, n) >= n.m) return 'max'; if (treeSpent(id, n.bi, tr, n.t) < talNeed(n)) return 'tier';
   if (n.req) { const q = TAL_BY_ID[id + ':' + n.req]; if (tRank(tr, q) < q.m) return 'req'; } return free > 0 ? '' : 'pts'; }
 function talValid(id, tr) { for (const b of TALENTS[id]) for (const n of b.nodes) { if (!tRank(tr, n)) continue; if (treeSpent(id, n.bi, tr, n.t) < talNeed(n)) return false;
   if (n.req) { const q = TAL_BY_ID[id + ':' + n.req]; if (tRank(tr, q) < q.m) return false; } } return true; }
@@ -3425,9 +3428,10 @@ function foxTails(g, R, C, t, n, sc) { // fluffy kitsune tails (count grows with
     g.restore(); }
 }
 function drawHero(g, o) {
+  if (o.cls === 'myers' || o.cls === 'tibopoteto') return drawExpansionHero(g, o);
   if (ActorAnimations.draw(g, o)) return;
   if (o.cls === 'bearlina') return drawBearlina(g, o);
-  if (PXA.hero.ok(o)) return PXA.hero.vec(g, o); // v32: Shade has a pixel body now; the vector ghost stays for the classic-art setting
+  if (!(o.cos || heroCos(o.cls, raceOf(o.race || save.race))).armor && PXA.hero.ok(o)) return PXA.hero.vec(g, o); // v32: Shade has a pixel body now; the vector ghost stays for the classic-art setting
   if (!o._gh && raceOf(o.race || (typeof save !== 'undefined' && save && save.race)) === 'shade') return drawGhost(g, o);
   if (o.form === 'cat' || o.form === 'tree') { g.save(); g.translate(0, 17); g.scale(1.22, 1.22); g.translate(0, -17); o.form === 'cat' ? drawCatForm(g, o) : drawTreeForm(g, o); g.restore(); return; }
   const cls = CLASSES[o.cls] ? o.cls : 'rogue', art = CLASSES[cls].art, L = CLASS_LOOK[cls];
@@ -8405,6 +8409,7 @@ function newRun(cls, challenge = null) {
     pending: 0, shardsPicked: 0, salvage: 0, bossKills: 0, elites: 0, nextElite: 50, nextBoss: 180, bossIdx: 0, nextSurge: 70, spawnAcc: 0,
     revived: false, wasNight: false, outfit: save.outfit, shake: 0, later: [], healPool: 0, bondPool: 0, critBuffT: 0, minionKills: 0, moved: false, dyingT: 0, boss: null, hurtFlash: 0, lowT: 0, achRun: {}, achNew: [], achT: 0, quests: [], qNext: 60, qStats: { done: 0, failed: 0, shards: 0, gear: 0 }, qN: 0, evo: {}, dm: {}, dmTot: 0, catPool: 0, gold: 0, goldEarned: 0, goldSpent: 0, npcs: [], npcNext: 90, npcN: 0, npcBuys: 0, npcVisits: 0, npcSeen: 0 };
   G.challengeDate = challenge ? challenge.date : ''; G.daily = !!challenge;
+  G.expansion = expansionNew(challenge);
   G.mods = challenge ? dailyMods50(challenge.date) : modsForRun50();
   G.outfit = challenge ? 'crimson' : save.outfit;
   G.rerolls = challenge ? 1 : 1 + mr('quick') + (masteryRank70(cls) >= 2 ? 1 : 0);
@@ -8416,7 +8421,7 @@ function newRun(cls, challenge = null) {
   addWeapon(CLASSES[cls].weapon);
   if (!challenge) applyKeepsakes(cls);
   if (G.tf.startArcher) addWeapon('archers'); if (G.tf.startBrute) addWeapon('brute'); if (G.tf.startRain) addWeapon('arrowrain');
-  w28Start(); recalc(); P.hp = P.maxHp;
+  w28Start(); expansionStart(); recalc(); P.hp = P.maxHp;
   if (!challenge) save.lastClass = cls; save.runs++; persist();
 }
 const CLS_DMG34 = { rogue: 1.1, ranger: 1.1, mage: 1.1 }; // v34 balance buff
@@ -8489,11 +8494,11 @@ function catPurge(quiet) { // v18: Shadowcat is pure melee — shed every ranged
   if (!quiet) toast(`🐾 Pure melee: ${names.length > 2 ? names.length + ' nature skills' : names.join(' & ')} shed → +${n} free pick${n > 1 ? 's' : ''}`, '#ff9ab8', 3.4);
   return n; }
 const SKILL_SLOTS = 6; // v25: a hero carries up to 6 skills (v27: named so tools/sim_balance.py can read it)
-const RUN_STATES = { play: 1, paused: 1, levelup: 1, gear: 1, countdown: 1, equip: 1, npc: 1 };
+const RUN_STATES = { victory: 1, play: 1, paused: 1, levelup: 1, gear: 1, countdown: 1, equip: 1, npc: 1 };
 const r1 = v => Math.round(v * 10) / 10;
 function serializeRun() {
   const g = {}; for (const k of ['cls', 'race', 'outfit', 't', 'kills', 'level', 'xp', 'xpNext', 'passives', 'gear', 'pending', 'shardsPicked', 'salvage', 'bossKills', 'elites', 'nextElite', 'nextBoss',
-    'map', 'mods', 'daily', 'challengeDate', 'w28', 'bossIdx', 'bossBag', 'bossLast', 'nextSurge', 'spawnAcc', 'revived', 'wasNight', 'healPool', 'bondPool', 'critBuffT', 'minionKills', 'moved', 'pendingChest', 'nextLoot', 'rushT', 'aegisT', 'kept', 'luChoices', 'tal', 'undyingUsed', 'tollT', 'rwT', 'sgT', 'achRun', 'achNew', 'dv', 'ancCd', 'frzCd', 'wsT', 'mcT', 'mwT', 'mvT', 'arc', 'stage', 'nextMini', 'surgeN', 'quests', 'qNext', 'qStats', 'qN', 'qLast', 'evo', 'dm', 'catPool', 'catRefund', 'obSeed', 'obGone', 'rerolls', 'gold', 'goldEarned', 'goldSpent', 'npcs', 'npcNext', 'npcN', 'npcLast', 'npcBuys', 'npcVisits', 'npcSeen', 'bufE', 'bufH', 'bufA', 'deathward', 'goldBud', 'portal', 'portalNext', 'townVisits', 'npcHp', 'mimic45']) g[k] = G[k];
+    'expansion', 'map', 'mods', 'daily', 'challengeDate', 'w28', 'bossIdx', 'bossBag', 'bossLast', 'nextSurge', 'spawnAcc', 'revived', 'wasNight', 'healPool', 'bondPool', 'critBuffT', 'minionKills', 'moved', 'pendingChest', 'nextLoot', 'rushT', 'aegisT', 'kept', 'luChoices', 'tal', 'undyingUsed', 'tollT', 'rwT', 'sgT', 'achRun', 'achNew', 'dv', 'ancCd', 'frzCd', 'wsT', 'mcT', 'mwT', 'mvT', 'arc', 'stage', 'nextMini', 'surgeN', 'quests', 'qNext', 'qStats', 'qN', 'qLast', 'evo', 'dm', 'catPool', 'catRefund', 'obSeed', 'obGone', 'rerolls', 'gold', 'goldEarned', 'goldSpent', 'npcs', 'npcNext', 'npcN', 'npcLast', 'npcBuys', 'npcVisits', 'npcSeen', 'bufE', 'bufH', 'bufA', 'deathward', 'goldBud', 'portal', 'portalNext', 'townVisits', 'npcHp', 'mimic45']) g[k] = G[k];
   g.weapons = G.weapons.map(w => [w.id, w.lvl]);
   /* v27: inside the Safe Haven the real battlefield is stashed in G.town.st - save that world (and where you left it) plus the town itself */
   const TW = G.town, st = TW && TW.st, EN = st ? st.enemies : enemies, BOSS = st ? st.boss : G.boss, PK = st ? st.picks : picks; if (st) g.npcs = st.npcs;
@@ -8566,7 +8571,8 @@ function continueRun() {
   Snd.init(); setJoy(false); keys.clear();
   try { restoreRun(r); } catch (err) { console.warn('run restore failed', err); clearRun(); goTitle(); return; }
   if (r.town && typeof r.town === 'object') try { restoreTown(r.town); } catch (err) { console.warn('town restore failed', err); }
-  if (r.ui === 'levelup' && G.pending > 0) openLevelUp(true);
+  if (expansionState().finalDefeated && !expansionState().endless) expansionVictory();
+  else if (r.ui === 'levelup' && G.pending > 0) openLevelUp(true);
   else if (r.ui === 'gear' && r.item && (r.item.slot || r.item.t)) openGear('elite', r.item);
   else { state = 'paused'; show('pause'); muteLabel(); renderBuild(); $('pauseTitle').textContent = 'Run Restored'; $('btnResume').textContent = 'Tap to Resume'; G.countdownNext = true; }
   toast('Run restored', '#9fe8ff', 2.2); if (G.catMig) { G.catMig = 0; toast('🐾 Shadowcat is now pure melee — nature spells refunded as free picks', '#ff9ab8', 3.6); }
@@ -8666,6 +8672,7 @@ function spawnEnemy(type, o = {}) {
     if (e.aff.includes('hasted')) e.spd *= 1.45; if (e.aff.includes('shielded')) e.sh = e.shMax = hp * 0.5; }
   if (d.shield) { e.shMax += hp * d.shield; e.sh = e.shMax; }
   if (d.ai === 'burrower') { e.st = 'under'; e.under = 1; }
+  expansionEnemy(e);
   modEnemy(e);
   enemies.push(e); EnemyArtwork.load(type); return e;
 }
@@ -8682,6 +8689,7 @@ function pickType(t) {
     return Math.min(d.cap || 3, 0.8 + (t - d.t0) / 50) * (d.hp < 20 ? Math.max(0.35, 1 - Math.max(0, t - d.t0 - 480) / 900) : 1); });
 }
 function spawnDirector(dt) {
+  expansionDirector();
   if (G.town) return;
   const t = G.t;
   if ((G.typeT = (G.typeT || 0) - dt) <= 0) { G.typeT = 0.5; const c = {}; for (const e of enemies) if (!e.dead) c[e.type] = (c[e.type] || 0) + 1; G.typeN = c; }
@@ -8703,7 +8711,7 @@ function spawnDirector(dt) {
   if (t >= G.nextElite) { G.nextElite += Math.max(22, 45 - t / 50); const e = spawnEnemy(pickType(t), { elite: true }); toast('★ Elite monster' + (e.aff.length ? ': ' + e.aff.map(a => EAFF[a].n).join(' ') : ''), '#ffd24a', 3, 'Kill it for a treasure chest'); Snd.play('elite'); }
   if (G.nextMini === undefined) G.nextMini = 480;
   if (t >= G.nextMini) { G.nextMini += 240; w28Mini(); }
-  if (t >= G.nextBoss) { G.nextBoss += 180; if (t < 1200 && G.nextBoss > 1200) G.nextBoss = 1200; /* v45: the first boss pair arrives at exactly 20:00 */ const twin = t >= 1200, list = [bossNext36()]; if (twin) list.push(bossNext36());
+  if (t >= G.nextBoss && (t < 900 || (G.expansion && G.expansion.endless))) { G.nextBoss += 180; if (t < 1200 && G.nextBoss > 1200) G.nextBoss = 1200; /* v45: the first boss pair arrives at exactly 20:00 */ const twin = t >= 1200, list = [bossNext36()]; if (twin) list.push(bossNext36());
     for (const type of list) { const b = spawnEnemy(type); if (!G.boss || G.boss.dead) G.boss = b; G.bossIdx++; }
     if (t >= 900) spawnEnemy('juggernaut');
     announce((list.length > 1 ? '☠ BOSSES: ' : '☠ BOSS: ') + list.map(k => ETYPES[k].name).join(' & '), twin ? 'Two bosses at once · dodge the red zones' : 'Dodge the red warning zones', '#ff5a5a', 'boss'); G.shake = 0.5; }
@@ -8714,6 +8722,7 @@ function updateEnemies(dt, dying) {
   const vw = W / ZOOM, vh = H / ZOOM, farD = Math.hypot(vw, vh) / 2 + 160;
   for (const e of enemies) {
     if (e.dead) continue;
+    if (ETYPES[e.type].invincible) { expansionHunterMove(e, dt, dying); continue; }
     EnemyArtwork.track(e);
     const def = ETYPES[e.type];
     let dx = P.x - e.x, dy = P.y - e.y; const d = Math.hypot(dx, dy) || 1; dx /= d; dy /= d;
@@ -8840,7 +8849,7 @@ function updateEnemies(dt, dying) {
   }
 }
 function damage(e, base, o = {}) {
-  if (e.dead) return 0;
+  if (e.dead || ETYPES[e.type].invincible) return 0;
   const sk = pxId(o.src || (o.msrc ? MSRC[o.msrc] : null) || G.srcW || (o.minion ? 'familiars' : '@other')), ev = G.evo && G.evo[sk] ? EVO[sk] : null; if (!o.dot && SND32.aura[sk]) SND32.touch(sk, o.msrc); // v18: damage source (meter) & evolution; v32: aura/minion skill voices
   let d = base * P.dmg * (ev ? ev.dmg : 1) * (1 + ((P.skd && P.skd[sk]) || 0)), crit = false;
   const cl = G.cls;
@@ -9006,7 +9015,8 @@ function mimicCheck45() { if (!G || G.town || !P) return; while ((G.mimic45 | 0)
 function mimicDie45(e) { for (const c of ['#c898ff', '#80d0f0', '#ffe060', '#ff5ad8']) burst(e.x, e.y - 12, c, 7, 170, 3, 0.9, true);
   picks.push({ k: 'chest', x: e.x, y: e.y }); dropGold(e.x, e.y + 14, 25 + G.t / 20, 6); toast('🎁 The mimic coughs up its treasure!', '#c898ff', 2.4); }
 function killEnemy(e) {
-  if (e.dead) return; e.dead = true; G.kills++; questKill(e); if (P.killRush) G.sclT = 1.5; achAdd('c_' + G.cls + '_k', 1); achAdd('r_' + G.race + '_k', 1); achAdd('g_kills', 1);
+  if (ETYPES[e.type].invincible) return;
+  if (e.dead) return; expansionKill(e); e.dead = true; G.kills++; questKill(e); if (P.killRush) G.sclT = 1.5; achAdd('c_' + G.cls + '_k', 1); achAdd('r_' + G.race + '_k', 1); achAdd('g_kills', 1);
   modKill(e); const def = ETYPES[e.type]; if (e.type === 'surprisemimic') mimicDie45(e);
   if (SPR.enemy[e.type]) { while (corpses.length >= V31P.cap()) corpses.shift(); const ds = V31P.dstyle(e); corpses.push({ k: e.type, x: e.x, y: e.y, f: e.face < 0 ? -1 : 1, sc: e.sc || 1, t: 0, d: (e.boss ? 1.4 : e.elite || e.mini ? 0.9 : 0.55) * (ds === 'dis' ? 1.3 : ds === 'b36' ? 1.45 : ds === 'gift45' ? 1.7 : 1), el: !!(e.elite || e.boss), s: ds, sd: Math.random() }); }
   burst(e.x, e.y, def.puff, e.boss ? 40 : e.elite ? 20 : 7, e.boss ? 220 : 110, e.boss ? 5 : 3, 0.55);
@@ -9031,6 +9041,7 @@ function killEnemy(e) {
   const fx = P.fx; if (fx) { if (fx.soul && !(G.soulT > 0)) { G.soulT = 0.25; heal(1.2 * fx.soul); } if (fx.rush && Math.random() < 0.04 * fx.rush) { if (!(G.rushT > 0)) addNum(P.x, P.y - 30, 'BLOODRUSH', '#ff3d6e', 12); G.rushT = 4; } }
 }
 function hurtPlayer(dmg, src) {
+  if (G && G.expansion && G.expansion.finalDefeated && !G.expansion.endless) return;
   if (P.inv > 0 || GOD || state !== 'play' || G.tstopT > 0 || (P.jInv && G.t < P.jInv)) return;
   if (src && P.projDR && (src === 'proj' || src === 'poison')) { const red = dmg * P.projDR; dmg -= red; achAdd('r_scale_block', red); } // Scaleborn scales
   if (P.bossDmg && (src === 'boss' || src === 'bossproj')) dmg *= 1 + P.bossDmg; // Shade: bosses' light burns
@@ -12491,6 +12502,7 @@ function updatePickups(dt) {
   picks = picks.filter(p => !p.dead); picks.push = obPush;
 }
 function update(dt, dying) {
+  if (!dying && !G.town) expansionTick(dt);
   for (let i = corpses.length - 1; i >= 0; i--) if ((corpses[i].t += dt) >= corpses[i].d) corpses.splice(i, 1);
   if (!dying) { if (!G.town) { G.t += dt; if (G.t >= 900 && G.map !== 'castle' && G.map !== 'heart' && !ZN39[G.map] && !save.ach.p.f15) { save.ach.p.f15 = 1; achCheck(false); } if (G.t >= 900 && G.map === 'castle' && !save.ach.p.c15) { save.ach.p.c15 = 1; achCheck(false); persist(); G.later.push({ t: 2.5, f: heartUnlocked36 }); toast('♡ Heartfall Belfry unlocked!', '#ff8ab0', 3.2); } for (const zk of ZN39_ORDER) { const z = ZN39[zk]; if (G.t >= 900 && G.map === z.prev && !save.ach.p[z.prog]) { save.ach.p[z.prog] = 1; achCheck(false); persist(); G.later.push({ t: 2.5, f: () => zoneUnlocked39(z) }); toast(z.ic + ' ' + z.name + ' unlocked!', z.col, 3.2); } } } jumpTick(); }
   if (!dying) { const want = G.town ? 'title' : musicName(); if (!Snd.cur || Snd.cur.name !== want) Snd.music(want); }
@@ -12539,7 +12551,8 @@ function update(dt, dying) {
   if (G.boss && G.boss.dead) G.boss = enemies.find(e => e.boss && !e.dead) || null;
 
   if (!dying && state === 'play') {
-    if (G.pendingChest && G.pendingChest.length) gearDrop(G.pendingChest.shift());
+    if (expansionState().finalDefeated && !expansionState().endless) expansionVictory();
+    else if (G.pendingChest && G.pendingChest.length) gearDrop(G.pendingChest.shift());
     else if (G.pending > 0) openLevelUp();
   }
 }
@@ -14751,7 +14764,7 @@ function render(dt) {
     const s = p.k === 'chest' ? (p.boss ? 58 : 46) : 34; ctx.drawImage(SPR.pick[p.k], p.x - s / 2, p.y - s / 2 + Math.sin(gtime * 3 + p.x) * 2, s, s); }
   // ground effects
   for (const m of minions) if (MBASE(m) === 'brute' && !m.dead) { const R = minionStats()[m.type].tauntR; ctx.strokeStyle = 'rgba(255,80,130,.18)'; ctx.lineWidth = 1.5; ctx.setLineDash([4, 8]); ctx.lineDashOffset = gtime * 12; ctx.beginPath(); ctx.ellipse(m.x, m.y + 10, R, R * 0.8, 0, 0, TAU); ctx.stroke(); ctx.setLineDash([]); }
-  for (const f of effects) {
+  for (const f of effects) { ctx.save(); try { if (f.src && f.k !== 'warn' && f.k !== 'goo') ctx.filter = 'opacity(' + expansionOpacity() + '%)'; 
     if (f.k === 'warn') { const p = 1 - Math.max(0, f.life) / f.max, col = f.col || '#ff3d3d';
       ctx.fillStyle = hexA(col, 0.1 + 0.12 * p); ctx.strokeStyle = hexA(col, 0.55 + 0.35 * Math.sin(gtime * 24) ** 2); ctx.lineWidth = 2;
       if (f.line) { ctx.save(); ctx.translate(f.x, f.y); ctx.rotate(f.ang); ctx.fillRect(0, -f.w / 2, f.len, f.w); ctx.fillStyle = hexA(col, 0.3); ctx.fillRect(0, -f.w / 2, f.len * p, f.w); ctx.strokeRect(0, -f.w / 2, f.len, f.w); ctx.restore(); }
@@ -14790,7 +14803,7 @@ function render(dt) {
       else if (f.fire) { ctx.globalCompositeOperation = 'lighter'; glowAt('#ff8a3c', f.x, f.y, f.r * 1.7, 0.3 * a); for (let i = 0; i < 4; i++) { const an = i * 1.9 + f.x, fx = f.x + Math.cos(an) * f.r * 0.5, fy = f.y + Math.sin(an) * f.r * 0.35, fl = (0.6 + 0.4 * Math.sin(gtime * 14 + i * 3 + f.y)) * a * (f.r / 22);
           ctx.fillStyle = hexA('#ff6a2a', 0.55 * a); ctx.beginPath(); ctx.moveTo(fx - 4 * fl, fy); ctx.quadraticCurveTo(fx, fy - 16 * fl, fx + 4 * fl, fy); ctx.fill(); ctx.fillStyle = hexA('#ffd36a', 0.6 * a); ctx.beginPath(); ctx.moveTo(fx - 2 * fl, fy); ctx.quadraticCurveTo(fx, fy - 9 * fl, fx + 2 * fl, fy); ctx.fill(); } ctx.globalCompositeOperation = 'source-over'; }
       else for (let i = 0; i < 3; i++) { const an = gtime * 0.8 + i * 2.1; ctx.fillStyle = hexA(f.col, 0.12 * a); ctx.beginPath(); ctx.arc(f.x + Math.cos(an) * f.r * 0.35, f.y + Math.sin(an) * f.r * 0.3, f.r * 0.55, 0, TAU); ctx.fill(); } }
-  }
+   } finally { ctx.restore(); } }
   drawQuestWorld(); w28World(); ph46Draw(); hm47Draw();
   // v15: time-of-day key light re-bake (incremental)
   { const kp = phaseName(G.t || 0); if (kp !== SPR.keyPh) relightEnemies(kp); if (SPR.rq.length) tickRelight(); }
@@ -14819,7 +14832,7 @@ function render(dt) {
       ctx.beginPath(); ctx.ellipse(e.x, ry, sz * 0.42, sz * 0.14, 0, 0, TAU); ctx.stroke(); ctx.setLineDash([]); ctx.strokeStyle = hexA(gc, 0.25); ctx.beginPath(); ctx.ellipse(e.x, ry, sz * 0.5, sz * 0.17, 0, 0, TAU); ctx.stroke(); }
     if (e.st === 'blink') ctx.globalAlpha = 0.45;
     // v15: 4-step walk/flap cycle paced to speed, wind-up pose before attacks, flinch tilt on hit; squash only for oozes, hover bob for floaters
-    const A = SPR.enemy[e.type], frz = e.frzT > 0, flt = eFloats(e.type), wind = !frz && eWind(e, def),
+    const A = SPR.enemy[e.type] || SPR.enemy[def.artBase] || SPR.enemy.warden, frz = e.frzT > 0, flt = eFloats(e.type), wind = !frz && eWind(e, def),
       fi = frz ? 0 : Math.floor(gtime * (flt ? 7 : clamp(4 * e.spd / (def.size * 0.55), 2.5, 9) * (e.st === 'charge' || e.st === 'dash' ? 2 : 1)) + e.seed * 4) & 3;
     const fr = wind ? A.wind : A[fi], img = e.flash > 0 ? fr.flash : fr.img;
     if (e.type === 'ghost') ctx.globalAlpha = 0.85;
@@ -14857,7 +14870,7 @@ function render(dt) {
   }
   ctx.globalCompositeOperation = 'source-over';
   // projectiles
-  for (const p of projs) {
+  for (const p of projs) { ctx.save(); try { if (true) ctx.filter = 'opacity(' + expansionOpacity() + '%)'; 
     if (!inView(p.x, p.y, 30)) continue;
     if (p.src && G.evo[p.src]) { ctx.globalCompositeOperation = 'lighter'; glowAt(EVO[p.src].col, p.x, p.y, 30 + p.r * 2.4, 0.55 + 0.2 * Math.sin(gtime * 14 + p.x * 0.1)); ctx.globalCompositeOperation = 'source-over'; } // v18 evolved glow
     if (p.k === 'mbolt') { const c = MCOL[p.el] || '#c56bff', a = Math.atan2(p.vy, p.vx); ctx.globalCompositeOperation = 'lighter'; glowAt(c === '#7fd6ff' ? '#7fd6ff' : c, p.x, p.y, 30); glowAt('#ffffff', p.x, p.y, 9);
@@ -14907,10 +14920,10 @@ function render(dt) {
       ctx.fillStyle = '#120a24'; ctx.beginPath(); ctx.arc(0, 0, 4.2, 0, TAU); ctx.fill(); ctx.strokeStyle = '#ffd36a'; ctx.lineWidth = 1.4; ctx.stroke(); ctx.restore(); }
     else if (p.k === 'scy') { ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.spin); ctx.globalCompositeOperation = 'lighter'; glowAt('#ff3d6e', 0, 0, 34, 0.5); ctx.globalCompositeOperation = 'source-over';
       ctx.fillStyle = '#e9e4f2'; ctx.beginPath(); ctx.arc(0, 0, 12, -0.3, Math.PI * 0.9); ctx.arc(3, -2, 9, Math.PI * 0.9, -0.3, true); ctx.closePath(); ctx.fill(); ctx.strokeStyle = '#3a2a30'; ctx.lineWidth = 2.4; ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(-8, 8); ctx.stroke(); ctx.restore(); }
-  }
+   } finally { ctx.restore(); } }
   for (const p of eprojs) { if (!inView(p.x, p.y, 20)) continue; ctx.globalCompositeOperation = 'lighter'; glowAt(SPR.glow[p.c] ? p.c : '#9dff3b', p.x, p.y, 28); ctx.globalCompositeOperation = 'source-over'; ctx.fillStyle = '#0a0610'; ctx.beginPath(); ctx.arc(p.x, p.y, 3.5, 0, TAU); ctx.fill(); }
   // effects (over)
-  for (const f of effects) {
+  for (const f of effects) { ctx.save(); try { if (f.src && f.k !== 'warn' && f.k !== 'goo') ctx.filter = 'opacity(' + expansionOpacity() + '%)'; 
     const p = 1 - Math.max(0, f.life) / f.max, a = 1 - p;
     if (f.src && G.evo[f.src] && f.k !== 'bolt' && f.k !== 'leap' && f.k !== 'mark' && f.life > 0) { const ev = EVO[f.src], fw = f.follow || f.k === 'cone' || f.k === 'reap', fx = fw ? P.x : f.x, fy = fw ? P.y : f.y, r0 = f.k === 'nova' ? Math.max(f.r, 20) : (f.r || 30); // v18 evolved tint
       if (fx !== undefined) { ctx.globalCompositeOperation = 'lighter'; glowAt(ev.col, fx, fy, r0 * 2.3, (f.k === 'zone' ? 0.24 : 0.42) * Math.min(1, a * 1.6));
@@ -14959,11 +14972,11 @@ function render(dt) {
       glowAt('#ff4fd8', 0, 0, f.r * 1.4, 0.3 * a); for (let k = 0; k < 3; k++) { ctx.rotate(TAU / 3); for (let i = -1; i <= 1; i++) { const rr = f.r * 0.92 + i * 6; ctx.strokeStyle = `rgba(255,${110 + 50 * (i + 1)},${200 + 20 * i},${0.85 * a})`; ctx.lineWidth = 3 - Math.abs(i); ctx.beginPath(); ctx.arc(0, 0, rr, -0.55 * f.dir, 0.55 * f.dir, f.dir < 0); ctx.stroke(); } }
       ctx.restore(); ctx.globalCompositeOperation = 'source-over'; }
     else if (f.k === 'leap') { ctx.strokeStyle = f.col ? hexA(f.col, a) : `rgba(200,130,255,${a})`; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(f.x, f.y); ctx.quadraticCurveTo((f.x + f.x2) / 2, Math.min(f.y, f.y2) - 30, f.x2, f.y2); ctx.stroke(); }
-  }
+   } finally { ctx.restore(); } }
   // particles
-  for (const p of parts) { if (p.glow) continue; const lf = Math.max(0, p.life / p.max); if (p.smoke) { const sz = p.s * (1 + 2.2 * (1 - lf)); ctx.globalAlpha = lf * (p.sa || 0.4); ctx.drawImage(smokeOf(p.c), p.x - sz, p.y - sz, sz * 2, sz * 2); continue; } ctx.globalAlpha = lf; ctx.fillStyle = p.c; ctx.fillRect(p.x - p.s / 2, p.y - p.s / 2, p.s, p.s); }
+  for (const p of parts) { ctx.save(); try { if (true) ctx.filter = 'opacity(' + expansionOpacity() + '%)';  if (p.glow) continue; const lf = Math.max(0, p.life / p.max); if (p.smoke) { const sz = p.s * (1 + 2.2 * (1 - lf)); ctx.globalAlpha = lf * (p.sa || 0.4); ctx.drawImage(smokeOf(p.c), p.x - sz, p.y - sz, sz * 2, sz * 2); continue; } ctx.globalAlpha = lf; ctx.fillStyle = p.c; ctx.fillRect(p.x - p.s / 2, p.y - p.s / 2, p.s, p.s);  } finally { ctx.restore(); } }
   ctx.globalCompositeOperation = 'lighter';
-  for (const p of parts) { if (!p.glow) continue; ctx.globalAlpha = Math.max(0, p.life / p.max); ctx.fillStyle = p.c; ctx.beginPath(); ctx.arc(p.x, p.y, p.s, 0, TAU); ctx.fill(); }
+  for (const p of parts) { ctx.save(); try { if (true) ctx.filter = 'opacity(' + expansionOpacity() + '%)';  if (!p.glow) continue; ctx.globalAlpha = Math.max(0, p.life / p.max); ctx.fillStyle = p.c; ctx.beginPath(); ctx.arc(p.x, p.y, p.s, 0, TAU); ctx.fill();  } finally { ctx.restore(); } }
   ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
   w28Air();
   // numbers
@@ -15094,7 +15107,7 @@ function loItems() { /* [skills[], passives[]] with display info; shared by the 
   const ps = Object.keys(G.passives).filter(id => PDEF[id]).map(id => { const d = PDEF[id], l = G.passives[id]; return { k: 'p', id, ic: d.ic, lv: l, max: l >= d.max, endless: l > d.max, col: loPCol(id) }; });
   return [ws, ps]; }
 function drawLoadout(x0, y0, S, gp) { const [ws, ps] = loItems(), rows = [[ws, Math.max(5, ws.length)], [ps, Math.max(6, ps.length)]]; let y = y0; LO_RECTS = [];
-  ctx.save(); for (const [L, n] of rows) { for (let i = 0; i < n; i++) { const it = L[i], x = x0 + i * (S + gp); if (it) { loTile(x, y, S, it.ic, it.lv, it); LO_RECTS.push([x, y, S, S]); } else loTile(x, y, S, '', '', { empty: 1 }); } y += S + gp; }
+  ctx.save(); for (const [L, n] of rows) { for (let i = 0; i < n; i++) { const it = L[i], x = x0 + i * (S + gp); if (it) { loTile(x, y, S, it.ic, it.lv, it); LO_RECTS.push([x, y, S, S, it]); } else loTile(x, y, S, '', '', { empty: 1 }); } y += S + gp; }
   ctx.restore(); return y - gp; }
 function loDetail(it) { /* plain-text-ish HTML detail for a loadout entry */
   if (it.k === 'w') { const d = WDEF[it.id], w = G.weapons.find(w => w.id === it.id), E = EVO[it.id], er = evoReady();
@@ -15597,6 +15610,7 @@ function goSelect() {
   renderSelect();
 }
 function renderSelect() {
+  expansionSelect();
   $('selShards').textContent = '◆ ' + save.shards; const rc = RACES[raceOf(save.race)];
   $('btnSelRace').innerHTML = `Race: <b>${rc.name}</b> <span>change ›</span>`;
   { const open = castleOpen() || moonOpen47(), hOpen = heartOpen(), cur = selMap36(), mb = $('btnSelMap'); mb.classList.toggle('locked', !open); mb.dataset.map = cur;
@@ -15771,13 +15785,15 @@ function renderBuild() {
 let luOpenAt = 0;
 function openLevelUp(restored) { state = 'levelup'; setJoy(false); if (!restored) { Snd.play('levelup'); padRumble(0.35, 0.6, 220); burst(P.x, P.y, '#ffd24a', 24, 160, 3, 0.7, true); } setTimeout(() => Snd.play('deal'), restored ? 60 : 280); show('levelup'); $('pauseBtn').classList.add('hidden'); buildChoices(); saveRun(); }
 function buildChoices() {
+  expansionRandomControl();
   luOpenAt = performance.now();
   $('luTitle').textContent = 'Level ' + (G.level - G.pending + 1) + '!';
   const opts = [], owned = new Set(G.weapons.map(w => w.id));
   for (const w of G.weapons) if (w.lvl < WDEF[w.id].max) opts.push({ k: 'w', id: w.id, w: 3 });
   if (G.weapons.length < SKILL_SLOTS) for (const id in WDEF) { if (owned.has(id)) continue; const d = WDEF[id]; if (d.cls !== G.cls) continue;   // class-only weapon pool
-    if (d.form && druidForm()) continue;                                             // one form per run: taking Cat or Tree removes the other
+    if (d.form && (druidForm() || expansionState().startForm)) continue;                                             // one form per run: taking Cat or Tree removes the other
     if (d.cat && druidForm() !== 'cat') continue; if (druidForm() === 'cat' && catBan(id)) continue; // v18: Sanguine Maw is cat-only; the Cat never gets ranged nature spells
+    if (d.caster && druidForm()) continue;
     if (d.tree && druidForm() !== 'tree') continue;                                  // v19: Uprooted Boulder is tree-only
     opts.push({ k: 'w', id, w: d.cat || d.tree ? 4 : d.form ? 2.8 : 2.4 }); }
   const pc = Object.keys(G.passives).length;
@@ -15794,6 +15810,7 @@ function buildChoices() {
     while (ch.length < 3 && pool.length) { const o = wpick(pool, o => o.w); ch.push(o); pool.splice(pool.indexOf(o), 1); }
     if (ch.length < 3) ch.push({ k: 'heal' }); if (ch.length < 3) ch.push({ k: 'shard' });
     G.luChoices = ch.map(o => ({ k: o.k, id: o.id })); }
+  expansionAutoChoice(ch);
   const C = $('choices'); C.innerHTML = ''; luSel = null; $('btnPick').disabled = true; $('btnPick').textContent = 'Tap a card';
   { const rb = $('btnReroll'), rr = G.rerolls || 0; rb.textContent = '↻ Reroll (' + rr + ')'; rb.disabled = !rr; rb.setAttribute('aria-label', 'Reroll cards, ' + rr + ' left'); }
   if (typeof renderLoadoutDom === 'function') renderLoadoutDom($('luLoad'), false);
@@ -16015,7 +16032,7 @@ function keepBtn() { const b = $('btnKeep'); if (!b || !G) return; const ok = GS
 function gearLook(gear, cls) { if (!gear) return null; const o = {}; let n = 0; for (const s of ['head', 'shoulders', 'chest', 'hands', 'waist', 'feet', 'neck', 'legs']) { const it = gear[s]; if (it) { o[s] = { c: shade(it.col, 0.18), a: GRAR[it.r].c, lk: it.look | 0, r: it.r }; n++; } } return n ? o : null; }
 /* game over */
 function showGameOver(quit) {
-  clearRun(); if (G.ended) return; achMax('c_' + G.cls + '_t', Math.floor(G.t)); G.ended = true; qBanClear();
+  clearRun(); if (G.ended) return; expansionSettle(); achMax('c_' + G.cls + '_t', Math.floor(G.t)); G.ended = true; qBanClear();
   { const nb = G.t > save.best && G.t >= 5; if (quit) Snd.music('victory'); else if (nb) setTimeout(() => { if (state === 'over') Snd.music('victory'); }, 2600); }
   const t = G.t, base = Math.floor(t / 10) + Math.floor(G.kills / 20) + G.bossKills * 15 + G.elites * 2, found = G.shardsPicked + G.salvage;
   const goldSh = Math.min(15, Math.floor((G.gold || 0) / 40)); /* v22: leftover gold → a tiny Shard tip (max +15, never multiplied) */
@@ -16029,7 +16046,7 @@ function showGameOver(quit) {
   const achRunNew = (G.achNew || []).slice(); achMergeRun(); G.achNew = []; const achEnd = achCheck(true); for (const a of achEnd) achRunNew.push(a.id);
   save.shards += total; save.best = Math.max(save.best, t); save.bestKills = Math.max(save.bestKills, G.kills); save.bestLevel = Math.max(save.bestLevel, G.level); save.totalKills += G.kills; persist();
   state = 'over'; setJoy(false); show('over'); $('pauseBtn').classList.add('hidden');
-  $('overTitle').textContent = quit ? 'Retreat into the Night' : 'Swallowed by Shadow';
+  $('overTitle').textContent = quit && G.expansion && G.expansion.finalDefeated ? 'Round Complete' : quit ? 'Retreat into the Night' : 'Swallowed by Shadow';
   { const oh = $('overHero'); requestAnimationFrame(() => { heroPortrait(oh, cls, G.outfit || save.outfit, 1.25, G.race); setTimeout(() => menuHop(oh, newBest), 350); }); } /* v20: small celebratory hop on the run summary */
   $('overTime').textContent = fmtTime(t);
   $('overBest').innerHTML = newBest ? '<div class="newbest">★ NEW BEST ★</div>' : `<div class="lbl" style="margin-top:2px">Best ${fmtTime(save.best)}</div>`;
@@ -16116,6 +16133,7 @@ function renderWard() {
   // outfits (existing system: colours + small bonus); an armour set overrides the colours for that class
   sec('Outfit <span style="color:#bcd0ff;letter-spacing:0;text-transform:none;font-weight:700">· base colours & bonus</span>'); let r = row();
   for (const id in OUTFITS) { const o = OUTFITS[id], own = !!save.outfits[id]; sw(r, o.name + (o.b && Object.keys(o.b).length ? ` (${o.bonus})` : ''), save.outfit === id, !own, Object.assign(base(), { armor: '' }), () => { save.outfit = id; persist(); }, own ? '' : `Buy ${o.name} in the Armory`, id); }
+  expansionWard(B);
   sec(`${CLASSES[wardCls].name} armor set`); r = row();
   sw(r, 'Outfit colours', !save.cos.armor[wardCls], false, Object.assign(base(), { armor: '' }), () => { delete save.cos.armor[wardCls]; persist(); });
   for (const st of ARMOR_SETS[wardCls]) sw(r, (st.prestige ? '★ ' : '') + st.name, save.cos.armor[wardCls] === st.id, !cosOwned(st.id), Object.assign(base(), { armor: st.id }), () => { save.cos.armor[wardCls] = st.id; persist(); }, hintFor(st.id));
@@ -16306,7 +16324,9 @@ function drawBearlina(g, o) {
   const S = typeof G !== 'undefined' && G && G.cls === 'bearlina' ? G.v30 : null;
   const moon = S && S.moonU > gtime ? Math.sin(Math.min(1, (gtime - S.moonStart) / 0.55) * Math.PI) * 22 : 0;
   const bob = mv ? Math.abs(Math.sin(t * 9)) * 1.7 : Math.sin(t * 2.5) * 0.5;
-  if (BEAR_ATLAS.complete && BEAR_ATLAS.naturalWidth) {
+  const costumeExpansion = ARMOR_BY_ID[(o.cos || heroCos('bearlina', race)).armor];
+  if (costumeExpansion) { pal[0] = costumeExpansion.cloak; pal[1] = costumeExpansion.cloak2; pal[2] = costumeExpansion.trim; }
+  if (!costumeExpansion && BEAR_ATLAS.complete && BEAR_ATLAS.naturalWidth) {
     const ix = ['cat','elf','ogre','dwarf','troll','kitsune','scale','shade'].indexOf(race), row = ix >= 4 ? 1 : 0;
     g.save(); if (!o.noShadow) { g.fillStyle = 'rgba(18,12,24,.25)'; g.beginPath(); g.ellipse(0,18,25,4,0,0,TAU);g.fill(); }
     g.translate(0,-bob-moon); const attack = o.atk || 0, sway = mv ? Math.sin(t*9)*.025 : 0;
@@ -16359,7 +16379,7 @@ function frame(now) {
     if (state === 'play') update(dt, false);
     else if (state === 'countdown') { G.cdT -= dt; if (G.cdT <= 0) state = 'play'; }
     else if (state === 'dying') { G.dyingT -= dt; update(dt * 0.3, true); if (G.dyingT <= 0) showGameOver(false); }
-    render(dt); questUI(dt); dmgUI(dt); jumpBtnUI(); ultUI(); npcUI(); if (state === 'ward') wardTick();
+    render(dt); expansionHUD(); questUI(dt); dmgUI(dt); jumpBtnUI(); ultUI(); npcUI(); if (state === 'ward') wardTick();
     { const ms = $('audio').classList.contains('on') ? 'n' : state === 'paused' ? 'p' : (state === 'levelup' || state === 'gear' || state === 'npc') ? 'd' : 'n';
       if (ms !== Snd.ms && Snd.ac) { Snd.ms = ms; if (ms === 'p') Snd.pauseMusic(true); else { Snd.pauseMusic(false); Snd.duck(ms === 'd' ? 0.45 : 1, 0.4); } } }
     if (RUN_STATES[state] && now - lastRunSave > 6000) saveRun();   // periodic autosave
@@ -17339,6 +17359,7 @@ function talKey(code) { // talents-screen keys; true = handled
   view.addEventListener('mouseover', e => { if (!PC) return; const b = e.target.closest('.tnode'); if (b) talHover(b.dataset.node); });
   view.addEventListener('mouseleave', () => { if (PC) talHover(talPick); });
 })();
+initExpansion();
 const talMig = (function migrateTalents19() { // v19: WoW-style trees — every point spent in the old 3-branch trees comes back unspent (and the level cap rises 42 -> 51)
   let had = false; save.talents = save.talents || {};
   if ((save.talV | 0) < TAL_V) { for (const c in save.talents) { const tr = save.talents[c]; if (tr && Object.keys(tr).some(k => tr[k])) had = true; save.talents[c] = {}; } save.talV = TAL_V; }

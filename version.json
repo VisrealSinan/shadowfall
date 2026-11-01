@@ -1,12 +1,11 @@
 {
- "version": "72",
- "date": "2026-10-31",
+ "version": "76",
+ "date": "2026-11-01",
  "minLauncher": "2.0.0",
  "notes": [
-  "Dedicated animation sheets for 132 enemy types, including 28 bosses.",
-  "Adds 792 six-frame sequences for idle, movement, windup, attacks, hit reactions and defeat poses.",
-  "Improved frame fitting keeps weapons, wings and tails within their rendered frames.",
-  "75 enemy types await the next artwork pass; the completed sprites are ready to play now."
+  "Main game update: Lost Shadows, Shard outfits, secret survivors and 150 new class/form skills.",
+  "Adds final-boss victory/endless choices, map difficulty, late-run enemies, spell visibility, random builds and Druid starting forms.",
+  "Standard launcher content update; no separate expansion required. Includes verified asset manifest."
  ],
  "files": [
   {
@@ -36,8 +35,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "2a0fe4f0d8e19e2f82a3b4a0a064b47b7e59e9581831b8acba70c0c5cdaf2bcb",
-   "size": 2835378
+   "sha256": "e9db65921190d35a57a56ec6b10348bc0bb2e726ae4ae404fa55e41747175818",
+   "size": 2838165
   },
   {
    "name": "manifest.webmanifest",
@@ -46,8 +45,8 @@
   },
   {
    "name": "sw.js",
-   "sha256": "910b3efe13c5c5537ead655a83a4888aa24c99fe32f24e0bff3c4cfb0192ba3d",
-   "size": 1727
+   "sha256": "afa5fc64212092beb28290b38229585e03850f03e49f00282c0f839875b50871",
+   "size": 1819
   },
   {
    "name": "assets/actor-animation-manifest.js",
@@ -56,8 +55,8 @@
   },
   {
    "name": "assets/actor-animations.js",
-   "sha256": "db4e14c937e8bff8b025f6d3b5e06d4d188d76c90668a7664a619355b10e260e",
-   "size": 6920
+   "sha256": "1713c2df8b2bf466d80df8140b92286bbdc5976e899a3637ba3fe6ee4aa180cb",
+   "size": 6984
   },
   {
    "name": "assets/alchemist-cat-female.png",
@@ -4793,6 +4792,21 @@
    "name": "assets/warlock-troll-male.png",
    "sha256": "a4250fa5454257174bd91fed815d0a8492ee6dc8161ca8eabd2f0a3846cee0fb",
    "size": 1510933
+  },
+  {
+   "name": "assets/expansion-rules.js",
+   "sha256": "ba282ef65c63204c153ec1e325fdda5b86feac025b76eb8ef7b25a740a669fc5",
+   "size": 1318
+  },
+  {
+   "name": "assets/expansion-ui.js",
+   "sha256": "ef6ca027d417b38ab718242065f563af328cc1681a2c93d7383d6c52e612d8bd",
+   "size": 11635
+  },
+  {
+   "name": "assets/expansion-content.js",
+   "sha256": "a9256c50137c19379cf575a478a556e2b5c5ae4fc76139feba9cb169f915207b",
+   "size": 11175
   }
  ]
 }
