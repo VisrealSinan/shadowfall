@@ -37,7 +37,7 @@ const ActorAnimations = (() => {
     // The class selector can display all 21 classes together. Retain enough
     // images for that view so load callbacks cannot cause eviction/reload loops.
     if (images.size > 32) images.delete(images.keys().next().value);
-    im.onload = () => { if (state === 'select') renderSelect(); else if (state === 'race') renderRace(); else if (state === 'daily' || state === 'mastery') refreshProgressPortrait70(); else if (state === 'ward') renderWard(); else if (state === 'ach') renderAch(); else if (state === 'equip') renderEquip(); else if (state === 'shop') renderShop(); };
+    im.onload = () => { if (state === 'select') renderSelect(); else if (state === 'race') renderRace(); else if (state === 'daily' || state === 'mastery') refreshProgressPortrait70(); else if (state === 'prep') renderRunPrep(); else if (state === 'raceTalents') renderRaceTalents(); else if (state === 'ward') renderWard(); else if (state === 'ach') renderAch(); else if (state === 'equip') renderEquip(); else if (state === 'shop') renderShop(); };
     im.src = v.src;
     return im;
   }

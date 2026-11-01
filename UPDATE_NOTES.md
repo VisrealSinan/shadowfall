@@ -1,6 +1,16 @@
-# Shadowfall v79 game update
+# Shadowfall v81 game update
 
 These features are integrated into the main Shadowfall game and delivered through the standard launcher content update. No separate expansion or installation is required.
+
+## Hall of Echoes, preparation and ancestry (v81)
+
+- Achievements now live in the Hall of Echoes, with an engraved completion seal, chapter navigation, search, status filters, nearest/recent/name sorting and a next-goal spotlight. Reward portraits load when near the viewport. Reduced-motion and keyboard input are supported.
+- Flow: race → class → map → **Run Preparation** → hunt. Preparation previews the customized hero and destination, the recorded map best, talent budgets and difficulty rewards. The old class-selection difficulty slider is removed.
+- Difficulty 1–5 awards run Shards at 1 / 1.35 / 1.70 / 2.05 / 2.40×; class and race XP at 1 / 1.25 / 1.50 / 1.75 / 2×; Outfit Shards per Lost Shadow at 1 / 1 / 2 / 2 / 3. Enemy scaling remains visible. Daily Challenge rewards and difficulty stay standard.
+- Per-map survival records are saved at run checkpoints and settlement. Historical clears unlock higher difficulty, but exact historical map times cannot be reconstructed from old saves and are not invented.
+- All eight races have three ancestry branches with five nodes each (120 nodes). One race point is earned per race level up to **30 points**. Class talents retain their separate **51-point cap**, now explicit in the header. Neither system spends Shards or adds Armory upgrades.
+- Race XP carries across classes. Existing recorded race kills and the race’s best survival time seed a conservative starting XP balance once; subsequent finished runs award the displayed difficulty-adjusted race XP. Race resets are free and save immediately. Allocations apply to new normal runs and remain fixed through save/resume. Daily Challenges exclude ancestral talents.
+- Cat Nine Lives, Elf Starweaver, Ogre Earthbreaker, Troll Bloodmender, Kitsune Foxfire and Shade Veilwalk have triggered capstones; other capstones strengthen their racial paths. Revival usage and racial cooldowns survive saves. Prerequisites and earned point caps are validated on load.
 
 ## New achievements and Nightforge (v79)
 

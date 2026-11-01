@@ -1,11 +1,11 @@
 {
- "version": "79",
+ "version": "81",
  "date": "2026-11-01",
  "minLauncher": "2.0.0",
  "notes": [
-  "Adds 79 achievements with one-time Shard prizes and 29 cosmetic eye/aura rewards.",
-  "Armory Nightforge lets you invest surplus regular Shards in repeatable health, damage and pickup upgrades.",
-  "Includes bulk purchases, diminishing returns, preserved run bonuses and standard Daily Challenge balance."
+  "Hall of Echoes: a new achievement archive with search, filters and nearest-goal sorting.",
+  "After map selection, prepare your hero with map records and escalating difficulty rewards.",
+  "Eight race ancestry trees with an earned 30-point cap; class talent cap is 51. Armory unchanged."
  ],
  "files": [
   {
@@ -35,8 +35,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "718bec0f6afd496a09ff1824377ae44c5a90ffbe642c26e737ce81e64fb31dc1",
-   "size": 2838975
+   "sha256": "e271469eedcd28dff3f74606e137c1b7ff1f596b6e580acf51d5149d44a86de3",
+   "size": 2844785
   },
   {
    "name": "manifest.webmanifest",
@@ -45,8 +45,8 @@
   },
   {
    "name": "sw.js",
-   "sha256": "c645fc82c0335c16b581cc3ce825d2ebfcd1c88adbb7e4db61124eaca95ae378",
-   "size": 1903
+   "sha256": "84ee7e05e7128d7f31f68d3c90956ee5f7a3ec63a4b80b1db301e55d22c2d5fb",
+   "size": 2081
   },
   {
    "name": "assets/actor-animation-manifest.js",
@@ -55,8 +55,8 @@
   },
   {
    "name": "assets/actor-animations.js",
-   "sha256": "cd124f5405c958ab741e4d52e2bea5ddbaf5f7d7b87bca138333ed69f056152f",
-   "size": 7382
+   "sha256": "8f9088205b92a23c1db75fecf38394ec8cd27377172487c7abe81bc44a90cefc",
+   "size": 7481
   },
   {
    "name": "assets/alchemist-cat-female.png",
@@ -4800,8 +4800,8 @@
   },
   {
    "name": "assets/expansion-ui.js",
-   "sha256": "9b9e5ec855163ca40468242c1b7ff31dd887dd1d852718dfebc68c8b2eacc390",
-   "size": 11759
+   "sha256": "bd68fef5c12b6ccc63ba6da2ecb3bfe53d30d75a1c68429c471df87382807509",
+   "size": 10952
   },
   {
    "name": "assets/expansion-content.js",
@@ -4822,6 +4822,36 @@
    "name": "assets/nightforge-ui.js",
    "sha256": "9aaff69e8335b8e4694acaf7fb7402a0aa360b73888772a98541607ec9854a3b",
    "size": 7651
+  },
+  {
+   "name": "assets/achievement-hall.js",
+   "sha256": "210a5b0455874a79279c22004f7ce2d409bfb168d071304dc2ad0ba6303d16bd",
+   "size": 7479
+  },
+  {
+   "name": "assets/achievement-hall.css",
+   "sha256": "d1112d9e79ea6b5061d6615d278b7db4dbd411ea2d80748cd22c82fc65753ae2",
+   "size": 16460
+  },
+  {
+   "name": "assets/run-prep.js",
+   "sha256": "ef8071b0a7f47b0e1a290d1d7f6ebfa82df4194aafcf803831bc7e1ae30f6f64",
+   "size": 907
+  },
+  {
+   "name": "assets/race-talents.js",
+   "sha256": "d30c61fc2690c7597601fe18d42d7bb48a8c3eac6060dec4bee23d0baa0a4a21",
+   "size": 7374
+  },
+  {
+   "name": "assets/journey-scenes.js",
+   "sha256": "268dcf2b62adadec47ae7fae267911cea28c97b72dce93ee3b29c173d9631458",
+   "size": 9316
+  },
+  {
+   "name": "assets/journey-scenes.css",
+   "sha256": "ddb5c6d51a78dfe601e78fe587397738611d92a5fe9b2cc28eca3d8e2cae8d9b",
+   "size": 10385
   }
  ]
 }

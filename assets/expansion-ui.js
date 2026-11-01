@@ -31,8 +31,8 @@ function expansionKill(e) {
   const d = ETYPES[e.type], x = expansionState();
   if (d.lostShadow) {
     achAdd('nf_lost', 1);
-    ShadowExpansion.profile(save).shards++; persist();
-    toast('◆ Outfit Shard earned · spend in Wardrobe', '#d9a0ff', 3);
+    const earned = prepRewardSettings().outfitShards; ShadowExpansion.profile(save).shards += earned; persist();
+    toast('◆ '+earned+' Outfit Shard'+(earned===1?'':'s')+' earned · spend in Wardrobe', '#d9a0ff', 3);
   }
   if (e.type === 'lost_sovereign' && !x.finalDefeated) { nightforgeRecordFinal(); x.finalDefeated = true; }
 }
@@ -49,13 +49,6 @@ function expansionVictory() {
 function expansionSettle() {
   const p = ShadowExpansion.profile(save), key = G.cls;
   p.best[key] = Math.max(p.best[key] || 0, Math.floor(G.t));
-}
-function expansionSelect() {
-  let panel = $('runOptionsExpansion');
-  if (!panel) { panel = document.createElement('div'); panel.id = 'runOptionsExpansion'; panel.className = 'stats'; $('select').insertBefore(panel, $('select').querySelector('.selfoot')); }
-  const p = ShadowExpansion.profile(save), cleared = !!p.clears[selMap36()];
-  panel.innerHTML = '<label>Difficulty <input id="difficultyExpansion" type="range" min="1" max="5" step="1" value="'+(cleared ? p.difficulty || 1 : 1)+'" '+(!cleared?'disabled':'')+'><output id="difficultyValueExpansion">'+(cleared ? p.difficulty || 1 : 1)+'</output></label><div>'+(cleared?'Higher difficulty increases enemy health and damage.':'Survive 15 minutes on this map to unlock difficulty.')+'</div>';
-  $('difficultyExpansion').oninput = e => { p.difficulty = +e.target.value; $('difficultyValueExpansion').textContent = p.difficulty; persist(); };
 }
 function initExpansion() {
   SCREENS.push('victoryExpansion');

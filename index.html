@@ -1303,6 +1303,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
 
 </style>
 <link rel="stylesheet" href="assets/progression.css">
+<link rel="stylesheet" href="assets/achievement-hall.css">
+<link rel="stylesheet" href="assets/journey-scenes.css">
 </head>
 <body>
 <canvas id="c"></canvas>
@@ -1340,7 +1342,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
  <div class="spacer" style="min-height:0"></div>
  <div class="selfoot">
   <button class="btn primary" id="btnRaceNext" style="margin-top:0" data-kh="Enter">Choose Class ›</button>
-  <div class="row"><button class="btn small" id="btnRaceBack" data-kh="Esc">Back</button></div>
+  <div class="row"><button class="btn small" id="btnRaceTalents">✧ Ancestry</button><button class="btn small" id="btnRaceBack" data-kh="Esc">Back</button></div>
  </div>
 </div>
 
@@ -1376,7 +1378,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
  <div id="mapList"></div>
  <div class="spacer" style="min-height:0"></div>
  <div class="selfoot">
-  <button class="btn primary" id="btnMapGo" style="margin-top:0" data-kh="Enter">Enter the Dark</button>
+  <button class="btn primary" id="btnMapGo" style="margin-top:0" data-kh="Enter">Prepare Hunt →</button>
   <div class="row"><button class="btn small" id="btnMapBack" data-kh="Esc">Back</button></div>
  </div>
 </div>
@@ -1491,15 +1493,24 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
  <div class="selfoot"><div class="row"><button class="btn small" id="btnCodexBack" data-kh="Esc">Back</button></div></div>
 </div>
 
-<div id="ach" class="screen panel">
- <h2 style="margin-bottom:2px">Achievements</h2>
- <div class="topbar"><span id="achCount" style="color:#cfe0ff;font-size:13px"></span><span class="shard" id="achPct"></span></div>
- <div class="tabs" id="achTabs"><button data-t="class" class="on">Classes</button><button data-t="race">Races</button><button data-t="gen">General</button></div>
- <div class="chipsrow" id="achFilter"></div>
- <div id="achList"></div>
- <div class="spacer" style="min-height:0"></div>
- <div class="selfoot"><div class="row"><button class="btn small" id="btnAchWard">✦ Wardrobe</button><button class="btn small" id="btnAchBack" data-kh="Esc">Back</button></div></div>
+<div id="ach" class="screen panel echo-hall">
+ <div class="echo-shell">
+  <header class="echo-hero">
+   <div class="echo-intro"><div class="echo-eyebrow"><i></i> Chronicles of the fallen</div><h2>Hall of <em>Echoes</em></h2><p>Some victories outlive the night.</p><span class="echo-subtitle">Your achievements, etched into the dark.</span><div class="echo-rank"><span aria-hidden="true">✧</span><b id="echoRank">The first embers</b><span id="achCount"></span></div></div>
+   <div class="echo-seal" id="echoSeal" aria-label="Overall achievement completion"><div class="echo-seal-orbit"></div><svg class="echo-sigil" viewBox="0 0 200 200" aria-hidden="true"><defs><linearGradient id="echoMetal" x2="0" y2="1"><stop stop-color="#f7dfa7"/><stop offset="1" stop-color="#977449"/></linearGradient></defs><circle cx="100" cy="100" r="90" fill="none" stroke="#8f724b" stroke-width=".6"/><circle cx="100" cy="100" r="80" fill="none" stroke="#c7a263" stroke-width="2" stroke-dasharray="1 10"/><path d="M100 18l5 9-5 9-5-9zm0 146l5 9-5 9-5-9zM18 100l9-5 9 5-9 5zm146 0l9-5 9 5-9 5z" fill="#d2b077"/><path d="M64 139C31 117 38 67 61 48M136 139c33-22 26-72 3-91M53 120l-16-8 3-15 13 9zm-7-27L34 77l11-11 6 17zm8-27l-2-19 14-6-1 18zm93 54l16-8-3-15-13 9zm7-27l12-16-11-11-6 17zm-8-27l2-19-14-6 1 18z" fill="none" stroke="url(#echoMetal)" stroke-width="1.5"/><path d="M100 46l16 25-6 21H90l-6-21zm-4 46h8v24h-8zm-13 25h34l6 7H77z" fill="url(#echoMetal)"/><path d="M100 54l5 16-5 9-5-9z" fill="#fff0c6"/></svg><div class="echo-seal-number"><b id="achPct">0%</b><span>OF THE ARCHIVE</span></div></div>
+   <div class="echo-mote m1"></div><div class="echo-mote m2"></div><div class="echo-mote m3"></div>
+  </header>
+  <div class="echo-ledger"><div><span class="echo-ledger-icon">✧</span><b id="echoEarned">0</b><span>Honors inscribed</span></div><div><span class="echo-ledger-icon">◇</span><b id="echoRemaining">0</b><span>Stories unwritten</span></div><div><span class="echo-ledger-icon">❖</span><b id="echoRewards">0</b><span>Cosmetics earned</span></div></div>
+  <div class="echo-body">
+   <aside class="echo-sidebar"><div class="echo-label">THE COLLECTION</div><nav class="tabs" id="achTabs" aria-label="Achievement chapters"><button data-t="class" class="on">Classes</button><button data-t="race">Races</button><button data-t="gen">General</button></nav><div class="echo-guide"><div class="echo-label">YOUR NEXT INSCRIPTION</div><span class="echo-guide-glyph" aria-hidden="true">✦</span><h3 id="echoNextName"></h3><p id="echoNextText"></p><button id="echoNext">Follow this echo <span aria-hidden="true">↗</span></button></div><p class="echo-sidebar-note">Every mark tells a story.<br>Every story belongs to you.</p></aside>
+   <main class="echo-content"><div class="echo-tools"><label class="echo-search"><span aria-hidden="true">⌕</span><input id="echoSearch" type="search" maxlength="100" placeholder="Search your legends…" aria-label="Search achievements" autocomplete="off" spellcheck="false"></label><label class="echo-sort">Order by<select id="echoSort" aria-label="Sort achievements"><option value="closest">Closest to unlocking</option><option value="recent">Recently earned</option><option value="name">Name</option></select></label></div><div class="echo-filters"><div id="echoStatus" role="group" aria-label="Achievement status"><button class="on" data-status="all">All honors</button><button data-status="progress">In progress</button><button data-status="earned">Unlocked</button><button data-status="locked">Locked</button></div><div id="achFilter"></div></div><div class="echo-list-heading"><h3 id="echoListTitle">Paths of the hunter</h3><span id="echoResults" role="status" aria-live="polite"></span></div><div id="achList"></div></main>
+  </div>
+  <footer class="echo-footer"><span><i></i> Your legacy endures</span><div><button class="btn small" id="btnAchWard">✦ Wardrobe</button><button class="btn small" id="btnAchBack" data-kh="Esc">Return <kbd>Esc</kbd></button></div></footer>
+ </div>
 </div>
+
+<div id="runPrep" class="screen panel journey-screen"><div class="journey-shell"><header class="journey-heading"><span>YOUR NEXT CHAPTER</span><h2>Before the <em>Dark</em></h2><p>A hero. A destination. A night worth surviving.</p></header><div class="prep-layout"><section class="prep-hero-card"><div class="prep-portrait"><div class="prep-rune"></div><canvas id="prepHero" aria-label="Your customized character"></canvas></div><div class="prep-identity"><span id="prepRace"></span><h3 id="prepClass"></h3><p id="prepWeapon"></p></div><div class="prep-talents"><button id="prepClassTalents"><b>Class talents ↗</b><small id="prepClassPoints"></small></button><button id="prepRaceTalents"><b>Race ancestry ↗</b><small id="prepRacePoints"></small></button></div></section><div class="prep-details"><section class="prep-destination"><div id="prepMapArt"></div><div class="prep-destination-copy"><span>DESTINATION</span><h3 id="prepMap"></h3></div><div class="prep-record"><div><small>LONGEST SURVIVED HERE</small><b id="prepBest"></b></div><p id="prepBestContext"></p></div></section><section class="prep-stakes"><div class="prep-stakes-title"><div><span>CHOOSE YOUR STAKES</span><h3 id="prepDifficultyName"></h3></div><span class="prep-danger-icon">✦</span></div><label for="prepDifficulty" class="journey-sr">Difficulty</label><input id="prepDifficulty" type="range" min="1" max="5" step="1"><div class="prep-scale"><span>Dusk</span><span>Lost</span></div><p id="prepDifficultyLock"></p><p id="prepEnemyStats"></p><div class="prep-rewards"><div><small>RUN SHARDS</small><b id="prepShardBonus"></b></div><div><small>CLASS & RACE XP</small><b id="prepXpBonus"></b></div><div><small>OUTFIT SHARDS</small><b id="prepOutfitBonus"></b></div></div><p id="prepTwists"></p><p id="prepRandom"></p></section></div></div><footer class="journey-footer"><button class="btn small" id="prepBack" data-kh="Esc">← Change map</button><button class="btn primary" id="prepBegin" data-kh="Enter">Enter the Dark →</button></footer></div></div>
+<div id="raceTalents" class="screen panel journey-screen ancestry-screen"><div class="journey-shell"><header class="journey-heading"><span>THE BLOOD REMEMBERS</span><h2>Your <em>Ancestry</em></h2><p>Eight origins. Three paths each. One legacy of your own.</p></header><div id="raceTreeTabs" class="ancestry-tabs" aria-label="Race talent trees"></div><div class="ancestry-summary"><canvas id="raceTreeHero" aria-label="Selected race character"></canvas><div><span>RACE TALENTS</span><h3 id="raceTreeTitle"></h3><b id="raceTreePoints"></b><p id="raceTreeCap"></p><div class="ancestry-xp"><i id="raceTreeXpBar"></i></div><p id="raceTreeXp"></p></div><p class="ancestry-note">1 earned point per race level.<br>Race points are separate from class points.<br>Changes save immediately and apply to new normal runs. Daily Challenges exclude these talents.<br>No Shards required. Respec is free.</p></div><div id="raceTreeBranches"></div><footer class="journey-footer"><button class="btn small" id="raceTreeBack" data-kh="Esc">← Back</button><button class="btn small" id="raceTreeReset">Reset this race</button></footer></div></div>
 
 <div id="ward" class="screen panel">
  <h2 style="margin-bottom:2px">Wardrobe</h2>
@@ -1586,6 +1597,10 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
 <script src="assets/progression-ui.js"></script>
 <script src="assets/nightforge.js"></script>
 <script src="assets/nightforge-ui.js"></script>
+<script src="assets/achievement-hall.js"></script>
+<script src="assets/run-prep.js"></script>
+<script src="assets/race-talents.js"></script>
+<script src="assets/journey-scenes.js"></script>
 <script>
 'use strict';
 /* =========================================================
@@ -8421,7 +8436,7 @@ function newRun(cls, challenge = null) {
   G.obSeed = challenge ? challenge.seed | 0 : (Math.random() * 1e9) | 0; G.obGone = {}; obReset(); G.map = challenge ? challenge.map : selMap36(); mapApply();
   hookSrc();
   P = { x: 0, y: 0, r: 11, hp: 100, maxHp: 0, facing: 1, aim: 0, moving: false, inv: 0, atk: 0 };
-  G.race = challenge ? challenge.race : raceOf(save.race); G.tal = challenge ? { f: {} } : talentFx(cls); G.tf = G.tal.f;
+  G.race = challenge ? challenge.race : raceOf(save.race); G.raceTal = challenge ? { f: {} } : RaceTalents.effects(save, G.race); G.raceTimers = {}; G.tal = challenge ? { f: {} } : talentFx(cls); G.tf = G.tal.f;
   save.ach.played.cls[cls] = 1; save.ach.played.race[G.race] = 1;
   addWeapon(CLASSES[cls].weapon);
   if (!challenge) applyKeepsakes(cls);
@@ -8435,6 +8450,7 @@ function recalc() {
   const s = { maxHp: c.maxHp || 100, dmg: 1, cd: 1, area: c.area || 1, speed: c.speed || 1, pickup: 1, crit: c.crit || 0.05, critMul: 2, armor: c.armor || 0,
     regen: 0, dodge: c.dodge || 0, lifesteal: c.lifesteal || 0, xp: 1, dur: c.dur || 1, dot: 1, minion: c.minion || 1, minionHp: 1, pierce: 0, arrowDmg: 1, range: 1, tick: 1, spread: c.spread || 0, rotMax: 0, feral: 1, nature: 1, bleed: 1, dr: 0, fire: 1, frost: 1, arcane: 1, burn: 1, burnDur: 0, burnSpread: 0, frzDur: 0, shatter: 0, arcMax: 0 };
   if (!G.challengeDate && G.nightforgeBonus) { const b = G.nightforgeBonus; s.maxHp += b.maxHp || 0; s.dmg += b.dmg || 0; s.pickup += b.pickup || 0; }
+  if (!G.challengeDate && G.raceTal) { for (const [k,v] of Object.entries(G.raceTal)) if (k !== 'f' && k in s) { if (k === 'cd') s[k] -= v; else s[k] += v; } if (G.raceTimers && G.raceTimers.veilT > 0) s.dodge += .25; }
   s.regen += c.regen || 0;
   s.cd *= c.cd || 1; s.pickup *= c.pickup || 1;
   s.maxHp += 10 * mr('vit'); s.dmg += 0.05 * mr('might'); s.speed += 0.04 * mr('swift'); s.pickup += 0.15 * mr('reach'); s.xp += 0.03 * mr('reach'); s.cd -= 0.04 * mr('haste');
@@ -8504,7 +8520,7 @@ const RUN_STATES = { victory: 1, play: 1, paused: 1, levelup: 1, gear: 1, countd
 const r1 = v => Math.round(v * 10) / 10;
 function serializeRun() {
   const g = {}; for (const k of ['cls', 'race', 'outfit', 't', 'kills', 'level', 'xp', 'xpNext', 'passives', 'gear', 'pending', 'shardsPicked', 'salvage', 'bossKills', 'elites', 'nextElite', 'nextBoss',
-    'nightforgeBonus', 'expansion', 'map', 'mods', 'daily', 'challengeDate', 'w28', 'bossIdx', 'bossBag', 'bossLast', 'nextSurge', 'spawnAcc', 'revived', 'wasNight', 'healPool', 'bondPool', 'critBuffT', 'minionKills', 'moved', 'pendingChest', 'nextLoot', 'rushT', 'aegisT', 'kept', 'luChoices', 'tal', 'undyingUsed', 'tollT', 'rwT', 'sgT', 'achRun', 'achNew', 'dv', 'ancCd', 'frzCd', 'wsT', 'mcT', 'mwT', 'mvT', 'arc', 'stage', 'nextMini', 'surgeN', 'quests', 'qNext', 'qStats', 'qN', 'qLast', 'evo', 'dm', 'catPool', 'catRefund', 'obSeed', 'obGone', 'rerolls', 'gold', 'goldEarned', 'goldSpent', 'npcs', 'npcNext', 'npcN', 'npcLast', 'npcBuys', 'npcVisits', 'npcSeen', 'bufE', 'bufH', 'bufA', 'deathward', 'goldBud', 'portal', 'portalNext', 'townVisits', 'npcHp', 'mimic45']) g[k] = G[k];
+    'raceTal', 'raceTimers', 'raceReviveUsed', 'nightforgeBonus', 'expansion', 'map', 'mods', 'daily', 'challengeDate', 'w28', 'bossIdx', 'bossBag', 'bossLast', 'nextSurge', 'spawnAcc', 'revived', 'wasNight', 'healPool', 'bondPool', 'critBuffT', 'minionKills', 'moved', 'pendingChest', 'nextLoot', 'rushT', 'aegisT', 'kept', 'luChoices', 'tal', 'undyingUsed', 'tollT', 'rwT', 'sgT', 'achRun', 'achNew', 'dv', 'ancCd', 'frzCd', 'wsT', 'mcT', 'mwT', 'mvT', 'arc', 'stage', 'nextMini', 'surgeN', 'quests', 'qNext', 'qStats', 'qN', 'qLast', 'evo', 'dm', 'catPool', 'catRefund', 'obSeed', 'obGone', 'rerolls', 'gold', 'goldEarned', 'goldSpent', 'npcs', 'npcNext', 'npcN', 'npcLast', 'npcBuys', 'npcVisits', 'npcSeen', 'bufE', 'bufH', 'bufA', 'deathward', 'goldBud', 'portal', 'portalNext', 'townVisits', 'npcHp', 'mimic45']) g[k] = G[k];
   g.weapons = G.weapons.map(w => [w.id, w.lvl]);
   /* v27: inside the Safe Haven the real battlefield is stashed in G.town.st - save that world (and where you left it) plus the town itself */
   const TW = G.town, st = TW && TW.st, EN = st ? st.enemies : enemies, BOSS = st ? st.boss : G.boss, PK = st ? st.picks : picks; if (st) g.npcs = st.npcs;
@@ -8519,7 +8535,7 @@ let lastRunSave = 0;
 function saveRun() {
   // never write a run that is dead/dying/over: a save must not let you dodge a death
   if (!G || !P || !RUN_STATES[state] || !(P.hp > 0) || G.ended) return false; // v27: saving inside the Safe Haven works too (see serializeRun)
-  try { localStorage.setItem(RUN_KEY, JSON.stringify(serializeRun())); lastRunSave = performance.now(); return true; } catch (e) { return false; }
+  try { localStorage.setItem(RUN_KEY, JSON.stringify(serializeRun())); lastRunSave = performance.now(); recordMapProgress(); return true; } catch (e) { return false; }
 }
 function restoreRun(r) {
   const g = r.G, cls = clsOf(g.cls);
@@ -9071,11 +9087,12 @@ function hurtPlayer(dmg, src) {
     if (rf > 0) { const rd = Math.max(4, dmg * rf * 1.5); G.later.push({ t: 0, src: '@bark', f: () => { areaHit(P.x, P.y, 70 * P.area, rd, 60); burst(P.x, P.y, '#9de07a', 6, 110, 2.4, 0.35, true); } }); }
     if (tf.ancient && !(G.ancCd > 0) && P.hp - d < P.maxHp * 0.35) { G.ancCd = 60; G.ancientT = 6; G.ancQ = 0; recalc(); heal(P.maxHp * 0.5); P.inv = 0.8; d *= 0.5; toast('Ancient Awakening!', '#9dff6a', 2.2); Snd.play('morph'); burst(P.x, P.y, '#9dff6a', 24, 180, 3.6, 0.6, true); } }
   if (P.fx && P.fx.thorns) { const v = P.fx.thorns; G.later.push({ t: 0, src: '@g_thorns', f: () => { G.fxLock = 1; areaHit(P.x, P.y, 78 * P.area, (14 + fxLv() * 1.3) * v, 90); G.fxLock = 0; burst(P.x, P.y, '#9de07a', 8, 120, 2.4, 0.35, true); } }); }
-  P.hp -= d; G.qHurt = 1; P.inv = 0.45 * (P.invMul || 1); G.hurtFlash = 0.25; G.shake = Math.max(G.shake, 0.18);
+  P.hp -= d; raceTalentHurt(); G.qHurt = 1; P.inv = 0.45 * (P.invMul || 1); G.hurtFlash = 0.25; G.shake = Math.max(G.shake, 0.18);
   addNum(P.x, P.y - 22, Math.round(d), '#ff4d6d', 13); Snd.play('hurt'); burst(P.x, P.y, '#ff3d6e', 6, 90, 2.5, 0.4);
   if (P.hp <= 0) playerDown();
 }
 function playerDown() {
+  if (raceTalentRevive()) return;
   if (G && G.deathward) { G.deathward = 0; P.hp = Math.max(1, P.maxHp * 0.5); P.inv = 2.5; effects.push({ k: 'nova', x: P.x, y: P.y, r: 0, maxR: 220, life: 0.6, max: 0.6, dmg: 9999, hit: new Set(), col: '#c56bff', src: '@talent' }); toast('Deathward shatters — you rise again!', '#d79bff', 3); Snd.play('chest'); return; } /* v22 Mysterious Stranger */
   if (G.tf && G.tf.undying && !G.undyingUsed) { G.undyingUsed = true; P.hp = Math.max(1, P.maxHp * 0.4); P.inv = 3; effects.push({ k: 'nova', x: P.x, y: P.y, r: 0, maxR: 180, life: 0.5, max: 0.5, dmg: 60, hit: new Set(), col: '#ff3d6e', src: '@talent' }); toast('Undying Pact — death is refused!', '#ff7a96', 3); Snd.play('chest'); return; }
   if (mr('revive') && !G.revived) {
@@ -12508,7 +12525,7 @@ function updatePickups(dt) {
   picks = picks.filter(p => !p.dead); picks.push = obPush;
 }
 function update(dt, dying) {
-  if (!dying && !G.town) expansionTick(dt);
+  if (!dying && !G.town) { expansionTick(dt); raceTalentTick(dt); }
   for (let i = corpses.length - 1; i >= 0; i--) if ((corpses[i].t += dt) >= corpses[i].d) corpses.splice(i, 1);
   if (!dying) { if (!G.town) { G.t += dt; if (G.t >= 900 && G.map !== 'castle' && G.map !== 'heart' && !ZN39[G.map] && !save.ach.p.f15) { save.ach.p.f15 = 1; achCheck(false); } if (G.t >= 900 && G.map === 'castle' && !save.ach.p.c15) { save.ach.p.c15 = 1; achCheck(false); persist(); G.later.push({ t: 2.5, f: heartUnlocked36 }); toast('♡ Heartfall Belfry unlocked!', '#ff8ab0', 3.2); } for (const zk of ZN39_ORDER) { const z = ZN39[zk]; if (G.t >= 900 && G.map === z.prev && !save.ach.p[z.prog]) { save.ach.p[z.prog] = 1; achCheck(false); persist(); G.later.push({ t: 2.5, f: () => zoneUnlocked39(z) }); toast(z.ic + ' ' + z.name + ' unlocked!', z.col, 3.2); } } } jumpTick(); }
   if (!dying) { const want = G.town ? 'title' : musicName(); if (!Snd.cur || Snd.cur.name !== want) Snd.music(want); }
@@ -15263,6 +15280,7 @@ const visBtn = id => { const b = $(id); return b && !b.classList.contains('hidde
 const KNAV = {
   title: { Enter: () => visBtn('btnCont') || 'btnPlay', Space: () => visBtn('btnCont') || 'btnPlay', KeyH: 'btnKeys', F1: 'btnKeys' },
   race: { Enter: 'btnRaceNext', Escape: 'btnRaceBack' },
+  prep: { Enter: 'prepBegin', Escape: 'prepBack' }, raceTalents: { Escape: 'raceTreeBack' },
   maps: { Enter: 'btnMapGo', Escape: 'btnMapBack' }, mapsel: { Enter: 'btnMapGo', Escape: 'btnMapBack' },
   select: { Enter: 'btnGo', Escape: 'btnSelBack', KeyT: 'btnTalents', Tab: 'btnTalents', KeyG: 'btnStash', KeyC: 'btnCodex' }, codex: { Escape: 'btnCodexBack', KeyC: 'btnCodexBack' },
   shop: { Escape: 'btnShopBack' }, talents: { Escape: 'btnTalBack', Tab: 'btnTalBack', KeyT: 'btnTalBack' },
@@ -15300,6 +15318,7 @@ function keyNav(code) { // returns true when handled
   if (id && visBtn(id)) { $(id).click(); return true; }
   return false; }
 addEventListener('keydown', e => {
+  if (e.target && e.target.closest && e.target.closest('#ach') && ['INPUT','SELECT'].includes(e.target.tagName)) return;
   if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space', 'Tab'].includes(e.code) || (e.code === 'Enter' && topScreen())) e.preventDefault();
   keys.add(e.code); Snd.init();
   if (!PC && canPC() && !/^(Shift|Control|Alt|Meta)/.test(e.key)) setPC(true);
@@ -15616,7 +15635,6 @@ function goSelect() {
   renderSelect();
 }
 function renderSelect() {
-  expansionSelect();
   $('selShards').textContent = '◆ ' + save.shards; const rc = RACES[raceOf(save.race)];
   $('btnSelRace').innerHTML = `Race: <b>${rc.name}</b> <span>change ›</span>`;
   { const open = castleOpen() || moonOpen47(), hOpen = heartOpen(), cur = selMap36(), mb = $('btnSelMap'); mb.classList.toggle('locked', !open); mb.dataset.map = cur;
@@ -16039,15 +16057,16 @@ function keepBtn() { const b = $('btnKeep'); if (!b || !G) return; const ok = GS
 function gearLook(gear, cls) { if (!gear) return null; const o = {}; let n = 0; for (const s of ['head', 'shoulders', 'chest', 'hands', 'waist', 'feet', 'neck', 'legs']) { const it = gear[s]; if (it) { o[s] = { c: shade(it.col, 0.18), a: GRAR[it.r].c, lk: it.look | 0, r: it.r }; n++; } } return n ? o : null; }
 /* game over */
 function showGameOver(quit) {
-  clearRun(); if (G.ended) return; expansionSettle(); achMax('c_' + G.cls + '_t', Math.floor(G.t)); G.ended = true; qBanClear();
+  clearRun(); if (G.ended) return; RunPrep.record(save, G); expansionSettle(); achMax('c_' + G.cls + '_t', Math.floor(G.t)); G.ended = true; qBanClear();
   { const nb = G.t > save.best && G.t >= 5; if (quit) Snd.music('victory'); else if (nb) setTimeout(() => { if (state === 'over') Snd.music('victory'); }, 2600); }
   const t = G.t, base = Math.floor(t / 10) + Math.floor(G.kills / 20) + G.bossKills * 15 + G.elites * 2, found = G.shardsPicked + G.salvage;
   const goldSh = Math.min(15, Math.floor((G.gold || 0) / 40)); /* v22: leftover gold → a tiny Shard tip (max +15, never multiplied) */
   const dailyResult70 = G.challengeDate ? HuntProgress.settleDaily(save, G) : { shards: 0 };
-  const total = Math.round((base + found) * (1 + 0.1 * (G.challengeDate ? 0 : mr('fortune')) + ((P && P.shardMul) || 1) - 1) * modShard()) + goldSh + dailyResult70.shards;
+  const total = Math.round((base + found) * (1 + 0.1 * (G.challengeDate ? 0 : mr('fortune')) + ((P && P.shardMul) || 1) - 1) * modShard() * prepRewardSettings().shards) + goldSh + dailyResult70.shards;
   if (G.daily && t >= 5) { const dk = G.challengeDate || dailyKey50(); if (!save.dailyBest || save.dailyBest.d !== dk || t > save.dailyBest.t) save.dailyBest = { d: dk, t }; }
   const newBest = t > save.best && t >= 5;
-  const cls = G.cls, before = classLevel(cls).lvl, cx = Math.round(t * 0.9 + G.kills * 0.35 + G.bossKills * 40 + G.elites * 6);
+  const cls = G.cls, before = classLevel(cls).lvl, cx = Math.round((t * 0.9 + G.kills * 0.35 + G.bossKills * 40 + G.elites * 6) * prepRewardSettings().xp);
+  RaceTalents.award(save, G.race, cx);
   if (TALENTS[cls]) save.cxp[cls] = (save.cxp[cls] || 0) + cx; const after = classLevel(cls);
   if (G.race === 'dwarf') { G.achRun = G.achRun || {}; G.achRun.r_dwarf_sh = (G.achRun.r_dwarf_sh || 0) + total; } // G.ended is already set, so add directly
   const achRunNew = (G.achNew || []).slice(); achMergeRun(); G.achNew = []; const achEnd = achCheck(true); for (const a of achEnd) achRunNew.push(a.id);
@@ -16063,7 +16082,8 @@ function showGameOver(quit) {
     `<div style="font-size:13px;color:#a593c4"><span>Total Shards</span><span>◆ ${save.shards}</span></div>` +
     (TALENTS[cls] ? `<div style="border-top:1px solid rgba(180,130,255,.3);margin-top:4px;padding-top:4px"><span>${CLASSES[cls].name} XP</span><b style="color:#9fe8ff">+${cx}</b></div>` +
       `<div style="font-size:13px;color:#a593c4"><span>Class level ${after.lvl}</span><span>${after.lvl > before ? '<b style="color:#ffd24a">+' + (after.lvl - before) + ' talent pt!</b>' : after.need ? after.into + '/' + after.need : 'MAX'}</span></div>` : '') +
-    (achRunNew.length ? `<div class="achsum"><div class="ast">★ Achievements unlocked (${achRunNew.length})</div>${achRunNew.map(id => { const a = ACH_BY_ID[id]; return a ? `<div class="asi"><span>${a.ic}\uFE0E ${a.name}</span><b>${rewardName(a.rw)}</b></div>` : ''; }).join('')}<div class="asf">Equip new looks in the Wardrobe</div></div>` : '');
+    (achRunNew.length ? `<div class="achsum"><div class="ast">★ Achievements unlocked (${achRunNew.length})</div>${achRunNew.map(id => { const a = ACH_BY_ID[id]; return a ? `<div class="asi"><span>${a.ic}\uFE0E ${a.name}</span><b>${newAchievementReward(a)}</b></div>` : ''; }).join('')}<div class="asf">Equip new looks in the Wardrobe</div></div>` : '');
+  $('overRes').insertAdjacentHTML('beforeend', '<div><span>'+RACES[G.race].name+' race XP</span><b>+'+cx+'</b></div><div><span>Difficulty rewards</span><b>×'+prepRewardSettings().shards.toFixed(2)+' Shards · ×'+prepRewardSettings().xp.toFixed(2)+' XP</b></div>');
   $('overRes').insertAdjacentHTML('beforeend', progressionSummary70(dailyResult70, cls));
   $('overDmg').innerHTML = dmSummaryHTML(); $('overDmg').style.display = $('overDmg').innerHTML ? '' : 'none';
   for (const a of achEnd) achBanner(a);
@@ -16089,32 +16109,12 @@ let keysFrom = 'title';
 function goKeys(from) { keysFrom = from; show('keys'); if (from === 'pause') $('pauseBtn').classList.add('hidden'); }
 bind('btnKeys', () => goKeys('title')); bind('btnKeysP', () => goKeys('pause')); bind('btnKeysH', () => goKeys('how'));
 bind('btnKeysBack', () => { if (keysFrom === 'pause' && state === 'paused') show('pause'); else if (keysFrom === 'how') show('how'); else goTitle(); });
-bind('btnGo', goMaps); bind('btnMapGo', () => startRun(selClass)); bind('btnMapBack', goSelect); bind('btnSelBack', goRace); bind('btnSelRace', goRace);
+bind('btnGo', goMaps); bind('btnMapGo', goRunPrep); bind('btnMapBack', goSelect); bind('btnSelBack', goRace); bind('btnSelRace', goRace);
 bind('btnRaceNext', () => { save.race = selRace; persist(); goSelect(); }); bind('btnRaceBack', goTitle);
 /* ---- Achievements screen ---- */
 let achTab = 'class', achKey = 'all', achFrom = 'title';
 function goAch(from) { achFrom = from || 'title'; state = 'ach'; show('ach'); renderAch(); }
-function renderAch() {
-  const nd = ACH.filter(a => save.ach.done[a.id]).length;
-  $('achCount').innerHTML = `Unlocked <b style="color:#ffe08a">${nd} / ${ACH.length}</b> · cosmetics and Shard rewards`; $('achPct').textContent = Math.round(nd / ACH.length * 100) + '%';
-  for (const b of $('achTabs').children) b.classList.toggle('on', b.dataset.t === achTab);
-  const F = $('achFilter'); F.innerHTML = '';
-  const keys = achTab === 'class' ? menuClassIds().filter(k => ARMOR_SETS[k]) : achTab === 'race' ? RACE_IDS : [];
-  if (keys.length) for (const k of ['all', ...keys]) { const b = document.createElement('button'); b.textContent = k === 'all' ? 'All' : (CLASSES[k] || RACES[k]).name; b.className = achKey === k ? 'on' : ''; b.onclick = () => { achKey = k; Snd.play('click'); renderAch(); }; F.appendChild(b); }
-  const L = $('achList'); L.innerHTML = '';
-  const list = ACH.filter(a => a.cat === achTab && !hid46(a.key) && (achKey === 'all' || !a.key || a.key === achKey));
-  if (achTab === 'class') { const order = menuClassIds(); list.sort((a,b) => order.indexOf(a.key) - order.indexOf(b.key)); }
-  let grp = null;
-  for (const a of list) {
-    if (a.key && a.key !== grp) { grp = a.key; const n = ACH.filter(x => x.key === grp); L.insertAdjacentHTML('beforeend', `<div class="ahead"><span>${(CLASSES[grp] || RACES[grp]).name}</span><span>${n.filter(x => save.ach.done[x.id]).length}/${n.length}</span></div>`); }
-    const done = !!save.ach.done[a.id], cur = achCur(a), pct = Math.round(cur / a.goal * 100);
-    const fmt = v => a.time ? fmtTime(v) : v.toLocaleString('en-US');
-    const d = document.createElement('div'); d.className = 'aent' + (done ? ' done' : '') + (a.prestige ? ' prest' : ''); d.dataset.ach = a.id;
-    d.innerHTML = `<div class="aic">${a.ic}\uFE0E</div><div class="atx"><div class="an">${a.name}</div><div class="ad">${a.desc}</div><div class="apb"><i style="width:${pct}%"></i></div>` +
-      `<div class="apn"><span>${fmt(cur)} / ${fmt(a.goal)}</span><b>${done ? '✓ Unlocked' : '🔒 Locked'}</b></div></div><div class="arw">${a.rw ? '<canvas></canvas>' : '<span class="aic">◆</span>'}${newAchievementReward(a)}</div>`;
-    L.appendChild(d); if (a.rw) { const pv = previewCos(a.rw); cosPortrait(d.querySelector('canvas'), pv.cls, pv.race, pv.cos, 1.25); }
-  }
-}
+function renderAch() { renderAchievementHall(); }
 /* ---- Wardrobe (appearance) screen with live preview ---- */
 let wardCls = 'rogue', wardRace = 'elf', wardFrom = 'title';
 function goWard(from) { wardFrom = from || 'title'; wardCls = clsOf(save.lastClass); wardRace = raceOf(save.race); state = 'ward'; show('ward'); renderWard(); }
@@ -16163,7 +16163,7 @@ bind('btnAchBack', goTitle); bind('btnAchWard', () => goWard('ach')); bind('btnW
 for (const b of $('achTabs').children) b.addEventListener('click', () => { achTab = b.dataset.t; achKey = 'all'; Snd.play('click'); renderAch(); $('ach').scrollTop = 0; });
 
 bind('btnTalents', () => goTalents(selClass, 'select'));
-bind('btnTalBack', () => talGuard(() => { $('talHov').classList.remove('on'); if (talFrom !== 'select') return goTitle(); state = 'select'; show('select'); if (save.classes[talCls]) selClass = talCls; renderSelect(); }));
+bind('btnTalBack', () => talGuard(() => { $('talHov').classList.remove('on'); if (talFrom === 'prep') { if (save.classes[talCls]) selClass = talCls; return goRunPrep(); } if (talFrom !== 'select') return goTitle(); state = 'select'; show('select'); if (save.classes[talCls]) selClass = talCls; renderSelect(); }));
 bind('btnTalReset', talReset); bind('btnTalApply', () => { if (talPend().any) talApply(); });
 bind('btnShopBack', () => shopFrom === 'over' ? goTitle() : goTitle());
 for (const b of $('shopTabs').children) b.addEventListener('click', () => { shopTab = b.dataset.t; Snd.play('click'); renderShop(); });
@@ -16387,7 +16387,7 @@ function frame(now) {
     if (state === 'play') update(dt, false);
     else if (state === 'countdown') { G.cdT -= dt; if (G.cdT <= 0) state = 'play'; }
     else if (state === 'dying') { G.dyingT -= dt; update(dt * 0.3, true); if (G.dyingT <= 0) showGameOver(false); }
-    render(dt); expansionHUD(); questUI(dt); dmgUI(dt); jumpBtnUI(); ultUI(); npcUI(); if (state === 'ward') wardTick();
+    render(dt); runPrepTick(); expansionHUD(); questUI(dt); dmgUI(dt); jumpBtnUI(); ultUI(); npcUI(); if (state === 'ward') wardTick();
     { const ms = $('audio').classList.contains('on') ? 'n' : state === 'paused' ? 'p' : (state === 'levelup' || state === 'gear' || state === 'npc') ? 'd' : 'n';
       if (ms !== Snd.ms && Snd.ac) { Snd.ms = ms; if (ms === 'p') Snd.pauseMusic(true); else { Snd.pauseMusic(false); Snd.duck(ms === 'd' ? 0.45 : 1, 0.4); } } }
     if (RUN_STATES[state] && now - lastRunSave > 6000) saveRun();   // periodic autosave
@@ -17286,7 +17286,7 @@ function renderTalents() {
   const cl = classLevel(talCls), tp = talentPoints(talCls, talDraft), pend = talPend(), T = TALENTS[talCls];
   $('talHead').innerHTML = `<canvas></canvas><div class="lv"><b>${CLASSES[talCls].name}</b> · Class Lv ${cl.lvl}/${CLASS_LV_MAX}<div class="bar"><i style="width:${cl.need ? Math.round(cl.into / cl.need * 100) : 100}%"></i></div>` +
     `<span class="xp">${cl.need ? cl.into + ' / ' + cl.need + ' class XP' : 'Max level'}</span></div>` +
-    `<div class="pts" id="talPts"><b>${tp.free}</b>available<small>${tp.spent}/${tp.total} spent</small></div>`;
+    `<div class="pts" id="talPts"><b>${tp.free}</b>available<small>${tp.spent}/${tp.total} spent · ${CLASS_LV_MAX} max</small></div>`;
   heroPortrait($('talHead').querySelector('canvas'), talCls, save.outfit, 1.3);
   BGA.talPage(talCls, talSpec); /* v32 class-themed talent screen */
   const sp = $('talSpecs'); sp.innerHTML = '';
@@ -17369,6 +17369,8 @@ function talKey(code) { // talents-screen keys; true = handled
 })();
 initExpansion();
 initNightforge();
+initAchievementHall();
+initJourneyScenes();
 const talMig = (function migrateTalents19() { // v19: WoW-style trees — every point spent in the old 3-branch trees comes back unspent (and the level cap rises 42 -> 51)
   let had = false; save.talents = save.talents || {};
   if ((save.talV | 0) < TAL_V) { for (const c in save.talents) { const tr = save.talents[c]; if (tr && Object.keys(tr).some(k => tr[k])) had = true; save.talents[c] = {}; } save.talV = TAL_V; }
