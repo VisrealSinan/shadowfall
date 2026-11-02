@@ -1,10 +1,9 @@
 {
- "version": "92",
+ "version": "93",
  "date": "2026-11-02",
  "minLauncher": "2.0.0",
  "notes": [
-  "New Shaman class: unlock in the Armory for 600 Shards, with 19 skills, living totems, weapon imbues, elemental spells and a unique ultimate.",
-  "Three distinct illustrated talent trees, with a free starting-path talent in each after your first Shaman hunt."
+  "The Hollow Bell: an optional Gloomwood shrine ritual, stalking enemy, Bellkeeper encounter and Bellbound outfits."
  ],
  "files": [
   {
@@ -34,8 +33,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "51474070d2e5720bb416c2a34d57de18bde1c002e4c0649032025b94fa8478f7",
-   "size": 2845007
+   "sha256": "00d0f09a35f186d7096e87e535b8a27c04de892ecdde0cbd9ea973e6b7adae92",
+   "size": 2845474
   },
   {
    "name": "manifest.webmanifest",
@@ -44,7 +43,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "1f51aab8130bd526bc0ad602980ed99ee3cf58e7d5334339addc2e901fca548d",
+   "sha256": "ee6702a0ab6eb9948e67623d57ea71330a9dca8f1cb9e1c034b06c4c1c91c392",
    "size": 3640
   },
   {
@@ -7706,6 +7705,11 @@
    "name": "assets/shaman-trees-v92.png",
    "sha256": "5a79f6c02079dd23ebad2487b7c5485de3e3286fcccdf7d39fee631905a50314",
    "size": 3305877
+  },
+  {
+   "name": "assets/hollow-bell93.js",
+   "sha256": "5bda186447ae7d4c05ac1bbd212a721d7b21d30b47e8d3deb2cf3b8fc0dd080d",
+   "size": 7161
   }
  ]
 }

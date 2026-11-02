@@ -1589,6 +1589,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
 <script src="assets/duo-escort91.js"></script>
 <script src="assets/shaman92-art.js"></script>
 <script src="assets/shaman92.js"></script>
+<script src="assets/hollow-bell93.js"></script>
 <script>
 'use strict';
 /* =========================================================
@@ -8520,7 +8521,7 @@ const SKILL_SLOTS = 6; // v25: a hero carries up to 6 skills (v27: named so tool
 const RUN_STATES = { victory: 1, play: 1, paused: 1, levelup: 1, gear: 1, countdown: 1, equip: 1, npc: 1 };
 const r1 = v => Math.round(v * 10) / 10;
 function serializeRun() {
-  const g = {}; for (const k of ['cls', 'race', 'outfit', 't', 'kills', 'level', 'xp', 'xpNext', 'passives', 'gear', 'pending', 'shaman92', 'duoEscort91', 'secretTrial90', 'duoResonance88', 'shardsPicked', 'salvage', 'bossKills', 'elites', 'nextElite', 'nextBoss',
+  const g = {}; for (const k of ['cls', 'race', 'outfit', 't', 'kills', 'level', 'xp', 'xpNext', 'passives', 'gear', 'pending', 'hollowBell93', 'shaman92', 'duoEscort91', 'secretTrial90', 'duoResonance88', 'shardsPicked', 'salvage', 'bossKills', 'elites', 'nextElite', 'nextBoss',
     'raceTal', 'raceTimers', 'raceReviveUsed', 'nightforgeBonus', 'expansion', 'map', 'mods', 'daily', 'challengeDate', 'w28', 'bossIdx', 'bossBag', 'bossLast', 'nextSurge', 'spawnAcc', 'revived', 'wasNight', 'healPool', 'bondPool', 'critBuffT', 'minionKills', 'moved', 'pendingChest', 'nextLoot', 'rushT', 'aegisT', 'kept', 'luChoices', 'tal', 'undyingUsed', 'tollT', 'rwT', 'sgT', 'achRun', 'achNew', 'dv', 'ancCd', 'frzCd', 'wsT', 'mcT', 'mwT', 'mvT', 'arc', 'stage', 'nextMini', 'surgeN', 'quests', 'qNext', 'qStats', 'qN', 'qLast', 'evo', 'dm', 'catPool', 'catRefund', 'obSeed', 'obGone', 'rerolls', 'gold', 'goldEarned', 'goldSpent', 'npcs', 'npcNext', 'npcN', 'npcLast', 'npcBuys', 'npcVisits', 'npcSeen', 'bufE', 'bufH', 'bufA', 'deathward', 'goldBud', 'portal', 'portalNext', 'townVisits', 'npcHp', 'mimic45']) g[k] = G[k];
   g.weapons = G.weapons.map(w => [w.id, w.lvl]);
   /* v27: inside the Safe Haven the real battlefield is stashed in G.town.st - save that world (and where you left it) plus the town itself */
@@ -9039,7 +9040,7 @@ function mimicDie45(e) { for (const c of ['#c898ff', '#80d0f0', '#ffe060', '#ff5
   picks.push({ k: 'chest', x: e.x, y: e.y }); dropGold(e.x, e.y + 14, 25 + G.t / 20, 6); toast('🎁 The mimic coughs up its treasure!', '#c898ff', 2.4); }
 function killEnemy(e) {
   if (ETYPES[e.type].invincible) return;
-  if (e.dead) return; expansionKill(e); e.dead = true; G.kills++; questKill(e); if (P.killRush) G.sclT = 1.5; achAdd('c_' + G.cls + '_k', 1); achAdd('r_' + G.race + '_k', 1); achAdd('g_kills', 1);
+  if (e.dead) return; HollowBell93.killed(e); expansionKill(e); e.dead = true; G.kills++; questKill(e); if (P.killRush) G.sclT = 1.5; achAdd('c_' + G.cls + '_k', 1); achAdd('r_' + G.race + '_k', 1); achAdd('g_kills', 1);
   modKill(e); const def = ETYPES[e.type]; if (e.type === 'surprisemimic') mimicDie45(e);
   if (SPR.enemy[e.type]) { while (corpses.length >= V31P.cap()) corpses.shift(); const ds = V31P.dstyle(e); corpses.push({ k: e.type, x: e.x, y: e.y, f: e.face < 0 ? -1 : 1, sc: e.sc || 1, t: 0, d: (e.boss ? 1.4 : e.elite || e.mini ? 0.9 : 0.55) * (ds === 'dis' ? 1.3 : ds === 'b36' ? 1.45 : ds === 'gift45' ? 1.7 : 1), el: !!(e.elite || e.boss), s: ds, sd: Math.random() }); }
   burst(e.x, e.y, def.puff, e.boss ? 40 : e.elite ? 20 : 7, e.boss ? 220 : 110, e.boss ? 5 : 3, 0.55);
@@ -12547,7 +12548,7 @@ function update(dt, dying) {
     { const hc = heroCos(G.cls, G.race), ps = ARMOR_BY_ID[hc.armor]; const tc = ps && ps.prestige && ps.cls === G.cls ? ps.prestige : hc.aura === 'aura_violet' ? '#b56bff' : hc.aura === 'aura_gold' ? '#ffd24a' : hc.aura === 'aura_lantern' ? '#ffe23a' : hc.aura === 'aura_sigil' ? '#6ff3d0' : hc.aura === 'aura_prism' || hc.aura === 'aura_apex' ? '#ff4fd8' : hc.aura === 'aura_crown' ? '#ffe23a' : null;
       if (tc && Math.random() < dt * 14) parts.push({ x: P.x + rand(-9, 9), y: P.y + rand(-4, 14), vx: -mx * 30 + rand(-8, 8), vy: -my * 30 - 18, life: 0.7, max: 0.7, s: 2.2, c: tc, glow: true }); }
     if (Math.random() < dt * 9) parts.push({ x: P.x + rand(-6, 6), y: P.y + 16, vx: -mx * 18 + rand(-8, 8), vy: -my * 14 - 6, life: 0.55, max: 0.55, s: 5, c: '#cdb88c', smoke: 1 }); }
-  obGrid(); obResolve(P, P.r); if(!dying){DuoEscort91.tick(dt);Shaman92.tick(dt);} // v18 solid obstacles: slide along them
+  obGrid(); obResolve(P, P.r); if(!dying){DuoEscort91.tick(dt);Shaman92.tick(dt);HollowBell93.tick(dt);} // v18 solid obstacles: slide along them
   P.inv -= dt; P.atk = Math.max(0, P.atk - dt * 5); G.hurtFlash -= dt; G.shake = Math.max(0, G.shake - dt); if (G.cls === 'maestro' && G.mxNS > gtime) G.shake = 0; // v33: no camera shake while the Maestro ult plays
   if (!dying) { const tf = G.tf;
     if (tf.deathless && P.hp < P.maxHp * 0.5) heal(P.regen * 2 * dt, true);
@@ -14838,18 +14839,20 @@ function render(dt) {
   // enemies
   enemies.sort((a, b) => a.y - b.y);
   // v18: one depth-sorted pass (foot y): obstacles, enemies, minions and the hero, so trunks/rocks overlap correctly
-  const DL = obCollect(cx, cy).slice(); if (G.town) for (const d of townDeco()) DL.push(d); for (const m of minions) if (MotionCompletion.minionVisible(m)) DL.push(m); DL.push(P); for(const a of DuoEscort91.actors())DL.push(a); for(const t of Shaman92.actors())DL.push(t); for (const e of enemies) if (!e.dead) DL.push(e); if (Array.isArray(G.npcs)) for (const n of G.npcs) DL.push(n); /* v22 traders */ if (V30[G.cls]) for (const u of V30U) if (UK30[u.ut] && !UK30[u.ut].gr && !UK30[u.ut].top) DL.push(u);
+  const DL = obCollect(cx, cy).slice(); if (G.town) for (const d of townDeco()) DL.push(d); for (const m of minions) if (MotionCompletion.minionVisible(m)) DL.push(m); DL.push(P); for(const a of HollowBell93.actors())DL.push(a); for(const a of DuoEscort91.actors())DL.push(a); for(const t of Shaman92.actors())DL.push(t); for (const e of enemies) if (!e.dead) DL.push(e); if (Array.isArray(G.npcs)) for (const n of G.npcs) DL.push(n); /* v22 traders */ if (V30[G.cls]) for (const u of V30U) if (UK30[u.ut] && !UK30[u.ut].gr && !UK30[u.ut].top) DL.push(u);
   DL.sort((a, b) => (a === P ? P.y + 14 : a.k && OBT[a.k] ? a.y : a.y + (a.r || 8)) - (b === P ? P.y + 14 : b.k && OBT[b.k] ? b.y : b.y + (b.r || 8)));
   for (const e of DL) {
     if (e.td) { t36DrawDeco(e); continue; }
     if (e === P) { drawPlayerBlock(); v30Over(); continue; }
     if (e.ut && UK30[e.ut]) { v30Draw(e); continue; }
     if(e.shamanTotem92){Shaman92.drawTotem(e);continue;}
+    if(e.bell93){HollowBell93.draw(e);continue;}
     if(e.escort91){DuoEscort91.draw(e);continue;}
     if (e.npc) { drawNpc(e); continue; }
     if (e.k && OBT[e.k] && e.id !== undefined) { drawOb(e); continue; }
     if (MDEF[e.type] && minions.includes(e)) { drawMinion(e); continue; }
     if (e.dead) continue; const def = ETYPES[e.type], sz = eSz(e.type) * e.sc; if (!inView(e.x, e.y, sz)) continue;
+    if(e.type==='bell_stalker93'||e.type==='bell_keeper93'){ctx.save();ctx.translate(e.x,e.y+Math.sin(gtime*3)*2);EDRAW[e.type](ctx,{p:gtime});ctx.restore();continue;}
     if(e.type==='myers_hunter'){ctx.save();ctx.translate(e.x,e.y-4);ctx.scale((e.face<0?-1:1)*1.12,1.12);ActorAnimations.draw(ctx,{cls:'myers',race:'shade',gender:'male',moving:true,t:gtime,cos:{}});ctx.restore();continue;}
     if (e.under) { ctx.fillStyle = 'rgba(90,60,30,.85)'; ctx.beginPath(); ctx.ellipse(e.x, e.y + 8, 15, 6, 0, 0, TAU); ctx.fill(); ctx.fillStyle = '#8a6a40'; for (let i = 0; i < 4; i++) { ctx.beginPath(); ctx.arc(e.x - 9 + i * 6, e.y + 6 + Math.sin(gtime * 9 + i + e.seed) * 2, 2.6, 0, TAU); ctx.fill(); } continue; }
     if (e.st === 'tele') { ctx.strokeStyle = `rgba(255,80,60,${0.25 + 0.25 * Math.sin(gtime * 30)})`; ctx.lineWidth = e.r * 1.6; ctx.beginPath(); ctx.moveTo(e.x, e.y); ctx.lineTo(e.x + e.dx * (e.tl || 380), e.y + e.dy * (e.tl || 380)); ctx.stroke(); }
@@ -15038,7 +15041,7 @@ function hudEnd() { if (!HUDS) return; [W, H, ZOOM] = HUDS; HUDS = null; ctx.set
 function drawHUD() {
   drawFieldHUD();
   Polish87.bossMarkers();
-  drawQuestHUD(); npcHUD(); DuoEscort91.marker(); w28HUD(); v30HUD(); ph46HUD(); hm47HUD(); ultHUD(); drawMsgs(SAFE.t);
+  HollowBell93.marker(); drawQuestHUD(); npcHUD(); DuoEscort91.marker(); w28HUD(); v30HUD(); ph46HUD(); hm47HUD(); ultHUD(); drawMsgs(SAFE.t);
   if (!G.moved && !G.town && state === 'play') { ctx.save(); ctx.textAlign='center'; ctx.textBaseline='middle';ctx.font='500 11px system-ui';ctx.fillStyle='#cad4c0';const text=PC?'WASD / arrows to move · hold the mouse to steer':'Touch and drag anywhere to move';ctx.strokeStyle='#10201df0';ctx.lineWidth=4;ctx.strokeText(text,W/2,H-SAFE.b-((FIELD_LAYOUT?FIELD_LAYOUT.dock.h:97)+64));ctx.fillText(text,W/2,H-SAFE.b-((FIELD_LAYOUT?FIELD_LAYOUT.dock.h:97)+64));ctx.restore(); }
 }
 /* v29: messages - a dark panel, big bold sans-serif text, a title + one plain line.
@@ -15432,7 +15435,7 @@ function renderCodex() {
   for (const c of menuClassIds()) { const ids = all.filter(id => WDEF[id].cls === c), n = ids.filter(id => S[id]).length, bt = document.createElement('button');
     bt.textContent = CLASSES[c].name + (n ? ` ${n}/${ids.length}` : ''); bt.className = c === codexCls ? 'on' : ''; bt.onclick = () => { codexCls = c; Snd.play('click'); renderCodex(); }; tabs.appendChild(bt); }
   const run = codexFrom === 'pause' && G && !G.ended && G.cls === codexCls, er = run ? evoReady() : [];
-  $('cdxList').innerHTML = all.filter(id => WDEF[id].cls === codexCls).map(id => { const E = EVO[id], d = WDEF[id], p = PDEF[E.p], ok = !!S[id];
+  $('cdxList').innerHTML = HollowBell93.codex() + all.filter(id => WDEF[id].cls === codexCls).map(id => { const E = EVO[id], d = WDEF[id], p = PDEF[E.p], ok = !!S[id];
     let tag = d.cat ? '<span class="ctag ct">CAT ONLY</span>' : d.form ? '<span class="ctag">FORM</span>' : '';
     if (run) { const w = G.weapons.find(w => w.id === id); if (G.evo[id]) tag += '<span class="ctag rd">EVOLVED</span>'; else if (er.includes(id)) tag += '<span class="ctag rd">READY</span>'; else if (w) tag += `<span class="ctag">Lv ${w.lvl}/${d.max} · ${p.name} ${G.passives[E.p] || 0}</span>`; }
     return `<div class="cdx${ok ? ' seen' : ''}" data-evo="${id}"><div class="cr"><span class="ci">${d.ic}\uFE0E</span><span>${d.name} <span style="color:#a593c4">Lv 6</span></span><span class="cp">+</span><span class="ci">${p.ic}\uFE0E</span><span>${p.name}</span></div>` +
@@ -16325,7 +16328,7 @@ function frame(now) {
     if (state === 'play') update(dt, false);
     else if (state === 'countdown') { G.cdT -= dt; if (G.cdT <= 0) state = 'play'; }
     else if (state === 'dying') { G.dyingT -= dt; update(dt * 0.3, true); if (G.dyingT <= 0) showGameOver(false); }
-    render(dt); drawEndingHero85(); drawPauseHero(); runPrepTick(); selectionSceneTick(); MotionCompletion.tick(); expansionHUD(); DuoEscort91.hud(); Shaman92.hud(); questUI(dt); dmgUI(dt); jumpBtnUI(); ultUI(); npcUI(); if (state === 'ward') wardTick();
+    render(dt); drawEndingHero85(); drawPauseHero(); runPrepTick(); selectionSceneTick(); MotionCompletion.tick(); expansionHUD(); DuoEscort91.hud(); Shaman92.hud(); HollowBell93.hud(); questUI(dt); dmgUI(dt); jumpBtnUI(); ultUI(); npcUI(); if (state === 'ward') wardTick();
     { const ms = $('audio').classList.contains('on') ? 'n' : state === 'paused' ? 'p' : (state === 'levelup' || state === 'gear' || state === 'npc') ? 'd' : 'n';
       if (ms !== Snd.ms && Snd.ac) { Snd.ms = ms; if (ms === 'p') Snd.pauseMusic(true); else { Snd.pauseMusic(false); Snd.duck(ms === 'd' ? 0.45 : 1, 0.4); } } }
     if (RUN_STATES[state] && now - lastRunSave > 6000) saveRun();   // periodic autosave
@@ -17313,6 +17316,7 @@ MotionCompletion.init();
 Polish87.init();
 Dawn88.init();
 Shaman92.register();
+HollowBell93.register();
 initRebirthScenes();
 wireActorSkills85();
 initNightforge();
