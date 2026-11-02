@@ -1,9 +1,9 @@
 {
- "version": "95",
+ "version": "96",
  "date": "2026-11-02",
  "minLauncher": "2.0.0",
  "notes": [
-  "Individual visuals for all 19 Mage spells, 13 existing evolutions and staged Elemental Cataclysm."
+  "All-class spell materials, evolved detail, lifetime-aware ground fields, class-object fields and Shaman totem ranges."
  ],
  "files": [
   {
@@ -33,8 +33,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "1c38de17ade3aeefa2335f346047cd47d89cf1d06b2a1ab5ef9b5581af3b0cc6",
-   "size": 2845986
+   "sha256": "985d521b8c219f94cfa755e100c6912c226ee3f8b54bc000ca21edbc2a7d21f8",
+   "size": 2846293
   },
   {
    "name": "manifest.webmanifest",
@@ -43,7 +43,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "3937ef0292044881d19cac5af4a002e62099bfaea9245a7894b7b8b505833b8f",
+   "sha256": "16010cc3ad7f6d3f86d3a26af43c59ee84f8238c222f1bfae6ca9cd003573fcd",
    "size": 3640
   },
   {
@@ -7718,8 +7718,13 @@
   },
   {
    "name": "assets/mage-visuals95.js",
-   "sha256": "fa181e426d762a1df35aed8e874a1d1e7661b16c3cb7f670a803445d15e9ad76",
-   "size": 11546
+   "sha256": "91693ed49c6e963e8b96fb2668e1156a580687366ba0140e4009c01a0b034e0a",
+   "size": 11738
+  },
+  {
+   "name": "assets/spell-visuals96.js",
+   "sha256": "53615ab133b2838a3c16fcbc1c3fff0c2bfab0628208aacdcd72183f7ea0ef4c",
+   "size": 12569
   }
  ]
 }

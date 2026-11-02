@@ -1,0 +1,13 @@
+# Shadowfall v96 — All-class spell and persistent ground visuals
+
+A source-aware procedural material pass now covers all 483 class spell definitions across 24 classes (including Druid forms and aliases). Skill names, class signatures and stable per-skill seeds select elemental materials, geometry, density and motion. Existing evolutions add outer traces and crystalline accents. Mage's individually authored v95 renderers retain priority for its spells. Specialized weapon, creature, trap and beam bodies are preserved; additional source-aware casts, impact textures and projectile trails complement them.
+
+Ground zones now show a translucent active-area fill, their actual world-space radius, a remaining-lifetime arc when a maximum duration is available, animated interior detail and a final 0.3-second fade. Mage zones receive the same boundary/lifetime treatment around their dedicated spell art. Fire, frost and poison alchemy puddles retain their respective materials. Class-object fields (consecration, puddles, stasis, musical devices, palls, blooms, smoke, flowers, gardens, prints and honey) keep their original drawing and gain live field detail. Mines and trap bodies are preserved. Shaman totems show their actual talent-adjusted range and remaining lifetime, with six distinct elemental treatments.
+
+All non-Mage ultimates gain a calling-themed flourish while preserving their original sequences. Cast flourishes use a separate bounded visual-only pool, so they cannot evict ultimate gameplay updates. No new gameplay timing, damage, collision, targeting or save schema is introduced. Expiry and pause behavior derive from existing live effects or active run time. Enemy warnings and enemy goo are excluded. Player spell opacity remains respected.
+
+This is a roster-wide procedural art pass, not 483 independently painted animations. Shared material primitives remain; skill-specific motion and class signatures provide variation. Existing specialized summons, transformations and weapons retain their original assets.
+
+Validation: full regression suite plus every class spell casting at rank six with source-aware effect/projectile rendering; all materials/evolution states checked for finite geometry, balanced contexts, no combat-state mutation and no random-number consumption; field expiry, hostile fallthrough, Shaman fields and separation from ultimate gameplay effects. Chrome exercises every class and captures artifacts/all-class-fields96.png.
+
+Final verification: all 148 regression tests pass. Headless Chrome cast and rendered all 483 spell definitions across 24 classes with zero page errors. Local launcher installation verified 1,544 content files and selected v96 while preserving saves.
