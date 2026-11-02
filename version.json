@@ -1,9 +1,9 @@
 {
- "version": "94",
+ "version": "95",
  "date": "2026-11-02",
  "minLauncher": "2.0.0",
  "notes": [
-  "First spell visual identity pass for all 24 classes: distinct motifs, impact compositions, fields and projectile signatures."
+  "Individual visuals for all 19 Mage spells, 13 existing evolutions and staged Elemental Cataclysm."
  ],
  "files": [
   {
@@ -33,8 +33,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "eb71808e1cb1fe1a1ad4b3dda78ee3ad8aca8637adecdd3bc1b9745e53d52328",
-   "size": 2845688
+   "sha256": "1c38de17ade3aeefa2335f346047cd47d89cf1d06b2a1ab5ef9b5581af3b0cc6",
+   "size": 2845986
   },
   {
    "name": "manifest.webmanifest",
@@ -43,7 +43,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "88f427ab6370ef3835f8b27904e12596840bfad8d51f2c3102dd7e9c28d1f8fc",
+   "sha256": "3937ef0292044881d19cac5af4a002e62099bfaea9245a7894b7b8b505833b8f",
    "size": 3640
   },
   {
@@ -7715,6 +7715,11 @@
    "name": "assets/spell-visuals94.js",
    "sha256": "ece7988eb4e494b73f80ffe3334579622fde6376a77f6cf9f3753b6318038346",
    "size": 9858
+  },
+  {
+   "name": "assets/mage-visuals95.js",
+   "sha256": "fa181e426d762a1df35aed8e874a1d1e7661b16c3cb7f670a803445d15e9ad76",
+   "size": 11546
   }
  ]
 }
