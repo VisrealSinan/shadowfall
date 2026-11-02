@@ -36,7 +36,8 @@ const EnemyArtwork = (() => {
   function pose(type,action,index) {
     if (!actions.includes(action)) return null;
     const K=PXA_K||1, size=Math.round(eSz(type));
-    index=Math.max(0,Math.min(5,Math.floor(index)));
+    const available=images.get(type)?.enemySheet?.animations[action]?.frames||6;
+    index=Math.max(0,Math.min(available-1,Math.floor(index)));
     const key=[type,action,index,K].join('|');
     if (poses.has(key)) {const record=poses.get(key);poses.delete(key);poses.set(key,record);return record;}
     const image=images.get(type);
@@ -61,6 +62,7 @@ const EnemyArtwork = (() => {
     if(action==='death'){alpha=1-p;sy=1-p*(floating?.38:.65);sx=1+p*.10;angle=(floating?.12:.20)*p;dy=floating?-size*K*p*.05:0;}
     g.imageSmoothingEnabled=true;g.imageSmoothingQuality='high';
     if(sheet){
+      if(ENEMY_ART_MANIFEST[type].filter)g.filter=ENEMY_ART_MANIFEST[type].filter;
       const a=sheet.animations[action],cellW=sheet.cell_width,cellH=sheet.cell_height;
       const bounds=sheet.bounds,span=Math.max(bounds[2]-bounds[0],bounds[3]-bounds[1]);
       // Fit asymmetric weapons/tails around the shared anchor as well as the
@@ -71,7 +73,7 @@ const EnemyArtwork = (() => {
         floating?Infinity:.04*size*K/Math.max(1,bounds[3]-sheet.anchor[1]));
       const x=c.width/2-sheet.anchor[0]*s;
       const y=floating?c.height/2-(bounds[1]+bounds[3])/2*s:size*.94*K-sheet.anchor[1]*s;
-      g.drawImage(image,index*cellW,a.row*cellH,cellW,cellH,x,y,cellW*s,cellH*s);
+      g.drawImage(image,index*cellW,a.row*cellH,cellW,cellH,x,y,cellW*s,cellH*s);g.filter='none';
     }else{
     g.save();g.globalAlpha=alpha;g.translate(c.width/2+dx,bottom+dy);g.rotate(angle);g.scale(sx,sy);
     // Horizontal bands add a small stride/wing ripple without cutting out limbs.
@@ -127,7 +129,7 @@ const EnemyArtwork = (() => {
     return {action:a.moving?'walk':'idle',phase:loop};
   }
   function draw(g,e,o){
-    const s=state(e,o.wind),f=pose(e.type,s.action,Math.floor(s.phase*6));
+    const s=state(e,o.wind),count=ENEMY_ART_MANIFEST[e.type]?.action_sheet?.animations[s.action]?.frames||6,f=pose(e.type,s.action,Math.floor(s.phase*count));
     if(!f){load(e.type);return false;}
     const width=o.dw*(o.vf?.9:1);
     g.save();g.translate(e.x+o.jx,o.by);g.rotate(o.tilt);g.scale(e.face<0?-1:1,1);
@@ -139,7 +141,7 @@ const EnemyArtwork = (() => {
   function death(g,c){
     // Preserve the special boss, hush and mimic death choreography.
     if(['b36','hush','gift45'].includes(c.s))return false;
-    const u=Math.min(1,c.t/c.d),f=pose(c.k,'death',Math.min(5,Math.floor(u*6)));if(!f)return false;
+    const u=Math.min(1,c.t/c.d),count=ENEMY_ART_MANIFEST[c.k]?.action_sheet?.animations.death.frames||6,f=pose(c.k,'death',Math.min(count-1,Math.floor(u*count)));if(!f)return false;
     const size=eSz(c.k)*c.sc;
     g.save();g.translate(c.x,c.y+size/2);g.scale(c.f,1);g.globalAlpha*=1-u;
     g.drawImage(f.img,-size/2,-size,size,size);

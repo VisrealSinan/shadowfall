@@ -1,12 +1,12 @@
 {
- "version": "85",
+ "version": "86",
  "date": "2026-11-01",
  "minLauncher": "2.0.0",
  "notes": [
-  "New vendor, map, summon and character art with animated race/form rigs.",
-  "Graveshade replaces the former movie-inspired hunter with an original identity and custom talents.",
-  "Every class and Druid form offers 19 combat skills. Bone Colossus keeps its army slots.",
-  "Redesigned end-of-run ledger and talent scenes. Existing saves remain compatible."
+  "Complete animation coverage: 150 new action sheets and 8,232 frames.",
+  "Articulated live rigs, animated vendor interactions and moving foliage, cloth, lights and machinery.",
+  "Summons now visibly arrive, attack, react to hits, fall and respawn. All enemy types have action sheets.",
+  "Existing outfits, unlocks, skill balance and saved runs remain compatible."
  ],
  "files": [
   {
@@ -36,8 +36,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "6702568d87791e1afb9707f19b8de25f9bc1e798e825c74a8e1560309ec469fe",
-   "size": 2840989
+   "sha256": "742c4da77f00147910c969bcf4736962ebfe324d5cf4e036bf4da144b0c8103a",
+   "size": 2841467
   },
   {
    "name": "manifest.webmanifest",
@@ -46,8 +46,8 @@
   },
   {
    "name": "sw.js",
-   "sha256": "3bbb75242bc23aaf911e6890434b38ff1e2a4f2b282923bbc1ff0708b0f1c423",
-   "size": 2680
+   "sha256": "40c603f25c3c71a665e41403c9db6669df74f30ac9179a28761eabf811c49507",
+   "size": 2785
   },
   {
    "name": "assets/actor-animation-manifest.js",
@@ -56,8 +56,8 @@
   },
   {
    "name": "assets/actor-animations.js",
-   "sha256": "d9552570b49fb02bd2c13b63d723e150c484c5299c05dd73009672ef6e57c648",
-   "size": 7655
+   "sha256": "e9c9f15c9e2c89ac31a42495e1e024bb10c51c63d6ad420ffc9a938acd2edd56",
+   "size": 8669
   },
   {
    "name": "assets/alchemist-cat-female.png",
@@ -1176,8 +1176,8 @@
   },
   {
    "name": "assets/enemy-art.js",
-   "sha256": "c921884b8453ec1cdede416ec725019e91bb9d89aef29774caf582fb111f2f83",
-   "size": 9948
+   "sha256": "1012c450cc6629eaaeb38b3556b14a0d0ac7cccec9919328c0ca38e1723aa388",
+   "size": 10304
   },
   {
    "name": "assets/enemy-assemblysaint.png",
@@ -4891,8 +4891,8 @@
   },
   {
    "name": "assets/rebirth-art.js",
-   "sha256": "a49c4a491249a4d0a15d9281a1cba40ca740e48ee813a43115abf8437170d516",
-   "size": 8982
+   "sha256": "f4a1b6df147d45ffccd2112275b3650900debb78d6665b7581b4e0876b9e6836",
+   "size": 9096
   },
   {
    "name": "assets/rebirth-content.js",
@@ -4948,6 +4948,771 @@
    "name": "assets/world-props-modern.png",
    "sha256": "9512e03e5d900714a3e9cfa6eeadae9862fe4759f6516bd22e966c9c64471758",
    "size": 2148794
+  },
+  {
+   "name": "assets/motion-rig.js",
+   "sha256": "ba1f2ca233a60b526c1174fcd9cd03f29e364e5c2cbad8de3505391b353938af",
+   "size": 7013
+  },
+  {
+   "name": "assets/motion86-manifest.js",
+   "sha256": "cfb7d521d60c52aba6d865c68b77e16e24fe59b444ff9db907f39fed71b8cfd9",
+   "size": 110782
+  },
+  {
+   "name": "assets/motion-completion.js",
+   "sha256": "f664970aca140fdefe5f1b4493db10ff1cc36af38e301bcb7d480cf481feb350",
+   "size": 10641
+  },
+  {
+   "name": "assets/motion86-actors-myers-cat-female.png",
+   "sha256": "8ef30c09425d6b531463c9c0da5db795de2f92db4a0f699a8b4691d232ec1392",
+   "size": 2236115
+  },
+  {
+   "name": "assets/motion86-actors-myers-cat-male.png",
+   "sha256": "9a6c8baad917fd67de021e431d79533f36e8845c7beba005a35733fdbe03e99a",
+   "size": 2178514
+  },
+  {
+   "name": "assets/motion86-actors-myers-dwarf-female.png",
+   "sha256": "94d81ae631b1e7412db1c0d432c088ebabc7780f9df18f5a6c6cb62eb7cf7940",
+   "size": 2195628
+  },
+  {
+   "name": "assets/motion86-actors-myers-dwarf-male.png",
+   "sha256": "bae59c0239348e256e73738589bcf033b1d846aae6760aa3be832f00a35a35d8",
+   "size": 2154790
+  },
+  {
+   "name": "assets/motion86-actors-myers-elf-female.png",
+   "sha256": "0e73b27124ac8743ab1626b991795fb44d7c3eef7d1a8859563b7ccc37c9d2c6",
+   "size": 2364210
+  },
+  {
+   "name": "assets/motion86-actors-myers-elf-male.png",
+   "sha256": "398832e26c68287fd6f11478d1275bd3df29d626ff7eefa3d30520eddb50bd72",
+   "size": 2274017
+  },
+  {
+   "name": "assets/motion86-actors-myers-kitsune-female.png",
+   "sha256": "92d28a9456b5ab3b9b9c3f7a4dec8e023366285e06c971d8b77890fb7a2ce3e1",
+   "size": 1990699
+  },
+  {
+   "name": "assets/motion86-actors-myers-kitsune-male.png",
+   "sha256": "94f3de1fff1a1a832edc5aa3240739faee91243fbe75d297dc9a7d1f2d1edd55",
+   "size": 2114857
+  },
+  {
+   "name": "assets/motion86-actors-myers-ogre-female.png",
+   "sha256": "5843ddeb81931ab1974c7afc51477552c36591ad008d2b2aac1124b9de35cac4",
+   "size": 1929645
+  },
+  {
+   "name": "assets/motion86-actors-myers-ogre-male.png",
+   "sha256": "f97b8f509463e7249914cd00fc9fb2e7e19fabe0ff353d2eb0a3489e0aa99dfc",
+   "size": 2280919
+  },
+  {
+   "name": "assets/motion86-actors-myers-scale-female.png",
+   "sha256": "bea8031189a28c484e769e8a4932570c6ef1fd82df4b6bcdf4bf01481e8b88a8",
+   "size": 1905629
+  },
+  {
+   "name": "assets/motion86-actors-myers-scale-male.png",
+   "sha256": "f35febd0e2bea96039a2e94e061ab7163242b27dace9706220afb661ab9930ff",
+   "size": 2316808
+  },
+  {
+   "name": "assets/motion86-actors-myers-shade-female.png",
+   "sha256": "d702e681d925005aa72abf4df6ecb1cc247b731a9ca52912e26d09df61f82321",
+   "size": 1980610
+  },
+  {
+   "name": "assets/motion86-actors-myers-shade-male.png",
+   "sha256": "21a416c4ab7b067ec28624f25303666554a78dab554e292d4737ebd8be5e013a",
+   "size": 1994952
+  },
+  {
+   "name": "assets/motion86-actors-myers-troll-female.png",
+   "sha256": "4a23156a1c86d6f3e2bfc7c723d11f30310b8d710bb40e265a5584737b630cf6",
+   "size": 1950780
+  },
+  {
+   "name": "assets/motion86-actors-myers-troll-male.png",
+   "sha256": "32edbd92718e3ea7208de098292e8e1b2c5e443e53318796ed100beb1e09f7bf",
+   "size": 2491117
+  },
+  {
+   "name": "assets/motion86-actors-tibopoteto-cat-female.png",
+   "sha256": "09fa29d2f4b2b15eb8665fc3a0dd9477c0d020e24fbd17bfba1acdbc254c41f3",
+   "size": 2578281
+  },
+  {
+   "name": "assets/motion86-actors-tibopoteto-cat-male.png",
+   "sha256": "3889d3b32e7a043862e5d842b4078af6e8556e2a793cc4b0103272f9e1ab690f",
+   "size": 2753202
+  },
+  {
+   "name": "assets/motion86-actors-tibopoteto-dwarf-female.png",
+   "sha256": "ebf9d69ffb18787e4cb83c7a49b706e83af22669e2ece1ba528c9b939741d292",
+   "size": 2464728
+  },
+  {
+   "name": "assets/motion86-actors-tibopoteto-dwarf-male.png",
+   "sha256": "4fb66a2eeec05babb448ce7be771aa940b41a05a4a4ac63913edcf390ba2d921",
+   "size": 2259378
+  },
+  {
+   "name": "assets/motion86-actors-tibopoteto-elf-female.png",
+   "sha256": "4bc30659a3bc91f60bf5c09055fa9d2b67979d33742c44535f5dcd26420e2756",
+   "size": 2589498
+  },
+  {
+   "name": "assets/motion86-actors-tibopoteto-elf-male.png",
+   "sha256": "81ce7d190937bbe242b7baa4a6a6fc7c32d532050b443cf94d93526d71be9948",
+   "size": 2661143
+  },
+  {
+   "name": "assets/motion86-actors-tibopoteto-kitsune-female.png",
+   "sha256": "770680809ece5ee6d60d9f4b3b78583f9ed8dc7e566696000350da2e40a8c950",
+   "size": 2712206
+  },
+  {
+   "name": "assets/motion86-actors-tibopoteto-kitsune-male.png",
+   "sha256": "279eec1683a8968b64f4035f6a73361ac08bb56877803feb4d1f26150991875d",
+   "size": 2617063
+  },
+  {
+   "name": "assets/motion86-actors-tibopoteto-ogre-female.png",
+   "sha256": "3bfae6a917c3a2034c9d2d77a669a946312c3fb6b8473be641306a2238d0286d",
+   "size": 2637174
+  },
+  {
+   "name": "assets/motion86-actors-tibopoteto-ogre-male.png",
+   "sha256": "1ec01af8252f79a29cb42a8668426623dcf526a04b43f71de3702165298f6e1f",
+   "size": 2469290
+  },
+  {
+   "name": "assets/motion86-actors-tibopoteto-scale-female.png",
+   "sha256": "6f73490257bed5082a9907eee8afdaf6bbe8864d432e9d365a991709a52b78ef",
+   "size": 2642894
+  },
+  {
+   "name": "assets/motion86-actors-tibopoteto-scale-male.png",
+   "sha256": "05303abae4630178a8add69863fceee8243077badb215f1d11b2e8594e868c46",
+   "size": 2619811
+  },
+  {
+   "name": "assets/motion86-actors-tibopoteto-shade-female.png",
+   "sha256": "d5e9028a2e242d328ff022e6d915b4828410a69eaa3b265e94e2f17cf4b61f27",
+   "size": 2737549
+  },
+  {
+   "name": "assets/motion86-actors-tibopoteto-shade-male.png",
+   "sha256": "d490ce82fa2d1a56d83af43f31aa21c20904d1040550bac76e9f95390b8b9484",
+   "size": 2857443
+  },
+  {
+   "name": "assets/motion86-actors-tibopoteto-troll-female.png",
+   "sha256": "4a7d107aea9657e9dfbd78dfc1bf8b1590831972e85d6730603dd800b94c4f0d",
+   "size": 2731563
+  },
+  {
+   "name": "assets/motion86-actors-tibopoteto-troll-male.png",
+   "sha256": "d64ce78fdef2b5af1baa2a1abdedbf44c60b9fe84319c2b5429e937cc057b885",
+   "size": 2754326
+  },
+  {
+   "name": "assets/motion86-enemy-apprentice.png",
+   "sha256": "500e027b608cb9449e18b462c77e5bfffa52fd89abb4c33cf4b4c77559316921",
+   "size": 492802
+  },
+  {
+   "name": "assets/motion86-enemy-archivist.png",
+   "sha256": "2d18c7969da033fffd60598cadd59f2b9606510194bf41ba37a3f692d388a246",
+   "size": 557017
+  },
+  {
+   "name": "assets/motion86-enemy-assemblysaint.png",
+   "sha256": "eae477e786ca016548d950f640bce2458c6dfb6081ce0a663c643e121ddfed4e",
+   "size": 535387
+  },
+  {
+   "name": "assets/motion86-enemy-auditor.png",
+   "sha256": "1c088829e3359b8b1d86690731fef3bfd7e519f8afabe2bb88afa0478b68afe8",
+   "size": 615499
+  },
+  {
+   "name": "assets/motion86-enemy-baronicicle.png",
+   "sha256": "6538b4991beda51dd0dc66415013450ecc2b71d172cbfd98fea5db77c51bcd18",
+   "size": 522404
+  },
+  {
+   "name": "assets/motion86-enemy-boarrider.png",
+   "sha256": "68bdae22ac099a38c3d4b3c7154d1bcebfe3ea4aa0736598e6932d106587b990",
+   "size": 459827
+  },
+  {
+   "name": "assets/motion86-enemy-brinejaw.png",
+   "sha256": "a7722a69aa98c5e1a5a3d171fe17489c66207c91c26f52ba36075c25b95f29ae",
+   "size": 574837
+  },
+  {
+   "name": "assets/motion86-enemy-broomwitch.png",
+   "sha256": "4c638c235a81831e2bf8459d75a005a284815aa3283336b4a39d4d96409fa69d",
+   "size": 436316
+  },
+  {
+   "name": "assets/motion86-enemy-cacheskit.png",
+   "sha256": "d39bdbdcac2375f44faa042aa0c5ec2961cc309e618580819b6dae58759fb866",
+   "size": 430964
+  },
+  {
+   "name": "assets/motion86-enemy-candycorn.png",
+   "sha256": "6ed24a28dad1b22ab742424d908a101c93e03304ab77e7e96587c5536fe48705",
+   "size": 437358
+  },
+  {
+   "name": "assets/motion86-enemy-carolghost.png",
+   "sha256": "af6a92cb06676ffbe22f8e36621e8c136324f50fd6ed6373c5ce7e4c7375c902",
+   "size": 525268
+  },
+  {
+   "name": "assets/motion86-enemy-cauldron.png",
+   "sha256": "04a106cb7b59bcc6bcf275352da24f7374b3337d7a8f17255ff4693d064461a5",
+   "size": 696497
+  },
+  {
+   "name": "assets/motion86-enemy-compiler.png",
+   "sha256": "eb802104c63667936a3a3e494a85823b9da7765df0602658e1d25293f863d287",
+   "size": 523647
+  },
+  {
+   "name": "assets/motion86-enemy-conjurer.png",
+   "sha256": "bbf42445ac7a202b2bc754dcbc175c209daf8ca71411c4a4ec34cefd1a75ed51",
+   "size": 590562
+  },
+  {
+   "name": "assets/motion86-enemy-costumebone.png",
+   "sha256": "a062e260edb986ddf8378752ce55232fe3e9ab1ec547acbcda56a991322e3cbf",
+   "size": 472223
+  },
+  {
+   "name": "assets/motion86-enemy-croonshade.png",
+   "sha256": "38643633e40c520aae80cc51d90307a7046bd8841e6d6bad5b186d393e6dec15",
+   "size": 572645
+  },
+  {
+   "name": "assets/motion86-enemy-deadair.png",
+   "sha256": "d93bf6c5b6f83169338c44eb02fc6e961a766fd4908864ba8d6d6753e39c483e",
+   "size": 586879
+  },
+  {
+   "name": "assets/motion86-enemy-dewblob.png",
+   "sha256": "79e6cc6a66c8fe9957a1cef4db80131e191523f084fd595c2875e586aaf931ee",
+   "size": 422336
+  },
+  {
+   "name": "assets/motion86-enemy-drowned.png",
+   "sha256": "007ca65777d118addff7dfed6055a02396ddc98617b349c29a76790ca9b11831",
+   "size": 548279
+  },
+  {
+   "name": "assets/motion86-enemy-elfwitch.png",
+   "sha256": "10fe8aca3b5e0289524ab6e2f4542bb72ece0ab19a57a0cf074bc636dd6a2ee4",
+   "size": 620795
+  },
+  {
+   "name": "assets/motion86-enemy-falseoracle.png",
+   "sha256": "f95548ce1164f6c0b6813fec718f561672547b85dd94a7877356bb8d3bc234e6",
+   "size": 396041
+  },
+  {
+   "name": "assets/motion86-enemy-firewall.png",
+   "sha256": "3a74418a9f51d264b9d88405835ce554a7f9a8b37f5ecbb20fd0d4afe311bbde",
+   "size": 628438
+  },
+  {
+   "name": "assets/motion86-enemy-fusegourd.png",
+   "sha256": "ba8b8e16d15376759a5c1b36609efddea98afbee2d373967061110b92b435317",
+   "size": 453764
+  },
+  {
+   "name": "assets/motion86-enemy-gatecrasher.png",
+   "sha256": "1645f3701dc4c2553ec3ee70ac8a1b38fc2ec3b3021a7428bd3e22545cf52329",
+   "size": 545461
+  },
+  {
+   "name": "assets/motion86-enemy-gatekeeper.png",
+   "sha256": "ddb70deae657eb57b2f4b732fb988105be640e9e11fd0cb1296a8fd7fa90205f",
+   "size": 646802
+  },
+  {
+   "name": "assets/motion86-enemy-giftmimic.png",
+   "sha256": "af469bf581680a9b1f1b4fa1bc4d1d0147381157b513ffaa6823aa61fafb1c68",
+   "size": 528642
+  },
+  {
+   "name": "assets/motion86-enemy-gingerbone.png",
+   "sha256": "1d66973d01ff3df0e08620b3abb43a09c282231b1f530c7aee682ec98df94620",
+   "size": 442006
+  },
+  {
+   "name": "assets/motion86-enemy-gnarlhide.png",
+   "sha256": "8b11355bfaff7e8355367ac72d45cee196ff6af15ff8383d5f275fdc2eff85ad",
+   "size": 474459
+  },
+  {
+   "name": "assets/motion86-enemy-gourdgrim.png",
+   "sha256": "16bf59432cbe44834859d46f8e0ef09d861d1d2ed9adff12174c3531eb0c6689",
+   "size": 571830
+  },
+  {
+   "name": "assets/motion86-enemy-gourdroot.png",
+   "sha256": "6d7d60a68bbfc8014b7fc55563142915a2c526f29b05de843add381acaf39b00",
+   "size": 621288
+  },
+  {
+   "name": "assets/motion86-enemy-gravehand.png",
+   "sha256": "f473d68bfaf6848ff01abc2fb4bd812589dca23a6fe78e1bf628079d574bd4e1",
+   "size": 445547
+  },
+  {
+   "name": "assets/motion86-enemy-greatgift.png",
+   "sha256": "403d770fa42c1cffdd3f98186fad06faf32ea5ae4ee78c17a8a5852975cc7675",
+   "size": 577520
+  },
+  {
+   "name": "assets/motion86-enemy-grovewarden.png",
+   "sha256": "dedbfd09928f286a2de4ff0345806a25f0db68a82932b6e6cec603eb2d1651d9",
+   "size": 599231
+  },
+  {
+   "name": "assets/motion86-enemy-hallowick.png",
+   "sha256": "441229c017dd06b245bbf2fc3fbad555da79979958c2a0421ea709c1d0ed8fe2",
+   "size": 509371
+  },
+  {
+   "name": "assets/motion86-enemy-hexcrone.png",
+   "sha256": "777e68ba61c80bfb9d219942e791b176f855214f44e11ffe5051ddaa4c4e2f5e",
+   "size": 554150
+  },
+  {
+   "name": "assets/motion86-enemy-hexwell.png",
+   "sha256": "a0802c5c70717ce0fd29816cecd7585514370ef3322640cdd4fc56ebd0d38eab",
+   "size": 585003
+  },
+  {
+   "name": "assets/motion86-enemy-hollowsleigh.png",
+   "sha256": "d5d6056a4bb000c0c97d1990a7aa67cebfce5b5c17b5c6989198a07940811205",
+   "size": 603341
+  },
+  {
+   "name": "assets/motion86-enemy-huskproc.png",
+   "sha256": "37f00ccd18c047931dd311e363fc06547f648f94aa07e7704e30efd2d2969f29",
+   "size": 633166
+  },
+  {
+   "name": "assets/motion86-enemy-lanternhound.png",
+   "sha256": "a81a9c1c3bcbe47dec6a9a4991b91569165aa8df14c8b67bb97b26d090be47f9",
+   "size": 625778
+  },
+  {
+   "name": "assets/motion86-enemy-lanternling.png",
+   "sha256": "8355a4e245c637333e590c0c4bb2768472512c6b71f5035190e0e07a7295a47d",
+   "size": 527090
+  },
+  {
+   "name": "assets/motion86-enemy-lanternrider.png",
+   "sha256": "7ddbe5eaa0a9f9992a19bade3e49eb1acbd08ae2321a29c4b31dfbb1f601713e",
+   "size": 537545
+  },
+  {
+   "name": "assets/motion86-enemy-lucre.png",
+   "sha256": "d46fa039adc9e7fdd94318ad0f90bffbf88ba679554efb100b56596b08f8bbbd",
+   "size": 572164
+  },
+  {
+   "name": "assets/motion86-enemy-madame.png",
+   "sha256": "931d214749163deafa92c0b04d944d30f27547fbeaac38d85b5fccc317232676",
+   "size": 678428
+  },
+  {
+   "name": "assets/motion86-enemy-marrowcloak.png",
+   "sha256": "5d1576111fd8babd8c06408c0be29b2f7a862544df8681fbc086fade1512821a",
+   "size": 595340
+  },
+  {
+   "name": "assets/motion86-enemy-mistmare.png",
+   "sha256": "fe3ab1254af9cf810aca63c8909a1edaf05f121b11499ec9f945aa1fb9dddd69",
+   "size": 507357
+  },
+  {
+   "name": "assets/motion86-enemy-moonbat.png",
+   "sha256": "72cb1f23460722269e64d60a0b7ccc48f15c2e4f4944507c24ec52abb878aacf",
+   "size": 428530
+  },
+  {
+   "name": "assets/motion86-enemy-moonhowl.png",
+   "sha256": "65f06e71f3525b55b4e0aa79166cc1a06d0857a5687f3485a9e02fd17d366916",
+   "size": 468594
+  },
+  {
+   "name": "assets/motion86-enemy-motherstitch.png",
+   "sha256": "2d93e83f7e88b57998fd8b8f342e2523ab28fcc6449416a96e982a0314d7de04",
+   "size": 600579
+  },
+  {
+   "name": "assets/motion86-enemy-oldsack.png",
+   "sha256": "1ecc2c760d5ba9c621476bd001c7d973ed48a9e6632cc854e372f566065e2bb8",
+   "size": 653454
+  },
+  {
+   "name": "assets/motion86-enemy-ornament.png",
+   "sha256": "a06bdcf831565251a60ee532f9777137515f049ff69a83c8df46aac8471c8ad0",
+   "size": 505156
+  },
+  {
+   "name": "assets/motion86-enemy-pitboss.png",
+   "sha256": "828d2309163f5b84de07fb730997ae17692f91e605a34ef672fd9951722cf441",
+   "size": 556916
+  },
+  {
+   "name": "assets/motion86-enemy-pumpseed.png",
+   "sha256": "6e231769fae6d37f1b37ebe78841381e54f44974d2cf22815c7d83520a6e6458",
+   "size": 425079
+  },
+  {
+   "name": "assets/motion86-enemy-ragdoll.png",
+   "sha256": "7da6eb37fbf6b91c9fceff83af78ccdd2700118da3f0e6087c42258a6afc3e6e",
+   "size": 432619
+  },
+  {
+   "name": "assets/motion86-enemy-rattler.png",
+   "sha256": "9b53dc2a6b7a7e9fdcd34b02b18cfd55e11adf47d27d85d3827a7fd13ee7751a",
+   "size": 489292
+  },
+  {
+   "name": "assets/motion86-enemy-ropeguard.png",
+   "sha256": "c46770bde9b037dcdba590573d85e7692af509549a42ac02b38f45c7236b26a2",
+   "size": 511119
+  },
+  {
+   "name": "assets/motion86-enemy-rotpumpkin.png",
+   "sha256": "95361b826a87cbef44000e0ab1cd2b7dc43102346e1bfc0db7093b5658a1fd06",
+   "size": 615732
+  },
+  {
+   "name": "assets/motion86-enemy-scarecrow.png",
+   "sha256": "9e1e7e531572545614029c92176e5847b9e6ff4d46e7b91a627e5c741454d9ef",
+   "size": 632165
+  },
+  {
+   "name": "assets/motion86-enemy-sentprime.png",
+   "sha256": "57db6ca1c0c58e9e2832aea1a87023495c21fd6ecbea5eaca0b6a47467d416e9",
+   "size": 642666
+  },
+  {
+   "name": "assets/motion86-enemy-sheetling.png",
+   "sha256": "6d02427222ca32d5ea6f779f3eb182b8f4c7d4e577082c9cbb0df1af9e914f52",
+   "size": 564802
+  },
+  {
+   "name": "assets/motion86-enemy-silkwidow.png",
+   "sha256": "69ec13e7d2b6a4832619240f1ad87a8b068fe880a0c004e14c4036eb42c1da19",
+   "size": 488255
+  },
+  {
+   "name": "assets/motion86-enemy-sleighhearse.png",
+   "sha256": "b38e61d2dcb29d7aea3df723c68857dafd00b72bbed8559be6cca928d0b4d495",
+   "size": 491595
+  },
+  {
+   "name": "assets/motion86-enemy-snowball.png",
+   "sha256": "bfa218860d6249ece130f1f87bef66bfb4e9992706989a736fc62551b1509d68",
+   "size": 515423
+  },
+  {
+   "name": "assets/motion86-enemy-snowbat.png",
+   "sha256": "0ef940d71e024bf1668370514ad001707dceaa1ac1cbed5d976cc6f6c4ef5289",
+   "size": 491666
+  },
+  {
+   "name": "assets/motion86-enemy-snowghoul.png",
+   "sha256": "e12b14cf87e03865c206904625343244f1c24131d1f87574e3bd657fb63ae7b9",
+   "size": 528897
+  },
+  {
+   "name": "assets/motion86-enemy-sovereign.png",
+   "sha256": "76b8d876c4e0d9589a7ab9ab80739a460f244e4445ab5e278e040bfb49fe0f08",
+   "size": 560478
+  },
+  {
+   "name": "assets/motion86-enemy-statuewaker.png",
+   "sha256": "ff2f250b488d382072d6676abf51888dad8eadbea19373973aaf8f2effe0e233",
+   "size": 497508
+  },
+  {
+   "name": "assets/motion86-enemy-strawgrin.png",
+   "sha256": "0fef3008288f941f9508dcff61dcf98381844092c5786fe991b66f0ccdf2c49c",
+   "size": 411515
+  },
+  {
+   "name": "assets/motion86-enemy-surprisemimic.png",
+   "sha256": "9068c44ba1a91a713eccd175e2640bebace63bb71af390404ef57b82373336fb",
+   "size": 629593
+  },
+  {
+   "name": "assets/motion86-enemy-tinselwraith.png",
+   "sha256": "e28aeb920c1822004bff83efef7228aef51861a18df887a7792a8fba31104bae",
+   "size": 599680
+  },
+  {
+   "name": "assets/motion86-enemy-tombward.png",
+   "sha256": "cc33db8b0ddbdfe1976ca9e00e37b0ded46624eb2602f439d5237222d883676e",
+   "size": 535598
+  },
+  {
+   "name": "assets/motion86-enemy-toysoldier.png",
+   "sha256": "cadcd5407040ff195dafae917cb205649bb5a82b44568c9534379bff2e7323a8",
+   "size": 418146
+  },
+  {
+   "name": "assets/motion86-enemy-watchmote.png",
+   "sha256": "c3d26c2b45bf60bee4fd10c05d3edf39b990ac0d0c8231b2b83f13d6fe3d9b57",
+   "size": 477497
+  },
+  {
+   "name": "assets/motion86-enemy-webspinner.png",
+   "sha256": "732d88bdf61179d29e1dac23fad129b3c3aaaf2030362fcb8555668e6f3474a2",
+   "size": 429407
+  },
+  {
+   "name": "assets/motion86-enemy-willowisp.png",
+   "sha256": "12e7a098ee0168290be024fcdcfa94d984724b569bc4934903287e736637beea",
+   "size": 465287
+  },
+  {
+   "name": "assets/motion86-enemy-wyvern.png",
+   "sha256": "d4ebf1b7a02dfdb435c9b2f54994bff35476994fcac945021a576ef781dd3088",
+   "size": 526342
+  },
+  {
+   "name": "assets/motion86-forms-druid-cat-female-cat.png",
+   "sha256": "a8d95592f93f9df1cd7128d1ccdce7fb1437d28db3dc6d6dc76d728c385ffb3b",
+   "size": 1927530
+  },
+  {
+   "name": "assets/motion86-forms-druid-cat-female-tree.png",
+   "sha256": "c666c3075542432a3f641cb57891f3081336b6f62a471a506b6f327cdfa5d4ea",
+   "size": 2738892
+  },
+  {
+   "name": "assets/motion86-forms-druid-cat-male-cat.png",
+   "sha256": "197d688b0e24d63beef7fae7a3103025ef68cc599917548e5f19b1b2dabad0e1",
+   "size": 1927333
+  },
+  {
+   "name": "assets/motion86-forms-druid-cat-male-tree.png",
+   "sha256": "930e90a57b59cce852f2df4dec2360c659ec50f8a87f9fabad0978c6f29033d9",
+   "size": 2738760
+  },
+  {
+   "name": "assets/motion86-forms-druid-dwarf-female-cat.png",
+   "sha256": "ede619782dc2d2cdb7ddccc14474b55da6979fcafabd9eaee97fe0e8ea674cb3",
+   "size": 2237416
+  },
+  {
+   "name": "assets/motion86-forms-druid-dwarf-female-tree.png",
+   "sha256": "b7b03be28873f72345314d33aa41373b5077d84ab36522a1a0609c97c896c934",
+   "size": 2649518
+  },
+  {
+   "name": "assets/motion86-forms-druid-dwarf-male-cat.png",
+   "sha256": "64d3ecb1801220db4876e49ab9ea9400fdbef8ce363cb1d331996e79787c3b43",
+   "size": 2237324
+  },
+  {
+   "name": "assets/motion86-forms-druid-dwarf-male-tree.png",
+   "sha256": "3a975233023baf84cb9d6f88b5119634e443e362073b4c8809ea7d962169617f",
+   "size": 2649823
+  },
+  {
+   "name": "assets/motion86-forms-druid-elf-female-cat.png",
+   "sha256": "a0fe74345270bf7684edf1d0fa0acb4b32c9ecf201915cdfd941cbf1cc1e34b0",
+   "size": 1878980
+  },
+  {
+   "name": "assets/motion86-forms-druid-elf-female-tree.png",
+   "sha256": "7d694fabe8385d720312003dede38ed77e0fe1b9b1f2e69df1ed89e6982aaa2c",
+   "size": 3020139
+  },
+  {
+   "name": "assets/motion86-forms-druid-elf-male-cat.png",
+   "sha256": "311cd45c50444f7b6b398d207f10f27cc3f529d5b087a7d9646b611c0f89ef55",
+   "size": 1878897
+  },
+  {
+   "name": "assets/motion86-forms-druid-elf-male-tree.png",
+   "sha256": "c2173be641bd558f7b04b9a23b477c387d0eedfa15d86d28045323bd672b0d66",
+   "size": 3020003
+  },
+  {
+   "name": "assets/motion86-forms-druid-kitsune-female-cat.png",
+   "sha256": "81e68b86f21575c5fb8256399ddb99e819b668d26d7d6e110144a075f774251e",
+   "size": 2323614
+  },
+  {
+   "name": "assets/motion86-forms-druid-kitsune-female-tree.png",
+   "sha256": "036f496a52149bae872946d7fa69115cbb8159389e8aca9d7c661213a8fecf8a",
+   "size": 2761873
+  },
+  {
+   "name": "assets/motion86-forms-druid-kitsune-male-cat.png",
+   "sha256": "5ada88c829e0794710246b85aaddcebdd4b129ac60d37e90875e0f432665aff5",
+   "size": 2323779
+  },
+  {
+   "name": "assets/motion86-forms-druid-kitsune-male-tree.png",
+   "sha256": "e2451bfce393946aaa85554956f6d086834ac5077f1516eb216c414dc28d0c45",
+   "size": 2761722
+  },
+  {
+   "name": "assets/motion86-forms-druid-ogre-female-cat.png",
+   "sha256": "b09df577d43fe976fba666da339f2d0dff984d1c8d572955d9bdd3b1ab61723c",
+   "size": 2201606
+  },
+  {
+   "name": "assets/motion86-forms-druid-ogre-female-tree.png",
+   "sha256": "38ec917526224e0b4127c826d47bf8beef1d668e601f17c7515547743cd16502",
+   "size": 3171808
+  },
+  {
+   "name": "assets/motion86-forms-druid-ogre-male-cat.png",
+   "sha256": "42813aa04ae486f167bd0a3c3a149bb0903bb58e74f96bad1c02edd5082be6bc",
+   "size": 2200990
+  },
+  {
+   "name": "assets/motion86-forms-druid-ogre-male-tree.png",
+   "sha256": "68353bca59d96a3a75ab6bdcee4d693ebae8e2d71bc06744c1bb8d344aa17f52",
+   "size": 3172339
+  },
+  {
+   "name": "assets/motion86-forms-druid-scale-female-cat.png",
+   "sha256": "8f7dae8e22995901f759912513539e5a137f9dd5154c56f8bc1a50cf74031794",
+   "size": 2210057
+  },
+  {
+   "name": "assets/motion86-forms-druid-scale-female-tree.png",
+   "sha256": "3392b88a969ea635f14f828053e2f221fc3b2b5bb0ff1bace4eb1a05566ccc70",
+   "size": 2946074
+  },
+  {
+   "name": "assets/motion86-forms-druid-scale-male-cat.png",
+   "sha256": "dddf799b0e8cdd7ac61c00fe9a5679cc424becaabe4eebd67b153e4c6bceea0b",
+   "size": 2211037
+  },
+  {
+   "name": "assets/motion86-forms-druid-scale-male-tree.png",
+   "sha256": "fe5329beff9a9438ff0a6649b61e32f00f490df00b60c85655995037b3dfc409",
+   "size": 2948048
+  },
+  {
+   "name": "assets/motion86-forms-druid-shade-female-cat.png",
+   "sha256": "e61bc9120b4eb4a308d62e2e63f355a1bc06d62932ddd42ffe23753a08c72bbc",
+   "size": 2348935
+  },
+  {
+   "name": "assets/motion86-forms-druid-shade-female-tree.png",
+   "sha256": "1d2400fbd160df0d72373a665462943ec51330f1f9d589cada01bb9512380d05",
+   "size": 3016299
+  },
+  {
+   "name": "assets/motion86-forms-druid-shade-male-cat.png",
+   "sha256": "dfa5966e75ccace9fb0c4b3c8ef95fd00fe4ec31f627580047ed36d163c199e7",
+   "size": 2348956
+  },
+  {
+   "name": "assets/motion86-forms-druid-shade-male-tree.png",
+   "sha256": "f665b54198b9a4449eb5198e5d3f517374d5f32c725ff5ab96146b3630dee4a9",
+   "size": 3015925
+  },
+  {
+   "name": "assets/motion86-forms-druid-troll-female-cat.png",
+   "sha256": "ebc4b5f5262979507459d3b113851c8962e3e764a5a2e55897330f6b6b259cdf",
+   "size": 2334007
+  },
+  {
+   "name": "assets/motion86-forms-druid-troll-female-tree.png",
+   "sha256": "5c6cc241887ab925a0133c351b9c20eeb9ca722275be238c9c15114821bdb357",
+   "size": 3246131
+  },
+  {
+   "name": "assets/motion86-forms-druid-troll-male-cat.png",
+   "sha256": "c45bb33df1a12860255da5ac2b8e5c09c9ed289b2d2241e082311a987430200f",
+   "size": 2334020
+  },
+  {
+   "name": "assets/motion86-forms-druid-troll-male-tree.png",
+   "sha256": "ee917579749108ba4527635ea59cdf653f297c16e16c9b8c689eefe174d92a12",
+   "size": 3245896
+  },
+  {
+   "name": "assets/motion86-summons-archer.png",
+   "sha256": "0c994cdcc32afe1eb49114815359e31e92549cdeaaa408ed73fadf81fa1e45a3",
+   "size": 1155290
+  },
+  {
+   "name": "assets/motion86-summons-brute.png",
+   "sha256": "97263021bdfb1c1d30d59f6f1f295460e39f6bff6df24a83cbb6afb8f3a99214",
+   "size": 1505048
+  },
+  {
+   "name": "assets/motion86-summons-colossus.png",
+   "sha256": "2de965aa14a2be466d426801ff9d4f8c7fefa053e97fe5750e44fc2299bd62a1",
+   "size": 1669761
+  },
+  {
+   "name": "assets/motion86-summons-hound.png",
+   "sha256": "9b2cc82f77b341b6cd8bc96baf7fd1f71e5c3250edcb27561d15b0f230042957",
+   "size": 1347181
+  },
+  {
+   "name": "assets/motion86-summons-imp.png",
+   "sha256": "a8d0d8927bc6806240d342e8d7004c3eb8aec29064b94df35672ecbea4267372",
+   "size": 1381254
+  },
+  {
+   "name": "assets/motion86-summons-shade.png",
+   "sha256": "d6d78b6349a47f73ef99b291a26677ec957f480e01480235ab1650bb624c1339",
+   "size": 1423588
+  },
+  {
+   "name": "assets/motion86-vendors-gambler.png",
+   "sha256": "701b3b7f327ac8c3aa9b60d8fcd3769d3f6d198575be3a830c220fc317f6a3b5",
+   "size": 714568
+  },
+  {
+   "name": "assets/motion86-vendors-merchant.png",
+   "sha256": "75cd073e906873c5c3fb7fe036f56ef4ca7eecef3355ece900d20a8c2b3ea8d0",
+   "size": 939164
+  },
+  {
+   "name": "assets/motion86-vendors-shrine.png",
+   "sha256": "bb5c9ec03c4aeb38fb82622da4b884211cd575aeb4a7b57583b127df413f2b63",
+   "size": 1162613
+  },
+  {
+   "name": "assets/motion86-vendors-smith.png",
+   "sha256": "7ef5c1fcae119eee075ee5faabc4cdbbb701de81197be647b1124efb34d0a2a5",
+   "size": 773507
+  },
+  {
+   "name": "assets/motion86-vendors-stranger.png",
+   "sha256": "9d4baa57d712a6f888b944529e8c1252a7c6ea3ea9b31166e4229c2c45539847",
+   "size": 809018
   }
  ]
 }

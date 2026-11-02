@@ -1574,6 +1574,9 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
 <script src="assets/rebirth-art.js"></script>
 <script src="assets/rebirth-content.js"></script>
 <script src="assets/rebirth-scenes.js"></script>
+<script src="assets/motion-rig.js"></script>
+<script src="assets/motion86-manifest.js"></script>
+<script src="assets/motion-completion.js"></script>
 <script>
 'use strict';
 /* =========================================================
@@ -8357,11 +8360,11 @@ const ZP = (() => { const TAU2 = Math.PI * 2, bob = f => Math.sin(f / 4 * TAU2),
 /* v33: hero body choice. save.sex[race] = 'm' | 'f'. The classic (pre-v33) look is the Male body, so old saves look exactly as before. Cosmetic only. */
 function heroSex(race) { const m = save && save.sex; return m && m[race] === 'f' ? 'f' : 'm'; }
 function heroSexChosen(race) { const m = save && save.sex; return !!(m && (m[race] === 'f' || m[race] === 'm')); }
-function heroPortrait(canvas, cls, outfit, scale = 1.35, race, gear) {
+function heroPortrait(canvas, cls, outfit, scale = 1.35, race, gear, motionTime = 0.4) {
   const r = Math.min(3, window.devicePixelRatio || 1), w = canvas.clientWidth || 64, h = canvas.clientHeight || 64;
   canvas.width = w * r; canvas.height = h * r; const g = canvas.getContext('2d'); g.scale(r, r);
-  if (cls === 'bearlina') { const k = Math.min(w / 86, h / 62) * 0.9; g.translate(w / 2 - 3 * k, h - 6 - 18 * k); g.scale(k, k); drawBearlina(g, { t: 0.4, cls, outfit, race: race || save.race, gear }); return; }
-  const bust = w <= 72, k = scale * 0.8 * w / 64 * (bust ? 1.3 : 0.92); g.translate(w / 2, h / 2 + (bust ? 17 : 11) * k); g.scale(k, k); /* v13: taller heroes; small icons show a head-and-shoulders bust */ /* framed for tall class/race looks (cowls, ears, helms) */ drawHero(g, { t: 0.4, cls, outfit, race: race || save.race, gear, gearOver: save.gearOver });
+  if (cls === 'bearlina') { const k = Math.min(w / 86, h / 62) * 0.9; g.translate(w / 2 - 3 * k, h - 6 - 18 * k); g.scale(k, k); drawBearlina(g, { t: motionTime, cls, outfit, race: race || save.race, gear }); return; }
+  const bust = w <= 72, k = scale * 0.8 * w / 64 * (bust ? 1.3 : 0.92); g.translate(w / 2, h / 2 + (bust ? 17 : 11) * k); g.scale(k, k); /* v13: taller heroes; small icons show a head-and-shoulders bust */ /* framed for tall class/race looks (cowls, ears, helms) */ drawHero(g, { t: motionTime, cls, outfit, race: race || save.race, gear, gearOver: save.gearOver });
   if (cls === 'summoner' && scale > 1.3 && !race) { g.save(); g.translate(-15, 12); g.scale(0.6, 0.6); MDRAW.shade(g, 0); g.restore(); }
 }
 /* ================= GAME LOGIC ================= */
@@ -9442,7 +9445,7 @@ function minionStats() { // v27: summoner minions buffed (familiars 7→8.5, arc
 }
 function spawnMinion(type) {
   const a = rand(TAU), m = { type, x: P.x + Math.cos(a) * 26, y: P.y + Math.sin(a) * 26, hp: 1, maxHp: 1, dead: false, respawn: 0, t: rand(0.2, 0.6), rt: 0, tgt: null, inv: 0.6, flash: 0, atk: 0, face: 1, sc: 1, seed: rand(100), tauntT: 0 };
-  m.hp = m.maxHp = minionStats()[type].hp; minions.push(m); summonFx(m.x, m.y); return m;
+  m.hp = m.maxHp = minionStats()[type].hp; minions.push(m); MotionCompletion.minionRevived(m); summonFx(m.x, m.y); return m;
 }
 function summonFx(x, y) { effects.push({ k: 'summon', x, y, life: 0.5, max: 0.5 }); burst(x, y, '#b56bff', 8, 70, 2.2, 0.45, true); }
 function onMinionKill() {
@@ -9451,6 +9454,7 @@ function onMinionKill() {
 }
 const MBASE = m => MDEF[m.type].base || m.type;
 function minionDie(m) {
+  MotionCompletion.minionDied(m);
   m.dead = true; m.respawn = MDEF[m.type].respawn * (1 - 0.15 * passLv('graveburst')) * (G.tf.lastRites ? 0.7 : 1); m.tgt = null;
   burst(m.x, m.y, '#8a3cff', 10, 100, 2.6, 0.5, true);
   const gb = passLv('graveburst');
@@ -9467,7 +9471,7 @@ function updateMinions(dt) {
   const idx = {};
   for (const m of minions) {
     const i = (idx[m.type] = (idx[m.type] || 0) + 1) - 1, n = plan[m.type], st = ST[m.type], def = MDEF[m.type], bt = def.base || m.type;
-    if (m.dead) { m.respawn -= dt; if (m.respawn <= 0) { m.dead = false; const a = rand(TAU); m.x = P.x + Math.cos(a) * 24; m.y = P.y + Math.sin(a) * 24; m.hp = m.maxHp = st.hp; m.inv = 0.8; summonFx(m.x, m.y); } continue; }
+    if (m.dead) { m.respawn -= dt; if (m.respawn <= 0) { m.dead = false; const a = rand(TAU); m.x = P.x + Math.cos(a) * 24; m.y = P.y + Math.sin(a) * 24; m.hp = m.maxHp = st.hp; m.inv = 0.8; MotionCompletion.minionRevived(m); summonFx(m.x, m.y); } continue; }
     if (m.maxHp !== st.hp) { m.hp *= st.hp / m.maxHp; m.maxHp = st.hp; }
     m.sc = st.sc; m.t -= dt; m.inv -= dt; m.flash -= dt; m.atk = Math.max(0, m.atk - dt * 6); m.rt -= dt;
     m.hp = Math.min(m.maxHp, m.hp + m.maxHp * 0.03 * dt);
@@ -9500,6 +9504,7 @@ function updateMinions(dt) {
     if (m.inv <= 0) { const rr = def.r * m.sc; let hit = 0;
       query(m.x, m.y, rr + 34, e => { if (hit) return; if ((e.x - m.x) ** 2 + (e.y - m.y) ** 2 < (rr + e.r) ** 2) hit = e.dmg; });
       if (hit) { m.hp -= hit * (bt === 'brute' ? 0.45 : 0.6); m.inv = 0.45; m.flash = 0.1; if (m.hp <= 0) minionDie(m); } }
+    MotionCompletion.trackMinion(m);
   }
   // light separation among minions
   for (let a = 0; a < minions.length; a++) { const A = minions[a]; if (A.dead) continue;
@@ -12941,7 +12946,7 @@ function drawNpc(n) { if (!inView(n.x, n.y, 70)) return; const D = NPCS[n.nt], A
   ctx.globalAlpha = fade; ctx.drawImage(SPR.shadow, n.x - 15 * (fl ? 0.8 : 1), n.y + 11, 30 * (fl ? 0.8 : 1), 9);
   ctx.globalCompositeOperation = 'lighter'; glowAt(D.glow, n.x, n.y - 6, 78, (0.22 + 0.1 * Math.sin(gtime * 3 + n.id)) * fade); ctx.globalCompositeOperation = 'source-over';
   const fr = n.mv ? (Math.floor(gtime * 6 + n.id) & 1) : fl ? (Math.floor(gtime * 2) & 1) : 0;
-  ctx.save(); ctx.translate(n.x, n.y + by); ctx.scale(n.face < 0 ? -1 : 1, 1); ctx.imageSmoothingEnabled = true; if(!RebirthArt.vendor(ctx,n.nt,gtime,68))ctx.drawImage(A[fr], -32, -40, 64, 64); ctx.imageSmoothingEnabled = true; ctx.restore();
+  ctx.save(); ctx.translate(n.x, n.y + by); ctx.scale(n.face < 0 ? -1 : 1, 1); ctx.imageSmoothingEnabled = true; if(!RebirthArt.vendor(ctx,n.nt,gtime,68,n))ctx.drawImage(A[fr], -32, -40, 64, 64); ctx.imageSmoothingEnabled = true; ctx.restore();
   ctx.globalCompositeOperation = 'lighter'; const sx = n.face < 0 ? -1 : 1;
   if (n.nt === 'merchant') glowAt('#ffe23a', n.x + 14 * sx, n.y + by - 21, 26 + 4 * Math.sin(gtime * 7), fade);
   else if (n.nt === 'smith') glowAt('#4fd4ff', n.x - 10 * sx, n.y + by - 30, 18 + 4 * Math.sin(gtime * 5), fade);
@@ -13144,7 +13149,7 @@ function drawFire29(o, img, S, top, fr) { const cy = o.y - 4 * o.s; // logs + st
     for (let q = 0; q < 2; q++) { const p = (gtime * 0.35 + q * 0.5) % 1; ctx.globalAlpha = 0.35 * (1 - p); ctx.fillStyle = '#8a8a92'; ctx.beginPath(); ctx.arc(o.x + Math.sin(p * 5 + q) * 4, cy - 6 - p * 26, 3 + p * 5, 0, TAU); ctx.fill(); } ctx.globalAlpha = 1; // thin smoke
     if ((P.x - o.x) ** 2 + (P.y - o.y) ** 2 < 170 * 170) { ctx.font = 'bold 12px system-ui, sans-serif'; ctx.textAlign = 'center'; ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(0,0,0,0.85)'; ctx.strokeText('Burned out', o.x, top + S * 0.3); ctx.fillStyle = '#c9b8a8'; ctx.fillText('Burned out', o.x, top + S * 0.3); } }
   ctx.imageSmoothingEnabled = true; }
-function drawOb(o) { const T = OBT[o.k], img = RebirthArt.prop(o.k) || (PXA.on && SPR.prop['px_' + o.k]) || (SPR.prop[T.spr || o.k] || w28Lazy(o.k)); if (!img) return; ctx.imageSmoothingEnabled = !img.px; const S = T.S * o.s, top = o.y - T.f * S / 64 - S / 2;
+function drawOb(o) { const T = OBT[o.k], base = RebirthArt.prop(o.k) || (PXA.on && SPR.prop['px_' + o.k]) || (SPR.prop[T.spr || o.k] || w28Lazy(o.k)); if (!base) return; const img=MotionCompletion.propFrame(base,o); ctx.imageSmoothingEnabled = !img.px; const S = T.S * o.s, top = o.y - T.f * S / 64 - S / 2;
   if (o.k === 'campfire') { const fr = w29FireOf(o); if (fr < 1) { drawFire29(o, img, S, top, fr); return; } }
   let a = 1; if (T.tall && P && P.y + 10 < o.y && P.y + 10 > top + S * 0.1 && Math.abs(P.x - o.x) < S * 0.42) a = 0.5; // hero behind a canopy / big rock: see-through
   if (a >= 1) { ctx.drawImage(img, o.x - S / 2, top, S, S); ctx.imageSmoothingEnabled = true; return; }
@@ -13182,7 +13187,7 @@ function inView(x, y, m) { return Math.abs(x - P.x) < W / ZOOM / 2 + m && Math.a
 function glowAt(col, x, y, s, a = 1) { const img = SPR.glow[col]; if (!img) return; ctx.globalAlpha = a; ctx.drawImage(img, x - s / 2, y - s / 2, s, s); ctx.globalAlpha = 1; }
 
 function drawMinion(m) {
-    if (m.dead) return; if (RebirthArt.minion(m)) return; const def = MDEF[m.type], sz = def.size * m.sc; if (!inView(m.x, m.y, sz)) return;
+    if (RebirthArt.minion(m)||m.dead) return; const def = MDEF[m.type], sz = def.size * m.sc; if (!inView(m.x, m.y, sz)) return;
     const FR = SPR.minion[m.type], fr = m.atk > 0.25 && FR[2] ? FR[2] : FR[Math.floor(gtime * (m.type === 'imp' ? 9 : m.type === 'hound' ? 8 : 5) + m.seed) % 2], img = m.flash > 0 ? fr.flash : fr.img;
     let ox = 0, oy = 0; if (m.atk > 0 && m.tgt && !m.tgt.dead && MBASE(m) !== 'archer') { const dx = m.tgt.x - m.x, dy = m.tgt.y - m.y, d = Math.hypot(dx, dy) || 1; ox = dx / d * 5 * m.atk; oy = dy / d * 5 * m.atk; }
     const hop = MBASE(m) === 'brute' ? 0 : m.type === 'imp' ? 3 + Math.sin(gtime * 4 + m.seed) * 2 : m.type === 'hound' ? Math.abs(Math.sin(gtime * 14 + m.seed)) * 1 : Math.abs(Math.sin(gtime * 10 + m.seed)) * 1.5;
@@ -13292,7 +13297,7 @@ const V31P = (() => {
     for (let i = 1; i <= 2; i++) { ctx.globalAlpha = ga * (0.34 / i) * (0.4 + jp.k); PXA.blit(ctx, S, P.x - (P.vx || 0) * 11 * i, P.y - jp.h * 0.7 - (P.vy || 0) * 9 * i, P.facing, sc, 1, S.dg); }
     ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = ga; return (P.vx || 0) * 0.22 * Math.sin(Math.min(1, jp.k * 1.4) * Math.PI / 2 + 0.6); }
   // hero death (1.36 s): stagger back → topple → dissolve into rising motes in the class colour
-  function death() { const u = clamp(1 - G.dyingT / 1.36, 0, 1), fac = P.facing || 1, st = Math.min(1, u / 0.2), tp = clamp((u - 0.16) / 0.36, 0, 1), ez = tp * tp * (3 - 2 * tp), ds = clamp((u - 0.55) / 0.45, 0, 1), fx = P.x - fac * 4 * st;
+  function death() { if(MotionCompletion.playerDeath())return; const u = clamp(1 - G.dyingT / 1.36, 0, 1), fac = P.facing || 1, st = Math.min(1, u / 0.2), tp = clamp((u - 0.16) / 0.36, 0, 1), ez = tp * tp * (3 - 2 * tp), ds = clamp((u - 0.55) / 0.45, 0, 1), fx = P.x - fac * 4 * st;
     ctx.globalAlpha = 0.9 * (1 - ds); ctx.drawImage(SPR.shadow, fx - 17 - ez * 6 * fac, P.y + 12, 34 + ez * 10, 11); ctx.globalAlpha = 1 - ds;
     ctx.save(); ctx.translate(fx, P.y + 15); ctx.rotate(-fac * 1.42 * ez); ctx.scale(1, 1 - 0.08 * st * (1 - ez)); ctx.translate(-fx, -(P.y + 15));
     drawHeroLit(heroO({ moving: false, atk: 0, hurt: 0.31 + 0.3 * (1 - st), vf: 0 }), fx, P.y, fac, G.ancientT > 0 ? 1.55 : 1); ctx.restore();
@@ -14806,7 +14811,7 @@ function render(dt) {
   // enemies
   enemies.sort((a, b) => a.y - b.y);
   // v18: one depth-sorted pass (foot y): obstacles, enemies, minions and the hero, so trunks/rocks overlap correctly
-  const DL = obCollect(cx, cy).slice(); if (G.town) for (const d of townDeco()) DL.push(d); for (const m of minions) if (!m.dead) DL.push(m); DL.push(P); for (const e of enemies) if (!e.dead) DL.push(e); if (Array.isArray(G.npcs)) for (const n of G.npcs) DL.push(n); /* v22 traders */ if (V30[G.cls]) for (const u of V30U) if (UK30[u.ut] && !UK30[u.ut].gr && !UK30[u.ut].top) DL.push(u);
+  const DL = obCollect(cx, cy).slice(); if (G.town) for (const d of townDeco()) DL.push(d); for (const m of minions) if (MotionCompletion.minionVisible(m)) DL.push(m); DL.push(P); for (const e of enemies) if (!e.dead) DL.push(e); if (Array.isArray(G.npcs)) for (const n of G.npcs) DL.push(n); /* v22 traders */ if (V30[G.cls]) for (const u of V30U) if (UK30[u.ut] && !UK30[u.ut].gr && !UK30[u.ut].top) DL.push(u);
   DL.sort((a, b) => (a === P ? P.y + 14 : a.k && OBT[a.k] ? a.y : a.y + (a.r || 8)) - (b === P ? P.y + 14 : b.k && OBT[b.k] ? b.y : b.y + (b.r || 8)));
   for (const e of DL) {
     if (e.td) { t36DrawDeco(e); continue; }
@@ -16289,7 +16294,7 @@ function frame(now) {
     if (state === 'play') update(dt, false);
     else if (state === 'countdown') { G.cdT -= dt; if (G.cdT <= 0) state = 'play'; }
     else if (state === 'dying') { G.dyingT -= dt; update(dt * 0.3, true); if (G.dyingT <= 0) showGameOver(false); }
-    render(dt); drawEndingHero85(); drawPauseHero(); runPrepTick(); selectionSceneTick(); expansionHUD(); questUI(dt); dmgUI(dt); jumpBtnUI(); ultUI(); npcUI(); if (state === 'ward') wardTick();
+    render(dt); drawEndingHero85(); drawPauseHero(); runPrepTick(); selectionSceneTick(); MotionCompletion.tick(); expansionHUD(); questUI(dt); dmgUI(dt); jumpBtnUI(); ultUI(); npcUI(); if (state === 'ward') wardTick();
     { const ms = $('audio').classList.contains('on') ? 'n' : state === 'paused' ? 'p' : (state === 'levelup' || state === 'gear' || state === 'npc') ? 'd' : 'n';
       if (ms !== Snd.ms && Snd.ac) { Snd.ms = ms; if (ms === 'p') Snd.pauseMusic(true); else { Snd.pauseMusic(false); Snd.duck(ms === 'd' ? 0.45 : 1, 0.4); } } }
     if (RUN_STATES[state] && now - lastRunSave > 6000) saveRun();   // periodic autosave
@@ -17273,6 +17278,7 @@ function talKey(code) { // talents-screen keys; true = handled
 })();
 initExpansion();
 initRebirthContent();
+MotionCompletion.init();
 initRebirthScenes();
 wireActorSkills85();
 initNightforge();

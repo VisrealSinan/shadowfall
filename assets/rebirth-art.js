@@ -12,6 +12,7 @@ const RebirthArt=(()=>{
   if(cells.has(key))return cells.get(key);const r=a.regions[index],c=document.createElement('canvas');c.width=c.height=256;const g=c.getContext('2d'),k=226/Math.max(r[2],r[3]);g.imageSmoothingEnabled=true;g.drawImage(im,...r,(256-r[2]*k)/2,244-r[3]*k,r[2]*k,r[3]*k);cells.set(key,c);return c;
  }
  function drawRig(g,base,kind,action,phase,seed,height=80){
+  if(typeof MotionCompletion!=='undefined')return MotionCompletion.liveRig(g,base,kind,action,phase,seed,height);
   const m=RebirthRules.motion(kind,action,phase,seed),k=height/226;g.save();g.translate(m.x,18+m.y);g.rotate(m.angle);g.scale(k*m.sx,k*m.sy);
   if(action==='run'||action==='dodge'){
    // A stable upper body and independent alternating foot/tail bands create a

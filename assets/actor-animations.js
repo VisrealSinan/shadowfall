@@ -37,7 +37,13 @@ const ActorAnimations = (() => {
     // The class selector can display all 21 classes together. Retain enough
     // images for that view so load callbacks cannot cause eviction/reload loops.
     if (images.size > 32) images.delete(images.keys().next().value);
-    im.onload = () => { if (state === 'select') renderSelect(); else if (state === 'race') renderRace(); else if (state === 'daily' || state === 'mastery') refreshProgressPortrait70(); else if (state === 'prep') renderRunPrep(); else if (state === 'raceTalents') renderRaceTalents(); else if (state === 'ward') renderWard(); else if (state === 'ach') renderAch(); else if (state === 'equip') renderEquip(); else if (state === 'shop') renderShop(); };
+    im.onload = () => {
+      let pixels=0;for(const loaded of images.values())pixels+=loaded.naturalWidth*loaded.naturalHeight;
+      // Enough for the complete class-selection view, while bounding decoded
+      // memory after browsing many race/body variants of the larger v86 sheets.
+      for(const [key,loaded]of images){if(pixels<=64*1024*1024)break;if(loaded===im)continue;pixels-=loaded.naturalWidth*loaded.naturalHeight;images.delete(key);}
+      if (state === 'select') renderSelect(); else if (state === 'race') renderRace(); else if (state === 'daily' || state === 'mastery') refreshProgressPortrait70(); else if (state === 'prep') renderRunPrep(); else if (state === 'raceTalents') renderRaceTalents(); else if (state === 'ward') renderWard(); else if (state === 'ach') renderAch(); else if (state === 'equip') renderEquip(); else if (state === 'shop') renderShop();
+    };
     im.src = v.src;
     return im;
   }
@@ -52,7 +58,9 @@ const ActorAnimations = (() => {
   function frame(o, v) {
     let action = o.moving ? 'run' : 'idle', elapsed = o.t || 0;
     const c = o.world && G.actorCue;
-    if (c && animation(v, c.action)) {
+    if(o.action&&animation(v,o.action)){action=o.action;elapsed=o.actionTime||0;}
+    else if(o.world&&o.hurt>0&&v.animations.hurt){action='hurt';elapsed=(1-Math.min(1,o.hurt))*.36;}
+    else if (c && animation(v, c.action)) {
       const a = animation(v, c.action), age = gtime - c.at;
       if (age >= 0 && age < a.frames * a.frame_duration_ms / 1000) { action = c.action; elapsed = age; }
     } else if (o.atk > 0 && animation(v, 'attack')) { action = 'attack'; elapsed = (1 - o.atk) * .6; }
@@ -100,7 +108,7 @@ const ActorAnimations = (() => {
   function draw(g, o) {
     const v = variant(o); if (!v) return false;
     if(v.atlas)return RebirthArt.actor(g,o,v,frame(o,v));
-    const im = image(v); if (!im.complete || !im.naturalWidth) { g.save(); g.fillStyle = '#cdbde6'; g.font = '12px sans-serif'; g.textAlign = 'center'; g.fillText('…', 0, -15); g.restore(); return true; }
+    const im = image(v); if (!im.complete || !im.naturalWidth) { if(v.legacyAtlas)return RebirthArt.actor(g,o,{...v,atlas:v.legacyAtlas},frame(o,v)); g.save(); g.fillStyle = '#cdbde6'; g.font = '12px sans-serif'; g.textAlign = 'center'; g.fillText('…', 0, -15); g.restore(); return true; }
     const f = frame(o,v), k = (o.cls === 'bearlina' ? 88 : 76) / v.cell_height * (v.display_scale || 1);
     const look = o.cos || heroCos(o.cls, raceOf(o.race || save.race));
     g.save(); if (look.aura) drawAura(g, look.aura, o.t || 0, false); g.restore();
@@ -109,6 +117,10 @@ const ActorAnimations = (() => {
     if (!armor && o.outfit === 'ashen') g.filter = 'grayscale(.8)';
     else if (!armor && o.outfit === 'midnight') g.filter = 'hue-rotate(165deg) saturate(.8)';
     g.save();
+    if(typeof MotionCompletion!=='undefined'){
+      const m=MotionCompletion.secondary(v.rig||MotionRig.kind(o.cls),f.action,o.t||0,v.seed||0);g.translate(m.x,m.y);g.rotate(m.angle);g.scale(1,m.sy);
+      if(o.world&&o.hurt>0&&!v.animations.hurt){g.translate(-o.hurt*2,0);g.rotate(-o.hurt*.035);}
+    }
     if (f.procedural && motionStyles[o.cls]) motion(g,o.cls,f);
     const sheetFrame = armor ? ActorOutfits.frame(im, v, f, armor) : im;
     g.drawImage(sheetFrame, armor ? 0 : f.column*v.cell_width, armor ? 0 : f.row*v.cell_height, v.cell_width, v.cell_height,
