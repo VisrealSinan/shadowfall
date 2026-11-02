@@ -12,6 +12,10 @@ const MotionCompletion=(()=>{
  }
  function init(){
   Object.assign(ACTOR_ANIMATION_MANIFEST.variants,MOTION86.actors);Object.assign(ACTOR_ANIMATION_MANIFEST.forms,MOTION86.forms);
+  for(const [key,sheet]of Object.entries(MOTION88)){
+   const v=ACTOR_ANIMATION_MANIFEST.variants[key];
+   for(const [action,a]of Object.entries(sheet.animations))if(!v.animations[action])v.animations[action]={...a,sheet};
+  }
   for(const [key,sheet]of Object.entries(MOTION86.enemies))ENEMY_ART_MANIFEST[key].action_sheet=sheet;
   for(const [key,d]of Object.entries(ETYPES))if(d.artBase&&ENEMY_ART_MANIFEST[d.artBase]){
    ENEMY_ART_MANIFEST[key]={...ENEMY_ART_MANIFEST[d.artBase],filter:key==='lost_cinder'?'hue-rotate(300deg)':d.lostShadow||key==='lost_sovereign'?'hue-rotate(70deg) saturate(.65)':'hue-rotate(18deg)',aliasOf:d.artBase};
@@ -42,7 +46,7 @@ const MotionCompletion=(()=>{
  }
  function minionVisible(m){return !m.dead||!!minionPose(m);}
  function playerDeath(){
-  const v=ActorAnimations.variant({cls:G.cls,race:G.race,form:G.form});if(!v||!v.compiled86||!v.animations.death)return false;
+  const v=ActorAnimations.variant({cls:G.cls,race:G.race,form:G.form});if(!v||!v.animations.death)return false;
   const phase=MotionRig.clamp(1-G.dyingT/1.36),time=phase*v.animations.death.frames*v.animations.death.frame_duration_ms/1000;
   ctx.save();ctx.translate(P.x,P.y);ctx.scale(P.facing||1,1);ActorAnimations.draw(ctx,{cls:G.cls,race:G.race,form:G.form,t:gtime,action:'death',actionTime:time,cos:heroCos(G.cls,G.race),outfit:G.outfit,gear:G.gear});ctx.restore();return true;
  }

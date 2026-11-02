@@ -1,11 +1,10 @@
 {
- "version": "87",
- "date": "2026-11-01",
+ "version": "91",
+ "date": "2026-11-02",
  "minLauncher": "2.0.0",
  "notes": [
-  "Painted skill cards and loadouts, fitted Graveshade portraits, complete scenery and modern shops.",
-  "Offscreen boss markers, bottom XP, reliable repeat portal entry and Esc-only keyboard pause.",
-  "Quiet Soul Lure and salvage rewards, automatic passive upgrades without card flashes, and bounded enemy animation caches."
+  "Added a secret Tibo & Poteto reunion encounter during normal hunts.",
+  "Encounter progress survives Save/Continue. Original codes and existing unlocks are preserved."
  ],
  "files": [
   {
@@ -35,8 +34,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "5b16622f2ebefa9c42943e136017dc81dfd34b654e7a6c7d5433b576cac226ce",
-   "size": 2842133
+   "sha256": "00c64de81df39a3c098033c947f247590a75bb7de54637eb8f264f71b2ebb874",
+   "size": 2843956
   },
   {
    "name": "manifest.webmanifest",
@@ -45,8 +44,8 @@
   },
   {
    "name": "sw.js",
-   "sha256": "e1f13f81710a29eeaea1d1d320fe5a5513003a9a44ffb5ffacc0f19ae322abae",
-   "size": 3202
+   "sha256": "161afe5e21903fec00104e39c7fc94ccc8da666139e8712e7f4d0db3b79433c1",
+   "size": 3454
   },
   {
    "name": "assets/actor-animation-manifest.js",
@@ -55,8 +54,8 @@
   },
   {
    "name": "assets/actor-animations.js",
-   "sha256": "e9c9f15c9e2c89ac31a42495e1e024bb10c51c63d6ad420ffc9a938acd2edd56",
-   "size": 8669
+   "sha256": "c2d3d2d96e85b693ffd924e118ed4a7e39c7d679f5028cd1578493fcd252dbe5",
+   "size": 8939
   },
   {
    "name": "assets/alchemist-cat-female.png",
@@ -4825,8 +4824,8 @@
   },
   {
    "name": "assets/achievement-hall.js",
-   "sha256": "210a5b0455874a79279c22004f7ce2d409bfb168d071304dc2ad0ba6303d16bd",
-   "size": 7479
+   "sha256": "9625aed918de4efb70343f9825b47d909a4b257b715bd0fa7bc0f48ed6187822",
+   "size": 7560
   },
   {
    "name": "assets/achievement-hall.css",
@@ -4840,13 +4839,13 @@
   },
   {
    "name": "assets/race-talents.js",
-   "sha256": "d30c61fc2690c7597601fe18d42d7bb48a8c3eac6060dec4bee23d0baa0a4a21",
-   "size": 7374
+   "sha256": "c255095228655ac03fb48b628eb948f38581f6ea9519168ecd1732b33a9d88eb",
+   "size": 8426
   },
   {
    "name": "assets/journey-scenes.js",
-   "sha256": "d8cb8c1c922eeb59bc6e5057ce5116a48ea9d8bdeb7bb6e0c1f344584ec3c9c2",
-   "size": 9453
+   "sha256": "f62a78c09fdec4952807601fcb568b71ce82668ca5974c8be09ba5d828ae1240",
+   "size": 9463
   },
   {
    "name": "assets/journey-scenes.css",
@@ -4960,8 +4959,8 @@
   },
   {
    "name": "assets/motion-completion.js",
-   "sha256": "a42d2275e1dab6bf17aa3923ef3b07eeab63f72df896fb47e338ec93ac961f12",
-   "size": 10751
+   "sha256": "77438e1d24d282625fd29681887f21687399218396e7e02aad2563704f9bbafb",
+   "size": 10963
   },
   {
    "name": "assets/motion86-actors-myers-cat-female.png",
@@ -5720,13 +5719,13 @@
   },
   {
    "name": "assets/skill-art.js",
-   "sha256": "e0c32389871301074088dc3658bff6a80c50d4a480ee229cfe122aff7e6bbe90",
-   "size": 5660
+   "sha256": "2a68c78ba84b0d19cd949b831b51fe3c8b53533065288012f7705bc0ce0d8336",
+   "size": 5726
   },
   {
    "name": "assets/polish87.js",
-   "sha256": "ec569c3cdb16cd7545b2f84adb88dabfd98e2c5b742202079d90eed6aca25cc4",
-   "size": 3715
+   "sha256": "d38e97fe6c578f8623942032388b5cdbc6ed5b4997a5105f9101564ec07fd339",
+   "size": 3777
   },
   {
    "name": "assets/polish87.css",
@@ -5772,6 +5771,1806 @@
    "name": "assets/world-props-strip-2-v87.png",
    "sha256": "eb99b1641e4957121cdc27d77ddba151a327f1371dfcdff1b07e8ee34c1cf671",
    "size": 1725922
+  },
+  {
+   "name": "assets/motion88-manifest.js",
+   "sha256": "5188618941e179d73a121ecabc4929e37ef6ebea3af9efb502937cb3c1f0f8c6",
+   "size": 164192
+  },
+  {
+   "name": "assets/motion88-actors-alchemist-cat-female.png",
+   "sha256": "69798229971ab0c84af69aa56c546cdc0558e61d36a255585b970b7037e34523",
+   "size": 918630
+  },
+  {
+   "name": "assets/motion88-actors-alchemist-cat-male.png",
+   "sha256": "2407e2aff4675832dafc5270ce80c4016fbcfbe0cb67b5abc051afc4af00df4a",
+   "size": 894020
+  },
+  {
+   "name": "assets/motion88-actors-alchemist-dwarf-female.png",
+   "sha256": "54dd12cf0fd0b5ce107cafb6df196d558e7315d2baa43b69f2d75e38be1d97f1",
+   "size": 931184
+  },
+  {
+   "name": "assets/motion88-actors-alchemist-dwarf-male.png",
+   "sha256": "b39757afc070100d0208d7b7a5133d18d03d5eb72f50780423ddf8081e6db1d8",
+   "size": 886775
+  },
+  {
+   "name": "assets/motion88-actors-alchemist-elf-female.png",
+   "sha256": "7401c57b6b2454a72e139c68933f4c438fc03dd1eea002e6278c7d5bbe10474d",
+   "size": 930989
+  },
+  {
+   "name": "assets/motion88-actors-alchemist-elf-male.png",
+   "sha256": "ed0e4edbd38b2cdb3ea5a187f2815d258ae3997e1c2b6493a0db4e0d32caab13",
+   "size": 977387
+  },
+  {
+   "name": "assets/motion88-actors-alchemist-kitsune-female.png",
+   "sha256": "c813b73f146f19acd5b7c96972b2da360208b5d87aa13e6ba3a061f32ee5bf01",
+   "size": 1001726
+  },
+  {
+   "name": "assets/motion88-actors-alchemist-kitsune-male.png",
+   "sha256": "ddc4627b804b3d54aad389da9cfe6bd182e3908bb3fd94c84db610d29d915809",
+   "size": 924810
+  },
+  {
+   "name": "assets/motion88-actors-alchemist-ogre-female.png",
+   "sha256": "25c9647a211344750c4c9a16b57c444b67682bc024e0f5ee8e72a4d27bb552e2",
+   "size": 971217
+  },
+  {
+   "name": "assets/motion88-actors-alchemist-ogre-male.png",
+   "sha256": "e082713940c8962847a6040a5f189d258e80048ca9d28b220fd30bf3ff42be6b",
+   "size": 867502
+  },
+  {
+   "name": "assets/motion88-actors-alchemist-scale-female.png",
+   "sha256": "4fe3e5d16df7b7f589d024cc3f5a681f1e4069623e67e549506cf185ff5cb7d6",
+   "size": 832054
+  },
+  {
+   "name": "assets/motion88-actors-alchemist-scale-male.png",
+   "sha256": "19c8409d72aded458416a0d458612a638155f8764910cb7b366ccef599b03ed4",
+   "size": 830139
+  },
+  {
+   "name": "assets/motion88-actors-alchemist-shade-female.png",
+   "sha256": "dbad603b60fd49966b21f55bf1e6c7e81334b1b78d5be628ca2925d97d9e3e03",
+   "size": 1059434
+  },
+  {
+   "name": "assets/motion88-actors-alchemist-shade-male.png",
+   "sha256": "80b628b4d6ca8dea27bcfd827ae3f6d0b915cf84d4ecc90ca500c40e754b436b",
+   "size": 971712
+  },
+  {
+   "name": "assets/motion88-actors-alchemist-troll-female.png",
+   "sha256": "fa4c9814461d4a5bd70f33c513f4d6a977823d07005e322e7b68c31b216adbfe",
+   "size": 923383
+  },
+  {
+   "name": "assets/motion88-actors-alchemist-troll-male.png",
+   "sha256": "d835ab7177706e8b85d06084c864f6b366806d170a730804f0626353804d65bf",
+   "size": 874577
+  },
+  {
+   "name": "assets/motion88-actors-bard-cat-female.png",
+   "sha256": "e323fc0b5b4b65990eeb500dbf0289b192db81e227b970a17f79a47678b9542b",
+   "size": 811355
+  },
+  {
+   "name": "assets/motion88-actors-bard-cat-male.png",
+   "sha256": "a5e4c8c3ec1983784f3903e1783b465e91c17c74545435606c4ad4bf381d51b6",
+   "size": 846294
+  },
+  {
+   "name": "assets/motion88-actors-bard-dwarf-female.png",
+   "sha256": "9ef34ac527c997e4abd05c4ccb8985279871482af7c602828d7038ade554b196",
+   "size": 924829
+  },
+  {
+   "name": "assets/motion88-actors-bard-dwarf-male.png",
+   "sha256": "c5eca4b471a7d0fda91f5ee8d7991977abd0db97852009102e0f9eafca1988c6",
+   "size": 831661
+  },
+  {
+   "name": "assets/motion88-actors-bard-elf-female.png",
+   "sha256": "db7e4563ef8821d823dea9c63e02d70fe93fa4a68c610206208608784dc7f2b5",
+   "size": 918011
+  },
+  {
+   "name": "assets/motion88-actors-bard-elf-male.png",
+   "sha256": "929c535a1c4413cd146f69b24562d955ddfceac25d00ff1014875acfb4f8c6b2",
+   "size": 910036
+  },
+  {
+   "name": "assets/motion88-actors-bard-kitsune-female.png",
+   "sha256": "d13e851d9c65af736f19a4f007dfdd1a4b18b8617f4684102bd6615e5ff0adc0",
+   "size": 888145
+  },
+  {
+   "name": "assets/motion88-actors-bard-kitsune-male.png",
+   "sha256": "c09d76ff4e6b2aac279cea59edfa0fdd41ef4cc31b2822dbeeed8e9bf9a5a03e",
+   "size": 860368
+  },
+  {
+   "name": "assets/motion88-actors-bard-ogre-female.png",
+   "sha256": "5a07c54edfbd7148716621d506d68d240a4a0a2d571e34866fb89457c1482ecf",
+   "size": 980453
+  },
+  {
+   "name": "assets/motion88-actors-bard-ogre-male.png",
+   "sha256": "88a6cc411a087afd6c7b0c0d0279a8807c9a67d076215ad7136158cea09a258a",
+   "size": 835531
+  },
+  {
+   "name": "assets/motion88-actors-bard-scale-female.png",
+   "sha256": "4774eef17b384a1dc0ad87f22a3faba33bb66ee965ba1021bb9cfa8da736fb93",
+   "size": 804864
+  },
+  {
+   "name": "assets/motion88-actors-bard-scale-male.png",
+   "sha256": "3fb34b45a5b0e574bc5fef1c2200061b54bc5ddc4c4ae2ab1aed995d5ec6b4ca",
+   "size": 808909
+  },
+  {
+   "name": "assets/motion88-actors-bard-shade-female.png",
+   "sha256": "b75c1bdf68a682d36c5e0b9331b081f4f6ec850a3e85069877ad7f3f248e9bc1",
+   "size": 981502
+  },
+  {
+   "name": "assets/motion88-actors-bard-shade-male.png",
+   "sha256": "43f672be62e158435de7f0ac17b36b19194d7c4ed02ffd6765fc8503d5b30ef7",
+   "size": 820887
+  },
+  {
+   "name": "assets/motion88-actors-bard-troll-female.png",
+   "sha256": "6f25f909e554a9bb424b1afbeb8b27463265291d2e95681be7fd5ec7b552809b",
+   "size": 923692
+  },
+  {
+   "name": "assets/motion88-actors-bard-troll-male.png",
+   "sha256": "0365739aaacc55f87199ce80e272668ae0abda3164236e9e1d08e3a7ee323dc5",
+   "size": 943674
+  },
+  {
+   "name": "assets/motion88-actors-bearlina-cat-bear-form.png",
+   "sha256": "961d8196a03d081c89a398465d050e6fc880775e0cdf2cbfef4797f13362b153",
+   "size": 640809
+  },
+  {
+   "name": "assets/motion88-actors-bearlina-dwarf-bear-form.png",
+   "sha256": "1cd03584c037d2554ed2b99562381ffd54c5488d1d9f20103e8733747b66d1fa",
+   "size": 671950
+  },
+  {
+   "name": "assets/motion88-actors-bearlina-elf-bear-form.png",
+   "sha256": "ba8c7edb097b8209b2f3104feb53b9c3e7f30b5f508db11bd89d879c8e8d5099",
+   "size": 604920
+  },
+  {
+   "name": "assets/motion88-actors-bearlina-kitsune-bear-form.png",
+   "sha256": "cb60218fb95ee2a31ea2b1783682273d0fb87b552a21cd0c8997cf3ccc03baa6",
+   "size": 639295
+  },
+  {
+   "name": "assets/motion88-actors-bearlina-ogre-bear-form.png",
+   "sha256": "890d5a2b67b2e3889426a0fb129f8d1ca30b3fe30a8ac0fc9f90383094b835a4",
+   "size": 686937
+  },
+  {
+   "name": "assets/motion88-actors-bearlina-scale-bear-form.png",
+   "sha256": "9fc523b425e4781a354690650256579e05b8fa164ff1c6d97a761667109bd6c6",
+   "size": 702779
+  },
+  {
+   "name": "assets/motion88-actors-bearlina-shade-bear-form.png",
+   "sha256": "6e8494ba5d37320c0f0c8ff354d23c1ea25bcf430a93c47be4af7cadea89958f",
+   "size": 677904
+  },
+  {
+   "name": "assets/motion88-actors-bearlina-troll-bear-form.png",
+   "sha256": "f4e3dbfb6137d0679949f7c262fccba983bc388990b15613221ab625c5021d36",
+   "size": 659721
+  },
+  {
+   "name": "assets/motion88-actors-bloodknight-cat-female.png",
+   "sha256": "a86c969464055871eb0e2571ef2083fd488e2d62d30694e205d48f7441d8df64",
+   "size": 651304
+  },
+  {
+   "name": "assets/motion88-actors-bloodknight-cat-male.png",
+   "sha256": "ea866ecbc8fede1dfbd5a7512afbebcc0d01c762f0d76735f833031090fc6d39",
+   "size": 707974
+  },
+  {
+   "name": "assets/motion88-actors-bloodknight-dwarf-female.png",
+   "sha256": "0352839b9e2f4ecb68b5689434633569df93cad36fa1c4282732bfd788c8b128",
+   "size": 693267
+  },
+  {
+   "name": "assets/motion88-actors-bloodknight-dwarf-male.png",
+   "sha256": "14b9b65daa395bd4a3bc14f3d90751ae44c26b829571407d8aff5ab3414d0892",
+   "size": 722149
+  },
+  {
+   "name": "assets/motion88-actors-bloodknight-elf-female.png",
+   "sha256": "ec6cc0c4ca875f55d29c5b44ab0de5d3d9fd212af1aa8bb0238335943d114ae6",
+   "size": 666866
+  },
+  {
+   "name": "assets/motion88-actors-bloodknight-elf-male.png",
+   "sha256": "da62b1cfe01d00c5551a64ea9a847b6cb028e7a86bf13b58dc50940dad53be9a",
+   "size": 652739
+  },
+  {
+   "name": "assets/motion88-actors-bloodknight-kitsune-female.png",
+   "sha256": "5f0da03eee9b2d8ba1eda11f11a3061defe4aee552470bb6753734b52ff8b278",
+   "size": 831764
+  },
+  {
+   "name": "assets/motion88-actors-bloodknight-kitsune-male.png",
+   "sha256": "05e3d256b2cd6badc09acc96758eb4e9709f81d74e6e90d02072b4e37c489788",
+   "size": 854295
+  },
+  {
+   "name": "assets/motion88-actors-bloodknight-ogre-female.png",
+   "sha256": "dae2f9cc850e08c60759422d9b8ac72986cb299bf94ef7dfd7ff71bc1672a7ea",
+   "size": 784354
+  },
+  {
+   "name": "assets/motion88-actors-bloodknight-ogre-male.png",
+   "sha256": "b0c17d4640e6fb9315df6808d6dd9408e8b9018ebacf2a6149a7b917f50504c5",
+   "size": 766428
+  },
+  {
+   "name": "assets/motion88-actors-bloodknight-scale-female.png",
+   "sha256": "50770e20465d2907bdcf73b7645c4dfd1c6f1331e5f7aba9d7c36452cd12c8df",
+   "size": 764719
+  },
+  {
+   "name": "assets/motion88-actors-bloodknight-scale-male.png",
+   "sha256": "58628e19fabd0fc737696611d4f44d5b5f501c4a7645d3a68680218976d4f111",
+   "size": 782739
+  },
+  {
+   "name": "assets/motion88-actors-bloodknight-shade-female.png",
+   "sha256": "9430f59484b7daa58b48108167ee182f33f9eae95c33c83bb6fb83a5f2c0ada4",
+   "size": 799770
+  },
+  {
+   "name": "assets/motion88-actors-bloodknight-shade-male.png",
+   "sha256": "df49963970e83a20bb333ebb3335cba482e95caa291aba7d1b81a5d6f60f7975",
+   "size": 765439
+  },
+  {
+   "name": "assets/motion88-actors-bloodknight-troll-female.png",
+   "sha256": "090e3971a7c4a784f68944babc63fa808814b54965946e5f18ff51feee700db1",
+   "size": 773948
+  },
+  {
+   "name": "assets/motion88-actors-bloodknight-troll-male.png",
+   "sha256": "5647acf14cbdf0fa1255bc9f14ae82b30f7af616536be6b46d5facbb10ad3860",
+   "size": 731486
+  },
+  {
+   "name": "assets/motion88-actors-chrono-cat-female.png",
+   "sha256": "b7d879e1f31d6c28d6c6b262001c79f3658d97134a4acccab8db0920a2938798",
+   "size": 907013
+  },
+  {
+   "name": "assets/motion88-actors-chrono-cat-male.png",
+   "sha256": "e858ebf246244f4d800e47f029fe7673f8115b7f1e97d32cdc43f576b663cd29",
+   "size": 840602
+  },
+  {
+   "name": "assets/motion88-actors-chrono-dwarf-female.png",
+   "sha256": "d43a400128c4fb4dc43c0becda5f2a9a510a503b0b2635ac44d1a534799b7adb",
+   "size": 904277
+  },
+  {
+   "name": "assets/motion88-actors-chrono-dwarf-male.png",
+   "sha256": "7992d9b39eef265cf6267aba5d1aa9946f8dc060ff53ffd1c3c59b221c0a550f",
+   "size": 840300
+  },
+  {
+   "name": "assets/motion88-actors-chrono-elf-female.png",
+   "sha256": "6b0e9cc775e42f9be10eb5231216b5597fb08bb4fee88b538333c97ca358f0b1",
+   "size": 842037
+  },
+  {
+   "name": "assets/motion88-actors-chrono-elf-male.png",
+   "sha256": "5ccb1e962ec22f93e9cbfa9bbc56d677d8f56966ad26c8b528cf033f71bdc112",
+   "size": 1005808
+  },
+  {
+   "name": "assets/motion88-actors-chrono-kitsune-female.png",
+   "sha256": "23eb4df2d86a887571119280d69e430589589802437e3668a96eed53e520c24f",
+   "size": 993028
+  },
+  {
+   "name": "assets/motion88-actors-chrono-kitsune-male.png",
+   "sha256": "4f37a3148faf77c9e2a322c446e3af6e60817f47c6bcdffd4b31ccb8fe5989eb",
+   "size": 842828
+  },
+  {
+   "name": "assets/motion88-actors-chrono-ogre-female.png",
+   "sha256": "20df64b23eca43f0d576ec92b273b0d73ba024e33458074edb771cd40662cd6f",
+   "size": 853102
+  },
+  {
+   "name": "assets/motion88-actors-chrono-ogre-male.png",
+   "sha256": "918c5201c7fb92cc0761126d47ad1ab0c369cc709cdbb9da08f514f90c96fcd7",
+   "size": 824950
+  },
+  {
+   "name": "assets/motion88-actors-chrono-scale-female.png",
+   "sha256": "2cac3b06c995efa1b388a4066c2ce8ba363c3bcfe94e42c052c11fedddfae1ed",
+   "size": 878040
+  },
+  {
+   "name": "assets/motion88-actors-chrono-scale-male.png",
+   "sha256": "1f20bfc89174b3bb7e56b9aa16b29d1a6c408ea1297f111af287603db417908d",
+   "size": 859166
+  },
+  {
+   "name": "assets/motion88-actors-chrono-shade-female.png",
+   "sha256": "5d199cb05a9d0b5d294ed6d990482c3f9a01bf1540d358254665c9e967389d99",
+   "size": 963195
+  },
+  {
+   "name": "assets/motion88-actors-chrono-shade-male.png",
+   "sha256": "5be94dca30ab8620da0fab28e70a3e546ca7c7d3bdac7a5fadb100dcc43ddb16",
+   "size": 977056
+  },
+  {
+   "name": "assets/motion88-actors-chrono-troll-female.png",
+   "sha256": "d40881771b86d89de2d5876fb8a964610a2799f37e74224b625ce82248bdcc24",
+   "size": 868240
+  },
+  {
+   "name": "assets/motion88-actors-chrono-troll-male.png",
+   "sha256": "d565526610422eaf144be7d8f413a95b9ff85ade546c453fcf97d27965b307cd",
+   "size": 861256
+  },
+  {
+   "name": "assets/motion88-actors-druid-cat-female.png",
+   "sha256": "079c2fb5b9b4aa0a1d73d9763613a2ae5aa6a03e13e57203798864c81933311a",
+   "size": 868545
+  },
+  {
+   "name": "assets/motion88-actors-druid-cat-male.png",
+   "sha256": "f4a97b13ffdc62bbf8a947a4de42ca88d15cae769157a0b91d387e074f6ffb2c",
+   "size": 883669
+  },
+  {
+   "name": "assets/motion88-actors-druid-dwarf-female.png",
+   "sha256": "7e27fbb969a6ccf9e508c13fa1fad011a76e68890ef53bfc6eb660650d244a37",
+   "size": 985096
+  },
+  {
+   "name": "assets/motion88-actors-druid-dwarf-male.png",
+   "sha256": "0e581b1cfe33490b458c454f1f4da2fee06f626f474d52ef3358b956d953578a",
+   "size": 752204
+  },
+  {
+   "name": "assets/motion88-actors-druid-elf-female.png",
+   "sha256": "e648e6b1eed411eb952c46f9aea9ba6c6cfc9fb5d57e3fd945734d1115b1268a",
+   "size": 926068
+  },
+  {
+   "name": "assets/motion88-actors-druid-elf-male.png",
+   "sha256": "824f55882beabd64616ec7e22a666055bdf38df6fc047af71f3312899a71625d",
+   "size": 867678
+  },
+  {
+   "name": "assets/motion88-actors-druid-kitsune-female.png",
+   "sha256": "beb42d33b79deb07c6f3ea2502797a8c712ef5b54884b8c63367ed4408a73418",
+   "size": 860292
+  },
+  {
+   "name": "assets/motion88-actors-druid-kitsune-male.png",
+   "sha256": "3c6adf3aff92ef4f060df6a775a19d506ba7099f2d959d0d5422b2d5390d13ce",
+   "size": 822495
+  },
+  {
+   "name": "assets/motion88-actors-druid-ogre-female.png",
+   "sha256": "07945104895660166dd86498afb99046433723bd56a8d82549ac99387de921f0",
+   "size": 822381
+  },
+  {
+   "name": "assets/motion88-actors-druid-ogre-male.png",
+   "sha256": "aa04b3b723dd332ab00c65652b339824bb6ddfe7f87a8ff685ca8b1f855d89d9",
+   "size": 911593
+  },
+  {
+   "name": "assets/motion88-actors-druid-scale-female.png",
+   "sha256": "7c4f774e86e19759ae754f59371ed66aff95ba68ae3e60bcb4d2548d41b3dec4",
+   "size": 814201
+  },
+  {
+   "name": "assets/motion88-actors-druid-scale-male.png",
+   "sha256": "bbc824615109c25366cec422f513fedde50610a53960130695d7b2a5978a0c54",
+   "size": 735755
+  },
+  {
+   "name": "assets/motion88-actors-druid-shade-female.png",
+   "sha256": "132e5cbc0981095e11dc39992920284ad0ff6a543b9e709bd159179085251ef7",
+   "size": 918820
+  },
+  {
+   "name": "assets/motion88-actors-druid-shade-male.png",
+   "sha256": "46523dcb985a4c2544b081b2e02c883cc9a0a125c0a2e48989e32b2b9a0a26f7",
+   "size": 822880
+  },
+  {
+   "name": "assets/motion88-actors-druid-troll-female.png",
+   "sha256": "f013edd47142a1e4cc053ce04710538722a05bac275f1641af2ff24bc6e8db1a",
+   "size": 872794
+  },
+  {
+   "name": "assets/motion88-actors-druid-troll-male.png",
+   "sha256": "d0fc20d6332aacd235b250739c5a4ee1e1ae2d71995a1c34846d25d6830b7e5a",
+   "size": 894336
+  },
+  {
+   "name": "assets/motion88-actors-engineer-cat-female.png",
+   "sha256": "61e7fd369b7333526d3457f6a4ff4df15ff350aafd355c714b611134ab62340f",
+   "size": 751555
+  },
+  {
+   "name": "assets/motion88-actors-engineer-cat-male.png",
+   "sha256": "c27622880e170abc98a4a61d1266b1d48bc9dc6022adb8b2ae628cff09408471",
+   "size": 785386
+  },
+  {
+   "name": "assets/motion88-actors-engineer-dwarf-female.png",
+   "sha256": "daa7bb7bc5d14f2df0b0e385d0385755517117b5c543c855ba3496f9a5b30bd8",
+   "size": 786581
+  },
+  {
+   "name": "assets/motion88-actors-engineer-dwarf-male.png",
+   "sha256": "72e8ca4e2a02d071b359b9cc2f4f95b7b4116cdf49dbba9fbdd3a8e0ab2c88d3",
+   "size": 916664
+  },
+  {
+   "name": "assets/motion88-actors-engineer-elf-female.png",
+   "sha256": "c63e016d1e43d7d60dc02613a33300a9f802e6a740eb287cb7274b8e9c3b08a3",
+   "size": 777838
+  },
+  {
+   "name": "assets/motion88-actors-engineer-elf-male.png",
+   "sha256": "2161afe58bc27b09c25ca3f8ead10f8dfc20dcd743db80537a2cd85ec3de1f95",
+   "size": 785893
+  },
+  {
+   "name": "assets/motion88-actors-engineer-kitsune-female.png",
+   "sha256": "6c95a2a1cc5bb36939a0bfea18f364caf7995a8a5a3c224f59d012b63ef393e9",
+   "size": 820089
+  },
+  {
+   "name": "assets/motion88-actors-engineer-kitsune-male.png",
+   "sha256": "610ca9f56f97b719fa23c8a2d587ff3ee62ddf0ae4678b482f85dcf923af9f5f",
+   "size": 916548
+  },
+  {
+   "name": "assets/motion88-actors-engineer-ogre-female.png",
+   "sha256": "b4efb93da80a727120892b4d57e43f419de52177bc3bf8c342c2ab1bcf8ae209",
+   "size": 888840
+  },
+  {
+   "name": "assets/motion88-actors-engineer-ogre-male.png",
+   "sha256": "7938916ca3599acc0d140534b8df28dcc095d15f34fa7965d94dc9564ae72547",
+   "size": 853495
+  },
+  {
+   "name": "assets/motion88-actors-engineer-scale-female.png",
+   "sha256": "9f319a36f606befb04285323253ae81ad025dcbcfd0a37569b69f836167941da",
+   "size": 752472
+  },
+  {
+   "name": "assets/motion88-actors-engineer-scale-male.png",
+   "sha256": "b0f0c49de84dae91dc42bfe49d23f4dfb8d736d822405a8ef272389dddd9ab8a",
+   "size": 722084
+  },
+  {
+   "name": "assets/motion88-actors-engineer-shade-female.png",
+   "sha256": "af37e3e7222a55780f5047e762cf577d0d3686b3021b2f82415820720754e6fc",
+   "size": 898936
+  },
+  {
+   "name": "assets/motion88-actors-engineer-shade-male.png",
+   "sha256": "fa0083ae45dda5af308579a40f83a34754eb22a264c769b58cbe4a4bc97d3fcf",
+   "size": 903084
+  },
+  {
+   "name": "assets/motion88-actors-engineer-troll-female.png",
+   "sha256": "81b77b7c3a53cca7119e34a895ef7c64acff3c15b724b782949e243de138978b",
+   "size": 879228
+  },
+  {
+   "name": "assets/motion88-actors-engineer-troll-male.png",
+   "sha256": "e20c7bcfc8fb781aaefdf0d2dd441429c20a736467c4e8d621d056069c28063d",
+   "size": 847110
+  },
+  {
+   "name": "assets/motion88-actors-gunslinger-cat-female.png",
+   "sha256": "8a0155c17f4fdf9dc810821f77f1f6c42c09c28ea324f923ea5b3cfda3a9c8e7",
+   "size": 893539
+  },
+  {
+   "name": "assets/motion88-actors-gunslinger-cat-male.png",
+   "sha256": "7b726e3dfffaee1d5466c67b90b22e7c5c6dc0b7bb106beae42857bd3109964e",
+   "size": 852233
+  },
+  {
+   "name": "assets/motion88-actors-gunslinger-dwarf-female.png",
+   "sha256": "7a79cf0d2e1cb155322d66eb89d3600a9a3109db7176bafd059c8d39bd9b7eb8",
+   "size": 951154
+  },
+  {
+   "name": "assets/motion88-actors-gunslinger-dwarf-male.png",
+   "sha256": "d3340e75639ff1d2bb70bc518f7cbb553263dec3e9ea20c07ce0a20a81bab018",
+   "size": 824390
+  },
+  {
+   "name": "assets/motion88-actors-gunslinger-elf-female.png",
+   "sha256": "60b83cf5da7f606d6e30dc7203c3e2ba31cc3ebf6ff839bd07fcc5ca677a7497",
+   "size": 884480
+  },
+  {
+   "name": "assets/motion88-actors-gunslinger-elf-male.png",
+   "sha256": "19b57ce0f55fe473c2b2493f00e919d1178e967b7f5f95a58b093d6dabfe4809",
+   "size": 856660
+  },
+  {
+   "name": "assets/motion88-actors-gunslinger-kitsune-female.png",
+   "sha256": "b2559cf03f64ba3d1893d029e1d6672960506390ee5150336d4c822ed8b59cad",
+   "size": 974116
+  },
+  {
+   "name": "assets/motion88-actors-gunslinger-kitsune-male.png",
+   "sha256": "9236d3cb46723b58712a2ec3f1636f0de75b1d80d8415cce88e7ddc87516ebbd",
+   "size": 927784
+  },
+  {
+   "name": "assets/motion88-actors-gunslinger-ogre-female.png",
+   "sha256": "f3f44490f934d4260ba99a811eac05b229ffdcf51c05fb56edf348f922b5fc95",
+   "size": 790383
+  },
+  {
+   "name": "assets/motion88-actors-gunslinger-ogre-male.png",
+   "sha256": "e025bbb1ab370fec032855d871933d9eeeffebf8d8c601ff38ac413a89b2c42f",
+   "size": 867431
+  },
+  {
+   "name": "assets/motion88-actors-gunslinger-scale-female.png",
+   "sha256": "13c57a1504db3783d450336ecc7d54718fa6658a6912d2eb93a390bfbaae7566",
+   "size": 916720
+  },
+  {
+   "name": "assets/motion88-actors-gunslinger-scale-male.png",
+   "sha256": "1abcb02fe90beab71721113e9b2910da68e0c95e95ffa25093562e42f5d405d7",
+   "size": 829958
+  },
+  {
+   "name": "assets/motion88-actors-gunslinger-shade-female.png",
+   "sha256": "be85c52d5f56ccac28851973cef5c799acba79ba45fcca907bd951b0bdcad480",
+   "size": 1032512
+  },
+  {
+   "name": "assets/motion88-actors-gunslinger-shade-male.png",
+   "sha256": "262c7cf18beadbe4a48a632dd95cee3d6f117f9d5579d40754fa6340e180dfc8",
+   "size": 942104
+  },
+  {
+   "name": "assets/motion88-actors-gunslinger-troll-female.png",
+   "sha256": "fe499628f4f5948d0be5a2135857f7b6077c66c9c8d7c00bf24c2d0df6f24638",
+   "size": 922173
+  },
+  {
+   "name": "assets/motion88-actors-gunslinger-troll-male.png",
+   "sha256": "c2aa459ce2bc3d4d9040e9e65a600305dc3d717cf896b321995d84f46175a55e",
+   "size": 972732
+  },
+  {
+   "name": "assets/motion88-actors-maestro-cat-female.png",
+   "sha256": "25cf65236387122b73a006bd5dfb5d429deb3bd883cea2e77b63dfc51fa233d6",
+   "size": 890914
+  },
+  {
+   "name": "assets/motion88-actors-maestro-cat-male.png",
+   "sha256": "6fe2dbd091c42d5d24c0661572874de2215e84c6218bf8511db85f0964a72681",
+   "size": 1001704
+  },
+  {
+   "name": "assets/motion88-actors-maestro-dwarf-female.png",
+   "sha256": "43a3dc93c8846118bd304fc73cce973f550e9ba11f474ea5e2fe1bba565424e3",
+   "size": 911231
+  },
+  {
+   "name": "assets/motion88-actors-maestro-dwarf-male.png",
+   "sha256": "f9d20f761387febc5e8df6fcf7be49c11c55537b05a65ef1de1410ba1c123387",
+   "size": 930315
+  },
+  {
+   "name": "assets/motion88-actors-maestro-elf-female.png",
+   "sha256": "599d65ec82fc82ae661443494c2166f37f159e79672e7ae6886cc671263af0e3",
+   "size": 896001
+  },
+  {
+   "name": "assets/motion88-actors-maestro-elf-male.png",
+   "sha256": "6057be62ea66be1eee72918337d51775b851e8e1daae83218823bb301d706934",
+   "size": 898655
+  },
+  {
+   "name": "assets/motion88-actors-maestro-kitsune-female.png",
+   "sha256": "59e34b1c763cee38e468e41a3c7968bea795b26ab55ed4035e98b7d79d780c0e",
+   "size": 905621
+  },
+  {
+   "name": "assets/motion88-actors-maestro-kitsune-male.png",
+   "sha256": "4fc8f8ebd800d4c9fe8cbe071ab38d6a3e50a4b4e0aca77185ef85a1baa82f43",
+   "size": 976213
+  },
+  {
+   "name": "assets/motion88-actors-maestro-ogre-female.png",
+   "sha256": "00d8c04d06e455d0e381b318070ffdef393a8c57f28df5110bcc03b4717ce1ab",
+   "size": 841271
+  },
+  {
+   "name": "assets/motion88-actors-maestro-ogre-male.png",
+   "sha256": "6f8634e9a6af41bea66559ce8eb6914932e36a2b19c7e73aedf00d99d585d6b3",
+   "size": 837391
+  },
+  {
+   "name": "assets/motion88-actors-maestro-scale-female.png",
+   "sha256": "1d05aa50fe055ea7a7f61ef0d733d4ac33ef6e017ac2851a6fe7f7ef2bed2a79",
+   "size": 947549
+  },
+  {
+   "name": "assets/motion88-actors-maestro-scale-male.png",
+   "sha256": "77837652e35c647cad95873e3d43f83fec024295fb3d252658f1c89606b6d69b",
+   "size": 940620
+  },
+  {
+   "name": "assets/motion88-actors-maestro-shade-female.png",
+   "sha256": "88bbaa95cd18ee638489e95da93d347cb0b4c34999d8e7816a36f0f3aab6ab63",
+   "size": 1012434
+  },
+  {
+   "name": "assets/motion88-actors-maestro-shade-male.png",
+   "sha256": "2cf5882c1e165ccb2367263e4148afedf73bd780205d567265f7e22c1e53ee4c",
+   "size": 1025619
+  },
+  {
+   "name": "assets/motion88-actors-maestro-troll-female.png",
+   "sha256": "1dd7fe23cd6e1f2be1972d621303e43cbf0228f1f85ef103e1dc41ddafca08cc",
+   "size": 984752
+  },
+  {
+   "name": "assets/motion88-actors-maestro-troll-male.png",
+   "sha256": "1f88650bd01fcc950173c5d730b543c5d922f258b5c5d97037529625e8538deb",
+   "size": 880024
+  },
+  {
+   "name": "assets/motion88-actors-mage-cat-female.png",
+   "sha256": "fc8039f86d68605034766cead8fca2e53fde5cbf44ce7a4f01a247459dc92bb8",
+   "size": 896887
+  },
+  {
+   "name": "assets/motion88-actors-mage-cat-male.png",
+   "sha256": "ab3dac5c7630f417c93571f014d3687b726a02b192ce278f1100fd449d7052d2",
+   "size": 952487
+  },
+  {
+   "name": "assets/motion88-actors-mage-dwarf-female.png",
+   "sha256": "c6a1004693893c64a3c3e9c9f32f7bd1f10542b30dd780b661606da1806b8514",
+   "size": 831693
+  },
+  {
+   "name": "assets/motion88-actors-mage-dwarf-male.png",
+   "sha256": "c63a0eae1a30136b51ae1dd1ce3b2172bfcea195ed72a4b98e41752d9029abff",
+   "size": 764611
+  },
+  {
+   "name": "assets/motion88-actors-mage-elf-female.png",
+   "sha256": "60d686513a44a73b50422b7e9529dd84373b008e0f97c46bcebdb1254c8c5ffe",
+   "size": 955187
+  },
+  {
+   "name": "assets/motion88-actors-mage-elf-male.png",
+   "sha256": "746b698f5bfb036a05328975c38c9c03b5b577b196f53bba9c996f1d1bfc0256",
+   "size": 850627
+  },
+  {
+   "name": "assets/motion88-actors-mage-kitsune-female.png",
+   "sha256": "2cae72755708c8c0a602ddda521958e394ad97e4194f46738e2ef2fa67760db3",
+   "size": 943338
+  },
+  {
+   "name": "assets/motion88-actors-mage-kitsune-male.png",
+   "sha256": "2b5b54060e384f3cdd42f467e9716f6eee2d1a48d98b2dbc237cd1078bd57b0b",
+   "size": 934891
+  },
+  {
+   "name": "assets/motion88-actors-mage-ogre-female.png",
+   "sha256": "c9958b53939c53df069ab01e18fa7f85257809ef0249abfa8474eed2747d348f",
+   "size": 927156
+  },
+  {
+   "name": "assets/motion88-actors-mage-ogre-male.png",
+   "sha256": "d25fbcbc31747ff052132d2e2286e9bab23f0979b3dba37c1df547967ca7b8ab",
+   "size": 754350
+  },
+  {
+   "name": "assets/motion88-actors-mage-scale-female.png",
+   "sha256": "d2377a1e26f1f1a6bbc4d1d753aede9ca203c5820fd1c5ead9ae34f0a0ff4f78",
+   "size": 814592
+  },
+  {
+   "name": "assets/motion88-actors-mage-scale-male.png",
+   "sha256": "a78ffc30df57b086c4e321c0dd659fb5a437af50a2565addcb47231098f0cffc",
+   "size": 804022
+  },
+  {
+   "name": "assets/motion88-actors-mage-shade-female.png",
+   "sha256": "37eeb73d9f740a4630931b78fedbdd0708ef55d104b891e9209053db1099095f",
+   "size": 1027126
+  },
+  {
+   "name": "assets/motion88-actors-mage-shade-male.png",
+   "sha256": "68974d0622895592dfc9fd22e3cb1bef676229353de53c4f99ba3a9ad2582731",
+   "size": 908888
+  },
+  {
+   "name": "assets/motion88-actors-mage-troll-female.png",
+   "sha256": "e91ef9eb5065f0e738abd6b31880215cb8b4ad1a4a0dd61319a4e22b85502c8f",
+   "size": 782748
+  },
+  {
+   "name": "assets/motion88-actors-mage-troll-male.png",
+   "sha256": "90f204d8d0c6b1e0c43e679f1b305ffa67bc61f61fad1c00d427c8c965970b94",
+   "size": 890869
+  },
+  {
+   "name": "assets/motion88-actors-paladin-cat-female.png",
+   "sha256": "4e993e5647d869672805f19fdafafcea575122f67f8707de83246c4428b31de2",
+   "size": 834407
+  },
+  {
+   "name": "assets/motion88-actors-paladin-cat-male.png",
+   "sha256": "7ea72f7742eb7a3817d64d60204f1233a40ec07ec392bc587cf3897dcbb0b041",
+   "size": 891593
+  },
+  {
+   "name": "assets/motion88-actors-paladin-dwarf-female.png",
+   "sha256": "15ce5578c45424ccf193d6ef916c224c2195138a2341757a41ee892088ffe8a5",
+   "size": 951550
+  },
+  {
+   "name": "assets/motion88-actors-paladin-dwarf-male.png",
+   "sha256": "b9f84a47c54000008f9e41562eb927178b71ecffd4aebb72220cf4d361832766",
+   "size": 820493
+  },
+  {
+   "name": "assets/motion88-actors-paladin-elf-female.png",
+   "sha256": "f5d9f0c5c52916016862333b5899b9126ece69511b4838d18702ede8a46b0d63",
+   "size": 869788
+  },
+  {
+   "name": "assets/motion88-actors-paladin-elf-male.png",
+   "sha256": "e9a0026bc2cc27d84fdd9ee0474c71716cae0986ba1aeaf5e38d289890f7d808",
+   "size": 908520
+  },
+  {
+   "name": "assets/motion88-actors-paladin-kitsune-female.png",
+   "sha256": "f92778a9582c43b3e17882924049812ac614a7e42b0bb54bbafbb02fe9fafbd7",
+   "size": 976742
+  },
+  {
+   "name": "assets/motion88-actors-paladin-kitsune-male.png",
+   "sha256": "192190177410b621d22aa72ed2abb60e9a5ab08f4adad449f3c0391a93eeaa89",
+   "size": 872487
+  },
+  {
+   "name": "assets/motion88-actors-paladin-ogre-female.png",
+   "sha256": "ee2920180c71fe5a55f8bb086d5f22510e6cf680bb3014a7af4ac2187095fe32",
+   "size": 916764
+  },
+  {
+   "name": "assets/motion88-actors-paladin-ogre-male.png",
+   "sha256": "03680d298a362bb14b759ae42c60dcbf23797dfcc7a16e0d6c3644d2a0691f98",
+   "size": 892584
+  },
+  {
+   "name": "assets/motion88-actors-paladin-scale-female.png",
+   "sha256": "85e807c3fd30b35d3d3b2ce35b0c4f2c3b5271686563de0a946fe80fcbb2f4be",
+   "size": 938769
+  },
+  {
+   "name": "assets/motion88-actors-paladin-scale-male.png",
+   "sha256": "8ea1eb252654b7000294ccac9ccb83d054cafb0f577778d738eb0975c534deca",
+   "size": 952858
+  },
+  {
+   "name": "assets/motion88-actors-paladin-shade-female.png",
+   "sha256": "4b0ea106dac7d133c43044d986320a79827efddbed58bbad971b45b327af1054",
+   "size": 958625
+  },
+  {
+   "name": "assets/motion88-actors-paladin-shade-male.png",
+   "sha256": "209396184a79529ffd4d76512a1381b64dfc32e20707beb8a872e3fffd4f926b",
+   "size": 988759
+  },
+  {
+   "name": "assets/motion88-actors-paladin-troll-female.png",
+   "sha256": "37e01c822ec116eac81ef7f2d57ec8d609cfb5d22cd72c3983f6ac4a0b9b7e60",
+   "size": 949286
+  },
+  {
+   "name": "assets/motion88-actors-paladin-troll-male.png",
+   "sha256": "f2bf67dddfbc14d335b382bc70ce25abf43339020236c0572d2ced56df2653be",
+   "size": 893783
+  },
+  {
+   "name": "assets/motion88-actors-paragon-cat-female.png",
+   "sha256": "39cf6bd0390c68275245f7300a9ecf0e7ee0c1c06f6fef1e7892b0260bed5b4e",
+   "size": 866144
+  },
+  {
+   "name": "assets/motion88-actors-paragon-cat-male.png",
+   "sha256": "7dbc9ccf56ed5f60008781f2abd745f14920e45aea1c42b22b844b9d99390903",
+   "size": 895784
+  },
+  {
+   "name": "assets/motion88-actors-paragon-dwarf-female.png",
+   "sha256": "c1a071f92e05e1b198bc7f0c6a34c017222fc090aa4a47a88fe502d326a1a403",
+   "size": 870951
+  },
+  {
+   "name": "assets/motion88-actors-paragon-dwarf-male.png",
+   "sha256": "204bb9050e154ac03e9990d53310b4a9dccd000b4eb5337238cb918c12b42e0a",
+   "size": 858796
+  },
+  {
+   "name": "assets/motion88-actors-paragon-elf-female.png",
+   "sha256": "640a975be7a26f52f9a2a8029b8ae7d45f8f294a0cd5bfb5e46d66b3e503a980",
+   "size": 1037650
+  },
+  {
+   "name": "assets/motion88-actors-paragon-elf-male.png",
+   "sha256": "79fa53dcc5d28dd628c3931c5d626a1e6a5a5ae5da5bc646e17ec959434e4b7e",
+   "size": 884601
+  },
+  {
+   "name": "assets/motion88-actors-paragon-kitsune-female.png",
+   "sha256": "3ec8b7c9d861b9b1d522088159ebe46cab1f005e86995ae10977cf1eec43d311",
+   "size": 925688
+  },
+  {
+   "name": "assets/motion88-actors-paragon-kitsune-male.png",
+   "sha256": "29a3f3c2ebd0d7f0298e25b70743e3f7da0732d56f37bf2082f9703a74df766e",
+   "size": 903667
+  },
+  {
+   "name": "assets/motion88-actors-paragon-ogre-female.png",
+   "sha256": "5cf316422064d2367b9a411bf9acc83b2543107537199596451f361ee17dd288",
+   "size": 893973
+  },
+  {
+   "name": "assets/motion88-actors-paragon-ogre-male.png",
+   "sha256": "3b65bdead66f1b2cb9ed8253299fd56219c5b3d800d4acbedfcced09a48d22ab",
+   "size": 878896
+  },
+  {
+   "name": "assets/motion88-actors-paragon-scale-female.png",
+   "sha256": "009ab99ad345f12c0f53807114ccb5ac79828aa4ce3a4bfc15a1039fd08e5544",
+   "size": 892623
+  },
+  {
+   "name": "assets/motion88-actors-paragon-scale-male.png",
+   "sha256": "a5237e1d28847e27e82756eb1b6ac17e813072fd6d3e4f637deb9c456a5b7114",
+   "size": 896404
+  },
+  {
+   "name": "assets/motion88-actors-paragon-shade-female.png",
+   "sha256": "96b12f6c84869d3fcc0a3d72e0d594e76049b8b29cf51a0dd1887d3f4e334a77",
+   "size": 948742
+  },
+  {
+   "name": "assets/motion88-actors-paragon-shade-male.png",
+   "sha256": "21b787024ceb8b060a7fff48c7f89c0fa43386f148ed64751ec6c99cbe443d36",
+   "size": 880025
+  },
+  {
+   "name": "assets/motion88-actors-paragon-troll-female.png",
+   "sha256": "bb942c3355c0389dbb7becb17f07ebdd4a47a742a1949603077c0bbcfb5946b0",
+   "size": 951361
+  },
+  {
+   "name": "assets/motion88-actors-paragon-troll-male.png",
+   "sha256": "0ab65d734d18adb9ba3e834c25b3f0ed9e06c1aeea30493ad6cca64e13072354",
+   "size": 896874
+  },
+  {
+   "name": "assets/motion88-actors-ranger-cat-female.png",
+   "sha256": "b102f4cd8229772c293d3197a113f4060d09fcadd521b7ad56059c6dc308db94",
+   "size": 873142
+  },
+  {
+   "name": "assets/motion88-actors-ranger-cat-male.png",
+   "sha256": "4501786ef735f6e746e44648da165851115ff6695ed3879a35768f99ac1d86aa",
+   "size": 824134
+  },
+  {
+   "name": "assets/motion88-actors-ranger-dwarf-female.png",
+   "sha256": "93d4222990898828456ae890b149f0cd692922b79ecec61e103954c5dd0380d1",
+   "size": 868686
+  },
+  {
+   "name": "assets/motion88-actors-ranger-dwarf-male.png",
+   "sha256": "568cc6c1b4d53ecb956be06e13f85a7263c276a713c430a466e3263a38e007c7",
+   "size": 858261
+  },
+  {
+   "name": "assets/motion88-actors-ranger-elf-female.png",
+   "sha256": "a89c0370c38900a9659796db54e63849c86a72325336c82dcf9e0b8bc007660b",
+   "size": 911245
+  },
+  {
+   "name": "assets/motion88-actors-ranger-elf-male.png",
+   "sha256": "569af7931e71bdf3ba7ca6ecdb247e333890a542869160a3d091ffc841b29bc8",
+   "size": 871567
+  },
+  {
+   "name": "assets/motion88-actors-ranger-kitsune-female.png",
+   "sha256": "5fe716f1abbaf08c6de4c1e44b606c1ad7c792059f11a792cee4aa6ec149b726",
+   "size": 769893
+  },
+  {
+   "name": "assets/motion88-actors-ranger-kitsune-male.png",
+   "sha256": "bf50604686f2d9918f4fd629f07edae518b8aeb8336e527389bb587990957222",
+   "size": 870699
+  },
+  {
+   "name": "assets/motion88-actors-ranger-ogre-female.png",
+   "sha256": "b1247b3b3043e50d5e6acfffe7020209b1e343a3981b15a528cb1d8ee1d8ae6d",
+   "size": 885720
+  },
+  {
+   "name": "assets/motion88-actors-ranger-ogre-male.png",
+   "sha256": "737120a56c3792a084fbb7febd3612d5bb1dd90ded2c65b7eeeb799cc068691b",
+   "size": 904334
+  },
+  {
+   "name": "assets/motion88-actors-ranger-scale-female.png",
+   "sha256": "02e1719f4689aecb96817a73d46dab6f41f73c6bd76851feb2397a12a64733f5",
+   "size": 937642
+  },
+  {
+   "name": "assets/motion88-actors-ranger-scale-male.png",
+   "sha256": "dbaa9f1edca7bcef0f5a760ee5aa6e58179843bc22982b3114909375f6e59086",
+   "size": 846240
+  },
+  {
+   "name": "assets/motion88-actors-ranger-shade-female.png",
+   "sha256": "f744c481f4c0d1e59eb493d76f8de93213eda7a464a285862c33f6cdff334b13",
+   "size": 905465
+  },
+  {
+   "name": "assets/motion88-actors-ranger-shade-male.png",
+   "sha256": "b08d2554b1d7d9f8ea1eda42dc4f8cf41ca7834a730c9621e13c0c48eecdcd8a",
+   "size": 747473
+  },
+  {
+   "name": "assets/motion88-actors-ranger-troll-female.png",
+   "sha256": "5dbc17c9bc987a9b1ac8e378683e7c71e320088fa804d6202928eb333e5b9ff2",
+   "size": 948536
+  },
+  {
+   "name": "assets/motion88-actors-ranger-troll-male.png",
+   "sha256": "187835b625660d6e7aab84bb983010a942bca65447f510945e255b250518d804",
+   "size": 890793
+  },
+  {
+   "name": "assets/motion88-actors-reaper-cat-female.png",
+   "sha256": "dcc87b8ed6b4b44f3c89a3ff301906e4a185254a2f9374ceef56ba245c6436b7",
+   "size": 780771
+  },
+  {
+   "name": "assets/motion88-actors-reaper-cat-male.png",
+   "sha256": "0b8204443888a297717437ff8488683ace39d14fd82ca31202a69515b4a2f157",
+   "size": 764885
+  },
+  {
+   "name": "assets/motion88-actors-reaper-dwarf-female.png",
+   "sha256": "b42e8f1af7708b40e1929d931873f446439a2d36507b1a6084d493e73005f125",
+   "size": 695697
+  },
+  {
+   "name": "assets/motion88-actors-reaper-dwarf-male.png",
+   "sha256": "f9ee0088dc95b684504d7e26728d80cc5cd1c620606bf36ba2f30d46a3fbfe66",
+   "size": 710381
+  },
+  {
+   "name": "assets/motion88-actors-reaper-elf-female.png",
+   "sha256": "fd6b2a8fce81ab79401379133302370c3cdd3e31e43581e56ee3a5f4bc9f942b",
+   "size": 790182
+  },
+  {
+   "name": "assets/motion88-actors-reaper-elf-male.png",
+   "sha256": "3eb593edc95a058af9519cb71f44aae63c14c853ef8c126e4a5512b89981d131",
+   "size": 773329
+  },
+  {
+   "name": "assets/motion88-actors-reaper-kitsune-female.png",
+   "sha256": "3a523aedf4de3975d302817ee7b216d96cf76746f609f135d3a078c6576dc1f1",
+   "size": 853237
+  },
+  {
+   "name": "assets/motion88-actors-reaper-kitsune-male.png",
+   "sha256": "cb5d731a7f69c5b03ebcd12ca919f2fef6d1e7636f651d79f83e612f850df8ec",
+   "size": 777959
+  },
+  {
+   "name": "assets/motion88-actors-reaper-ogre-female.png",
+   "sha256": "d6aec17414b05f888cd50e91e1a3c02ee521bd5cdeec0307df29358dc73e79f0",
+   "size": 749355
+  },
+  {
+   "name": "assets/motion88-actors-reaper-ogre-male.png",
+   "sha256": "847f393c69087afc3084c2db9c654ab4588a028140c49053d6a20a6bbbecdd69",
+   "size": 715344
+  },
+  {
+   "name": "assets/motion88-actors-reaper-scale-female.png",
+   "sha256": "22556ab15e10478ccb910faf0aca182fde29723a1662f34ecb47ed4797f821fb",
+   "size": 747255
+  },
+  {
+   "name": "assets/motion88-actors-reaper-scale-male.png",
+   "sha256": "9f49d4e2e83342d0d39f30e0008d953b287be91b2c2c03ecced1ba2e69361925",
+   "size": 787680
+  },
+  {
+   "name": "assets/motion88-actors-reaper-shade-female.png",
+   "sha256": "6095f9dc0906218e7a895f5546e6e188491eff7909c5fa259b0d0ee47067bd3f",
+   "size": 811412
+  },
+  {
+   "name": "assets/motion88-actors-reaper-shade-male.png",
+   "sha256": "44447ef5fb67946cb841f8d00e300861af22d7073f05f1082c81f450e1cc542f",
+   "size": 743762
+  },
+  {
+   "name": "assets/motion88-actors-reaper-troll-female.png",
+   "sha256": "a156783444e98128ce67d0e117d825516c4773ea5d873eda32c792a949694029",
+   "size": 728449
+  },
+  {
+   "name": "assets/motion88-actors-reaper-troll-male.png",
+   "sha256": "d367ef7cc7a249075ab11efb8a4319947df19402903e2527aeee952aec8abc72",
+   "size": 734873
+  },
+  {
+   "name": "assets/motion88-actors-rift-cat-female.png",
+   "sha256": "7253b5d04313510cf6c2cce730b46cb9641fb8fcce21e400b6ea1f63af77e18b",
+   "size": 855966
+  },
+  {
+   "name": "assets/motion88-actors-rift-cat-male.png",
+   "sha256": "c2f44d20812f083d2dcb705776a8301c533aafb08a71fa0df6f56b776c62dae9",
+   "size": 791453
+  },
+  {
+   "name": "assets/motion88-actors-rift-dwarf-female.png",
+   "sha256": "f02600e1bd02be272f1b778661139d80bc5a7f60dd17892bf956522f6c06f809",
+   "size": 857669
+  },
+  {
+   "name": "assets/motion88-actors-rift-dwarf-male.png",
+   "sha256": "e72853e46833483727e6cbe83f20899ee63a1c1391361e4c493d463b1cced6eb",
+   "size": 811611
+  },
+  {
+   "name": "assets/motion88-actors-rift-elf-female.png",
+   "sha256": "a2d18613d202667ecfde0cddd44515da5ee0d829dcdb966dab83f602f8a18a09",
+   "size": 868719
+  },
+  {
+   "name": "assets/motion88-actors-rift-elf-male.png",
+   "sha256": "34d69eacd6a588f1d69fe5433866bae26c2fd5cf5b7bb4a7d20dc96b7d0f198d",
+   "size": 827738
+  },
+  {
+   "name": "assets/motion88-actors-rift-kitsune-female.png",
+   "sha256": "b76d7237cc10748e17589f6d9b9955d0d21f822e6629de80202854eaae1c1264",
+   "size": 956828
+  },
+  {
+   "name": "assets/motion88-actors-rift-kitsune-male.png",
+   "sha256": "31637a7042ef00ecd6655f72475f465c7336aaca3e827dd13704873e1e14f654",
+   "size": 852045
+  },
+  {
+   "name": "assets/motion88-actors-rift-ogre-female.png",
+   "sha256": "54f1c209fe14e804f2cb6bf832ce3ddae833be25a40221a6d5cf3e51b4d10641",
+   "size": 888854
+  },
+  {
+   "name": "assets/motion88-actors-rift-ogre-male.png",
+   "sha256": "cf3663191775e975a15612f40446d1bfb62b63825779b3419b03b2f21b562a6a",
+   "size": 812490
+  },
+  {
+   "name": "assets/motion88-actors-rift-scale-female.png",
+   "sha256": "e9197a70659830c34804284fae2f672f0c1e12486f388258bda78c030c6f473d",
+   "size": 896161
+  },
+  {
+   "name": "assets/motion88-actors-rift-scale-male.png",
+   "sha256": "d4397a3d6340d579b8de62e6d5e9324c642e8e37af5bb5fce8769092e7669168",
+   "size": 813751
+  },
+  {
+   "name": "assets/motion88-actors-rift-shade-female.png",
+   "sha256": "3c6fd3884f183c8f7938217a8e2b2a574b84ce90cbc30ff3c0e470cc17103c24",
+   "size": 952384
+  },
+  {
+   "name": "assets/motion88-actors-rift-shade-male.png",
+   "sha256": "72e26d23422406c4b7fa3716b442f07560e69079413041400c25b745e441ac1a",
+   "size": 857091
+  },
+  {
+   "name": "assets/motion88-actors-rift-troll-female.png",
+   "sha256": "55ff33f66b94e85e6de78ba0eaf76e360533f25a463269f2c244c23cb9abb7a7",
+   "size": 826348
+  },
+  {
+   "name": "assets/motion88-actors-rift-troll-male.png",
+   "sha256": "70a9ad2bbd08c455898ddee0f399315a3decb0ff21a99d07d676ed7ca3871726",
+   "size": 852858
+  },
+  {
+   "name": "assets/motion88-actors-river-cat-female.png",
+   "sha256": "d6f47b77c2a2a50da7a29bc1ae975fd22d1b92e047f2045761b515352ee37ee1",
+   "size": 733227
+  },
+  {
+   "name": "assets/motion88-actors-river-cat-male.png",
+   "sha256": "9ee446b66b185ee9b5e74c1e244d80cfd4453c2b8fa785ff4a561c167f14d73a",
+   "size": 720786
+  },
+  {
+   "name": "assets/motion88-actors-river-dwarf-female.png",
+   "sha256": "2ff73592f43e3458f00f4ce79a9818692d49e3b6980887a1d22ee147cb804114",
+   "size": 988849
+  },
+  {
+   "name": "assets/motion88-actors-river-dwarf-male.png",
+   "sha256": "653be1b9f3ae60a2a29dadcd4cdde23b58daab11d946eaec3dee2f032585e5c0",
+   "size": 909031
+  },
+  {
+   "name": "assets/motion88-actors-river-elf-female.png",
+   "sha256": "882249af3fde88ab6ac0b43cc038843fbe3c60bcf78d5dfc5589ae4169d83d07",
+   "size": 854692
+  },
+  {
+   "name": "assets/motion88-actors-river-elf-male.png",
+   "sha256": "825e7b90f71647186cff85a15294b19fc3b6156743fbd1efbe4632276a223b32",
+   "size": 930947
+  },
+  {
+   "name": "assets/motion88-actors-river-kitsune-female.png",
+   "sha256": "f626c43078e6d33ebd3e9abc9655111262e282b4ff7dd7b20057cabd3c9aace8",
+   "size": 906513
+  },
+  {
+   "name": "assets/motion88-actors-river-kitsune-male.png",
+   "sha256": "6f941e84a5c0b3ca3b5b717f9e1a29c7f077af9f45a04b123bda5618768c033e",
+   "size": 915731
+  },
+  {
+   "name": "assets/motion88-actors-river-ogre-female.png",
+   "sha256": "dfc8f299f2aa12d162188f6fcb032ce60df4cda8e367eee7da7e494f5fdaba22",
+   "size": 930988
+  },
+  {
+   "name": "assets/motion88-actors-river-ogre-male.png",
+   "sha256": "96166592848f3aba5a9444a81ab39f747c6e85c8fceea569663668c128fa6a5a",
+   "size": 945934
+  },
+  {
+   "name": "assets/motion88-actors-river-scale-female.png",
+   "sha256": "a092baed873d3fd1095e7ad479577b5958fd727ef86b82ee15b2fb92203581ff",
+   "size": 900773
+  },
+  {
+   "name": "assets/motion88-actors-river-scale-male.png",
+   "sha256": "30c9afe067509474abc08e237c9f3fc6076e7e5da602fd562eca36801aca2064",
+   "size": 942106
+  },
+  {
+   "name": "assets/motion88-actors-river-shade-female.png",
+   "sha256": "3a03883230ee7bc0f237c6b3b06ddfd4221c2a05fc1247165051f7ed79626a47",
+   "size": 1013723
+  },
+  {
+   "name": "assets/motion88-actors-river-shade-male.png",
+   "sha256": "f4ec0c9de4bea81978eb56779552c29480ce078b085814d1fa0ca72c61e8c582",
+   "size": 949348
+  },
+  {
+   "name": "assets/motion88-actors-river-troll-female.png",
+   "sha256": "2681b81b37eda51d81a7ff4b7fd7f645a8579b6bffda4d4ba72cb2f6f4d83522",
+   "size": 888951
+  },
+  {
+   "name": "assets/motion88-actors-river-troll-male.png",
+   "sha256": "1f64bc68d749c2f7eab36697d1dbaaf4324cd709dfa155853d3591980e7cc0b2",
+   "size": 866417
+  },
+  {
+   "name": "assets/motion88-actors-rogue-cat-female.png",
+   "sha256": "bca8e14d34d5d8c754be93e3883c2e4d360803b3f093f1eeb0b71a757877ad73",
+   "size": 772747
+  },
+  {
+   "name": "assets/motion88-actors-rogue-cat-male.png",
+   "sha256": "0c80e805baa14d7c8c6ef6e22a5350a52c415fa8ad017664c31f98374aadbc2e",
+   "size": 819970
+  },
+  {
+   "name": "assets/motion88-actors-rogue-dwarf-female.png",
+   "sha256": "0731273b8bc3f9a1cb98079db5289cbe2c08f66369eaf4f22fa55531dff890f5",
+   "size": 810677
+  },
+  {
+   "name": "assets/motion88-actors-rogue-dwarf-male.png",
+   "sha256": "576ffecb739d90bfa1f806cc0d96ae0a5dce330520475b035e9a93629246ca20",
+   "size": 784597
+  },
+  {
+   "name": "assets/motion88-actors-rogue-elf-female.png",
+   "sha256": "29799617f361e0bba36ea14d378ed36d285e54b109ad23fee87ae60e3c3703e1",
+   "size": 864593
+  },
+  {
+   "name": "assets/motion88-actors-rogue-elf-male.png",
+   "sha256": "9654efee9a348582087ea9e4a35381ea7b0dde6fbd783bbbdf3f1625885bfcec",
+   "size": 830228
+  },
+  {
+   "name": "assets/motion88-actors-rogue-kitsune-female.png",
+   "sha256": "72fa3de9281481319293a3dec34e987d28b26321003342c4772633dc26d09fe6",
+   "size": 926343
+  },
+  {
+   "name": "assets/motion88-actors-rogue-kitsune-male.png",
+   "sha256": "853df2e70b422b19c90e2d70948d198e9f77d925a54bbf6b375dab0ebbb01dd8",
+   "size": 965426
+  },
+  {
+   "name": "assets/motion88-actors-rogue-ogre-female.png",
+   "sha256": "2a42d808bacff113e71bf2d82e8c0545fcece4aa156278ca7f7cdf52ce970b67",
+   "size": 834486
+  },
+  {
+   "name": "assets/motion88-actors-rogue-ogre-male.png",
+   "sha256": "86d3ede23192c4bdfdc239fa42505331f1e30ea0433f4886b912a6ba2ace0e8c",
+   "size": 753792
+  },
+  {
+   "name": "assets/motion88-actors-rogue-scale-female.png",
+   "sha256": "6bef185add5c8ee9f61967a0793e1bfd719b6124f895adfe31b849543875657e",
+   "size": 908323
+  },
+  {
+   "name": "assets/motion88-actors-rogue-scale-male.png",
+   "sha256": "3d5d030c26ae27a58380a10d2bc7eda0850fa1b5b70c056e0a852cf459f4d18f",
+   "size": 965553
+  },
+  {
+   "name": "assets/motion88-actors-rogue-shade-female.png",
+   "sha256": "1e9526d4086e7ae44020032ce3dd878bdfd25df0f6860c874de5d7fac646b7a0",
+   "size": 912579
+  },
+  {
+   "name": "assets/motion88-actors-rogue-shade-male.png",
+   "sha256": "06711235362a47df9e6e019c9ffdafa63d16289abbff9177086f5239194a6aad",
+   "size": 915033
+  },
+  {
+   "name": "assets/motion88-actors-rogue-troll-female.png",
+   "sha256": "c66e94d5b6700b28e6ed92f2d4b462447a3bf01b3cf3e4d6a5efabd6b40f74bd",
+   "size": 865933
+  },
+  {
+   "name": "assets/motion88-actors-rogue-troll-male.png",
+   "sha256": "2baf787fbecafbce7869a2cea741ae7d299f1b7c418e2097fffed01aa3c69b7e",
+   "size": 934699
+  },
+  {
+   "name": "assets/motion88-actors-summoner-cat-female.png",
+   "sha256": "1f8926e6676e37c73e8e7b47dc6ffc3e4ba7c32b4f4e8a77d05eda730951140c",
+   "size": 1028403
+  },
+  {
+   "name": "assets/motion88-actors-summoner-cat-male.png",
+   "sha256": "2d2168eb241145837cdb8a663f58f98628af1e62ac8c744403890642b29e830c",
+   "size": 916991
+  },
+  {
+   "name": "assets/motion88-actors-summoner-dwarf-female.png",
+   "sha256": "b2f6973e40ec45dbdc1f0542b24a37843b153d0e92ca21b679e5981aae7d417b",
+   "size": 901883
+  },
+  {
+   "name": "assets/motion88-actors-summoner-dwarf-male.png",
+   "sha256": "7858ec5522613fa6cb41bf02496467fcbe5e30a9e8be4e4d269bdded7f3dc596",
+   "size": 951279
+  },
+  {
+   "name": "assets/motion88-actors-summoner-elf-female.png",
+   "sha256": "cad236baadfc1b8217c0d1a0a49a2cf3cf49006a7e8bab2b67a2ed1598c8a0e5",
+   "size": 950261
+  },
+  {
+   "name": "assets/motion88-actors-summoner-elf-male.png",
+   "sha256": "ae8a920d912687c9815987a1895b6dd4154948a1bf33359dbcd2346ef2708f5f",
+   "size": 948801
+  },
+  {
+   "name": "assets/motion88-actors-summoner-kitsune-female.png",
+   "sha256": "70591900dce26fecfdbcc0f781ba8ff5cb5627b76a3a823a3670b62e30896631",
+   "size": 1058639
+  },
+  {
+   "name": "assets/motion88-actors-summoner-kitsune-male.png",
+   "sha256": "c6b8c4ad5db2c2bcd0d361c952b6082d15415e62a151fa42cb426745226820f3",
+   "size": 1015596
+  },
+  {
+   "name": "assets/motion88-actors-summoner-ogre-female.png",
+   "sha256": "7c5cc1b94b0c366766c9e73da9543ca2e3bbeb2c45838f5e8994c54b6c4c84ce",
+   "size": 952253
+  },
+  {
+   "name": "assets/motion88-actors-summoner-ogre-male.png",
+   "sha256": "4cfc3c58f67be61196240d9520d1c2e8af3b4dc73b2e7f1e7e95cf5c1a8de0bf",
+   "size": 1002027
+  },
+  {
+   "name": "assets/motion88-actors-summoner-scale-female.png",
+   "sha256": "1540bad4870d6e2402d6500090a11f4aaf99dde6fe14015ccddd60e693235ca1",
+   "size": 1029218
+  },
+  {
+   "name": "assets/motion88-actors-summoner-scale-male.png",
+   "sha256": "9996c51eb1c8d6cb7a860b131834c8e14a79e0f404da97884b616fcab808dae5",
+   "size": 988101
+  },
+  {
+   "name": "assets/motion88-actors-summoner-shade-female.png",
+   "sha256": "ed7eec53c6a2a4f3eeb85fe2c10ccb8f33cbe127337646422f45a07b6f18d836",
+   "size": 979085
+  },
+  {
+   "name": "assets/motion88-actors-summoner-shade-male.png",
+   "sha256": "dc794271f892a800930c045663f8fb53aafed9ac63fbec337c745d6cf7baebda",
+   "size": 937609
+  },
+  {
+   "name": "assets/motion88-actors-summoner-troll-female.png",
+   "sha256": "52a26a40956e55d0794fa169c323f1aded74692a7f00df5d1bd9e8659806f9a2",
+   "size": 1000097
+  },
+  {
+   "name": "assets/motion88-actors-summoner-troll-male.png",
+   "sha256": "e4260292f1ba4592385e9a22074250151f3f7392a442b636db23b540103d3b36",
+   "size": 993184
+  },
+  {
+   "name": "assets/motion88-actors-unraveler-cat-female.png",
+   "sha256": "498e07a86dd9ff6a6dad6a022beac33e0fa26b8571d32f674c415049e081383f",
+   "size": 922793
+  },
+  {
+   "name": "assets/motion88-actors-unraveler-cat-male.png",
+   "sha256": "605c114e04f9c2986f0806caed234388ac25cd8ad85b9dfbb8a5a705c8a7c1c2",
+   "size": 992415
+  },
+  {
+   "name": "assets/motion88-actors-unraveler-dwarf-female.png",
+   "sha256": "b9a3a5fb2d016358980c088c15cffcef349baf4c85520c816aa312330b36a624",
+   "size": 813526
+  },
+  {
+   "name": "assets/motion88-actors-unraveler-dwarf-male.png",
+   "sha256": "bd06f45ba9c1ad319740c763445bc11be087ef8df3d6b4f9bdd186fa090bfe8c",
+   "size": 936475
+  },
+  {
+   "name": "assets/motion88-actors-unraveler-elf-female.png",
+   "sha256": "8212c820edf92ea4abf14d6f371b21a708dba30c1da3cd06ea5228be3602edaf",
+   "size": 873072
+  },
+  {
+   "name": "assets/motion88-actors-unraveler-elf-male.png",
+   "sha256": "c0bb0d65b19de2c5b2b916365832aae397b7c03bd045e87fe222d400943ce458",
+   "size": 871805
+  },
+  {
+   "name": "assets/motion88-actors-unraveler-kitsune-female.png",
+   "sha256": "a63550efff7055335fe89477433f6d28e7e03a9e0979610fcbea2fec38c9c6b1",
+   "size": 899889
+  },
+  {
+   "name": "assets/motion88-actors-unraveler-kitsune-male.png",
+   "sha256": "0c72f73596e4289bad5b7ce046a2e032acd4d5d57fa566ac317501b84f22b2a6",
+   "size": 973418
+  },
+  {
+   "name": "assets/motion88-actors-unraveler-ogre-female.png",
+   "sha256": "5989ca6097f34277cb5c23458473208bf8f7d8f3932401d379afff00ad23d574",
+   "size": 1003108
+  },
+  {
+   "name": "assets/motion88-actors-unraveler-ogre-male.png",
+   "sha256": "18a24523efb6cb5ae63734332b7953864be41ee502f468be847db82b4d9eea0c",
+   "size": 833579
+  },
+  {
+   "name": "assets/motion88-actors-unraveler-scale-female.png",
+   "sha256": "ff537cad39d58aab4a79e6ccd3ab5f002ca8ba3c8da77439fb5c9654112ab148",
+   "size": 901016
+  },
+  {
+   "name": "assets/motion88-actors-unraveler-scale-male.png",
+   "sha256": "89b6b166d0ae8d885652930d24fd228ca2f9d7d1f36392fbbd95551fb8761ba7",
+   "size": 851926
+  },
+  {
+   "name": "assets/motion88-actors-unraveler-shade-female.png",
+   "sha256": "624cb5ecddb3b697e7de638793bf59690dd0382c10472957dc000ebe6283c8a0",
+   "size": 896290
+  },
+  {
+   "name": "assets/motion88-actors-unraveler-shade-male.png",
+   "sha256": "42d00b228e8d87df2717a70d5fa6d380831b6b4cc824b33345d4c2bd9b0d3610",
+   "size": 899502
+  },
+  {
+   "name": "assets/motion88-actors-unraveler-troll-female.png",
+   "sha256": "4f4a41fc748764ee0768d922782b647b7e6da50b98c398c5ed52082cd45784ac",
+   "size": 944408
+  },
+  {
+   "name": "assets/motion88-actors-unraveler-troll-male.png",
+   "sha256": "6730f413c3da70a058eb21edb91561eed3a5dcca87902072f38afa50065d1b29",
+   "size": 820794
+  },
+  {
+   "name": "assets/motion88-actors-visage-cat-female.png",
+   "sha256": "7db44972e6581aceeec52677ae6e366888f6179052031e541eddac41269fc9a0",
+   "size": 793780
+  },
+  {
+   "name": "assets/motion88-actors-visage-cat-male.png",
+   "sha256": "51b92c4eb4efc651c3fafe271c42595424372cc70751d73db52fdbf90cffa6c8",
+   "size": 772661
+  },
+  {
+   "name": "assets/motion88-actors-visage-dwarf-female.png",
+   "sha256": "daf76fe511b961f4307eb5957518ea64e1ebe204533f89c5c060798c4fadbf95",
+   "size": 795068
+  },
+  {
+   "name": "assets/motion88-actors-visage-dwarf-male.png",
+   "sha256": "ba135f7c1c7dd9554581406d7a4922f0342e4ec0200a7456be1017087240388b",
+   "size": 719108
+  },
+  {
+   "name": "assets/motion88-actors-visage-elf-female.png",
+   "sha256": "4830ccab99801b9585148310e9eaacdbfb3dbfffe9eb2e1d39a6c09cc64fd6f6",
+   "size": 850285
+  },
+  {
+   "name": "assets/motion88-actors-visage-elf-male.png",
+   "sha256": "07c9ac52a207ce3bdd13559677b2cb66f3d3e439197fcf43a5dddbd747c8355b",
+   "size": 808799
+  },
+  {
+   "name": "assets/motion88-actors-visage-kitsune-female.png",
+   "sha256": "3fd3a715d8f7050b49b22517e7e21d6b3ddb948acd9d1a03fb09cf2bf8c90d36",
+   "size": 927861
+  },
+  {
+   "name": "assets/motion88-actors-visage-kitsune-male.png",
+   "sha256": "0a34c6040dc85de7fdff85daa3ba5d44518f0b6ed2fad2ae09afbc6123b5a03a",
+   "size": 906121
+  },
+  {
+   "name": "assets/motion88-actors-visage-ogre-female.png",
+   "sha256": "b69fae23cb04eed6881d2d072f3f9ee8dbf9cd108569874e0d521f9bc618d1c0",
+   "size": 692385
+  },
+  {
+   "name": "assets/motion88-actors-visage-ogre-male.png",
+   "sha256": "3c7e34a0995345f7fda461b8bfa8be3a0eb8f60e3b941d8619589a2cfcecb7dd",
+   "size": 902672
+  },
+  {
+   "name": "assets/motion88-actors-visage-scale-female.png",
+   "sha256": "8d30cb222fc0d6c0b9433f7455f28af1cf6302e859f8e28c408a58361257b6c7",
+   "size": 833080
+  },
+  {
+   "name": "assets/motion88-actors-visage-scale-male.png",
+   "sha256": "58daea18e32d416a8e502cae7910736351223f239243e31606ac4b4c11924f8a",
+   "size": 737429
+  },
+  {
+   "name": "assets/motion88-actors-visage-shade-female.png",
+   "sha256": "899c022f08aae39af61b4c00d052eff17b0b34a10eeaa2ff648a25ebf29cb03a",
+   "size": 961931
+  },
+  {
+   "name": "assets/motion88-actors-visage-shade-male.png",
+   "sha256": "b887471f25145fbc316b023de6e5027a3b8ffdd4f4be91d1b35d1b42937b7431",
+   "size": 897080
+  },
+  {
+   "name": "assets/motion88-actors-visage-troll-female.png",
+   "sha256": "2796fb1162933dec6772f1f1415b2bdb690a7df98fbfbea3027569937f1b1f29",
+   "size": 870538
+  },
+  {
+   "name": "assets/motion88-actors-visage-troll-male.png",
+   "sha256": "afe50a56631649c6e7f26abe47ec16494d154804bf3f7a62deb801f0afa1d810",
+   "size": 788815
+  },
+  {
+   "name": "assets/motion88-actors-warlock-cat-female.png",
+   "sha256": "2d2f23b15b49729b546f41c0d9abf01b2f50282a52a8063717b513cb9e42ce5b",
+   "size": 906495
+  },
+  {
+   "name": "assets/motion88-actors-warlock-cat-male.png",
+   "sha256": "2d25676eb91d03e6f6ce9824d3a07b3e8bb82fba150ab9db1fb4723fc0cd6d88",
+   "size": 914272
+  },
+  {
+   "name": "assets/motion88-actors-warlock-dwarf-female.png",
+   "sha256": "d46da35512701eca318bb2d5bfcaf7d2fb791576a5ededff35d44eaa2fafbed2",
+   "size": 812631
+  },
+  {
+   "name": "assets/motion88-actors-warlock-dwarf-male.png",
+   "sha256": "668f9dbe0e13b7c7fa020da38e8605fbdd5586c9d57232028eeb1012de40fa5e",
+   "size": 988800
+  },
+  {
+   "name": "assets/motion88-actors-warlock-elf-female.png",
+   "sha256": "d5cc498fb8c6816b99fe118d55b10698e3f91d6343dafb31138f18723fd00b8c",
+   "size": 949300
+  },
+  {
+   "name": "assets/motion88-actors-warlock-elf-male.png",
+   "sha256": "8e9699fab5ffe61a880f26720167f958a2354c399bda39375f90bf0af6d7fb80",
+   "size": 1039767
+  },
+  {
+   "name": "assets/motion88-actors-warlock-kitsune-female.png",
+   "sha256": "1b85cf4b4d184b717756ab1791c7f7edd90997c78de7234202ab312785bc7123",
+   "size": 891312
+  },
+  {
+   "name": "assets/motion88-actors-warlock-kitsune-male.png",
+   "sha256": "f6da0e37c7d463324fb35970be40d95e1c5e4e6605bcd47f4eaf5d517f166c01",
+   "size": 911741
+  },
+  {
+   "name": "assets/motion88-actors-warlock-ogre-female.png",
+   "sha256": "b61dfdef71b37994e51fe0b19edb350db31b0ce85afb62e5bbee7e164dafb6a1",
+   "size": 841670
+  },
+  {
+   "name": "assets/motion88-actors-warlock-ogre-male.png",
+   "sha256": "aa7bb2db76fbe851425bd419972705a002a06237065a3c5e77e19419d11beb79",
+   "size": 783136
+  },
+  {
+   "name": "assets/motion88-actors-warlock-scale-female.png",
+   "sha256": "ec55ebbb394d9dd2f5c225f19ecc5583d1b9aa190746e568fd151abc50a1ecf2",
+   "size": 1005578
+  },
+  {
+   "name": "assets/motion88-actors-warlock-scale-male.png",
+   "sha256": "1be92e7999b279e69be3b67670054dad4f22be3bd9ee4718bdd1c167f71c0ae0",
+   "size": 816366
+  },
+  {
+   "name": "assets/motion88-actors-warlock-shade-female.png",
+   "sha256": "9cbd1b3112f4b3a3424a19039f7d271e279746315106a303ba4f2a572c5d0324",
+   "size": 966364
+  },
+  {
+   "name": "assets/motion88-actors-warlock-shade-male.png",
+   "sha256": "0b5869336f9b6e1e37370664ecb4c06262dad8966723a6dac76057d95dd491f1",
+   "size": 1050423
+  },
+  {
+   "name": "assets/motion88-actors-warlock-troll-female.png",
+   "sha256": "672f27aecbce4e9976ec3cd7319643d620214d80cbe24b832c802b89772e6df9",
+   "size": 967913
+  },
+  {
+   "name": "assets/motion88-actors-warlock-troll-male.png",
+   "sha256": "dd30ce14be5532a3f060173a3a5a4bab2f618d6ffc66cf1361715fe7ad43cc35",
+   "size": 930220
+  },
+  {
+   "name": "assets/dawn88.js",
+   "sha256": "68ab2938889751beecfc69b62cc87912835b6764df68b891393e4d5d4b03e6ce",
+   "size": 8284
+  },
+  {
+   "name": "assets/dawn88.css",
+   "sha256": "f177da351784fdd7a5b043d2b9d2a54492f1b5b8aec624d3780eaf5eb639620d",
+   "size": 1739
+  },
+  {
+   "name": "assets/dawn89-art.js",
+   "sha256": "9eb41943716641510106cbd6cd4d22028f1beb75144a3932fc3815b00e1726e3",
+   "size": 88140
+  },
+  {
+   "name": "assets/duo-skills-v89.png",
+   "sha256": "e50287a5b33ef637feda730b08196812d45f057fbb2ea4538b572a27e7fcef7e",
+   "size": 3048911
+  },
+  {
+   "name": "assets/motion89-goose-female.png",
+   "sha256": "acc11a958b61c61a1be654a6d0de227b853373a4777fb9e051ada588535fc8c2",
+   "size": 866412
+  },
+  {
+   "name": "assets/motion89-goose-male.png",
+   "sha256": "34284ef5841eefab1c9345384c0a4705bd49a082e6a6041c3db65f5d155ed349",
+   "size": 864326
+  },
+  {
+   "name": "assets/motion89-tibopoteto-cat-female.png",
+   "sha256": "3ff86c0598d4563cdba2d72ce1fa662030983b4627252d83e72e4ebcd386a35e",
+   "size": 1325072
+  },
+  {
+   "name": "assets/motion89-tibopoteto-cat-male.png",
+   "sha256": "72563869fb457bb0d115564a3979d12ebf3c6ed1099ea790c89f48668192a3d2",
+   "size": 1413690
+  },
+  {
+   "name": "assets/motion89-tibopoteto-dwarf-female.png",
+   "sha256": "2151ba41d20ecad0076a5ca4c1e818908ceb0d2f41fdfb8b9e4cfe8bec3f7dce",
+   "size": 1276058
+  },
+  {
+   "name": "assets/motion89-tibopoteto-dwarf-male.png",
+   "sha256": "8f6f8e3aeb92d645fa0d460c453d7e453d54c11982ca30fb4a80f12a1ef1fa09",
+   "size": 1163032
+  },
+  {
+   "name": "assets/motion89-tibopoteto-elf-female.png",
+   "sha256": "6cac9dae08f63e2830e2e47c323d5ee468277221d28110effb9f056e6f97483c",
+   "size": 1339029
+  },
+  {
+   "name": "assets/motion89-tibopoteto-elf-male.png",
+   "sha256": "676ce63f7aaef7fb349f5b405e67dc789079843e4489040490fd9a300229d982",
+   "size": 1367106
+  },
+  {
+   "name": "assets/motion89-tibopoteto-goose-female.png",
+   "sha256": "c644744a2058ef4e4627f9858cf365d2ac122f69cce2ddb46b1e5d87ac2c3a6a",
+   "size": 1002425
+  },
+  {
+   "name": "assets/motion89-tibopoteto-goose-male.png",
+   "sha256": "fc23907e2308f6f45fc96f5213e3901c72d1558b6df622ff4202d08d7d098540",
+   "size": 1006751
+  },
+  {
+   "name": "assets/motion89-tibopoteto-kitsune-female.png",
+   "sha256": "4272bed3d688c243d6954fc511ff4e943289ce6e50cb646eb627afe60591e00c",
+   "size": 1397857
+  },
+  {
+   "name": "assets/motion89-tibopoteto-kitsune-male.png",
+   "sha256": "0754b17ac000547765ca4d4dd92a742064b2cbdab4c732b63b338e89336fb1c0",
+   "size": 1343440
+  },
+  {
+   "name": "assets/motion89-tibopoteto-ogre-female.png",
+   "sha256": "3b9116d15ba4a4d4c3d706696f0d0c1bf116cf6001f94c793e253ec30606895f",
+   "size": 1360964
+  },
+  {
+   "name": "assets/motion89-tibopoteto-ogre-male.png",
+   "sha256": "ac092a4efe25bd0fa827ea96c4867cce44f1bf6a488a8bd25d1ac8f72adc0e49",
+   "size": 1269981
+  },
+  {
+   "name": "assets/motion89-tibopoteto-scale-female.png",
+   "sha256": "82b706f4187192b529c61e734bc47786338bade1efb577dfc6701fbb57e63f98",
+   "size": 1354300
+  },
+  {
+   "name": "assets/motion89-tibopoteto-scale-male.png",
+   "sha256": "8315f3d299452591f54a059b4b57bcab09f0051219518ab7d01780850605fe44",
+   "size": 1345411
+  },
+  {
+   "name": "assets/motion89-tibopoteto-shade-female.png",
+   "sha256": "898e959d853561b4ed6ea9e9e7dccfa1dd36cf2543bb477884599e9b08dead5f",
+   "size": 1398927
+  },
+  {
+   "name": "assets/motion89-tibopoteto-shade-male.png",
+   "sha256": "c22c56b18310492f2e3e3c7689906094fe8fc9e9bc063cfc4826fd1db81f0ebc",
+   "size": 1456838
+  },
+  {
+   "name": "assets/motion89-tibopoteto-troll-female.png",
+   "sha256": "6bb9653bc704a13d7749587bd10ee945df2b524c748bd2be17df61e91da7c15f",
+   "size": 1408408
+  },
+  {
+   "name": "assets/motion89-tibopoteto-troll-male.png",
+   "sha256": "1bc3d9c6577a7855efea8432a05eca00612fb25159581fd163e049d8b1d0389d",
+   "size": 1413821
+  },
+  {
+   "name": "assets/motion89-tibopoteto-undead-female.png",
+   "sha256": "1e73c79209ea23b99b575d40156b2ba11aad61d6b65e4191f2373c6bb4bda2e9",
+   "size": 899482
+  },
+  {
+   "name": "assets/motion89-tibopoteto-undead-male.png",
+   "sha256": "1cf5bd5b514cde46e41a6bb52c977bf4adfdb0a8b2ec6521d4d158b306b3a9f7",
+   "size": 956127
+  },
+  {
+   "name": "assets/motion89-undead-female.png",
+   "sha256": "dd56214a69728335467cbc3899ee2358370a585cfda35d577d69239496e62752",
+   "size": 795192
+  },
+  {
+   "name": "assets/motion89-undead-male.png",
+   "sha256": "1259d6288a9654a57a82b364d8722b268bd80f8a5cc1226b17fcc67dcca345ff",
+   "size": 728499
+  },
+  {
+   "name": "assets/sanctuary-duo-v89.png",
+   "sha256": "283ceec4adecab7fd2b002ce8baff597c3dec9272f909fcdc87e98344fd883de",
+   "size": 2851330
+  },
+  {
+   "name": "assets/secret-origins-v89.png",
+   "sha256": "39048d56e7c60443705559b9379bc59d7abad7362600bffc3bce943e6edb671e",
+   "size": 1232855
+  },
+  {
+   "name": "assets/duo-escort91.js",
+   "sha256": "5eeed48b27a08de7b8aac30d751d1848822383b7beff454cf8536ab22ec0c24e",
+   "size": 4392
   }
  ]
 }

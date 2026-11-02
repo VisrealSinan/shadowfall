@@ -1,0 +1,13 @@
+#mastery{background:linear-gradient(90deg,#091414ed,#111b1bd9),url('sanctuary-duo-v89.png') left center/200% 100% fixed;color:#d6ddcc}
+#mastery .hunt-card{background:linear-gradient(120deg,#122b2bd9,#171c24e8);border-color:#b99d6955;box-shadow:0 15px 50px #0005}
+#mastery .hunt-hero{min-height:210px}#mastery .hunt-hero canvas{width:180px;height:210px;flex-shrink:0;background:radial-gradient(ellipse at 50% 70%,#77cdb022,transparent 68%)}
+#mastery .hunt-tier{border-color:#b99d6955;background:linear-gradient(135deg,#21322de8,#111c20ed)}
+#talents.reborn-talents[data-rebirth-class=tibopoteto]{background:linear-gradient(#0d1820b8,#101720ed),url('sanctuary-duo-v89.png') right center/200% 100% fixed;--t1:#a9e8da;--t2:#3d555c;--t3:#152b33;--t4:#121c29;--t5:#e9d5ad}
+#talents.reborn-talents[data-rebirth-class=tibopoteto] #talView{background:linear-gradient(#101c28b0,#101c28c9),url('sanctuary-duo-v89.png') right center/200% 100%}
+#talents.reborn-talents[data-rebirth-class=tibopoteto] .ttree{background:linear-gradient(135deg,#183d3ed9,#251c3cd9);border-color:#92b8ba66}
+#talents.reborn-talents[data-rebirth-class=tibopoteto] .tnode{border-radius:8px;border-color:#91d7cb99;background:#10282b}
+#talents.reborn-talents[data-rebirth-class=tibopoteto] .ttree:nth-child(2) .tnode{border-color:#c19be499;background:#251a34}
+#talents.reborn-talents[data-rebirth-class=tibopoteto] .ttree:nth-child(3) .tnode{border-color:#dec79c99}
+.duo-talent88{display:block;width:100%;height:100%;border-radius:6px}
+@media(max-width:600px){#mastery .hunt-hero canvas{width:110px;height:155px}#mastery .hunt-hero{min-height:155px}}
+#talents.reborn-talents[data-rebirth-class=tibopoteto] .tth{font-size:19px;line-height:1.15;min-height:44px;white-space:nowrap}

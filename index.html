@@ -1310,6 +1310,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
 <link rel="stylesheet" href="assets/field-ui.css">
 <link rel="stylesheet" href="assets/rebirth.css">
 <link rel="stylesheet" href="assets/polish87.css">
+<link rel="stylesheet" href="assets/dawn88.css">
 </head>
 <body>
 <canvas id="c"></canvas>
@@ -1340,9 +1341,9 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
 </div>
 
 <div id="race" class="screen panel selection-scene"><div class="selection-shell">
-<header class="selection-header"><div><span class="selection-kicker">CHAPTER I · THE BLOOD REMEMBERS</span><h2>Choose your <em>Origin</em></h2><p>Eight bloodlines. A different beginning for every legend.</p></div><nav class="selection-steps" aria-label="Hunt preparation"><span class="current" aria-current="step"><i>1</i>Origin</span><span><i>2</i>Calling</span><span><i>3</i>Destination</span></nav></header>
+<header class="selection-header"><div><span class="selection-kicker">CHAPTER I · THE BLOOD REMEMBERS</span><h2>Choose your <em>Origin</em></h2><p>Bloodlines of the realm. A different beginning for every legend.</p></div><nav class="selection-steps" aria-label="Hunt preparation"><span class="current" aria-current="step"><i>1</i>Origin</span><span><i>2</i>Calling</span><span><i>3</i>Destination</span></nav></header>
 <div class="selection-layout"><aside class="selection-showcase origin-showcase"><div class="selection-portrait"><canvas id="originHero" aria-label="Selected race appearance"></canvas></div><div class="selection-identity"><span id="originRole"></span><h3 id="originName"></h3><p id="originFlavor"></p><small id="originPoints"></small></div><div id="raceSex" class="rsex" role="group" aria-label="Body"></div></aside>
-<main class="selection-content"><div class="selection-section-label"><span>THE EIGHT ORIGINS</span><span class="shard" id="raceShards"></span></div><div id="raceList" aria-label="Choose race"></div><div id="raceDetail" class="rdet"></div><p class="origin-note"><b>Bloodline is only the beginning.</b> Every race can follow any class. Shape your heritage through three ancestry paths, with points earned by playing.</p></main></div>
+<main class="selection-content"><div class="selection-section-label"><span>THE KNOWN ORIGINS</span><span class="shard" id="raceShards"></span></div><div id="raceList" aria-label="Choose race"></div><div id="raceDetail" class="rdet"></div><p class="origin-note"><b>Bloodline is only the beginning.</b> Every race can follow any class. Shape your heritage through three ancestry paths, with points earned by playing.</p></main></div>
 <footer class="selfoot selection-footer"><div class="row"><button class="btn small" id="btnRaceBack" data-kh="Esc">← Return</button><button class="btn small" id="btnRaceTalents">✧ Explore ancestry</button></div><button class="btn primary" id="btnRaceNext" data-kh="Enter">Choose your class → <kbd>Enter</kbd></button></footer><span id="raceSelectedLabel" class="journey-sr" role="status" aria-live="polite"></span>
 </div></div>
 
@@ -1481,7 +1482,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
 </div>
 
 <div id="runPrep" class="screen panel journey-screen"><div class="journey-shell"><header class="journey-heading"><span>YOUR NEXT CHAPTER</span><h2>Before the <em>Dark</em></h2><p>A hero. A destination. A night worth surviving.</p></header><div class="prep-layout"><section class="prep-hero-card"><div class="prep-portrait"><div class="prep-rune"></div><canvas id="prepHero" aria-label="Your customized character"></canvas></div><div class="prep-identity"><span id="prepRace"></span><h3 id="prepClass"></h3><p id="prepWeapon"></p></div><div class="prep-talents"><button id="prepClassTalents"><b>Class talents ↗</b><small id="prepClassPoints"></small></button><button id="prepRaceTalents"><b>Race ancestry ↗</b><small id="prepRacePoints"></small></button></div></section><div class="prep-details"><section class="prep-destination"><div id="prepMapArt"></div><div class="prep-destination-copy"><span>DESTINATION</span><h3 id="prepMap"></h3></div><div class="prep-record"><div><small>LONGEST SURVIVED HERE</small><b id="prepBest"></b></div><p id="prepBestContext"></p></div></section><section class="prep-stakes"><div class="prep-stakes-title"><div><span>CHOOSE YOUR STAKES</span><h3 id="prepDifficultyName"></h3></div><span class="prep-danger-icon">✦</span></div><label for="prepDifficulty" class="journey-sr">Difficulty</label><input id="prepDifficulty" type="range" min="1" max="5" step="1"><div class="prep-scale"><span>Dusk</span><span>Lost</span></div><p id="prepDifficultyLock"></p><p id="prepEnemyStats"></p><div class="prep-rewards"><div><small>RUN SHARDS</small><b id="prepShardBonus"></b></div><div><small>CLASS & RACE XP</small><b id="prepXpBonus"></b></div><div><small>OUTFIT SHARDS</small><b id="prepOutfitBonus"></b></div></div><p id="prepTwists"></p><p id="prepRandom"></p></section></div></div><footer class="journey-footer"><button class="btn small" id="prepBack" data-kh="Esc">← Change map</button><button class="btn primary" id="prepBegin" data-kh="Enter">Enter the Dark →</button></footer></div></div>
-<div id="raceTalents" class="screen panel journey-screen ancestry-screen"><div class="journey-shell"><header class="journey-heading"><span>THE BLOOD REMEMBERS</span><h2>Your <em>Ancestry</em></h2><p>Eight origins. Three paths each. One legacy of your own.</p></header><div id="raceTreeTabs" class="ancestry-tabs" aria-label="Race talent trees"></div><div class="ancestry-summary"><canvas id="raceTreeHero" aria-label="Selected race character"></canvas><div><span>RACE TALENTS</span><h3 id="raceTreeTitle"></h3><b id="raceTreePoints"></b><p id="raceTreeCap"></p><div class="ancestry-xp"><i id="raceTreeXpBar"></i></div><p id="raceTreeXp"></p></div><p class="ancestry-note">1 earned point per race level.<br>Race points are separate from class points.<br>Changes save immediately and apply to new normal runs. Daily Challenges exclude these talents.<br>No Shards required. Respec is free.</p></div><div id="raceTreeBranches"></div><footer class="journey-footer"><button class="btn small" id="raceTreeBack" data-kh="Esc">← Back</button><button class="btn small" id="raceTreeReset">Reset this race</button></footer></div></div>
+<div id="raceTalents" class="screen panel journey-screen ancestry-screen"><div class="journey-shell"><header class="journey-heading"><span>THE BLOOD REMEMBERS</span><h2>Your <em>Ancestry</em></h2><p>Three paths for every origin. One legacy of your own.</p></header><div id="raceTreeTabs" class="ancestry-tabs" aria-label="Race talent trees"></div><div class="ancestry-summary"><canvas id="raceTreeHero" aria-label="Selected race character"></canvas><div><span>RACE TALENTS</span><h3 id="raceTreeTitle"></h3><b id="raceTreePoints"></b><p id="raceTreeCap"></p><div class="ancestry-xp"><i id="raceTreeXpBar"></i></div><p id="raceTreeXp"></p></div><p class="ancestry-note">1 earned point per race level.<br>Race points are separate from class points.<br>Changes save immediately and apply to new normal runs. Daily Challenges exclude these talents.<br>No Shards required. Respec is free.</p></div><div id="raceTreeBranches"></div><footer class="journey-footer"><button class="btn small" id="raceTreeBack" data-kh="Esc">← Back</button><button class="btn small" id="raceTreeReset">Reset this race</button></footer></div></div>
 
 <div id="ward" class="screen panel">
  <h2 style="margin-bottom:2px">Wardrobe</h2>
@@ -1577,10 +1578,14 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
 <script src="assets/rebirth-scenes.js"></script>
 <script src="assets/motion-rig.js"></script>
 <script src="assets/motion86-manifest.js"></script>
+<script src="assets/motion88-manifest.js"></script>
 <script src="assets/motion-completion.js"></script>
 <script src="assets/art-v87-manifest.js"></script>
 <script src="assets/skill-art.js"></script>
 <script src="assets/polish87.js"></script>
+<script src="assets/dawn89-art.js"></script>
+<script src="assets/dawn88.js"></script>
+<script src="assets/duo-escort91.js"></script>
 <script>
 'use strict';
 /* =========================================================
@@ -2130,7 +2135,17 @@ const RACES = {
     st: { dodge: 0.08, invMul: 0.60, lifesteal: 0.015, hpMul: -0.20, bossDmg: 0.15 },
     buffs: ['+8% evasion', '+60% longer invulnerability after a hit', '+1.5% life drain'], debuffs: ['−20% max HP', '+15% damage taken from bosses & mini-bosses'] },
 };
+Object.assign(RACES, {
+ undead:{name:'Undead',role:'Deathless · Graveborn',flavor:'“A hundred endings. One more beginning.”',ic:'☠',secret:true,
+ look:{w:.96,h:1,hs:1,skin:'#b8c5a0',hair:'#b2aca3'},st:{hpMul:.15,armor:1,lifesteal:.01,healMul:-.35,speedMul:-.08},
+ buffs:['+15% max HP','+1 armor','+1% life drain'],debuffs:['−35% healing from other sources','−8% move speed']},
+ goose:{name:'Goose',role:'Hidden · Feathered Menace',flavor:'“Peace was never an option.”',ic:'♧',secret:true,
+ look:{w:.9,h:.9,hs:1,skin:'#eee9da',hair:'#e7a24b'},st:{speedMul:.12,kbMul:.3,dodge:.04,hpMul:-.15,rangeMul:-.1},
+ buffs:['+12% move speed','+30% knockback','+4% evasion'],debuffs:['−15% max HP','−10% range']}
+});
 const RACE_IDS = Object.keys(RACES);
+function raceAvailable88(id){return !RACES[id]?.secret||(id==='goose' ? !!(save.ach?.done.secret_goose88||save.ach?.done.secret_goose_trial90) : !!save.ach?.done.secret_undying88);}
+function visibleRaceIds88(){return RACE_IDS.filter(raceAvailable88);}
 const META = [
   { id: 'vit', name: 'Vitality', ic: '♥', desc: '+10 max HP', max: 8, base: 25, grow: 1.4 },
   { id: 'might', name: 'Might', ic: '✦', desc: '+5% damage', max: 8, base: 35, grow: 1.42 },
@@ -2924,7 +2939,7 @@ function rewardName(id) { const x = ARMOR_BY_ID[id] || RACE_COS_BY_ID[id] || GEN
 function rewardKind(id) { return ARMOR_BY_ID[id] ? CLASSES[ARMOR_BY_ID[id].cls].name + ' armor' : RACE_COS_BY_ID[id] ? RACES[RACE_COS_BY_ID[id].race].name + ' look' : 'Look for everyone'; }
 function cosOwned(id) { if (ShadowExpansion.profile(save).looks[id]) return true; for (const a of ACH) if (a.rw === id) return !!save.ach.done[a.id]; return false; }
 function achCheck(silent) { const got = [];
-  for (const a of ACH) { if (save.ach.done[a.id]) continue; const v = a.f ? a.f() : achEff(a.k); if (v >= a.goal) { save.ach.done[a.id] = Date.now(); if (a.shards) save.shards += a.shards; got.push(a); } }
+  for (const a of ACH) { if (save.ach.done[a.id]) continue; const v = a.f ? a.f() : achEff(a.k); if (v >= a.goal) { save.ach.done[a.id] = Date.now(); if(a.unlockClass)save.classes[a.unlockClass]=1; if (a.shards) save.shards += a.shards; got.push(a); } }
   if (got.length) { persist(); if (G && G.achNew && !G.ended) for (const a of got) G.achNew.push(a.id); if (!silent) for (const a of got) achBanner(a); }
   return got; }
 function achInit() { // v5 saves have no achievement data: start at zero, retro-grant what existing data proves
@@ -8410,7 +8425,7 @@ function newRun(cls, challenge = null) {
   G = { cls, t: 0, kills: 0, level: 1, xp: 0, xpNext: xpNeed(1), weapons: [], passives: {}, gear: emptyGear(), rerolls: 1 + mr('quick'),
     pending: 0, shardsPicked: 0, salvage: 0, bossKills: 0, elites: 0, nextElite: 50, nextBoss: 180, bossIdx: 0, nextSurge: 70, spawnAcc: 0,
     revived: false, wasNight: false, outfit: save.outfit, shake: 0, later: [], healPool: 0, bondPool: 0, critBuffT: 0, minionKills: 0, moved: false, dyingT: 0, boss: null, hurtFlash: 0, lowT: 0, achRun: {}, achNew: [], achT: 0, quests: [], qNext: 60, qStats: { done: 0, failed: 0, shards: 0, gear: 0 }, qN: 0, evo: {}, dm: {}, dmTot: 0, catPool: 0, gold: 0, goldEarned: 0, goldSpent: 0, npcs: [], npcNext: 90, npcN: 0, npcBuys: 0, npcVisits: 0, npcSeen: 0 };
-  G.challengeDate = challenge ? challenge.date : ''; G.daily = !!challenge;
+  G.challengeDate = challenge ? challenge.date : ''; G.daily = !!challenge; G.secretTrial90 = !challenge;
   G.nightforgeBonus = challenge ? {} : Nightforge.bonuses(save);
   G.expansion = expansionNew(challenge);
   G.mods = challenge ? dailyMods50(challenge.date) : modsForRun50();
@@ -8459,7 +8474,7 @@ function recalc() {
   const fx = {}; for (const k in G.gear) { const it = G.gear[k]; if (!it) continue; for (const a in it.st) { if (a === 'cd') s.cd -= it.st[a]; else if (a in s) s[a] += it.st[a]; } if (it.fx && GFX[it.fx.id]) fx[it.fx.id] = (fx[it.fx.id] || 0) + it.fx.v; }
   s.fx = fx;
   const rs = RACES[raceOf(G.race)].st; // racial buffs & debuffs
-  s.dodge += rs.dodge || 0; s.crit += rs.crit || 0; s.xp += rs.xp || 0; s.dmg += rs.dmg || 0; s.armor += rs.armor || 0; s.regen += rs.regen || 0;
+  s.maxHp += G.challengeDate ? 0 : 5 * mr('chosen'); s.dodge += rs.dodge || 0; s.crit += rs.crit || 0; s.xp += rs.xp || 0; s.dmg += rs.dmg || 0; s.armor += rs.armor || 0; s.regen += rs.regen || 0;
   s.speed *= 1 + (rs.speedMul || 0); s.area *= 1 + (rs.areaMul || 0); s.range *= 1 + (rs.rangeMul || 0); s.maxHp = Math.round(s.maxHp * (1 + (rs.hpMul || 0)));
   s.cd -= rs.cd || 0; s.lifesteal += rs.lifesteal || 0; s.pickup *= 1 + (rs.pickupMul || 0); s.foxfire = rs.foxfire || 0; s.projDR = rs.projDR || 0; s.killRush = rs.killRush || 0; s.invMul = 1 + (rs.invMul || 0); s.bossDmg = rs.bossDmg || 0;
   s.kbMul = 1 + (rs.kbMul || 0); s.healMul = 1 + (rs.healMul || 0); s.shardMul = 1 + (rs.shardMul || 0) + 0.25 * (fx.greed || 0); s.r = 11 * (1 + (rs.hitMul || 0));
@@ -8502,7 +8517,7 @@ const SKILL_SLOTS = 6; // v25: a hero carries up to 6 skills (v27: named so tool
 const RUN_STATES = { victory: 1, play: 1, paused: 1, levelup: 1, gear: 1, countdown: 1, equip: 1, npc: 1 };
 const r1 = v => Math.round(v * 10) / 10;
 function serializeRun() {
-  const g = {}; for (const k of ['cls', 'race', 'outfit', 't', 'kills', 'level', 'xp', 'xpNext', 'passives', 'gear', 'pending', 'shardsPicked', 'salvage', 'bossKills', 'elites', 'nextElite', 'nextBoss',
+  const g = {}; for (const k of ['cls', 'race', 'outfit', 't', 'kills', 'level', 'xp', 'xpNext', 'passives', 'gear', 'pending', 'duoEscort91', 'secretTrial90', 'duoResonance88', 'shardsPicked', 'salvage', 'bossKills', 'elites', 'nextElite', 'nextBoss',
     'raceTal', 'raceTimers', 'raceReviveUsed', 'nightforgeBonus', 'expansion', 'map', 'mods', 'daily', 'challengeDate', 'w28', 'bossIdx', 'bossBag', 'bossLast', 'nextSurge', 'spawnAcc', 'revived', 'wasNight', 'healPool', 'bondPool', 'critBuffT', 'minionKills', 'moved', 'pendingChest', 'nextLoot', 'rushT', 'aegisT', 'kept', 'luChoices', 'tal', 'undyingUsed', 'tollT', 'rwT', 'sgT', 'achRun', 'achNew', 'dv', 'ancCd', 'frzCd', 'wsT', 'mcT', 'mwT', 'mvT', 'arc', 'stage', 'nextMini', 'surgeN', 'quests', 'qNext', 'qStats', 'qN', 'qLast', 'evo', 'dm', 'catPool', 'catRefund', 'obSeed', 'obGone', 'rerolls', 'gold', 'goldEarned', 'goldSpent', 'npcs', 'npcNext', 'npcN', 'npcLast', 'npcBuys', 'npcVisits', 'npcSeen', 'bufE', 'bufH', 'bufA', 'deathward', 'goldBud', 'portal', 'portalNext', 'townVisits', 'npcHp', 'mimic45']) g[k] = G[k];
   g.weapons = G.weapons.map(w => [w.id, w.lvl]);
   /* v27: inside the Safe Haven the real battlefield is stashed in G.town.st - save that world (and where you left it) plus the town itself */
@@ -12529,7 +12544,7 @@ function update(dt, dying) {
     { const hc = heroCos(G.cls, G.race), ps = ARMOR_BY_ID[hc.armor]; const tc = ps && ps.prestige && ps.cls === G.cls ? ps.prestige : hc.aura === 'aura_violet' ? '#b56bff' : hc.aura === 'aura_gold' ? '#ffd24a' : hc.aura === 'aura_lantern' ? '#ffe23a' : hc.aura === 'aura_sigil' ? '#6ff3d0' : hc.aura === 'aura_prism' || hc.aura === 'aura_apex' ? '#ff4fd8' : hc.aura === 'aura_crown' ? '#ffe23a' : null;
       if (tc && Math.random() < dt * 14) parts.push({ x: P.x + rand(-9, 9), y: P.y + rand(-4, 14), vx: -mx * 30 + rand(-8, 8), vy: -my * 30 - 18, life: 0.7, max: 0.7, s: 2.2, c: tc, glow: true }); }
     if (Math.random() < dt * 9) parts.push({ x: P.x + rand(-6, 6), y: P.y + 16, vx: -mx * 18 + rand(-8, 8), vy: -my * 14 - 6, life: 0.55, max: 0.55, s: 5, c: '#cdb88c', smoke: 1 }); }
-  obGrid(); obResolve(P, P.r); // v18 solid obstacles: slide along them
+  obGrid(); obResolve(P, P.r); if(!dying)DuoEscort91.tick(dt); // v18 solid obstacles: slide along them
   P.inv -= dt; P.atk = Math.max(0, P.atk - dt * 5); G.hurtFlash -= dt; G.shake = Math.max(0, G.shake - dt); if (G.cls === 'maestro' && G.mxNS > gtime) G.shake = 0; // v33: no camera shake while the Maestro ult plays
   if (!dying) { const tf = G.tf;
     if (tf.deathless && P.hp < P.maxHp * 0.5) heal(P.regen * 2 * dt, true);
@@ -14183,7 +14198,7 @@ function w28Start(resume) { const om = mr('omen'), ss = mr('shrinesage');
     lust: 0, lustT: 0, barT: 0, intT: 60, mini: 0, cg: {}, lmN: 0, digN: 0, brkN: 0 };
   W28E = []; W28A = []; W28G = G; if (resume) return;
   const sg = 10 * mr('luckyst'); if (sg) G.gold = (G.gold || 0) + sg;
-  if (mr('chosen')) G.pending = (G.pending || 0) + 1;
+  // Starting upgrades must be earned from XP; Chosen One grants vitality instead.
   if (mr('fateweaver')) G.w28.bl.push(pick(Object.keys(BOON28).filter(k => k !== 'gamble')));
 }
 
@@ -14820,12 +14835,13 @@ function render(dt) {
   // enemies
   enemies.sort((a, b) => a.y - b.y);
   // v18: one depth-sorted pass (foot y): obstacles, enemies, minions and the hero, so trunks/rocks overlap correctly
-  const DL = obCollect(cx, cy).slice(); if (G.town) for (const d of townDeco()) DL.push(d); for (const m of minions) if (MotionCompletion.minionVisible(m)) DL.push(m); DL.push(P); for (const e of enemies) if (!e.dead) DL.push(e); if (Array.isArray(G.npcs)) for (const n of G.npcs) DL.push(n); /* v22 traders */ if (V30[G.cls]) for (const u of V30U) if (UK30[u.ut] && !UK30[u.ut].gr && !UK30[u.ut].top) DL.push(u);
+  const DL = obCollect(cx, cy).slice(); if (G.town) for (const d of townDeco()) DL.push(d); for (const m of minions) if (MotionCompletion.minionVisible(m)) DL.push(m); DL.push(P); for(const a of DuoEscort91.actors())DL.push(a); for (const e of enemies) if (!e.dead) DL.push(e); if (Array.isArray(G.npcs)) for (const n of G.npcs) DL.push(n); /* v22 traders */ if (V30[G.cls]) for (const u of V30U) if (UK30[u.ut] && !UK30[u.ut].gr && !UK30[u.ut].top) DL.push(u);
   DL.sort((a, b) => (a === P ? P.y + 14 : a.k && OBT[a.k] ? a.y : a.y + (a.r || 8)) - (b === P ? P.y + 14 : b.k && OBT[b.k] ? b.y : b.y + (b.r || 8)));
   for (const e of DL) {
     if (e.td) { t36DrawDeco(e); continue; }
     if (e === P) { drawPlayerBlock(); v30Over(); continue; }
     if (e.ut && UK30[e.ut]) { v30Draw(e); continue; }
+    if(e.escort91){DuoEscort91.draw(e);continue;}
     if (e.npc) { drawNpc(e); continue; }
     if (e.k && OBT[e.k] && e.id !== undefined) { drawOb(e); continue; }
     if (MDEF[e.type] && minions.includes(e)) { drawMinion(e); continue; }
@@ -15018,7 +15034,7 @@ function hudEnd() { if (!HUDS) return; [W, H, ZOOM] = HUDS; HUDS = null; ctx.set
 function drawHUD() {
   drawFieldHUD();
   Polish87.bossMarkers();
-  drawQuestHUD(); npcHUD(); w28HUD(); v30HUD(); ph46HUD(); hm47HUD(); ultHUD(); drawMsgs(SAFE.t);
+  drawQuestHUD(); npcHUD(); DuoEscort91.marker(); w28HUD(); v30HUD(); ph46HUD(); hm47HUD(); ultHUD(); drawMsgs(SAFE.t);
   if (!G.moved && !G.town && state === 'play') { ctx.save(); ctx.textAlign='center'; ctx.textBaseline='middle';ctx.font='500 11px system-ui';ctx.fillStyle='#cad4c0';const text=PC?'WASD / arrows to move · hold the mouse to steer':'Touch and drag anywhere to move';ctx.strokeStyle='#10201df0';ctx.lineWidth=4;ctx.strokeText(text,W/2,H-SAFE.b-((FIELD_LAYOUT?FIELD_LAYOUT.dock.h:97)+64));ctx.fillText(text,W/2,H-SAFE.b-((FIELD_LAYOUT?FIELD_LAYOUT.dock.h:97)+64));ctx.restore(); }
 }
 /* v29: messages - a dark panel, big bold sans-serif text, a title + one plain line.
@@ -15436,7 +15452,7 @@ function goRace() { state = 'race'; show('race'); selRace = raceOf(save.race); i
 function renderRace() {
   $('raceShards').textContent = '◆ ' + save.shards;
   const L = $('raceList'); L.innerHTML = '';
-  for (const id of RACE_IDS) { const r = RACES[id], sel = selRace === id;
+  for (const id of visibleRaceIds88()) { const r = RACES[id], sel = selRace === id;
     const b = document.createElement('button'); b.className = 'ccard rcard' + (sel ? ' sel' : ''); b.dataset.race = id; b.setAttribute('aria-pressed', sel ? 'true' : 'false');
     b.innerHTML = `<canvas></canvas><div class="tx"><div class="nm">${r.name}</div><div class="rl">${r.role}</div></div>`;
     b.onclick = () => { Snd.init(); if (selRace !== id) { selRace = id; save.race = id; persist(); Snd.play('click'); MENU_HOP = 1; renderRace(); } };
@@ -15636,7 +15652,7 @@ META.push(
   { id: 'eventmaster', name: 'Event Master', ic: '★', desc: '+20% rewards from random events', max: 3, base: 70, grow: 1.55 },
   { id: 'boon', name: 'Devout', ic: '✟', desc: 'Shrine blessings are 10% stronger', max: 3, base: 60, grow: 1.55 },
   { id: 'pilgrim', name: 'Pilgrim', ic: '⛰', desc: '+1% damage and XP for each landmark you find in a run (up to 8)', max: 3, base: 80, grow: 1.6 },
-  { id: 'chosen', name: 'Chosen One', ic: '✦', desc: 'Start every run with one free level-up', max: 1, base: 150, grow: 1 },
+  { id: 'chosen', name: 'Chosen One', ic: '✦', desc: '+5 max HP; start at level 1 with no free upgrade', max: 1, base: 150, grow: 1 },
   { id: 'fateweaver', name: 'Fateweaver', ic: '❂', desc: 'CAPSTONE: start every run with a random shrine blessing, and every event you win also drops a chest', max: 1, base: 420, grow: 1 });
 MTREE[0].nodes.push(['opener', 3, 1], ['momentum', 4, 1], ['overkill', 5, 1], ['bloodlust', 6, 2, 'warlord']);
 MTREE[1].nodes.push(['medic', 3, 1], ['retal', 4, 1], ['barrier', 5, 0, 'fort'], ['laststand', 6, 0, 'barrier']);
@@ -15965,7 +15981,7 @@ function keepBtn() { const b = $('btnKeep'); if (!b || !G) return; const ok = GS
 function gearLook(gear, cls) { if (!gear) return null; const o = {}; let n = 0; for (const s of ['head', 'shoulders', 'chest', 'hands', 'waist', 'feet', 'neck', 'legs']) { const it = gear[s]; if (it) { o[s] = { c: shade(it.col, 0.18), a: GRAR[it.r].c, lk: it.look | 0, r: it.r }; n++; } } return n ? o : null; }
 /* game over */
 function showGameOver(quit) {
-  clearRun(); if (G.ended) return; RunPrep.record(save, G); expansionSettle(); achMax('c_' + G.cls + '_t', Math.floor(G.t)); G.ended = true; qBanClear();
+  clearRun(); if (G.ended) return; Dawn88.recordSecretTrials90(); if(!quit && P.hp<=0){G.achRun=G.achRun||{};G.achRun.g_deaths88=(G.achRun.g_deaths88||0)+1;} RunPrep.record(save, G); expansionSettle(); achMax('c_' + G.cls + '_t', Math.floor(G.t)); G.ended = true; qBanClear();
   { const nb = G.t > save.best && G.t >= 5; if (quit) Snd.music('victory'); else if (nb) setTimeout(() => { if (state === 'over') Snd.music('victory'); }, 2600); }
   const t = G.t, base = Math.floor(t / 10) + Math.floor(G.kills / 20) + G.bossKills * 15 + G.elites * 2, found = G.shardsPicked + G.salvage;
   const goldSh = Math.min(15, Math.floor((G.gold || 0) / 40)); /* v22: leftover gold → a tiny Shard tip (max +15, never multiplied) */
@@ -16040,7 +16056,7 @@ function cosSlotObj(race) { return save.cos.race[race] = save.cos.race[race] || 
 function renderWard() {
   const mk = (id, txt, on, fn) => { const b = document.createElement('button'); b.textContent = txt; b.className = on ? 'on' : ''; b.onclick = () => { Snd.play('click'); fn(); }; return b; };
   const WC = $('wardCls'); WC.innerHTML = ''; for (const c of menuClassIds()) WC.appendChild(mk(c, CLASSES[c].name, wardCls === c, () => { wardCls = c; renderWard(); }));
-  const WR = $('wardRace'); WR.innerHTML = ''; for (const r of RACE_IDS) WR.appendChild(mk(r, RACES[r].name, wardRace === r, () => { wardRace = r; renderWard(); }));
+  const WR = $('wardRace'); WR.innerHTML = ''; for (const r of visibleRaceIds88()) WR.appendChild(mk(r, RACES[r].name, wardRace === r, () => { wardRace = r; renderWard(); }));
   const B = $('wardBody'); B.innerHTML = '';
   const sec = t => B.insertAdjacentHTML('beforeend', `<div class="wsec">${t}</div>`);
   const row = () => { const d = document.createElement('div'); d.className = 'wrow'; B.appendChild(d); return d; };
@@ -16289,7 +16305,7 @@ function wireActorSkills85(){ for (const id of Object.keys(WFIRE)) { const fire 
   return result;
 }; } }
 const actorUltCast = ultCast;
-ultCast = function(...args) { const result = actorUltCast(...args); if (result) ActorAnimations.cue(G.cls === 'bearlina' ? 'ultimate' : 'casting'); return result; };
+ultCast = function(...args) { const result = actorUltCast(...args); if (result) ActorAnimations.cue('ultimate'); return result; };
 
 addEventListener('resize', resize); addEventListener('orientationchange', () => setTimeout(resize, 200));
 if (canPC() && (matchMedia('(pointer: fine)').matches || navigator.maxTouchPoints === 0)) { PC = true; document.body.classList.add('pc'); } // v16
@@ -16305,7 +16321,7 @@ function frame(now) {
     if (state === 'play') update(dt, false);
     else if (state === 'countdown') { G.cdT -= dt; if (G.cdT <= 0) state = 'play'; }
     else if (state === 'dying') { G.dyingT -= dt; update(dt * 0.3, true); if (G.dyingT <= 0) showGameOver(false); }
-    render(dt); drawEndingHero85(); drawPauseHero(); runPrepTick(); selectionSceneTick(); MotionCompletion.tick(); expansionHUD(); questUI(dt); dmgUI(dt); jumpBtnUI(); ultUI(); npcUI(); if (state === 'ward') wardTick();
+    render(dt); drawEndingHero85(); drawPauseHero(); runPrepTick(); selectionSceneTick(); MotionCompletion.tick(); expansionHUD(); DuoEscort91.hud(); questUI(dt); dmgUI(dt); jumpBtnUI(); ultUI(); npcUI(); if (state === 'ward') wardTick();
     { const ms = $('audio').classList.contains('on') ? 'n' : state === 'paused' ? 'p' : (state === 'levelup' || state === 'gear' || state === 'npc') ? 'd' : 'n';
       if (ms !== Snd.ms && Snd.ac) { Snd.ms = ms; if (ms === 'p') Snd.pauseMusic(true); else { Snd.pauseMusic(false); Snd.duck(ms === 'd' ? 0.45 : 1, 0.4); } } }
     if (RUN_STATES[state] && now - lastRunSave > 6000) saveRun();   // periodic autosave
@@ -16507,7 +16523,7 @@ const TI = (() => {
   function all() { if (!SIG) assign(); return SIG; }
   return { url, sig, all, draw, motifs: ALL };
 })();
-function talImg(cls, n, sz) { if(cls==='myers')return graveshadeTalentIcon85(n); const u = TI.url(cls + ':' + n.id); return u ? `<img class="tim" src="${u}" alt="" draggable="false"${sz ? ` width="${sz}" height="${sz}"` : ''}>` : `${n.ic}\uFE0E`; }
+function talImg(cls, n, sz) { if(cls==='tibopoteto')return SkillArt.html('w',Dawn88.ids[(n.bi*6+n.slot)%19],'duo-talent88'); if(cls==='myers')return graveshadeTalentIcon85(n); const u = TI.url(cls + ':' + n.id); return u ? `<img class="tim" src="${u}" alt="" draggable="false"${sz ? ` width="${sz}" height="${sz}"` : ''}>` : `${n.ic}\uFE0E`; }
 function talTipHTML(n, compact) { const s = talNodeState(n), tr = TALENTS[talCls][n.bi];
   let h = `<div class="tn" style="--tc:${tr.col}"><span class="tic">${talImg(talCls, n, 30)}</span>${n.n}${n.cap ? ' <em>Capstone</em>' : ''}</div><div class="ts">${tr.name} · Tier ${n.t} · Rank <b>${s.r}/${n.m}</b>${s.pend ? ' <span class="pd">pending</span>' : ''}</div>`;
   if (s.r > 0) h += `<div class="tcur">${s.r < n.m ? '<span>Current:</span> ' : ''}${talDesc(n, s.r)}</div>`;
@@ -17291,6 +17307,7 @@ initExpansion();
 initRebirthContent();
 MotionCompletion.init();
 Polish87.init();
+Dawn88.init();
 initRebirthScenes();
 wireActorSkills85();
 initNightforge();

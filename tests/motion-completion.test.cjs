@@ -1,7 +1,7 @@
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('fs');
 const Rig=require('../assets/motion-rig.js'),{run}=require('../tools/smoke-game.cjs');
 test('the audit has zero missing actor, form, enemy, summon or vendor action sets',()=>{
- const s=JSON.parse(run('JSON.stringify(MotionCompletion.summary())'));assert.equal(s.actorVariants,360);assert.equal(s.formVariants,32);assert.equal(s.enemySheets,s.enemies);assert.equal(s.enemies,214);assert.equal(s.summons,6);assert.equal(s.vendors,5);
+ const s=JSON.parse(run('JSON.stringify(MotionCompletion.summary())'));assert.equal(s.actorVariants,454);assert.equal(s.formVariants,40);assert.equal(s.enemySheets,s.enemies);assert.equal(s.enemies,214);assert.equal(s.summons,6);assert.equal(s.vendors,5);
  assert.equal(run(`Object.values(ACTOR_ANIMATION_MANIFEST.variants).concat(Object.values(ACTOR_ANIMATION_MANIFEST.forms)).filter(v=>!v.src||v.atlas).length`),0);
  assert.equal(run(`Object.values(ENEMY_ART_MANIFEST).filter(v=>!v.action_sheet||!EnemyArtwork.actions.every(a=>v.action_sheet.animations[a])).length`),0);
 });

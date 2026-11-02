@@ -27,7 +27,7 @@ test('Colossus survives learning into a full army, death, respawn and restored l
 });
 
 test('every class/race has five actions, including Druid form rigs and secret classes',()=>{
- assert.equal(run(`(()=>{let n=0;for(const cls of Object.keys(CLASSES))for(const race of Object.keys(RACES))for(const sex of ['male','female'])for(const form of cls==='druid'?['','cat','tree']:['']){const v=ActorAnimations.variant({cls,race,gender:sex,form});if(!v)throw Error([cls,race,sex,form].join('/'));for(const action of ['idle','run','attack','casting','dodge']){if(!v.animations[action])throw Error(v.key+' '+action);G.actorCue={action,at:gtime};const f=ActorAnimations.frame({cls,race,world:true,t:gtime},v);if(f.action!==action||!Number.isFinite(f.phase))throw Error('action frame');}n++;}return n;})()`),400);
+ assert.equal(run(`(()=>{let n=0;for(const cls of Object.keys(CLASSES))for(const race of Object.keys(RACES))for(const sex of ['male','female'])for(const form of cls==='druid'?['','cat','tree']:['']){const v=ActorAnimations.variant({cls,race,gender:sex,form});if(!v)throw Error([cls,race,sex,form].join('/'));for(const action of ['idle','run','attack','casting','dodge']){if(!v.animations[action])throw Error(v.key+' '+action);G.actorCue={action,at:gtime};const f=ActorAnimations.frame({cls,race,world:true,t:gtime},v);if(f.action!==action||!Number.isFinite(f.phase))throw Error('action frame');}n++;}return n;})()`),500);
  const idle=R.motion('tree','idle',.25),runPose=R.motion('cat','run',.25),heavy=R.motion('tree','run',.25);
  assert.notDeepEqual(idle,runPose);assert.notEqual(runPose.stride,heavy.stride);
 });

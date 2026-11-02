@@ -15,13 +15,13 @@ let hallPortraitObserver=null;
 let hallStatus='all',hallQuery='',hallSort='closest';
 function hallEscape(s) { return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function renderAchievementHall() {
- const done=a=>save.ach.done[a.id],visible=ACH.filter(a=>!hid46(a.key)),earned=ACH.filter(done).length,pct=Math.round(earned/ACH.length*100);
+ const done=a=>save.ach.done[a.id],visible=ACH.filter(a=>!hid46(a.key)&&(!a.secret||done(a))&&(!RACES[a.key]?.secret||raceAvailable88(a.key))),earned=ACH.filter(done).length,pct=Math.round(earned/ACH.length*100);
  $('achPct').textContent=pct+'%';$('achCount').textContent=earned.toLocaleString()+' / '+ACH.length.toLocaleString()+' honors inscribed';
  $('echoSeal').style.setProperty('--completion',pct+'%');$('echoRank').textContent=pct>=90?'Keeper of legends':pct>=60?'Chronicler of shadows':pct>=25?'Bearer of the flame':'The first embers';
  $('echoEarned').textContent=earned.toLocaleString();$('echoRemaining').textContent=(ACH.length-earned).toLocaleString();$('echoRewards').textContent=ACH.filter(a=>done(a)&&a.rw).length.toLocaleString();
  const chapters={class:['Classes','Paths of the hunter'],race:['Races','Bloodlines of the realm'],gen:['General','Legends of the night']};
  for(const b of $('achTabs').children){const list=visible.filter(a=>a.cat===b.dataset.t),c=chapters[b.dataset.t];b.classList.toggle('on',b.dataset.t===achTab);b.setAttribute('aria-pressed',String(b.dataset.t===achTab));b.innerHTML='<span class="echo-chapter-symbol">'+({class:'⚔',race:'❖',gen:'✧'}[b.dataset.t])+'</span><span>'+c[0]+'<small>'+c[1]+'</small></span><b>'+list.filter(done).length+'/'+list.length+'</b>';}
- const keys=achTab==='class'?menuClassIds().filter(k=>ARMOR_SETS[k]):achTab==='race'?RACE_IDS:[],filter=$('achFilter');
+ const keys=achTab==='class'?menuClassIds().filter(k=>ARMOR_SETS[k]):achTab==='race'?visibleRaceIds88():[],filter=$('achFilter');
  filter.innerHTML='';if(keys.length){const label=document.createElement('label');label.htmlFor='echoSubject';label.textContent=achTab==='class'?'Class':'Race';const select=document.createElement('select');select.id='echoSubject';select.innerHTML='<option value="all">Every '+(achTab==='class'?'class':'race')+'</option>'+keys.map(k=>'<option value="'+k+'">'+hallEscape((CLASSES[k]||RACES[k]).name)+'</option>').join('');select.value=keys.includes(achKey)?achKey:'all';select.onchange=e=>{achKey=e.target.value;renderAch();};filter.append(label,select);}
  $('echoSearch').value=hallQuery;$('echoSort').value=hallSort;
  for(const b of $('echoStatus').children){b.classList.toggle('on',b.dataset.status===hallStatus);b.setAttribute('aria-pressed',String(b.dataset.status===hallStatus));}

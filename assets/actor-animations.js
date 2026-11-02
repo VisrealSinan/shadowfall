@@ -27,7 +27,7 @@ const ActorAnimations = (() => {
   }
   function variant(o) {
     const form=o.cls==='druid'&&o.form;
-    const sex = o.cls === 'bearlina' ? 'bear-form' : (o.gender || gender(o.cls, o.race));
+    const sex = o.cls === 'bearlina' && !['undead','goose'].includes(o.race||save.race) ? 'bear-form' : (o.gender || gender(o.cls, o.race));
     return form ? (ACTOR_ANIMATION_MANIFEST.forms||{})[[o.cls,o.race||save.race,sex,form].join('/')]||null : variants[[o.cls, o.race || save.race, sex].join('/')] || null;
   }
   function image(v) {
@@ -106,14 +106,16 @@ const ActorAnimations = (() => {
     g.restore();
   }
   function draw(g, o) {
-    const v = variant(o); if (!v) return false;
+    let v = variant(o); if (!v) return false;
+    const f = frame(o,v), supplement = v.animations[f.action].sheet;
+    if(supplement)v={...v,...supplement,animations:v.animations};
     if(v.atlas)return RebirthArt.actor(g,o,v,frame(o,v));
     const im = image(v); if (!im.complete || !im.naturalWidth) { if(v.legacyAtlas)return RebirthArt.actor(g,o,{...v,atlas:v.legacyAtlas},frame(o,v)); g.save(); g.fillStyle = '#cdbde6'; g.font = '12px sans-serif'; g.textAlign = 'center'; g.fillText('…', 0, -15); g.restore(); return true; }
-    const f = frame(o,v), k = (o.cls === 'bearlina' ? 88 : 76) / v.cell_height * (v.display_scale || 1);
+    const k = (o.cls === 'bearlina' ? 88 : 76) / v.cell_height * (v.display_scale || 1);
     const look = o.cos || heroCos(o.cls, raceOf(o.race || save.race));
     g.save(); if (look.aura) drawAura(g, look.aura, o.t || 0, false); g.restore();
     g.save(); g.imageSmoothingEnabled = false;
-    const armor = ARMOR_BY_ID[look.armor];
+    const armor = ARMOR_BY_ID[look.armor] || (['undead','goose'].includes(o.race||save.race) ? {...CLASS_PAL[o.cls],id:'origin89-'+o.cls}:null);
     if (!armor && o.outfit === 'ashen') g.filter = 'grayscale(.8)';
     else if (!armor && o.outfit === 'midnight') g.filter = 'hue-rotate(165deg) saturate(.8)';
     g.save();
