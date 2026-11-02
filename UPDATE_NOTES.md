@@ -1,6 +1,13 @@
-# Shadowfall v83 game update
+# Shadowfall v84 game update
 
 These features are integrated into the main Shadowfall game and delivered through the standard launcher content update. No separate expansion or installation is required.
+
+## Pause screen and in-game interface (v84)
+
+- The pause screen now shows the equipped character and current form beside the map, run mode, twists, survival summary, inspectable skills/passives, combat values, signature passive and equipment summary. Resume, Settings, Equipment, Codex, Controls and the confirmed retreat action retain their existing behaviour.
+- The active HUD now groups health and class identity, survival time, currency, threat and XP into a consistent top frame. Skills, their cooldowns and passives share one bottom dock; the duplicated loadout and circular health/level gauge are removed. Low-health colour, boss health, evolution/max-rank markers, day/night, difficulty and temporary trader buffs remain visible.
+- Quest, Daily Challenge, damage-meter and action controls share the same restrained colours and borders. Gameplay trackers are hidden over the pause and Settings screens. The timer, counters and health values are unchanged by presentation updates.
+- Layout geometry accounts for safe areas and compact displays. Skill hover hit regions now use the same UI scale as the canvas so inspection lines up on scaled desktop screens. Touch movement space, jump, ultimate and trader controls remain available.
 
 ## Settings in and outside a hunt (v83)
 

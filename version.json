@@ -1,11 +1,11 @@
 {
- "version": "83",
+ "version": "84",
  "date": "2026-11-01",
  "minLauncher": "2.0.0",
  "notes": [
-  "Settings is now available on the main menu and pause menu.",
-  "Audio, spell visibility and controller/touch preferences in one redesigned screen.",
-  "Settings keep your hunt paused and preserve your saved preferences."
+  "Redesigned pause screen with your equipped hero, run summary and inspectable build.",
+  "A cleaner in-game HUD groups vitality, time, rewards and threat above one skills/passives dock.",
+  "Responsive layouts and corrected skill-hover alignment on scaled displays."
  ],
  "files": [
   {
@@ -35,8 +35,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "7345b5d2984abae446b120cbd7d979e2dbc29c1fcf5dc33272cb225058b9093e",
-   "size": 2850000
+   "sha256": "a439ab44efcc232e17983566516b5ed3e5290b9b5491847dd10d8b6595a13b22",
+   "size": 2839810
   },
   {
    "name": "manifest.webmanifest",
@@ -45,8 +45,8 @@
   },
   {
    "name": "sw.js",
-   "sha256": "c2e91e18cc391da12ca24e9339c6254a8246d86a6396fc733dbf7ecfa4f37942",
-   "size": 2171
+   "sha256": "fa72c03217f293c38ab69d42f273b3e3ab0548a4dd7fc085e310ede7bd8a065b",
+   "size": 2220
   },
   {
    "name": "assets/actor-animation-manifest.js",
@@ -4800,8 +4800,8 @@
   },
   {
    "name": "assets/expansion-ui.js",
-   "sha256": "63af07b1e2edc54a9fb3428c6c3048f03e3ebc5412956de0efdd757c0524bac5",
-   "size": 10935
+   "sha256": "93b28da9a2c61594d036db3648b0df7bfc752e2d561462c3bf0a968335071154",
+   "size": 10957
   },
   {
    "name": "assets/expansion-content.js",
@@ -4867,6 +4867,16 @@
    "name": "assets/settings.css",
    "sha256": "5dc6a1edd9d64c6947b24991c38d01a9b74d7d472aebdfcc58be70b6a0c09a91",
    "size": 6535
+  },
+  {
+   "name": "assets/field-ui.js",
+   "sha256": "d250173da393de7c4f0336169e8a611adbacb6d8a3560018a8c14faab7244cea",
+   "size": 9000
+  },
+  {
+   "name": "assets/field-ui.css",
+   "sha256": "a714f503b3ec842c126e2867ad85e68c2a36cf72895fd15ba6b1f629f5e9e215",
+   "size": 12752
   }
  ]
 }

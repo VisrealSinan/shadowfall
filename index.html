@@ -1307,13 +1307,14 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
 <link rel="stylesheet" href="assets/journey-scenes.css">
 <link rel="stylesheet" href="assets/selection-scenes.css">
 <link rel="stylesheet" href="assets/settings.css">
+<link rel="stylesheet" href="assets/field-ui.css">
 </head>
 <body>
 <canvas id="c"></canvas>
 <div id="safe"></div>
 <div id="achBanner" aria-live="polite"></div>
 <div id="qBan" aria-live="polite"></div>
-<button id="pauseBtn" class="iconbtn hidden" aria-label="Pause">❚❚</button>
+<button id="pauseBtn" class="iconbtn hidden" aria-label="Pause">❚❚ <span>Pause</span><kbd>Esc</kbd></button>
 <button id="qTrack" class="hidden" aria-label="Quests"></button>
 <button id="npcTalk" aria-label="Trade"><span class="ti">●</span><span class="tn">Trade</span><kbd class="kh">E</kbd><span class="gpg x gpX1">X</span></button><button id="ultBtn" aria-label="Ultimate"><span class="ui">✹</span><small>ULTIMATE</small><kbd class="kh">R</kbd><span class="gpg">Y</span></button><button id="jumpBtn" aria-label="Jump"><span>⤒</span><small>JUMP</small></button><div id="jumpHint" aria-hidden="true"><kbd>Space</kbd><span class="gpg">A</span>Jump</div>
 <button id="dmgBtn" class="hidden" aria-label="Damage meter (tap to expand)" aria-expanded="false"><span class="di">⚔︎</span><span class="dt">DPS</span><span class="dv">0</span><kbd class="kh" style="margin:0 0 0 2px">M</kbd><span class="gpg gpk">⧉</span></button>
@@ -1443,17 +1444,12 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
  <div class="pconly npchint"><kbd class="kh">1</kbd>–<kbd class="kh">4</kbd> buy · <kbd class="kh">↑</kbd><kbd class="kh">↓</kbd> + <kbd class="kh">Enter</kbd> · <kbd class="kh">Esc</kbd> leave</div>
  <div class="spacer"></div>
 </div>
-<div id="pause" class="screen dim">
- <div class="spacer" style="max-height:8vh"></div>
- <h2 id="pauseTitle">Paused</h2>
- <div class="loadout" id="loadoutP" aria-label="Your skills and passives"></div>
- <div class="build" id="buildInfo"></div>
- <button class="btn primary" id="btnResume" data-kh="Esc">Resume</button>
- <button class="btn small settings-entry" id="btnMuteP">⚙ Settings</button>
- <div class="row"><button class="btn small" id="btnEqP">⚔ Equipment</button><button class="btn small" id="btnCodexP">⇪ Codex</button><button class="btn small pconly" id="btnKeysP" data-kh="H">⌨ Controls</button></div>
- <button class="btn danger" id="btnQuit">⏏ Exit Run</button>
- <div class="spacer"></div>
-</div>
+<div id="pause" class="screen panel pause-scene"><div class="pause-shell">
+<header class="pause-heading"><div><span>THE NIGHT CAN WAIT</span><h2 id="pauseTitle">Paused</h2><p>Your hunt is held here. Take a breath.</p></div><span class="pause-held">Time stands still</span></header>
+<div class="pause-layout"><aside class="pause-character"><div class="pause-character-art"><canvas id="pauseHero" aria-label="Your character during this hunt"></canvas></div><div class="pause-identity"><span id="pauseHeroRace"></span><h3 id="pauseHeroName"></h3><p id="pauseHeroRole"></p></div><div class="pause-destination"><small>YOUR CURRENT HUNT</small><b id="pauseDestination"></b><p id="pauseMode"></p><p id="pauseTwists"></p></div></aside>
+<main class="pause-main"><div id="pauseRunStats" class="pause-run-stats"></div><section class="pause-card"><header><span>YOUR BUILD</span><small>Hover or select a skill to inspect it</small></header><div class="loadout" id="loadoutP" aria-label="Your skills and passives"></div></section><section class="pause-card"><header><span>BATTLE READINESS</span><small>Current combat values</small></header><div id="buildInfo" class="build"></div></section></main></div>
+<footer class="pause-footer"><button class="btn danger" id="btnQuit">← Retreat</button><div class="pause-utilities"><button class="btn small" id="btnMuteP">⚙ Settings</button><button class="btn small" id="btnEqP">Equipment</button><button class="btn small" id="btnCodexP">Codex</button><button class="btn small pconly" id="btnKeysP" data-kh="H">Controls</button></div><button class="btn primary" id="btnResume" data-kh="Esc">Resume hunt → <kbd>Esc</kbd></button></footer>
+</div></div>
 
 <div id="over" class="screen dim">
  <div class="spacer" style="max-height:7vh"></div>
@@ -1586,6 +1582,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
 <script src="assets/race-talents.js"></script>
 <script src="assets/journey-scenes.js"></script>
 <script src="assets/selection-scenes.js"></script>
+<script src="assets/field-ui.js"></script>
 <script>
 'use strict';
 /* =========================================================
@@ -11982,7 +11979,7 @@ function townScreen(cx, cy) { const T = G && G.town; if (!T) return; const S = T
     else { const tw = 0.6 + 0.4 * Math.sin(gtime * 4 + p.ph); gl36(p.c, sx, sy, 12 * ZOOM, f * tw); ctx.globalAlpha = f * tw; ctx.fillStyle = '#ffffff'; ctx.beginPath(); ctx.moveTo(sx, sy - 3); ctx.lineTo(sx + 1, sy); ctx.lineTo(sx, sy + 3); ctx.lineTo(sx - 1, sy); ctx.fill(); }
     ctx.globalAlpha = 1; }
   ctx.restore(); }
-function drawTownHud() { const T = G.town; if (!T) return; const S = TOWNS36[T.theme || 'forest'], w = Math.min(280, W - 24), x = W / 2 - w / 2, y = PC ? 56 : H - SAFE.b - 170; ctx.save();
+function drawTownHud() { const T = G.town; if (!T) return; const S = TOWNS36[T.theme || 'forest'], w = Math.min(280, W - 24), x = W / 2 - w / 2, y = FIELD_LAYOUT && !FIELD_LAYOUT.compact ? SAFE.t + FIELD_LAYOUT.hudBottom + 8 : H - SAFE.b - 170; ctx.save();
   ctx.fillStyle = S.bg; rr(x, y, w, 40, 10); ctx.fill(); ctx.strokeStyle = S.edge; ctx.lineWidth = 1.5; ctx.stroke();
   ctx.fillStyle = S.col; ctx.font = '800 13px "Trebuchet MS",-apple-system,system-ui,sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic'; ctx.fillText(S.ic + ' ' + S.name.toUpperCase() + '  ·  ' + Math.max(0, Math.ceil(T.t)) + 's', W / 2, y + 18);
   ctx.fillStyle = 'rgba(255,255,255,.15)'; ctx.fillRect(x + 14, y + 26, w - 28, 5); ctx.fillStyle = T.t < 8 ? '#ff7a6a' : S.col; ctx.fillRect(x + 14, y + 26, (w - 28) * clamp(T.t / TOWN_TIME, 0, 1), 5); ctx.restore(); }
@@ -15003,8 +15000,7 @@ function render(dt) {
   if (state === 'dying') { ctx.fillStyle = `rgba(0,0,0,${clamp(1 - G.dyingT / 1.4, 0, 0.7)})`; ctx.fillRect(0, 0, W, H); }
   hudBegin();
   drawHUD(); drawTownHud();
-  drawGauge();
-  drawCooldowns();
+  drawFieldDock();
   drawJoy();
   if (state === 'countdown') { const n = Math.ceil(G.cdT), f = G.cdT - Math.floor(G.cdT);
     ctx.fillStyle = 'rgba(6,2,12,.35)'; ctx.fillRect(0, 0, W, H); ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
@@ -15018,44 +15014,9 @@ let HUDS = null;
 function hudBegin() { if (UIS === 1) return; HUDS = [W, H, ZOOM]; W /= UIS; H /= UIS; ZOOM /= UIS; ctx.setTransform(DPR * UIS, 0, 0, DPR * UIS, 0, 0); }
 function hudEnd() { if (!HUDS) return; [W, H, ZOOM] = HUDS; HUDS = null; ctx.setTransform(DPR, 0, 0, DPR, 0, 0); }
 function drawHUD() {
-  const t = SAFE.t, x0 = 10 + SAFE.l, w = W - 20 - SAFE.l - SAFE.r, xb = PC ? Math.max(x0, W / 2 - 430) : x0, wb = PC ? Math.min(w, 860) : w;
-  ctx.textBaseline = 'middle';
-  // v11: thick XP bar with level + percent labels
-  const xpf = clamp(G.xp / G.xpNext, 0, 1);
-  ctx.fillStyle = 'rgba(10,6,16,.88)'; rr(xb, t + 6, wb, 18, 9); ctx.fill(); gild38(xb, t + 6, wb, 18, 9);
-  const xg = ctx.createLinearGradient(xb, 0, xb + wb, 0); xg.addColorStop(0, '#6a3cd8'); xg.addColorStop(0.6, '#b07cff'); xg.addColorStop(1, '#ffe39a');
-  const fw = (wb - 4) * xpf; if (fw > 2) { ctx.fillStyle = xg; rr(xb + 2, t + 8, fw, 14, 7); ctx.fill(); ctx.fillStyle = 'rgba(255,255,255,.28)'; rr(xb + 4, t + 9, Math.max(0, fw - 4), 4, 2); ctx.fill(); if (fw > 8) { ctx.fillStyle = 'rgba(255,240,200,.85)'; ctx.fillRect(xb + 1 + fw, t + 9, 1.5, 12); } }
-  stud38(xb, t + 15, 3.2); stud38(xb + wb, t + 15, 3.2);
-  ctx.font = '900 12px -apple-system,system-ui,sans-serif'; ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(10,4,20,.92)'; ctx.fillStyle = '#fff';
-  ctx.textAlign = 'left'; ctx.strokeText('LV ' + G.level, xb + 8, t + 15.5); ctx.fillText('LV ' + G.level, xb + 8, t + 15.5);
-  ctx.textAlign = 'right'; const xpt = 'XP ' + Math.floor(xpf * 100) + '%'; ctx.strokeText(xpt, xb + wb - 8, t + 15.5); ctx.fillText(xpt, xb + wb - 8, t + 15.5);
-  ctx.textAlign = 'center'; ctx.font = '700 30px "Palatino Linotype",Palatino,Georgia,serif'; ctx.lineWidth = 4; ctx.strokeStyle = 'rgba(0,0,0,.7)';
-  const ts = fmtTime(G.t); { const pw = Math.max(92, ctx.measureText(ts).width + 30); ctx.save(); const pg = ctx.createLinearGradient(0, t + 34, 0, t + 66); pg.addColorStop(0, 'rgba(46,32,66,.78)'); pg.addColorStop(1, 'rgba(12,8,18,.82)'); ctx.fillStyle = pg; rr(W / 2 - pw / 2, t + 34, pw, 32, 10); ctx.fill(); gild38(W / 2 - pw / 2, t + 34, pw, 32, 10, 0.85); ctx.restore(); ctx.lineWidth = 4; ctx.strokeStyle = 'rgba(0,0,0,.7)'; }
-  ctx.strokeText(ts, W / 2, t + 50); ctx.fillStyle = '#f4ecff'; ctx.fillText(ts, W / 2, t + 50);
-  drawSunMoon(W / 2 + 62, t + 49, G.t);
-  /* v20: Vampire-Survivors-style loadout (skills row, passives row) top-left; kills/shards/danger stack under it */
-  const side = xb - x0 >= 200, LS = PC ? 28 : 20, LG = PC ? 4 : 2, lb = drawLoadout(x0, side ? t + 6 : t + 28, LS, LG);
-  ctx.textBaseline = 'middle'; ctx.textAlign = 'left'; ctx.font = '800 15px -apple-system,system-ui,sans-serif'; ctx.lineWidth = 3.5; ctx.strokeStyle = 'rgba(6,10,40,.9)';
-  const kt = '☠ ' + G.kills, st = '◆ ' + (G.shardsPicked + G.salvage), ky = lb + 12, kw = ctx.measureText(kt).width;
-  ctx.strokeText(kt, x0 + 2, ky); ctx.fillStyle = '#e6dbff'; ctx.fillText(kt, x0 + 2, ky);
-  ctx.strokeText(st, x0 + 14 + kw, ky); ctx.fillStyle = '#d7a6ff'; ctx.fillText(st, x0 + 14 + kw, ky);
-  goldHUD(x0 + 26 + kw + ctx.measureText(st).width, ky); /* v22 gold counter */
-  { const dg = dangerAt(G.t), S = STAGES[stageAt(G.t)], y = lb + 28, hb = (HUD_BOT = y + 18 - t + 4), col = dg >= 7 ? '#ff6a6a' : dg >= 4 ? '#ffb05a' : '#ffe08a'; ctx.font = '900 12px -apple-system,system-ui,sans-serif'; ctx.textAlign = 'left'; ctx.lineWidth = 3; const lbl = 'DANGER ' + S.n;
-    ctx.strokeText(lbl, x0 + 2, y); ctx.fillStyle = col; ctx.fillText(lbl, x0 + 2, y);
-    ctx.fillStyle = 'rgba(8,3,16,.75)'; rr(x0 + 1, y + 7, 10 * 9 + 3, 10, 4); ctx.fill();
-    for (let i = 0; i < 10; i++) { ctx.fillStyle = i < dg ? `hsl(${50 - i * 6},100%,${60 - i * 2}%)` : 'rgba(255,255,255,.12)'; rr(x0 + 3 + i * 9, y + 9, 7, 6, 2); ctx.fill(); } }
-  { const qt = QT_EL || (QT_EL = $('qTrack')), tp = Math.round(Math.max(HUD_BOT, G.boss && !G.boss.dead ? 128 : 0)) + 'px'; if (qt && qt._top !== tp) { qt._top = tp; qt.style.top = 'calc(env(safe-area-inset-top,0px) + ' + tp + ')'; } } /* quest tracker sits under the loadout */
-  if (G.boss && !G.boss.dead) { const bw = Math.min(300, W * 0.56), bx = W / 2 - bw / 2 + 18, by = t + 106, bh = 16, f = clamp(G.boss.hp / G.boss.maxHp, 0, 1);
-    ctx.textAlign = 'center'; ctx.font = '800 14px "Palatino Linotype",Palatino,Georgia,serif'; ctx.lineWidth = 3.5; ctx.strokeStyle = 'rgba(0,0,0,.8)'; ctx.fillStyle = '#ffc3a0'; ctx.strokeText(ETYPES[G.boss.type].name, bx + bw / 2, by - 10); ctx.fillText(ETYPES[G.boss.type].name, bx + bw / 2, by - 10);
-    ctx.fillStyle = 'rgba(14,4,6,.86)'; rr(bx, by, bw, bh, 8); ctx.fill(); gild38(bx, by, bw, bh, 8);
-    const bg = ctx.createLinearGradient(0, by, 0, by + bh); bg.addColorStop(0, '#ff9a6a'); bg.addColorStop(0.5, '#d8362a'); bg.addColorStop(1, '#7a0e12'); ctx.fillStyle = bg; if (f > 0.005) { rr(bx + 2, by + 2, Math.max(6, (bw - 4) * f), bh - 4, 6); ctx.fill(); ctx.fillStyle = 'rgba(255,230,200,.3)'; rr(bx + 4, by + 3, Math.max(2, (bw - 4) * f - 4), 3, 1.5); ctx.fill(); }
-    for (let q = 1; q < 4; q++) { ctx.fillStyle = 'rgba(0,0,0,.35)'; ctx.fillRect(bx + bw * q / 4 - 0.5, by + 3, 1, bh - 6); }
-    stud38(bx - 1, by + bh / 2, 4.5, '#e04a3a'); stud38(bx + bw + 1, by + bh / 2, 4.5, '#e04a3a');
-    ctx.font = '900 12px -apple-system,system-ui,sans-serif'; ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(40,0,0,.9)'; ctx.fillStyle = '#fff'; const bt = Math.ceil(f * 100) + '%'; ctx.strokeText(bt, bx + bw / 2, by + bh / 2 + 0.5); ctx.fillText(bt, bx + bw / 2, by + bh / 2 + 0.5); }
-  drawQuestHUD(); npcHUD(); w28HUD(); v30HUD(); ph46HUD(); hm47HUD(); ultHUD();
-  drawMsgs(t);
-  if (!G.moved && !G.town && state === 'play') { ctx.globalAlpha = 0.6 + 0.4 * Math.sin(gtime * 4); ctx.font = '600 15px -apple-system,system-ui,sans-serif'; ctx.fillStyle = '#e6dbff';
-    { const tx = !PC ? 'Touch & drag anywhere to move' : W < 560 ? 'Move with WASD / Arrows' : 'Move with WASD / Arrow keys, or hold the mouse button'; ctx.fillText(tx, W / 2, H - SAFE.b - 135); } ctx.globalAlpha = 1; }
+  drawFieldHUD();
+  drawQuestHUD(); npcHUD(); w28HUD(); v30HUD(); ph46HUD(); hm47HUD(); ultHUD(); drawMsgs(SAFE.t);
+  if (!G.moved && !G.town && state === 'play') { ctx.save(); ctx.textAlign='center'; ctx.textBaseline='middle';ctx.font='500 11px system-ui';ctx.fillStyle='#cad4c0';const text=PC?'WASD / arrows to move · hold the mouse to steer':'Touch and drag anywhere to move';ctx.strokeStyle='#10201df0';ctx.lineWidth=4;ctx.strokeText(text,W/2,H-SAFE.b-((FIELD_LAYOUT?FIELD_LAYOUT.dock.h:97)+64));ctx.fillText(text,W/2,H-SAFE.b-135);ctx.restore(); }
 }
 /* v29: messages - a dark panel, big bold sans-serif text, a title + one plain line.
    They stack in one column under the HUD (below the quest tracker, DPS button, quest/achievement popups and event timer),
@@ -15077,7 +15038,7 @@ function drawMsgs(t) { const ph = W < 700 || !PC, big = !ph && W >= 1100 && H >=
     ctx.font = `700 ${fb}px ${FF}`; const BL = bn.b ? msgWrap(bn.b, mwB - 28, 2) : [];
     const h = 18 + fA + (BL.length ? 8 + BL.length * (fb + 5) : 0) + 4, bw = Math.min(mwB, Math.max(ctx.measureText(BL[0] || '').width, (ctx.font = `900 ${fA}px ${FF}`, ctx.measureText(A).width)) + 44);
     y = Math.max(y, Math.min(H * 0.24, lim - h - 60));
-    ctx.globalAlpha = a; { const mg = ctx.createLinearGradient(0, y, 0, y + h); mg.addColorStop(0, 'rgba(40,28,58,.92)'); mg.addColorStop(1, 'rgba(10,6,16,.92)'); ctx.fillStyle = mg; } rr(W / 2 - bw / 2, y, bw, h, 14); ctx.fill(); ctx.save(); ctx.lineWidth = 1; ctx.strokeStyle = 'rgba(246,220,140,.28)'; { const x0 = W / 2 - bw / 2 + 4, y0 = y + 4, w0 = bw - 8, h0 = h - 8, r0 = 10; ctx.beginPath(); ctx.moveTo(x0 + r0, y0); ctx.arcTo(x0 + w0, y0, x0 + w0, y0 + h0, r0); ctx.arcTo(x0 + w0, y0 + h0, x0, y0 + h0, r0); ctx.arcTo(x0, y0 + h0, x0, y0, r0); ctx.arcTo(x0, y0, x0 + w0, y0, r0); ctx.closePath(); ctx.stroke(); } ctx.restore(); { const x0 = W / 2 - bw / 2, y0 = y, w0 = bw, h0 = h, r0 = 14; ctx.beginPath(); ctx.moveTo(x0 + r0, y0); ctx.arcTo(x0 + w0, y0, x0 + w0, y0 + h0, r0); ctx.arcTo(x0 + w0, y0 + h0, x0, y0 + h0, r0); ctx.arcTo(x0, y0 + h0, x0, y0, r0); ctx.arcTo(x0, y0, x0 + w0, y0, r0); ctx.closePath(); } ctx.strokeStyle = msgLite(bn.col, 0.1); ctx.lineWidth = 2.5; ctx.stroke();
+    ctx.globalAlpha = a; { const mg = ctx.createLinearGradient(0, y, 0, y + h); mg.addColorStop(0, 'rgba(24,38,35,.94)'); mg.addColorStop(1, 'rgba(12,21,22,.94)'); ctx.fillStyle = mg; } rr(W / 2 - bw / 2, y, bw, h, 14); ctx.fill(); ctx.save(); ctx.lineWidth = 1; ctx.strokeStyle = 'rgba(246,220,140,.28)'; { const x0 = W / 2 - bw / 2 + 4, y0 = y + 4, w0 = bw - 8, h0 = h - 8, r0 = 10; ctx.beginPath(); ctx.moveTo(x0 + r0, y0); ctx.arcTo(x0 + w0, y0, x0 + w0, y0 + h0, r0); ctx.arcTo(x0 + w0, y0 + h0, x0, y0 + h0, r0); ctx.arcTo(x0, y0 + h0, x0, y0, r0); ctx.arcTo(x0, y0, x0 + w0, y0, r0); ctx.closePath(); ctx.stroke(); } ctx.restore(); { const x0 = W / 2 - bw / 2, y0 = y, w0 = bw, h0 = h, r0 = 14; ctx.beginPath(); ctx.moveTo(x0 + r0, y0); ctx.arcTo(x0 + w0, y0, x0 + w0, y0 + h0, r0); ctx.arcTo(x0 + w0, y0 + h0, x0, y0 + h0, r0); ctx.arcTo(x0, y0 + h0, x0, y0, r0); ctx.arcTo(x0, y0, x0 + w0, y0, r0); ctx.closePath(); } ctx.strokeStyle = msgLite(bn.col, 0.1); ctx.lineWidth = 2.5; ctx.stroke();
     ctx.fillStyle = msgLite(bn.col, 0.1); rr(W / 2 - bw / 2 + 10, y + 3, bw - 20, 3, 1.5); ctx.fill();
     ctx.strokeStyle = 'rgba(0,0,0,.9)'; ctx.lineWidth = 4; ctx.font = `900 ${fA}px ${FF}`; let yy = y + 12 + fA; ctx.strokeText(A, W / 2, yy); ctx.fillStyle = msgLite(bn.col, 0.32); ctx.fillText(A, W / 2, yy);
     ctx.font = `700 ${fb}px ${FF}`; ctx.lineWidth = 3; yy += 8; for (const l of BL) { yy += fb + 5; ctx.strokeText(l, W / 2, yy - 4); ctx.fillStyle = '#ffffff'; ctx.fillText(l, W / 2, yy - 4); }
@@ -15086,7 +15047,7 @@ function drawMsgs(t) { const ph = W < 700 || !PC, big = !ph && W >= 1100 && H >=
   for (const to of toasts) { if (!to.on) break; ctx.font = `800 ${fa}px ${FF}`; const TL = msgWrap(to.text, mwT - 24, 2); ctx.font = `700 ${fb}px ${FF}`; const SL = to.sub ? msgWrap(to.sub, mwT - 24, 1) : [];
     const h = 12 + TL.length * (fa + 4) + SL.length * (fb + 5) + 2; if (fit >= maxV || (fit > 0 && y + h > lim)) break; fit++;
     let w = 0; ctx.font = `800 ${fa}px ${FF}`; for (const l of TL) w = Math.max(w, ctx.measureText(l).width); ctx.font = `700 ${fb}px ${FF}`; for (const l of SL) w = Math.max(w, ctx.measureText(l).width); w = Math.min(mwT, w + 30);
-    ctx.globalAlpha = fade(to); { const mg = ctx.createLinearGradient(0, y, 0, y + h); mg.addColorStop(0, 'rgba(36,26,52,.9)'); mg.addColorStop(1, 'rgba(10,6,16,.9)'); ctx.fillStyle = mg; } rr(W / 2 - w / 2, y, w, h, 12); ctx.fill(); ctx.strokeStyle = hexA(/^#[0-9a-f]{6}$/i.test(to.col) ? to.col : '#ffffff', 0.75); ctx.lineWidth = 1.5; ctx.stroke();
+    ctx.globalAlpha = fade(to); { const mg = ctx.createLinearGradient(0, y, 0, y + h); mg.addColorStop(0, 'rgba(23,36,33,.94)'); mg.addColorStop(1, 'rgba(12,21,22,.94)'); ctx.fillStyle = mg; } rr(W / 2 - w / 2, y, w, h, 12); ctx.fill(); ctx.strokeStyle = hexA(/^#[0-9a-f]{6}$/i.test(to.col) ? to.col : '#ffffff', 0.75); ctx.lineWidth = 1.5; ctx.stroke();
     ctx.strokeStyle = 'rgba(0,0,0,.9)'; let yy = y + 6; ctx.font = `800 ${fa}px ${FF}`; ctx.lineWidth = 3.5; ctx.fillStyle = msgLite(to.col, 0.3);
     for (const l of TL) { yy += fa + 4; ctx.strokeText(l, W / 2, yy - 4); ctx.fillText(l, W / 2, yy - 4); }
     ctx.font = `700 ${fb}px ${FF}`; ctx.lineWidth = 3; ctx.fillStyle = '#ffffff'; for (const l of SL) { yy += fb + 5; ctx.strokeText(l, W / 2, yy - 4); ctx.fillText(l, W / 2, yy - 4); }
@@ -15133,47 +15094,6 @@ function renderLoadoutDom(el, interactive) { if (!el || !G) return; const [ws, p
   if (!interactive) return; const D = el.querySelector('.lodet'), all = [...ws, ...ps];
   const showIt = b => { const it = all.find(i => i.k + ':' + i.id === b.dataset.lo); if (!it) return; D.innerHTML = loDetail(it); for (const c of el.querySelectorAll('.lot.sel')) c.classList.remove('sel'); b.classList.add('sel'); };
   for (const b of el.querySelectorAll('button.lot')) { b.onclick = () => { Snd.play('select'); showIt(b); }; b.onmouseenter = () => showIt(b); b.onfocus = () => showIt(b); } }
-/* compact skill cooldown row (bottom-centre, above the home indicator) */
-function drawGauge() {
-  const cx = W - SAFE.r - 52, cy = H - SAFE.b - 70, R = 40, a0 = Math.PI * 0.5, span = Math.PI * 1.5; // sweeps from bottom, round the left, to the right
-  const hp = clamp(P.hp / P.maxHp, 0, 1), xp = clamp(G.xp / G.xpNext, 0, 1);
-  ctx.lineCap = 'round';
-  ctx.lineWidth = 15; ctx.strokeStyle = '#1a1000'; ctx.beginPath(); ctx.arc(cx, cy, R, a0, a0 + span); ctx.stroke();
-  ctx.lineWidth = 10; ctx.strokeStyle = '#3a0a14'; ctx.beginPath(); ctx.arc(cx, cy, R, a0, a0 + span); ctx.stroke();
-  if (hp > 0.002) { ctx.strokeStyle = hp < 0.3 ? (Math.sin(gtime * 10) > 0 ? '#ff5a4a' : '#ffb03a') : '#5be05a'; ctx.beginPath(); ctx.arc(cx, cy, R, a0, a0 + span * hp); ctx.stroke();
-    ctx.lineWidth = 2.5; ctx.strokeStyle = 'rgba(255,255,255,.45)'; ctx.beginPath(); ctx.arc(cx, cy, R - 2.5, a0, a0 + span * hp); ctx.stroke(); }
-  ctx.lineWidth = 8; ctx.strokeStyle = '#1a1000'; ctx.beginPath(); ctx.arc(cx, cy, R - 13, a0 + 0.2, a0 + span - 0.2); ctx.stroke();
-  ctx.lineWidth = 5; ctx.strokeStyle = '#1e0e36'; ctx.stroke();
-  if (xp > 0.002) { ctx.strokeStyle = '#b98cff'; ctx.beginPath(); ctx.arc(cx, cy, R - 13, a0 + 0.2, a0 + 0.2 + (span - 0.4) * xp); ctx.stroke(); }
-  ctx.lineCap = 'butt';
-  const gr = ctx.createRadialGradient(cx - 5, cy - 6, 2, cx, cy, 21); gr.addColorStop(0, '#e6d0ff'); gr.addColorStop(0.55, '#7b4fd6'); gr.addColorStop(1, '#2a1650');
-  ctx.fillStyle = gr; ctx.beginPath(); ctx.arc(cx, cy, 20, 0, TAU); ctx.fill(); ctx.lineWidth = 2.5; ctx.strokeStyle = '#f2c94c'; ctx.stroke();
-  ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = '#fff'; ctx.strokeStyle = '#1a0a30'; ctx.lineWidth = 3;
-  ctx.font = '900 12px -apple-system,system-ui,sans-serif'; ctx.strokeText('LV', cx, cy - 8); ctx.fillText('LV', cx, cy - 8);
-  ctx.font = '900 17px "Trebuchet MS",-apple-system,system-ui,sans-serif'; ctx.strokeText(G.level, cx, cy + 6); ctx.fillText(G.level, cx, cy + 6);
-  const ht = Math.ceil(P.hp) + '/' + Math.round(P.maxHp); ctx.textAlign = 'right'; ctx.font = '900 16px "Trebuchet MS",-apple-system,system-ui,sans-serif'; ctx.lineWidth = 3.5;
-  ctx.strokeText(ht, cx - R - 9, cy - 2); ctx.fillStyle = hp < 0.3 ? '#ffb3a0' : '#c8ffb8'; ctx.fillText(ht, cx - R - 9, cy - 2);
-  ctx.font = '900 12px -apple-system,system-ui,sans-serif'; ctx.strokeText('HP', cx - R - 9, cy - 19); ctx.fillStyle = '#5be05a'; ctx.fillText('HP', cx - R - 9, cy - 19);
-}
-function drawCooldowns() {
-  const ws = G.weapons, n = ws.length; if (!n) return;
-  const R = 17, gl = SAFE.l + 10 + R, gr = W - SAFE.r - 52 - 40 - 14 - R, gap = n > 1 ? Math.min(44, (gr - gl) / (n - 1)) : 0, y = H - SAFE.b - 28, x0 = (gl + gr) / 2 - (n - 1) * gap / 2;
-  ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.font = '600 17px -apple-system,system-ui,sans-serif';
-  for (let i = 0; i < n; i++) {
-    const w = ws[i], d = WDEF[w.id], x = x0 + i * gap, cont = !WFIRE[w.id];
-    const f = cont ? 1 : (w.wait || !w.cdMax) ? 1 : clamp(1 - w.t / w.cdMax, 0, 1), ready = f >= 1;
-    ctx.fillStyle = 'rgba(8,3,16,.72)'; ctx.beginPath(); ctx.arc(x, y, R, 0, TAU); ctx.fill(); ctx.lineWidth = 1.2; ctx.strokeStyle = 'rgba(226,184,90,.55)'; ctx.beginPath(); ctx.arc(x, y, R + 2.6, 0, TAU); ctx.stroke();
-    ctx.lineWidth = 4; ctx.strokeStyle = 'rgba(190,140,255,.22)'; ctx.beginPath(); ctx.arc(x, y, R, 0, TAU); ctx.stroke();
-    ctx.strokeStyle = cont ? 'rgba(111,243,208,.75)' : ready ? '#ffd24a' : '#b77cff';
-    ctx.beginPath(); ctx.arc(x, y, R, -Math.PI / 2, -Math.PI / 2 + TAU * f); ctx.stroke();
-    if (ready && !cont) { ctx.globalAlpha = 0.25 + 0.15 * Math.sin(gtime * 6 + i); ctx.fillStyle = '#ffd24a'; ctx.beginPath(); ctx.arc(x, y, R - 2, 0, TAU); ctx.fill(); ctx.globalAlpha = 1; }
-    { const ev = G.evo[w.id] && EVO[w.id]; if (ev) { ctx.lineWidth = 2.2; ctx.strokeStyle = ev.col; ctx.globalAlpha = 0.75 + 0.25 * Math.sin(gtime * 5 + i); ctx.beginPath(); ctx.arc(x, y, R + 3.6, 0, TAU); ctx.stroke(); ctx.globalAlpha = 1;
-      ctx.fillStyle = '#1a0a30'; ctx.beginPath(); ctx.arc(x - R + 3, y - R + 3, 7.5, 0, TAU); ctx.fill(); ctx.strokeStyle = ev.col; ctx.lineWidth = 1.5; ctx.stroke(); ctx.font = '900 10px -apple-system,system-ui,sans-serif'; ctx.fillStyle = ev.col; ctx.fillText('★', x - R + 3, y - R + 3.5); ctx.font = '600 17px -apple-system,system-ui,sans-serif'; } } // v18 evolved
-    ctx.fillStyle = ready ? '#fff' : 'rgba(230,219,255,.55)'; ctx.fillText(d.ic + '\uFE0E', x, y + 0.5);
-    ctx.fillStyle = '#1a0a30'; ctx.beginPath(); ctx.arc(x + R - 3, y + R - 3, 8, 0, TAU); ctx.fill(); ctx.lineWidth = 1.5; ctx.strokeStyle = '#f2c94c'; ctx.stroke();
-    ctx.font = '900 12px -apple-system,system-ui,sans-serif'; ctx.fillStyle = '#ffe08a'; ctx.fillText(w.lvl, x + R - 3, y + R - 2.5); ctx.font = '600 17px -apple-system,system-ui,sans-serif';
-  }
-}
 function drawJoy() {
   if (!joy.on) return;
   ctx.fillStyle = 'rgba(20,8,36,.28)'; ctx.strokeStyle = 'rgba(200,160,255,.45)'; ctx.lineWidth = 2;
@@ -15786,16 +15706,10 @@ function renderShop() {
 function startRun(cls, challenge = null) {
   clearRun(); Snd.init(); newRun(cls, challenge); SND32.prep(G.cls, G.race); state = 'play'; hudOnly(); setJoy(false); keys.clear();
 }
-function pauseGame() { if (state !== 'play' && state !== 'countdown') return; if (state === 'countdown') G.countdownNext = true; state = 'paused'; setJoy(false); show('pause'); muteLabel(); renderBuild(); $('pauseTitle').textContent = 'Paused'; $('btnResume').textContent = 'Resume'; saveRun(); }
+function pauseGame() { if (state !== 'play' && state !== 'countdown') return; if (state === 'countdown') G.countdownNext = true; state = 'paused'; setJoy(false); show('pause'); muteLabel(); renderBuild(); $('pauseTitle').textContent = 'Paused'; $('btnResume').innerHTML = 'Resume hunt → <kbd>Esc</kbd>'; saveRun(); }
 let resumeAt = 0, joyEndAt = 0; // pause-button guards: just-closed popup / thumb just lifted off the joystick
 function resumeGame() { setJoy(false); hudOnly(); resumeAt = performance.now(); if (G && G.countdownNext) { G.countdownNext = false; state = 'countdown'; G.cdT = 3; } else state = 'play'; saveRun(); }
-function renderBuild() {
-  const er = evoReady(), w = G.weapons.map(w => { const ev = evOf(w.id); return ev ? `<span style="color:${ev.col}">⇪ ${ev.n}</span> <b>EVO</b>` : `${WDEF[w.id].ic} ${WDEF[w.id].name} <b>Lv${w.lvl}</b>${er.includes(w.id) ? ' <span style="color:#ff9ae6">⇪ ready</span>' : ''}`; }).join('<br>');
-  const p = Object.keys(G.passives).map(k => `${PDEF[k].ic} ${PDEF[k].name} <b>${G.passives[k]}</b>`).join(' · ') || '—';
-  const gi = GSLOTS.filter(s => G.gear[s]), g = gi.length ? `<b>Gear ${gi.length}/12</b> · ` + gi.sort((a, b) => G.gear[b].r - G.gear[a].r).slice(0, 3).map(s => `<span style="color:${GRAR[G.gear[s].r].c}">${G.gear[s].name}</span>`).join(' · ') + (gi.length > 3 ? ' …' : '') : '<span style="opacity:.5">No gear yet</span>';
-  const mc = minions.filter(m => !m.dead).length; renderLoadoutDom($('loadoutP'), true); void w; void p;
-  $('buildInfo').innerHTML = `<b>${RACES[raceOf(G.race)].name} ${CLASSES[G.cls].name}</b> — ${CLASSES[G.cls].passive}: ${CLASSES[G.cls].pdesc}<br><b>${fmtTime(G.t)}</b> survived · Lv ${G.level} · ${G.kills} kills · <span style="color:#ffd24a">● ${G.gold || 0} gold</span>${minions.length ? ` · ${mc} minions` : ''}<br><br>${g}<br><br>HP ${Math.ceil(P.hp)}/${Math.round(P.maxHp)} · Dmg ×${P.dmg.toFixed(2)} · Crit ${(P.crit * 100) | 0}% · Armor ${P.armor} · Evasion ${(P.dodge * 100) | 0}%`;
-}
+function renderBuild() { renderPauseScene(); }
 /* level up */
 let luOpenAt = 0;
 function openLevelUp(restored) { state = 'levelup'; setJoy(false); if (!restored) { Snd.play('levelup'); padRumble(0.35, 0.6, 220); burst(P.x, P.y, '#ffd24a', 24, 160, 3, 0.7, true); } setTimeout(() => Snd.play('deal'), restored ? 60 : 280); show('levelup'); $('pauseBtn').classList.add('hidden'); buildChoices(); saveRun(); }
@@ -16386,7 +16300,7 @@ function frame(now) {
     if (state === 'play') update(dt, false);
     else if (state === 'countdown') { G.cdT -= dt; if (G.cdT <= 0) state = 'play'; }
     else if (state === 'dying') { G.dyingT -= dt; update(dt * 0.3, true); if (G.dyingT <= 0) showGameOver(false); }
-    render(dt); runPrepTick(); selectionSceneTick(); expansionHUD(); questUI(dt); dmgUI(dt); jumpBtnUI(); ultUI(); npcUI(); if (state === 'ward') wardTick();
+    render(dt); drawPauseHero(); runPrepTick(); selectionSceneTick(); expansionHUD(); questUI(dt); dmgUI(dt); jumpBtnUI(); ultUI(); npcUI(); if (state === 'ward') wardTick();
     { const ms = $('audio').classList.contains('on') ? 'n' : state === 'paused' ? 'p' : (state === 'levelup' || state === 'gear' || state === 'npc') ? 'd' : 'n';
       if (ms !== Snd.ms && Snd.ac) { Snd.ms = ms; if (ms === 'p') Snd.pauseMusic(true); else { Snd.pauseMusic(false); Snd.duck(ms === 'd' ? 0.45 : 1, 0.4); } } }
     if (RUN_STATES[state] && now - lastRunSave > 6000) saveRun();   // periodic autosave
