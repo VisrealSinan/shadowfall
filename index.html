@@ -1590,6 +1590,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
 <script src="assets/shaman92-art.js"></script>
 <script src="assets/shaman92.js"></script>
 <script src="assets/hollow-bell93.js"></script>
+<script src="assets/spell-visuals94.js"></script>
 <script>
 'use strict';
 /* =========================================================
@@ -14790,6 +14791,7 @@ function render(dt) {
   // ground effects
   for (const m of minions) if (MBASE(m) === 'brute' && !m.dead) { const R = minionStats()[m.type].tauntR; ctx.strokeStyle = 'rgba(255,80,130,.18)'; ctx.lineWidth = 1.5; ctx.setLineDash([4, 8]); ctx.lineDashOffset = gtime * 12; ctx.beginPath(); ctx.ellipse(m.x, m.y + 10, R, R * 0.8, 0, 0, TAU); ctx.stroke(); ctx.setLineDash([]); }
   for (const f of effects) { ctx.save(); try { if (f.src && f.k !== 'warn' && f.k !== 'goo' && expansionOpacity()<100) ctx.filter = 'opacity(' + expansionOpacity() + '%)';
+    if(SpellVisuals94.effect(ctx,f,gtime,'ground'))continue;
     if (f.k === 'warn') { const p = 1 - Math.max(0, f.life) / f.max, col = f.col || '#ff3d3d';
       ctx.fillStyle = hexA(col, 0.1 + 0.12 * p); ctx.strokeStyle = hexA(col, 0.55 + 0.35 * Math.sin(gtime * 24) ** 2); ctx.lineWidth = 2;
       if (f.line) { ctx.save(); ctx.translate(f.x, f.y); ctx.rotate(f.ang); ctx.fillRect(0, -f.w / 2, f.len, f.w); ctx.fillStyle = hexA(col, 0.3); ctx.fillRect(0, -f.w / 2, f.len * p, f.w); ctx.strokeRect(0, -f.w / 2, f.len, f.w); ctx.restore(); }
@@ -14902,6 +14904,7 @@ function render(dt) {
   // projectiles
   for (const p of projs) { ctx.save(); try { if (expansionOpacity()<100) ctx.filter = 'opacity(' + expansionOpacity() + '%)';
     if (!inView(p.x, p.y, 30)) continue;
+    SpellVisuals94.projectile(ctx,p,gtime);
     if (p.src && G.evo[p.src]) { ctx.globalCompositeOperation = 'lighter'; glowAt(EVO[p.src].col, p.x, p.y, 30 + p.r * 2.4, 0.55 + 0.2 * Math.sin(gtime * 14 + p.x * 0.1)); ctx.globalCompositeOperation = 'source-over'; } // v18 evolved glow
     if (p.k === 'mbolt') { const c = MCOL[p.el] || '#c56bff', a = Math.atan2(p.vy, p.vx); ctx.globalCompositeOperation = 'lighter'; glowAt(c === '#7fd6ff' ? '#7fd6ff' : c, p.x, p.y, 30); glowAt('#ffffff', p.x, p.y, 9);
       ctx.strokeStyle = hexA(c, 0.5); ctx.lineWidth = 3; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p.x - Math.cos(a) * 16, p.y - Math.sin(a) * 16); ctx.stroke(); ctx.globalCompositeOperation = 'source-over'; }
@@ -14954,6 +14957,7 @@ function render(dt) {
   for (const p of eprojs) { if (!inView(p.x, p.y, 20)) continue; ctx.globalCompositeOperation = 'lighter'; glowAt(SPR.glow[p.c] ? p.c : '#9dff3b', p.x, p.y, 28); ctx.globalCompositeOperation = 'source-over'; ctx.fillStyle = '#0a0610'; ctx.beginPath(); ctx.arc(p.x, p.y, 3.5, 0, TAU); ctx.fill(); }
   // effects (over)
   for (const f of effects) { ctx.save(); try { if (f.src && f.k !== 'warn' && f.k !== 'goo' && expansionOpacity()<100) ctx.filter = 'opacity(' + expansionOpacity() + '%)';
+    if(SpellVisuals94.effect(ctx,f,gtime,'over'))continue;
     const p = 1 - Math.max(0, f.life) / f.max, a = 1 - p;
     if (f.src && G.evo[f.src] && f.k !== 'bolt' && f.k !== 'leap' && f.k !== 'mark' && f.life > 0) { const ev = EVO[f.src], fw = f.follow || f.k === 'cone' || f.k === 'reap', fx = fw ? P.x : f.x, fy = fw ? P.y : f.y, r0 = f.k === 'nova' ? Math.max(f.r, 20) : (f.r || 30); // v18 evolved tint
       if (fx !== undefined) { ctx.globalCompositeOperation = 'lighter'; glowAt(ev.col, fx, fy, r0 * 2.3, (f.k === 'zone' ? 0.24 : 0.42) * Math.min(1, a * 1.6));
