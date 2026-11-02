@@ -1,5 +1,6 @@
 function drawEndingHero85(){
  if(!G||state!=='over'||!$('over').classList.contains('on'))return;const cv=$('overHero'),w=cv.clientWidth||240,h=cv.clientHeight||300,d=Math.min(2,window.devicePixelRatio||1);
+ if(Polish87.portrait(cv,{cls:G.cls,race:G.race,form:G.form,outfit:G.outfit||save.outfit,gear:G.gear,gearOver:save.gearOver,t:gtime}))return;
  if(cv.width!==w*d||cv.height!==h*d){cv.width=w*d;cv.height=h*d;}const g=cv.getContext('2d');g.setTransform(d,0,0,d,0,0);g.clearRect(0,0,w,h);g.translate(w/2,h*.79);const k=Math.min(w/100,h/108);g.scale(k,k);drawHero(g,{cls:G.cls,race:G.race,form:G.form,outfit:G.outfit||save.outfit,gear:G.gear,gearOver:save.gearOver,t:gtime,atk:0});
 }
 function refreshEndingArt85(){drawEndingHero85();}

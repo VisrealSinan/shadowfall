@@ -64,12 +64,12 @@ const MotionCompletion=(()=>{
   const k=height/(256*.60);g.drawImage(f,-128*k,18-230*k,256*k,256*k);return true;
  }
  function propKind(k){if(/tree|bush|corn|scare|gourdroot/.test(k))return 'foliage';if(/banner|vquest|tent|gibbet|rope/.test(k))return 'cloth';if(/lamp|lantern|candle|brazier|jack|hkey|hbell/.test(k))return 'light';if(/^nf|hclock|cpipe|forge|nnsign|nnslot/.test(k))return 'machine';return '';}
- function propFrame(im,o){const kind=propKind(o.k);if(!kind||reduced())return im;const phase=((gtime*.45+(o.id||0)*.137)%1+1)%1,frame=Math.floor(phase*12),key=[sourceId(im),kind,frame].join(':'),found=ambientFrames.get(key);if(found)return found;
-  const c=document.createElement('canvas'),scale=Math.min(1,256/Math.max(im.width,im.height));c.width=Math.max(1,Math.round(im.width*scale));c.height=Math.max(1,Math.round(im.height*scale));c.px=im.px;c.k=im.k;const g=c.getContext('2d'),w=c.width,h=c.height,t=frame/12*Math.PI*2;
+ function propFrame(im,o){const kind=propKind(o.k);if(!kind||reduced())return im;const phase=((gtime*.45+(o.id||0)*.137)%1+1)%1,frame=Math.floor(phase*12),key=[sourceId(im),kind,frame].join(':'),found=ambientFrames.get(key);if(found){ambientFrames.delete(key);ambientFrames.set(key,found);return found;}
+  const c=document.createElement('canvas'),scale=Math.min(1,256/Math.max(im.width,im.height)),w=Math.max(1,Math.round(im.width*scale)),h=Math.max(1,Math.round(im.height*scale)),pad=Math.max(2,Math.ceil(w*.05));c.width=w+pad*2;c.height=h+pad*2;c.px=im.px;c.k=im.k;const g=c.getContext('2d'),t=frame/12*Math.PI*2;g.translate(pad,pad);
   if(kind==='foliage'||kind==='cloth'){
    for(let i=0;i<16;i++){const y=i*h/16,sy=i*im.height/16,root=Math.max(0,1-y/h),wind=Math.sin(t+i*.22)*root*root*(kind==='foliage'?w*.014:w*.023);g.drawImage(im,0,sy,im.width,im.height/16,wind,y,w,h/16+.35);}
   }else{g.drawImage(im,0,0,w,h);g.save();g.globalCompositeOperation='source-atop';g.globalAlpha=.06+.06*Math.sin(t);g.fillStyle=kind==='light'?'#ffdc99':'#77dcca';g.fillRect(0,0,w,h);g.restore();if(kind==='machine'){g.save();g.globalCompositeOperation='source-atop';g.strokeStyle='#9cf0d366';g.lineWidth=1;g.beginPath();g.ellipse(w*.53,h*.58,w*.055,h*.025,t,0,Math.PI*2);g.stroke();g.restore();}}
-  ambientFrames.set(key,c);while(ambientFrames.size>64)ambientFrames.delete(ambientFrames.keys().next().value);return c;
+  ambientFrames.set(key,c);while(ambientFrames.size>96)ambientFrames.delete(ambientFrames.keys().next().value);return c;
  }
  function tick(){
   if(state==='npc'&&npcCur)vendorPortrait($('npcArt'),npcCur.nt);

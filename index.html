@@ -1309,6 +1309,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
 <link rel="stylesheet" href="assets/settings.css">
 <link rel="stylesheet" href="assets/field-ui.css">
 <link rel="stylesheet" href="assets/rebirth.css">
+<link rel="stylesheet" href="assets/polish87.css">
 </head>
 <body>
 <canvas id="c"></canvas>
@@ -1538,7 +1539,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
   <tr><td>Ultimate</td><td>Max all six skills in a run to unlock your class Ultimate (Druid: one per form) · <kbd>R</kbd> · gamepad <kbd>Y</kbd>/<kbd>△</kbd> · phones: the ✹ button · if you wait, it fires itself</td></tr>
   <tr><td>Jump</td><td><kbd>Space</kbd> hop any time in a run (hold to bunny-hop) · gamepad <kbd>A</kbd>/<kbd>✕</kbd> · phones: optional ⤒ button (Audio &amp; Settings). Just for fun: jumping never changes your position, hitbox or damage taken</td></tr>
   <tr><td>Damage meter</td><td><kbd>M</kbd> show / hide the damage breakdown · or tap the ⚔ DPS button</td></tr>
-  <tr><td>Pause / resume</td><td><kbd>Esc</kbd> or <kbd>P</kbd> · gamepad <kbd>Start</kbd> · the game also pauses itself when the window loses focus</td></tr>
+  <tr><td>Pause / resume</td><td><kbd>Esc</kbd> · gamepad <kbd>Start</kbd> · the game also pauses itself when the window loses focus</td></tr>
   <tr><td>Level-up cards</td><td><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> pick (press again to take it) · <kbd>←</kbd><kbd>→</kbd> cycle · <kbd>Enter</kbd> / <kbd>Space</kbd> choose · <kbd>R</kbd> reroll · gamepad D-pad + <kbd>A</kbd>, <kbd>Y</kbd> reroll</td></tr>
   <tr><td>Traders</td><td>Walk into a wandering trader, or press <kbd>E</kbd> / <kbd>Enter</kbd> near one · gamepad <kbd>X</kbd>/<kbd>□</kbd> · phones: the Trade button. In the shop: <kbd>1</kbd>–<kbd>4</kbd> buy · <kbd>↑</kbd><kbd>↓</kbd> + <kbd>Enter</kbd> · <kbd>Esc</kbd> / <kbd>E</kbd> leave · gamepad <kbd>A</kbd> buy, <kbd>B</kbd> leave</td></tr>
   <tr><td>Treasure</td><td><kbd>Enter</kbd> / <kbd>E</kbd> equip · <kbd>X</kbd> salvage · gamepad <kbd>A</kbd> equip</td></tr>
@@ -1577,6 +1578,9 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
 <script src="assets/motion-rig.js"></script>
 <script src="assets/motion86-manifest.js"></script>
 <script src="assets/motion-completion.js"></script>
+<script src="assets/art-v87-manifest.js"></script>
+<script src="assets/skill-art.js"></script>
+<script src="assets/polish87.js"></script>
 <script>
 'use strict';
 /* =========================================================
@@ -2949,6 +2953,7 @@ function previewCos(id) { // the look a reward unlocks, on a fitting hero
   if (RACE_COS_BY_ID[id]) { const c = RACE_COS_BY_ID[id]; C[c.slot] = id; return { cls: clsOf(save.lastClass), race: c.race, cos: C }; }
   const gc = GEN_BY_ID[id]; C[gc.slot] = id; return { cls: clsOf(save.lastClass), race: raceOf(save.race), cos: C }; }
 function cosPortrait(canvas, cls, race, cos, scale = 1.35, t = 0.4) {
+  if(Polish87.portrait(canvas,{cls,race,cos,t,outfit:save.outfit}))return;
   const r = Math.min(3, window.devicePixelRatio || 1), w = canvas.clientWidth || 64, h = canvas.clientHeight || 64;
   if (canvas.width !== w * r) { canvas.width = w * r; canvas.height = h * r; } const g = canvas.getContext('2d'); g.setTransform(r, 0, 0, r, 0, 0); g.clearRect(0, 0, w, h);
   if (cls === 'bearlina') { const k = Math.min(w / 86, h / 62) * 0.9; g.translate(w / 2 - 3 * k, h - 6 - 18 * k); g.scale(k, k); drawBearlina(g, { t, cls, outfit: save.outfit, race, cos }); return; }
@@ -4866,7 +4871,7 @@ function applyEnemyFrame(k, i, f) { const A = SPR.enemy[k];
   if (i < 4) A[i].img = f.img; else A.wind.img = f.img;
   if (f.flash) { for (let j = 0; j < 4; j++) A[j].flash = f.flash; A.wind.flash = f.flash; A.dark = f.dark; } }
 function bakeEnemy(k) { const A = [0, 1, 2, 3].map(() => ({ img: null, flash: null })); A.wind = { img: null, flash: null }; SPR.enemy[k] = A; for (let i = 0; i < 5; i++) applyEnemyFrame(k, i, bakeEnemyFrame(k, i)); }
-function relightEnemies(ph) { SPR.keyPh = ph; SPR.rq = []; for (const k in ETYPES) { const d = Object.getOwnPropertyDescriptor(SPR.enemy, k); if (d && d.get) continue; for (let i = 0; i < 5; i++) SPR.rq.push([k, i]); } } // v33: types not baked yet stay lazy
+function relightEnemies(ph) { SPR.keyPh = ph; SPR.rq = []; for (const k in ETYPES) { if(PXA.on&&EnemyArtwork.hasSheet(k))continue; const d = Object.getOwnPropertyDescriptor(SPR.enemy, k); if (d && d.get) continue; for (let i = 0; i < 5; i++) SPR.rq.push([k, i]); } }
 function tickRelight(ms = 3) { const t0 = performance.now(); while (SPR.rq.length && performance.now() - t0 < ms) { const [k, i] = SPR.rq.shift(); applyEnemyFrame(k, i, bakeEnemyFrame(k, i)); } }
 const WIND_ST = { tele: 1, slam: 1, fuse: 1, rise: 1, blink: 1 };
 const WIND_AI = { seer: 330, spitter: 340, healer: 1e4, caller: 1e4, sprite: 330, wolf: 230, thornqueen: 1e4, mother: 1e4, colossus: 1e4 };
@@ -4882,7 +4887,8 @@ function buildArt() { PXA.glue.sync();
   SPR.olw = OLW; SPR.keyPh = typeof G !== 'undefined' && G && G.t ? phaseName(G.t) : 'Day'; SPR.rq = []; const _bt = performance.now();
   SPR.enemy = {}; const _lz = Object.keys(ETYPES); // v33: painted enemies bake on first use, the rest trickle in a few ms at a time
   for (const k of _lz) Object.defineProperty(SPR.enemy, k, { configurable: true, enumerable: true, get() { delete SPR.enemy[k]; bakeEnemy(k); return SPR.enemy[k]; } });
-  const _gen = SPR.lzGen = (SPR.lzGen | 0) + 1, _step = () => { if (SPR.lzGen !== _gen) return; const k = _lz.shift(); if (!k) return; void SPR.enemy[k]; setTimeout(_step, typeof G !== 'undefined' && G && !G.paused ? 160 : 30); }; setTimeout(_step, 400);
+  const _legacyQueue=_lz.filter(k=>!PXA.on||!EnemyArtwork.hasSheet(k));
+  const _gen = SPR.lzGen = (SPR.lzGen | 0) + 1, _step = () => { if (SPR.lzGen !== _gen) return; const k = _legacyQueue.shift(); if (!k) return; void SPR.enemy[k]; setTimeout(_step, typeof G !== 'undefined' && G && !G.paused ? 160 : 30); }; if(_legacyQueue.length)setTimeout(_step, 400);
   SPR.bakeMs = performance.now() - _bt;
   for (const k in MDRAW) { const sz = MDEF[k].size; SPR.minion[k] = [0, 1, 2].map(f => { const c = outlineSprite(paintSprite(makeSprite(g => MDRAW[k](g, f), sz), '#e8fff6', 0.4), OLW); return { img: c, flash: flashOf(c) }; }); }
   SPR.gem = GEM_COL.map((c, i) => makeSprite(g => drawGem(g, c, 3.2 + i * 0.9), 26));
@@ -8361,6 +8367,7 @@ const ZP = (() => { const TAU2 = Math.PI * 2, bob = f => Math.sin(f / 4 * TAU2),
 function heroSex(race) { const m = save && save.sex; return m && m[race] === 'f' ? 'f' : 'm'; }
 function heroSexChosen(race) { const m = save && save.sex; return !!(m && (m[race] === 'f' || m[race] === 'm')); }
 function heroPortrait(canvas, cls, outfit, scale = 1.35, race, gear, motionTime = 0.4) {
+  if(Polish87.portrait(canvas,{cls,race:race||save.race,outfit,gear,gearOver:save.gearOver,t:motionTime}))return;
   const r = Math.min(3, window.devicePixelRatio || 1), w = canvas.clientWidth || 64, h = canvas.clientHeight || 64;
   canvas.width = w * r; canvas.height = h * r; const g = canvas.getContext('2d'); g.scale(r, r);
   if (cls === 'bearlina') { const k = Math.min(w / 86, h / 62) * 0.9; g.translate(w / 2 - 3 * k, h - 6 - 18 * k); g.scale(k, k); drawBearlina(g, { t: motionTime, cls, outfit, race: race || save.race, gear }); return; }
@@ -11443,18 +11450,20 @@ function sumAuto(dt) { // v25: the Summoner now auto-attacks with shadow bolts
 /* ================= v25 SAFE HAVEN: a portal opens every ~3-4 min; step in to reach a walled town with all four shops where nothing can hurt you.
    You get 30 seconds (the clock pauses while a shop window is open), then the portal throws you back where you left. ================= */
 const TOWN_TIME = 30, TOWN_R = 250;
-const townOk = () => !!(G && !G.town && state === 'play' && !(G.boss && !G.boss.dead) && !(G.pending > 0) && !(G.pendingChest && G.pendingChest.length) && !G.ended);
+const townCanEnter = () => !!(G && !G.town && state === 'play' && !(G.pending > 0) && !(G.pendingChest && G.pendingChest.length) && !G.ended);
+const townOk = () => townCanEnter() && !(G.boss && !G.boss.dead);
 function portalTick(dt) {
   if (G.town) return; if (G.portalNext == null) G.portalNext = 100; const pr = G.portal;
   if (pr) { pr.T -= dt; pr.age += dt;
     if (pr.T <= 0) { G.portal = null; toast('The portal flickers out…', '#9fb4ff', 2); }
-    else if (Math.hypot(P.x - pr.x, P.y - pr.y) < 28 && townOk()) enterTown(); }
+    else if (Math.hypot(P.x - pr.x, P.y - pr.y) < Math.max(28,P.r+20) && townCanEnter()) enterTown(); }
   else if (G.t >= G.portalNext && townOk()) { const a = rand(TAU), d = rand(150, 210), n = { x: r1(P.x + Math.cos(a) * d), y: r1(P.y + Math.sin(a) * d) }; obFree(n, 14);
     G.portal = { x: n.x, y: n.y, T: 45, max: 45, age: 0 }; G.portalNext = G.t + rand(170, 230); { const TS = TOWNS36[G.map] || TOWNS36.forest; toast('✦ Portal to ' + TS.name, '#7fd6ff', 3.4, 'Step in to shop in peace · follow the arrow'); } Snd.play('greet'); } }
 function restoreTown(tw) { // v27: Continue a run that was saved inside the Safe Haven - same shops, same stock, same time left
   enterTown(true); G.town.t = clamp(+tw.t || TOWN_TIME, 1, TOWN_TIME);
   if (Array.isArray(tw.npcs)) { const ok = tw.npcs.filter(n => n && NPCS[n.nt] && Array.isArray(n.offers) && typeof n.x === 'number'); if (ok.length) { for (const n of ok) { n.cool = 1; n.near = 0; n.town = 1; n.T = n.max = 9999; } G.npcs = ok; } } }
 function enterTown(restored) {
+  if(!G||G.town)return;
   const st = { enemies, eprojs, projs, effects, gems, picks, parts, nums, corpses, npcs: G.npcs, boss: G.boss, ret: { x: P.x, y: P.y }, aim: P.aim };
   enemies = []; eprojs = []; projs = []; effects = []; gems = []; picks = []; parts = []; nums = []; corpses = []; G.boss = null;
   const cx = st.ret.x + 30000, cy = st.ret.y; G.town = { t: TOWN_TIME, cx, cy, st, age: 0, theme: TOWNS36[G.map] ? G.map : 'forest' }; T36.parts = []; G.portal = null; if (!restored) G.townVisits = (G.townVisits || 0) + 1;
@@ -11893,8 +11902,8 @@ function t36Layout(T) { if (T.deco && T.decoK === T.theme) return T.deco; const 
   T.deco = out; T.decoK = th; return out; }
 function townDeco() { const T = G.town; if (!T) return []; const L = t36Layout(T), vw = W / ZOOM / 2 + 140, vh = H / ZOOM / 2 + 260, o = []; for (const d of L) if (Math.abs(d.x - P.x) < vw && Math.abs(d.y - P.y) < vh) o.push(d); return o; }
 /* ---------- drawing ---------- */
-function t36DrawDeco(d) { const T = G.town, th = T.theme, t = gtime; ctx.imageSmoothingEnabled = true;
-  if (d.s) { const sc = d.sc || 1; let a = 1; if (d.tall) { const S = d.s, top = d.y - S.ay * sc, lft = d.x - S.ax * sc; if (P.y < d.y - 4 && P.y > top + 10 && P.x > lft + S.w * sc * 0.2 && P.x < lft + S.w * sc * 0.8) a = 0.5; }
+function t36DrawDeco(d) { const T = G.town, th = T.theme, t = gtime; ctx.imageSmoothingEnabled = true;const modern=Polish87.shop(d);
+  if (d.s&&!modern) { const sc = d.sc || 1; let a = 1; if (d.tall) { const S = d.s, top = d.y - S.ay * sc, lft = d.x - S.ax * sc; if (P.y < d.y - 4 && P.y > top + 10 && P.x > lft + S.w * sc * 0.2 && P.x < lft + S.w * sc * 0.8) a = 0.5; }
     if (d.dim) a *= d.dim; let y = d.y; if (d.float) y += Math.sin(t * 1.3 + d.bob) * 5; ctx.globalAlpha = a;
     if (d.flip) { ctx.save(); ctx.translate(d.x, y); ctx.scale(-1, 1); t36D(d.s, 0, 0, sc); ctx.restore(); } else t36D(d.s, d.x, y, sc);
     if (d.banner) { const sw = Math.sin(t * 1.8 + d.x * 0.01) * 3; ctx.fillStyle = '#7a1a2c'; ctx.beginPath(); ctx.moveTo(d.x - 11, d.y - 83); ctx.lineTo(d.x + 11, d.y - 83); ctx.quadraticCurveTo(d.x + 12 + sw, d.y - 60, d.x + 11 + sw * 1.4, d.y - 40); ctx.lineTo(d.x + sw * 1.4, d.y - 48); ctx.lineTo(d.x - 11 + sw * 1.4, d.y - 40); ctx.quadraticCurveTo(d.x - 12 + sw, d.y - 60, d.x - 11, d.y - 83); ctx.fill();
@@ -12488,7 +12497,7 @@ function updatePickups(dt) {
     if (d2 < (P.r + 12) ** 2) {
       p.dead = true;
       if (p.k === 'vial') { heal(P.maxHp * 0.3 * (1 + 0.1 * mr('stock'))); addNum(P.x, P.y - 24, '+HP', '#ff7a96', 14); Snd.play('heal'); burst(P.x, P.y, '#ff3d6e', 10, 70, 2.5, 0.5, true); }
-      else if (p.k === 'lure') { for (const q of picks) q.pull = true; for (const g of gems) { g.pull = true; g.sp = Math.max(g.sp || 0, 260); } /* v34: and every XP gem on the map */ Snd.play('pick'); toast('Soul Lure — all treasures and XP drawn to you!', '#4fd4ff', 1.8); }
+  else if (p.k === 'lure') { for (const q of picks) q.pull = true; for (const g of gems) { g.pull = true; g.sp = Math.max(g.sp || 0, 260); } Snd.play('pick'); }
       else if (p.k === 'shard') { G.shardsPicked += p.v || 1; Snd.play('pick'); addNum(P.x, P.y - 24, '+' + (p.v || 1) + '◆', '#d7a6ff', 13); }
       else if (p.k === 'gold') addGold(p.v || 1, P.x + rand(-6, 6), P.y - 24);
       else if (p.k === 'chest') { G.pendingChest = (G.pendingChest || []); G.pendingChest.push(p.boss ? 'boss' : p.mini ? 'mini' : 'elite'); Snd.play('chest'); triggerJump(true); addGold(p.boss ? 10 + G.t / 40 : p.mini ? 6 + G.t / 60 : 2 + G.t / 300, P.x, P.y - 40); }
@@ -13314,7 +13323,7 @@ const V31P = (() => {
   const cap = () => PC ? 48 : 24;
   const POP = { splitter: 1, oozelet: 1, bomber: 1, spitter: 1, sprite: 1, imp: 1, hornet: 1 };
   function dstyle(e) { if (e.type === 'surprisemimic') return 'gift45'; if (e.boss) return BOSS36[e.type] && BOSS36[e.type].death !== 'col' ? 'b36' : 'col'; if (ETYPES[e.type] && ETYPES[e.type].hush && !e.mini) return 'hush'; if (eFloats(e.type) || e.type === 'ghost' || e.type === 'wisp') return 'dis'; if (POP[e.type] || e.elite || e.mini) return 'pop'; return (Math.abs(e.x * 0.37 + e.y * 0.71) | 0) % 3 === 0 ? 'dis' : 'col'; }
-  function corpse(c) { const def = ETYPES[c.k], sz = eSz(c.k) * c.sc, A = SPR.enemy[c.k]; if (!A || !A.dark || !inView(c.x, c.y, sz)) return; if(PXA.on&&EnemyArtwork.death(ctx,c))return; const u = Math.min(1, c.t / c.d), img = A[0].img, iw = img.width, ih = img.height, flt = eFloats(c.k);
+  function corpse(c) { const def = ETYPES[c.k], sz = eSz(c.k) * c.sc; if(!inView(c.x,c.y,sz))return; if(PXA.on&&EnemyArtwork.death(ctx,c))return; const A=SPR.enemy[c.k];if(!A||!A.dark)return; const u = Math.min(1, c.t / c.d), img = A[0].img, iw = img.width, ih = img.height, flt = eFloats(c.k);
     if (img.px) ctx.imageSmoothingEnabled = false;
     if (c.s === 'dis') { const keep = 1 - u, by = c.y + sz / 2 - (flt ? sz * 0.08 : 0);
       if (keep > 0.03) { ctx.save(); ctx.translate(c.x, by); ctx.scale(c.f, 1); ctx.globalAlpha = Math.min(1, 1.5 - u); ctx.drawImage(img, 0, ih * u, iw, ih * keep, -sz / 2, -sz * keep, sz, sz * keep); ctx.globalAlpha *= Math.min(1, u * 2.5); ctx.drawImage(A.dark, 0, ih * u, iw, ih * keep, -sz / 2, -sz * keep, sz, sz * keep); ctx.restore(); }
@@ -14761,7 +14770,7 @@ function render(dt) {
     const s = p.k === 'chest' ? (p.boss ? 58 : 46) : 34; ctx.drawImage(SPR.pick[p.k], p.x - s / 2, p.y - s / 2 + Math.sin(gtime * 3 + p.x) * 2, s, s); }
   // ground effects
   for (const m of minions) if (MBASE(m) === 'brute' && !m.dead) { const R = minionStats()[m.type].tauntR; ctx.strokeStyle = 'rgba(255,80,130,.18)'; ctx.lineWidth = 1.5; ctx.setLineDash([4, 8]); ctx.lineDashOffset = gtime * 12; ctx.beginPath(); ctx.ellipse(m.x, m.y + 10, R, R * 0.8, 0, 0, TAU); ctx.stroke(); ctx.setLineDash([]); }
-  for (const f of effects) { ctx.save(); try { if (f.src && f.k !== 'warn' && f.k !== 'goo') ctx.filter = 'opacity(' + expansionOpacity() + '%)'; 
+  for (const f of effects) { ctx.save(); try { if (f.src && f.k !== 'warn' && f.k !== 'goo' && expansionOpacity()<100) ctx.filter = 'opacity(' + expansionOpacity() + '%)';
     if (f.k === 'warn') { const p = 1 - Math.max(0, f.life) / f.max, col = f.col || '#ff3d3d';
       ctx.fillStyle = hexA(col, 0.1 + 0.12 * p); ctx.strokeStyle = hexA(col, 0.55 + 0.35 * Math.sin(gtime * 24) ** 2); ctx.lineWidth = 2;
       if (f.line) { ctx.save(); ctx.translate(f.x, f.y); ctx.rotate(f.ang); ctx.fillRect(0, -f.w / 2, f.len, f.w); ctx.fillStyle = hexA(col, 0.3); ctx.fillRect(0, -f.w / 2, f.len * p, f.w); ctx.strokeRect(0, -f.w / 2, f.len, f.w); ctx.restore(); }
@@ -14830,17 +14839,17 @@ function render(dt) {
       ctx.beginPath(); ctx.ellipse(e.x, ry, sz * 0.42, sz * 0.14, 0, 0, TAU); ctx.stroke(); ctx.setLineDash([]); ctx.strokeStyle = hexA(gc, 0.25); ctx.beginPath(); ctx.ellipse(e.x, ry, sz * 0.5, sz * 0.17, 0, 0, TAU); ctx.stroke(); }
     if (e.st === 'blink') ctx.globalAlpha = 0.45;
     // v15: 4-step walk/flap cycle paced to speed, wind-up pose before attacks, flinch tilt on hit; squash only for oozes, hover bob for floaters
-    const A = SPR.enemy[e.type] || SPR.enemy[def.artBase] || SPR.enemy.warden, frz = e.frzT > 0, flt = eFloats(e.type), wind = !frz && eWind(e, def),
-      fi = frz ? 0 : Math.floor(gtime * (flt ? 7 : clamp(4 * e.spd / (def.size * 0.55), 2.5, 9) * (e.st === 'charge' || e.st === 'dash' ? 2 : 1)) + e.seed * 4) & 3;
-    const fr = wind ? A.wind : A[fi], img = e.flash > 0 ? fr.flash : fr.img;
+    const frz = e.frzT > 0, flt = eFloats(e.type), wind = !frz && eWind(e, def);
     if (e.type === 'ghost') ctx.globalAlpha = 0.85;
     const ooz = e.type === 'splitter' || e.type === 'oozelet', rc = e.flash > 0 ? Math.min(1, e.flash / 0.08) : 0, away = e.x >= P.x ? 1 : -1,
       k = (ooz && !frz ? 0.07 * Math.sin(gtime * 9 + e.seed * 7) : 0) + rc * 0.05, bob = flt && !frz ? sz * (0.07 + 0.045 * Math.sin(gtime * 3.2 + e.seed * 5)) : 0,
       jx = rc * away * 2.2, wk = wind ? 1.04 : 1, dw = sz * (1 + k) * wk, dh = sz * (1 - k) * wk, by = e.y + sz / 2, tilt = rc * away * (def.boss ? 0.04 : 0.15);
     if (flt) { const sa = 0.55 - bob / sz; ctx.globalAlpha *= 1; ctx.drawImage(SPR.shadow, e.x - sz * 0.3 * sa * 1.6, e.y + sz * 0.38, sz * 0.6 * sa * 1.6, sz * 0.15 * sa * 1.6); }
-    const _px = img && img.px; if (_px) ctx.imageSmoothingEnabled = false;
-    V31P.eBody(e, A, fr, img, wind, jx, by, dw, dh, bob, tilt); /* v31: facings + wind-up heat */
-    if (_px) ctx.imageSmoothingEnabled = true;
+    if(!(PXA.on&&EnemyArtwork.draw(ctx,e,{wind,jx,by,dw,dh,bob,tilt,vf:V31P.eFace(e)}))){
+      const A=SPR.enemy[e.type]||SPR.enemy[def.artBase]||SPR.enemy.warden,fi=frz?0:Math.floor(gtime*(flt?7:clamp(4*e.spd/(def.size*.55),2.5,9)*(e.st==='charge'||e.st==='dash'?2:1))+e.seed*4)&3;
+      const fr=wind?A.wind:A[fi],img=e.flash>0?fr.flash:fr.img,_px=img&&img.px;if(_px)ctx.imageSmoothingEnabled=false;
+      V31P.eBody(e,A,fr,img,wind,jx,by,dw,dh,bob,tilt);if(_px)ctx.imageSmoothingEnabled=true;
+    }
     ctx.globalAlpha = 1;
     if (e.rotT > 0 || e.agT > 0 || e.volT > 0 || e.blT > 0) drawAff(e, sz);
     if (e.frzT > 0 || e.chlT > 0 || e.bnT > 0) drawElem(e, sz, by, dw, dh);
@@ -14868,7 +14877,7 @@ function render(dt) {
   }
   ctx.globalCompositeOperation = 'source-over';
   // projectiles
-  for (const p of projs) { ctx.save(); try { if (true) ctx.filter = 'opacity(' + expansionOpacity() + '%)'; 
+  for (const p of projs) { ctx.save(); try { if (expansionOpacity()<100) ctx.filter = 'opacity(' + expansionOpacity() + '%)';
     if (!inView(p.x, p.y, 30)) continue;
     if (p.src && G.evo[p.src]) { ctx.globalCompositeOperation = 'lighter'; glowAt(EVO[p.src].col, p.x, p.y, 30 + p.r * 2.4, 0.55 + 0.2 * Math.sin(gtime * 14 + p.x * 0.1)); ctx.globalCompositeOperation = 'source-over'; } // v18 evolved glow
     if (p.k === 'mbolt') { const c = MCOL[p.el] || '#c56bff', a = Math.atan2(p.vy, p.vx); ctx.globalCompositeOperation = 'lighter'; glowAt(c === '#7fd6ff' ? '#7fd6ff' : c, p.x, p.y, 30); glowAt('#ffffff', p.x, p.y, 9);
@@ -14921,7 +14930,7 @@ function render(dt) {
    } finally { ctx.restore(); } }
   for (const p of eprojs) { if (!inView(p.x, p.y, 20)) continue; ctx.globalCompositeOperation = 'lighter'; glowAt(SPR.glow[p.c] ? p.c : '#9dff3b', p.x, p.y, 28); ctx.globalCompositeOperation = 'source-over'; ctx.fillStyle = '#0a0610'; ctx.beginPath(); ctx.arc(p.x, p.y, 3.5, 0, TAU); ctx.fill(); }
   // effects (over)
-  for (const f of effects) { ctx.save(); try { if (f.src && f.k !== 'warn' && f.k !== 'goo') ctx.filter = 'opacity(' + expansionOpacity() + '%)'; 
+  for (const f of effects) { ctx.save(); try { if (f.src && f.k !== 'warn' && f.k !== 'goo' && expansionOpacity()<100) ctx.filter = 'opacity(' + expansionOpacity() + '%)';
     const p = 1 - Math.max(0, f.life) / f.max, a = 1 - p;
     if (f.src && G.evo[f.src] && f.k !== 'bolt' && f.k !== 'leap' && f.k !== 'mark' && f.life > 0) { const ev = EVO[f.src], fw = f.follow || f.k === 'cone' || f.k === 'reap', fx = fw ? P.x : f.x, fy = fw ? P.y : f.y, r0 = f.k === 'nova' ? Math.max(f.r, 20) : (f.r || 30); // v18 evolved tint
       if (fx !== undefined) { ctx.globalCompositeOperation = 'lighter'; glowAt(ev.col, fx, fy, r0 * 2.3, (f.k === 'zone' ? 0.24 : 0.42) * Math.min(1, a * 1.6));
@@ -15008,8 +15017,9 @@ function hudBegin() { if (UIS === 1) return; HUDS = [W, H, ZOOM]; W /= UIS; H /=
 function hudEnd() { if (!HUDS) return; [W, H, ZOOM] = HUDS; HUDS = null; ctx.setTransform(DPR, 0, 0, DPR, 0, 0); }
 function drawHUD() {
   drawFieldHUD();
+  Polish87.bossMarkers();
   drawQuestHUD(); npcHUD(); w28HUD(); v30HUD(); ph46HUD(); hm47HUD(); ultHUD(); drawMsgs(SAFE.t);
-  if (!G.moved && !G.town && state === 'play') { ctx.save(); ctx.textAlign='center'; ctx.textBaseline='middle';ctx.font='500 11px system-ui';ctx.fillStyle='#cad4c0';const text=PC?'WASD / arrows to move · hold the mouse to steer':'Touch and drag anywhere to move';ctx.strokeStyle='#10201df0';ctx.lineWidth=4;ctx.strokeText(text,W/2,H-SAFE.b-((FIELD_LAYOUT?FIELD_LAYOUT.dock.h:97)+64));ctx.fillText(text,W/2,H-SAFE.b-135);ctx.restore(); }
+  if (!G.moved && !G.town && state === 'play') { ctx.save(); ctx.textAlign='center'; ctx.textBaseline='middle';ctx.font='500 11px system-ui';ctx.fillStyle='#cad4c0';const text=PC?'WASD / arrows to move · hold the mouse to steer':'Touch and drag anywhere to move';ctx.strokeStyle='#10201df0';ctx.lineWidth=4;ctx.strokeText(text,W/2,H-SAFE.b-((FIELD_LAYOUT?FIELD_LAYOUT.dock.h:97)+64));ctx.fillText(text,W/2,H-SAFE.b-((FIELD_LAYOUT?FIELD_LAYOUT.dock.h:97)+64));ctx.restore(); }
 }
 /* v29: messages - a dark panel, big bold sans-serif text, a title + one plain line.
    They stack in one column under the HUD (below the quest tracker, DPS button, quest/achievement popups and event timer),
@@ -15081,7 +15091,7 @@ function loDetail(it) { /* plain-text-ish HTML detail for a loadout entry */
 function renderLoadoutDom(el, interactive) { if (!el || !G) return; const [ws, ps] = loItems(), det = interactive ? '<div class="lodet" id="loDet" role="status">Tap a skill or passive for details</div>' : '';
   const tile = it => { const tag = interactive ? 'button' : 'span', cls = 'lot' + (it.evo ? ' evo' : '') + (it.max ? ' mx' : '') + (it.endless ? ' en' : '');
     const nm = it.k === 'w' ? (it.evo ? EVO[it.id].n : WDEF[it.id].name) : PDEF[it.id].name;
-    return `<${tag} class="${cls}" style="--lc:${it.col}" data-lo="${it.k}:${it.id}" ${interactive ? `aria-label="${nm} level ${it.lv}"` : `title="${nm} Lv ${it.lv}"`}>${it.evo ? '<i class="lost">★</i>' : ''}<span class="loi">${it.ic}\uFE0E</span><i class="lolv">${it.lv}</i></${tag}>`; };
+    return `<${tag} class="${cls}" style="--lc:${it.col}" data-lo="${it.k}:${it.id}" ${interactive ? `aria-label="${nm} level ${it.lv}"` : `title="${nm} Lv ${it.lv}"`}>${it.evo ? '<i class="lost">★</i>' : ''}${SkillArt.html(it.k,it.id,'loi skill-image87')}<i class="lolv">${it.lv}</i></${tag}>`; };
   const empt = n => '<span class="lot empty" aria-hidden="true"></span>'.repeat(Math.max(0, n));
   el.innerHTML = `<div class="lorow"><span class="lolbl">Skills</span>${ws.map(tile).join('')}${empt(6 - ws.length)}</div><div class="lorow"><span class="lolbl">Passives</span>${ps.map(tile).join('')}${empt(6 - ps.length)}</div>${det}`;
   if (!interactive) return; const D = el.querySelector('.lodet'), all = [...ws, ...ps];
@@ -15230,7 +15240,7 @@ addEventListener('keydown', e => {
   if (e.code === 'KeyR' && state === 'play' && topScreen() === null) { ultCast(true); return; } // v30 Ultimate
   if ((e.code === 'KeyE' || e.code === 'Enter' || e.code === 'NumpadEnter') && state === 'play' && topScreen() === null && NPC_NEAR) { npcOpen(NPC_NEAR); return; } // v22 trade
   if (e.code === 'Space' && state === 'play' && topScreen() === null && !cfmOpen()) { JB.kb = 1; triggerJump(false, true); return; } // v21 manual jump (menus keep Space = confirm)
-  if ((e.code === 'Escape' || e.code === 'KeyP') && (state === 'play' || state === 'paused') && (topScreen() === null || topScreen() === 'pause')) state === 'play' ? pauseGame() : resumeGame();
+  if (e.code === 'Escape' && (state === 'play' || state === 'paused') && (topScreen() === null || topScreen() === 'pause')) state === 'play' ? pauseGame() : resumeGame();
 });
 addEventListener('keyup', e => { keys.delete(e.code); if (e.code === 'Space') JB.kb = 0; });
 addEventListener('blur', () => { keys.clear(); MM.on = false; if (PC && (state === 'play' || state === 'countdown')) pauseGame(); }); // v16: desktop auto-pause when the window loses focus
@@ -15705,10 +15715,9 @@ function resumeGame() { setJoy(false); hudOnly(); resumeAt = performance.now(); 
 function renderBuild() { renderPauseScene(); }
 /* level up */
 let luOpenAt = 0;
-function openLevelUp(restored) { state = 'levelup'; setJoy(false); if (!restored) { Snd.play('levelup'); padRumble(0.35, 0.6, 220); burst(P.x, P.y, '#ffd24a', 24, 160, 3, 0.7, true); } setTimeout(() => Snd.play('deal'), restored ? 60 : 280); show('levelup'); $('pauseBtn').classList.add('hidden'); buildChoices(); saveRun(); }
-function buildChoices() {
-  expansionRandomControl();
-  luOpenAt = performance.now();
+function openLevelUp(restored) { if(drainAutomaticLevels()){if(state==='levelup')resumeGame();return;} state = 'levelup'; setJoy(false); if (!restored) { Snd.play('levelup'); padRumble(0.35, 0.6, 220); burst(P.x, P.y, '#ffd24a', 24, 160, 3, 0.7, true); } setTimeout(() => Snd.play('deal'), restored ? 60 : 280); show('levelup'); $('pauseBtn').classList.add('hidden'); buildChoices(); saveRun(); }
+function buildChoices(automatic=false) {
+  if(!automatic){expansionRandomControl();luOpenAt = performance.now();}
   $('luTitle').textContent = 'Level ' + (G.level - G.pending + 1) + '!';
   const opts = [], owned = new Set(G.weapons.map(w => w.id));
   for (const w of G.weapons) if (w.lvl < WDEF[w.id].max) opts.push({ k: 'w', id: w.id, w: 3 });
@@ -15732,7 +15741,7 @@ function buildChoices() {
     while (ch.length < 3 && pool.length) { const o = wpick(pool, o => o.w); ch.push(o); pool.splice(pool.indexOf(o), 1); }
     if (ch.length < 3) ch.push({ k: 'heal' }); if (ch.length < 3) ch.push({ k: 'shard' });
     G.luChoices = ch.map(o => ({ k: o.k, id: o.id })); }
-  expansionAutoChoice(ch);
+  if(automatic)return expansionAutoChoice(ch);
   const C = $('choices'); C.innerHTML = ''; luSel = null; $('btnPick').disabled = true; $('btnPick').textContent = 'Tap a card';
   { const rb = $('btnReroll'), rr = G.rerolls || 0; rb.textContent = '↻ Reroll (' + rr + ')'; rb.disabled = !rr; rb.setAttribute('aria-label', 'Reroll cards, ' + rr + ' left'); }
   if (typeof renderLoadoutDom === 'function') renderLoadoutDom($('luLoad'), false);
@@ -15771,6 +15780,7 @@ function buildChoices() {
       luSel = { b, o }; Snd.play('select'); for (const c of C.children) { c.classList.toggle('pickd', c === b); c.classList.toggle('dimd', c !== b); }
       $('btnPick').disabled = false; $('btnPick').textContent = 'Choose ' + nm; };
     if (typeof BGA !== 'undefined' && BGA.card) BGA.card(b, o); /* v32 tree-themed / jester cards */
+    SkillArt.card(b,o);
     C.appendChild(b);
   });
 }
@@ -15786,14 +15796,15 @@ function tcFly(b) { try { if (!b || !b.isConnected) return; let L = $('tcFx'); i
   Object.assign(c.style, { left: r.left + 'px', top: r.top + 'px', width: r.width + 'px', height: r.height + 'px', animationDelay: '0s' });
   const g = document.createElement('i'); g.className = 'tcring'; g.style.left = (r.left + r.width / 2) + 'px'; g.style.top = (r.top + r.height / 2) + 'px'; g.style.setProperty('--rc', b.style.getPropertyValue('--rc'));
   L.append(c, g); setTimeout(() => { c.remove(); g.remove(); }, 600); } catch (e) {} }
-function applyChoice(o) {
+function applyChoice(o, automatic=false) {
   if (o.k === 'w') { const w = G.weapons.find(w => w.id === o.id); if (w) w.lvl++; else { addWeapon(o.id); if (WDEF[o.id].form) morphFx(WDEF[o.id].form); } }
   else if (o.k === 'p') { G.passives[o.id] = (G.passives[o.id] || 0) + 1; recalc(); if (o.id === 'vigor') heal(20); }
   else if (o.k === 'e') evolve(o.id);
   else if (o.k === 'heal') heal(P.maxHp * 0.4); else G.shardsPicked += 6;
   recalc();
   G.pending--; G.luChoices = null;
-  if (G.pending > 0) { buildChoices(); saveRun(); } else { resumeGame(); triggerJump(true); } /* v20: celebratory hop after levelling up */
+  if(automatic)return;
+  if (G.pending > 0) { openLevelUp(true); saveRun(); } else { resumeGame(); triggerJump(true); }
 }
 function evolve(id) { // v18
   const E = EVO[id]; if (!E || !G.weapons.some(w => w.id === id)) return false; G.evo = G.evo || {}; if (G.evo[id]) return false; G.evo[id] = 1;
@@ -15891,7 +15902,7 @@ function gearDrop(kind) { const it = genGear(kind); if (save.autoEquip !== false
 function autoGear(it) {
   const sl = gearSlotFor(it), cur = G.gear[sl];
   if (!cur || itemScore(it) > itemScore(cur)) { G.gear[sl] = it; recalc(); toast(`▲ ${it.name} equipped`, GRAR[it.r].c, 1.8); Snd.play('buy'); G.gearFx = 0.7; burst(P.x, P.y, GRAR[it.r].c, 10, 90, 2.4, 0.5, true); }
-  else { G.salvage += salvVal(it); toast(`${it.name} — salvaged +${salvVal(it)} ◆`, '#a593c4', 1.4); Snd.play('pick'); }
+  else { G.salvage += salvVal(it); Snd.play('pick'); }
 }
 function openGear(kind, item) {
   Snd.play('flip');
@@ -17279,6 +17290,7 @@ function talKey(code) { // talents-screen keys; true = handled
 initExpansion();
 initRebirthContent();
 MotionCompletion.init();
+Polish87.init();
 initRebirthScenes();
 wireActorSkills85();
 initNightforge();

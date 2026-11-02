@@ -7,14 +7,15 @@ const FieldHUD=(()=>{
   const clock={x:compact?hero.x+hero.w+8:(l+r)/2-cw/2,y:t,w:cw,h:66};
   const sw=compact?available:Math.min(260,available/2-cw/2-control-24);
   const stats={x:compact?l:r-control-12-sw,y:compact?t+74:t,w:sw,h:compact?28:66};
-  const base=compact?136:108,n=Math.max(6,skills,passives),size=Math.min(compact?28:34,Math.floor((available-68-(n-1)*4)/n));
+  const base=compact?136:108,n=Math.max(6,skills,passives),size=Math.min(compact?34:44,Math.floor((available-68-(n-1)*4)/n));
   const dw=Math.min(available,68+n*size+(n-1)*4),dh=size*2+29;
-  return {compact,hero,clock,stats,xp:{x:l,y:(safe.t||0)+(compact?126:96),w:available,h:4},
+  return {compact,hero,clock,stats,xp:{x:l,y:h-(safe.b||0)-11,w:available,h:4},
    boss:{x:compact?l:w/2-Math.min(400,w*.4)/2,y:(safe.t||0)+base+8,w:compact?available-112:Math.min(400,w*.4),h:36},
-   hudBottom:base+(boss?48:0),dock:{x:(l+r-dw)/2,y:h-(safe.b||0)-12-dh,w:dw,h:dh,size,gap:4},control};
+   hudBottom:base+(boss?48:0),dock:{x:(l+r-dw)/2,y:h-(safe.b||0)-36-dh,w:dw,h:dh,size,gap:4},control};
  }
  function pointer(x,y,rect,width,height,scale=1){return {x:(x-rect.left)*width/rect.width/scale,y:(y-rect.top)*height/rect.height/scale};}
- return {layout,pointer};
+ function edgeMarker(x,y,w,h,b={}){if(x>=0&&x<=w&&y>=0&&y<=h)return null;const l=b.left??24,r=b.right??w-24,t=b.top??100,bt=Math.max(t+10,b.bottom??h-150),cx=w/2,cy=(t+bt)/2,dx=x-cx,dy=y-cy,k=Math.min(dx>0?(r-cx)/dx:dx<0?(l-cx)/dx:Infinity,dy>0?(bt-cy)/dy:dy<0?(t-cy)/dy:Infinity);return {x:cx+dx*k,y:cy+dy*k,angle:Math.atan2(dy,dx)};}
+ return {layout,pointer,edgeMarker};
 })();
 if(typeof module!=='undefined')module.exports=FieldHUD;
 let FIELD_LAYOUT=null;
@@ -31,7 +32,7 @@ function fieldMeter(x,y,w,h,f,col){ctx.fillStyle='#ffffff12';rr(x,y,w,h,Math.min
 function drawFieldHUD(){
  const boss=G.boss&&!G.boss.dead,L=FIELD_LAYOUT=FieldHUD.layout(W,H,SAFE,G.weapons.length,Object.keys(G.passives).length,!!boss),a=L.hero,b=L.clock,c=L.stats;
  const mode=L.compact?'compact':'wide';if(document.body.dataset.fieldLayout!==mode)document.body.dataset.fieldLayout=mode;
- const clearance=Math.round((SAFE.b+L.dock.h+24)*UIS)+'px';if(document.body.dataset.fieldClear!==clearance){document.body.dataset.fieldClear=clearance;document.body.style.setProperty('--field-dock-clear',clearance);}
+ const clearance=Math.round((SAFE.b+L.dock.h+48)*UIS)+'px';if(document.body.dataset.fieldClear!==clearance){document.body.dataset.fieldClear=clearance;document.body.style.setProperty('--field-dock-clear',clearance);}
  ctx.save();
  fieldPanel(a.x,a.y,a.w,a.h,P.hp/P.maxHp<.3?'#dc847a99':undefined);
  fieldText(CLASSES[G.cls].name,a.x+12,a.y+17,L.compact?14:17,'#ece6d2','left',a.w-24,true);
@@ -63,8 +64,8 @@ function drawFieldDock(){
   const y=d.y+10+row*(S+9);fieldText(label,d.x+10,y+S/2,7,'#9ba99c');
   for(let i=0;i<Math.max(6,ws.length,ps.length);i++){
    const it=items[i],x=d.x+58+i*(S+d.gap);ctx.fillStyle=it?'#273135':'#ffffff04';rr(x,y,S,S,3);ctx.fill();ctx.strokeStyle=it?(it.evo?'#d9bd85':it.max?'#babb90':'#9aa99b50'):'#a2b09b20';ctx.lineWidth=it&&it.evo?1.5:1;ctx.stroke();
-   if(!it)continue;ctx.fillStyle=it.col;ctx.fillRect(x+3,y+4,2,S-12);fieldText(it.ic+'\uFE0E',x+S/2,y+S*.45,Math.floor(S*.6),'#e7e6db','center');
-   fieldText(it.lv,x+S-3,y+S-7,8,it.max?'#e6ce92':'#d6decf','right');
+   if(!it)continue;SkillArt.draw(ctx,it,x+3,y+3,S-6);ctx.fillStyle=it.col;ctx.fillRect(x+2,y+4,2,S-12);
+   ctx.fillStyle='#101b1ee8';rr(x+S-15,y+S-17,13,13,3);ctx.fill();fieldText(it.lv,x+S-8,y+S-10,8,it.max?'#e6ce92':'#d6decf','center');
    if(row===0){const w=G.weapons[i],f=!WFIRE[w.id]||w.wait||!w.cdMax?1:clamp(1-w.t/w.cdMax,0,1);fieldMeter(x+3,y+S-3,S-6,2,f,it.evo?'#d9bd85':f>=1?'#bbcc9a':'#9caec5');}
    LO_RECTS.push([x,y,S,S,it]);
   }
@@ -72,6 +73,7 @@ function drawFieldDock(){
 }
 function drawPauseHero(){
  if(!G||state!=='paused'||!$('pause').classList.contains('on'))return;const cv=$('pauseHero'),w=cv.clientWidth||260,h=cv.clientHeight||310,d=Math.min(2,window.devicePixelRatio||1);
+ if(Polish87.portrait(cv,{cls:G.cls,race:G.race,outfit:G.outfit||save.outfit,gear:G.gear,gearOver:save.gearOver,form:G.form,t:gtime}))return;
  if(cv.width!==w*d||cv.height!==h*d){cv.width=w*d;cv.height=h*d;}const g=cv.getContext('2d');g.setTransform(d,0,0,d,0,0);g.clearRect(0,0,w,h);g.translate(w/2,h*.79);g.scale(Math.min(w/95,h/105),Math.min(w/95,h/105));
  drawHero(g,{cls:G.cls,race:G.race,outfit:G.outfit||save.outfit,gear:G.gear,gearOver:save.gearOver,form:G.form,t:gtime,atk:0});
 }

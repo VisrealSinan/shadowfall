@@ -1,8 +1,9 @@
 /* Dedicated enemy action sheets, with static-art motion and native fallbacks. */
 const EnemyArtwork = (() => {
   const images = new Map(), frames = new Map(), poses = new Map(), actors = new WeakMap();
-  let posePixels=0;
-  function discardPose(key){const f=poses.get(key);if(f){posePixels-=f.pixels;poses.delete(key);}}
+  let posePixels=0;const metrics={hits:0,misses:0,masks:0};
+  function discardPose(key){const f=poses.get(key);if(f){posePixels-=f.pixels;poses.delete(key);for(const [k,v]of frames)if(v.poseKey===key)frames.delete(k);}}
+  const hasSheet=type=>!!(ENEMY_ART_MANIFEST[type]?.action_sheet||(typeof MOTION86!=='undefined'&&MOTION86.enemies[type]));
   const actions = ['idle','walk','windup','attack','hurt','death'];
   function profile(type) {
     const d=ETYPES[type];
@@ -23,7 +24,7 @@ const EnemyArtwork = (() => {
       for (const key of frames.keys()) if (key.startsWith(type+'|')) frames.delete(key);
       for (const key of poses.keys()) if (key.startsWith(type+'|')) discardPose(key);
       const d = Object.getOwnPropertyDescriptor(SPR.enemy,type);
-      if (d && !d.get) for (let i=0;i<5;i++) SPR.rq.push([type,i]);
+      if (d && !d.get && !hasSheet(type)) for (let i=0;i<5;i++) SPR.rq.push([type,i]);
       // Bound decoded atlas memory as well as the number of cached enemies.
       let pixels=0;for(const im of images.values())pixels+=im.naturalWidth*im.naturalHeight;
       for(const [key,im] of images){if(pixels<=32*1024*1024)break;if(im===image)continue;pixels-=im.naturalWidth*im.naturalHeight;images.delete(key);}
@@ -39,9 +40,10 @@ const EnemyArtwork = (() => {
     const available=images.get(type)?.enemySheet?.animations[action]?.frames||6;
     index=Math.max(0,Math.min(available-1,Math.floor(index)));
     const key=[type,action,index,K].join('|');
-    if (poses.has(key)) {const record=poses.get(key);poses.delete(key);poses.set(key,record);return record;}
+    if (poses.has(key)) {metrics.hits++;const record=poses.get(key);poses.delete(key);poses.set(key,record);return record;}
     const image=images.get(type);
     if (!image || !image.complete || !image.naturalWidth) return null;
+    metrics.misses++;
     const sheet=image.enemySheet;
     const c=document.createElement('canvas');c.width=c.height=Math.round(size*K);
     const g=c.getContext('2d'), p=index/5, cycle=index/6*Math.PI*2, wave=Math.sin(Math.PI*p), kind=profile(type);
@@ -92,22 +94,26 @@ const EnemyArtwork = (() => {
     c.k=K;c.px=0;
     const silhouette=color=>{const s=document.createElement('canvas');s.width=c.width;s.height=c.height;const sg=s.getContext('2d');sg.drawImage(c,0,0);sg.globalCompositeOperation='source-atop';sg.fillStyle=color;sg.fillRect(0,0,s.width,s.height);s.k=K;s.px=0;return s;};
     // Silhouettes describe the creature, not its soft ground shadow.
-    const flash=silhouette('#ffffff'),dark=silhouette('#140a1e'),heat=action==='windup'?silhouette('#ff2a1e'):null;
+    // The direct sheet path normally needs only the colour frame. Allocate
+    // silhouettes when a facing, warning or legacy renderer actually uses one.
+    const masks={};
     if (!floating && action!=='death') {
       g.save();g.globalCompositeOperation='destination-over';
       const x=c.width/2,y=size*.94*K,rx=Math.max(3,size*.20)*K,ry=Math.max(1.2,size*.055)*K;
       g.translate(x,y);g.scale(1,ry/rx);const grad=g.createRadialGradient(0,0,0,0,0,rx);
       grad.addColorStop(0,'rgba(5,4,12,.45)');grad.addColorStop(1,'rgba(5,4,12,0)');g.fillStyle=grad;g.beginPath();g.arc(0,0,rx,0,Math.PI*2);g.fill();g.restore();
     }
-    const record={img:c,flash,dark,heat,external:true,dedicated:!!sheet,action,index,profile:kind,pixels:c.width*c.height*(heat?4:3)};poses.set(key,record);posePixels+=record.pixels;
-    while(poses.size>1&&(poses.size>192||posePixels>8*1024*1024))discardPose(poses.keys().next().value);
+    const record={img:c,external:true,dedicated:!!sheet,action,index,profile:kind,pixels:c.width*c.height,poseKey:key};
+    for(const [name,col]of [['flash','#ffffff'],['dark','#140a1e'],['heat','#ff2a1e']])Object.defineProperty(record,name,{enumerable:true,get(){if(name==='heat'&&action!=='windup')return null;if(!masks[name]){masks[name]=silhouette(col);metrics.masks++;const pixels=c.width*c.height;record.pixels+=pixels;if(poses.has(key))posePixels+=pixels;}return masks[name];}});
+    poses.set(key,record);posePixels+=record.pixels;
+    while(poses.size>1&&(poses.size>640||posePixels>16*1024*1024))discardPose(poses.keys().next().value);
     return record;
   }
   function frame(type,index) {
     const key=[type,index,PXA_K||1,SPR.keyPh].join('|');if(frames.has(key))return frames.get(key);
     const record=pose(type,index===4?'windup':'walk',index===4?3:Math.round(index*1.5));if(!record)return null;
     // The legacy cache expects masks only on its first movement frame.
-    const result={...record,flash:index===0?record.flash:null,dark:index===0?record.dark:null};frames.set(key,result);
+    const result={img:record.img,external:true,dedicated:record.dedicated,poseKey:record.poseKey,flash:index===0?record.flash:null,dark:index===0?record.dark:null};frames.set(key,result);
     if (frames.size>256) frames.delete(frames.keys().next().value);
     return result;
   }
@@ -148,5 +154,6 @@ const EnemyArtwork = (() => {
     if(u>.15){g.fillStyle=ETYPES[c.k].puff||'#c8b6ff';for(let i=0;i<6;i++){const a=i*Math.PI/3+c.sd;g.fillRect(Math.cos(a)*size*u*.4,-size*.35+Math.sin(a)*size*u*.25,2,2);}}
     g.restore();return true;
   }
-  return {load,frame,pose,profile,track:actor,update,attack,hit,state,draw,death,actions,types:Object.keys(ENEMY_ART_MANIFEST)};
+  function stats(){return {...metrics,poses:poses.size,posePixels,images:images.size,legacyFrames:frames.size};}
+  return {load,frame,pose,profile,track:actor,update,attack,hit,state,draw,death,actions,hasSheet,stats,types:Object.keys(ENEMY_ART_MANIFEST)};
 })();

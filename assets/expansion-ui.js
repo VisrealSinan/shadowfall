@@ -88,14 +88,20 @@ function expansionRandomControl() {
   if (!b) { b=document.createElement('button'); b.id='randomPassiveExpansion'; b.className='btn small'; $('levelup').insertBefore(b,$('choices')); }
   const x=expansionState(),ready=ShadowExpansion.passiveReady(G,WDEF,SKILL_SLOTS);
   b.hidden=!ready; b.textContent=x.randomPassives?'Random passives: ON':'Randomize all future passives';
-  b.onclick=()=>{x.randomPassives=!x.randomPassives; buildChoices();saveRun();};
+  b.onclick=()=>{x.randomPassives=!x.randomPassives;if(x.randomPassives&&drainAutomaticLevels()){resumeGame();}else buildChoices();saveRun();};
 }
 function expansionAutoChoice(ch) {
   const x=expansionState(),ready=ShadowExpansion.passiveReady(G,WDEF,SKILL_SLOTS);
-  const pool=x.randomAll?ch: x.randomPassives&&ready?ch.filter(o=>o.k==='p'):[];
-  if(!pool.length)return;
-  const run=G,choices=G.luChoices,o=pick(pool);
-  setTimeout(()=>{if(G===run&&state==='levelup'&&G.luChoices===choices&&G.pending>0)applyChoice(o);},20);
+  let pool=x.randomAll?ch: x.randomPassives&&ready?ch.filter(o=>o.k==='p'):[];
+  if(!pool.length&&x.randomPassives&&ready&&ch.every(o=>o.k==='heal'||o.k==='shard'))pool=ch;
+  if(!pool.length)return false;
+  applyChoice(pick(pool),true);return true;
+}
+function drainAutomaticLevels(){
+  if(!G||!G.pending)return false;const x=expansionState();
+  if(!x.randomAll&&!(x.randomPassives&&ShadowExpansion.passiveReady(G,WDEF,SKILL_SLOTS)))return false;
+  let consumed=0;while(G.pending>0&&consumed<8){if(!buildChoices(true))return consumed>0&&G.pending===0;consumed++;}
+  return consumed>0;
 }
 function expansionWard(body) {
   const p=ShadowExpansion.profile(save),items=(ARMOR_SETS[wardCls]||[]).filter(o=>o.outfitShardCost);

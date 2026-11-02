@@ -23,6 +23,7 @@ names.add('assets/map-vistas-modern.png');
 names.add('assets/world-materials-modern.png');
 names.add('assets/world-props-modern.png');
 for(const name of ['motion-rig.js','motion86-manifest.js','motion-completion.js',...fs.readdirSync('assets').filter(n=>/^motion86-.*\.png$/.test(n))])names.add('assets/'+name);
+for(const name of ['art-v87-manifest.js','skill-art.js','polish87.js','polish87.css',...fs.readdirSync('assets').filter(n=>/-v87\.png$/.test(n))])names.add('assets/'+name);
 for (const name of names) {
   // GitHub normalizes text to LF. Verify and publish those identical bytes locally.
   if (/\.(js|html|json|css|svg|txt|webmanifest)$/.test(name)) {

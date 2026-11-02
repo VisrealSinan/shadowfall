@@ -1,12 +1,11 @@
 {
- "version": "86",
+ "version": "87",
  "date": "2026-11-01",
  "minLauncher": "2.0.0",
  "notes": [
-  "Complete animation coverage: 150 new action sheets and 8,232 frames.",
-  "Articulated live rigs, animated vendor interactions and moving foliage, cloth, lights and machinery.",
-  "Summons now visibly arrive, attack, react to hits, fall and respawn. All enemy types have action sheets.",
-  "Existing outfits, unlocks, skill balance and saved runs remain compatible."
+  "Painted skill cards and loadouts, fitted Graveshade portraits, complete scenery and modern shops.",
+  "Offscreen boss markers, bottom XP, reliable repeat portal entry and Esc-only keyboard pause.",
+  "Quiet Soul Lure and salvage rewards, automatic passive upgrades without card flashes, and bounded enemy animation caches."
  ],
  "files": [
   {
@@ -36,8 +35,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "742c4da77f00147910c969bcf4736962ebfe324d5cf4e036bf4da144b0c8103a",
-   "size": 2841467
+   "sha256": "5b16622f2ebefa9c42943e136017dc81dfd34b654e7a6c7d5433b576cac226ce",
+   "size": 2842133
   },
   {
    "name": "manifest.webmanifest",
@@ -46,8 +45,8 @@
   },
   {
    "name": "sw.js",
-   "sha256": "40c603f25c3c71a665e41403c9db6669df74f30ac9179a28761eabf811c49507",
-   "size": 2785
+   "sha256": "e1f13f81710a29eeaea1d1d320fe5a5513003a9a44ffb5ffacc0f19ae322abae",
+   "size": 3202
   },
   {
    "name": "assets/actor-animation-manifest.js",
@@ -1176,8 +1175,8 @@
   },
   {
    "name": "assets/enemy-art.js",
-   "sha256": "1012c450cc6629eaaeb38b3556b14a0d0ac7cccec9919328c0ca38e1723aa388",
-   "size": 10304
+   "sha256": "32a1a547ed67fdaeae66a16aea49e0bf26fca245b55ae257e65007bf4126145f",
+   "size": 11200
   },
   {
    "name": "assets/enemy-assemblysaint.png",
@@ -4801,8 +4800,8 @@
   },
   {
    "name": "assets/expansion-ui.js",
-   "sha256": "9d9e8c5848bf9a449d6e75509b8e692a2849cd099a629eefd7a2e5817b19b09e",
-   "size": 10963
+   "sha256": "a6b6b32f8fa88031baa4432bbcf405a02f380cda558785cb5cc5c08bc9f30a49",
+   "size": 11349
   },
   {
    "name": "assets/expansion-content.js",
@@ -4846,8 +4845,8 @@
   },
   {
    "name": "assets/journey-scenes.js",
-   "sha256": "268dcf2b62adadec47ae7fae267911cea28c97b72dce93ee3b29c173d9631458",
-   "size": 9316
+   "sha256": "d8cb8c1c922eeb59bc6e5057ce5116a48ea9d8bdeb7bb6e0c1f344584ec3c9c2",
+   "size": 9453
   },
   {
    "name": "assets/journey-scenes.css",
@@ -4871,8 +4870,8 @@
   },
   {
    "name": "assets/field-ui.js",
-   "sha256": "d250173da393de7c4f0336169e8a611adbacb6d8a3560018a8c14faab7244cea",
-   "size": 9000
+   "sha256": "12eb7c61b5ac21bb94e846b5951c0ddcce4d21c3132d900f9e3609bcab48345f",
+   "size": 9500
   },
   {
    "name": "assets/field-ui.css",
@@ -4901,8 +4900,8 @@
   },
   {
    "name": "assets/rebirth-scenes.js",
-   "sha256": "243e5f6af5cd33d2e9ac10b3c7cb908a3010c4d095381185908766bc7a3ed5ee",
-   "size": 3165
+   "sha256": "0e0fffb9170e94fa0be3032e8237e996aa4340da06c72729ea7e2d11c5dc642b",
+   "size": 3307
   },
   {
    "name": "assets/rebirth.css",
@@ -4961,8 +4960,8 @@
   },
   {
    "name": "assets/motion-completion.js",
-   "sha256": "f664970aca140fdefe5f1b4493db10ff1cc36af38e301bcb7d480cf481feb350",
-   "size": 10641
+   "sha256": "a42d2275e1dab6bf17aa3923ef3b07eeab63f72df896fb47e338ec93ac961f12",
+   "size": 10751
   },
   {
    "name": "assets/motion86-actors-myers-cat-female.png",
@@ -5713,6 +5712,66 @@
    "name": "assets/motion86-vendors-stranger.png",
    "sha256": "9d4baa57d712a6f888b944529e8c1252a7c6ea3ea9b31166e4229c2c45539847",
    "size": 809018
+  },
+  {
+   "name": "assets/art-v87-manifest.js",
+   "sha256": "540e8fae8d8c84abb5dc52c4595fa22c1dec870a9a2b292e7212c5aef8e288ea",
+   "size": 3124
+  },
+  {
+   "name": "assets/skill-art.js",
+   "sha256": "e0c32389871301074088dc3658bff6a80c50d4a480ee229cfe122aff7e6bbe90",
+   "size": 5660
+  },
+  {
+   "name": "assets/polish87.js",
+   "sha256": "ec569c3cdb16cd7545b2f84adb88dabfd98e2c5b742202079d90eed6aca25cc4",
+   "size": 3715
+  },
+  {
+   "name": "assets/polish87.css",
+   "sha256": "8d0df626f57fd575fc5f36bd4beeb4b7a5cda12d9586ca2462d6415482d5cd02",
+   "size": 7812
+  },
+  {
+   "name": "assets/skill-art-arcane-v87.png",
+   "sha256": "f1ac34e7b8c3c3bbb9177bdaab8f1f4cfad9dd22a9b00b7e2d50cc19aa978bf8",
+   "size": 2621296
+  },
+  {
+   "name": "assets/skill-art-boons-v87.png",
+   "sha256": "3aac71584e4b2b8941d7aaccfc7bea6fd41359307b8ddac68dc0e0b7541d544a",
+   "size": 2705417
+  },
+  {
+   "name": "assets/skill-art-martial-v87.png",
+   "sha256": "ccae8845343a1fed4496e97405523df860ba5cb81bcf414167581d4828d1bd0e",
+   "size": 2697728
+  },
+  {
+   "name": "assets/skill-art-wilds-v87.png",
+   "sha256": "9b4068628a5e7847bdfef66e0770754bed3a4d4d92f052d44fc227a20f369c83",
+   "size": 3004410
+  },
+  {
+   "name": "assets/town-shops-v87.png",
+   "sha256": "d08ef7c8902094c8500707d3fc869dd3718a063048e02a8f3046fcc9aa8bdd7c",
+   "size": 3031929
+  },
+  {
+   "name": "assets/world-props-strip-0-v87.png",
+   "sha256": "3dd1eb93fbded6f3e6df1807b300d662e6eb71be28ec6e237efd46fd2f6c68e6",
+   "size": 1507228
+  },
+  {
+   "name": "assets/world-props-strip-1-v87.png",
+   "sha256": "bb4e34dfa12971add25e1a6275882a85b7f65a4d875e22bd41363f33ff4c6963",
+   "size": 1576870
+  },
+  {
+   "name": "assets/world-props-strip-2-v87.png",
+   "sha256": "eb99b1641e4957121cdc27d77ddba151a327f1371dfcdff1b07e8ee34c1cf671",
+   "size": 1725922
   }
  ]
 }
