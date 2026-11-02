@@ -26,9 +26,9 @@ const ActorAnimations = (() => {
     save.sex[race] = sex === 'female' ? 'f' : 'm';
   }
   function variant(o) {
-    if (o.form) return null;
+    const form=o.cls==='druid'&&o.form;
     const sex = o.cls === 'bearlina' ? 'bear-form' : (o.gender || gender(o.cls, o.race));
-    return variants[[o.cls, o.race || save.race, sex].join('/')] || null;
+    return form ? (ACTOR_ANIMATION_MANIFEST.forms||{})[[o.cls,o.race||save.race,sex,form].join('/')]||null : variants[[o.cls, o.race || save.race, sex].join('/')] || null;
   }
   function image(v) {
     if (images.has(v.src)) { const im = images.get(v.src); images.delete(v.src); images.set(v.src, im); return im; }
@@ -62,7 +62,7 @@ const ActorAnimations = (() => {
     const phase = a.loop ? ((elapsed % duration) + duration) % duration / duration : Math.max(0, Math.min(1, elapsed / duration));
     if (procedural) return {action, row:v.animations.idle.row, column:0, procedural:true, phase};
     const n = Math.floor(elapsed * 1000 / a.frame_duration_ms);
-    return {action, row:a.row, column:a.loop ? ((n % a.frames) + a.frames) % a.frames : Math.min(a.frames - 1, Math.max(0,n))};
+    return {action, phase, row:a.row, column:a.loop ? ((n % a.frames) + a.frames) % a.frames : Math.min(a.frames - 1, Math.max(0,n))};
   }
   function motion(g, cls, f) {
     const style = motionStyles[cls], p = f.phase, wave = Math.sin(Math.PI * p);
@@ -99,6 +99,7 @@ const ActorAnimations = (() => {
   }
   function draw(g, o) {
     const v = variant(o); if (!v) return false;
+    if(v.atlas)return RebirthArt.actor(g,o,v,frame(o,v));
     const im = image(v); if (!im.complete || !im.naturalWidth) { g.save(); g.fillStyle = '#cdbde6'; g.font = '12px sans-serif'; g.textAlign = 'center'; g.fillText('…', 0, -15); g.restore(); return true; }
     const f = frame(o,v), k = (o.cls === 'bearlina' ? 88 : 76) / v.cell_height * (v.display_scale || 1);
     const look = o.cos || heroCos(o.cls, raceOf(o.race || save.race));

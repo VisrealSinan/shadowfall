@@ -121,6 +121,6 @@ function expansionInitControls() {
 }
 function expansionHUD() {
   let el=$('huntTimerExpansion');if(!el){el=document.createElement('div');el.id='huntTimerExpansion';Object.assign(el.style,{position:'fixed',left:'50%',bottom:'130px',transform:'translateX(-50%)',pointerEvents:'none',fontSize:'13px',color:'#e8e2f5',background:'#160c24dd',padding:'5px 10px',borderRadius:'8px',zIndex:4});document.body.appendChild(el);}
-  const x=G&&G.expansion,on=x&&x.huntStarted!==undefined&&!x.huntComplete&&['play','countdown'].includes(state);el.style.display=on?'block':'none';if(on)el.textContent='Michael Myers · survive '+fmtTime(Math.max(0,180-(x.huntElapsed||0)));
+  const x=G&&G.expansion,on=x&&x.huntStarted!==undefined&&!x.huntComplete&&['play','countdown'].includes(state);el.style.display=on?'block':'none';if(on)el.textContent='Lanternless Pursuer · survive '+fmtTime(Math.max(0,180-(x.huntElapsed||0)));
   const tip=$('skillHoverExpansion');if(tip&&state!=='play')tip.style.display='none';
 }

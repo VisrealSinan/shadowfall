@@ -1,14 +1,14 @@
 /* Secret characters, encounters, and hand-authored skill names. */
 function expansionInitSecrets() {
   const secret = (id, name, weapon, color, desc, stats) => {
-    CLASSES[id]={name,role:id==='tibopoteto'?'Codex & Grok · Paired Survivor':'Secret Survivor',flavor:id==='myers'?'The shape walks again.':'Two signals. One heartbeat.',desc,weapon,wname:weapon,art:'dagger',tint:color,cost:0,secret:true,passive:id==='myers'?'Relentless':'Shared Signal',pdesc:id==='myers'?'A durable melee survivor. The playable character takes damage normally.':'Two people fight together as one survivor with shared health.',stats,chips:['Secret class',id==='myers'?'Melee':'Duo']};
+    CLASSES[id]={name,role:id==='tibopoteto'?'Codex & Grok · Paired Survivor':'Secret Survivor',flavor:id==='myers'?'The lantern waits for no one.':'Two signals. One heartbeat.',desc,weapon,wname:weapon,art:'dagger',tint:color,cost:0,secret:true,passive:id==='myers'?'Relentless':'Shared Signal',pdesc:id==='myers'?'A durable melee survivor. The playable character takes damage normally.':'Two people fight together as one survivor with shared health.',stats,chips:['Secret class',id==='myers'?'Melee':'Duo']};
     CLS_COL[id]=color;CLASS_LOOK[id]={...CLASS_LOOK.rogue};CLASS_PAL[id]={...CLASS_PAL.rogue};GCLS[id]=GCLS.rogue||['dmg','crit','speed'];
     TALENTS[id]=['Resolve','Technique','Instinct'].map((name,bi)=>TTREE(name,['✦','◈','♥'][bi],color,Array.from({length:16},(_,i)=>[id+'_tal_'+bi+'_'+i,name+' '+(i+1),['✦','◈','♥'][bi],bi===0?{dmg:.015}:bi===1?{cd:.01}:{maxHp:4}])));
     TALENTS[id].forEach((tr,bi)=>tr.nodes.forEach(n=>{n.bi=bi;TAL_BY_ID[id+':'+n.id]=n;}));
   };
-  secret('myers','Michael Myers','x_myers_0','#bfc5da','Survive the invincible hunter for three minutes after 15:00. Playable Michael is mortal.',{maxHp:145,armor:2,speed:.92,crit:.05});
+  secret('myers','Graveshade','x_myers_0','#bfc5da','Survive the invincible hunter for three minutes after 15:00. The playable gravekeeper is mortal.',{maxHp:145,armor:2,speed:.92,crit:.05});
   secret('tibopoteto','Tibo & Poteto','x_tibopoteto_0','#84ead4','A fictional duo inspired by the community joke: Tibo and Poteto share one playable unit.',{maxHp:110,speed:1.02,crit:.06,area:1.05});
-  ETYPES.myers_hunter={name:'Michael Myers',hp:999999,spd:36,dmg:30,r:13,xp:0,t0:1e9,size:58,ai:'chase',heavy:true,invincible:true,puff:'#d4d9e6'};
+  ETYPES.myers_hunter={name:'Graveshade',hp:999999,spd:36,dmg:30,r:13,xp:0,t0:1e9,size:58,ai:'chase',heavy:true,invincible:true,puff:'#d4d9e6'};
   EDRAW.myers_hunter=(g,a)=>{g.save();g.scale(1.45,1.45);drawExpansionPerson(g,'myers',0,a.p*TAU);g.restore();};
   for(const [id,base,name,hp,dmg] of [['night_revenant','armor','Night Revenant',180,26],['dread_hound','wolf','Dread Hound',100,22]]){
     ETYPES[id]={...ETYPES[base],name,hp,dmg,t0:900,artBase:base,puff:'#e078ff',cap:3};
@@ -24,9 +24,9 @@ function expansionHuntTick(dt) {
   const x=expansionState();
   if(!x.bite && G.t>=1200){x.bite=true;for(const e of enemies)if(!e.dead&&!e.biteExpansion){e.dmg*=1.5;e.biteExpansion=true;}toast('The shadows bite harder · +50% enemy damage', '#ff6b80',3);}
   if(x.huntComplete)return;
-  if(x.huntStarted===undefined){x.huntStarted=G.t;x.huntElapsed=0;announce('THE SHAPE IS WATCHING','Michael Myers is invincible · survive his pursuit for 3 minutes','#d4d9e6','boss');}
+  if(x.huntStarted===undefined){x.huntStarted=G.t;x.huntElapsed=0;announce('THE LANTERN GOES DARK','Graveshade is invincible · survive his pursuit for 3 minutes','#d4d9e6','boss');}
   x.huntElapsed=Math.max(0,G.t-x.huntStarted);
-  if(x.huntElapsed>=180){x.huntComplete=true;for(const e of enemies)if(e.type==='myers_hunter')e.dead=true;expansionUnlock('myers');toast('The Shape withdraws. You survived.', '#d4d9e6',4);return;}
+  if(x.huntElapsed>=180){x.huntComplete=true;for(const e of enemies)if(e.type==='myers_hunter')e.dead=true;expansionUnlock('myers');toast('The Lanternless Pursuer withdraws. You survived.', '#d4d9e6',4);return;}
   if(!enemies.some(e=>!e.dead&&e.type==='myers_hunter'))spawnEnemy('myers_hunter');
 }
 function expansionHunterMove(e,dt,dying) {
@@ -34,6 +34,10 @@ function expansionHunterMove(e,dt,dying) {
   if(!dying){e.x+=dx/d*e.spd*dt;e.y+=dy/d*e.spd*dt;if(d<P.r+e.r+3)hurtPlayer(e.dmg,e);}
 }
 function drawExpansionPerson(g,kind,offset=0,t=0,cos) {
+  if(kind==='myers'){
+    // Original gravekeeper silhouette also covers the pre-atlas fallback.
+    g.save();g.translate(offset,Math.sin(t)*.8);g.fillStyle='#20292b';g.beginPath();g.moveTo(-9,-27);g.lineTo(9,-27);g.lineTo(13,12);g.lineTo(-13,12);g.closePath();g.fill();g.fillStyle='#9a8054';g.beginPath();g.moveTo(-8,-39);g.lineTo(0,-44);g.lineTo(8,-39);g.lineTo(5,-24);g.lineTo(0,-19);g.lineTo(-5,-24);g.closePath();g.fill();g.strokeStyle='#9a8054';g.lineWidth=2;g.beginPath();g.moveTo(-6,-39);g.lineTo(-14,-49);g.moveTo(6,-39);g.lineTo(14,-49);g.moveTo(13,12);g.lineTo(21,-23);g.arc(19,-19,9,-1.4,1.5);g.stroke();g.fillStyle='#8fd3c0';g.fillRect(-5,-35,3,2);g.fillRect(2,-35,3,2);g.fillRect(-16,-6,5,7);g.restore();return;
+  }
   const set=cos&&ARMOR_BY_ID[cos.armor],col=set?set.cloak:kind==='myers'?'#27374a':kind==='tibo'?'#378e83':'#26242e',trim=set?set.trim:kind==='tibo'?'#82f6dc':'#d9d5e4';
   g.save();g.translate(offset,Math.sin(t)*.8);g.fillStyle=col;g.fillRect(-9,-25,18,29);g.fillRect(-12,-21,4,25);g.fillRect(8,-21,4,25);g.fillStyle='#12131b';g.fillRect(-8,3,6,15);g.fillRect(2,3,6,15);g.fillStyle=kind==='myers'?'#e7e4db':'#ebc5b1';g.beginPath();g.ellipse(0,-34,8,11,0,0,TAU);g.fill();g.fillStyle=kind==='poteto'?'#312734':'#493c38';g.fillRect(-8,-45,16,5);if(kind==='poteto'){g.fillRect(-10,-41,4,21);g.fillRect(7,-41,4,21);}g.fillStyle='#17131d';g.fillRect(-5,-36,3,3);g.fillRect(3,-36,3,3);g.fillStyle=trim;g.fillRect(-5,-21,10,3);if(kind==='myers'){g.save();g.translate(12,-8);g.rotate(-.2);g.fillStyle='#bfc8d3';g.beginPath();g.moveTo(0,0);g.lineTo(4,20);g.lineTo(6,0);g.closePath();g.fill();g.restore();}else{g.strokeStyle=trim;g.lineWidth=2;g.beginPath();g.arc(12,-9,6,0,TAU);g.stroke();}g.restore();
 }
@@ -65,7 +69,7 @@ const EXPANSION_SKILLS = {
   river: ['Rose Thorn','Petal Storm','Blossom Halo','Ember Meadow','Wildflower Heart','Screaming Echo'],
   visage: ['Unseen Cut','Caller’s Knives','Dread Circle','Silent Street','Stolen Nerve','Wrong Number'],
   bearlina: ['Bramble Maul','Honey Thorns','Moonpaw Ring','Rooted Den','Wild Honey','Bear Hug Reprise'],
-  myers: ['Kitchen Knife','Silent Sweep','Haddonfield Circle','Cold Footsteps','Second Breath','The Shape Returns'],
+  myers: ['Grave-sickle','Pallbearer’s Sweep','Sepulchre Ring','Funeral March','Unburied Resolve','Last Lantern'],
   tibopoteto: ['Codex Link','Grok Spark','Two Halves','Common Ground','Together Again','Perfect Pair'],
   druid_caster: ['Sunthorn Lance','Wispseed Volley','Equinox Ring','Moonflower Grove','Springwater','Season’s Echo'],
   druid_cat: ['Moonfang','Razor Paws','Predator’s Circle','Hunting Ground','Nine Lives','Twin Pounce'],
