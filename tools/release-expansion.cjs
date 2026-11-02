@@ -26,6 +26,7 @@ names.add('assets/world-props-modern.png');
 for(const name of ['motion-rig.js','motion86-manifest.js','motion-completion.js',...fs.readdirSync('assets').filter(n=>/^motion86-.*\.png$/.test(n))])names.add('assets/'+name);
 for(const name of ['art-v87-manifest.js','skill-art.js','polish87.js','polish87.css',...fs.readdirSync('assets').filter(n=>/-v87\.png$/.test(n))])names.add('assets/'+name);
 for(const name of ['duo-escort91.js','dawn88.js','dawn88.css','dawn89-art.js',...fs.readdirSync('assets').filter(n=>/^motion89-.*\.png$/.test(n)||/-v89\.png$/.test(n))])names.add('assets/'+name);
+for(const name of ['shaman92.js','shaman92.css','shaman92-art.js',...fs.readdirSync('assets').filter(n=>/^motion92-.*\.png$/.test(n)||/-v92\.png$/.test(n))])names.add('assets/'+name);
 for (const name of names) {
   // GitHub normalizes text to LF. Verify and publish those identical bytes locally.
   if (/\.(js|html|json|css|svg|txt|webmanifest)$/.test(name)) {

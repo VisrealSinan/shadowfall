@@ -1311,6 +1311,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
 <link rel="stylesheet" href="assets/rebirth.css">
 <link rel="stylesheet" href="assets/polish87.css">
 <link rel="stylesheet" href="assets/dawn88.css">
+<link rel="stylesheet" href="assets/shaman92.css">
 </head>
 <body>
 <canvas id="c"></canvas>
@@ -1586,6 +1587,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
 <script src="assets/dawn89-art.js"></script>
 <script src="assets/dawn88.js"></script>
 <script src="assets/duo-escort91.js"></script>
+<script src="assets/shaman92-art.js"></script>
+<script src="assets/shaman92.js"></script>
 <script>
 'use strict';
 /* =========================================================
@@ -2974,12 +2977,12 @@ function cosPortrait(canvas, cls, race, cos, scale = 1.35, t = 0.4) {
   if (cls === 'bearlina') { const k = Math.min(w / 86, h / 62) * 0.9; g.translate(w / 2 - 3 * k, h - 6 - 18 * k); g.scale(k, k); drawBearlina(g, { t, cls, outfit: save.outfit, race, cos }); return; }
   const bust = w <= 72, k = scale * 0.8 * w / 64 * (bust ? 1.3 : 0.92); g.translate(w / 2, h / 2 + (bust ? 17 : 11) * k); g.scale(k, k); /* v13: taller heroes; small icons show a head-and-shoulders bust */ drawHero(g, { t, cls, race, outfit: save.outfit, cos }); }
 const tRank = (tr, n) => Math.max(0, Math.min(n.m, (tr && +tr[n.id]) || 0));
-function talentPoints(id, tr) { tr = tr || save.talents[id] || {}; let spent = 0; for (const b of TALENTS[id] || []) for (const n of b.nodes) spent += tRank(tr, n); const total = classLevel(id).lvl; return { total, spent, free: Math.max(0, total - spent) }; }
-function treeSpent(id, bi, tr, below) { let s = 0; for (const n of TALENTS[id][bi].nodes) if (below == null || n.t < below) s += tRank(tr, n); return s; }
+function talentPoints(id, tr) { tr = tr || save.talents[id] || {}; let spent = 0; for (const b of TALENTS[id] || []) for (const n of b.nodes) if(!n.freeStyle)spent += tRank(tr, n); const total = classLevel(id).lvl; return { total, spent, free: Math.max(0, total - spent) }; }
+function treeSpent(id, bi, tr, below) { let s = 0; for (const n of TALENTS[id][bi].nodes) if (!n.freeStyle && (below == null || n.t < below)) s += tRank(tr, n); return s; }
 const talNeed = n => TPER * (n.t - 1);
-function talCanAdd(id, n, tr, free) { if (n.startForm && TALENTS.druid.some(b => b.nodes.some(q => q.startForm && q.id !== n.id && tRank(tr, q)))) return 'max'; if (tRank(tr, n) >= n.m) return 'max'; if (treeSpent(id, n.bi, tr, n.t) < talNeed(n)) return 'tier';
-  if (n.req) { const q = TAL_BY_ID[id + ':' + n.req]; if (tRank(tr, q) < q.m) return 'req'; } return free > 0 ? '' : 'pts'; }
-function talValid(id, tr) { for (const b of TALENTS[id]) for (const n of b.nodes) { if (!tRank(tr, n)) continue; if (treeSpent(id, n.bi, tr, n.t) < talNeed(n)) return false;
+function talCanAdd(id, n, tr, free) { if(n.shamanStart){const why=Shaman92.canStart(n,tr);if(why)return why;} if (n.startForm && TALENTS.druid.some(b => b.nodes.some(q => q.startForm && q.id !== n.id && tRank(tr, q)))) return 'max'; if (tRank(tr, n) >= n.m) return 'max'; if (treeSpent(id, n.bi, tr, n.t) < talNeed(n)) return 'tier';
+  if (n.req) { const q = TAL_BY_ID[id + ':' + n.req]; if (tRank(tr, q) < q.m) return 'req'; } return free > 0 || n.freeStyle ? '' : 'pts'; }
+function talValid(id, tr) { if(id==='shaman'&&!Shaman92.valid(tr))return false; for (const b of TALENTS[id]) for (const n of b.nodes) { if (!tRank(tr, n)) continue; if (treeSpent(id, n.bi, tr, n.t) < talNeed(n)) return false;
   if (n.req) { const q = TAL_BY_ID[id + ':' + n.req]; if (tRank(tr, q) < q.m) return false; } } return true; }
 function talentFx(id, tr) { // merged effect object for a class: stats x rank, flags = rank (flags shared by several trees add up)
   const o = { f: {} }; tr = tr || save.talents[id] || {};
@@ -8439,7 +8442,7 @@ function newRun(cls, challenge = null) {
   addWeapon(CLASSES[cls].weapon);
   if (!challenge) applyKeepsakes(cls);
   if (G.tf.startArcher) addWeapon('archers'); if (G.tf.startBrute) addWeapon('brute'); if (G.tf.startRain) addWeapon('arrowrain');
-  w28Start(); expansionStart(); recalc(); P.hp = P.maxHp;
+  w28Start(); expansionStart(); Shaman92.start(); recalc(); P.hp = P.maxHp;
   if (!challenge) save.lastClass = cls; save.runs++; persist();
 }
 const CLS_DMG34 = { rogue: 1.1, ranger: 1.1, mage: 1.1 }; // v34 balance buff
@@ -8488,7 +8491,7 @@ function recalc() {
   w28Recalc(s); v30Recalc(s, n);
   s.dmg *= CLS_DMG34[G.cls] || 1; // v34: +10% class damage buff
   if (G.ancientT > 0) s.dr += 0.5;
-  s.dr = Math.min(0.7, s.dr);
+  Shaman92.recalcStats(s); s.dr = Math.min(0.7, s.dr);
   s.cd = Math.max(0.35, s.cd); s.dodge = Math.min(0.6, s.dodge); s.crit = Math.min(1, s.crit);
   s.maxHp += G.npcHp || 0; /* v44: +max HP bought from traders lasts the whole run */
   modRecalc(s);
@@ -8517,7 +8520,7 @@ const SKILL_SLOTS = 6; // v25: a hero carries up to 6 skills (v27: named so tool
 const RUN_STATES = { victory: 1, play: 1, paused: 1, levelup: 1, gear: 1, countdown: 1, equip: 1, npc: 1 };
 const r1 = v => Math.round(v * 10) / 10;
 function serializeRun() {
-  const g = {}; for (const k of ['cls', 'race', 'outfit', 't', 'kills', 'level', 'xp', 'xpNext', 'passives', 'gear', 'pending', 'duoEscort91', 'secretTrial90', 'duoResonance88', 'shardsPicked', 'salvage', 'bossKills', 'elites', 'nextElite', 'nextBoss',
+  const g = {}; for (const k of ['cls', 'race', 'outfit', 't', 'kills', 'level', 'xp', 'xpNext', 'passives', 'gear', 'pending', 'shaman92', 'duoEscort91', 'secretTrial90', 'duoResonance88', 'shardsPicked', 'salvage', 'bossKills', 'elites', 'nextElite', 'nextBoss',
     'raceTal', 'raceTimers', 'raceReviveUsed', 'nightforgeBonus', 'expansion', 'map', 'mods', 'daily', 'challengeDate', 'w28', 'bossIdx', 'bossBag', 'bossLast', 'nextSurge', 'spawnAcc', 'revived', 'wasNight', 'healPool', 'bondPool', 'critBuffT', 'minionKills', 'moved', 'pendingChest', 'nextLoot', 'rushT', 'aegisT', 'kept', 'luChoices', 'tal', 'undyingUsed', 'tollT', 'rwT', 'sgT', 'achRun', 'achNew', 'dv', 'ancCd', 'frzCd', 'wsT', 'mcT', 'mwT', 'mvT', 'arc', 'stage', 'nextMini', 'surgeN', 'quests', 'qNext', 'qStats', 'qN', 'qLast', 'evo', 'dm', 'catPool', 'catRefund', 'obSeed', 'obGone', 'rerolls', 'gold', 'goldEarned', 'goldSpent', 'npcs', 'npcNext', 'npcN', 'npcLast', 'npcBuys', 'npcVisits', 'npcSeen', 'bufE', 'bufH', 'bufA', 'deathward', 'goldBud', 'portal', 'portalNext', 'townVisits', 'npcHp', 'mimic45']) g[k] = G[k];
   g.weapons = G.weapons.map(w => [w.id, w.lvl]);
   /* v27: inside the Safe Haven the real battlefield is stashed in G.town.st - save that world (and where you left it) plus the town itself */
@@ -12544,7 +12547,7 @@ function update(dt, dying) {
     { const hc = heroCos(G.cls, G.race), ps = ARMOR_BY_ID[hc.armor]; const tc = ps && ps.prestige && ps.cls === G.cls ? ps.prestige : hc.aura === 'aura_violet' ? '#b56bff' : hc.aura === 'aura_gold' ? '#ffd24a' : hc.aura === 'aura_lantern' ? '#ffe23a' : hc.aura === 'aura_sigil' ? '#6ff3d0' : hc.aura === 'aura_prism' || hc.aura === 'aura_apex' ? '#ff4fd8' : hc.aura === 'aura_crown' ? '#ffe23a' : null;
       if (tc && Math.random() < dt * 14) parts.push({ x: P.x + rand(-9, 9), y: P.y + rand(-4, 14), vx: -mx * 30 + rand(-8, 8), vy: -my * 30 - 18, life: 0.7, max: 0.7, s: 2.2, c: tc, glow: true }); }
     if (Math.random() < dt * 9) parts.push({ x: P.x + rand(-6, 6), y: P.y + 16, vx: -mx * 18 + rand(-8, 8), vy: -my * 14 - 6, life: 0.55, max: 0.55, s: 5, c: '#cdb88c', smoke: 1 }); }
-  obGrid(); obResolve(P, P.r); if(!dying)DuoEscort91.tick(dt); // v18 solid obstacles: slide along them
+  obGrid(); obResolve(P, P.r); if(!dying){DuoEscort91.tick(dt);Shaman92.tick(dt);} // v18 solid obstacles: slide along them
   P.inv -= dt; P.atk = Math.max(0, P.atk - dt * 5); G.hurtFlash -= dt; G.shake = Math.max(0, G.shake - dt); if (G.cls === 'maestro' && G.mxNS > gtime) G.shake = 0; // v33: no camera shake while the Maestro ult plays
   if (!dying) { const tf = G.tf;
     if (tf.deathless && P.hp < P.maxHp * 0.5) heal(P.regen * 2 * dt, true);
@@ -14835,12 +14838,13 @@ function render(dt) {
   // enemies
   enemies.sort((a, b) => a.y - b.y);
   // v18: one depth-sorted pass (foot y): obstacles, enemies, minions and the hero, so trunks/rocks overlap correctly
-  const DL = obCollect(cx, cy).slice(); if (G.town) for (const d of townDeco()) DL.push(d); for (const m of minions) if (MotionCompletion.minionVisible(m)) DL.push(m); DL.push(P); for(const a of DuoEscort91.actors())DL.push(a); for (const e of enemies) if (!e.dead) DL.push(e); if (Array.isArray(G.npcs)) for (const n of G.npcs) DL.push(n); /* v22 traders */ if (V30[G.cls]) for (const u of V30U) if (UK30[u.ut] && !UK30[u.ut].gr && !UK30[u.ut].top) DL.push(u);
+  const DL = obCollect(cx, cy).slice(); if (G.town) for (const d of townDeco()) DL.push(d); for (const m of minions) if (MotionCompletion.minionVisible(m)) DL.push(m); DL.push(P); for(const a of DuoEscort91.actors())DL.push(a); for(const t of Shaman92.actors())DL.push(t); for (const e of enemies) if (!e.dead) DL.push(e); if (Array.isArray(G.npcs)) for (const n of G.npcs) DL.push(n); /* v22 traders */ if (V30[G.cls]) for (const u of V30U) if (UK30[u.ut] && !UK30[u.ut].gr && !UK30[u.ut].top) DL.push(u);
   DL.sort((a, b) => (a === P ? P.y + 14 : a.k && OBT[a.k] ? a.y : a.y + (a.r || 8)) - (b === P ? P.y + 14 : b.k && OBT[b.k] ? b.y : b.y + (b.r || 8)));
   for (const e of DL) {
     if (e.td) { t36DrawDeco(e); continue; }
     if (e === P) { drawPlayerBlock(); v30Over(); continue; }
     if (e.ut && UK30[e.ut]) { v30Draw(e); continue; }
+    if(e.shamanTotem92){Shaman92.drawTotem(e);continue;}
     if(e.escort91){DuoEscort91.draw(e);continue;}
     if (e.npc) { drawNpc(e); continue; }
     if (e.k && OBT[e.k] && e.id !== undefined) { drawOb(e); continue; }
@@ -15981,7 +15985,7 @@ function keepBtn() { const b = $('btnKeep'); if (!b || !G) return; const ok = GS
 function gearLook(gear, cls) { if (!gear) return null; const o = {}; let n = 0; for (const s of ['head', 'shoulders', 'chest', 'hands', 'waist', 'feet', 'neck', 'legs']) { const it = gear[s]; if (it) { o[s] = { c: shade(it.col, 0.18), a: GRAR[it.r].c, lk: it.look | 0, r: it.r }; n++; } } return n ? o : null; }
 /* game over */
 function showGameOver(quit) {
-  clearRun(); if (G.ended) return; Dawn88.recordSecretTrials90(); if(!quit && P.hp<=0){G.achRun=G.achRun||{};G.achRun.g_deaths88=(G.achRun.g_deaths88||0)+1;} RunPrep.record(save, G); expansionSettle(); achMax('c_' + G.cls + '_t', Math.floor(G.t)); G.ended = true; qBanClear();
+  clearRun(); if (G.ended) return; Dawn88.recordSecretTrials90(); Shaman92.finishHunt(); if(!quit && P.hp<=0){G.achRun=G.achRun||{};G.achRun.g_deaths88=(G.achRun.g_deaths88||0)+1;} RunPrep.record(save, G); expansionSettle(); achMax('c_' + G.cls + '_t', Math.floor(G.t)); G.ended = true; qBanClear();
   { const nb = G.t > save.best && G.t >= 5; if (quit) Snd.music('victory'); else if (nb) setTimeout(() => { if (state === 'over') Snd.music('victory'); }, 2600); }
   const t = G.t, base = Math.floor(t / 10) + Math.floor(G.kills / 20) + G.bossKills * 15 + G.elites * 2, found = G.shardsPicked + G.salvage;
   const goldSh = Math.min(15, Math.floor((G.gold || 0) / 40)); /* v22: leftover gold → a tiny Shard tip (max +15, never multiplied) */
@@ -16301,7 +16305,7 @@ function drawBearlina(g, o) {
 /* Animation cues follow successful gameplay actions; cooldowns and damage are unchanged. */
 function wireActorSkills85(){ for (const id of Object.keys(WFIRE)) { const fire = WFIRE[id]; WFIRE[id] = function(w) {
   const result = fire(w);
-  if (result >= 0 && WDEF[id] && WDEF[id].cls === G.cls) ActorAnimations.cue(['fangs','knives','blightbolt','bow','be_paws','seedbolt','beatpulse','hushblades','clockhand'].includes(id)||WDEF[id].cls==='myers'||WDEF[id].cat ? 'attack' : 'casting');
+  if (result >= 0 && WDEF[id] && WDEF[id].cls === G.cls) ActorAnimations.cue(['fangs','knives','blightbolt','bow','be_paws','seedbolt','beatpulse','hushblades','clockhand'].includes(id)||WDEF[id].cls==='myers'||WDEF[id].cat||[7,12].includes(WDEF[id].shaman92) ? 'attack' : 'casting');
   return result;
 }; } }
 const actorUltCast = ultCast;
@@ -16321,7 +16325,7 @@ function frame(now) {
     if (state === 'play') update(dt, false);
     else if (state === 'countdown') { G.cdT -= dt; if (G.cdT <= 0) state = 'play'; }
     else if (state === 'dying') { G.dyingT -= dt; update(dt * 0.3, true); if (G.dyingT <= 0) showGameOver(false); }
-    render(dt); drawEndingHero85(); drawPauseHero(); runPrepTick(); selectionSceneTick(); MotionCompletion.tick(); expansionHUD(); DuoEscort91.hud(); questUI(dt); dmgUI(dt); jumpBtnUI(); ultUI(); npcUI(); if (state === 'ward') wardTick();
+    render(dt); drawEndingHero85(); drawPauseHero(); runPrepTick(); selectionSceneTick(); MotionCompletion.tick(); expansionHUD(); DuoEscort91.hud(); Shaman92.hud(); questUI(dt); dmgUI(dt); jumpBtnUI(); ultUI(); npcUI(); if (state === 'ward') wardTick();
     { const ms = $('audio').classList.contains('on') ? 'n' : state === 'paused' ? 'p' : (state === 'levelup' || state === 'gear' || state === 'npc') ? 'd' : 'n';
       if (ms !== Snd.ms && Snd.ac) { Snd.ms = ms; if (ms === 'p') Snd.pauseMusic(true); else { Snd.pauseMusic(false); Snd.duck(ms === 'd' ? 0.45 : 1, 0.4); } } }
     if (RUN_STATES[state] && now - lastRunSave > 6000) saveRun();   // periodic autosave
@@ -16351,7 +16355,7 @@ function talSetSpec(i, focus) { talSpec = (i + 3) % 3; talOv = false; Snd.play('
 function talNodeState(n) { const r = tRank(talDraft, n), c = tRank(talComm(), n), free = talentPoints(talCls, talDraft).free;
   const why = talCanAdd(talCls, n, talDraft, free); return { r, c, why, st: r >= n.m ? 'own' : r > 0 ? 'part' : !why ? 'avail' : why === 'pts' ? 'nopts' : 'lock', pend: r !== c }; }
 function talAdd(id) { const n = TAL_BY_ID[talCls + ':' + id]; if (!n) return false; const why = talCanAdd(talCls, n, talDraft, talentPoints(talCls, talDraft).free);
-  talPick = id; if (why) { talMsg = why === 'max' ? 'Already at max rank' : why === 'pts' ? 'No talent points left — level this class to earn more' : why === 'tier' ? `Spend ${talNeed(n)} points in ${TALENTS[talCls][n.bi].name} to open tier ${n.t}` : `Requires ${TAL_BY_ID[talCls + ':' + n.req].n} at max rank`; Snd.play('click'); renderTalents(); return false; }
+  talPick = id; if (why) { talMsg = why === 'hunt' ? 'Complete your first Shaman hunt to choose a starting path' : why === 'style' ? 'Choose only one starting path; reset talents to change it' : why === 'max' ? 'Already at max rank' : why === 'pts' ? 'No talent points left — level this class to earn more' : why === 'tier' ? `Spend ${talNeed(n)} points in ${TALENTS[talCls][n.bi].name} to open tier ${n.t}` : `Requires ${TAL_BY_ID[talCls + ':' + n.req].n} at max rank`; Snd.play('click'); renderTalents(); return false; }
   talDraft[id] = tRank(talDraft, n) + 1; talMsg = ''; Snd.play(n.cap || talDraft[id] === n.m ? 'buy' : 'pick'); renderTalents(); return true; }
 function talRemove(id) { const n = TAL_BY_ID[talCls + ':' + id]; if (!n) return false; const r = tRank(talDraft, n); talPick = id;
   if (r <= 0 || r <= tRank(talComm(), n)) { talMsg = r > 0 ? 'Applied points can only be refunded with Reset' : ''; renderTalents(); return false; }
@@ -16359,7 +16363,7 @@ function talRemove(id) { const n = TAL_BY_ID[talCls + ':' + id]; if (!n) return 
   if (!talValid(talCls, talDraft)) { talDraft[id] = was; talMsg = 'Other pending talents depend on this one'; renderTalents(); return false; }
   talMsg = ''; Snd.play('click'); renderTalents(); return true; }
 function talApply() { const o = {}; for (const n of talNodes(talCls)) { const r = tRank(talDraft, n); if (r) o[n.id] = r; } save.talents[talCls] = o; talDraft = Object.assign({}, o); persist(); Snd.play('buy'); achCheck(false); talMsg = 'Talents applied'; if (state === 'talents') renderTalents(); }
-function talReset() { if (!talentPoints(talCls, talDraft).spent) return; talDraft = {}; talMsg = 'All points refunded — spend them and press Apply (Back discards)'; Snd.play('click'); renderTalents(); }
+function talReset() { if (!talentPoints(talCls, talDraft).spent&&!talNodes(talCls).some(n=>n.freeStyle&&tRank(talDraft,n))) return; talDraft = {}; talMsg = 'All points refunded — spend them and press Apply (Back discards)'; Snd.play('click'); renderTalents(); }
 /* v20: unique painted talent icons — procedural (no image files). Every talent gets its own motif within its tree
    plus its tree's emblem; the (tree emblem, motif, accent) signature is unique across all 384 talents. */
 const TI = (() => {
@@ -16523,12 +16527,12 @@ const TI = (() => {
   function all() { if (!SIG) assign(); return SIG; }
   return { url, sig, all, draw, motifs: ALL };
 })();
-function talImg(cls, n, sz) { if(cls==='tibopoteto')return SkillArt.html('w',Dawn88.ids[(n.bi*6+n.slot)%19],'duo-talent88'); if(cls==='myers')return graveshadeTalentIcon85(n); const u = TI.url(cls + ':' + n.id); return u ? `<img class="tim" src="${u}" alt="" draggable="false"${sz ? ` width="${sz}" height="${sz}"` : ''}>` : `${n.ic}\uFE0E`; }
+function talImg(cls, n, sz) { if(cls==='shaman')return Shaman92.talentIcon(n); if(cls==='tibopoteto')return SkillArt.html('w',Dawn88.ids[(n.bi*6+n.slot)%19],'duo-talent88'); if(cls==='myers')return graveshadeTalentIcon85(n); const u = TI.url(cls + ':' + n.id); return u ? `<img class="tim" src="${u}" alt="" draggable="false"${sz ? ` width="${sz}" height="${sz}"` : ''}>` : `${n.ic}\uFE0E`; }
 function talTipHTML(n, compact) { const s = talNodeState(n), tr = TALENTS[talCls][n.bi];
   let h = `<div class="tn" style="--tc:${tr.col}"><span class="tic">${talImg(talCls, n, 30)}</span>${n.n}${n.cap ? ' <em>Capstone</em>' : ''}</div><div class="ts">${tr.name} · Tier ${n.t} · Rank <b>${s.r}/${n.m}</b>${s.pend ? ' <span class="pd">pending</span>' : ''}</div>`;
   if (s.r > 0) h += `<div class="tcur">${s.r < n.m ? '<span>Current:</span> ' : ''}${talDesc(n, s.r)}</div>`;
   if (s.r < n.m) h += `<div class="tnext"><span>${s.r ? 'Next rank:' : n.m > 1 ? 'Rank 1:' : ''}</span> ${talDesc(n, s.r + 1)}</div>`;
-  if (s.r < n.m && s.why && s.why !== 'max') h += `<div class="treq">${s.why === 'tier' ? `Requires ${talNeed(n)} points in ${tr.name} (${treeSpent(talCls, n.bi, talDraft, n.t)}/${talNeed(n)})` : s.why === 'req' ? `Requires ${TAL_BY_ID[talCls + ':' + n.req].n} (${tRank(talDraft, TAL_BY_ID[talCls + ':' + n.req])}/${TAL_BY_ID[talCls + ':' + n.req].m})` : 'No talent points available'}</div>`;
+  if (s.r < n.m && s.why && s.why !== 'max') h += `<div class="treq">${s.why === 'hunt' ? 'Complete your first Shaman hunt to awaken this path' : s.why === 'style' ? 'Only one starting path can be selected' : s.why === 'tier' ? `Requires ${talNeed(n)} points in ${tr.name} (${treeSpent(talCls, n.bi, talDraft, n.t)}/${talNeed(n)})` : s.why === 'req' ? `Requires ${TAL_BY_ID[talCls + ':' + n.req].n} (${tRank(talDraft, TAL_BY_ID[talCls + ':' + n.req])}/${TAL_BY_ID[talCls + ':' + n.req].m})` : 'No talent points available'}</div>`;
   if (!compact && PC) h += `<div class="thint">${s.r < n.m && !s.why ? 'Click: add a point' : ''}${s.r > s.c ? (s.r < n.m && !s.why ? ' · ' : '') + 'Right-click: remove' : ''}</div>`;
   return h; }
 function talHover(id) { const box = $('talHov'); if (!box) return; const n = id && TAL_BY_ID[talCls + ':' + id], el = id && $('tn_' + id);
@@ -17242,7 +17246,7 @@ function renderTalents() {
   else tip.innerHTML = (talMsg ? `<div class="tmsg">${talMsg}</div>` : '') + `<div class="ts">${PC ? 'Hover a talent for details · click adds a point · right-click removes a pending one · <b>Q</b>/<b>E</b> or <b>LB</b>/<b>RB</b> switch tree · <b>LT</b>/<b>RT</b> class'
       : 'Tap a talent to see it, tap again (or +) to add a point · swipe or pinch to switch trees'} · every ${TPER} points in a tree opens its next tier · 1 point per class level (max ${CLASS_LV_MAX}). Earn class XP by playing runs as ${CLASSES[talCls].name}.</div>`;
   $('btnTalApply').textContent = pend.any ? `Apply ${pend.add ? '+' + pend.add : ''}${pend.add && pend.rem ? '/' : ''}${pend.rem ? '−' + pend.rem : ''}` : '✔ Apply';
-  $('btnTalApply').disabled = !pend.any; $('btnTalReset').disabled = !tp.spent;
+  $('btnTalApply').disabled = !pend.any; $('btnTalReset').disabled = !tp.spent&&!talNodes(talCls).some(n=>n.freeStyle&&tRank(talDraft,n));
   if (PC && GF.el && GF.el.classList && GF.el.classList.contains('tnode')) talHover(GF.el.dataset.node); else talHover(PC && talPick);
   rebirthTalentTreeArt85();
   talFit();
@@ -17308,6 +17312,7 @@ initRebirthContent();
 MotionCompletion.init();
 Polish87.init();
 Dawn88.init();
+Shaman92.register();
 initRebirthScenes();
 wireActorSkills85();
 initNightforge();

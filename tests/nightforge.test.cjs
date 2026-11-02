@@ -19,7 +19,7 @@ test('Nightforge benefits have diminishing gains and remain below the declared l
 });
 const {run}=require('../tools/smoke-game.cjs');
 test('all new achievements have stable unique IDs and valid rewards',()=>{
- assert.equal(run(`(()=>{const ids=ACH.map(a=>a.id);if(new Set(ids).size!==ids.length)throw Error('duplicate achievement');const list=ACH.filter(a=>a.id.startsWith('nf_'));if(list.length!==79)throw Error(list.length);for(const a of list){if(!(a.shards>0)&&!GEN_BY_ID[a.rw])throw Error(a.id+' reward');if(a.rw)previewCos(a.rw);}return true;})()`),true);
+ assert.equal(run(`(()=>{const ids=ACH.map(a=>a.id);if(new Set(ids).size!==ids.length)throw Error('duplicate achievement');const list=ACH.filter(a=>a.id.startsWith('nf_'));if(list.length!==81)throw Error(list.length);for(const a of list){if(!(a.shards>0)&&!GEN_BY_ID[a.rw])throw Error(a.id+' reward');if(a.rw)previewCos(a.rw);}return true;})()`),true);
 });
 test('existing progress awards Shards exactly once across achievement reloads',()=>{
  assert.equal(run(`(()=>{G=null;save.ach.p.g_kills=50000;save.shards=0;achCheck(true);const first=save.shards;if(!save.ach.done.nf_kills50000||first<1000)throw Error('no retro reward');achCheck(true);achInit();return save.shards===first;})()`),true);

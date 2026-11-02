@@ -1,0 +1,35 @@
+/* Three distinct painted paths: carved jade, hammered amber, storm blue. */
+#talents.reborn-talents[data-rebirth-class=shaman]{background:linear-gradient(#0c2019b8,#071c1aeb),url('shaman-trees-v92.png') left center/300% 100%;--t1:#a1d5bd;--t2:#466956;--t3:#18382e;--t4:#102922;--t5:#ece1bf}
+#talents.reborn-talents[data-rebirth-class=shaman] #talView{background:#0c201ce8;border-color:#a6be8c66}
+#talents.reborn-talents[data-rebirth-class=shaman] .ttree{--sh-pos:0%;background:linear-gradient(#092b20b8,#0b241ce0),url('shaman-trees-v92.png') var(--sh-pos) center/300% 100%;border:1px solid #86c3a177;border-radius:3px 15px 3px 15px}
+#talents.reborn-talents[data-rebirth-class=shaman] .ttree:nth-child(2){--sh-pos:50%;background-image:linear-gradient(#341b0cb0,#20160de0),url('shaman-trees-v92.png');border-color:#d4a16788;border-radius:3px}
+#talents.reborn-talents[data-rebirth-class=shaman] .ttree:nth-child(3){--sh-pos:100%;background-image:linear-gradient(#102a3eb8,#101e31df),url('shaman-trees-v92.png');border-color:#92cce577;border-radius:14px 3px 14px 3px}
+#talents.reborn-talents[data-rebirth-class=shaman] .ttree::before,#talents.reborn-talents[data-rebirth-class=shaman] .ttree::after{display:none!important}
+#talents.reborn-talents[data-rebirth-class=shaman] .tth{font-size:18px;line-height:1.1;min-height:48px;white-space:nowrap;background:#10291edc;color:#c9e7c8;border-color:#87cda277}
+#talents.reborn-talents[data-rebirth-class=shaman] .ttree:nth-child(2) .tth{background:#352211de;color:#edca94;border-color:#d6a56577}
+#talents.reborn-talents[data-rebirth-class=shaman] .ttree:nth-child(3) .tth{background:#10263adf;color:#b6e1ef;border-color:#8dc9e077}
+#talents.reborn-talents[data-rebirth-class=shaman] .tnode{border:2px solid #76cba9aa;border-radius:4px 11px 4px 11px;background:#102c24}
+#talents.reborn-talents[data-rebirth-class=shaman] .ttree:nth-child(2) .tnode{border-color:#e2b27899;border-radius:3px;background:#332315;box-shadow:inset 0 0 0 2px #986e3c44}
+#talents.reborn-talents[data-rebirth-class=shaman] .ttree:nth-child(3) .tnode{border-color:#96d9ee99;border-radius:50%;background:#102d40}
+#talents.reborn-talents[data-rebirth-class=shaman] .tnode[data-node^=sh92_start]{border-color:#e5d09e;border-width:2px;box-shadow:0 0 0 3px #ead29722,0 0 20px #b1dfbd22}
+#talents.reborn-talents[data-rebirth-class=shaman] .tnode.cap{box-shadow:0 0 0 4px #d5c18622,0 0 28px #a4dcbd33}
+.shaman-talent92{display:block;width:100%;height:100%;border-radius:inherit;background-repeat:no-repeat}
+@media(max-width:600px){#talents.reborn-talents[data-rebirth-class=shaman] .tth{font-size:17px}#shamanRhythm92{max-width:145px;font-size:10px!important}}
+@media(max-width:700px){
+ .pc #talents.reborn-talents[data-rebirth-class=shaman] .tspecs{display:flex;width:100%;gap:5px}
+ .pc #talents.reborn-talents[data-rebirth-class=shaman] .tspecs button{font-size:10px;padding:7px 4px;white-space:normal}
+ .pc #talents.reborn-talents[data-rebirth-class=shaman] #talTree{display:block;width:100%;transform:none}
+ .pc #talents.reborn-talents[data-rebirth-class=shaman] .ttree{display:none;width:100%}
+ .pc #talents.reborn-talents[data-rebirth-class=shaman] .ttree.cur{display:block}
+ .pc #talents.reborn-talents[data-rebirth-class=shaman] #talView{overflow:hidden}
+ .pc #talents.reborn-talents[data-rebirth-class=shaman]>.talfoot{flex-direction:column;align-items:stretch}
+ .pc #talents.reborn-talents[data-rebirth-class=shaman] .talfoot .taltip{min-height:70px}
+ .pc #talents.reborn-talents[data-rebirth-class=shaman] .talfoot .row{display:flex;flex-wrap:wrap;width:100%}
+ .pc #talents.reborn-talents[data-rebirth-class=shaman] .talfoot .row .btn{flex:1;min-width:85px}
+}
+@media(max-width:700px){
+ #talents.reborn-talents[data-rebirth-class=shaman] .tspecs{width:100%;gap:5px}
+ #talents.reborn-talents[data-rebirth-class=shaman] .tspecs button{white-space:normal;font-size:10px;line-height:1.2;padding:7px 4px;overflow-wrap:normal}
+ #talents.reborn-talents[data-rebirth-class=shaman] .tspecs button .sic{font-size:12px}
+ #talents.reborn-talents[data-rebirth-class=shaman] .tspecs button b{font-size:10px;padding:0 3px;margin-left:2px}
+}

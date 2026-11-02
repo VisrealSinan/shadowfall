@@ -4,7 +4,7 @@ const {run}=require('../tools/smoke-game.cjs');
 
 test('all classes and three Druid styles retain nineteen usable combat skills',()=>{
  const rosters=JSON.parse(run(`JSON.stringify(Object.keys(CLASSES).flatMap(cls=>(cls==='druid'?['caster','cat','tree']:['caster']).map(form=>({cls,form,ids:RebirthRules.eligible(WDEF,cls,form,catBan)}))))`));
- assert.equal(rosters.length,25);
+ assert.equal(rosters.length,26);
  for(const r of rosters){assert.equal(r.ids.length,19,r.cls+'/'+r.form);assert.equal(new Set(r.ids).size,19);}
 });
 
@@ -27,7 +27,7 @@ test('Colossus survives learning into a full army, death, respawn and restored l
 });
 
 test('every class/race has five actions, including Druid form rigs and secret classes',()=>{
- assert.equal(run(`(()=>{let n=0;for(const cls of Object.keys(CLASSES))for(const race of Object.keys(RACES))for(const sex of ['male','female'])for(const form of cls==='druid'?['','cat','tree']:['']){const v=ActorAnimations.variant({cls,race,gender:sex,form});if(!v)throw Error([cls,race,sex,form].join('/'));for(const action of ['idle','run','attack','casting','dodge']){if(!v.animations[action])throw Error(v.key+' '+action);G.actorCue={action,at:gtime};const f=ActorAnimations.frame({cls,race,world:true,t:gtime},v);if(f.action!==action||!Number.isFinite(f.phase))throw Error('action frame');}n++;}return n;})()`),500);
+ assert.equal(run(`(()=>{let n=0;for(const cls of Object.keys(CLASSES))for(const race of Object.keys(RACES))for(const sex of ['male','female'])for(const form of cls==='druid'?['','cat','tree']:['']){const v=ActorAnimations.variant({cls,race,gender:sex,form});if(!v)throw Error([cls,race,sex,form].join('/'));for(const action of ['idle','run','attack','casting','dodge']){if(!v.animations[action])throw Error(v.key+' '+action);G.actorCue={action,at:gtime};const f=ActorAnimations.frame({cls,race,world:true,t:gtime},v);if(f.action!==action||!Number.isFinite(f.phase))throw Error('action frame');}n++;}return n;})()`),520);
  const idle=R.motion('tree','idle',.25),runPose=R.motion('cat','run',.25),heavy=R.motion('tree','run',.25);
  assert.notDeepEqual(idle,runPose);assert.notEqual(runPose.stride,heavy.stride);
 });

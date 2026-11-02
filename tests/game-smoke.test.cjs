@@ -1,13 +1,13 @@
 const test=require('node:test'),assert=require('node:assert/strict');
 const {run}=require('../tools/smoke-game.cjs');
-test('all game scripts initialize with six skills per class and six for each Druid form',()=>{
-  const counts=JSON.parse(run('JSON.stringify(Object.fromEntries(Object.keys(CLASSES).map(c=>[c,Object.values(WDEF).filter(d=>d.expansion&&d.cls===c).length])))'));
-  for(const [cls,count] of Object.entries(counts))assert.equal(count,cls==='druid'?18:6,cls);
+test('all game scripts initialize with legacy expansion skills and the complete Shaman roster',()=>{
+  const counts=JSON.parse(run('JSON.stringify(Object.fromEntries(Object.keys(CLASSES).map(c=>[c,Object.values(WDEF).filter(d=>(d.expansion||Number.isInteger(d.shaman92))&&d.cls===c).length])))'));
+  for(const [cls,count] of Object.entries(counts))assert.equal(count,cls==='shaman'?19:cls==='druid'?18:6,cls);
   assert.equal(run('Object.values(ARMOR_BY_ID).filter(o=>o.outfitShardCost).length'),Object.keys(counts).length*5);
 });
 test('every class starts, updates, renders and casts every new skill',()=>{
   const done=run(`(()=>{const done=[];for(const cls of Object.keys(CLASSES)){startRun(cls);G.pending=0;const e=spawnEnemy('bone',{x:55,y:0});e.hp=e.maxHp=1e7;buildGrid();for(const [id,d] of Object.entries(WDEF)){if(!d.expansion||d.cls!==cls)continue;const cd=WFIRE[id]({id,lvl:6});if(!Number.isFinite(cd))throw Error(id+' cooldown');}update(.05,false);render(.05);done.push(cls);}return done.length;})()`);
-  assert.equal(done,23);
+  assert.equal(done,24);
 });
 test('hunter is immune, survives save/restore, and unlocks mortal Myers after 180 active seconds',()=>{
   const result=JSON.parse(run(`(()=>{startRun('rogue');G.t=900;expansionTick(.05);const h=enemies.find(e=>e.type==='myers_hunter');const hp=h.hp;damage(h,1e12);killEnemy(h);if(h.dead||h.hp!==hp)throw Error('hunter was killable');const snap=serializeRun();restoreRun(snap);G.t=1080;expansionTick(.05);if(!save.classes.myers)throw Error('unlock missing');startRun('myers');const before=P.hp;P.inv=0;P.dodge=0;hurtPlayer(30);return JSON.stringify({hp:P.hp,before,invincible:CLASSES.myers.stats.invincible||false});})()`));

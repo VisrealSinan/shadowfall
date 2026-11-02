@@ -1,10 +1,10 @@
 {
- "version": "91",
+ "version": "92",
  "date": "2026-11-02",
  "minLauncher": "2.0.0",
  "notes": [
-  "Added a secret Tibo & Poteto reunion encounter during normal hunts.",
-  "Encounter progress survives Save/Continue. Original codes and existing unlocks are preserved."
+  "New Shaman class: unlock in the Armory for 600 Shards, with 19 skills, living totems, weapon imbues, elemental spells and a unique ultimate.",
+  "Three distinct illustrated talent trees, with a free starting-path talent in each after your first Shaman hunt."
  ],
  "files": [
   {
@@ -34,8 +34,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "00c64de81df39a3c098033c947f247590a75bb7de54637eb8f264f71b2ebb874",
-   "size": 2843956
+   "sha256": "51474070d2e5720bb416c2a34d57de18bde1c002e4c0649032025b94fa8478f7",
+   "size": 2845007
   },
   {
    "name": "manifest.webmanifest",
@@ -44,8 +44,8 @@
   },
   {
    "name": "sw.js",
-   "sha256": "161afe5e21903fec00104e39c7fc94ccc8da666139e8712e7f4d0db3b79433c1",
-   "size": 3454
+   "sha256": "1f51aab8130bd526bc0ad602980ed99ee3cf58e7d5334339addc2e901fca548d",
+   "size": 3640
   },
   {
    "name": "assets/actor-animation-manifest.js",
@@ -5719,13 +5719,13 @@
   },
   {
    "name": "assets/skill-art.js",
-   "sha256": "2a68c78ba84b0d19cd949b831b51fe3c8b53533065288012f7705bc0ce0d8336",
-   "size": 5726
+   "sha256": "795780c5571ed23687bdafdf11bee732b806c5f7988858a8323f60b2b8b79024",
+   "size": 5815
   },
   {
    "name": "assets/polish87.js",
-   "sha256": "d38e97fe6c578f8623942032388b5cdbc6ed5b4997a5105f9101564ec07fd339",
-   "size": 3777
+   "sha256": "84f17d702036b49c15a62d627b61828097e3e803a6c886076fffbbd449c9bd4e",
+   "size": 3786
   },
   {
    "name": "assets/polish87.css",
@@ -7571,6 +7571,141 @@
    "name": "assets/duo-escort91.js",
    "sha256": "5eeed48b27a08de7b8aac30d751d1848822383b7beff454cf8536ab22ec0c24e",
    "size": 4392
+  },
+  {
+   "name": "assets/shaman92.js",
+   "sha256": "4859fae9f459bfd263811af27f14db36319fe95f736f1dd1f9e7d18bfc4b59b4",
+   "size": 17219
+  },
+  {
+   "name": "assets/shaman92.css",
+   "sha256": "f79943f7989efcbab7651e22a39b22bb220c2db193c70b2d7103ece4f49be71e",
+   "size": 4140
+  },
+  {
+   "name": "assets/shaman92-art.js",
+   "sha256": "6fb4e6085bab530cfecf706569ae29f51a89bc47f393fa7d22df869ff8d53416",
+   "size": 17043
+  },
+  {
+   "name": "assets/motion92-shaman-cat-female.png",
+   "sha256": "b93a7c9925ac5d07d52ba76b5d5e822d8abbb107432e911eeb77fcf1a2c03664",
+   "size": 1296324
+  },
+  {
+   "name": "assets/motion92-shaman-cat-male.png",
+   "sha256": "d1ea5b29b04c9fbd3064e741cc558e733baa959802bd910fa6cfd8330d19d283",
+   "size": 1341193
+  },
+  {
+   "name": "assets/motion92-shaman-dwarf-female.png",
+   "sha256": "793b6d44d5382845883430aabbe8b0c89ba55ccfd7a8e1fc03f403b3098dcfce",
+   "size": 1561625
+  },
+  {
+   "name": "assets/motion92-shaman-dwarf-male.png",
+   "sha256": "ba404ad81d2acb9e5378ca76c7a32f70130a44c7ae44096f816df1cacff9131e",
+   "size": 1446245
+  },
+  {
+   "name": "assets/motion92-shaman-elf-female.png",
+   "sha256": "c6d559229db4fdd5dddb757a1cbd5d7142ce0c7be76a23546fc8acdf8153bd86",
+   "size": 1291767
+  },
+  {
+   "name": "assets/motion92-shaman-elf-male.png",
+   "sha256": "72678b5953e14e7c4d97166ee1ea14e39bf4c7f99ee355a2e9547a83a3e3ed43",
+   "size": 1424863
+  },
+  {
+   "name": "assets/motion92-shaman-goose-female.png",
+   "sha256": "4793d5dbe0f6ed0f994aac57f2f9198d03b983434515a7d1ada867804a5900a2",
+   "size": 1323635
+  },
+  {
+   "name": "assets/motion92-shaman-goose-male.png",
+   "sha256": "96cdee5f7b92eb44ccd42da56ac58f20bf1059188850fe080648657348ee12d4",
+   "size": 1152582
+  },
+  {
+   "name": "assets/motion92-shaman-kitsune-female.png",
+   "sha256": "9542032106cdd5fb4d79b389779ec6b241afe6d209cefd65978145b88e14d532",
+   "size": 1321407
+  },
+  {
+   "name": "assets/motion92-shaman-kitsune-male.png",
+   "sha256": "807a6ad8583b823fc9e21451702eab835e06a531d27f32fc460f730971f306c2",
+   "size": 1395648
+  },
+  {
+   "name": "assets/motion92-shaman-ogre-female.png",
+   "sha256": "6fecb7b9341fe3d77b0602e3f42479d5f6a5ce719fcb6385d969f47901013726",
+   "size": 1366821
+  },
+  {
+   "name": "assets/motion92-shaman-ogre-male.png",
+   "sha256": "223c2ffba01dfbd4a52fd5b85d4cb925a5322caf422ab67b99e43ab7b8df6909",
+   "size": 1494742
+  },
+  {
+   "name": "assets/motion92-shaman-scale-female.png",
+   "sha256": "d12b41ed14aaddd5d5dbcb99f7fade97adceec3e2407ea24098aa00fb999bed0",
+   "size": 1346358
+  },
+  {
+   "name": "assets/motion92-shaman-scale-male.png",
+   "sha256": "3565db17a5907cb8bac4e136a7af7156a7678d06003519d93f66c83a9b0213b7",
+   "size": 1320613
+  },
+  {
+   "name": "assets/motion92-shaman-shade-female.png",
+   "sha256": "fbf87237a2da99c19dff48c403172cd088fde7736a47c08a2945ffa32b18e684",
+   "size": 1601519
+  },
+  {
+   "name": "assets/motion92-shaman-shade-male.png",
+   "sha256": "76206d8f98c98e7ed2378152ce9d9d0c162fdcca751f6fef8ed5395d7e9b1dd1",
+   "size": 1692290
+  },
+  {
+   "name": "assets/motion92-shaman-troll-female.png",
+   "sha256": "c47b64902fce80d2cc2929cf46f4a17182aab1da63e1e8df01ab9bf21f544607",
+   "size": 1386650
+  },
+  {
+   "name": "assets/motion92-shaman-troll-male.png",
+   "sha256": "f86175f13a14e2005f0872c3150cee53af6b3c8eabf859641c2920bac699e1a0",
+   "size": 1582794
+  },
+  {
+   "name": "assets/motion92-shaman-undead-female.png",
+   "sha256": "176f1914cfa66fbf4abf9edb2f8c378415766be20ce9cda90b926c9a12c79af7",
+   "size": 1415118
+  },
+  {
+   "name": "assets/motion92-shaman-undead-male.png",
+   "sha256": "20c21de4646f3dfad02be3ad6667eb5e30ad62c383e9d53f0ce3c622968a44ef",
+   "size": 1526553
+  },
+  {
+   "name": "assets/shaman-bodies-v92.png",
+   "sha256": "1f80e397fce72dc757396db8c9fb713877b2428801cef1745ff048f67b048072",
+   "size": 2534665
+  },
+  {
+   "name": "assets/shaman-skills-v92.png",
+   "sha256": "afb3973b2d7c768db88dd4840cdb6f4f968b36550eb8fb5b22ed292f4b3e6cf3",
+   "size": 3414598
+  },
+  {
+   "name": "assets/shaman-totems-v92.png",
+   "sha256": "8ee264d9f9f0d103b61f88aff70b0a6df2c0355ab775ead2331da4341c839c19",
+   "size": 2504667
+  },
+  {
+   "name": "assets/shaman-trees-v92.png",
+   "sha256": "5a79f6c02079dd23ebad2487b7c5485de3e3286fcccdf7d39fee631905a50314",
+   "size": 3305877
   }
  ]
 }
