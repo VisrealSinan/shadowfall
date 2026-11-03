@@ -1593,6 +1593,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
 <script src="assets/spell-visuals94.js"></script>
 <script src="assets/mage-visuals95.js"></script>
 <script src="assets/spell-visuals96.js"></script>
+<script src="assets/combat97.js"></script>
 <script>
 'use strict';
 /* =========================================================
@@ -15017,9 +15018,9 @@ function render(dt) {
     else if (f.k === 'leap') { ctx.strokeStyle = f.col ? hexA(f.col, a) : `rgba(200,130,255,${a})`; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(f.x, f.y); ctx.quadraticCurveTo((f.x + f.x2) / 2, Math.min(f.y, f.y2) - 30, f.x2, f.y2); ctx.stroke(); }
    } finally { ctx.restore(); } }
   // particles
-  for (const p of parts) { ctx.save(); try { if (true) ctx.filter = 'opacity(' + expansionOpacity() + '%)';  if (p.glow) continue; const lf = Math.max(0, p.life / p.max); if (p.smoke) { const sz = p.s * (1 + 2.2 * (1 - lf)); ctx.globalAlpha = lf * (p.sa || 0.4); ctx.drawImage(smokeOf(p.c), p.x - sz, p.y - sz, sz * 2, sz * 2); continue; } ctx.globalAlpha = lf; ctx.fillStyle = p.c; ctx.fillRect(p.x - p.s / 2, p.y - p.s / 2, p.s, p.s);  } finally { ctx.restore(); } }
+  for (const p of parts) { ctx.save(); try { const vis = expansionOpacity()/100;  if (p.glow) continue; const lf = Math.max(0, p.life / p.max); if (p.smoke) { const sz = p.s * (1 + 2.2 * (1 - lf)); ctx.globalAlpha = lf * (p.sa || 0.4) * vis; ctx.drawImage(smokeOf(p.c), p.x - sz, p.y - sz, sz * 2, sz * 2); continue; } ctx.globalAlpha = lf * vis; ctx.fillStyle = p.c; ctx.fillRect(p.x - p.s / 2, p.y - p.s / 2, p.s, p.s);  } finally { ctx.restore(); } }
   ctx.globalCompositeOperation = 'lighter';
-  for (const p of parts) { ctx.save(); try { if (true) ctx.filter = 'opacity(' + expansionOpacity() + '%)';  if (!p.glow) continue; ctx.globalAlpha = Math.max(0, p.life / p.max); ctx.fillStyle = p.c; ctx.beginPath(); ctx.arc(p.x, p.y, p.s, 0, TAU); ctx.fill();  } finally { ctx.restore(); } }
+  for (const p of parts) { ctx.save(); try { const vis = expansionOpacity()/100;  if (!p.glow) continue; ctx.globalAlpha = Math.max(0, p.life / p.max) * vis; ctx.fillStyle = p.c; ctx.beginPath(); ctx.arc(p.x, p.y, p.s, 0, TAU); ctx.fill();  } finally { ctx.restore(); } }
   ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
   w28Air();
   // numbers
@@ -16341,7 +16342,7 @@ function frame(now) {
     if (state === 'play') update(dt, false);
     else if (state === 'countdown') { G.cdT -= dt; if (G.cdT <= 0) state = 'play'; }
     else if (state === 'dying') { G.dyingT -= dt; update(dt * 0.3, true); if (G.dyingT <= 0) showGameOver(false); }
-    render(dt); drawEndingHero85(); drawPauseHero(); runPrepTick(); selectionSceneTick(); MotionCompletion.tick(); expansionHUD(); DuoEscort91.hud(); Shaman92.hud(); HollowBell93.hud(); questUI(dt); dmgUI(dt); jumpBtnUI(); ultUI(); npcUI(); if (state === 'ward') wardTick();
+    render(dt); drawEndingHero85(); drawPauseHero(); runPrepTick(); selectionSceneTick(); MotionCompletion.tick(); expansionHUD(); Combat97.hud(); DuoEscort91.hud(); Shaman92.hud(); HollowBell93.hud(); questUI(dt); dmgUI(dt); jumpBtnUI(); ultUI(); npcUI(); if (state === 'ward') wardTick();
     { const ms = $('audio').classList.contains('on') ? 'n' : state === 'paused' ? 'p' : (state === 'levelup' || state === 'gear' || state === 'npc') ? 'd' : 'n';
       if (ms !== Snd.ms && Snd.ac) { Snd.ms = ms; if (ms === 'p') Snd.pauseMusic(true); else { Snd.pauseMusic(false); Snd.duck(ms === 'd' ? 0.45 : 1, 0.4); } } }
     if (RUN_STATES[state] && now - lastRunSave > 6000) saveRun();   // periodic autosave
@@ -17334,6 +17335,7 @@ initRebirthScenes();
 wireActorSkills85();
 MageVisuals95.install();
 SpellVisuals96.install();
+Combat97.install();
 initNightforge();
 initAchievementHall();
 initJourneyScenes();

@@ -12,6 +12,7 @@ names.add('assets/hollow-bell93.js');
 names.add('assets/spell-visuals94.js');
 names.add('assets/mage-visuals95.js');
 names.add('assets/spell-visuals96.js');
+names.add('assets/combat97.js');
 names.add('assets/art-v85-manifest.js');
 for(const name of ['motion88-manifest.js',...fs.readdirSync('assets').filter(n=>/^motion88-.*\.png$/.test(n))])names.add('assets/'+name);
 names.add('assets/rebirth-rules.js');

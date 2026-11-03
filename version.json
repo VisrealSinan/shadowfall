@@ -1,9 +1,9 @@
 {
- "version": "96",
+ "version": "97",
  "date": "2026-11-02",
  "minLauncher": "2.0.0",
  "notes": [
-  "All-class spell materials, evolved detail, lifetime-aware ground fields, class-object fields and Shaman totem ranges."
+  "Bottom-left Hunt Log, eliminate expensive per-particle opacity filters, and eight named legendary relics."
  ],
  "files": [
   {
@@ -33,8 +33,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "985d521b8c219f94cfa755e100c6912c226ee3f8b54bc000ca21edbc2a7d21f8",
-   "size": 2846293
+   "sha256": "2c51a8a5bb230d4d92b42b31df62240cd0faca2a920f39fed8a299603f3f63c9",
+   "size": 2846336
   },
   {
    "name": "manifest.webmanifest",
@@ -43,7 +43,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "16010cc3ad7f6d3f86d3a26af43c59ee84f8238c222f1bfae6ca9cd003573fcd",
+   "sha256": "d89f4e5f88e64a922f11e89ed7c49ae8e7def0753b3529ace2dd751e85f93d1a",
    "size": 3640
   },
   {
@@ -7718,13 +7718,18 @@
   },
   {
    "name": "assets/mage-visuals95.js",
-   "sha256": "91693ed49c6e963e8b96fb2668e1156a580687366ba0140e4009c01a0b034e0a",
-   "size": 11738
+   "sha256": "120b00807562c3e632b1799b2402374bea2e42c7e058cda096f29dc6acb5b69d",
+   "size": 11802
   },
   {
    "name": "assets/spell-visuals96.js",
-   "sha256": "53615ab133b2838a3c16fcbc1c3fff0c2bfab0628208aacdcd72183f7ea0ef4c",
-   "size": 12569
+   "sha256": "755848111bd6bc54824465d8af2aa89f66d04ae7d566a68fba6a3cdfea42e108",
+   "size": 12665
+  },
+  {
+   "name": "assets/combat97.js",
+   "sha256": "c5ac90fabd7062ec3e3db9e9ad2ec1bef1c0168f80bbebe7e43b0bc270a23b68",
+   "size": 4339
   }
  ]
 }
