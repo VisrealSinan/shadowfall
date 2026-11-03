@@ -1599,6 +1599,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
 <script src="assets/talent-art98.js"></script>
 <script src="assets/art99-manifest.js"></script>
 <script src="assets/art99.js"></script>
+<script src="assets/quests100.js"></script>
 <script>
 'use strict';
 /* =========================================================
@@ -8935,7 +8936,7 @@ function damage(e, base, o = {}) {
   if (P.foxfire && !o.dot && !o.fox && !G.fxLock && gtime - (G.foxT || 0) > 0.15 && Math.random() < P.foxfire) { G.foxT = gtime; const tg = nearestN(e.x, e.y, 3, 170).find(q => q !== e) || e, x0 = e.x, y0 = e.y - 6, fd = base * 0.5;
     G.later.push({ t: 0.12, src: '@fox', f: () => { if (tg.dead) return; effects.push({ k: 'bolt', x: tg.x, y: tg.y, x0, y0, life: 0.22, max: 0.22, seed: Math.random() * 99, col: '#ff9a3c' }); burst(tg.x, tg.y, '#ffb05a', 5, 90, 2.2, 0.3, true); damage(tg, fd, { fox: 1, src: '@fox' }); achAdd('r_kit_fox', 1); } }); }
   if (P.fx && P.fx.ember && !o.dot && !G.fxLock && gtime - (G.emberT || 0) > 0.12 && Math.random() < 0.08) { G.emberT = gtime; const x = e.x, y = e.y, v = P.fx.ember; G.later.push({ t: 0.04, src: '@g_ember', f: () => { G.fxLock = 1; areaHit(x, y, 52 * P.area, (12 + fxLv() * 1.1) * v, 30); G.fxLock = 0; effects.push({ k: 'boom', x, y, r: 52 * P.area, life: 0.22, max: 0.22, col: '#ff8a3c' }); } }); }
-  if (e.hp <= 0) { e.qSig = o.minion ? '@m' : G.srcW; killEnemy(e); if (o.minion) onMinionKill();
+  if (e.hp <= 0) { e.qSig = o.minion ? '@m' : sk; killEnemy(e); if (o.minion) onMinionKill();
     if (ev && ev.perk === 'burst' && !G.fxLock && effects.length < 220) { const x = e.x, y = e.y, r = 58 * P.area; G.later.push({ t: 0.05, src: sk, f: () => { G.fxLock = 1; areaHit(x, y, r, 16 + 1.6 * G.level, 60); G.fxLock = 0; effects.push({ k: 'boom', x, y, r, life: 0.25, max: 0.25, col: ev.col }); burst(x, y, ev.col, 8, 130, 2.6, 0.4, true); } }); } }
   return d;
 }
@@ -12505,6 +12506,7 @@ function updateEffects(dt) {
   effects = effects.filter(f => f.life > 0); effects.push = srcPush;
 }
 function collect(g) {
+  Quests100.gem(g);
   G.xp += g.v * P.xp * xpMul(); if (g.x !== undefined) { if (gtime - GEM_SND > 0.05) { GEM_SND = gtime; Snd.play('gem'); } } else Snd.play('gem');
   while (G.xp >= G.xpNext) { G.xp -= G.xpNext; G.level++; if (G.cls === 'river' && typeof rvLevelQuip === 'function') rvLevelQuip(); G.xpNext = xpNeed(G.level); G.pending++; if (G.level % 5 === 0) { G.rerolls = (G.rerolls || 0) + 1; toast('↻ +1 Reroll (' + G.rerolls + ')', '#ffe08a', 2.4); } } /* v20: +1 reroll every 5 levels */
 }
@@ -12597,7 +12599,7 @@ const QDEF = {
   elite: { ic: '☠', col: '#ffc94a', name: () => 'Marked for Death', desc: q => `Hunt down the marked ${ETYPES[q.ty].name} — follow the arrow`, short: q => `Marked ${ETYPES[q.ty].name}` },
   zone: { ic: '◎', col: '#6ff3d0', name: () => 'Hold the Ley Circle', desc: q => `Stand inside the glowing circle for ${q.goal}s`, short: q => `Ley circle ${Math.floor(q.n)}/${q.goal}s` },
   relics: { ic: '◆', col: '#4fd4ff', name: () => 'Scattered Relics', desc: q => `Gather ${q.goal} moonstone relics`, short: q => `Relics ${q.n}/${q.goal}` },
-  sig: { ic: '✦', col: '#e0b0ff', name: () => 'Signature Strike', desc: q => `Slay ${q.goal} foes with ${CLASSES[G.cls].wname}`, short: q => `${CLASSES[G.cls].wname} ${q.n}/${q.goal}` },
+  sig: { ic: '✦', col: '#e0b0ff', name: () => 'Signature Strike', desc: q => `Slay ${q.goal} foes using your equipped skills or companions`, short: q => `Skill kills ${q.n}/${q.goal}` },
   untouched: { ic: '✧', col: '#bfefff', name: () => 'Untouchable', desc: q => `Take no damage for ${q.goal}s in a row`, short: q => `Unhurt ${Math.floor(q.n)}/${q.goal}s` },
   escort: { ic: '☼', col: '#9fdcff', name: () => 'The Lost Spirit', desc: () => 'Guide the spirit to its shrine — it only moves while you stay close', short: q => `Spirit ${Math.round(qProg(q) * 100)}% ♥${Math.ceil(q.hp)}` },
   totems: { ic: '▲', col: '#c56bff', name: () => 'Cursed Totems', desc: q => `Destroy ${q.goal} cursed totems`, short: q => `Totems ${q.n}/${q.goal}` },
@@ -12605,28 +12607,32 @@ const QDEF = {
 const Q_EARLY = ['slay', 'relics', 'zone', 'sig', 'untouched'], Q_ALL = Q_EARLY.concat(['elite', 'totems', 'escort']);
 let qExp = false, qExpT = 0, qSig = '', qUiT = 0, QT_H = 0, QCX = 0, QCY = 0;
 function qProg(q) {
+  if(q.k==='ritual')return clamp((q.n+(q.charge||0)/3)/q.goal,0,1);
+  if(q.k==='twinhunt'){const e=qElite(q);return clamp((q.n+(e?1-e.hp/e.maxHp:0))/q.goal,0,1);}
   if (q.k === 'escort') return clamp(1 - Math.hypot(q.tx - q.x, q.ty2 - q.y) / (q.d0 || 1), 0, 1);
   if (q.k === 'elite') { const e = qElite(q); return e ? clamp(1 - e.hp / e.maxHp, 0, 1) : q.n ? 1 : 0; }
   return clamp(q.n / q.goal, 0, 1);
 }
 function qElite(q) { for (const e of enemies) if (!e.dead && e.qid === q.id) return e; return null; }
 function qAround(dmin, dmax) { const a = rand(TAU), d = rand(dmin, dmax); return [P.x + Math.cos(a) * d, P.y + Math.sin(a) * d]; }
-function qEliteType() { const l = Object.keys(ETYPES).filter(k => { const d = ETYPES[k]; return !d.boss && !d.mini && !d.totem && onMap28(k) && d.t0 <= G.t && d.t0 < 1e8 && !RANGED[k]; }).sort((a, b) => ETYPES[b].hp - ETYPES[a].hp); return pick(l.slice(0, 3)) || 'bone'; }
-function qSpawnElite(q) { const [x, y] = spawnPos(60), e = spawnEnemy(q.ty, { x, y, elite: true }); e.hp = e.maxHp = e.maxHp * 1.5; e.xp = Math.round(e.xp * 1.5); e.qid = q.id; return e; }
+function qEliteType() { const l=Quests100.roster().filter(k=>!RANGED[k]).sort((a,b)=>ETYPES[b].hp-ETYPES[a].hp);return pick(l.slice(0,3))||Quests100.roster()[0]; }
+function qSpawnElite(q) { const p=Quests100.point(P,320,460,rand(TAU),Math.max(P.r+5,ETYPES[q.ty].r*1.45+5)),e=spawnEnemy(q.ty,{...p,elite:true});q.ty=e.type;e.hp=e.maxHp=e.maxHp*1.5;e.xp=Math.round(e.xp*1.5);e.qid=q.id;return e; }
 function questStart(k) {
+  if(!G||!P||G.town||G.ended||(k&&!QDEF[k]))return null;
   const t = G.t, active = G.quests.map(q => q.k);
   if (!k) { const pool = (t < 120 ? Q_EARLY : Q_ALL).filter(x => !active.includes(x) && x !== G.qLast); k = pick(pool.length ? pool : Q_EARLY); }
   const q = { id: ++G.qN, k, n: 0, goal: 1, T: 90, max: 90 };
-  if (k === 'slay') { const cnt = {}; for (const e of enemies) { const d = ETYPES[e.type]; if (!e.dead && !d.boss && !d.mini && !d.totem && d.t0 < 1e8) cnt[e.type] = (cnt[e.type] || 0) + 1; }
-    let best = 'wisp', bn = -1; for (const ty in cnt) if (cnt[ty] > bn) { bn = cnt[ty]; best = ty; } q.ty = best; q.goal = Math.min(60, Math.round(12 + t / 30)); }
+  if (Quests100.start(q)) {}
+  else if (k === 'slay') { const cnt={},roster=Quests100.roster();for(const e of enemies)if(!e.dead&&roster.includes(e.type))cnt[e.type]=(cnt[e.type]||0)+1;
+    let best=roster[0],bn=-1;for(const ty in cnt)if(cnt[ty]>bn){bn=cnt[ty];best=ty;}q.ty=best;q.goal=Math.min(60,Math.round(12+t/30)); }
   else if (k === 'elite') { q.ty = qEliteType(); q.T = q.max = 100; qSpawnElite(q); }
   else if (k === 'zone') { [q.x, q.y] = qAround(210, 270); q.r = 70; q.goal = Math.min(18, Math.round(8 + t / 120)); q.T = q.max = 75; }
   else if (k === 'relics') { q.goal = t < 300 ? 4 : t < 900 ? 5 : 6; q.rel = []; const a0 = rand(TAU); for (let i = 0; i < q.goal; i++) { const a = a0 + i / q.goal * TAU + rand(-0.4, 0.4), d = rand(230, 470); q.rel.push([r1(P.x + Math.cos(a) * d), r1(P.y + Math.sin(a) * d), 0]); } q.T = q.max = 90; }
   else if (k === 'sig') { q.goal = Math.min(150, Math.round(25 + t / 12)); q.sig = [CLASSES[G.cls].weapon]; if (G.cls === 'summoner') q.sig.push('@m'); if (G.cls === 'druid') q.sig.push('catform', 'treeform'); }
   else if (k === 'untouched') { q.goal = Math.min(30, Math.round(15 + t / 60)); q.T = q.max = q.goal * 3 + 30; }
   else if (k === 'escort') { const a = rand(TAU); q.x = r1(P.x + Math.cos(a) * 90); q.y = r1(P.y + Math.sin(a) * 90); const b = a + rand(-1.2, 1.2); q.tx = r1(q.x + Math.cos(b) * 520); q.ty2 = r1(q.y + Math.sin(b) * 520); q.d0 = 520; q.hp = 100; q.T = q.max = 110; }
-  else if (k === 'totems') { q.goal = 3; q.T = q.max = 100; const a0 = rand(TAU); for (let i = 0; i < 3; i++) { const a = a0 + i / 3 * TAU + rand(-0.5, 0.5), d = rand(250, 420);
-      const e = spawnEnemy('totem', { x: P.x + Math.cos(a) * d, y: P.y + Math.sin(a) * d }); e.qid = q.id; e.hx = e.x; e.hy = e.y; } }
+  else if (k === 'totems') { q.goal=3;q.T=q.max=100;for(let i=0;i<3;i++)Quests100.totem(q);q.placed100=true; }
+  Quests100.prepare(q);
   G.quests.push(q); G.qLast = k;
   const D = QDEF[k]; qBanner(`<div class="qbi" style="color:${D.col}">${D.ic}\uFE0E</div><div class="qbx"><div class="qbt">New Quest · ${Math.round(q.T)}s</div><div class="qbn">${D.name(q)}</div><div class="qbd">${D.desc(q)}</div></div>`, 'start');
   Snd.play('qstart'); qSig = ''; return q;
@@ -12634,17 +12640,21 @@ function questStart(k) {
 function questKill(e) {
   const qs = G.quests; if (!qs || !qs.length) return;
   for (const q of qs) {
+    Quests100.kill(q,e);
     if (q.k === 'slay') { if (e.type === q.ty) q.n++; }
-    else if (q.k === 'sig') { if ((e.qSig && q.sig.includes(e.qSig)) || (G.cls === 'warlock' && e.rotT > 0) || (G.cls === 'mage' && e.bnT > 0 && !e.qSig)) q.n++; }
+    else if (q.k === 'sig') { if ((e.qSig && (WDEF[e.qSig] || e.qSig === '@m' || q.sig.includes(e.qSig))) || (G.cls === 'warlock' && e.rotT > 0) || (G.cls === 'mage' && e.bnT > 0 && !e.qSig)) q.n++; }
     else if (q.k === 'elite' || q.k === 'totems') { if (e.qid === q.id) q.n++; }
   }
 }
 function questTick(dt) {
+  if(!G||!P||G.town||G.ended||P.hp<=0||!Number.isFinite(dt)||dt<=0)return;
   if (!Array.isArray(G.quests)) G.quests = [];
   const qs = G.quests, cap = G.t >= 360 ? 2 : 1;
   if (G.t >= (G.qNext || 60)) { if (qs.length < cap) { questStart(); G.qNext = G.t + (G.t >= 360 ? rand(95, 140) : rand(120, 180)); } else G.qNext = G.t + 15; }
   for (let i = qs.length - 1; i >= 0; i--) { const q = qs[i]; q.T -= dt;
-    if (q.k === 'zone') { if (((P.x - q.x) / q.r) ** 2 + ((P.y - q.y) / (q.r * 0.82)) ** 2 < 1) { q.n += dt; q.inZ = 1; if (Math.random() < dt * 10 && parts.length < 380) parts.push({ x: P.x + rand(-10, 10), y: P.y + rand(0, 14), vx: 0, vy: -50, life: 0.6, max: 0.6, s: 2.2, c: '#6ff3d0', glow: true }); } else q.inZ = 0; }
+    Quests100.maintain(q,dt);
+    if (Quests100.tick(q,dt)) {}
+    else if (q.k === 'zone') { if (((P.x - q.x) / q.r) ** 2 + ((P.y - q.y) / (q.r * 0.82)) ** 2 < 1) { q.n += dt; q.inZ = 1; if (Math.random() < dt * 10 && parts.length < 380) parts.push({ x: P.x + rand(-10, 10), y: P.y + rand(0, 14), vx: 0, vy: -50, life: 0.6, max: 0.6, s: 2.2, c: '#6ff3d0', glow: true }); } else q.inZ = 0; }
     else if (q.k === 'relics') { for (const r of q.rel) if (!r[2] && (P.x - r[0]) ** 2 + (P.y - r[1]) ** 2 < 34 * 34) { r[2] = 1; q.n++; Snd.play('gem'); burst(r[0], r[1], '#4fd4ff', 14, 120, 2.6, 0.5, true); addNum(r[0], r[1] - 18, `◆ ${q.n}/${q.goal}`, '#9fe8ff', 13); } }
     else if (q.k === 'untouched') { if (G.qHurt) { if (q.n > 2) addNum(P.x, P.y - 40, 'STREAK LOST', '#bfefff', 11); q.n = 0; } else q.n += dt; }
     else if (q.k === 'escort') { const dP = Math.hypot(P.x - q.x, P.y - q.y), dx = q.tx - q.x, dy = q.ty2 - q.y, dd = Math.hypot(dx, dy) || 1;
@@ -12652,8 +12662,8 @@ function questTick(dt) {
       let n = 0; query(q.x, q.y, 40, e => { if (!ETYPES[e.type].totem && (e.x - q.x) ** 2 + (e.y - q.y) ** 2 < (16 + e.r) ** 2) n++; });
       if (n) { q.hp -= Math.min(4, n) * 7 * dt; q.hitT = 0.15; } else q.hp = Math.min(100, q.hp + 2 * dt); q.hitT = (q.hitT || 0) - dt;
       if (dd < 16) q.n = q.goal; }
-    else if (q.k === 'totems') { let alive = 0; for (const e of enemies) if (!e.dead && e.qid === q.id) { alive++; if (e.hx === undefined) { e.hx = e.x; e.hy = e.y; } e.x = e.hx; e.y = e.hy; e.kbx = e.kby = 0; } q.n = q.goal - alive; }
-    else if (q.k === 'elite' && !q.n && !qElite(q)) qSpawnElite(q); // lost track (e.g. never restored): re-mark a fresh one
+    else if (q.k === 'totems') { for (const e of enemies) if (!e.dead && e.qid === q.id) { if (e.hx === undefined) { e.hx = e.x; e.hy = e.y; } e.x = e.hx; e.y = e.hy; e.kbx = e.kby = 0; } /* Only confirmed kills advance totems; missing targets are restored above. */ }
+    else if (q.k === 'elite' && q.T>0 && !q.n && !qElite(q)) qSpawnElite(q); // lost track (e.g. never restored): re-mark a fresh one
     if (q.n >= q.goal) questDone(q, i); else if (q.T <= 0 || (q.k === 'escort' && q.hp <= 0)) questFail(q, i, q.k === 'escort' && q.hp <= 0 ? 'The spirit was devoured' : 'Time ran out');
   }
   G.qHurt = 0;
@@ -12661,7 +12671,7 @@ function questTick(dt) {
 function qCleanup(q) { for (const e of enemies) if (!e.dead && e.qid === q.id) { if (q.k === 'totems') { e.dead = true; burst(e.x, e.y, '#c56bff', 12, 100, 2.6, 0.5, true); } else e.qid = 0; } }
 function questDone(q, i) {
   G.quests.splice(i, 1); qCleanup(q); qSig = '';
-  const t = G.t, nth = G.qStats.done, D = QDEF[q.k], hard = q.k === 'elite' || q.k === 'escort' || q.k === 'totems';
+  const t = G.t, nth = G.qStats.done, D = QDEF[q.k], hard = q.k === 'elite' || q.k === 'escort' || q.k === 'totems' || q.k === 'twinhunt';
   const sh = Math.round((6 + t / 30) * (1 + Math.min(0.5, nth * 0.06)) * (hard ? 1.2 : 1));
   let r = t < 300 ? 1 : t < 600 ? 2 : 3; if (Math.random() < 0.2 + Math.min(0.3, nth * 0.04) && (r < 3 || t >= 900)) r++;
   const it = genGear('quest', { r, cls: G.cls }), sl = gearSlotFor(it), cur = G.gear[sl]; let eq = false, sv = 0;
@@ -12706,6 +12716,7 @@ function questUI(dt) {
 function drawQuestWorld() {
   const qs = G.quests; if (!qs || !qs.length) return;
   for (const q of qs) {
+    Quests100.world(q);
     if (q.k === 'zone' && inView(q.x, q.y, q.r + 20)) { const pu = 0.5 + 0.5 * Math.sin(gtime * 3), a = q.inZ ? 1 : 0.7;
       ctx.fillStyle = hexA('#6ff3d0', (0.1 + 0.06 * pu) * a); ctx.beginPath(); ctx.ellipse(q.x, q.y, q.r, q.r * 0.82, 0, 0, TAU); ctx.fill();
       ctx.strokeStyle = hexA('#6ff3d0', 0.55 * a); ctx.lineWidth = 2; ctx.setLineDash([10, 7]); ctx.lineDashOffset = -gtime * 26; ctx.stroke(); ctx.setLineDash([]);
@@ -12727,11 +12738,11 @@ function drawQuestWorld() {
         for (let i = 0; i < 3; i++) { const ph = (gtime * 0.9 + i / 3) % 1; glowAt('#9fdcff', q.x + Math.sin(gtime * 2 + i * 2) * 6, y + 6 + ph * 14, 8, 1 - ph); } ctx.globalCompositeOperation = 'source-over';
         ctx.fillStyle = '#eaf8ff'; ctx.beginPath(); ctx.arc(q.x, y, 5, 0, TAU); ctx.fill(); ctx.fillStyle = '#123a5a'; ctx.fillRect(q.x - 2.5, y - 1.5, 1.4, 2.2); ctx.fillRect(q.x + 1.1, y - 1.5, 1.4, 2.2);
         ctx.fillStyle = 'rgba(0,0,0,.6)'; ctx.fillRect(q.x - 14, y - 16, 28, 4); ctx.fillStyle = q.hp < 35 ? '#ff6a6a' : '#9fdcff'; ctx.fillRect(q.x - 13.5, y - 15.5, 27 * clamp(q.hp / 100, 0, 1), 3); } }
-    else if (q.k === 'totems' || q.k === 'elite') { for (const e of enemies) if (!e.dead && e.qid === q.id && inView(e.x, e.y, 60)) { const R = e.r * 1.6, pu = 0.5 + 0.5 * Math.sin(gtime * 5);
+    else if (q.k === 'totems' || q.k === 'elite' || q.k === 'twinhunt') { for (const e of enemies) if (!e.dead && e.qid === q.id && inView(e.x, e.y, 60)) { const R = e.r * 1.6, pu = 0.5 + 0.5 * Math.sin(gtime * 5);
         ctx.strokeStyle = hexA(q.k === 'elite' ? '#ffd24a' : '#c56bff', 0.45 + 0.35 * pu); ctx.lineWidth = 2; ctx.setLineDash([6, 5]); ctx.lineDashOffset = gtime * 20; ctx.beginPath(); ctx.ellipse(e.x, e.y + e.r * 0.6, R, R * 0.45, 0, 0, TAU); ctx.stroke(); ctx.setLineDash([]); } }
   }
 }
-function questLights(L) { const qs = G.quests; if (!qs) return; for (const q of qs) { if (q.k === 'zone') L(q.x, q.y, q.r * 1.6, 0.7); else if (q.k === 'escort') { L(q.x, q.y - 14, 70, 0.8); L(q.tx, q.ty2 - 30, 60, 0.6); } else if (q.k === 'relics') for (const r of q.rel) if (!r[2]) L(r[0], r[1], 40, 0.6); } }
+function questLights(L) { const qs = G.quests; if (!qs) return; for (const q of qs) { Quests100.lights(q,L);if (q.k === 'zone') L(q.x, q.y, q.r * 1.6, 0.7); else if (q.k === 'escort') { L(q.x, q.y - 14, 70, 0.8); L(q.tx, q.ty2 - 30, 60, 0.6); } else if (q.k === 'relics') for (const r of q.rel) if (!r[2]) L(r[0], r[1], 40, 0.6); } }
 /* --- screen layer: edge arrows, markers & bars --- */
 function qArrow(x, y, col, ic, hpF) {
   const sx = (x - QCX) * ZOOM + W / 2, sy = (y - QCY) * ZOOM + H / 2, top = SAFE.t + 126 + (G.boss ? 20 : 0), bot = H - SAFE.b - 110, m = 24;
@@ -12748,7 +12759,8 @@ function qArrow(x, y, col, ic, hpF) {
 function drawQuestHUD() {
   const qs = G.quests; if (!qs || !qs.length || state === 'dying') return;
   for (const q of qs) { const D = QDEF[q.k];
-    if (q.k === 'elite') { const e = qElite(q); if (e) qArrow(e.x, e.y - e.r, D.col, D.ic, e.hp / e.maxHp); }
+    Quests100.hud(q);
+    if (q.k === 'elite' || q.k === 'twinhunt') { const e = qElite(q); if (e) qArrow(e.x, e.y - e.r, D.col, D.ic, e.hp / e.maxHp); }
     else if (q.k === 'zone') { if (!q.inZ) qArrow(q.x, q.y, D.col, D.ic); }
     else if (q.k === 'relics') { let b = null, bd = 1e18; for (const r of q.rel) if (!r[2]) { const d = (r[0] - P.x) ** 2 + (r[1] - P.y) ** 2; if (d < bd) { bd = d; b = r; } } if (b) qArrow(b[0], b[1] - 6, D.col, D.ic); }
     else if (q.k === 'escort') { if (q.near) qArrow(q.tx, q.ty2 - 30, '#ffd24a', '⌂'); else qArrow(q.x, q.y - 14, D.col, D.ic, q.hp / 100); }
@@ -17343,6 +17355,7 @@ MageVisuals95.install();
 SpellVisuals96.install();
 Combat97.install();
 Art99.install();
+Quests100.register();
 initNightforge();
 initAchievementHall();
 initJourneyScenes();

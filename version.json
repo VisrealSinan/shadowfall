@@ -1,10 +1,10 @@
 {
- "version": "99",
+ "version": "100",
  "date": "2026-11-02",
  "minLauncher": "2.0.0",
  "notes": [
-  "Complete character and vendor portrait crops; padded skill icons.",
-  "Painted gear, legendary items, Armory, Hollow Bell, pickups, scenery and class constructs."
+  "Ten new quests: 18 regular quests available on every map.",
+  "Fix map-specific hunt targets, blocked quest placements, skill kill credit and quest target recovery."
  ],
  "files": [
   {
@@ -34,8 +34,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "49a93a2ebaf10caf8592e84b423e9553d50e53c28514e13e7777dc4b9e80f12b",
-   "size": 2846873
+   "sha256": "f908b8edb8fc1c0cefc17a132756af7fbe0ca62a84ceb911bf10f48615e3c5e3",
+   "size": 2847279
   },
   {
    "name": "manifest.webmanifest",
@@ -44,8 +44,8 @@
   },
   {
    "name": "sw.js",
-   "sha256": "78c4193553c9280050bf3a13cc5872a915b252f9ffc5dcb4650bc065713456a1",
-   "size": 3640
+   "sha256": "aabd631c0cc4b9f664103f1d385755a4882529cdeacbb10c6177bebd50dd58a0",
+   "size": 3641
   },
   {
    "name": "assets/actor-animation-manifest.js",
@@ -8731,6 +8731,11 @@
    "name": "assets/unit99-9.png",
    "sha256": "220d904016124c7339838b51190e2517bb0dca79fae872ce42209e1350835135",
    "size": 88013
+  },
+  {
+   "name": "assets/quests100.js",
+   "sha256": "39e49a6bacfd3bbae426b76dbf8f573d71cdfe402c3640ca5cbc1383cb48ffb2",
+   "size": 9632
   }
  ]
 }
