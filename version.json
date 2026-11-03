@@ -1,10 +1,10 @@
 {
- "version": "100",
- "date": "2026-11-02",
+ "version": "101",
+ "date": "2026-11-03",
  "minLauncher": "2.0.0",
  "notes": [
-  "Ten new quests: 18 regular quests available on every map.",
-  "Fix map-specific hunt targets, blocked quest placements, skill kill credit and quest target recovery."
+  "Painted artwork across quests, events, trader offers, achievements and reward popups.",
+  "Match event prompts, evolution details and card transitions to the current artwork."
  ],
  "files": [
   {
@@ -34,8 +34,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "f908b8edb8fc1c0cefc17a132756af7fbe0ca62a84ceb911bf10f48615e3c5e3",
-   "size": 2847279
+   "sha256": "4ad3f0b5b5a717cb87b2ede988d24ad776a41c4cbb90ebc29463ba2d694e5bbe",
+   "size": 2848538
   },
   {
    "name": "manifest.webmanifest",
@@ -44,7 +44,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "aabd631c0cc4b9f664103f1d385755a4882529cdeacbb10c6177bebd50dd58a0",
+   "sha256": "d6042b7f479fc0ee6ad005f1b0b88ffbe52377504c5ac1609c9f98f508387a09",
    "size": 3641
   },
   {
@@ -4824,8 +4824,8 @@
   },
   {
    "name": "assets/achievement-hall.js",
-   "sha256": "9625aed918de4efb70343f9825b47d909a4b257b715bd0fa7bc0f48ed6187822",
-   "size": 7560
+   "sha256": "d00e8a28ec5ae7ff309e788a6fc1d28bb763ac175029a58a57e44ec8c16b1e58",
+   "size": 7576
   },
   {
    "name": "assets/achievement-hall.css",
@@ -5729,8 +5729,8 @@
   },
   {
    "name": "assets/polish87.css",
-   "sha256": "8d0df626f57fd575fc5f36bd4beeb4b7a5cda12d9586ca2462d6415482d5cd02",
-   "size": 7812
+   "sha256": "989aad7d54b29496b6a06515b695c69f878eec605aa4bc97ea23a33a44d9e2c0",
+   "size": 8296
   },
   {
    "name": "assets/skill-art-arcane-v87.png",
@@ -8736,6 +8736,16 @@
    "name": "assets/quests100.js",
    "sha256": "39e49a6bacfd3bbae426b76dbf8f573d71cdfe402c3640ca5cbc1383cb48ffb2",
    "size": 9632
+  },
+  {
+   "name": "assets/popup-art101.js",
+   "sha256": "baa17e24e6ceac9930e0c24d1ee2465061bb7d2c275e9eb4e12d8693f9efc577",
+   "size": 3076
+  },
+  {
+   "name": "assets/popup-art101.css",
+   "sha256": "463cfb1d99e9c92305b216171a71b9c35a2dcbe797c7de35889c409af64b04ad",
+   "size": 2033
   }
  ]
 }

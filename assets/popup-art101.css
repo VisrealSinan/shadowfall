@@ -1,0 +1,22 @@
+/* A contained painted cell also works in the small, short-lived UI surfaces. */
+.popup-image101{display:inline-block;position:relative;flex:0 0 auto;width:100%;height:100%;background-repeat:no-repeat;object-fit:contain;vertical-align:middle;pointer-events:none;image-rendering:auto}
+.inline-image101{display:inline-block;width:28px;height:28px;vertical-align:middle;margin-right:5px;background-repeat:no-repeat;object-fit:contain;pointer-events:none;image-rendering:auto}
+#achBanner .abic,#qBan .qbi,#npc .ni,.echo-icon{overflow:hidden;display:flex;align-items:center;justify-content:center;padding:3px;box-sizing:border-box}
+#achBanner .abic{flex-shrink:0}
+#qTrack .qi{display:inline-block;width:22px;height:22px;flex:0 0 22px;vertical-align:middle}
+#npc .ni{width:42px;height:42px;flex:0 0 42px}
+#npcBand .bi{display:inline-block;width:30px;height:30px;flex:0 0 30px;vertical-align:middle}
+#cdxList .ci{display:inline-block;width:36px;height:36px;flex:0 0 36px;vertical-align:middle}
+.mtn .mti{display:inline-block;width:32px;height:32px;flex:0 0 32px}
+.mtn .meta-icon99{width:100%;height:100%}
+.gslot .ph .popup-image101{opacity:.38}
+#cfm .cfb{border-color:#a3b39170;background:linear-gradient(140deg,#20362d,#172729);box-shadow:0 10px 40px #0008}
+#cfm h3{font-family:Georgia,serif;color:#e0ddc1;text-shadow:none}
+#qBan{background:linear-gradient(140deg,#20362df5,#122126f5);border-color:#a3b39180;box-shadow:0 5px 25px #0007}
+#qBan .qbi,#achBanner .abic{border-color:#b6a07866;background:#12201f;box-shadow:none;border-radius:5px}
+#achBanner{background:linear-gradient(140deg,#20362df5,#122126f5);border-color:#b6a07880;box-shadow:0 5px 25px #0007}
+#achBanner .abn{color:#e7dfc6;text-shadow:none}
+#gear,#codex{background:radial-gradient(ellipse at 50% 0,#34433470,transparent 70%),#0f171af2;color:#dddcc8}
+#gear h2,#codex h2{font-family:Georgia,serif;color:#e6ddc4;text-shadow:none}
+#gear .gearbox,#codex .cdx{background:linear-gradient(140deg,#20362d,#172729);box-shadow:none}
+#codex .cdx .cr{background:#122521;color:#d5d9c2}

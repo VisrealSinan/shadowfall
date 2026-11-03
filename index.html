@@ -1314,6 +1314,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
 <link rel="stylesheet" href="assets/shaman92.css">
 <link rel="stylesheet" href="assets/talent-art98.css">
 <link rel="stylesheet" href="assets/art99.css">
+<link rel="stylesheet" href="assets/popup-art101.css">
 </head>
 <body>
 <canvas id="c"></canvas>
@@ -1600,6 +1601,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
 <script src="assets/art99-manifest.js"></script>
 <script src="assets/art99.js"></script>
 <script src="assets/quests100.js"></script>
+<script src="assets/popup-art101.js"></script>
 <script>
 'use strict';
 /* =========================================================
@@ -2970,7 +2972,7 @@ function achBanner(a) { _achQ.push(a); if (!_achBusy) _achNext(); }
 const POPHOLD45 = { npc: 1, gear: 1, shop: 1 }; let _achCur = null, _achT = 0; function popHold45() { return !!POPHOLD45[state]; } // v45
 function _achNext() { clearTimeout(_achT); if (_achQ.length && popHold45()) { _achBusy = true; _achT = setTimeout(_achNext, 300); return; } const a = _achQ.shift(), el = $('achBanner'); if (!a) { _achBusy = false; return; } _achBusy = true; _achCur = a;
   el.style.top = (state === 'play' || state === 'countdown') && G ? `calc(env(safe-area-inset-top,0px) + ${G.boss && !G.boss.dead ? 150 : 128}px)` : ''; // v11: in-run, sit below the HUD (pause button, danger, boss bar)
-  el.innerHTML = `<div class="abic">${a.ic}\uFE0E</div><div class="abtx"><div class="abt">${a.abt || 'Achievement Unlocked!'}</div><div class="abn">${a.name}</div><div class="abr">${a.rw || a.shards ? `Reward: <b>${newAchievementReward(a)}</b>` : a.un ? `Unlocks: <b>${a.un}</b>` : ''}</div></div>`;
+  el.innerHTML = `<div class="abic">${PopupArt101.achievement(a)}</div><div class="abtx"><div class="abt">${a.abt || 'Achievement Unlocked!'}</div><div class="abn">${a.name}</div><div class="abr">${a.rw || a.shards ? `Reward: <b>${newAchievementReward(a)}</b>` : a.un ? `Unlocks: <b>${a.un}</b>` : ''}</div></div>`;
   el.classList.toggle('creep46', !!a.creep); el.classList.remove('on'); void el.offsetWidth; el.classList.add('on'); try { Snd.play(a.creep ? 'ring46' : 'ach'); } catch (e) { }
   _achT = setTimeout(() => { el.classList.remove('on'); _achCur = null; _achT = setTimeout(_achNext, 380); }, 3000); }
 setInterval(() => { if (!popHold45()) return; const el = $('achBanner'), q = $('qBan'); // v45: a window opened under a banner -> the banner steps aside and replays afterwards
@@ -8636,10 +8638,10 @@ function addNum(x, y, v, col, size = 12) {
 }
 /* v29: readable messages - toasts and banners queue up, never overlap, stay 2.5-4s (longer text = longer), fade gently */
 const msgDur = (txt, lo, hi, base) => clamp(base + String(txt).length * 0.03, lo, hi);
-function toast(text, col = '#fff', dur = 2.4, sub = '') { text = String(text); sub = sub ? String(sub) : '';
+function toast(text, col = '#fff', dur = 2.4, sub = '', art = null) { text = String(text); sub = sub ? String(sub) : '';
   const d = Math.max(clamp(dur, 2.5, 4), msgDur(text + sub, 2.5, 4, 2.5)), o = toasts.find(t => t.text === text && t.sub === sub);
-  if (o) { o.col = col; o.life = Math.max(o.life, o.on ? Math.min(o.max, o.life + d) : d); if (!o.on) o.max = o.life; return o; }
-  const t = { text, col, sub, life: d, max: d, on: false }; toasts.push(t);
+  if (o) { o.art = art; o.col = col; o.life = Math.max(o.life, o.on ? Math.min(o.max, o.life + d) : d); if (!o.on) o.max = o.life; return o; }
+  const t = { text, col, sub, art, life: d, max: d, on: false }; toasts.push(t);
   if (toasts.length > 6) { const i = toasts.findIndex(x => !x.on); toasts.splice(i >= 0 && i < toasts.length - 1 ? i : 0, 1); } return t; }
 let MSG_FIT = 3, MSG_PILL = 0, MSG_DOM = 0, MSG_DOMT = -1;
 function msgTick(dt) { let n = 0; const fit = Math.max(1, MSG_FIT);
@@ -8681,10 +8683,10 @@ const ECAP = 240;                                                               
 function rollAff(t) { const n = t < 240 ? (Math.random() < 0.5 ? 1 : 0) : t < 600 ? 1 : t < 960 ? 2 : 3;
   return Object.keys(EAFF).sort(() => Math.random() - 0.5).slice(0, n); }
 let bannerQ = [];
-function announce(a, b, col = '#ffd24a', snd = 'elite') { a = String(a); b = b ? String(b) : ''; const d = msgDur(a + b, 3, 4.2, 2.8);
-  if (G.banner && G.banner.a === a) { G.banner.b = b; G.banner.life = Math.max(G.banner.life, d * 0.6); return; }
-  const q = bannerQ.find(x => x.a === a); if (q) { q.b = b; return; }
-  bannerQ.push({ a, b, col, snd, life: d, max: d, age: 0 }); if (bannerQ.length > 4) bannerQ.shift();
+function announce(a, b, col = '#ffd24a', snd = 'elite', art = null) { a = String(a); b = b ? String(b) : ''; const d = msgDur(a + b, 3, 4.2, 2.8);
+  if (G.banner && G.banner.a === a) { G.banner.b = b; G.banner.art = art; G.banner.life = Math.max(G.banner.life, d * 0.6); return; }
+  const q = bannerQ.find(x => x.a === a); if (q) { q.b = b; q.art = art; return; }
+  bannerQ.push({ a, b, col, snd, art, life: d, max: d, age: 0 }); if (bannerQ.length > 4) bannerQ.shift();
   if (!G.banner) msgTick(0); }
 function spawnPos(extra = 0) {
   const vw = W / ZOOM, vh = H / ZOOM, d = Math.hypot(vw, vh) / 2 + 30 + extra, a = rand(TAU);
@@ -12634,7 +12636,7 @@ function questStart(k) {
   else if (k === 'totems') { q.goal=3;q.T=q.max=100;for(let i=0;i<3;i++)Quests100.totem(q);q.placed100=true; }
   Quests100.prepare(q);
   G.quests.push(q); G.qLast = k;
-  const D = QDEF[k]; qBanner(`<div class="qbi" style="color:${D.col}">${D.ic}\uFE0E</div><div class="qbx"><div class="qbt">New Quest · ${Math.round(q.T)}s</div><div class="qbn">${D.name(q)}</div><div class="qbd">${D.desc(q)}</div></div>`, 'start');
+  const D = QDEF[k]; qBanner(`<div class="qbi" style="color:${D.col}">${PopupArt101.quest(q)}</div><div class="qbx"><div class="qbt">New Quest · ${Math.round(q.T)}s</div><div class="qbn">${D.name(q)}</div><div class="qbd">${D.desc(q)}</div></div>`, 'start');
   Snd.play('qstart'); qSig = ''; return q;
 }
 function questKill(e) {
@@ -12685,7 +12687,7 @@ function questDone(q, i) {
 }
 function questFail(q, i, why) {
   G.quests.splice(i, 1); qCleanup(q); qSig = ''; G.qStats.failed++; Snd.play('qfail');
-  qBanner(`<div class="qbi" style="color:#a593c4">✕</div><div class="qbx"><div class="qbt qno">Quest Failed</div><div class="qbn">${QDEF[q.k].name(q)}</div><div class="qbd">${why} — it fades into the night</div></div>`, 'fail');
+  qBanner(`<div class="qbi" style="color:#a593c4">${PopupArt101.quest(q)}</div><div class="qbx"><div class="qbt qno">Quest Failed</div><div class="qbn">${QDEF[q.k].name(q)}</div><div class="qbd">${why} — it fades into the night</div></div>`, 'fail');
 }
 /* --- DOM banner / reward toast (never takes input) --- */
 const _qbQ = []; let _qbBusy = false;
@@ -12702,7 +12704,7 @@ function questUI(dt) {
   if (qExp && (qExpT -= dt) <= 0) qExp = false;
   const sig = G.quests.map(q => q.id).join(',') + (qExp ? 'x' : '') + (G.boss ? 'b' : '');
   if (sig !== qSig) { qSig = sig; qUiT = 0; tb.classList.remove('hidden'); tb.classList.toggle('exp', qExp); tb._top = ''; /* v20: top follows the loadout HUD (set in drawHUD) */
-    tb.innerHTML = G.quests.map((q, i) => { const D = QDEF[q.k]; return `<div class="qrow${i && !qExp ? ' qx' : ''}"><div class="qh"><span class="qi" style="color:${D.col}">${D.ic}\uFE0E</span><span class="ql"></span><span class="qtm"></span></div><div class="qb"><i style="background:${D.col}"></i></div><div class="qd">${D.desc(q)}</div></div>`; }).join('') +
+    tb.innerHTML = G.quests.map((q, i) => { const D = QDEF[q.k]; return `<div class="qrow${i && !qExp ? ' qx' : ''}"><div class="qh"><span class="qi" style="color:${D.col}">${PopupArt101.quest(q)}</span><span class="ql"></span><span class="qtm"></span></div><div class="qb"><i style="background:${D.col}"></i></div><div class="qd">${D.desc(q)}</div></div>`; }).join('') +
       (!qExp && G.quests.length > 1 ? `<span class="qmore">+${G.quests.length - 1}</span>` : '');
     tb.setAttribute('aria-label', 'Quests: ' + G.quests.map(q => QDEF[q.k].name(q)).join(', ') + (qExp ? ' (tap to collapse)' : ' (tap for details)')); }
   if ((qUiT -= dt) > 0) return; qUiT = 0.12;
@@ -12852,7 +12854,7 @@ function npcSpawn(type) {
   const n = { id: ++G.npcN, nt: type, npc: 1, x: r1(P.x + Math.cos(a) * d), y: r1(P.y + Math.sin(a) * d), r: 10, T: 55, max: 55, face: 1, age: 0, cool: 0, visits: 0 };
   obFree(n, n.r + 2); n.hx = n.x; n.hy = n.y; n.offers = npcOffers(type); n.say = pick(D.hi);
   G.npcs.push(n); G.npcLast = type; G.npcSeen = (G.npcSeen || 0) + 1;
-  toast(`${D.ic}\uFE0E ${D.role} nearby`, D.col, 3.2, 'Follow the arrow to visit'); Snd.play('greet'); return n; }
+  toast(`${D.role} nearby`, D.col, 3.2, 'Follow the arrow to visit', ['p',({merchant:'greed',gambler:'luck',smith:'armor',stranger:'wisdom',shrine:'shield'})[type]]); Snd.play('greet'); return n; }
 function npcTick(dt) {
   if (!Array.isArray(G.npcs)) G.npcs = [];
   for (const k of ['bufE', 'bufH', 'bufA']) if (G[k] > 0) { G[k] -= dt; if (G[k] <= 0) { G[k] = 0; recalc(); } }
@@ -12885,6 +12887,7 @@ function npcPortrait(cv, type) {
   g.clearRect(0, 0, cv.width, cv.height); g.drawImage(img, -8 * dpr, -2 * dpr, (S + 16) * dpr, (S + 16) * dpr); }
 /* v36: vendor shop personalities (band title, road name, motto) - towns use the zone's stall sign */
 const NPCMENU36 = {
+  shrine: { ic: '✧', shop: 'Sanctuary of the Old Spirits', road: 'Spirit sanctuary', fl: ['Choose one gift · The spirits ask no coin', 'A blessing for the road ahead', 'The old spirits watch over you'] },
   merchant: { ic: '⚖', shop: "Pell's Travelling Wares", road: 'Roadside cart', fl: ['No refunds · No questions · No dragons', 'Tonics brewed fresh-ish this morning', 'Every coin keeps the cart rolling'] },
   gambler: { ic: '⚄', shop: "Lady Vex's Table", road: 'Pop-up parlour', fl: ['House rules: the house wins… usually', 'Cards, dice and bones, all honest', 'Wagers paid in gold or in regrets'] },
   smith: { ic: '⚒', shop: "Brunhild's Runeforge", road: 'Travelling anvil', fl: ['Hot iron · Cold runes · Fair prices', 'Forged in fire, quenched in spite', 'Edges guaranteed until they are not'] },
@@ -12893,7 +12896,7 @@ const NPCMENU36 = {
 const npcNm36 = (o, def) => { const z = zn39(); if (z && z.names && z.names[o.k]) { const q = z.names[o.k]; return typeof q === 'function' ? q(o) : q; } return def.n(o); };
 function npcTheme36(n) { const z = G.town ? (G.town.theme || 'forest') : mapKey36(), M = (ZN39[z] && ZN39[z].menu && ZN39[z].menu[n.nt]) || NPCMENU36[n.nt] || NPCMENU36.merchant, S = TOWNS36[z] || TOWNS36.forest, el = $('npc');
   el.dataset.v = n.nt; el.dataset.z = z; el.style.setProperty('--za', S.col);
-  $('npcBand').innerHTML = `<span class="bi">${G.town ? S.ic : M.ic}\uFE0E</span><b>${G.town ? S.signs[n.nt] : M.shop}</b><span class="bz">${G.town ? S.name : M.road}</span>`;
+  $('npcBand').innerHTML = `<span class="bi">${PopupArt101.html(n.nt==='shrine'?['prop',39]:['p',({merchant:'greed',gambler:'luck',smith:'armor',stranger:'wisdom'})[n.nt]])}</span><b>${G.town ? S.signs[n.nt] : M.shop}</b><span class="bz">${G.town ? S.name : M.road}</span>`;
   $('npcFlav').textContent = '— ' + M.fl[((n.visits || 1) - 1) % M.fl.length] + ' —'; }
 function renderNpc() { const n = npcCur; if (!n) return; const D = NPCS[n.nt];
   $('npc').style.setProperty('--nc', D.col); $('npcName').textContent = D.n; $('npcRole').textContent = D.role; $('npcSay').textContent = '“' + n.say + '”';
@@ -12902,7 +12905,7 @@ function renderNpc() { const n = npcCur; if (!n) return; const D = NPCS[n.nt];
   const L = $('npcOffers'); L.innerHTML = '';
   n.offers.forEach((o, i) => { const def = NOFF[o.k]; if (!def) return; const sold = !(o.left > 0), can = (G.gold || 0) >= o.p, nm = npcNm36(o, def), ds = def.d(o);
     const b = document.createElement('button'); b.className = 'npco' + (sold ? ' sold' : can ? '' : ' poor'); b.disabled = sold; b.dataset.i = i;
-    b.innerHTML = `<kbd class="kh">${i + 1}</kbd><span class="ni">${def.ic}\uFE0E</span><span class="nt"><b>${nm}</b><small>${ds}</small></span><span class="np">${sold ? (n.fixed ? '—' : 'SOLD') : o.p ? '● ' + o.p : 'FREE'}${!sold && def.rep && o.left > 1 ? `<i>×${o.left}</i>` : ''}</span>`;
+    b.innerHTML = `<kbd class="kh">${i + 1}</kbd><span class="ni">${PopupArt101.offer(o)}</span><span class="nt"><b>${nm}</b><small>${ds}</small></span><span class="np">${sold ? (n.fixed ? '—' : 'SOLD') : o.p ? '● ' + o.p : 'FREE'}${!sold && def.rep && o.left > 1 ? `<i>×${o.left}</i>` : ''}</span>`;
     b.setAttribute('aria-label', `${nm}: ${ds}. ${sold ? 'Sold out' : o.p + ' gold' + (can ? '' : ', not enough gold')}`);
     b.onclick = () => npcBuy(i); L.appendChild(b); });
   const m = $('npcMsg'); m.textContent = npcMsgT; m.className = 'npcmsg ' + npcMsgK; }
@@ -14274,7 +14277,7 @@ function w28Claim(L) { const w = G.w28, D = LMD28[L.k], nm = w28LN(L.k); w.lm[L.
     case 'throne': w28Loot('royal', L.x, L.y + 30); msg = 'The royal hoard is yours!'; break;
     case 'gibbet': w28Loot('lm', L.x, L.y + 30); for (let i = 0; i < 4; i++) { const a = i / 4 * TAU; spawnEnemy(mapOn() ? 'bone' : 'bone', { x: L.x + Math.cos(a) * 110, y: L.y + Math.sin(a) * 110 }); } msg = 'Loot taken… and the hanged men stir!'; break;
   }
-  qBanner(`<div class="qbi" style="color:${D.col}">${D.ic}\uFE0E</div><div class="qbx"><div class="qbt qok">✓ ${nm}</div><div class="qbn">${msg}</div></div>`, 'done'); }
+  qBanner(`<div class="qbi" style="color:${D.col}">${PopupArt101.landmark(L.k)}</div><div class="qbx"><div class="qbt qok">✓ ${nm}</div><div class="qbn">${msg}</div></div>`, 'done'); }
 
 /* ---------- ground detail: decals, patches and dig spots (seeded per run) ---------- */
 function w28Chunk(i, j) { const key = (i + 30000) * 60000 + (j + 30000); let c = W28C.get(key); if (c) return c;
@@ -14305,7 +14308,7 @@ function w28EvStart(k) { const w = G.w28; k = k || w28EvPick(); const D = EVD28[
   else if (k === 'hunt') { const [x, y] = qAround(300, 380), e = spawnEnemy(qEliteType(), { x, y, elite: true }); e.hp = e.maxHp = e.maxHp * 1.5; e.xp = Math.round(e.xp * 1.5); e.w28h = 1; w28EvE(ev, e); }
   else if (k === 'altar') { const [x, y] = qAround(200, 280); ev.x = x; ev.y = y; }
   w.ev = ev; if (k === 'fog') recalc();
-  announce(`${D.ic} ${D.n[c]}`, EVP29[k] ? EVP29[k](D) : D.d, D.col, 'elite'); }
+  announce(D.n[c], EVP29[k] ? EVP29[k](D) : D.d, D.col, 'elite', PopupArt101.events[k]); }
 function w28EvTick(ev, dt) { ev.T -= dt;
   switch (ev.k) {
     case 'meteor': if ((ev.mt = (ev.mt || 0) - dt) <= 0) { ev.mt = 0.42; const near = Math.random() < 0.3, a = rand(TAU), d = near ? rand(0, 50) : rand(70, 270), x = P.x + Math.cos(a) * d + (P.vx || 0) * P.spdPx * 0.4, y = P.y + Math.sin(a) * d + (P.vy || 0) * P.spdPx * 0.4;
@@ -14325,8 +14328,8 @@ function w28EvEnd(ok, why) { const w = G.w28, ev = w.ev; if (!ev) return; const 
   if (ok) { w.evW++; const em = 1 + 0.2 * mr('eventmaster'), g = Math.round((8 + G.t / 25) * em), sh = Math.round((2 + G.t / 150) * em), x = ev.k === 'altar' ? ev.x : P.x + 30, y = ev.k === 'altar' ? ev.y : P.y;
     dropGold(x, y, g, 5); w28Shard(x, y, sh); if (mr('fateweaver')) picks.push({ k: 'chest', x: x - 18, y: y + 6 });
     if (ev.k === 'thief') dropGold(ev.e.x, ev.e.y, (20 + G.t / 10) * em, 8);
-    Snd.play('qdone'); qBanner(`<div class="qbi" style="color:${D.col}">${D.ic}\uFE0E</div><div class="qbx"><div class="qbt qok">✓ Event Complete</div><div class="qbn">${nm}</div><div class="qbd"><b class="qsh">+${sh} ◆</b> <b style="color:#ffd24a">+${g} ●</b>${mr('fateweaver') ? ' · <b style="color:#b88cff">Fate chest</b>' : ''}</div></div>`, 'done'); }
-  else { Snd.play('qfail'); qBanner(`<div class="qbi" style="color:#a593c4">✕</div><div class="qbx"><div class="qbt qno">Event Failed</div><div class="qbn">${nm}</div><div class="qbd">${why || 'Time ran out'}</div></div>`, 'fail'); } }
+    Snd.play('qdone'); qBanner(`<div class="qbi" style="color:${D.col}">${PopupArt101.event(ev.k)}</div><div class="qbx"><div class="qbt qok">✓ Event Complete</div><div class="qbn">${nm}</div><div class="qbd"><b class="qsh">+${sh} ◆</b> <b style="color:#ffd24a">+${g} ●</b>${mr('fateweaver') ? ' · <b style="color:#b88cff">Fate chest</b>' : ''}</div></div>`, 'done'); }
+  else { Snd.play('qfail'); qBanner(`<div class="qbi" style="color:#a593c4">${PopupArt101.event(ev.k)}</div><div class="qbx"><div class="qbt qno">Event Failed</div><div class="qbn">${nm}</div><div class="qbd">${why || 'Time ran out'}</div></div>`, 'fail'); } }
 
 /* ---------- spirit shrine (a fixed NPC: one free blessing) ---------- */
 function w28Shrine() { const w = G.w28, own = w.bl, ks = Object.keys(BOON28).filter(k => !own.includes(k)), L = (ks.length >= 3 ? ks : Object.keys(BOON28)).sort(() => Math.random() - 0.5).slice(0, mr('shrinesage') >= 3 ? 4 : 3);
@@ -14463,16 +14466,16 @@ function w28Screen() { const w = G && G.w28; if (!w || G.town) return; const X =
     ctx.globalAlpha = 1; } }
 function w28Found29(L, D) { const o = W28ACC._lmT, nm = w28LN(L.k);
   if (o && toasts.includes(o) && o.life > 0.6 && o.names.length < 4) { o.names.push(nm); o.text = `◈\uFE0E Found ${o.names.length} places`; o.sub = o.names.join(' · '); o.col = '#9fdcff'; o.life = Math.max(o.life, 3.2); if (!o.on) o.max = o.life; return; }
-  const t = toast(`${D.ic}\uFE0E Found: ${nm}`, D.col, 3.2, D.d); t.names = [nm]; W28ACC._lmT = t; Snd.play('shimmer'); }
+  const t = toast(`Found: ${nm}`, D.col, 3.2, D.d, PopupArt101.landmarks[L.k]); t.names = [nm]; W28ACC._lmT = t; Snd.play('shimmer'); }
 function w28HUD() { const w = G && G.w28; if (!w || G.town || state === 'dying') return; const r = P.w28r || {}, R = r.cartog ? 1000 : 520;
   for (const L of W28LM.values()) { if (w.lm[L.key]) continue; const d2 = (P.x - L.x) ** 2 + (P.y - L.y) ** 2; if (d2 < R * R) { const D = LMD28[L.k]; qArrow(L.x, L.y - 46, D.col, D.ic); } }
   if (r.cartog >= 2) { const ci = Math.floor(P.x / OBC), cj = Math.floor(P.y / OBC); for (let i = ci - 2; i <= ci + 2; i++) for (let j = cj - 2; j <= cj + 2; j++) { const c = W28C.get((i + 30000) * 60000 + (j + 30000)), g = c && c.g; if (g && !w.dug[g.id]) qArrow(g.x, g.y - 6, '#ffe58a', '✕'); } }
   const ev = w.ev; if (!ev) return; const D = EVD28[ev.k];
   if ((ev.k === 'thief' || ev.k === 'hunt') && ev.e && !ev.e.dead) qArrow(ev.e.x, ev.e.y - 30, D.col, D.ic, ev.e.hp / ev.e.maxHp); else if (ev.k === 'altar') qArrow(ev.x, ev.y - 30, D.col, D.ic);
-  const nm = D.n[mapOn() ? 1 : 0], f = ev.k === 'altar' ? ev.p / 8 : Math.max(0, ev.T) / ev.max, txt = `${D.ic}\uFE0E ${nm} · ${ev.k === 'altar' ? Math.floor(ev.p) + '/8s' : Math.ceil(Math.max(0, ev.T)) + 's'}`;
-  const pf = W >= 1100 && PC ? 16 : 15; ctx.font = `800 ${pf}px -apple-system,system-ui,sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; const tw = ctx.measureText(txt).width + 30, x = W / 2, y = SAFE.t + W28PILL_Y + (G.boss ? 22 : 0);
+  const nm = D.n[mapOn() ? 1 : 0], f = ev.k === 'altar' ? ev.p / 8 : Math.max(0, ev.T) / ev.max, txt = `${nm} · ${ev.k === 'altar' ? Math.floor(ev.p) + '/8s' : Math.ceil(Math.max(0, ev.T)) + 's'}`;
+  const pf = W >= 1100 && PC ? 16 : 15; ctx.font = `800 ${pf}px -apple-system,system-ui,sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; const tw = ctx.measureText(txt).width + 60, x = W / 2, tx = x + 15, y = SAFE.t + W28PILL_Y + (G.boss ? 22 : 0);
   ctx.fillStyle = 'rgba(10,6,18,.9)'; rr(x - tw / 2, y - 15, tw, 30, 15); ctx.fill(); ctx.strokeStyle = D.col; ctx.lineWidth = 2; ctx.stroke();
-  ctx.fillStyle = hexA(D.col, 0.6); rr(x - tw / 2 + 4, y + 9, (tw - 8) * clamp(f, 0, 1), 3, 1.5); ctx.fill(); ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(0,0,0,.9)'; ctx.lineJoin = 'round'; ctx.strokeText(txt, x, y - 1); ctx.fillStyle = msgLite(D.col, 0.3); ctx.fillText(txt, x, y - 1); ctx.textBaseline = 'alphabetic'; MSG_PILL = y + 15; }
+  ctx.fillStyle = hexA(D.col, 0.6); rr(x - tw / 2 + 4, y + 9, (tw - 8) * clamp(f, 0, 1), 3, 1.5); ctx.fill(); PopupArt101.draw(ctx,PopupArt101.events[ev.k],x-tw/2+6,y-12,24); ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(0,0,0,.9)'; ctx.lineJoin = 'round'; ctx.strokeText(txt, tx, y - 1); ctx.fillStyle = msgLite(D.col, 0.3); ctx.fillText(txt, tx, y - 1); ctx.textBaseline = 'alphabetic'; MSG_PILL = y + 15; }
 let W28PILL_Y = 112;
 function musicName() { const m = zn39() ? zn39().mus : heartOn() ? 'h_' : mapOn() ? 'm_' : ''; return G.boss && !G.boss.dead ? m + 'boss' : G.isNight ? m + 'night' : m + 'battle'; }
 /* ---- metal ---- */
@@ -15091,23 +15094,23 @@ function drawMsgs(t) { const ph = W < 700 || !PC, big = !ph && W >= 1100 && H >=
   const fade = o => Math.max(0, Math.min(1, (o.max - o.life) / 0.25, o.life / 0.5));
   let y = top;
   if (G.banner) { const bn = G.banner, a = fade(bn), fa = big ? 28 : ph ? 21 : 24, fb = big ? 18 : ph ? 15 : 16;
-    ctx.font = `900 ${fa}px ${FF}`; let fA = fa; const A = bn.a.toUpperCase(); while (fA > 16 && ctx.measureText(A).width > mwB - 28) { fA--; ctx.font = `900 ${fA}px ${FF}`; }
-    ctx.font = `700 ${fb}px ${FF}`; const BL = bn.b ? msgWrap(bn.b, mwB - 28, 2) : [];
-    const h = 18 + fA + (BL.length ? 8 + BL.length * (fb + 5) : 0) + 4, bw = Math.min(mwB, Math.max(ctx.measureText(BL[0] || '').width, (ctx.font = `900 ${fA}px ${FF}`, ctx.measureText(A).width)) + 44);
+    const ai=bn.art?46:0,tx=W/2+ai/2; ctx.font = `900 ${fa}px ${FF}`; let fA = fa; const A = bn.a.toUpperCase(); while (fA > 16 && ctx.measureText(A).width > mwB - 28 - ai) { fA--; ctx.font = `900 ${fA}px ${FF}`; }
+    ctx.font = `700 ${fb}px ${FF}`; const BL = bn.b ? msgWrap(bn.b, mwB - 28 - ai, 2) : [];
+    const h = 18 + fA + (BL.length ? 8 + BL.length * (fb + 5) : 0) + 4, bw = Math.min(mwB, Math.max(ctx.measureText(BL[0] || '').width, (ctx.font = `900 ${fA}px ${FF}`, ctx.measureText(A).width)) + 44 + ai);
     y = Math.max(y, Math.min(H * 0.24, lim - h - 60));
     ctx.globalAlpha = a; { const mg = ctx.createLinearGradient(0, y, 0, y + h); mg.addColorStop(0, 'rgba(24,38,35,.94)'); mg.addColorStop(1, 'rgba(12,21,22,.94)'); ctx.fillStyle = mg; } rr(W / 2 - bw / 2, y, bw, h, 14); ctx.fill(); ctx.save(); ctx.lineWidth = 1; ctx.strokeStyle = 'rgba(246,220,140,.28)'; { const x0 = W / 2 - bw / 2 + 4, y0 = y + 4, w0 = bw - 8, h0 = h - 8, r0 = 10; ctx.beginPath(); ctx.moveTo(x0 + r0, y0); ctx.arcTo(x0 + w0, y0, x0 + w0, y0 + h0, r0); ctx.arcTo(x0 + w0, y0 + h0, x0, y0 + h0, r0); ctx.arcTo(x0, y0 + h0, x0, y0, r0); ctx.arcTo(x0, y0, x0 + w0, y0, r0); ctx.closePath(); ctx.stroke(); } ctx.restore(); { const x0 = W / 2 - bw / 2, y0 = y, w0 = bw, h0 = h, r0 = 14; ctx.beginPath(); ctx.moveTo(x0 + r0, y0); ctx.arcTo(x0 + w0, y0, x0 + w0, y0 + h0, r0); ctx.arcTo(x0 + w0, y0 + h0, x0, y0 + h0, r0); ctx.arcTo(x0, y0 + h0, x0, y0, r0); ctx.arcTo(x0, y0, x0 + w0, y0, r0); ctx.closePath(); } ctx.strokeStyle = msgLite(bn.col, 0.1); ctx.lineWidth = 2.5; ctx.stroke();
     ctx.fillStyle = msgLite(bn.col, 0.1); rr(W / 2 - bw / 2 + 10, y + 3, bw - 20, 3, 1.5); ctx.fill();
-    ctx.strokeStyle = 'rgba(0,0,0,.9)'; ctx.lineWidth = 4; ctx.font = `900 ${fA}px ${FF}`; let yy = y + 12 + fA; ctx.strokeText(A, W / 2, yy); ctx.fillStyle = msgLite(bn.col, 0.32); ctx.fillText(A, W / 2, yy);
-    ctx.font = `700 ${fb}px ${FF}`; ctx.lineWidth = 3; yy += 8; for (const l of BL) { yy += fb + 5; ctx.strokeText(l, W / 2, yy - 4); ctx.fillStyle = '#ffffff'; ctx.fillText(l, W / 2, yy - 4); }
+    if(bn.art)PopupArt101.draw(ctx,bn.art,W/2-bw/2+8,y+(h-38)/2,38); ctx.strokeStyle = 'rgba(0,0,0,.9)'; ctx.lineWidth = 4; ctx.font = `900 ${fA}px ${FF}`; let yy = y + 12 + fA; ctx.strokeText(A, tx, yy); ctx.fillStyle = msgLite(bn.col, 0.32); ctx.fillText(A, tx, yy);
+    ctx.font = `700 ${fb}px ${FF}`; ctx.lineWidth = 3; yy += 8; for (const l of BL) { yy += fb + 5; ctx.strokeText(l, tx, yy - 4); ctx.fillStyle = '#ffffff'; ctx.fillText(l, tx, yy - 4); }
     y += h + 8; ctx.globalAlpha = 1; }
   const fa = big ? 18 : ph ? 16 : 17, fb = big ? 15 : ph ? 14 : 15, maxV = ph ? 2 : 3; let fit = 0;
-  for (const to of toasts) { if (!to.on) break; ctx.font = `800 ${fa}px ${FF}`; const TL = msgWrap(to.text, mwT - 24, 2); ctx.font = `700 ${fb}px ${FF}`; const SL = to.sub ? msgWrap(to.sub, mwT - 24, 1) : [];
+  for (const to of toasts) { if (!to.on) break; const ai=to.art?38:0,tx=W/2+ai/2; ctx.font = `800 ${fa}px ${FF}`; const TL = msgWrap(to.text, mwT - 24 - ai, 2); ctx.font = `700 ${fb}px ${FF}`; const SL = to.sub ? msgWrap(to.sub, mwT - 24 - ai, 1) : [];
     const h = 12 + TL.length * (fa + 4) + SL.length * (fb + 5) + 2; if (fit >= maxV || (fit > 0 && y + h > lim)) break; fit++;
-    let w = 0; ctx.font = `800 ${fa}px ${FF}`; for (const l of TL) w = Math.max(w, ctx.measureText(l).width); ctx.font = `700 ${fb}px ${FF}`; for (const l of SL) w = Math.max(w, ctx.measureText(l).width); w = Math.min(mwT, w + 30);
+    let w = 0; ctx.font = `800 ${fa}px ${FF}`; for (const l of TL) w = Math.max(w, ctx.measureText(l).width); ctx.font = `700 ${fb}px ${FF}`; for (const l of SL) w = Math.max(w, ctx.measureText(l).width); w = Math.min(mwT, w + 30 + ai);
     ctx.globalAlpha = fade(to); { const mg = ctx.createLinearGradient(0, y, 0, y + h); mg.addColorStop(0, 'rgba(23,36,33,.94)'); mg.addColorStop(1, 'rgba(12,21,22,.94)'); ctx.fillStyle = mg; } rr(W / 2 - w / 2, y, w, h, 12); ctx.fill(); ctx.strokeStyle = hexA(/^#[0-9a-f]{6}$/i.test(to.col) ? to.col : '#ffffff', 0.75); ctx.lineWidth = 1.5; ctx.stroke();
-    ctx.strokeStyle = 'rgba(0,0,0,.9)'; let yy = y + 6; ctx.font = `800 ${fa}px ${FF}`; ctx.lineWidth = 3.5; ctx.fillStyle = msgLite(to.col, 0.3);
-    for (const l of TL) { yy += fa + 4; ctx.strokeText(l, W / 2, yy - 4); ctx.fillText(l, W / 2, yy - 4); }
-    ctx.font = `700 ${fb}px ${FF}`; ctx.lineWidth = 3; ctx.fillStyle = '#ffffff'; for (const l of SL) { yy += fb + 5; ctx.strokeText(l, W / 2, yy - 4); ctx.fillText(l, W / 2, yy - 4); }
+    if(to.art)PopupArt101.draw(ctx,to.art,W/2-w/2+6,y+(h-32)/2,32); ctx.strokeStyle = 'rgba(0,0,0,.9)'; let yy = y + 6; ctx.font = `800 ${fa}px ${FF}`; ctx.lineWidth = 3.5; ctx.fillStyle = msgLite(to.col, 0.3);
+    for (const l of TL) { yy += fa + 4; ctx.strokeText(l, tx, yy - 4); ctx.fillText(l, tx, yy - 4); }
+    ctx.font = `700 ${fb}px ${FF}`; ctx.lineWidth = 3; ctx.fillStyle = '#ffffff'; for (const l of SL) { yy += fb + 5; ctx.strokeText(l, tx, yy - 4); ctx.fillText(l, tx, yy - 4); }
     y += h + 6; }
   ctx.globalAlpha = 1; MSG_FIT = Math.max(1, Math.min(maxV, fit + (toasts.some(x => !x.on) && y < lim - 50 ? 1 : 0))); }
 /* v20 loadout HUD */
@@ -15137,11 +15140,11 @@ function drawLoadout(x0, y0, S, gp) { const [ws, ps] = loItems(), rows = [[ws, M
   ctx.restore(); return y - gp; }
 function loDetail(it) { /* plain-text-ish HTML detail for a loadout entry */
   if (it.k === 'w') { const d = WDEF[it.id], w = G.weapons.find(w => w.id === it.id), E = EVO[it.id], er = evoReady();
-    if (G.evo && G.evo[it.id] && E) return `<b style="color:${E.col}">⇪ ${E.n}</b> · <b>Evolved</b> (${d.name} Lv ${w.lvl})<br>${E.d}`;
-    return `<b>${d.ic}\uFE0E ${d.name}</b> · Lv ${w.lvl}/${d.max}${w.lvl >= d.max ? ' · <b style="color:#ffd24a">MAX</b>' : ''}<br>${w.lvl < d.max ? 'Next: ' + d.desc[w.lvl] : d.desc[d.max - 1] || d.desc[0]}` +
+    if (G.evo && G.evo[it.id] && E) return `<b style="color:${E.col}">${SkillArt.html('e',it.id,'inline-image101')} ${E.n}</b> · <b>Evolved</b> (${d.name} Lv ${w.lvl})<br>${E.d}`;
+    return `<b>${SkillArt.html(it.k,it.id,'inline-image101')} ${d.name}</b> · Lv ${w.lvl}/${d.max}${w.lvl >= d.max ? ' · <b style="color:#ffd24a">MAX</b>' : ''}<br>${w.lvl < d.max ? 'Next: ' + d.desc[w.lvl] : d.desc[d.max - 1] || d.desc[0]}` +
       (E ? `<br><span style="color:#ff9ae6">⇪ ${er.includes(it.id) ? 'Evolution ready — it is dealt on your next level-up' : 'Evolves at Lv ' + d.max + ' with ' + PDEF[E.p].name + (G.passives[E.p] ? ' ✓' : '')}</span>` : ''); }
   const d = PDEF[it.id], l = G.passives[it.id], x = passX(it.id);
-  return `<b>${d.ic}\uFE0E ${d.name}</b> · Lv ${l}${l > d.max ? ` <b style="color:#ffd24a">(max ${d.max} +${l - d.max} endless)</b>` : `/${d.max}`}<br>${d.desc} per level` + (l >= d.max ? `<br><span style="color:#ffe08a">∞ Endless: ${x > 0 ? 'now worth +' + (Math.round(x * 100) / 100) + ' extra levels · ' : ''}next ${endlDesc(it.id, l)}</span>` : ''); }
+  return `<b>${SkillArt.html(it.k,it.id,'inline-image101')} ${d.name}</b> · Lv ${l}${l > d.max ? ` <b style="color:#ffd24a">(max ${d.max} +${l - d.max} endless)</b>` : `/${d.max}`}<br>${d.desc} per level` + (l >= d.max ? `<br><span style="color:#ffe08a">∞ Endless: ${x > 0 ? 'now worth +' + (Math.round(x * 100) / 100) + ' extra levels · ' : ''}next ${endlDesc(it.id, l)}</span>` : ''); }
 function renderLoadoutDom(el, interactive) { if (!el || !G) return; const [ws, ps] = loItems(), det = interactive ? '<div class="lodet" id="loDet" role="status">Tap a skill or passive for details</div>' : '';
   const tile = it => { const tag = interactive ? 'button' : 'span', cls = 'lot' + (it.evo ? ' evo' : '') + (it.max ? ' mx' : '') + (it.endless ? ' en' : '');
     const nm = it.k === 'w' ? (it.evo ? EVO[it.id].n : WDEF[it.id].name) : PDEF[it.id].name;
@@ -15469,7 +15472,7 @@ function renderCodex() {
   $('cdxList').innerHTML = HollowBell93.codex() + all.filter(id => WDEF[id].cls === codexCls).map(id => { const E = EVO[id], d = WDEF[id], p = PDEF[E.p], ok = !!S[id];
     let tag = d.cat ? '<span class="ctag ct">CAT ONLY</span>' : d.form ? '<span class="ctag">FORM</span>' : '';
     if (run) { const w = G.weapons.find(w => w.id === id); if (G.evo[id]) tag += '<span class="ctag rd">EVOLVED</span>'; else if (er.includes(id)) tag += '<span class="ctag rd">READY</span>'; else if (w) tag += `<span class="ctag">Lv ${w.lvl}/${d.max} · ${p.name} ${G.passives[E.p] || 0}</span>`; }
-    return `<div class="cdx${ok ? ' seen' : ''}" data-evo="${id}"><div class="cr"><span class="ci">${d.ic}\uFE0E</span><span>${d.name} <span style="color:#a593c4">Lv 6</span></span><span class="cp">+</span><span class="ci">${p.ic}\uFE0E</span><span>${p.name}</span></div>` +
+    return `<div class="cdx${ok ? ' seen' : ''}" data-evo="${id}"><div class="cr"><span class="ci">${SkillArt.html('w',id,'popup-image101')}</span><span>${d.name} <span style="color:#a593c4">Lv 6</span></span><span class="cp">+</span><span class="ci">${SkillArt.html('p',E.p,'popup-image101')}</span><span>${p.name}</span></div>` +
       `<div class="ce"><span class="cst">${ok ? '✓' : '◇'}</span><b style="color:${ok ? E.col : '#cbb8ea'}">${E.n}</b>${tag}</div><div class="cd">${ok ? E.d : E.d + ' — not yet discovered'}</div></div>`; }).join('');
 }
 /* ================= UI ================= */
@@ -15711,7 +15714,7 @@ function mtRefundAll() { let t = 0; for (const m of META) { const r = mr(m.id); 
 let _smT = 0; function selMapMsg(t) { const m = $('selMapMsg'); if (!m) return; m.textContent = t; m.classList.add('on'); clearTimeout(_smT); _smT = setTimeout(() => m.classList.remove('on'), 3200); } // v27: say why the map is locked
 function renderMetaTree(L) {
   const wrap = document.createElement('div'); wrap.className = 'mtrees'; const pn = mtPick && MT_BY[mtPick], tot = Object.values(save.meta || {}).reduce((a, b) => a + (b | 0), 0);
-  let tip = '<div class="mtip">'; if (pn) { const s = mtState(pn), m = pn.m; tip += `<div class="mtn"><span class="mti">${m.ic}︎</span><b>${m.name}</b> <i>${s.r}/${m.max}</i></div><div class="mtd">${m.desc}${pn.req ? `<br><span class="mtr">Requires ${MT_BY[pn.req].m.name} (max)</span>` : ''}${pn.t > 1 ? `<br><span class="mtr">Tier ${pn.t}: needs ${MT_PER * (pn.t - 1)} ranks in ${pn.br.name}</span>` : ''}</div>`;
+  let tip = '<div class="mtip">'; if (pn) { const s = mtState(pn), m = pn.m; tip += `<div class="mtn"><span class="mti">${Art99.metaIcon(m)}</span><b>${m.name}</b> <i>${s.r}/${m.max}</i></div><div class="mtd">${m.desc}${pn.req ? `<br><span class="mtr">Requires ${MT_BY[pn.req].m.name} (max)</span>` : ''}${pn.t > 1 ? `<br><span class="mtr">Tier ${pn.t}: needs ${MT_PER * (pn.t - 1)} ranks in ${pn.br.name}</span>` : ''}</div>`;
     tip += s.why === 'max' ? '<div class="mtmsg">Maxed out</div>' : `<button class="buy" id="mtBuy" ${s.why ? 'data-why="1"' : ''}>${s.why === 'tier' || s.why === 'req' ? 'Locked' : s.cost + '◆'}</button>`; }
   else tip += '<div class="mtd">Tap a talent to read it, tap again to buy a rank. Every 5 ranks in a branch opens its next tier. Arrows mean the talent above must be maxed first.</div>';
   tip += (mtMsg ? `<div class="mtmsg">${mtMsg}</div>` : '') + `<div class="mtfoot"><span>${tot} ranks bought</span><button class="btn small" id="mtReset" ${tot ? '' : 'disabled'}>Reset tree (+${mtRefundAll()}◆)</button></div></div>`;
@@ -15865,7 +15868,7 @@ function evolve(id) { // v18
   const S = evoSeen(), first = !S[id]; if (first) S[id] = Date.now(); persist(); recalc(); triggerJump(true);
   Snd.play('chest'); setTimeout(() => Snd.play('morph'), 160); burst(P.x, P.y, E.col, 36, 210, 3.4, 0.8, true); burst(P.x, P.y, '#ffffff', 14, 120, 2.6, 0.6, true);
   effects.push({ k: 'nova', x: P.x, y: P.y, r: 0, maxR: 130, life: 0.6, max: 0.6, dmg: 0, hit: new Set(), col: E.col, vis: 1 });
-  announce('⇪ EVOLUTION: ' + E.n, WDEF[id].name + ' + ' + PDEF[E.p].name + (first ? ' · new Codex entry!' : ''), E.col, null);
+  announce('⇪ EVOLUTION: ' + E.n, WDEF[id].name + ' + ' + PDEF[E.p].name + (first ? ' · new Codex entry!' : ''), E.col, null, ['e',id]);
   achCheck(false); return true; }
 function morphFx(f) { Snd.play(SND32.form(f)); burst(P.x, P.y, f === 'cat' ? '#ff3d6e' : '#9de07a', 26, 170, 3.4, 0.6, true); burst(P.x, P.y, '#b56bff', 14, 120, 3, 0.5, true); effects.push({ k: 'nova', x: P.x, y: P.y, r: 0, maxR: 90, life: 0.45, max: 0.45, dmg: 0, hit: new Set(), col: f === 'cat' ? '#ff7aa8' : '#9de07a', vis: 1 }); toast(f === 'cat' ? '🐾 Shadowcat Form!' : '♣ Elderbark Form!', f === 'cat' ? '#ff9ab8' : '#b8f08a', 2.2); }
 /* gear */
@@ -15992,7 +15995,7 @@ function renderEquip() {
     : eqMode === 'stash' ? `Your <b>${cn}</b> keepsakes. Each run you may keep <b>1 item</b> at game over; keepsakes are worn at <b>60% power</b> at the start of every ${cn} run.`
     : G.kept ? `Kept <b style="color:${GRAR[G.kept.r].c}">${G.kept.name}</b> for future ${cn} runs.` : `Pick <b>one</b> item from this run to keep for future ${cn} runs (worn at 60% power). It replaces the keepsake in that slot.`;
   const slot = s => { const it = gr[s], R = it ? GRAR[it.r] : null, lbl = GTYPES[slotType(s)].n + (s.match(/[12]$/) ? ' ' + s.slice(-1) : '');
-    return `<button class="gslot${s === eqSel ? ' sel' : ''}${it && it.ks ? ' ks' : ''}" data-s="${s}" style="${R ? `border-color:${R.c};box-shadow:0 0 10px ${hexA(R.c, 0.35)}` : ''}">${it ? gIcon(it, '') : `<span class="ph">${GTYPES[slotType(s)].ph}\uFE0E</span>`}<span>${lbl}</span></button>`; };
+    return `<button class="gslot${s === eqSel ? ' sel' : ''}${it && it.ks ? ' ks' : ''}" data-s="${s}" style="${R ? `border-color:${R.c};box-shadow:0 0 10px ${hexA(R.c, 0.35)}` : ''}">${it ? gIcon(it, '') : `<span class="ph">${gIcon({t:slotType(s),look:0},'popup-image101')}</span>`}<span>${lbl}</span></button>`; };
   $('eqL').innerHTML = EQ_L.map(slot).join(''); $('eqR').innerHTML = EQ_R.map(slot).join('');
   for (const b of document.querySelectorAll('#equip .gslot')) b.onclick = () => { eqSel = b.dataset.s; Snd.play('click'); renderEquip(); };
   const tot = gearTotals(gr), keys = Object.keys(tot).sort((a, b) => tot[b] / GSTAT[b].v - tot[a] / GSTAT[a].v), pw = Math.round(GSLOTS.reduce((s, k) => s + Math.max(0, itemScore(gr[k])), 0));
@@ -16044,7 +16047,7 @@ function showGameOver(quit) {
     `<div style="font-size:13px;color:#a593c4"><span>Total Shards</span><span>◆ ${save.shards}</span></div>` +
     (TALENTS[cls] ? `<div style="border-top:1px solid rgba(180,130,255,.3);margin-top:4px;padding-top:4px"><span>${CLASSES[cls].name} XP</span><b style="color:#9fe8ff">+${cx}</b></div>` +
       `<div style="font-size:13px;color:#a593c4"><span>Class level ${after.lvl}</span><span>${after.lvl > before ? '<b style="color:#ffd24a">+' + (after.lvl - before) + ' talent pt!</b>' : after.need ? after.into + '/' + after.need : 'MAX'}</span></div>` : '') +
-    (achRunNew.length ? `<div class="achsum"><div class="ast">★ Achievements unlocked (${achRunNew.length})</div>${achRunNew.map(id => { const a = ACH_BY_ID[id]; return a ? `<div class="asi"><span>${a.ic}\uFE0E ${a.name}</span><b>${newAchievementReward(a)}</b></div>` : ''; }).join('')}<div class="asf">Equip new looks in the Wardrobe</div></div>` : '');
+    (achRunNew.length ? `<div class="achsum"><div class="ast">★ Achievements unlocked (${achRunNew.length})</div>${achRunNew.map(id => { const a = ACH_BY_ID[id]; return a ? `<div class="asi"><span><span class="inline-image101">${PopupArt101.achievement(a)}</span>${a.name}</span><b>${newAchievementReward(a)}</b></div>` : ''; }).join('')}<div class="asf">Equip new looks in the Wardrobe</div></div>` : '');
   $('overRes').insertAdjacentHTML('beforeend', '<div><span>'+RACES[G.race].name+' race XP</span><b>+'+cx+'</b></div><div><span>Difficulty rewards</span><b>×'+prepRewardSettings().shards.toFixed(2)+' Shards · ×'+prepRewardSettings().xp.toFixed(2)+' XP</b></div>');
   $('overRes').insertAdjacentHTML('beforeend', progressionSummary70(dailyResult70, cls));
   renderEndingSummary85();
@@ -16129,7 +16132,7 @@ function renderWard() {
   $('wardName').textContent = `${RACES[wardRace].name} ${CLASSES[wardCls].name}` + (parts.length ? ' · ' + parts.join(' · ') : ' · ' + OUTFITS[save.outfit].name);
 }
 function wardTick() { if (state !== 'ward') return; const cv = $('wardCv'); cosPortrait(cv, wardCls, wardRace, heroCos(wardCls, wardRace), 1.5, gtime); }
-function toastDom(t) { if (!t) return; const el = $('achBanner'); el.innerHTML = `<div class="abic">🔒\uFE0E</div><div class="abtx"><div class="abt">Locked</div><div class="abr" style="font-size:13px">${t}</div></div>`; el.classList.remove('on'); void el.offsetWidth; el.classList.add('on'); clearTimeout(toastDom.h); toastDom.h = setTimeout(() => el.classList.remove('on'), 2600); }
+function toastDom(t) { if (!t) return; const el = $('achBanner'); el.innerHTML = `<div class="abic">${PopupArt101.html(['p','armor'])}</div><div class="abtx"><div class="abt">Locked</div><div class="abr" style="font-size:13px">${t}</div></div>`; el.classList.remove('on'); void el.offsetWidth; el.classList.add('on'); clearTimeout(toastDom.h); toastDom.h = setTimeout(() => el.classList.remove('on'), 2600); }
 bind('btnAch', () => goAch('title')); bind('btnWard', () => goWard('title'));
 bind('btnAchBack', goTitle); bind('btnAchWard', () => goWard('ach')); bind('btnWardBack', () => wardFrom === 'ach' ? goAch('title') : goTitle()); bind('btnWardAch', () => goAch('title'));
 for (const b of $('achTabs').children) b.addEventListener('click', () => { achTab = b.dataset.t; achKey = 'all'; Snd.play('click'); renderAch(); $('ach').scrollTop = 0; });

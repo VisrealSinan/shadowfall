@@ -10,6 +10,7 @@ fs.writeFileSync('sw.js', fs.readFileSync('sw.js', 'utf8').replace(/shadowfall-v
 const names = new Set([...version.files.map(file => file.name), 'index.html', 'sw.js', 'assets/expansion-content.js', 'assets/expansion-rules.js', 'assets/expansion-ui.js', 'assets/actor-animations.js', 'assets/actor-outfits.js', 'assets/nightforge.js', 'assets/nightforge-ui.js', 'assets/achievement-hall.js', 'assets/achievement-hall.css', 'assets/run-prep.js', 'assets/race-talents.js', 'assets/journey-scenes.js', 'assets/journey-scenes.css', 'assets/selection-scenes.js', 'assets/selection-scenes.css', 'assets/settings.css', 'assets/field-ui.js', 'assets/field-ui.css']);
 names.add('assets/hollow-bell93.js');
 names.add('assets/quests100.js');
+names.add('assets/popup-art101.js');names.add('assets/popup-art101.css');
 names.add('assets/spell-visuals94.js');
 names.add('assets/mage-visuals95.js');
 names.add('assets/spell-visuals96.js');
