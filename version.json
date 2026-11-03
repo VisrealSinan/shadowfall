@@ -1,9 +1,9 @@
 {
- "version": "97",
+ "version": "98",
  "date": "2026-11-02",
  "minLauncher": "2.0.0",
  "notes": [
-  "Bottom-left Hunt Log, eliminate expensive per-particle opacity filters, and eight named legendary relics."
+  "Painted talent-tree art for all 24 classes and 72 branches, class-specific emblems and themed ancestry screens."
  ],
  "files": [
   {
@@ -33,8 +33,8 @@
   },
   {
    "name": "index.html",
-   "sha256": "2c51a8a5bb230d4d92b42b31df62240cd0faca2a920f39fed8a299603f3f63c9",
-   "size": 2846336
+   "sha256": "d4b1d7bffec6c6009c9a71d2683147cfeebfa818cc5e61dc395f53ecc02eb864",
+   "size": 2846571
   },
   {
    "name": "manifest.webmanifest",
@@ -43,7 +43,7 @@
   },
   {
    "name": "sw.js",
-   "sha256": "d89f4e5f88e64a922f11e89ed7c49ae8e7def0753b3529ace2dd751e85f93d1a",
+   "sha256": "00a05c1847d171b065b6a269805b2d3a7d62ed76b43a8f9ba7141aba40344a6d",
    "size": 3640
   },
   {
@@ -4843,8 +4843,8 @@
   },
   {
    "name": "assets/journey-scenes.js",
-   "sha256": "f62a78c09fdec4952807601fcb568b71ce82668ca5974c8be09ba5d828ae1240",
-   "size": 9463
+   "sha256": "3614a2600e4e5674fd348a1cf4f0ebe555d279dc96cb3c3ee824ffeaf87729e4",
+   "size": 9484
   },
   {
    "name": "assets/journey-scenes.css",
@@ -7730,6 +7730,376 @@
    "name": "assets/combat97.js",
    "sha256": "c5ac90fabd7062ec3e3db9e9ad2ec1bef1c0168f80bbebe7e43b0bc270a23b68",
    "size": 4339
+  },
+  {
+   "name": "assets/talent-art98.js",
+   "sha256": "e7b58bae6c7dcc9df498c3196764b3b115cf127d5765e35346cf7ecdb3b121f2",
+   "size": 4500
+  },
+  {
+   "name": "assets/talent-art98.css",
+   "sha256": "c22187ad4b9452542c6b33e12e2b796c3128bb9b00a4986e9c2d8530146e9e61",
+   "size": 4695
+  },
+  {
+   "name": "assets/talent98-alchemist-0.webp",
+   "sha256": "28f9eba28090c363c71a831fd54bd5b74b198126d3c9e4c49eb77e54a02f8477",
+   "size": 35688
+  },
+  {
+   "name": "assets/talent98-alchemist-1.webp",
+   "sha256": "5ed59e19de9c9a6a9e0ae7934aea0544fac5b1daf5f69f569afed67f00bdedf5",
+   "size": 41662
+  },
+  {
+   "name": "assets/talent98-alchemist-2.webp",
+   "sha256": "723290405c2bddde997247a69f75f9d29373b88aa083700c50fd3e8661503522",
+   "size": 40754
+  },
+  {
+   "name": "assets/talent98-bard-0.webp",
+   "sha256": "c4e195a6eb1a27b14b826f3f10a46a41aa7b75d2abc32b5d24f5f298acb0f651",
+   "size": 53010
+  },
+  {
+   "name": "assets/talent98-bard-1.webp",
+   "sha256": "90edf549f5ce747fb6c0d90cfe5e3047344ef0b7165b76aa44560dd64e915646",
+   "size": 44148
+  },
+  {
+   "name": "assets/talent98-bard-2.webp",
+   "sha256": "950f2621466c7134b0320567710ad87ede82dea93abb19b69dfbcebd1d8bc0cb",
+   "size": 45492
+  },
+  {
+   "name": "assets/talent98-bearlina-0.webp",
+   "sha256": "6656c85c87413f4d18c1462709d230e5cfcc5b117e96b117c8b7be6e8628f92a",
+   "size": 34702
+  },
+  {
+   "name": "assets/talent98-bearlina-1.webp",
+   "sha256": "782a285cfbe41a7baf456a9aec29435dc3324c6e9f8ed4b6970e809ba4384c27",
+   "size": 36046
+  },
+  {
+   "name": "assets/talent98-bearlina-2.webp",
+   "sha256": "4f091475128d7c543c4f45219b612d203d593e5c257699a5f79b63f2704601eb",
+   "size": 37026
+  },
+  {
+   "name": "assets/talent98-bloodknight-0.webp",
+   "sha256": "b8c7418a310dfb82a40d4dd11f9962383e167f26a52ce8e83911a7fe2b24a97b",
+   "size": 42240
+  },
+  {
+   "name": "assets/talent98-bloodknight-1.webp",
+   "sha256": "95c33cd5652b2b589f96659ab2d929eada6a975ce51f4cf9f8fe2a5c18df1e12",
+   "size": 40166
+  },
+  {
+   "name": "assets/talent98-bloodknight-2.webp",
+   "sha256": "64ebc9f6e2cdc9426d67aa8ce6b11e42f21aaa095215b886369d8f910221e7e5",
+   "size": 37568
+  },
+  {
+   "name": "assets/talent98-chrono-0.webp",
+   "sha256": "75e839bc2c63643289c8ed6bc5142d55b629690e50cc3926b37e4d7a71e7c05f",
+   "size": 52432
+  },
+  {
+   "name": "assets/talent98-chrono-1.webp",
+   "sha256": "78045d111cd70c1c43dbb7c565df894e1942c58a524c13703f2230c76815d949",
+   "size": 44436
+  },
+  {
+   "name": "assets/talent98-chrono-2.webp",
+   "sha256": "62ae4b7b9db2283acf6ab99d206fc037f1c0d794ad863e8caf971f4dca8e6296",
+   "size": 57662
+  },
+  {
+   "name": "assets/talent98-druid-0.webp",
+   "sha256": "c87451214bacb6b1829fc71056b852a1e71064f2bfa07d3a576f77187a2f93b9",
+   "size": 39014
+  },
+  {
+   "name": "assets/talent98-druid-1.webp",
+   "sha256": "2e96e4bd3c714cad079f5395ccbd1994682758331ce738400c47dee148f8028e",
+   "size": 42414
+  },
+  {
+   "name": "assets/talent98-druid-2.webp",
+   "sha256": "14686863e42475e5d736c10e090cb6fa15b8183b93ab58ff967e14c86ce25d0e",
+   "size": 42018
+  },
+  {
+   "name": "assets/talent98-engineer-0.webp",
+   "sha256": "05a828d666ce5f8ed499abd87d1e7fb8cd517d33a03f5f0c72c56ff4f7ba52a0",
+   "size": 34698
+  },
+  {
+   "name": "assets/talent98-engineer-1.webp",
+   "sha256": "abb2aa3a327bd804b22fc313da7e2de010eaffaff30c84781d14c5d4317e583b",
+   "size": 30808
+  },
+  {
+   "name": "assets/talent98-engineer-2.webp",
+   "sha256": "daa8aa2347efa4b2e4e8b2de6e4dc4608d003d22307f515359ad069805fb207e",
+   "size": 40572
+  },
+  {
+   "name": "assets/talent98-gunslinger-0.webp",
+   "sha256": "a04400eac402f82c42907ba9ee5c3de4e8e52e07a6db817d61626cc0be36a3c5",
+   "size": 28692
+  },
+  {
+   "name": "assets/talent98-gunslinger-1.webp",
+   "sha256": "8c413ef0bd07648a5d7b365c21ee8816e588206f4affe5ae767529a6ab2e0050",
+   "size": 30706
+  },
+  {
+   "name": "assets/talent98-gunslinger-2.webp",
+   "sha256": "2db1a2cefce4bd57994bd5226aa09a7c0de96611350fa9774f97e1085eda3763",
+   "size": 31438
+  },
+  {
+   "name": "assets/talent98-maestro-0.webp",
+   "sha256": "ca37e19f5b4eb225eeba44e5a48b3fc408b72a79b10c3764582c7f515752652d",
+   "size": 45440
+  },
+  {
+   "name": "assets/talent98-maestro-1.webp",
+   "sha256": "efb015afbbe009da0bf535c2c495e715b32b1c84baad6e582373e6b4f7811b32",
+   "size": 46852
+  },
+  {
+   "name": "assets/talent98-maestro-2.webp",
+   "sha256": "1d1aa10fc9701cd759c656743183385591afc3d75f70f5b23c4fd8cda0f4d9e0",
+   "size": 65676
+  },
+  {
+   "name": "assets/talent98-mage-0.webp",
+   "sha256": "22d188f2f835c56d26beb3a4a3802a650fd35d62d97cfb6cfd59f658f33718cc",
+   "size": 40840
+  },
+  {
+   "name": "assets/talent98-mage-1.webp",
+   "sha256": "3e52cf7e33c79d591c2ea99627b40ab994a7743faeb510e9f279f0ae29fee97b",
+   "size": 40796
+  },
+  {
+   "name": "assets/talent98-mage-2.webp",
+   "sha256": "38cc1abf1eef36900cdb5dcbe532fc7cc13f328b299a303b3d11b0517bf349bf",
+   "size": 39244
+  },
+  {
+   "name": "assets/talent98-myers-0.webp",
+   "sha256": "b1320660642f91cb61e75e6fd6007d4e13d91be65b990dace1b540416a374daa",
+   "size": 32406
+  },
+  {
+   "name": "assets/talent98-myers-1.webp",
+   "sha256": "7bd68b7968de8820009dd1360b2c183f10ff6ad8e9c42b6640e9cf73f1558e82",
+   "size": 31586
+  },
+  {
+   "name": "assets/talent98-myers-2.webp",
+   "sha256": "54f23fd60e9c6228e3278791ebea32fdba3b5f3e509afe6de0a349e4f409332c",
+   "size": 37024
+  },
+  {
+   "name": "assets/talent98-paladin-0.webp",
+   "sha256": "d29bae501545c3b409b9bf8b239fca12e6a8378b2ce4d62f9a117f6bdd99af66",
+   "size": 33060
+  },
+  {
+   "name": "assets/talent98-paladin-1.webp",
+   "sha256": "785f9b2b06aa66d2ca7f84a440f5e220203c4f006c0ce86a7832f46278f0e215",
+   "size": 28702
+  },
+  {
+   "name": "assets/talent98-paladin-2.webp",
+   "sha256": "67fb6bd2a309c010ac562b360568ed2f008a84ce6375e7234e8bc96ea3dde4bf",
+   "size": 37964
+  },
+  {
+   "name": "assets/talent98-paragon-0.webp",
+   "sha256": "fce88eab7773121383b7d13336e66c5b7cc217b6ab19dbfcb1cf239ed9b94ed6",
+   "size": 28758
+  },
+  {
+   "name": "assets/talent98-paragon-1.webp",
+   "sha256": "c2369bae1a8ab38c132e78946bc46e4f34916de2e7446d2cae6bbfe836745ae6",
+   "size": 40176
+  },
+  {
+   "name": "assets/talent98-paragon-2.webp",
+   "sha256": "0151fb6666f06136216f1ef9eda3f7625ef15a84fdbef520219394987ccc3d37",
+   "size": 36518
+  },
+  {
+   "name": "assets/talent98-ranger-0.webp",
+   "sha256": "dc36a2805293b3b2916c1474c545b97901a3203f3ca3c9cd7973ba84858d76c9",
+   "size": 41352
+  },
+  {
+   "name": "assets/talent98-ranger-1.webp",
+   "sha256": "e7e0aad0ad504413eff617b05f7c50d2e6a80701146b75f9d19645280c792cbb",
+   "size": 45060
+  },
+  {
+   "name": "assets/talent98-ranger-2.webp",
+   "sha256": "cd5c2c85320d584d7b73fef90639948ff097d6df928862e58766fc4f36ba8c81",
+   "size": 32204
+  },
+  {
+   "name": "assets/talent98-reaper-0.webp",
+   "sha256": "b0a3b2a417eee045c0b7465425f9ac95d8265ab674d7c23f88bea1bb80643e00",
+   "size": 30984
+  },
+  {
+   "name": "assets/talent98-reaper-1.webp",
+   "sha256": "763dc9ce3bd5782cd908c58732211e64b3c2f1627d199ba1eea87be8d1adf402",
+   "size": 29050
+  },
+  {
+   "name": "assets/talent98-reaper-2.webp",
+   "sha256": "bcbc9e86ac16de7a7c131e13c96e8121531680912f944a83567c53193f94bdfd",
+   "size": 27690
+  },
+  {
+   "name": "assets/talent98-rift-0.webp",
+   "sha256": "871a22d0a200fc69bcc5020cde7778cc658042cde3b42ff5dbc5365d439ce971",
+   "size": 29864
+  },
+  {
+   "name": "assets/talent98-rift-1.webp",
+   "sha256": "7970694743e5d0530efbf4fe04bb65fbe0d935c49aa8f16236a3360f9fef6a6c",
+   "size": 34582
+  },
+  {
+   "name": "assets/talent98-rift-2.webp",
+   "sha256": "eeeb68406ac80007385dd9e3518a8ac5bbbe7312775e28ab14941cdb2ebc33ae",
+   "size": 37972
+  },
+  {
+   "name": "assets/talent98-river-0.webp",
+   "sha256": "2b0f4ce76a5381ef8da823c7ec956675cebf52a5ca572b0bb74620264b8df7eb",
+   "size": 41698
+  },
+  {
+   "name": "assets/talent98-river-1.webp",
+   "sha256": "00ad42902be848aaa839b3f85a89fde0725f3235b91b0920610419aec15d26a2",
+   "size": 40074
+  },
+  {
+   "name": "assets/talent98-river-2.webp",
+   "sha256": "1164060f880b5333317fa7c670ab74b6b0e732a8041c78ddb609baec74664ea2",
+   "size": 33860
+  },
+  {
+   "name": "assets/talent98-rogue-0.webp",
+   "sha256": "5967ab4d990d0f737effaab7c961f2e6abd7bdcc86b4dd81c82d4aacdafaeb1d",
+   "size": 31766
+  },
+  {
+   "name": "assets/talent98-rogue-1.webp",
+   "sha256": "19168c986af34d8f74627648464fc64bc98262224100c0ad751bff9372018dee",
+   "size": 32778
+  },
+  {
+   "name": "assets/talent98-rogue-2.webp",
+   "sha256": "55e994189c62cc9b502f17386d3152a40e3b2463b993c3db4028d129604f3e49",
+   "size": 32394
+  },
+  {
+   "name": "assets/talent98-shaman-0.webp",
+   "sha256": "f597ffc9a5f14c8bd98bc49da48bfb6bbf77d6c8fce89d9afcac65f5a73b86b9",
+   "size": 38582
+  },
+  {
+   "name": "assets/talent98-shaman-1.webp",
+   "sha256": "e126e8096534b3f49ae8b2ec6578dc8f037a80dd1c7d70d125bfaded27cdd5d3",
+   "size": 35044
+  },
+  {
+   "name": "assets/talent98-shaman-2.webp",
+   "sha256": "705ed70566e98d66bb3bc0c1c7cbe95acc7acf15ecfa1e0f688c620599d2215b",
+   "size": 40734
+  },
+  {
+   "name": "assets/talent98-summoner-0.webp",
+   "sha256": "d67d10050b0bcf65a40c334e725ba47086b796054b1df20f07127094e692e433",
+   "size": 32860
+  },
+  {
+   "name": "assets/talent98-summoner-1.webp",
+   "sha256": "f17e0176093e5b27ccb73d64128e3e6d343cdeb4b491b787a9fc2c6c25d1ee87",
+   "size": 35968
+  },
+  {
+   "name": "assets/talent98-summoner-2.webp",
+   "sha256": "f91d6d9641be191e884b26dd22c8300caeab8f5d6c533132b143d5cc25e05479",
+   "size": 28710
+  },
+  {
+   "name": "assets/talent98-tibopoteto-0.webp",
+   "sha256": "2e387afc414f71f0d98c227e3a3c98da89ba8d7a6018de10e76cd46f762643b2",
+   "size": 33422
+  },
+  {
+   "name": "assets/talent98-tibopoteto-1.webp",
+   "sha256": "bf0ba8e866ef8ebda1b9e07eeff09b786d2220dad9f37b33ee92a5c2a4ad8748",
+   "size": 28962
+  },
+  {
+   "name": "assets/talent98-tibopoteto-2.webp",
+   "sha256": "fb3193268b78cc794d198f40e1a407f331c861d0e7557ca81d7d8ae417631a25",
+   "size": 41850
+  },
+  {
+   "name": "assets/talent98-unraveler-0.webp",
+   "sha256": "c09997bf58f777192ff8cb9c6a3e0340b10fe3f7f2af7ff0dd494ad6024cba8f",
+   "size": 38818
+  },
+  {
+   "name": "assets/talent98-unraveler-1.webp",
+   "sha256": "342570d28f38f45808653cfb6147c43a777993a3630ae5f0717d4e2a18dc4d80",
+   "size": 36110
+  },
+  {
+   "name": "assets/talent98-unraveler-2.webp",
+   "sha256": "5dd8de4dbc88e48ffbd298888274d2a67b0999dc73dfdcb2e30175db4d3c67f4",
+   "size": 43170
+  },
+  {
+   "name": "assets/talent98-visage-0.webp",
+   "sha256": "ef20c201ff287883a3ed9c536d4c36efe0539eb54641c9ca7a5b2b2551523b8b",
+   "size": 23452
+  },
+  {
+   "name": "assets/talent98-visage-1.webp",
+   "sha256": "f99ff1eab4a61f67ded85a891d2766c374bd71ab3d53ae0190af24eb8c2824be",
+   "size": 26094
+  },
+  {
+   "name": "assets/talent98-visage-2.webp",
+   "sha256": "9284ed96c3312a79605971793cf801f6a0e44188a6d47965fd817446b35441c9",
+   "size": 26220
+  },
+  {
+   "name": "assets/talent98-warlock-0.webp",
+   "sha256": "fb080f49bcb91f019a2c30e5594353cd97e89a3d8cb3c5d35e878e0491887dc4",
+   "size": 24342
+  },
+  {
+   "name": "assets/talent98-warlock-1.webp",
+   "sha256": "579529f2c368bb4c519c7c014795c6484732dcca957a86f035d70034952a3d23",
+   "size": 32508
+  },
+  {
+   "name": "assets/talent98-warlock-2.webp",
+   "sha256": "345185690260fb162c5c3dd62cd3fdea409a0e143ffeef868c11ff1456f83078",
+   "size": 29660
   }
  ]
 }

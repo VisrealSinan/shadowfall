@@ -30,6 +30,7 @@ function renderRaceTalents(){
    for(const delta of [-1,1]){const b=document.createElement('button');b.textContent=delta>0?'+':'−';b.setAttribute('aria-label',(delta>0?'Learn ':'Remove rank from ')+n.name);b.disabled=delta>0?(!open||!p.free||r>=n.max):(!r||branch.nodes.slice(n.tier+1).some(next=>allocation[next.id]));b.onclick=()=>{if(RaceTalents.allocate(save,race,n.id,delta)){persist();Snd.play('pick');renderRaceTalents();}};card.querySelector('footer').appendChild(b);}col.appendChild(card);
   }host.appendChild(col);
  }
+ TalentArt98.race();
  $('raceTreeReset').disabled=!p.spent;$('raceTreeReset').onclick=()=>{RaceTalents.store(save).talents[race]={};persist();renderRaceTalents();};drawPreparedHero($('raceTreeHero'),CLASSES[selClass]?selClass:clsOf(save.lastClass),race);
 }
 function raceTalentTick(dt){

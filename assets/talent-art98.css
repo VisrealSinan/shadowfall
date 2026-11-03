@@ -1,0 +1,46 @@
+/* Shared readability and states; painted scenes supply each path's own setting. */
+#talents.reborn-talents.art98 #talView{background:#0a151dbb;border-color:color-mix(in srgb,var(--class98) 40%,transparent)}
+#talents.reborn-talents.art98 .ttree.painted98{border:1px solid color-mix(in srgb,var(--branch98) 60%,#15232a);border-radius:7px;box-shadow:inset 0 0 35px #020b1080;overflow:hidden}
+#talents.reborn-talents.art98 .ttree.painted98::before,#talents.reborn-talents.art98 .ttree.painted98::after{display:none!important}
+#talents.reborn-talents.art98 .ttree.painted98 .tth{font:400 clamp(15px,1.35vw,21px)/1.2 Georgia,serif;letter-spacing:.01em;color:var(--branch98);background:linear-gradient(90deg,#07111af2,#14232dd9);border-bottom:1px solid color-mix(in srgb,var(--branch98) 55%,transparent);white-space:normal;min-height:46px;align-items:center}
+#talents.reborn-talents.art98 .ttree.painted98 .temb{display:none}
+#talents.reborn-talents.art98 .ttree.painted98 .tnode{border-radius:var(--shape98);background:#0c1722;border:2px solid color-mix(in srgb,var(--branch98) 60%,#25323b);box-shadow:0 2px 7px #0009,inset 0 0 0 2px #05101a}
+#talents.reborn-talents.art98 .ttree.painted98 .tnode .ti{overflow:hidden;border-radius:inherit;width:100%;height:100%;opacity:.7;filter:saturate(.7)}
+.talent-painted98{display:block;width:100%;height:100%;border-radius:inherit;background-repeat:no-repeat}
+#talents.reborn-talents.art98 .ttree.painted98 .tnode.avail{border-color:var(--branch98);box-shadow:0 0 0 2px #08111be0,0 0 12px color-mix(in srgb,var(--branch98) 28%,transparent)}
+#talents.reborn-talents.art98 .ttree.painted98 .tnode.part,#talents.reborn-talents.art98 .ttree.painted98 .tnode.max{border-color:#ecd49a;box-shadow:0 0 0 2px #3d3421,0 2px 10px #0009}
+#talents.reborn-talents.art98 .ttree.painted98 .tnode.part .ti,#talents.reborn-talents.art98 .ttree.painted98 .tnode.max .ti,#talents.reborn-talents.art98 .ttree.painted98 .tnode.avail .ti{opacity:1;filter:none}
+#talents.reborn-talents.art98 .ttree.painted98 .tnode.cap{border-width:3px;border-color:#c5af79;box-shadow:0 0 0 3px #141e29,0 0 0 4px #d6bd7755}
+#talents.reborn-talents.art98 .ttree.painted98 .tnode.pick,#talents.reborn-talents.art98 .ttree.painted98 .tnode:focus-visible{outline:2px solid #fff4cf;outline-offset:4px}
+#talents.reborn-talents.art98 .ttree.painted98 .tnode .rk{z-index:3;color:#f5ebd5;background:#07121bf5;border-color:var(--branch98);border-radius:3px;min-width:19px;text-shadow:0 1px 2px #000;font-weight:900}
+#talents.reborn-talents.art98 .ttree.painted98 .tarr{background:#9ba7b288;box-shadow:0 0 0 1px #05101bf0}
+#talents.reborn-talents.art98 .ttree.painted98 .tarr.on{background:#e9cf95}
+#talents.reborn-talents.art98 .ttree.painted98 .tlock{color:#d9dece;text-shadow:0 1px 3px #000,0 0 8px #000;background:#07121b77}
+#talents.art98 .tspecs button.on{border-color:var(--class98);color:var(--class98);background:#182630}
+.ancestry-branch.ancestry-painted98{border-color:color-mix(in srgb,var(--branch98) 55%,#18252b);box-shadow:inset 0 0 30px #0006}
+.ancestry-painted98>header{background:#07121bd9;color:var(--branch98);padding:10px;border-radius:4px}
+.ancestry-painted98 .ancestry-node{background:#0a1725e8;border-color:#82918e55}
+.ancestry-painted98 .ancestry-node.learned{border-color:#dfc895;background:#1b2c32ed}
+@media(max-width:900px){
+ .pc #talents.art98 .tspecs{display:flex;width:100%;gap:5px}
+ .pc #talents.art98 #talTree{display:block;width:100%;transform:none}
+ .pc #talents.art98 .ttree{display:none;width:100%}
+ .pc #talents.art98 .ttree.cur{display:block}
+ .pc #talents.art98 #talView{overflow-x:hidden;overflow-y:auto}
+ #talents.reborn-talents.art98 .ttree.painted98 .tth{font-size:17px}
+ #talents.art98 .tspecs button{white-space:normal;font-size:11px;padding:8px 5px;line-height:1.2}
+}
+@media(prefers-reduced-motion:reduce){#talents.art98 *{animation:none!important;transition:none!important}}
+@media(max-width:900px){
+ .pc #talents.art98>.talfoot{flex-direction:column;align-items:stretch}
+ .pc #talents.art98 .talfoot .taltip{min-height:48px;width:100%}
+ .pc #talents.art98 .talfoot .row{display:flex;flex-wrap:wrap;width:100%;gap:5px}
+ .pc #talents.art98 .talfoot .row .btn{flex:1;min-width:80px}
+}
+.ancestry-icon98{display:block;width:30px;height:30px;border-radius:6px;border:1px solid var(--branch98);background-repeat:no-repeat}
+@media(max-width:900px){
+ #talents.art98 #talView:not(.ov) #talTree{display:block;width:100%!important;transform:none!important}
+ #talents.art98 #talView:not(.ov) .ttree{display:none;width:100%!important;flex:none}
+ #talents.art98 #talView:not(.ov) .ttree.cur{display:block}
+ #talents.art98 #talView:not(.ov){overflow-x:hidden;overflow-y:auto}
+}

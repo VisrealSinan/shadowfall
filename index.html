@@ -1312,6 +1312,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
 <link rel="stylesheet" href="assets/polish87.css">
 <link rel="stylesheet" href="assets/dawn88.css">
 <link rel="stylesheet" href="assets/shaman92.css">
+<link rel="stylesheet" href="assets/talent-art98.css">
 </head>
 <body>
 <canvas id="c"></canvas>
@@ -1594,6 +1595,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
 <script src="assets/mage-visuals95.js"></script>
 <script src="assets/spell-visuals96.js"></script>
 <script src="assets/combat97.js"></script>
+<script src="assets/talent-art98.js"></script>
 <script>
 'use strict';
 /* =========================================================
@@ -16544,7 +16546,7 @@ const TI = (() => {
   function all() { if (!SIG) assign(); return SIG; }
   return { url, sig, all, draw, motifs: ALL };
 })();
-function talImg(cls, n, sz) { if(cls==='shaman')return Shaman92.talentIcon(n); if(cls==='tibopoteto')return SkillArt.html('w',Dawn88.ids[(n.bi*6+n.slot)%19],'duo-talent88'); if(cls==='myers')return graveshadeTalentIcon85(n); const u = TI.url(cls + ':' + n.id); return u ? `<img class="tim" src="${u}" alt="" draggable="false"${sz ? ` width="${sz}" height="${sz}"` : ''}>` : `${n.ic}\uFE0E`; }
+function talImg(cls, n, sz) { if(TalentArt98.classes.includes(cls))return TalentArt98.icon(cls,n); if(cls==='shaman')return Shaman92.talentIcon(n); if(cls==='tibopoteto')return SkillArt.html('w',Dawn88.ids[(n.bi*6+n.slot)%19],'duo-talent88'); if(cls==='myers')return graveshadeTalentIcon85(n); const u = TI.url(cls + ':' + n.id); return u ? `<img class="tim" src="${u}" alt="" draggable="false"${sz ? ` width="${sz}" height="${sz}"` : ''}>` : `${n.ic}\uFE0E`; }
 function talTipHTML(n, compact) { const s = talNodeState(n), tr = TALENTS[talCls][n.bi];
   let h = `<div class="tn" style="--tc:${tr.col}"><span class="tic">${talImg(talCls, n, 30)}</span>${n.n}${n.cap ? ' <em>Capstone</em>' : ''}</div><div class="ts">${tr.name} · Tier ${n.t} · Rank <b>${s.r}/${n.m}</b>${s.pend ? ' <span class="pd">pending</span>' : ''}</div>`;
   if (s.r > 0) h += `<div class="tcur">${s.r < n.m ? '<span>Current:</span> ' : ''}${talDesc(n, s.r)}</div>`;
@@ -17249,7 +17251,7 @@ function renderTalents() {
   T.forEach((tr, bi) => { const b = document.createElement('button'); b.className = bi === talSpec ? 'on' : ''; b.style.setProperty('--tc', tr.col); b.dataset.t = bi;
     b.innerHTML = `<span class="sic">${tr.ic}\uFE0E</span>${tr.name}<b>${treeSpent(talCls, bi, talDraft)}</b>`; b.onclick = () => talSetSpec(bi); sp.appendChild(b); });
   const view = $('talView'), track = $('talTree'); track.innerHTML = ''; view.classList.toggle('ov', talOv); track.style.setProperty('--sp', talSpec); view.style.setProperty('--th', (track.offsetHeight || 520) + 'px');
-  T.forEach((tr, bi) => { const spent = treeSpent(talCls, bi, talDraft), tree = document.createElement('div'); tree.className = 'ttree' + (bi === talSpec ? ' cur' : ''); tree.style.setProperty('--tc', tr.col); tree.dataset.t = bi; BGA.tree(tree, talCls, bi, tr.col); /* v31 themed backdrop */
+  T.forEach((tr, bi) => { const spent = treeSpent(talCls, bi, talDraft), tree = document.createElement('div'); tree.className = 'ttree' + (bi === talSpec ? ' cur' : ''); tree.style.setProperty('--tc', tr.col); tree.dataset.t = bi; if(!TalentArt98.classes.includes(talCls))BGA.tree(tree, talCls, bi, tr.col); /* v31 themed backdrop */
     let h = `<div class="tth" data-t="${bi}"><span class="sic">${tr.ic}\uFE0E</span>${tr.name}<b>${spent}</b></div><div class="tgrid"><div class="temb">${tr.ic}\uFE0E</div>`;
     for (let t = 2; t <= 7; t++) { const need = TPER * (t - 1), have = treeSpent(talCls, bi, talDraft, t); if (have < need) h += `<div class="tlock" style="--t:${t}">🔒\uFE0E<br>${need}</div>`; }
     for (const n of tr.nodes) if (n.req) { const q = TAL_BY_ID[talCls + ':' + n.req]; h += `<div class="tarr${tRank(talDraft, q) >= q.m ? ' on' : ''}" style="--c:${n.c};--t:${q.t};--g:${n.t - q.t}"></div>`; }
@@ -17266,6 +17268,7 @@ function renderTalents() {
   $('btnTalApply').disabled = !pend.any; $('btnTalReset').disabled = !tp.spent&&!talNodes(talCls).some(n=>n.freeStyle&&tRank(talDraft,n));
   if (PC && GF.el && GF.el.classList && GF.el.classList.contains('tnode')) talHover(GF.el.dataset.node); else talHover(PC && talPick);
   rebirthTalentTreeArt85();
+  TalentArt98.apply();
   talFit();
 }
 function talFit() { // v33: squeeze row pitch (taps stay >=44px) so the tree fits; if it still doesn't, the tree area scrolls with a hint
