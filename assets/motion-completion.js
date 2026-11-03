@@ -59,7 +59,7 @@ const MotionCompletion=(()=>{
  }
  function drawVendor(g,type,t=0,height=68,n){const s=MOTION86.vendors[type];if(!s)return false;const p=vendorPose(type,t,n);return drawSheet(g,s,p.action,p.time,height,n?n.id:0);}
  function vendorPortrait(cv,type){const s=MOTION86.vendors[type];if(!s)return false;const im=image(s.src);if(!im.complete||!im.naturalWidth)return false;const d=Math.min(2,window.devicePixelRatio||1),w=(cv.clientWidth||120)*d,h=(cv.clientHeight||120)*d;
-  if(cv.width!==w||cv.height!==h){cv.width=w;cv.height=h;}const g=cv.getContext('2d'),p=vendorPose(type,gtime,npcCur),f=sample(s,p.action,p.time),cw=s.cell_width,ch=s.cell_height;g.clearRect(0,0,w,h);g.drawImage(im,f.column*cw+cw*.13,f.row*ch+ch*.16,cw*.74,ch*.72,0,0,w,h);return true;
+  if(cv.width!==w||cv.height!==h){cv.width=w;cv.height=h;}const g=cv.getContext('2d'),p=vendorPose(type,gtime,npcCur),f=sample(s,p.action,p.time),cw=s.cell_width,ch=s.cell_height;g.clearRect(0,0,w,h);const b=s.bounds||[0,0,cw,ch],bw=b[2]-b[0],bh=b[3]-b[1],k=Math.min(w*.86/bw,h*.86/bh);g.drawImage(im,f.column*cw+b[0],f.row*ch+b[1],bw,bh,(w-bw*k)/2,(h-bh*k)/2,bw*k,bh*k);return true;
  }
  function liveRig(g,base,kind,action,phase,seed,height){
   let n=rigBases.get(base);if(!n){n=document.createElement('canvas');n.width=n.height=256;const k=.60/(226/256),ng=n.getContext('2d');ng.drawImage(base,(256-256*k)/2,230-244*k,256*k,256*k);rigBases.set(base,n);}

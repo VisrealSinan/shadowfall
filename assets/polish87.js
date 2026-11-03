@@ -6,7 +6,7 @@ const Polish87=(()=>{
  function portraitLayout(w,h,v,cls='myers'){
   const k=(cls==='bearlina'?88:76)/v.cell_height*(v.display_scale||1),b=v.bounds||[0,0,v.cell_width,v.cell_height],left=(b[0]-v.anchor[0])*k,right=(b[2]-v.anchor[0])*k,top=18+(b[1]-v.anchor[1])*k,bottom=18+(b[3]-v.anchor[1])*k,pad=Math.max(3,Math.min(w,h)*.07),scale=Math.min((w-pad*2)/Math.max(1,right-left),(h-pad*2)/Math.max(1,bottom-top));return {scale,x:w/2-(left+right)/2*scale,y:h/2-(top+bottom)/2*scale,bounds:[left,top,right,bottom],pad};
  }
- function portrait(cv,o){if(!['myers','tibopoteto','shaman'].includes(o.cls)&&!['goose','undead'].includes(o.race))return false;const v=ActorAnimations.variant(o);if(!v)return false;const d=Math.min(2,window.devicePixelRatio||1),w=cv.clientWidth||64,h=cv.clientHeight||64;if(cv.width!==w*d||cv.height!==h*d){cv.width=w*d;cv.height=h*d;}const g=cv.getContext('2d'),p=portraitLayout(w,h,v,o.cls);g.setTransform(d,0,0,d,0,0);g.clearRect(0,0,w,h);g.translate(p.x,p.y);g.scale(p.scale,p.scale);drawHero(g,o);return true;}
+ function portrait(cv,o){const v=ActorAnimations.variant(o);if(!v)return false;const d=Math.min(2,window.devicePixelRatio||1),w=cv.clientWidth||64,h=cv.clientHeight||64;if(cv.width!==w*d||cv.height!==h*d){cv.width=w*d;cv.height=h*d;}const g=cv.getContext('2d'),p=portraitLayout(w,h,v,o.cls);g.setTransform(d,0,0,d,0,0);g.clearRect(0,0,w,h);g.translate(p.x,p.y);g.scale(p.scale,p.scale);drawHero(g,o);return true;}
  function shop(d){if(!d.stall)return false;const type=['merchant','gambler','smith','stranger'].indexOf(d.stall);if(type<0)return false;const theme=G.town?.theme||G.map,col=['heart','neural'].includes(theme)?2:['castle','cellar','inferno'].includes(theme)?1:0,base=sprite('shops',type*3+col);if(!base)return false;const h=158*(d.sc||1);ctx.drawImage(base,d.x-h/2,d.y-h*.88,h,h);return true;}
  function bossMarkers(){
   if(!G||G.town||state==='dying')return;const L=FIELD_LAYOUT||FieldHUD.layout(W,H,SAFE),top=L.stats.y+L.stats.h+24,bottom=L.dock.y-20,seen=[];
@@ -19,6 +19,6 @@ const Polish87=(()=>{
    fieldText('♛',0,0,14,col,'center');const name=ETYPES[e.type].name.replace('Lost Shadow: ','');fieldText(name.length>17?name.slice(0,16)+'…':name,Math.max(70,Math.min(W-70,p.x))-p.x,25,8,col,'center');ctx.restore();if(seen.length>=6)break;
   }
  }
- function init(){const old=RebirthArt.prop;RebirthArt.prop=k=>prop(k)||old(k);for(const group of Object.keys(ART_V87.atlases))image(ART_V87.atlases[group].src);}
+ function init(){if(typeof ART99!=='undefined')for(const [key,a]of Object.entries(ART99.atlases))if(ART_V87.atlases[key])Object.assign(ART_V87.atlases[key],a);const old=RebirthArt.prop;RebirthArt.prop=k=>prop(k)||old(k);for(const group of Object.keys(ART_V87.atlases))image(ART_V87.atlases[group].src);}
  return {init,portrait,portraitLayout,shop,bossMarkers,prop,sprite};
 })();

@@ -13,6 +13,7 @@ names.add('assets/spell-visuals94.js');
 names.add('assets/mage-visuals95.js');
 names.add('assets/spell-visuals96.js');
 names.add('assets/combat97.js');
+for(const n of fs.readdirSync('assets').filter(n=>/^(art99|icons99-|gear99-|encounter99-|armory99-|prop99-|unit99-)/.test(n)))names.add('assets/'+n);
 names.add('assets/talent-art98.js');names.add('assets/talent-art98.css');
 for(const n of fs.readdirSync('assets').filter(n=>/^talent98-.*\.webp$/.test(n)))names.add('assets/'+n);
 names.add('assets/art-v85-manifest.js');

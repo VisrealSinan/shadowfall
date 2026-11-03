@@ -1313,6 +1313,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
 <link rel="stylesheet" href="assets/dawn88.css">
 <link rel="stylesheet" href="assets/shaman92.css">
 <link rel="stylesheet" href="assets/talent-art98.css">
+<link rel="stylesheet" href="assets/art99.css">
 </head>
 <body>
 <canvas id="c"></canvas>
@@ -1596,6 +1597,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
 <script src="assets/spell-visuals96.js"></script>
 <script src="assets/combat97.js"></script>
 <script src="assets/talent-art98.js"></script>
+<script src="assets/art99-manifest.js"></script>
+<script src="assets/art99.js"></script>
 <script>
 'use strict';
 /* =========================================================
@@ -14856,13 +14859,13 @@ function render(dt) {
     if (e === P) { drawPlayerBlock(); v30Over(); continue; }
     if (e.ut && UK30[e.ut]) { v30Draw(e); continue; }
     if(e.shamanTotem92){Shaman92.drawTotem(e);continue;}
-    if(e.bell93){HollowBell93.draw(e);continue;}
+    if(e.bell93){if(!Art99.shrine(ctx,e))HollowBell93.draw(e);continue;}
     if(e.escort91){DuoEscort91.draw(e);continue;}
     if (e.npc) { drawNpc(e); continue; }
     if (e.k && OBT[e.k] && e.id !== undefined) { drawOb(e); continue; }
     if (MDEF[e.type] && minions.includes(e)) { drawMinion(e); continue; }
     if (e.dead) continue; const def = ETYPES[e.type], sz = eSz(e.type) * e.sc; if (!inView(e.x, e.y, sz)) continue;
-    if(e.type==='bell_stalker93'||e.type==='bell_keeper93'){ctx.save();ctx.translate(e.x,e.y+Math.sin(gtime*3)*2);EDRAW[e.type](ctx,{p:gtime});ctx.restore();continue;}
+    if(e.type==='bell_stalker93'||e.type==='bell_keeper93'){if(Art99.encounter(ctx,e))continue;ctx.save();ctx.translate(e.x,e.y+Math.sin(gtime*3)*2);EDRAW[e.type](ctx,{p:gtime});ctx.restore();continue;}
     if(e.type==='myers_hunter'){ctx.save();ctx.translate(e.x,e.y-4);ctx.scale((e.face<0?-1:1)*1.12,1.12);ActorAnimations.draw(ctx,{cls:'myers',race:'shade',gender:'male',moving:true,t:gtime,cos:{}});ctx.restore();continue;}
     if (e.under) { ctx.fillStyle = 'rgba(90,60,30,.85)'; ctx.beginPath(); ctx.ellipse(e.x, e.y + 8, 15, 6, 0, 0, TAU); ctx.fill(); ctx.fillStyle = '#8a6a40'; for (let i = 0; i < 4; i++) { ctx.beginPath(); ctx.arc(e.x - 9 + i * 6, e.y + 6 + Math.sin(gtime * 9 + i + e.seed) * 2, 2.6, 0, TAU); ctx.fill(); } continue; }
     if (e.st === 'tele') { ctx.strokeStyle = `rgba(255,80,60,${0.25 + 0.25 * Math.sin(gtime * 30)})`; ctx.lineWidth = e.r * 1.6; ctx.beginPath(); ctx.moveTo(e.x, e.y); ctx.lineTo(e.x + e.dx * (e.tl || 380), e.y + e.dy * (e.tl || 380)); ctx.stroke(); }
@@ -15702,11 +15705,11 @@ function renderMetaTree(L) {
   tip += (mtMsg ? `<div class="mtmsg">${mtMsg}</div>` : '') + `<div class="mtfoot"><span>${tot} ranks bought</span><button class="btn small" id="mtReset" ${tot ? '' : 'disabled'}>Reset tree (+${mtRefundAll()}◆)</button></div></div>`;
   if (pn) mtTab = Math.max(0, MTREE.indexOf(pn.br));
   wrap.innerHTML = tip + '<div class="mttabs">' + MTREE.map((br, i) => `<button class="${i === mtTab ? 'on' : ''}" data-mtb="${i}" style="--tc:${br.col}">${br.ic}︎ ${br.name}<b>${mtSpent(br)}</b></button>`).join('') + '</div><div class="mtbr"></div>'; const row = wrap.querySelector('.mtbr');
-  for (const br of MTREE) { const sp = mtSpent(br), tree = document.createElement('div'); tree.className = 'ttree cur' + (MTREE.indexOf(br) === mtTab ? ' mton' : ''); tree.style.setProperty('--tc', br.col); BGA.tree(tree, 'mt', MTREE.indexOf(br), br.col); /* v31 forge · shield wall · vault · map table */
+  for (const br of MTREE) { const sp = mtSpent(br), tree = document.createElement('div'); tree.className = 'ttree cur' + (MTREE.indexOf(br) === mtTab ? ' mton' : ''); tree.style.setProperty('--tc', br.col); Art99.meta(tree,MTREE.indexOf(br)); /* v31 forge · shield wall · vault · map table */
     let h = `<div class="tth"><span class="sic">${br.ic}︎</span>${br.name}<b>${sp}</b></div><div class="tgrid"><div class="temb">${br.ic}︎</div>`;
     for (let t = 2; t <= 7; t++) { const need = MT_PER * (t - 1); if (sp < need) h += `<div class="tlock" style="--t:${t}">🔒︎<br>${need}</div>`; }
     for (const n of br.nodes) if (n.req) { const q = MT_BY[n.req]; h += `<div class="tarr${mr(q.id) >= q.m.max ? ' on' : ''}" style="--c:${n.c};--t:${q.t};--g:${n.t - q.t}"></div>`; }
-    for (const n of br.nodes) { const s = mtState(n); h += `<button class="tnode ${s.st}${n.cap ? ' cap' : ''}${mtPick === n.id ? ' pick' : ''}" data-mt="${n.id}" style="--c:${n.c};--t:${n.t}" aria-label="${n.m.name} ${s.r} of ${n.m.max}"><span class="ti">${n.m.ic}︎</span><i class="rk">${s.r}/${n.m.max}</i></button>`; }
+    for (const n of br.nodes) { const s = mtState(n); h += `<button class="tnode ${s.st}${n.cap ? ' cap' : ''}${mtPick === n.id ? ' pick' : ''}" data-mt="${n.id}" style="--c:${n.c};--t:${n.t}" aria-label="${n.m.name} ${s.r} of ${n.m.max}"><span class="ti">${Art99.metaIcon(n)}</span><i class="rk">${s.r}/${n.m.max}</i></button>`; }
     tree.innerHTML = h + '</div>'; row.appendChild(tree); }
   L.appendChild(wrap);
   for (const b of wrap.querySelectorAll('.tnode')) b.onclick = () => { Snd.init(); if (mtPick === b.dataset.mt) mtBuy(b.dataset.mt); else { mtPick = b.dataset.mt; mtMsg = ''; Snd.play('click'); renderShop(); } };
@@ -15900,7 +15903,7 @@ function salvVal(it) { return [2, 3, 5, 9, 16][it.r] || 2; }
 function fmtStat(a, v) { const S = GSTAT[a]; if (!S) return '' + v; return S.p ? (+(v * 100).toFixed(Math.abs(v) < 0.1 ? 1 : 0)) + '%' : S.d1 ? (+v).toFixed(1) : '' + Math.round(v); }
 /* ---- procedural item icons ---- */
 const _gicC = {};
-function drawGearIcon(g, it, sz) {
+function drawGearIcon(g, it, sz) { if(Art99.drawGear(g,it,sz))return;
   const R = GRAR[it.r] || GRAR[0], c = shade(it.col, 0.28), a = R.c, lk = it.look | 0;
   const bg = g.createRadialGradient(sz / 2, sz / 2, 2, sz / 2, sz / 2, sz * 0.7); bg.addColorStop(0, hexA(a, 0.45)); bg.addColorStop(1, 'rgba(12,6,22,0.95)');
   g.fillStyle = bg; g.beginPath(); g.roundRect(1, 1, sz - 2, sz - 2, sz * 0.18); g.fill(); g.strokeStyle = a; g.lineWidth = 2; g.stroke();
@@ -15925,7 +15928,7 @@ function drawGearIcon(g, it, sz) {
       else { P('M-9,-11 L9,-11 L9,9 L0,13 L-9,9 Z'); gem(0, 0, 3.4); } }
   g.restore();
 }
-function gIconURL(it) { const k = it.t + (it.look | 0) + it.col + it.r; if (_gicC[k]) return _gicC[k]; const sz = 80, c = mkCanvas(sz, sz); drawGearIcon(c.getContext('2d'), it, sz); return (_gicC[k] = c.toDataURL()); }
+function gIconURL(it) { const painted=Art99.gearURL(it);if(painted)return painted; const k = it.t + (it.look | 0) + it.col + it.r; if (_gicC[k]) return _gicC[k]; const sz = 80, c = mkCanvas(sz, sz); drawGearIcon(c.getContext('2d'), it, sz); return (_gicC[k] = c.toDataURL()); }
 function gIcon(it, c = 'gic') { return `<img class="${c}" alt="" src="${gIconURL(it)}">`; }
 function itemHTML(it, cmp, o = {}) { // cmp === undefined → no comparison; null → compare against an empty slot
   if (!it) return `<div class="gearbox gempty"><div class="gn">${o.empty || 'Nothing equipped'}</div></div>`;
@@ -17339,6 +17342,7 @@ wireActorSkills85();
 MageVisuals95.install();
 SpellVisuals96.install();
 Combat97.install();
+Art99.install();
 initNightforge();
 initAchievementHall();
 initJourneyScenes();

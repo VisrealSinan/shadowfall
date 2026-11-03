@@ -1,0 +1,9 @@
+#shop.armory.painted-shop99{background:linear-gradient(90deg,#101823ec,#0b141de6),url('armory99-0.webp') center/cover fixed}
+#shop.armory .mtrees .ttree.painted-meta99{border-color:#b6a07877;box-shadow:inset 0 0 28px #0005}
+#shop.armory .mtrees .ttree.painted-meta99::before,#shop.armory .mtrees .ttree.painted-meta99::after{display:none!important}
+#shop.armory .mtrees .ttree.painted-meta99 .tth{background:#0c1821e8;color:#e8d4aa;border-color:#d1b67e66}
+#shop.armory .mtrees .ttree.painted-meta99 .temb{display:none}
+#shop.armory .mtrees .ttree.painted-meta99 .tnode .ti{overflow:hidden;border-radius:inherit;width:100%;height:100%}
+.meta-icon99{display:block;width:100%;height:100%;background-repeat:no-repeat;border-radius:inherit}
+.forge-icon99{display:block;width:42px;height:42px;border-radius:7px;background-repeat:no-repeat}
+.gic,.gear-icon{object-fit:contain}

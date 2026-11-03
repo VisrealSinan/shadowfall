@@ -49,7 +49,7 @@ const RebirthArt=(()=>{
   if(m.hp<m.maxHp*.99){const w=Math.max(18,size*.55);ctx.fillStyle='#10201de0';ctx.fillRect(m.x-w/2,m.y+22,w,3);ctx.fillStyle='#a3c5a1';ctx.fillRect(m.x-w/2,m.y+22,w*Math.max(0,m.hp/m.maxHp),3);}return true;
  }
  function vendor(g,type,t=0,height=68){const i=ART_V85.vendors.indexOf(type);if(i<0)return false;const base=cell('vendors',i);if(!base)return false;drawRig(g,base,type,'idle',((t%2.8)+2.8)%2.8/2.8,i*7,height);return true;}
- function vendorPortrait(cv,type){const i=ART_V85.vendors.indexOf(type);if(i<0)return false;const base=cell('vendors',i);if(!base)return false;const d=Math.min(2,window.devicePixelRatio||1);cv.width=cv.height=120*d;const g=cv.getContext('2d');g.clearRect(0,0,cv.width,cv.height);g.imageSmoothingEnabled=true;g.drawImage(base,28,0,200,190,0,0,cv.width,cv.height);return true;}
+ function vendorPortrait(cv,type){const i=ART_V85.vendors.indexOf(type);if(i<0)return false;const base=cell('vendors',i);if(!base)return false;const d=Math.min(2,window.devicePixelRatio||1);cv.width=cv.height=120*d;const g=cv.getContext('2d');g.clearRect(0,0,cv.width,cv.height);g.imageSmoothingEnabled=true;g.drawImage(base,0,0,256,256,cv.width*.06,cv.height*.06,cv.width*.88,cv.height*.88);return true;}
  // Keep each prop's existing world origin, collision radius, and canopy fade.
  // Functional props (fires, breakable containers) retain their stateful art.
  function prop(kind){
